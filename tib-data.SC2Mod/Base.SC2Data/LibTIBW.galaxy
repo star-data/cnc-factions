@@ -1,5 +1,5 @@
 include "TriggerLibs/NativeLib"
-include "LibCNCC_h"
+include "LibCNCC"
 
 include "LibTIBW_h"
 
@@ -1052,10 +1052,11 @@ bool libTIBW_gt_PlayNod_Func (bool testConds, bool runActions) {
         autoC0198CC5_var = PlayerGroupNextPlayer(autoC0198CC5_g, autoC0198CC5_var);
         if (autoC0198CC5_var < 0) { break; }
         if ((PlayerRace(autoC0198CC5_var) == "Nod")) {
-            TechTreeUpgradeAddLevel(1, "NodAdvisor", 1);
+            TechTreeUpgradeAddLevel(autoC0198CC5_var, "NodAdvisor", 1);
             UISetFrameVisible(PlayerGroupSingle(autoC0198CC5_var), c_syncFrameTypeConsolePanel, false);
             DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
             DialogControlSendAnimationEvent(DialogControlLastCreated(), PlayerGroupSingle(autoC0198CC5_var), "SlimUI_On");
+            TechTreeRestrictionsEnable(autoC0198CC5_var, true);
         }
 
     }
@@ -1080,6 +1081,7 @@ bool libTIBW_gt_PlayNod_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_PlayNod_Init () {
     libTIBW_gt_PlayNod = TriggerCreate("libTIBW_gt_PlayNod_Func");
+    TriggerAddEventMapInit(libTIBW_gt_PlayNod);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1520,6 +1522,4 @@ void libTIBW_InitLib () {
     libTIBW_InitVariables();
     libTIBW_InitTriggers();
 }
-
-include "LibCNCC"
 

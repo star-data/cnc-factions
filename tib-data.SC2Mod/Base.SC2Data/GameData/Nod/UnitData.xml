@@ -53,6 +53,44 @@
     </CUnit>
 
     <!--Vehicles-->
+    <CUnit parent="NodGround" id="NodMCV">
+        <FlagArray index="Worker" value="1"/>
+        <FlagArray index="PreventReveal" value="1"/>
+        <FlagArray index="PreventDefeat" value="1"/>
+        <FlagArray index="TownCamera" value="1"/>
+        <FlagArray index="ArmySelect" value="0"/>
+        <PushPriority value="50"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Massive" value="1"/>
+        <LifeStart value="1000"/>
+        <LifeMax value="1000"/>
+        <LifeArmor value="3"/>
+        <Speed value="1.5"/>
+        <Acceleration value="1.5"/>
+        <LateralAcceleration value="64"/>
+        <StationaryTurningRate value="58.711"/>
+        <TurningRate value="58.711"/>
+        <Sight value="11"/>
+        <CostResource index="Minerals" value="400"/>
+        <RepairTime value="48"/>
+        <KillXP value="1000"/>
+        <AbilArray Link="NodMCVDeploy"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodMCVDeploy" Type="AbilCmd" AbilCmd="NodMCVDeploy,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <InnerRadius value="0.875"/>
+        <CargoSize value="8"/>
+        <ScoreMake value="1000"/>
+        <ScoreKill value="1000"/>
+        <SubgroupPriority value="13"/>
+        <MinimapRadius value="2.5"/>
+        <AIEvalFactor value="1.5"/>
+        <GlossaryPriority value="1"/>
+        <AlliedPushPriority value="50"/>
+    </CUnit>
     <CUnit parent="NodGround" id="NodHarvester">
         <SubgroupPriority value="6"/>
         <Speed value="2.1484"/>
@@ -126,44 +164,6 @@
         <CardLayouts index="0">
             <LayoutButtons Face="NodEmissaryDeploy" Type="AbilCmd" AbilCmd="NodEmissaryDeploy,Execute" Row="2" Column="0"/>
         </CardLayouts>
-    </CUnit>
-    <CUnit parent="NodGround" id="NodMCV">
-        <FlagArray index="Worker" value="1"/>
-        <FlagArray index="PreventReveal" value="1"/>
-        <FlagArray index="PreventDefeat" value="1"/>
-        <FlagArray index="TownCamera" value="1"/>
-        <FlagArray index="ArmySelect" value="0"/>
-        <PushPriority value="50"/>
-        <Attributes index="Armored" value="1"/>
-        <Attributes index="Mechanical" value="1"/>
-        <Attributes index="Massive" value="1"/>
-        <LifeStart value="1000"/>
-        <LifeMax value="1000"/>
-        <LifeArmor value="1"/>
-        <Speed value="1.5"/>
-        <Acceleration value="1.5"/>
-        <LateralAcceleration value="64"/>
-        <StationaryTurningRate value="58.711"/>
-        <TurningRate value="58.711"/>
-        <Sight value="11"/>
-        <CostResource index="Minerals" value="400"/>
-        <RepairTime value="48"/>
-        <KillXP value="1000"/>
-        <AbilArray Link="NodMCVDeploy"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="NodMCVDeploy" Type="AbilCmd" AbilCmd="NodMCVDeploy,Execute" Row="2" Column="0"/>
-        </CardLayouts>
-        <Radius value="1.25"/>
-        <SeparationRadius value="1.25"/>
-        <InnerRadius value="0.875"/>
-        <CargoSize value="8"/>
-        <ScoreMake value="1000"/>
-        <ScoreKill value="1000"/>
-        <SubgroupPriority value="13"/>
-        <MinimapRadius value="2.5"/>
-        <AIEvalFactor value="1.5"/>
-        <GlossaryPriority value="1"/>
-        <AlliedPushPriority value="50"/>
     </CUnit>
     <CUnit parent="NodGround" id="NodFlameTank">
         <FlagArray index="AIPressForwardDisabled" value="1"/>
@@ -986,7 +986,6 @@
             <LayoutButtons Face="NodAramUpgrade" Type="Passive" Row="1" Column="4"/>
         </CardLayouts>
     </CUnit>
-    <!--utility-->
     <CUnit parent="NodShadow" id="NodShadowFlying">
         <Name value="Unit/Name/NodShadowFlying"/>
         <PlaneArray index="Ground" value="0"/>
@@ -1018,6 +1017,7 @@
         <BehaviorArray Link="Theaircraftiscirclingtheactor"/>
         <!--        <BehaviorArray Link="Aircraftautomaticallyreplenishesammunitionpeacekeepingbomber"/>-->
     </CUnit>
+
     <!--aircraft-->
     <CUnit parent="NodAir" id="NodVenom">
         <Attributes index="Light" value="1"/>
@@ -1246,7 +1246,7 @@
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
-            <LayoutButtons Face="NodpackCNC3" Type="AbilCmd" AbilCmd="NodConstructionYardPack,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="NodMCVPack" Type="AbilCmd" AbilCmd="NodConstructionYardPack,Execute" Row="2" Column="2"/>
         </CardLayouts>
         <CardLayouts CardId="BLD">
             <LayoutButtons Face="NodTiberiumRefinery" Type="AbilCmd" AbilCmd="NodBuild,Build1" Row="0" Column="0"/>
@@ -1543,7 +1543,7 @@
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="Deployable"/>
         <BehaviorArray Link="FastBuild"/>
-        <BehaviorArray Link="MCVRepairZoneFactory"/>
+<!--        <BehaviorArray Link="MCVRepairZoneFactory"/>-->
         <BehaviorArray Link="CNCTabVehicles"/>
         <BehaviorArray Link="CNCEnergyDrain5"/>
         <Facing value="315"/>
@@ -1651,30 +1651,13 @@
         <PlacementFootprint value="Footprint4x4"/>
         <SubgroupAlias value="NodWarFactory"/>
     </CUnit>
-    <CUnit id="NodAirPad">
-        <Race value="Nod"/>
-        <FlagArray index="Uncommandable" value="1"/>
-        <FlagArray index="Unselectable" value="1"/>
-        <FlagArray index="Untargetable" value="1"/>
-        <FlagArray index="Undetectable" value="1"/>
-        <FlagArray index="Unradarable" value="1"/>
-        <FlagArray index="Invulnerable" value="1"/>
-        <FlagArray index="NoScore" value="1"/>
-        <FlagArray index="NoPortraitTalk" value="1"/>
-        <Attributes index="Structure" value="1"/>
-        <BehaviorArray Link="AircraftAirportParkingAircraftTracking"/>
-        <BehaviorArray Link="Airportisfull"/>
-        <EffectArray index="Death" value="CNCAirporttraversaltrackingaircraft"/>
-        <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>
-        <TechAliasArray value="NodAirTowerDock"/>
-    </CUnit>
     <CUnit parent="NodStructure" id="NodAirTower">
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCEnergyDrain5"/>
         <BehaviorArray Link="CNCTabAirforce"/>
         <BehaviorArray Link="AirSupport"/>
         <BehaviorArray Link="Deployable"/>
-        <BehaviorArray Link="MCVRepairZoneFactory"/>
+<!--        <BehaviorArray Link="MCVRepairZoneFactory"/>-->
         <BehaviorArray Link="FastBuild"/>
         <BehaviorArray Link="Maintenancebeedetectshalorange"/>
         <Facing value="315"/>
@@ -1727,6 +1710,8 @@
         <ScoreMake value="100"/>
         <ScoreKill value="100"/>
     </CUnit>
+
+    <!--utility-->
     <CUnit id="NodCaster">
         <Race value="Nod"/>
         <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>
@@ -1757,6 +1742,24 @@
         <!--            <LayoutButtons Face="NodCallRedeemer" Type="AbilCmd" AbilCmd="NodCasterBuild,Build3" Row="2" Column="2"/>-->
         <Race value="Nod"/>
     </CUnit>
+    <CUnit id="NodAirPad">
+        <Race value="Nod"/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Undetectable" value="1"/>
+        <FlagArray index="Unradarable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="NoScore" value="1"/>
+        <FlagArray index="NoPortraitTalk" value="1"/>
+        <Attributes index="Structure" value="1"/>
+        <BehaviorArray Link="AircraftAirportParkingAircraftTracking"/>
+        <BehaviorArray Link="Airportisfull"/>
+        <EffectArray index="Death" value="CNCAirporttraversaltrackingaircraft"/>
+        <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>
+        <TechAliasArray value="NodAirTowerDock"/>
+    </CUnit>
+
     <!--tech-->
     <CUnit parent="NodStructure" id="NodChemicalPlant">
         <BehaviorArray Link="NodLaserFence"/>
