@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+
     <CAbilEffectTarget id="ObeliskCharge">
         <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
         <Effect index="0" value="ObeliskChargeCP"/>
@@ -337,257 +338,245 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="CABALReaperGuerrillaCharge" Requirements="CABALGuerillaChargeUseRequirement"/>
     </CAbilEffectInstant>
 
-
-    <!--build-->
-    <CAbilBuild id="NodDefenseBuild">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <InfoArray index="Build6" Unit="NodAirSupport" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodAirSupport" State="Restricted" Requirements="BuildNodAirSupport"/>
+    <!--Build-->
+    <CAbilBuild id="NodConstruction">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <FlagArray index="BestUnit" value="0"/>
+        <FlagArray index="Cancelable" value="0"/>
+        <FlagArray index="IgnoreFood" value="1"/>
+        <FlagArray index="IgnoreUnitBuildTime" value="0"/>
+        <FlagArray index="NeutralDetachedAddOn" value="1"/>
+        <FlagArray index="PeonMaintained" value="0"/>
+        <Range value="500"/>
+        <!--        <EffectArray index="Start" value="RARestoreBaseMagazineSkillsWhenAlliedForcesAreBuilt"/>-->
+        <EffectArray index="Finish" value="NodConstructionFinishSet"/>
+        <RefundFraction>
+            <Resource index="Minerals" value="-1"/>
+            <Resource index="Vespene" value="-1"/>
+            <Resource index="Terrazine" value="-1"/>
+            <Resource index="Custom" value="-1"/>
+        </RefundFraction>
+        <InfoArray index="Build1" Unit="NodTiberiumRefinery" Time="0.1"><Charge><CountMax value="1"/><CountStart value="0"/><CountUse value="1"/><Location value="Unit"/></Charge>
+<!--            <Resource index="Minerals" value="-400"/>-->
+            <Button DefaultButtonFace="NodTiberiumRefinery" Requirements="PlaceNodTiberiumRefinery"/>
         </InfoArray>
-        <InfoArray index="Build7" Unit="NodTiberiumSilo" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodChemicalPlant" Requirements="BuildNodTiberiumSilo"/>
-            <ValidatorArray value="HasVespene"/>
+        <InfoArray index="Build2" Unit="NodPowerPlant" Time="0.1"><Charge><CountMax value="1"/><CountStart value="0"/><CountUse value="1"/><Location value="Unit"/></Charge>
+<!--           <Resource index="Minerals" value="-150"/>-->
+            <Button DefaultButtonFace="NodPowerPlant" Requirements="PlaceNodPowerPlant"/>
         </InfoArray>
-        <Range value="999"/>
-    </CAbilBuild>
-    <CAbilBuild id="NodDefenseBuildAdvanced">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <InfoArray index="Build1" Unit="NodTurretsHub" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodTurretsHub" Requirements="BuildNodTurretsHub"/>
+        <InfoArray index="Build4" Unit="NodHand" Time="0.1"><Charge><CountMax value="1"/><CountStart value="0"/><CountUse value="1"/><Location value="Unit"/></Charge>
+<!--           <Resource index="Minerals" value="-150"/>-->
+            <Button DefaultButtonFace="NodHand" Requirements="PlaceNodHand"/>
         </InfoArray>
-        <InfoArray index="Build2" Unit="NodObelisk" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodObelisk" Requirements="BuildNodObeliskOfLight"/>
+        <InfoArray index="Build5" Unit="NodWarFactory" Time="0.1"><Charge><CountMax value="1"/><CountStart value="0"/><CountUse value="1"/><Location value="Unit"/></Charge>
+<!--           <Resource index="Minerals" value="-150"/>-->
+<!--            <Resource index="Vespene" value="-100"/>-->
+            <Button DefaultButtonFace="NodWarFactory" Requirements="PlaceNodWarFactory"/>
         </InfoArray>
-        <InfoArray index="Build3" Unit="NodDisruptionTower" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodDisruptionTower" Requirements="BuildNodDisruptionTower"/>
+        <InfoArray index="Build6" Unit="NodOperationsCenter" Time="0.1"><Charge><CountMax value="1"/><CountStart value="0"/><CountUse value="1"/><Location value="Unit"/></Charge>
+<!--           <Resource index="Minerals" value="-125"/>-->
+            <Button DefaultButtonFace="NodOperationsCenter" Requirements="PlaceNodOperationsCenter"/>
         </InfoArray>
-        <InfoArray index="Build4" Unit="NodVoiceOfKane" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodVoiceOfKane" Requirements="BuildNodVoiceOfKane"/>
+        <InfoArray index="Build7" Unit="NodAirTower" Time="0.1"><Charge><CountMax value="1"/><CountStart value="0"/><CountUse value="1"/><Location value="Unit"/></Charge>
+<!--           <Resource index="Minerals" value="-150"/>-->
+<!--            <Resource index="Vespene" value="-100"/>-->
+            <Button DefaultButtonFace="NodAirTower" Requirements="PlaceNodAirTower"/>
         </InfoArray>
-        <InfoArray index="Build5" Unit="NodTemple" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodTemple" State="Restricted" Requirements="BuildNodTemple"/>
+        <InfoArray index="Build8" Unit="NodShrine" Time="0.1"><Charge><CountMax value="1"/><CountStart value="0"/><CountUse value="1"/><Location value="Unit"/></Charge>
+<!--           <Resource index="Minerals" value="-150"/>-->
+<!--            <Resource index="Vespene" value="-100"/>-->
+            <Button DefaultButtonFace="NodShrine" Requirements="PlaceNodShrine"/>
         </InfoArray>
-        <Range value="999"/>
+        <InfoArray index="Build9" Unit="NodTechLab" Time="0.1"><Charge><CountMax value="1"/><CountStart value="0"/><CountUse value="1"/><Location value="Unit"/></Charge>
+<!--           <Resource index="Minerals" value="-150"/>-->
+            <Button DefaultButtonFace="NodTechLab" Requirements="PlaceNodTechLab"/>
+        </InfoArray>
+        <InfoArray index="Build11" Unit="NodCrane" Time="0.1"><Charge><CountMax value="1"/><CountStart value="0"/><CountUse value="1"/><Location value="Unit"/></Charge>
+<!--           <Resource index="Minerals" value="-150"/>-->
+            <Button DefaultButtonFace="NodCrane" Requirements="PlaceNodCrane"/>
+        </InfoArray>
+        <InfoArray index="Build14" Unit="NodRedeemerFacility" Time="0.1"><Charge><CountMax value="1"/><CountStart value="0"/><CountUse value="1"/><Location value="Unit"/></Charge>
+<!--           <Resource index="Minerals" value="-300"/>-->
+<!--            <Resource index="Vespene" value="-200"/>-->
+            <Button DefaultButtonFace="NodRedeemerFacility" State="Restricted" Requirements="PlaceNodRedeemerFacility"/>
+        </InfoArray>
+        <InfoArray index="Build15" Unit="NodTiberiumSilo" Time="0.1"><Charge><CountMax value="1"/><CountStart value="0"/><CountUse value="1"/><Location value="Unit"/></Charge>
+<!--           <Resource index="Minerals" value="-75"/>-->
+            <Button DefaultButtonFace="NodTiberiumSilo" Requirements="PlaceNodTiberiumSilo"/>
+        </InfoArray>
     </CAbilBuild>
 
+    <CAbilBuild id="NodConstructionSupport">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <FlagArray index="BestUnit" value="0"/>
+        <FlagArray index="Cancelable" value="0"/>
+        <FlagArray index="IgnoreFood" value="1"/>
+        <FlagArray index="IgnoreUnitBuildTime" value="0"/>
+        <FlagArray index="NeutralDetachedAddOn" value="1"/>
+        <FlagArray index="PeonMaintained" value="0"/>
+        <Range value="500"/>
+        <!--        <EffectArray index="Start" value="RARestoreBaseMagazineSkillsWhenAlliedForcesAreBuilt"/>-->
+        <EffectArray index="Finish" value="NodConstructionSupportFinishSet"/>
+        <RefundFraction>
+            <Resource index="Minerals" value="-1"/>
+            <Resource index="Vespene" value="-1"/>
+            <Resource index="Terrazine" value="-1"/>
+            <Resource index="Custom" value="-1"/>
+        </RefundFraction>
+        <InfoArray index="Build1" Unit="NodTurretsHub" Time="0.1">
+            <Resource index="Minerals" value="-150"/>
+            <Button DefaultButtonFace="NodTurretsHub" Requirements="PlaceNodTurretsHub"/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="NodObelisk" Time="0.1">
+            <Resource index="Minerals" value="-150"/>
+            <Resource index="Vespene" value="-100"/>
+            <Button DefaultButtonFace="NodObelisk" Requirements="PlaceNodObelisk"/>
+        </InfoArray>
+        <InfoArray index="Build3" Unit="NodDisruptionTower" Time="0.1">
+            <Resource index="Minerals" value="-150"/>
+            <Resource index="Vespene" value="-100"/>
+            <Button DefaultButtonFace="NodDisruptionTower" Requirements="PlaceNodDisruptionTower"/>
+        </InfoArray>
+        <InfoArray index="Build4" Unit="NodVoiceOfKane" Time="0.1">
+            <Resource index="Minerals" value="-150"/>
+            <Resource index="Vespene" value="-100"/>
+            <Button DefaultButtonFace="NodVoiceOfKane" Requirements="PlaceNodVoiceOfKane"/>
+        </InfoArray>
+        <InfoArray index="Build5" Unit="NodTemple" Time="0.1">
+            <Resource index="Minerals" value="-300"/>
+            <Resource index="Vespene" value="-300"/>
+            <Button DefaultButtonFace="NodTemple" Requirements="PlaceNodTemple"/>
+        </InfoArray>
+        <InfoArray index="Build6" Unit="NodAirSupport" Time="0.1">
+            <Resource index="Minerals" value="-100"/>
+            <Button DefaultButtonFace="NodAirSupport" Requirements="PlaceNodAirSupport"/>
+        </InfoArray>
+        <InfoArray index="Build7" Unit="NodTiberiumSilo" Time="0.1">
+            <Resource index="Minerals" value="-75"/>
+            <Button DefaultButtonFace="NodTiberiumSilo" Requirements="PlaceNodTiberiumSilo"/>
+        </InfoArray>
+    </CAbilBuild>
 
-    <CAbilBuild id="NodBuild">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <InfoArray index="Build1" Unit="NodTiberiumRefinery" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodTiberiumRefinery"/>
+
+
+<!--        <CAbilSpecialize id="ConstructTeslaCharge">-->
+<!--            <InfoArray index="Specialize1" Time="15" Effect="ShockChargeComplete">-->
+<!--                <Resource index="Minerals" value="20"/>-->
+<!--                <Resource index="Vespene" value="20"/>-->
+<!--                <Charge>-->
+<!--                    <CountMax value="1"/>-->
+<!--                    <CountStart value="1"/>-->
+<!--                    <CountUse value="1"/>-->
+<!--                    <Location value="Unit"/>-->
+<!--                </Charge>-->
+<!--                <Cooldown Location="Unit"/>-->
+<!--                <Button DefaultButtonFace="ConstructShockCharge"/>-->
+<!--            </InfoArray>-->
+<!--            <InfoArray index="Specialize2" Time="15" Effect="CloakChargeComplete2">-->
+<!--                <Resource index="Minerals" value="15"/>-->
+<!--                <Resource index="Vespene" value="15"/>-->
+<!--                <Charge>-->
+<!--                    <CountMax value="1"/>-->
+<!--                    <CountStart value="1"/>-->
+<!--                    <CountUse value="1"/>-->
+<!--                    <Location value="Unit"/>-->
+<!--                </Charge>-->
+<!--                <Cooldown Location="Unit"/>-->
+<!--                <Button DefaultButtonFace="ConstructCloakCharge"/>-->
+<!--            </InfoArray>-->
+<!--            <MaxCount value="1"/>-->
+<!--        </CAbilSpecialize>-->
+<!--    -->
+    <CAbilArmMagazine id="NodConstructionArm">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Activity value="UI/Building"/>
+        <Launch value="ReleaseAtSource"/>
+        <InfoArray index="Ammo1" Time="100" Alert="NodConstructionCompleted" Unit="NodTiberiumRefineryVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="NodTiberiumRefinery" Requirements="BuildNodTiberiumRefinery"/>
         </InfoArray>
-        <InfoArray index="Build2" Unit="NodPowerPlant" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodPowerPlant"/>
+        <InfoArray index="Ammo2" Time="30" Alert="NodConstructionCompleted" Unit="NodPowerPlantVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="NodPowerPlant" Requirements="BuildNodPowerPlant"/>
         </InfoArray>
-        <InfoArray index="Build4" Unit="NodHand" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
+        <InfoArray index="Ammo4" Time="50" Alert="NodConstructionCompleted" Unit="NodHandVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
             <Button DefaultButtonFace="NodHand" Requirements="BuildNodHand"/>
         </InfoArray>
-        <InfoArray index="Build5" Unit="NodWarFactory" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
+        <InfoArray index="Ammo5" Time="55" Alert="NodConstructionCompleted" Unit="NodWarFactoryVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
             <Button DefaultButtonFace="NodWarFactory" Requirements="BuildNodWarFactory"/>
         </InfoArray>
-        <InfoArray index="Build6" Unit="NodOperationsCenter" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
+        <InfoArray index="Ammo6" Time="40" Alert="NodConstructionCompleted" Unit="NodOperationsCenterVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
             <Button DefaultButtonFace="NodOperationsCenter" Requirements="BuildNodOperationsCenter"/>
         </InfoArray>
-        <InfoArray index="Build7" Unit="NodAirTower" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
+        <InfoArray index="Ammo7" Time="60" Alert="NodConstructionCompleted" Unit="NodAirTowerVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
             <Button DefaultButtonFace="NodAirTower" Requirements="BuildNodAirTower"/>
         </InfoArray>
-        <InfoArray index="Build8" Unit="NodShrine" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
+        <InfoArray index="Ammo8" Time="50" Alert="NodConstructionCompleted" Unit="NodShrineVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
             <Button DefaultButtonFace="NodShrine" Requirements="BuildNodShrine"/>
         </InfoArray>
-        <InfoArray index="Build9" Unit="NodTechLab" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
+        <InfoArray index="Ammo9" Time="50" Alert="NodConstructionCompleted" Unit="NodTechLabVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
             <Button DefaultButtonFace="NodTechLab" Requirements="BuildNodTechLab"/>
         </InfoArray>
-        <InfoArray index="Build10" Unit="NodChemicalPlant" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodChemicalPlant" State="Restricted" Requirements="BuildNodChemicalPlant"/>
-        </InfoArray>
-        <InfoArray index="Build11" Unit="NodCrane" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
+        <InfoArray index="Ammo11" Time="60" Alert="NodConstructionCompleted" Unit="NodCraneVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
             <Button DefaultButtonFace="NodCrane" Requirements="BuildNodCrane"/>
         </InfoArray>
-        <Range value="999"/>
-        <!--        <EffectArray index="Start" value="NodStructureSpawnSet"/>-->
-    </CAbilBuild>
-    <CAbilBuild id="NodBuildAdvanced">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <InfoArray index="Build14" Unit="NodRedeemerFacility" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodBuild" Location="Unit"/>
+        <InfoArray index="Ammo14" Time="80" Alert="NodConstructionCompleted" Unit="NodRedeemerFacility"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
             <Button DefaultButtonFace="NodRedeemerFacility" State="Restricted" Requirements="BuildNodRedeemerFacility"/>
         </InfoArray>
-        <Range value="999"/>
-        <!--        <EffectArray index="Start" value="NodStructureSpawnSet"/>-->
-    </CAbilBuild>
+
+        <InfoArray index="Ammo15" Time="30" Alert="NodConstructionCompleted" Unit="NodTiberiumSiloVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="NodTiberiumSilo" Requirements="BuildNodTiberiumSilo"/>
+        </InfoArray>
+        <MaxCount value="2"/>
+        <Flags index="ShowStatus" value="0"/>
+    </CAbilArmMagazine>
+
+
+
+    <CAbilArmMagazine id="NodConstructionSupportArm">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Activity value="UI/Building"/>
+        <Launch value="ReleaseAtSource"/>
+        <InfoArray index="Ammo1" Time="40" Alert="NodConstructionCompleted" Unit="NodTurretsHubVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="NodTurretsHub" Requirements="BuildNodTurretsHub"/>
+        </InfoArray>
+        <InfoArray index="Ammo2" Time="50" Alert="NodConstructionCompleted" Unit="NodObeliskVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="NodObelisk" Requirements="BuildNodObelisk"/>
+        </InfoArray>
+        <InfoArray index="Ammo3" Time="40" Alert="NodConstructionCompleted" Unit="NodDisruptionTowerVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="NodDisruptionTower" Requirements="BuildNodDisruptionTower"/>
+        </InfoArray>
+        <InfoArray index="Ammo4" Time="50" Alert="NodConstructionCompleted" Unit="NodVoiceOfKaneVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="NodVoiceOfKane" Requirements="BuildNodVoiceOfKane"/>
+        </InfoArray>
+        <InfoArray index="Ammo5" Time="60" Alert="NodConstructionCompleted" Unit="NodTempleVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="NodTemple" Requirements="BuildNodTemple"/>
+        </InfoArray>
+        <InfoArray index="Ammo6" Time="30" Alert="NodConstructionCompleted" Unit="NodAirSupportVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="NodAirSupport" Requirements="BuildNodAirSupport"/>
+        </InfoArray>
+        <InfoArray index="Ammo7" Time="30" Alert="NodConstructionCompleted" Unit="NodTiberiumSiloVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="NodTiberiumSilo" Requirements="BuildNodTiberiumSilo"/>
+        </InfoArray>
+        <MaxCount value="1"/>
+        <Flags index="ShowStatus" value="0"/>
+    </CAbilArmMagazine>
+    <CAbilArmMagazine id="NodConstructionSupportTrainArm">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Launch value="ReleaseAtSource"/>
+        <Activity value="UI/Training"/>
+        <MaxCount value="1"/>
+        <InfoArray index="Ammo1" Alert="TrainComplete" Time="20" Unit="NodEmissaryVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="NodEmissary" Requirements="TrainNodEmissary"/>
+        </InfoArray>
+        <Flags index="ShowStatus" value="0"/>
+    </CAbilArmMagazine>
+
+
     <!--train-->
     <CAbilTrain id="NodConstructionYardTrain">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
         <Range value="5"/>
-        <InfoArray index="Train1" Time="17">
-            <Button DefaultButtonFace="NodEmissary"/>
+        <InfoArray index="Train1" Time="0.1">
+            <Button DefaultButtonFace="NodEmissary" Requirements="ReleaseNodEmissary"/>
             <Unit value="NodEmissary"/>
         </InfoArray>
     </CAbilTrain>
