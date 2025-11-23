@@ -429,13 +429,13 @@ void libTIBW_gt_ConstructionStarted_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Construction Completed 2
+// Trigger: Construction Completed
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConstructionCompleted2_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_ConstructionCompleted_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((UnitGroupCount(UnitGroup("NodConstructionYard", UnitGetOwner(EventUnit()), RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) == 1))) {
+        if (!(((UnitGetType(EventUnit()) == "NodConstructionYard") || (UnitGetType(EventUnit()) == "NodCrane")))) {
             return false;
         }
     }
@@ -445,14 +445,14 @@ bool libTIBW_gt_ConstructionCompleted2_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_NewConstructionOptions, UnitGetOwner(EventUnit()));
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_ConComplete, UnitGetOwner(EventUnit()));
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConstructionCompleted2_Init () {
-    libTIBW_gt_ConstructionCompleted2 = TriggerCreate("libTIBW_gt_ConstructionCompleted2_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_ConstructionCompleted2, null, AbilityCommand("NodMCVDeploy", 0), c_unitAbilStageComplete, false);
+void libTIBW_gt_ConstructionCompleted_Init () {
+    libTIBW_gt_ConstructionCompleted = TriggerCreate("libTIBW_gt_ConstructionCompleted_Func");
+    TriggerAddEventUnitArmMagazineProgress(libTIBW_gt_ConstructionCompleted, null, c_unitProgressStageComplete);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -522,13 +522,13 @@ void libTIBW_gt_NewConstructionOptions_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: CY morphed
+// Trigger: Construction Completed 2
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_CYmorphed_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_ConstructionCompleted2_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!(((UnitGetType(EventUnit()) == "NodConstructionYard") || (UnitGetType(EventUnit()) == "NodCrane")))) {
+        if (!((UnitGroupCount(UnitGroup("NodConstructionYard", UnitGetOwner(EventUnit()), RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) == 1))) {
             return false;
         }
     }
@@ -538,14 +538,14 @@ bool libTIBW_gt_CYmorphed_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_ConComplete, UnitGetOwner(EventUnit()));
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_NewConstructionOptions, UnitGetOwner(EventUnit()));
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_CYmorphed_Init () {
-    libTIBW_gt_CYmorphed = TriggerCreate("libTIBW_gt_CYmorphed_Func");
-    TriggerAddEventUnitArmMagazineProgress(libTIBW_gt_CYmorphed, null, c_unitProgressStageComplete);
+void libTIBW_gt_ConstructionCompleted2_Init () {
+    libTIBW_gt_ConstructionCompleted2 = TriggerCreate("libTIBW_gt_ConstructionCompleted2_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_ConstructionCompleted2, null, AbilityCommand("NodMCVDeploy", 0), c_unitAbilStageComplete, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1829,10 +1829,10 @@ void libTIBW_gt__GDIDropPod_Init () {
 
 void libTIBW_InitTriggers () {
     libTIBW_gt_ConstructionStarted_Init();
-    libTIBW_gt_ConstructionCompleted2_Init();
+    libTIBW_gt_ConstructionCompleted_Init();
     libTIBW_gt_ConstructionCanceled_Init();
     libTIBW_gt_NewConstructionOptions_Init();
-    libTIBW_gt_CYmorphed_Init();
+    libTIBW_gt_ConstructionCompleted2_Init();
     libTIBW_gt_TrainingStarted_Init();
     libTIBW_gt_TrainingCompleted_Init();
     libTIBW_gt_TrainingCanceled_Init();
