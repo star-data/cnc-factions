@@ -406,27 +406,26 @@ void libTIBW_gf_CreateDropPod (int lp_race, point lp_location, unitgroup lp_unit
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_VestCreated_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    string lv_unitNameVest;
+    string lv_unitName;
+    string lv_effectName;
     unit lv_creator;
+    string lv_effect;
 
     // Automatic Variable Declarations
-    string auto1618B404_val;
-
     // Variable Initialization
+    lv_unitNameVest = (UnitGetType(EventUnitCreatedUnit()));
+    lv_unitName = StringSub(lv_unitNameVest, 1, (StringLength(lv_unitNameVest) - 4));
+    lv_effectName = (lv_unitName + "ChargeSet");
     lv_creator = EventUnit();
+    lv_effect = (lv_effectName);
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_F0F0A0E0"), true);
-    auto1618B404_val = UnitGetType(EventUnitCreatedUnit());
-    if (auto1618B404_val == "NodTiberiumRefineryVest") {
-        UnitAbilityAddChargeUsed(lv_creator, "NodConstruction", "NodConstruction,Build11", -1.0);
-        UnitCreateEffectUnit(lv_creator, "NodTiberiumRefineryCharge", lv_creator);
-    }
-    else {
-    }
+    UnitCreateEffectUnit(lv_creator, lv_effect, lv_creator);
     return true;
 }
 
@@ -511,18 +510,20 @@ bool libTIBW_gt_ConjoinedBehaviors_Func (bool testConds, bool runActions) {
     else {
         return true;
     }
-    auto011687CA_val = EventUnitBehaviorChange();
-    if (auto011687CA_val == c_unitBehaviorChangeCreate) {
-        TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_58692427"), true);
-        UnitBehaviorAdd(lv_conjoined, lv_behavior, lv_unit, 1);
+    if ((lv_behavior != null)) {
+        auto011687CA_val = EventUnitBehaviorChange();
+        if (auto011687CA_val == c_unitBehaviorChangeCreate) {
+            TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_1FC28D69"), true);
+            UnitBehaviorAdd(lv_conjoined, lv_behavior, lv_unit, 1);
+        }
+        else if (auto011687CA_val == c_unitBehaviorChangeDestroy) {
+            TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_00CE51B1"), true);
+            UnitBehaviorRemove(lv_conjoined, lv_behavior, 1);
+        }
+        else {
+        }
     }
-    else if (auto011687CA_val == c_unitBehaviorChangeDestroy) {
-        TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_6221D991"), true);
-        UnitBehaviorRemove(lv_conjoined, lv_behavior, 1);
-    }
-    else {
-        TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_BB4AE1AE"), true);
-    }
+
     return true;
 }
 
@@ -605,15 +606,15 @@ bool libTIBW_gt_MorphtoMCV_Func (bool testConds, bool runActions) {
     }
 
     if ((UnitGetType(lv_cY) == "NodConstructionYard")) {
-        lv_support = UnitGroupUnit(UnitGroup("NodConstructionYardSupportModule", UnitGetOwner(EventUnit()), RegionCircle(UnitGetPosition(EventUnit()), 1.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), 1);
+        lv_support = UnitGroupUnit(UnitGroup("NodConstructionYardSupportModule", UnitGetOwner(lv_cY), RegionCircle(UnitGetPosition(lv_cY), 1.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), 1);
     }
     else {
-        lv_cY = UnitGroupUnit(UnitGroup("NodConstructionYard", UnitGetOwner(EventUnit()), RegionCircle(UnitGetPosition(EventUnit()), 1.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), 1);
-        UnitSelect(lv_cY, UnitGetOwner(EventUnit()), true);
+        lv_cY = UnitGroupUnit(UnitGroup("NodConstructionYard", UnitGetOwner(lv_support), RegionCircle(UnitGetPosition(lv_support), 1.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), 1);
         UnitSelect(lv_cY, UnitGetOwner(EventUnit()), true);
         UnitSelect(lv_support, UnitGetOwner(EventUnit()), false);
         UnitIssueOrder(lv_cY, Order(AbilityCommand("NodConstructionYardPack", 0)), c_orderQueueReplace);
     }
+    UnitBehaviorRemove(lv_cY, "ConjoinedCYModule", 1);
     UnitRemove(lv_support);
     return true;
 }
@@ -926,26 +927,6 @@ bool libTIBW_gt_ConstructionCompleted2_Func (bool testConds, bool runActions) {
 void libTIBW_gt_ConstructionCompleted2_Init () {
     libTIBW_gt_ConstructionCompleted2 = TriggerCreate("libTIBW_gt_ConstructionCompleted2_Func");
     TriggerAddEventUnitAbility(libTIBW_gt_ConstructionCompleted2, null, AbilityCommand("NodMCVDeploy", 0), c_unitAbilStageComplete, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Training Started
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_TrainingStarted_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_Training, UnitGetOwner(EventUnit()));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_TrainingStarted_Init () {
-    libTIBW_gt_TrainingStarted = TriggerCreate("libTIBW_gt_TrainingStarted_Func");
-    TriggerAddEventUnitTrainProgress(libTIBW_gt_TrainingStarted, null, c_unitProgressStageStart);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1785,7 +1766,6 @@ bool libTIBW_gt_PlayNod_Func (bool testConds, bool runActions) {
             UISetFrameVisible(PlayerGroupSingle(autoC0198CC5_var), c_syncFrameTypeConsolePanel, false);
             DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
             DialogControlSendAnimationEvent(DialogControlLastCreated(), PlayerGroupSingle(autoC0198CC5_var), "SlimUI_On");
-            TechTreeRestrictionsEnable(autoC0198CC5_var, true);
         }
 
     }
@@ -2223,7 +2203,6 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_ConstructionCanceled_Init();
     libTIBW_gt_NewConstructionOptions_Init();
     libTIBW_gt_ConstructionCompleted2_Init();
-    libTIBW_gt_TrainingStarted_Init();
     libTIBW_gt_TrainingCompleted_Init();
     libTIBW_gt_TrainingCanceled_Init();
     libTIBW_gt_AllyDefeated_Init();
