@@ -2249,8 +2249,9 @@
     <CActorUnit id="NodEmissary" icon="Emissary" parent="NodVehicle">
         <WalkAnimMoveSpeed value="2"/>
         <On Terms="ActorCreation" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
-        <On Terms="AbilMorph.*.Start; MorphTo NodEmissaryDeployed" Send="AnimBracketStart Morph Morph,Start Morph Morph,End"/>
-        <On Terms="AbilMorph.*.Finish; MorphFrom NodEmissary" Send="Destroy"/>
+<!--        <On Terms="AbilMorph.*.Start; MorphTo NodEmissaryDeployed" Send="AnimBracketStart Morph Morph,Start Morph Morph,End"/>-->
+<!--        <On Terms="AbilMorph.*.Finish; MorphFrom NodEmissary" Send="Destroy"/>-->
+        <On Terms="AbilMorph.*.Start; MorphTo NodEmissaryDeployed" Send="Destroy"/>
     </CActorUnit>
 <!--    <CActorUnit id="NodEmissaryMorph" parent="NodUnit" wireframe="NodEmissaryDeployed" unitName="SiegeModeMorphModel" icon="NodEmissaryDeployed">-->
 <!--        <On Terms="AbilMorph.*.Start; MorphTo NodEmissaryDeployed" Send="Create"/>-->
@@ -2259,18 +2260,26 @@
 <!--        <Model value="NodEmissary"/>-->
 <!--    </CActorUnit>-->
 
-<!--    <CActorUnit id="NodEmissaryMorph" parent="NodUnit" unitName="NodEmissaryMorph" wireframe="NodEmissary"  icon="NodEmissary">-->
-<!--                <On Terms="AbilMorph.*.Start; MorphTo NodEmissaryDeployed" Send="Create"/>-->
-<!--                <On Terms="AbilMorph.*.Start; MorphTo NodEmissaryDeployed" Send="AnimPlay Start Morph,Start"/>-->
-<!--                <On Terms="AbilMorph.*.Finish; MorphFrom NodEmissary" Send="Destroy"/>-->
-
-<!--    </CActorUnit>-->
+    <CActorUnit id="NodEmissaryMorph" parent="NodBuilding" unitName="NodEmissaryMorph" wireframe="NodEmissary"  icon="NodEmissary">
+        <On Terms="AbilMorph.*.Start; MorphTo NodEmissaryDeployed" Send="Create"/>
+<!--        <On Terms="ActorCreation" Send="AnimPlay Start Morph,Start"/>-->
+        <On Terms="ActorCreation" Send="AnimBracketStart Morph Morph,Start Morph Morph,End"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo NodEmissaryDeployed" Send="Destroy"/>
+        <Model value="NodEmissaryDeployed"/>
+        <SoundArray index="Ready" value="SupplyDepot_Ready"/>
+        <SoundArray index="What" value="SupplyDepot_What"/>
+        <SoundArray index="What" value="SupplyDepot_What"/>
+        <PlacementModel value="NodEmissary"/>
+        <BuildModel value="NodEmissary"/>
+        <PlaceholderActorModel value="NodEmissaryDeployedPM"/>
+        <PlacementActorModel value="NodEmissaryDeployedPM"/>
+    </CActorUnit>
 
 
 
     <CActorUnit id="NodEmissaryDeployed" icon="EmissaryDeployed" parent="NodBuilding">
         <On Terms="AbilMorph.*.Finish; MorphTo NodEmissaryDeployed" Send="Create"/>
-        <On Terms="AbilMorph.*.Finish; MorphTo NodEmissaryDeployed" Send="AnimPlay Morph Morph,End"/>
+<!--        <On Terms="AbilMorph.*.Finish; MorphTo NodEmissaryDeployed" Send="AnimPlay Morph Morph,End"/>-->
         <Aliases value="_UnitLarge"/>
         <CreepHeightClass value="Small"/>
         <Model value="NodEmissaryDeployed"/>

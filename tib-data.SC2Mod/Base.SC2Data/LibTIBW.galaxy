@@ -126,6 +126,9 @@ void libTIBW_gf_PlayAnnounceSound (int lp_type, int lp_player) {
     else if (autoF4226EF4_val == libTIBW_ge_NEVA_NEVA_UnitReady) {
         SoundPlayForPlayer(SoundLink("NodAdvisor", 42), c_maxPlayers, lv_players, 100.0, 0.0);
     }
+    else if (autoF4226EF4_val == libTIBW_ge_NEVA_NEVA_UnitLost) {
+        SoundPlayForPlayer(SoundLink("NodAdvisor", 24), c_maxPlayers, lv_players, 100.0, 0.0);
+    }
     else if (autoF4226EF4_val == libTIBW_ge_NEVA_NEVA_Building) {
         SoundPlayForPlayer(SoundLink("NodAdvisor", 62), c_maxPlayers, lv_players, 100.0, 0.0);
     }
@@ -658,19 +661,35 @@ void libTIBW_gt_ConjoinedSupportModuleCreated_Init () {
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_ChooseConjoinedSupportModule_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    unit lv_unit;
+    int lv_player;
     unit lv_conjoined;
 
     // Automatic Variable Declarations
+    playergroup autoAC0C2885_g;
+    int autoAC0C2885_var;
+
     // Variable Initialization
-    lv_conjoined = UnitGroupUnit(UnitGroup("NodConstructionYardSupportModule", UnitGetOwner(EventUnit()), RegionCircle(UnitGetPosition(EventUnit()), 1.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), 1);
+    lv_unit = EventUnit();
+    lv_player = UnitGetOwner(lv_unit);
+    lv_conjoined = UnitGroupUnit(UnitGroup("NodConstructionYardSupportModule", UnitGetOwner(lv_unit), RegionCircle(UnitGetPosition(lv_unit), 1.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), 1);
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    UnitSelect(EventUnit(), UnitGetOwner(EventUnit()), false);
-    UnitSelect(lv_conjoined, UnitGetOwner(EventUnit()), true);
+    autoAC0C2885_g = PlayerGroupAll();
+    autoAC0C2885_var = -1;
+    while (true) {
+        autoAC0C2885_var = PlayerGroupNextPlayer(autoAC0C2885_g, autoAC0C2885_var);
+        if (autoAC0C2885_var < 0) { break; }
+        if ((UnitGroupHasUnit(UnitGroupSelected(autoAC0C2885_var), lv_unit) == true)) {
+            UnitSelect(lv_unit, autoAC0C2885_var, false);
+            UnitSelect(lv_conjoined, autoAC0C2885_var, true);
+        }
+
+    }
     return true;
 }
 
@@ -685,19 +704,35 @@ void libTIBW_gt_ChooseConjoinedSupportModule_Init () {
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_ChooseConjoinedCYModule_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    unit lv_unit;
+    int lv_player;
     unit lv_conjoined;
 
     // Automatic Variable Declarations
+    playergroup auto055F3DB2_g;
+    int auto055F3DB2_var;
+
     // Variable Initialization
-    lv_conjoined = UnitGroupUnit(UnitGroup("NodConstructionYard", UnitGetOwner(EventUnit()), RegionCircle(UnitGetPosition(EventUnit()), 1.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), 1);
+    lv_unit = EventUnit();
+    lv_player = UnitGetOwner(lv_unit);
+    lv_conjoined = UnitGroupUnit(UnitGroup("NodConstructionYard", UnitGetOwner(lv_unit), RegionCircle(UnitGetPosition(lv_unit), 1.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), 1);
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    UnitSelect(EventUnit(), UnitGetOwner(EventUnit()), false);
-    UnitSelect(lv_conjoined, UnitGetOwner(EventUnit()), true);
+    auto055F3DB2_g = PlayerGroupAll();
+    auto055F3DB2_var = -1;
+    while (true) {
+        auto055F3DB2_var = PlayerGroupNextPlayer(auto055F3DB2_g, auto055F3DB2_var);
+        if (auto055F3DB2_var < 0) { break; }
+        if ((UnitGroupHasUnit(UnitGroupSelected(auto055F3DB2_var), lv_unit) == true)) {
+            UnitSelect(lv_unit, auto055F3DB2_var, false);
+            UnitSelect(lv_conjoined, auto055F3DB2_var, true);
+        }
+
+    }
     return true;
 }
 
@@ -789,7 +824,7 @@ bool libTIBW_gt_ConstructionStarted_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!(((UnitGetType(EventUnit()) == "NodConstructionYard") || (UnitGetType(EventUnit()) == "NodCrane")))) {
+        if (!(((UnitGetType(EventUnit()) == "NodConstructionYard") || (UnitGetType(EventUnit()) == "NodConstructionYardSupportModule") || (UnitGetType(EventUnit()) == "NodCrane") || (UnitGetType(EventUnit()) == "NodCraneSupportModule")))) {
             return false;
         }
     }
@@ -927,6 +962,26 @@ bool libTIBW_gt_ConstructionCompleted2_Func (bool testConds, bool runActions) {
 void libTIBW_gt_ConstructionCompleted2_Init () {
     libTIBW_gt_ConstructionCompleted2 = TriggerCreate("libTIBW_gt_ConstructionCompleted2_Func");
     TriggerAddEventUnitAbility(libTIBW_gt_ConstructionCompleted2, null, AbilityCommand("NodMCVDeploy", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Training Started
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_TrainingStarted_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_Training, UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_TrainingStarted_Init () {
+    libTIBW_gt_TrainingStarted = TriggerCreate("libTIBW_gt_TrainingStarted_Func");
+    TriggerAddEventUnitTrainProgress(libTIBW_gt_TrainingStarted, null, c_unitProgressStageStart);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2203,6 +2258,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_ConstructionCanceled_Init();
     libTIBW_gt_NewConstructionOptions_Init();
     libTIBW_gt_ConstructionCompleted2_Init();
+    libTIBW_gt_TrainingStarted_Init();
     libTIBW_gt_TrainingCompleted_Init();
     libTIBW_gt_TrainingCanceled_Init();
     libTIBW_gt_AllyDefeated_Init();
