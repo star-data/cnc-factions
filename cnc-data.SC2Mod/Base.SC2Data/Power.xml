@@ -1,6 +1,6 @@
 <Catalog>
 
-    <CBehaviorBuff id="MaximumPower_NPP">
+    <CBehaviorBuff id="CnCMaximumGlobalPower" default="1">
         <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
         <DisableValidatorArray value="CasterNotLockedDown"/>
         <DisableValidatorArray value="CasterIsNotUnderConstruction"/>
@@ -11,63 +11,126 @@
         <MaxStackCount value="0"/>
         <Modification>
             <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
-            <VitalMaxArray index="Energy" value="15"/>
         </Modification>
-<!--        <InfoFlags index="Hidden" value="1"/>-->
+        <!--        <InfoFlags index="Hidden" value="1"/>-->
     </CBehaviorBuff>
-    <CAccumulatorBehavior id="MaximumPower_NPP_StackTarget">
-        <Behavior value="MaximumPower_NPP"/>
+
+
+
+
+
+    <!--+100Max -->
+    <CBehaviorBuff id="CnCMaximumGlobalPower100" parent="CnCMaximumGlobalPower">
+        <Modification>
+            <VitalMaxArray index="Energy" value="100"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CAccumulatorBehavior id="CnCMaximumGlobalPower100_StackTarget">
+        <Behavior value="CnCMaximumGlobalPower100"/>
         <UnitSource Value="Target"/>
     </CAccumulatorBehavior>
-    <CAccumulatorBehavior id="MaximumPower_NPP_StackCaster">
-        <Behavior value="MaximumPower_NPP"/>
+    <CAccumulatorBehavior id="CnCMaximumGlobalPower100_StackCaster">
+        <Behavior value="CnCMaximumGlobalPower100"/>
     </CAccumulatorBehavior>
-    <CAccumulatorArithmetic id="MaximumPower_NPP_Arith">
+    <CAccumulatorArithmetic id="CnCMaximumGlobalPower100_Arith">
         <Parameters value="0">
-            <AccumulatorArray value="MaximumPower_NPP_StackTarget"/>
+            <AccumulatorArray value="CnCMaximumGlobalPower100_StackTarget"/>
         </Parameters>
         <Parameters value="0">
-            <AccumulatorArray value="MaximumPower_NPP_StackCaster"/>
+            <AccumulatorArray value="CnCMaximumGlobalPower100_StackCaster"/>
         </Parameters>
         <Operation value="Subtract"/>
     </CAccumulatorArithmetic>
-
-    <CEffectUserData id="MirrorGenetronPowerSupply_NPP_Data">
-        <EditorCategories value="Race:Genetron"/>
+    <CEffectUserData id="MirrorGenetronPowerSupply100Data">
+        <EditorCategories value="Race:Neutral"/>
         <Amount value="0">
-            <AccumulatorArray value="MaximumPower_NPP_Arith"/>
+            <AccumulatorArray value="CnCMaximumGlobalPower100_Arith"/>
         </Amount>
         <Operation value="Set"/>
         <ValidateMax value="500000"/>
-        <EffectSuccess value="MirrorGenetronPowerSupply_NPP_AB"/>
-        <EffectFailure value="MirrorGenetronPowerSupply_NPP_RBSet"/>
+        <EffectSuccess value="MirrorGenetronPowerSupply100AB"/>
+        <EffectFailure value="MirrorGenetronPowerSupply100RBSet"/>
     </CEffectUserData>
-    <CEffectSet id="MirrorGenetronPowerSupply_NPP_RBSet">
+    <CEffectSet id="MirrorGenetronPowerSupply100RBSet">
         <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="MirrorGenetronPowerSupply_NPP_RB"/>
-        <EffectArray value="MirrorGenetronPowerSupply_NPP_Data"/>
+        <EffectArray value="MirrorGenetronPowerSupply100RB"/>
+        <EffectArray value="MirrorGenetronPowerSupply100Data"/>
     </CEffectSet>
-    <CEffectApplyBehavior id="MirrorGenetronPowerSupply_NPP_AB">
+    <CEffectApplyBehavior id="MirrorGenetronPowerSupply100AB">
         <EditorCategories value="Race:Genetron"/>
         <WhichUnit Value="Caster"/>
-        <Behavior value="MaximumPower_NPP"/>
+        <Behavior value="CnCMaximumGlobalPower100"/>
         <Count value="0">
             <AccumulatorArray value="DefaultDataAdd"/>
         </Count>
     </CEffectApplyBehavior>
-    <CEffectRemoveBehavior id="MirrorGenetronPowerSupply_NPP_RB">
-        <EditorCategories value="Race:Genetron"/>
+    <CEffectRemoveBehavior id="MirrorGenetronPowerSupply100RB">
         <WhichUnit Value="Caster"/>
-        <BehaviorLink value="MaximumPower_NPP"/>
+        <BehaviorLink value="CnCMaximumGlobalPower100"/>
     </CEffectRemoveBehavior>
-    <CEffectApplyBehavior id="TrackGenetronPowerSupply_NPP_AB">
-        <EditorCategories value="Race:Genetron"/>
-        <Behavior value="MaximumPower_NPP"/>
+    <CEffectApplyBehavior id="TrackGenetronPowerSupply100AB">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="CnCMaximumGlobalPower100"/>
     </CEffectApplyBehavior>
 
-    <CEffectCreateHealer id="NPP_PowerHealer">
-        <ValidatorArray value="GenetronEnergyGenValidators"/>
+    <!--+25Max -->
+    <CBehaviorBuff id="CnCMaximumGlobalPower25" parent="CnCMaximumGlobalPower">
+        <Modification>
+            <VitalMaxArray index="Energy" value="25"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CAccumulatorBehavior id="CnCMaximumGlobalPower25_StackTarget">
+        <Behavior value="CnCMaximumGlobalPower25"/>
+        <UnitSource Value="Target"/>
+    </CAccumulatorBehavior>
+    <CAccumulatorBehavior id="CnCMaximumGlobalPower25_StackCaster">
+        <Behavior value="CnCMaximumGlobalPower25"/>
+    </CAccumulatorBehavior>
+    <CAccumulatorArithmetic id="CnCMaximumGlobalPower25_Arith">
+        <Parameters value="0">
+            <AccumulatorArray value="CnCMaximumGlobalPower25_StackTarget"/>
+        </Parameters>
+        <Parameters value="0">
+            <AccumulatorArray value="CnCMaximumGlobalPower25_StackCaster"/>
+        </Parameters>
+        <Operation value="Subtract"/>
+    </CAccumulatorArithmetic>
+    <CEffectUserData id="MirrorGenetronPowerSupply25Data">
+        <EditorCategories value="Race:Neutral"/>
+        <Amount value="0">
+            <AccumulatorArray value="CnCMaximumGlobalPower25_Arith"/>
+        </Amount>
+        <Operation value="Set"/>
+        <ValidateMax value="500000"/>
+        <EffectSuccess value="MirrorGenetronPowerSupply25AB"/>
+        <EffectFailure value="MirrorGenetronPowerSupply25RBSet"/>
+    </CEffectUserData>
+    <CEffectSet id="MirrorGenetronPowerSupply25RBSet">
         <EditorCategories value="Race:Genetron"/>
+        <EffectArray value="MirrorGenetronPowerSupply25RB"/>
+        <EffectArray value="MirrorGenetronPowerSupply25Data"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="MirrorGenetronPowerSupply25AB">
+        <EditorCategories value="Race:Genetron"/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="CnCMaximumGlobalPower25"/>
+        <Count value="0">
+            <AccumulatorArray value="DefaultDataAdd"/>
+        </Count>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="MirrorGenetronPowerSupply25RB">
+        <EditorCategories value="Race:Genetron"/>
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="CnCMaximumGlobalPower25"/>
+    </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="TrackGenetronPowerSupply25AB">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="CnCMaximumGlobalPower25"/>
+    </CEffectApplyBehavior>
+
+    <CEffectCreateHealer id="CnCPowerHealer" default="1">
+        <ValidatorArray value="GenetronEnergyGenValidators"/>
+        <EditorCategories value="Race:Neutral"/>
         <Flags index="Channeled" value="0"/>
         <Flags index="ContinueWhenFull" value="1"/>
         <PeriodicValidator value="GenetronEnergyGenValidators"/>
@@ -76,7 +139,20 @@
         <InitialEffect value="DataDefaultSet1"/>
         <FinalEffect value="DataDefaultSet0"/>
     </CEffectCreateHealer>
-    <CEffectEnumTrackedUnits id="NPP_PowerETU">
+    <!--1.43 per second ~ 30 Energy Points (Upgraded PowerPlant) -->
+    <CEffectCreateHealer id="CnCPowerHealer030" parent="CnCPowerHealer">
+        <RechargeVitalRate value="1.4298"/>
+    </CEffectCreateHealer>
+    <!--0.71 per second ~ 15 Energy Points (PowerPlant) -->
+    <CEffectCreateHealer id="CnCPowerHealer015" parent="CnCPowerHealer">
+        <RechargeVitalRate value="0.7148"/>
+    </CEffectCreateHealer>
+    <!--0.24 per second ~ 5 Energy Points (ConsructionYard) -->
+    <CEffectCreateHealer id="CnCPowerHealer005" parent="CnCPowerHealer">
+        <RechargeVitalRate value="0.2383"/>
+    </CEffectCreateHealer>
+    <CEffectEnumTrackedUnits id="CnCPowerETU" default="1">
+        <?token id="level"?>
         <ValidatorArray value="CasterDataDefaultIs0"/>
         <ValidatorArray value="CasterNotLockedDown"/>
         <ValidatorArray value="CasterIsNotHidden"/>
@@ -84,22 +160,49 @@
         <ValidatorArray value="CasterIsNotUnderConstruction"/>
         <EditorCategories value="Race:Genetron"/>
         <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <Effect value="NPP_PowerHealer"/>
+        <Effect value="CnCPowerHealer##level##"/>
     </CEffectEnumTrackedUnits>
+    <CEffectEnumTrackedUnits id="CnCPowerETU030" parent="CnCPowerETU" level="030"/>
+    <CEffectEnumTrackedUnits id="CnCPowerETU015" parent="CnCPowerETU" level="015"/>
+    <CEffectEnumTrackedUnits id="CnCPowerETU005" parent="CnCPowerETU" level="005"/>
+
     <CValidatorUnitType id="CasterIsNodPowerPlant">
         <WhichUnit Value="Caster"/>
         <Value value="NodPowerPlant"/>
     </CValidatorUnitType>
+    <CValidatorUnitType id="CasterIsNodConstructionYard">
+        <WhichUnit Value="Caster"/>
+        <Value value="NodConstructionYard"/>
+    </CValidatorUnitType>
+
+
+    <CBehaviorBuff id="CnCPowerSupply100"/>
+    <CBehaviorBuff id="CnCPowerSupply25"/>
+    <CValidatorUnitCompareBehaviorCount id="HasCnCPowerSupply100">
+        <WhichUnit Value="Caster"/>
+        <Value value="1"/>
+        <Behavior value="CnCPowerSupply100"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="HasCnCPowerSupply25">
+        <WhichUnit Value="Caster"/>
+        <Value value="1"/>
+        <Behavior value="CnCPowerSupply25"/>
+    </CValidatorUnitCompareBehaviorCount>
+
 
 
     <CEffectSwitch id="TrackGenetronPowerSupplyEnergySwitch">
-        <CaseArray Validator="CasterIsNodPowerPlant" Effect="TrackGenetronPowerSupply_NPP_AB"/>
+        <CaseArray Validator="HasCnCPowerSupply100" Effect="TrackGenetronPowerSupply100AB"/>
+        <CaseArray Validator="HasCnCPowerSupply25" Effect="TrackGenetronPowerSupply25AB"/>
+<!--        <CaseArray Validator="CasterIsNodPowerPlant" Effect="TrackGenetronPowerSupply100AB"/>-->
+<!--        <CaseArray Validator="CasterIsNodConstructionYard" Effect="TrackGenetronPowerSupply25AB"/>-->
 <!--        <CaseArray Validator="CasterIsCNCEnergyGenerator5" Effect="CNCMaximumPower5"/>-->
 <!--        <CaseArray Validator="CasterIsCNCEnergyGenerator10" Effect="CNCMaximumPower10"/>-->
 <!--        <CaseArray Validator="CasterIsCNCEnergyGenerator15" Effect="CNCMaximumPower15"/>-->
     </CEffectSwitch>
-    <CBehaviorBuff id="NPP_Power">
-        <InfoFlags index="Hidden" value="1"/>
+    <CBehaviorBuff id="CnCPowerGeneration" default="1">
+        <?token id="level"?>
+<!--        <InfoFlags index="Hidden" value="1"/>-->
         <InfoIcon value="Assets\Textures\btn-tips-computerterminals.dds"/>
         <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
         <DisableValidatorArray value="NotUnderConstruction"/>
@@ -107,83 +210,15 @@
         <DisableValidatorArray value="CasterIsNotHidden"/>
         <DisableValidatorArray value="CasterDataDefaultIs0"/>
         <Period value="0.5"/>
-        <InitialEffect value="NPP_PowerETU"/>
-        <PeriodicEffect value="NPP_PowerETU"/>
+        <InitialEffect value="CnCPowerETU##level##"/>
+        <PeriodicEffect value="CnCPowerETU##level##"/>
     </CBehaviorBuff>
+    <CBehaviorBuff parent="CnCPowerGeneration" id="CnCPowerGeneration030" level="030"/>
+    <CBehaviorBuff parent="CnCPowerGeneration"  id="CnCPowerGeneration015" level="015"/>
+    <CBehaviorBuff parent="CnCPowerGeneration"  id="CnCPowerGeneration005" level="005"/>
 
 
-<!--    <CEffectApplyBehavior id="CNCMaximumPower5"><Behavior value="CNCMaximumPower5"/></CEffectApplyBehavior>-->
-<!--    <CEffectApplyBehavior id="CNCMaximumPower10"><Behavior value="CNCMaximumPower10"/></CEffectApplyBehavior>-->
-<!--    <CEffectApplyBehavior id="CNCMaximumPower15"><Behavior value="CNCMaximumPower15"/></CEffectApplyBehavior>-->
-<!--    <CBehaviorBuff id="CNCMaximumPower" default="1">-->
-<!--        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>-->
-<!--        <DisableValidatorArray value="CasterNotLockedDown"/>-->
-<!--        <DisableValidatorArray value="CasterIsNotUnderConstruction"/>-->
-<!--        <DisableValidatorArray value="CasterIsNotHidden"/>-->
-<!--        <DisableValidatorArray value="NotHidden"/>-->
-<!--        <RemoveValidatorArray value="CasterNotDead"/>-->
-<!--        <RemoveValidatorArray value="GenetronUnitOwnerNotChanged"/>-->
-<!--        <MaxStackCount value="0"/>-->
-<!--        <Modification>-->
-<!--            <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>-->
-<!--            <VitalMaxArray index="Energy" value="1"/>-->
-<!--        </Modification>-->
-<!--&lt;!&ndash;        <InfoFlags index="Hidden" value="1"/>&ndash;&gt;-->
-<!--    </CBehaviorBuff>-->
-<!--    <CBehaviorBuff id="CNCMaximumPower5" parent="CNCMaximumPower"><Modification ><VitalMaxArray index="Energy" value="5"/></Modification></CBehaviorBuff>-->
-<!--    <CBehaviorBuff id="CNCMaximumPower10" parent="CNCMaximumPower"><Modification  ><VitalMaxArray index="Energy" value="10"/></Modification></CBehaviorBuff>-->
-<!--    <CBehaviorBuff id="CNCMaximumPower15" parent="CNCMaximumPower"><Modification  ><VitalMaxArray index="Energy" value="15"/></Modification></CBehaviorBuff>-->
 
-<!--    <CEffectSwitch id="CNC_PowerHealer_Switch">-->
-<!--        <CaseArray Validator="CasterIsCNCEnergyGenerator5" Effect="CNC_PowerHealer5"/>-->
-<!--        <CaseArray Validator="CasterIsCNCEnergyGenerator10" Effect="CNC_PowerHealer10"/>-->
-<!--        <CaseArray Validator="CCasterIsNCEnergyGenerator15" Effect="CNC_PowerHealer15"/>-->
-<!--    </CEffectSwitch>-->
-<!--    <CEffectCreateHealer id="CNC_PowerHealer" deafult="1">-->
-<!--        <ValidatorArray value="GenetronEnergyGenValidators"/>-->
-<!--        <Flags index="Channeled" value="0"/>-->
-<!--        <Flags index="ContinueWhenFull" value="1"/>-->
-<!--        <PeriodicValidator value="GenetronEnergyGenValidators"/>-->
-<!--        <RechargeVital value="Energy"/>-->
-<!--        <InitialEffect value="DataDefaultSet1"/>-->
-<!--        <FinalEffect value="DataDefaultSet0"/>-->
-<!--    </CEffectCreateHealer>-->
-<!--    <CEffectCreateHealer id="CNC_PowerHealer15" parent="CNC_PowerHealer"><RechargeVitalRate value="0.7148"/></CEffectCreateHealer>-->
-<!--    <CEffectCreateHealer id="CNC_PowerHealer10" parent="CNC_PowerHealer"><RechargeVitalRate value="0.4765"/></CEffectCreateHealer>-->
-<!--    <CEffectCreateHealer id="CNC_PowerHealer5" parent="CNC_PowerHealer"><RechargeVitalRate value="0.2382"/></CEffectCreateHealer>-->
-
-
-<!--    <CBehaviorBuff id="CNCEnergyGenerator" default="1">-->
-<!--&lt;!&ndash;        <InfoFlags index="Hidden" value="1"/>&ndash;&gt;-->
-<!--        <InfoIcon value="Assets\Textures\btn-tips-computerterminals.dds"/>-->
-<!--        <DisableValidatorArray value="NotUnderConstruction"/>-->
-<!--        <DisableValidatorArray value="StructureNotLockedDown"/>-->
-<!--        <DisableValidatorArray value="CasterIsNotHidden"/>-->
-<!--        <DisableValidatorArray value="CasterDataDefaultIs0"/>-->
-<!--        <Period value="0.5"/>-->
-<!--        <InitialEffect value="CNCEnergyGeneratorSet"/>-->
-<!--&lt;!&ndash;        <InitialEffect value="NPP_PowerETU"/>&ndash;&gt;-->
-<!--        <PeriodicEffect value="NPP_PowerETU"/>-->
-<!--    </CBehaviorBuff>-->
-<!--    <CBehaviorBuff id="CNCEnergyGenerator5" parent="CNCEnergyGenerator"/>-->
-<!--    <CBehaviorBuff id="CNCEnergyGenerator10" parent="CNCEnergyGenerator"/>-->
-<!--    <CBehaviorBuff id="CNCEnergyGenerator15" parent="CNCEnergyGenerator"/>-->
-<!--    <CEffectSet id="CNCEnergyGeneratorSet">-->
-<!--        <EffectArray value="GenetronEnergyStateNotFull"/>-->
-<!--        <EffectArray value="GenetronPowerSupplyTracker"/>-->
-<!--&lt;!&ndash;        <EffectArray value="TrackGenetronPowerSupplyUnit"/>&ndash;&gt;-->
-<!--        <EffectArray value="TrackAndMirrorGenetronPowerSupply"/>-->
-<!--        <EffectArray value="NPP_PowerETU"/>-->
-<!--    </CEffectSet>-->
-<!--    <BehaviorArray Link="GenetronEnergyStateNotFull"/>-->
-<!--    <BehaviorArray Link="GenetronPowerSupplyTracker"/>-->
-<!--    <BehaviorArray Link="TrackAndMirrorGenetronPowerSupply"/>-->
-<!--    <BehaviorArray Link="NPP_Power"/>-->
-
-
-<!--    <CBehaviorBuff id="TrackAndMirrorGenetronPowerSupply"><InfoFlags index="Hidden" value="0"/></CBehaviorBuff>-->
-<!--    <CBehaviorUnitTracker id="GenetronPowerSupplyTracker"><InfoFlags index="Hidden" value="0"/></CBehaviorUnitTracker>-->
-<!--    <CBehaviorBuff id="TrackGenetronPowerSupplyUnit"><InfoFlags index="Hidden" value="0"/></CBehaviorBuff>-->
 
 
     <CBehaviorBuff default="1" id="CNCEnergyDrain">
@@ -238,29 +273,30 @@
 <!--    <CValidatorUnitCompareBehaviorCount id="CasterIsCNCEnergyGenerator10"><WhichUnit Value="Caster"/><Value value="1"/><Behavior value="CNCEnergyGenerator10"/></CValidatorUnitCompareBehaviorCount>-->
 <!--    <CValidatorUnitCompareBehaviorCount id="CasterIsCNCEnergyGenerator15"><WhichUnit Value="Caster"/><Value value="1"/><Behavior value="CNCEnergyGenerator15"/></CValidatorUnitCompareBehaviorCount>-->
 
-    <CEffectApplyBehavior id="GenetronPowerSupplyTracker">
-        <Behavior value="GenetronPowerSupplyTracker"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="TrackGenetronPowerSupplyUnit">
-        <Behavior value="TrackGenetronPowerSupplyUnit"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="TrackAndMirrorGenetronPowerSupply">
-        <Behavior value="TrackAndMirrorGenetronPowerSupply"/>
-    </CEffectApplyBehavior>
+<!--    <CEffectApplyBehavior id="GenetronPowerSupplyTracker">-->
+<!--        <Behavior value="GenetronPowerSupplyTracker"/>-->
+<!--    </CEffectApplyBehavior>-->
+<!--    <CEffectApplyBehavior id="TrackGenetronPowerSupplyUnit">-->
+<!--        <Behavior value="TrackGenetronPowerSupplyUnit"/>-->
+<!--    </CEffectApplyBehavior>-->
+<!--    <CEffectApplyBehavior id="TrackAndMirrorGenetronPowerSupply">-->
+<!--        <Behavior value="TrackAndMirrorGenetronPowerSupply"/>-->
+<!--    </CEffectApplyBehavior>-->
 
     <CEffectSet id="MirrorGenetronPowerSupplySet2">
         <EffectArray value="MirrorGenetronPowerSupplyProcessingCoreData"/>
-        <EffectArray value="MirrorGenetronPowerSupply_NPP_Data"/>
+        <EffectArray value="MirrorGenetronPowerSupply100Data"/>
+        <EffectArray value="MirrorGenetronPowerSupply25Data"/>
     </CEffectSet>
     <CEffectSet id="MirrorGenetronPowerSupplyRBSet2">
-        <EffectArray value="MirrorGenetronPowerSupply_ProcessingCore_RB"/>
-        <EffectArray value="MirrorGenetronPowerSupply_NPP_RB"/>
+        <EffectArray value="MirrorGenetronPowerSupplyProcessingCoreRB"/>
+        <EffectArray value="MirrorGenetronPowerSupply100RB"/>
+        <EffectArray value="MirrorGenetronPowerSupply25RB"/>
     </CEffectSet>
     <CEffectSet id="MirrorGenetronPowerSupplySet">
         <EffectArray index="1" value="MirrorGenetronPowerSupplySet2"/>
     </CEffectSet>
     <CEffectSet id="MirrorGenetronPowerSupplyRBSet">
-        <EditorCategories value="Race:Genetron"/>
         <EffectArray index="0" value="MirrorGenetronPowerSupplyRBSet2"/>
     </CEffectSet>
 </Catalog>

@@ -1,794 +1,120 @@
 <Catalog>
-
-<!--    <CEffectApplyBehavior id="CNCConstructionRadiusDisable"/>-->
-<!--    <CEffectRemoveBehavior id="CNCConstructionRadiusDisableRB"><WhichUnit Value="Caster"/><BehaviorLink value="CNCConstructionRadiusDisable"/></CEffectRemoveBehavior>-->
-
-
-<!--    <CBehaviorBuff id="CNCConstructionRadiusDisable">-->
-<!--        <Modification>-->
-<!--            <BehaviorLinkDisableArray value="CNCConstructionRadius"/>-->
-<!--            <BehaviorLinkDisableArray value="CNCConstructionRadiusMedium"/>-->
-<!--        </Modification>-->
-<!--    </CBehaviorBuff>-->
-
-<!--    <CBehaviorBuff id="CNCConstructionRadiusMediumApply">-->
-<!--        <Duration value="0.0625"/>-->
-<!--        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>-->
-<!--        <ExpireEffect value="CNCConstructionRadiusMedium"/>-->
-<!--    </CBehaviorBuff>-->
+<!--SUPPORT-->
+<!--    <CValidatorPlayerRequirement id="HasPowerBalance0015">-->
+<!--        <Find value="1"/>-->
+<!--        <Value value="GenetronPowerBalance0015"/>-->
+<!--    </CValidatorPlayerRequirement>-->
+<!--    <CValidatorPlayerRequirement id="DontHavePowerBalance0015">-->
+<!--        <Find value="0"/>-->
+<!--        <Value value="GenetronPowerBalance0015"/>-->
+<!--    </CValidatorPlayerRequirement>-->
 
 
-    <!--build-->
-    <CAbilBuild id="NodDefenseBuild">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <InfoArray index="Build6" Unit="NodAirSupport" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodAirSupport" State="Restricted" Requirements="BuildNodAirSupport"/>
-        </InfoArray>
-        <InfoArray index="Build7" Unit="NodTiberiumSilo" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodChemicalPlant" Requirements="BuildNodTiberiumSilo"/>
-            <ValidatorArray value="HasVespene"/>
-        </InfoArray>
-        <Range value="999"/>
-    </CAbilBuild>
-    <CAbilBuild id="NodDefenseBuildAdvanced">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <InfoArray index="Build1" Unit="NodTurretsHub" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodTurretsHub" Requirements="BuildNodTurretsHub"/>
-        </InfoArray>
-        <InfoArray index="Build2" Unit="NodObelisk" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodObelisk" Requirements="BuildNodObeliskOfLight"/>
-        </InfoArray>
-        <InfoArray index="Build3" Unit="NodDisruptionTower" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodDisruptionTower" Requirements="BuildNodDisruptionTower"/>
-        </InfoArray>
-        <InfoArray index="Build4" Unit="NodVoiceOfKane" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodVoiceOfKane" Requirements="BuildNodVoiceOfKane"/>
-        </InfoArray>
-        <InfoArray index="Build5" Unit="NodTemple" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodTemple" State="Restricted" Requirements="BuildNodTemple"/>
-        </InfoArray>
-        <Range value="999"/>
-    </CAbilBuild>
-
-
-
-    <CEffectSet id="NodConstructionArmFinishSet">
-        <EffectArray value="NodConstructionArmFinishSwitch"/>
-        <!--        <EffectArray value="NodConstructionDisabledRB"/>-->
-        <TargetLocationType value="Unknown"/>
-    </CEffectSet>
-
-
-
-<!--    <CEffectSwitch id="NodConstructionArmFinishSwitch">-->
-
-<!--        <CaseArray Validator="NodCraneVest"             Effect="NodCraneCharge"/>-->
-<!--        <CaseArray Validator="NodTiberiumSiloVest"      Effect="NodTiberiumSiloCharge"/>-->
-<!--        <CaseArray Validator="NodPowerPlantVest"        Effect="NodPowerPlantCharge"/>-->
-<!--        <CaseArray Validator="NodTiberiumRefineryVest"  Effect="NodTiberiumRefineryCharge"/>-->
-<!--        <CaseArray Validator="NodHandVest"              Effect="NodHandCharge"/>-->
-<!--        <CaseArray Validator="NodWarFactoryVest"        Effect="NodWarFactoryCharge"/>-->
-<!--        <CaseArray Validator="NodRedeemerFacilityVest"  Effect="NodRedeemerFacilityCharge"/>-->
-<!--        <CaseArray Validator="NodAirTowerVest"          Effect="NodAirTowerCharge"/>-->
-<!--        <CaseArray Validator="NodAirSupportVest"        Effect="NodAirSupportCharge"/>-->
-<!--        <CaseArray Validator="NodChemicalPlantVest"     Effect="NodChemicalPlantCharge"/>-->
-<!--        <CaseArray Validator="NodTempleVest"            Effect="NodTempleCharge"/>-->
-<!--        <CaseArray Validator="NodShrineVest"            Effect="NodShrineCharge"/>-->
-<!--        <CaseArray Validator="NodTechLabVest"           Effect="NodTechLabCharge"/>-->
-<!--        <CaseArray Validator="NodOperationsCenterVest"  Effect="NodOperationsCenterCharge"/>-->
-<!--        <CaseArray Validator="NodVoiceOfKaneVest"       Effect="NodVoiceOfKaneCharge"/>-->
-<!--        <CaseArray Validator="NodDisruptionTowerVest"   Effect="NodDisruptionTowerCharge"/>-->
-<!--        <CaseArray Validator="NodObeliskVest"           Effect="NodObeliskCharge"/>-->
-<!--        <CaseArray Validator="NodTurretsHubVest"        Effect="NodTurretsHubCharge"/>-->
-<!--    </CEffectSwitch>-->
-
-    <CEffectSet id="NodCraneChargeSet"><EffectArray value="NodCraneCharge"/><EffectArray value="NodCraneVestArmed"/></CEffectSet>
-    <CEffectSet id="NodTiberiumSiloChargeSet"><EffectArray value="NodTiberiumSiloCharge"/><EffectArray value="NodTiberiumSiloVestArmed"/></CEffectSet>
-    <CEffectSet id="NodPowerPlantChargeSet"><EffectArray value="NodPowerPlantCharge"/><EffectArray value="NodPowerPlantVestArmed"/></CEffectSet>
-    <CEffectSet id="NodTiberiumRefineryChargeSet"><EffectArray value="NodTiberiumRefineryCharge"/><EffectArray value="NodTiberiumRefineryVestArmed"/></CEffectSet>
-    <CEffectSet id="NodHandChargeSet"><EffectArray value="NodHandCharge"/><EffectArray value="NodHandVestArmed"/></CEffectSet>
-    <CEffectSet id="NodWarFactoryChargeSet"><EffectArray value="NodWarFactoryCharge"/><EffectArray value="NodWarFactoryVestArmed"/></CEffectSet>
-    <CEffectSet id="NodRedeemerFacilityChargeSet"><EffectArray value="NodRedeemerFacilityCharge"/><EffectArray value="NodRedeemerFacilityVestArmed"/></CEffectSet>
-    <CEffectSet id="NodAirTowerChargeSet"><EffectArray value="NodAirTowerCharge"/><EffectArray value="NodAirTowerVestArmed"/></CEffectSet>
-    <CEffectSet id="NodAirSupportChargeSet"><EffectArray value="NodAirSupportCharge"/><EffectArray value="NodAirSupportVestArmed"/></CEffectSet>
-    <CEffectSet id="NodChemicalPlantChargeSet"><EffectArray value="NodChemicalPlantCharge"/><EffectArray value="NodChemicalPlantVestArmed"/></CEffectSet>
-    <CEffectSet id="NodTempleChargeSet"><EffectArray value="NodTempleCharge"/><EffectArray value="NodTempleVestArmed"/></CEffectSet>
-    <CEffectSet id="NodShrineChargeSet"><EffectArray value="NodShrineCharge"/><EffectArray value="NodShrineVestArmed"/></CEffectSet>
-    <CEffectSet id="NodTechLabChargeSet"><EffectArray value="NodTechLabCharge"/><EffectArray value="NodTechLabVestArmed"/></CEffectSet>
-    <CEffectSet id="NodOperationsCenterChargeSet"><EffectArray value="NodOperationsCenterCharge"/><EffectArray value="NodOperationsCenterVestArmed"/></CEffectSet>
-    <CEffectSet id="NodVoiceOfKaneChargeSet"><EffectArray value="NodVoiceOfKaneCharge"/><EffectArray value="NodVoiceOfKaneVestArmed"/></CEffectSet>
-    <CEffectSet id="NodDisruptionTowerChargeSet"><EffectArray value="NodDisruptionTowerCharge"/><EffectArray value="NodDisruptionTowerVestArmed"/></CEffectSet>
-    <CEffectSet id="NodObeliskChargeSet"><EffectArray value="NodObeliskCharge"/><EffectArray value="NodObeliskVestArmed"/></CEffectSet>
-    <CEffectSet id="NodTurretsHubChargeSet"><EffectArray value="NodTurretsHubCharge"/><EffectArray value="NodTurretsHubVestArmed"/></CEffectSet>
-
-    <CEffectModifyUnit id="NodCraneCharge"><Cost Abil="NodConstruction,Build11" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodTiberiumSiloCharge"><Cost Abil="NodConstructionSupport,Build7" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodPowerPlantCharge"><Cost Abil="NodConstruction,Build2" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodTiberiumRefineryCharge"><Cost Abil="NodConstruction,Build1" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodHandCharge"><Cost Abil="NodConstruction,Build4" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodWarFactoryCharge"><Cost Abil="NodConstruction,Build5" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodRedeemerFacilityCharge"><Cost Abil="NodConstruction,Build14" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodAirTowerCharge"><Cost Abil="NodConstruction,Build7" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodAirSupportCharge"><Cost Abil="NodConstructionSupport,Build6" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodChemicalPlantCharge"><Cost Abil="NodConstruction,Build13" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodTempleCharge"><Cost Abil="NodConstructionSupport,Build5" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodShrineCharge"><Cost Abil="NodConstruction,Build8" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodTechLabCharge"><Cost Abil="NodConstruction,Build9" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodOperationsCenterCharge"><Cost Abil="NodConstruction,Build6" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodVoiceOfKaneCharge"><Cost Abil="NodConstructionSupport,Build4" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodDisruptionTowerCharge"><Cost Abil="NodConstructionSupport,Build3" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodObeliskCharge"><Cost Abil="NodConstructionSupport,Build2" ChargeCountUse="-1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodTurretsHubCharge"><Cost Abil="NodConstructionSupport,Build1" ChargeCountUse="-1"/></CEffectModifyUnit>
-
-    <CEffectSet id="NodCraneDischargeSet"><EffectArray value="NodCraneVestArmedRB"/><EffectArray value="NodCraneDischarge"/><EffectArray value="NodCraneRefund"/></CEffectSet>
-    <CEffectSet id="NodTiberiumSiloDischargeSet"><EffectArray value="NodTiberiumSiloVestArmedRB"/><EffectArray value="NodTiberiumSiloDischarge"/><EffectArray value="NodTiberiumSiloRefund"/></CEffectSet>
-    <CEffectSet id="NodPowerPlantDischargeSet"><EffectArray value="NodPowerPlantVestArmedRB"/><EffectArray value="NodPowerPlantDischarge"/><EffectArray value="NodPowerPlantRefund"/></CEffectSet>
-    <CEffectSet id="NodTiberiumRefineryDischargeSet"><EffectArray value="NodTiberiumRefineryVestArmedRB"/><EffectArray value="NodTiberiumRefineryDischarge"/><EffectArray value="NodTiberiumRefineryRefund"/></CEffectSet>
-    <CEffectSet id="NodHandDischargeSet"><EffectArray value="NodHandVestArmedRB"/><EffectArray value="NodHandDischarge"/><EffectArray value="NodHandRefund"/></CEffectSet>
-    <CEffectSet id="NodWarFactoryDischargeSet"><EffectArray value="NodWarFactoryVestArmedRB"/><EffectArray value="NodWarFactoryDischarge"/><EffectArray value="NodWarFactoryRefund"/></CEffectSet>
-    <CEffectSet id="NodRedeemerFacilityDischargeSet"><EffectArray value="NodRedeemerFacilityVestArmedRB"/><EffectArray value="NodRedeemerFacilityDischarge"/><EffectArray value="NodRedeemerFacilityRefund"/></CEffectSet>
-    <CEffectSet id="NodAirTowerDischargeSet"><EffectArray value="NodAirTowerVestArmedRB"/><EffectArray value="NodAirTowerDischarge"/><EffectArray value="NodAirTowerRefund"/></CEffectSet>
-    <CEffectSet id="NodAirSupportDischargeSet"><EffectArray value="NodAirSupportVestArmedRB"/><EffectArray value="NodAirSupportDischarge"/><EffectArray value="NodAirSupportRefund"/></CEffectSet>
-    <CEffectSet id="NodChemicalPlantDischargeSet"><EffectArray value="NodChemicalPlantVestArmedRB"/><EffectArray value="NodChemicalPlantDischarge"/><EffectArray value="NodChemicalPlantRefund"/></CEffectSet>
-    <CEffectSet id="NodTempleDischargeSet"><EffectArray value="NodTempleVestArmedRB"/><EffectArray value="NodTempleDischarge"/><EffectArray value="NodTempleRefund"/></CEffectSet>
-    <CEffectSet id="NodShrineDischargeSet"><EffectArray value="NodShrineVestArmedRB"/><EffectArray value="NodShrineDischarge"/><EffectArray value="NodShrineRefund"/></CEffectSet>
-    <CEffectSet id="NodTechLabDischargeSet"><EffectArray value="NodTechLabVestArmedRB"/><EffectArray value="NodTechLabDischarge"/><EffectArray value="NodTechLabRefund"/></CEffectSet>
-    <CEffectSet id="NodOperationsCenterDischargeSet"><EffectArray value="NodOperationsCenterVestArmedRB"/><EffectArray value="NodOperationsCenterDischarge"/><EffectArray value="NodOperationsCenterRefund"/></CEffectSet>
-    <CEffectSet id="NodVoiceOfKaneDischargeSet"><EffectArray value="NodVoiceOfKaneVestArmedRB"/><EffectArray value="NodVoiceOfKaneDischarge"/><EffectArray value="NodVoiceOfKaneRefund"/></CEffectSet>
-    <CEffectSet id="NodDisruptionTowerDischargeSet"><EffectArray value="NodDisruptionTowerVestArmedRB"/><EffectArray value="NodDisruptionTowerDischarge"/><EffectArray value="NodDisruptionTowerRefund"/></CEffectSet>
-    <CEffectSet id="NodObeliskDischargeSet"><EffectArray value="NodObeliskVestArmedRB"/><EffectArray value="NodObeliskDischarge"/><EffectArray value="NodObeliskRefund"/></CEffectSet>
-    <CEffectSet id="NodTurretsHubDischargeSet"><EffectArray value="NodTurretsHubVestArmedRB"/><EffectArray value="NodTurretsHubDischarge"/><EffectArray value="NodTurretsHubRefund"/></CEffectSet>
-
-
-    <CEffectModifyPlayer id="NodRefund">
-        <EditorCategories value="Race:Nod"/>
-        <WhichPlayer Value="Caster"/>
-    </CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodCraneRefund">            <Resources index="Minerals" value="150"/><Resources index="Vespene" value="0"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodTiberiumSiloRefund">     <Resources index="Minerals" value="75"/><Resources index="Vespene" value="0"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodPowerPlantRefund">       <Resources index="Minerals" value="150"/><Resources index="Vespene" value="0"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodTiberiumRefineryRefund"> <Resources index="Minerals" value="400"/><Resources index="Vespene" value="0"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodHandRefund">             <Resources index="Minerals" value="150"/><Resources index="Vespene" value="0"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodWarFactoryRefund">       <Resources index="Minerals" value="150"/><Resources index="Vespene" value="100"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodRedeemerFacilityRefund"> <Resources index="Minerals" value="300"/><Resources index="Vespene" value="200"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodAirTowerRefund">         <Resources index="Minerals" value="150"/><Resources index="Vespene" value="100"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodAirSupportRefund">       <Resources index="Minerals" value="100"/><Resources index="Vespene" value="0"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodChemicalPlantRefund">    <Resources index="Minerals" value="150"/><Resources index="Vespene" value="150"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodTempleRefund">           <Resources index="Minerals" value="300"/><Resources index="Vespene" value="300"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodShrineRefund">           <Resources index="Minerals" value="150"/><Resources index="Vespene" value="100"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodTechLabRefund">          <Resources index="Minerals" value="150"/><Resources index="Vespene" value="100"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodOperationsCenterRefund"> <Resources index="Minerals" value="125"/><Resources index="Vespene" value="0"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodVoiceOfKaneRefund">      <Resources index="Minerals" value="150"/><Resources index="Vespene" value="100"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodDisruptionTowerRefund">  <Resources index="Minerals" value="150"/><Resources index="Vespene" value="100"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodObeliskRefund">          <Resources index="Minerals" value="150"/><Resources index="Vespene" value="100"/></CEffectModifyPlayer>
-    <CEffectModifyPlayer parent="NodRefund" id="NodTurretsHubRefund">       <Resources index="Minerals" value="150"/><Resources index="Vespene" value="0"/></CEffectModifyPlayer>
-
-
-    <CEffectModifyUnit id="NodCraneDischarge"><Cost Abil="NodConstruction,Build11" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodTiberiumSiloDischarge"><Cost Abil="NodConstructionSupport,Build7" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodPowerPlantDischarge"><Cost Abil="NodConstruction,Build2" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodTiberiumRefineryDischarge"><Cost Abil="NodConstruction,Build1" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodHandDischarge"><Cost Abil="NodConstruction,Build4" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodWarFactoryDischarge"><Cost Abil="NodConstruction,Build5" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodRedeemerFacilityDischarge"><Cost Abil="NodConstruction,Build14" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodAirTowerDischarge"><Cost Abil="NodConstruction,Build7" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodAirSupportDischarge"><Cost Abil="NodConstructionSupport,Build6" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodChemicalPlantDischarge"><Cost Abil="NodConstruction,Build13" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodTempleDischarge"><Cost Abil="NodConstructionSupport,Build5" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodShrineDischarge"><Cost Abil="NodConstruction,Build8" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodTechLabDischarge"><Cost Abil="NodConstruction,Build9" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodOperationsCenterDischarge"><Cost Abil="NodConstruction,Build6" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodVoiceOfKaneDischarge"><Cost Abil="NodConstructionSupport,Build4" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodDisruptionTowerDischarge"><Cost Abil="NodConstructionSupport,Build3" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodObeliskDischarge"><Cost Abil="NodConstructionSupport,Build2" ChargeCountUse="1"/></CEffectModifyUnit>
-    <CEffectModifyUnit id="NodTurretsHubDischarge"><Cost Abil="NodConstructionSupport,Build1" ChargeCountUse="1"/></CEffectModifyUnit>
-
-<!--    <CBehaviorBuff id="NodConstructionYardSupportModuleUnselectable">-->
-<!--        <Duration value="0.125"/>-->
-<!--        <ExpireEffect value="NodConstructionYardSupportModuleCU"/>-->
-<!--        <Modification>-->
-<!--            <StateFlags index="Unselectable" value="1"/>-->
-<!--        </Modification>-->
-<!--    </CBehaviorBuff>-->
-
-    <CEffectSwitch id="NodConstructonDischarge">
-        <CaseArray Validator="NodCraneVestArmed" Effect="NodCraneDischargeSet"/>
-        <CaseArray Validator="NodTiberiumSiloVestArmed" Effect="NodTiberiumSiloDischargeSet"/>
-        <CaseArray Validator="NodPowerPlantVestArmed" Effect="NodPowerPlantDischargeSet"/>
-        <CaseArray Validator="NodTiberiumRefineryVestArmed" Effect="NodTiberiumRefineryDischargeSet"/>
-        <CaseArray Validator="NodHandVestArmed" Effect="NodHandDischargeSet"/>
-        <CaseArray Validator="NodWarFactoryVestArmed" Effect="NodWarFactoryDischargeSet"/>
-        <CaseArray Validator="NodRedeemerFacilityVestArmed" Effect="NodRedeemerFacilityDischargeSet"/>
-        <CaseArray Validator="NodAirTowerVestArmed" Effect="NodAirTowerDischargeSet"/>
-        <CaseArray Validator="NodAirSupportVestArmed" Effect="NodAirSupportDischargeSet"/>
-        <CaseArray Validator="NodChemicalPlantVestArmed" Effect="NodChemicalPlantDischargeSet"/>
-        <CaseArray Validator="NodTempleVestArmed" Effect="NodTempleDischargeSet"/>
-        <CaseArray Validator="NodShrineVestArmed" Effect="NodShrineDischargeSet"/>
-        <CaseArray Validator="NodTechLabVestArmed" Effect="NodTechLabDischargeSet"/>
-        <CaseArray Validator="NodOperationsCenterVestArmed" Effect="NodOperationsCenterDischargeSet"/>
-        <CaseArray Validator="NodVoiceOfKaneVestArmed" Effect="NodVoiceOfKaneDischargeSet"/>
-        <CaseArray Validator="NodDisruptionTowerVestArmed" Effect="NodDisruptionTowerDischargeSet"/>
-        <CaseArray Validator="NodObeliskVestArmed" Effect="NodObeliskDischargeSet"/>
-        <CaseArray Validator="NodTurretsHubVestArmed" Effect="NodTurretsHubDischargeSet"/>
-    </CEffectSwitch>
-
-    <CBehaviorBuff id="NodVestArmed">
-        <Modification>
-            <AbilLinkDisableArray value="NodConstructionArm"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodVestSupportArmed">
-        <Modification>
-            <AbilLinkDisableArray value="NodConstructionSupportArm"/>
-        </Modification>
-    </CBehaviorBuff>
-
-    <CBehaviorBuff parent="NodVestArmed" id="NodCraneVestArmed"/>
-    <CBehaviorBuff parent="NodVestArmed" id="NodPowerPlantVestArmed"/>
-    <CBehaviorBuff parent="NodVestArmed" id="NodTiberiumRefineryVestArmed"/>
-    <CBehaviorBuff parent="NodVestArmed" id="NodHandVestArmed"/>
-    <CBehaviorBuff parent="NodVestArmed" id="NodWarFactoryVestArmed"/>
-    <CBehaviorBuff parent="NodVestArmed" id="NodRedeemerFacilityVestArmed"/>
-    <CBehaviorBuff parent="NodVestArmed" id="NodAirTowerVestArmed"/>
-    <CBehaviorBuff parent="NodVestArmed" id="NodChemicalPlantVestArmed"/>
-    <CBehaviorBuff parent="NodVestArmed" id="NodShrineVestArmed"/>
-    <CBehaviorBuff parent="NodVestArmed" id="NodTechLabVestArmed"/>
-    <CBehaviorBuff parent="NodVestArmed" id="NodOperationsCenterVestArmed"/>
-
-    <CBehaviorBuff parent="NodVestSupportArmed" id="NodTempleVestArmed"/>
-    <CBehaviorBuff parent="NodVestSupportArmed" id="NodTiberiumSiloVestArmed"/>
-    <CBehaviorBuff parent="NodVestSupportArmed" id="NodAirSupportVestArmed"/>
-    <CBehaviorBuff parent="NodVestSupportArmed" id="NodVoiceOfKaneVestArmed"/>
-    <CBehaviorBuff parent="NodVestSupportArmed" id="NodDisruptionTowerVestArmed"/>
-    <CBehaviorBuff parent="NodVestSupportArmed" id="NodObeliskVestArmed"/>
-    <CBehaviorBuff parent="NodVestSupportArmed" id="NodTurretsHubVestArmed"/>
-
-    <CEffectApplyBehavior id="NodCraneVestArmed"/>
-    <CEffectApplyBehavior id="NodTiberiumSiloVestArmed"/>
-    <CEffectApplyBehavior id="NodPowerPlantVestArmed"/>
-    <CEffectApplyBehavior id="NodTiberiumRefineryVestArmed"/>
-    <CEffectApplyBehavior id="NodHandVestArmed"/>
-    <CEffectApplyBehavior id="NodWarFactoryVestArmed"/>
-    <CEffectApplyBehavior id="NodRedeemerFacilityVestArmed"/>
-    <CEffectApplyBehavior id="NodAirTowerVestArmed"/>
-    <CEffectApplyBehavior id="NodAirSupportVestArmed"/>
-    <CEffectApplyBehavior id="NodChemicalPlantVestArmed"/>
-    <CEffectApplyBehavior id="NodTempleVestArmed"/>
-    <CEffectApplyBehavior id="NodShrineVestArmed"/>
-    <CEffectApplyBehavior id="NodTechLabVestArmed"/>
-    <CEffectApplyBehavior id="NodOperationsCenterVestArmed"/>
-    <CEffectApplyBehavior id="NodVoiceOfKaneVestArmed"/>
-    <CEffectApplyBehavior id="NodDisruptionTowerVestArmed"/>
-    <CEffectApplyBehavior id="NodObeliskVestArmed"/>
-    <CEffectApplyBehavior id="NodTurretsHubVestArmed"/>
-
-    <CEffectRemoveBehavior id="NodCraneVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodCraneVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodTiberiumSiloVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodTiberiumSiloVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodPowerPlantVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodPowerPlantVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodTiberiumRefineryVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodTiberiumRefineryVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodHandVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodHandVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodWarFactoryVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodWarFactoryVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodRedeemerFacilityVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodRedeemerFacilityVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodAirTowerVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodAirTowerVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodAirSupportVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodAirSupportVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodChemicalPlantVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodChemicalPlantVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodTempleVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodTempleVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodShrineVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodShrineVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodTechLabVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodTechLabVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodOperationsCenterVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodOperationsCenterVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodVoiceOfKaneVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodVoiceOfKaneVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodDisruptionTowerVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodDisruptionTowerVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodObeliskVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodObeliskVestArmed"/></CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodTurretsHubVestArmedRB"><WhichUnit Value="Caster"/><BehaviorLink value="NodTurretsHubVestArmed"/></CEffectRemoveBehavior>
-
-    <CValidatorUnitCompareBehaviorCount default="1" id="UBC">
-        <Value value="1"/>
-        <Behavior value="##id##"/>
+    <CValidatorUnitCompareResourceContents id="AutoHarvesterFinish">
+        <Compare value="GT"/>
         <WhichUnit Value="Caster"/>
-    </CValidatorUnitCompareBehaviorCount>
-
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodCraneVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodTiberiumSiloVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodPowerPlantVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodTiberiumRefineryVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodHandVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodWarFactoryVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodRedeemerFacilityVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodAirTowerVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodAirSupportVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodChemicalPlantVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodTempleVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodShrineVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodTechLabVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodOperationsCenterVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodVoiceOfKaneVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodDisruptionTowerVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodObeliskVestArmed"/>
-    <CValidatorUnitCompareBehaviorCount parent="UBC" id="NodTurretsHubVestArmed"/>
-
-    <CEffectSet id="NodConstructionDiscard">
-        <EffectArray value="NodConstructonDischarge"/>
-        <EffectArray value="NodConstructionReset"/>
-        <TargetLocationType value="Unknown"/>
-    </CEffectSet>
-
-    <CEffectSet id="NodConstructionFinishSet">
-        <EffectArray value="NodConstructonDischarge"/>
-        <EffectArray value="NodConstructionReset"/>
-        <EffectArray value="NodUnderConstructionRB"/>
-        <TargetLocationType value="Unknown"/>
-    </CEffectSet>
-    <CEffectUseMagazine id="NodConstructionReset">
-        <EditorCategories value="Race:Terran"/>
-        <AmmoEffect value="DisbandDeath5"/>
-        <TargetLocation Value="CasterUnit"/>
-        <MagazineAbil value="NodConstructionArm"/>
-    </CEffectUseMagazine>
-
-    <CEffectSet id="NodConstructionSupportFinishSet">
-        <EffectArray value="NodConstructionSupportReset"/>
-        <!--        <EffectArray value="NodConstructionDisabledRB"/>-->
-        <TargetLocationType value="Unknown"/>
-    </CEffectSet>
-    <CEffectUseMagazine id="NodConstructionSupportReset">
-        <EditorCategories value="Race:Nod"/>
-        <AmmoEffect value="DisbandDeath5"/>
-        <TargetLocation Value="CasterUnit"/>
-        <MagazineAbil value="NodConstructionSupportArm"/>
-    </CEffectUseMagazine>
-
-    <CEffectSet id="NodConstructionSupportTrainFinishSet">
-        <EffectArray value="NodConstructionSupportTrainReset"/>
-        <!--        <EffectArray value="NodConstructionDisabledRB"/>-->
-        <TargetLocationType value="Unknown"/>
-    </CEffectSet>
-    <CEffectUseMagazine id="NodConstructionSupportTrainReset">
-        <EditorCategories value="Race:Nod"/>
-        <AmmoEffect value="DisbandDeath5"/>
-        <TargetLocation Value="CasterUnit"/>
-        <MagazineAbil value="NodConstructionSupportTrainArm"/>
-    </CEffectUseMagazine>
+        <Behavior value="AutomaticHarvestableVespene"/>
+    </CValidatorUnitCompareResourceContents>
+    <CBehaviorResource id="AutomaticHarvestableVespene">
+        <InfoIcon value="Assets\Textures\icon-gas.dds"/>
+        <Capacity value="32000"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <Contents value="10000"/>
+    </CBehaviorResource>
+    <CValidatorPlayerRequirement id="DontHaveNodTiberiumRefinery">
+        <Value value="DontHaveNodTiberiumRefinery"/>
+        <WhichPlayer Value="Caster"/>
+    </CValidatorPlayerRequirement>
 
 
 
 
 
-    <!--    <CBehaviorBuff id="NodConstructionDisabled">-->
-<!--        <InfoFlags index="Hidden" value="1"/>-->
-<!--        <EditorCategories value="AbilityorEffectType:Units"/>-->
-<!--        <Modification>-->
-<!--            <AbilClassDisableArray index="CAbilArmMagazine" value="1"/>-->
-<!--            <AbilLinkDisableArray value="AlliedConstructionArm"/>-->
-<!--        </Modification>-->
+
+<!--    <CBehaviorBuff id="NodEnergyCheck">-->
+<!--        <Period value="2.1"/>-->
 <!--    </CBehaviorBuff>-->
-
-<!--    <CEffectApplyBehavior id="NodConstructionDisabledAB">-->
+<!--    <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyLT05">-->
+<!--        <ResultFailed value="NotEnoughEnergy"/>-->
+<!--        <Compare value="GT"/>-->
+<!--        <BehaviorLink value="GenetronPowerSupplyTracker"/>-->
+<!--        <TrackedUnitValidatorArray value="EnergyLT05"/>-->
+<!--        <TrackedUnitFilters value="-;Dead"/>-->
+<!--    </CValidatorCompareTrackedUnitsCount>-->
+<!--    <CValidatorUnitCompareVital id="EnergyLT05">-->
+<!--        <Compare value="LT"/>-->
+<!--        <Value value="5"/>-->
+<!--        <Vital value="Energy"/>-->
+<!--    </CValidatorUnitCompareVital>-->
+<!--    <CBehaviorBuff id="NodEnergyProductionCheck">-->
+<!--        <Period value="2.1"/>-->
+<!--        <PeriodicEffect value="NodEnergyProductionCheck"/>-->
+<!--        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>-->
+<!--    </CBehaviorBuff>-->
+<!--    <CEffectSwitch id="NodEnergyProductionCheck">-->
+<!--        <CaseArray Validator="GenetronPowerSupplyGE05" Effect="NodEnergyProductionAB"/>-->
+<!--        <CaseArray Validator="GenetronPowerSupplyLT05" Effect="NodEnergyProductionRB"/>-->
+<!--    </CEffectSwitch>-->
+<!--    <CEffectApplyBehavior id="NodEnergyProductionAB">-->
 <!--        <EditorCategories value="Race:Nod"/>-->
-<!--        <Behavior value="NodConstructionDisabled"/>-->
-<!--        <WhichUnit Value="Caster"/>-->
+<!--        <Behavior value="NodEnergyProduction"/>-->
 <!--    </CEffectApplyBehavior>-->
-<!--    <CEffectRemoveBehavior id="NodConstructionDisabledRB">-->
-<!--        <BehaviorLink value="NodConstructionDisabled"/>-->
+<!--    <CEffectRemoveBehavior id="NodEnergyProductionRB">-->
 <!--        <WhichUnit Value="Caster"/>-->
+<!--        <BehaviorLink value="NodEnergyProduction"/>-->
 <!--    </CEffectRemoveBehavior>-->
 
 
-
-
-
-
-
-    <CAbilBuild id="NodDefenseBuildInstant">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <InfoArray index="Build6" Unit="NodAirSupport" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodAirSupport" State="Restricted" Requirements="BuildNodAirSupport"/>
-        </InfoArray>
-        <InfoArray index="Build7" Unit="NodTiberiumSilo" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodChemicalPlant" Requirements="BuildNodTiberiumSilo"/>
-            <ValidatorArray value="HasVespene"/>
-        </InfoArray>
-        <Range value="999"/>
-    </CAbilBuild>
-    <CAbilBuild id="NodDefenseBuildInstantAdvanced">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <InfoArray index="Build1" Unit="NodTurretsHub" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodTurretsHub" Requirements="BuildNodTurretsHub"/>
-        </InfoArray>
-        <InfoArray index="Build2" Unit="NodObelisk" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodObelisk" Requirements="BuildNodObeliskOfLight"/>
-        </InfoArray>
-        <InfoArray index="Build3" Unit="NodDisruptionTower" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodDisruptionTower" Requirements="BuildNodDisruptionTower"/>
-        </InfoArray>
-        <InfoArray index="Build4" Unit="NodVoiceOfKane" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodVoiceOfKane" Requirements="BuildNodVoiceOfKane"/>
-        </InfoArray>
-        <InfoArray index="Build5" Unit="NodTemple" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodDefenseBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodTemple" State="Restricted" Requirements="BuildNodTemple"/>
-        </InfoArray>
-        <Range value="999"/>
-    </CAbilBuild>
-
-
-    <CAbilBuild id="NodBuildInstant">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <InfoArray index="Build1" Unit="NodTiberiumRefinery" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodTiberiumRefinery"/>
-        </InfoArray>
-        <InfoArray index="Build2" Unit="NodPowerPlant" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodPowerPlant"/>
-        </InfoArray>
-        <InfoArray index="Build4" Unit="NodHand" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodHand" Requirements="BuildNodHand"/>
-        </InfoArray>
-        <InfoArray index="Build5" Unit="NodWarFactory" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodWarFactory" Requirements="BuildNodWarFactory"/>
-        </InfoArray>
-        <InfoArray index="Build6" Unit="NodOperationsCenter" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodOperationsCenter" Requirements="BuildNodOperationsCenter"/>
-        </InfoArray>
-        <InfoArray index="Build7" Unit="NodAirTower" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodAirTower" Requirements="BuildNodAirTower"/>
-        </InfoArray>
-        <InfoArray index="Build8" Unit="NodShrine" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodShrine" Requirements="BuildNodShrine"/>
-        </InfoArray>
-        <InfoArray index="Build9" Unit="NodTechLab" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodTechLab" Requirements="BuildNodTechLab"/>
-        </InfoArray>
-        <InfoArray index="Build10" Unit="NodChemicalPlant" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodChemicalPlant" State="Restricted" Requirements="BuildNodChemicalPlant"/>
-        </InfoArray>
-        <InfoArray index="Build11" Unit="NodCrane" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Location="Unit"/>
-            <Button DefaultButtonFace="NodCrane" Requirements="BuildNodCrane"/>
-        </InfoArray>
-        <Range value="999"/>
-        <!--        <EffectArray index="Start" value="NodStructureSpawnSet"/>-->
-    </CAbilBuild>
-    <CAbilBuild id="NodBuildInstantAdvanced">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <InfoArray index="Build14" Unit="NodRedeemerFacility" Time="3">
-            <Charge>
-                <CountMax value="1"/>
-                <CountUse value="1"/>
-                <Link value="Abil/NodBuild"/>
-                <Location value="Unit"/>
-                <TimeStart value="40"/>
-                <TimeUse value="40"/>
-                <Flags index="EnableChargeTimeQueuing" value="1"/>
-            </Charge>
-            <Cooldown Link="Abil/NodBuild" Location="Unit"/>
-            <Button DefaultButtonFace="NodRedeemerFacility" State="Restricted" Requirements="BuildNodRedeemerFacility"/>
-        </InfoArray>
-        <Range value="999"/>
-        <!--        <EffectArray index="Start" value="NodStructureSpawnSet"/>-->
-    </CAbilBuild>
-
-    <CBehaviorBuff id="NodConstructionYardSupportModuleCreate">
-        <Duration value="0.5"/>
-        <ExpireEffect value="NodConstructionYardSupportModuleCU"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodCraneSupportModuleCreate">
-        <Duration value="0.5"/>
-        <ExpireEffect value="NodCraneSupportModuleCU"/>
+    <CBehaviorBuff id="NodEnergyProduction">
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
+        <Modification TimeScale="1.6"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <TimeScaleSource Value="Global"/>
+        <BehaviorCategories index="Fast" value="1"/>
+        <InfoFlags index="Hidden" value="0"/>
+        <DisableValidatorArray value="GenetronPowerSupplyGE05"/>
     </CBehaviorBuff>
 
 
-    <CBehaviorConjoined id="ConjoinedCYModule">
-        <ConjoinedFlags index="ShareShields" value="1"/>
-        <ConjoinedFlags index="ShareEnergy" value="1"/>
-    </CBehaviorConjoined>
-    <CAbilEffectInstant id="ChooseConjoinedSupportModule">
-        <CmdButtonArray index="Execute" DefaultButtonFace="TerranBuildAdvanced"/>
-    </CAbilEffectInstant>
-    <CEffectSet id="ChooseConjoinedSupportModule">
-    </CEffectSet>
-    <CAbilEffectInstant id="ChooseConjoinedConstructionModule">
-        <CmdButtonArray index="Execute" DefaultButtonFace="TerranBuildAdvanced"/>
-    </CAbilEffectInstant>
-    <CEffectSet id="ChooseConjoinedConstructionModule">
-    </CEffectSet>
-
-
-
-
-<!--    <CEffectEnumArea id="NodConstructionYardSupportModuleCreateSearch">-->
-<!--        <ImpactLocation Value="SourceUnit"/>-->
-<!--        <SearchFilters value="-;Self,Player,Neutral,Enemy,Missile"/>-->
-<!--        <AreaArray MaxCount="1" Radius="500" Effect="NodConstructionYardSupportModuleCUSet"/>-->
-<!--        <MaxCount value="1"/>-->
-<!--        <SearchFlags index="ExtendByUnitRadius" value="1"/>-->
-<!--    </CEffectEnumArea>-->
-<!--    <CEffectSet id="NodConstructionYardSupportModuleCUSet">-->
-<!--        <EffectArray value="NodConstructionYardSupportModuleCU"/>-->
-<!--    </CEffectSet>-->
-    <CEffectCreateUnit id="NodCraneSupportModuleCU">
-        <EditorCategories value="Race:Nod"/>
-        <WhichLocation Value="CasterPoint"/>
-        <!--        <SpawnOwner Effect="NodCraneSupportModuleCUSet" Value="Target"/>-->
-        <SpawnUnit value="NodCraneSupportModule"/>
-        <SpawnEffect value="NodCraneSupportModuleCUDummy"/>
-        <CreateFlags index="Placement" value="0"/>
-        <CreateFlags index="ProvideFood" value="0"/>
-        <CreateFlags index="SetFacing" value="1"/>
-        <CreateFlags index="UseFood" value="0"/>
-    </CEffectCreateUnit>
-    <CEffectModifyUnit id="NodCraneSupportModuleCUDummy"/>
-    <CEffectCreateUnit id="NodConstructionYardSupportModuleCU">
-        <EditorCategories value="Race:Nod"/>
-        <WhichLocation Value="CasterPoint"/>
-<!--        <SpawnOwner Effect="NodConstructionYardSupportModuleCUSet" Value="Target"/>-->
-        <SpawnUnit value="NodConstructionYardSupportModule"/>
-        <SpawnEffect value="NodConstructionYardSupportModuleCUDummy"/>
-        <CreateFlags index="Placement" value="0"/>
-        <CreateFlags index="ProvideFood" value="0"/>
-        <CreateFlags index="SetFacing" value="1"/>
-        <CreateFlags index="UseFood" value="0"/>
-    </CEffectCreateUnit>
-    <CEffectModifyUnit id="NodConstructionYardSupportModuleCUDummy"/>
-
-
-
-
-    <CValidatorCombine id="TimewarpProduction">
-        <CombineArray value="NodConstructionYard"/>
-        <CombineArray value="NodCrane"/>
-        <CombineArray value="NodTiberiumRefinery"/>
-        <CombineArray value="NodHand"/>
-        <CombineArray value="NodWarFactory"/>
-        <CombineArray value="NodRedeemerFacility"/>
-        <CombineArray value="NodAirTower"/>
-    </CValidatorCombine>
-    <CValidatorCombine id="TimewarpResearch">
-        <CombineArray value="NodChemicalPlant"/>
-        <CombineArray value="NodShrine"/>
-        <CombineArray value="NodTechLab"/>
-        <CombineArray value="NodOperationsCenter"/>
-    </CValidatorCombine>
-
-    <CBehaviorBuff id="TimeWarpProduction"/>
-    <CBehaviorBuff id="ChronoBoostEnergyCost"/>
-
-
-    <CBehaviorBuff id="TimeWarpProductionSupport" parent="TimeWarpProduction">
-        <DisplayDuration index="Self" value="0"/>
-        <DisplayDuration index="Ally" value="0"/>
-        <DisplayDuration index="Neutral" value="0"/>
+    <CBehaviorBuff id="AutoHarvestVespeneNod">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Period value="2.1"/>
+        <PeriodicEffect value="AutoHarvestVespeneNod"/>
+        <RemoveValidatorArray value="AutoHarvesterFinish"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <DisableValidatorArray value="DontHaveNodTiberiumRefinery"/>
+        <DisableValidatorArray value="GenetronPowerSupplyGE05"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="ChronoBoostEnergyCostSupport" parent="ChronoBoostEnergyCost">
-        <DisplayDuration index="Self" value="0"/>
-        <DisplayDuration index="Ally" value="0"/>
-        <DisplayDuration index="Neutral" value="0"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="ContaminatedSupport" parent="Contaminated">
-        <DisplayDuration index="Self" value="0"/>
-        <DisplayDuration index="Ally" value="0"/>
-        <DisplayDuration index="Enemy" value="0"/>
-    </CBehaviorBuff>
+    <CEffectModifyUnit id="AutoHarvestVespeneNod">
+        <EditorCategories value=""/>
+        <Resources value="-4"/>
+        <ResourcesHarvestedFraction value="1"/>
+    </CEffectModifyUnit>
+    <CActorText id="AutomatedRefineryTextKickerNod4">
+        <Host Subject="_Unit"/>
+        <FixedSize value="28"/>
+        <HeightOffset value="3.5"/>
+        <AlignV value="Bottom"/>
+        <Text value="Button/Tooltip/AutomatedRefineryTextKickerNod4"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.100000 StartMover"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000 Die"/>
+        <On Terms="ActorCreation" Send="SetOpacity 0.000000 2.000000"/>
+        <On Terms="TimerExpired; TimerName StartMover" Send="Create AutomatedExtractorTextMover"/>
+        <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
+    </CActorText>
+
+    <CActorSiteMover id="AutomatedExtractorTextMover">
+        <Terms value="Cap 1"/>
+        <Acceleration value="5"/>
+        <Deceleration value="1"/>
+        <Speed value="0.8"/>
+        <SpeedMax value="0.8"/>
+        <On Terms="ActorCreation" Target="::Creator" Send="RefSetFromMsg ::Host ::Sender"/>
+        <On Terms="ActorCreation" Send="MoverSetDestinationH 3.000000"/>
+        <On Terms="ActorCreation" Send="MoverMove"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000 Die"/>
+        <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
+    </CActorSiteMover>
 </Catalog>

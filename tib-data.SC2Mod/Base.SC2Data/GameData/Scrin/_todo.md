@@ -36,7 +36,7 @@
   - Husk
   - Conversion Beam(reaper)
 ### Eradicator Hexapod.
-  - harrioned Mastermind: Teleport.Teleports the Eradicator Hexapod over great distances.
+  - harriosned Mastermind: Teleport.Teleports the Eradicator Hexapod over great distances.
 ###  Explorer.
   - Unpack into Outpost.Orders the Explorer to unpack into an Outpost in its current location. This order is irreversible.
 ###  Stormrider.
@@ -97,6 +97,7 @@
 ### Rift Generator.
 - Rift.Creates a massive rift over a target area, causing considerable damage and sucking what it can into deep space.
 ### Lightning Spike.
+- Electricity Cannon 
 ### Tiberium Hive.
 ### Outpost.
 

@@ -281,14 +281,34 @@
     <CActorUnit id="NodTiberiumSilo" icon="TiberiumSilo" parent="NodBuilding">
         <Macros value="ExtractAnim"/>
         <On index="35" Send="AnimPlay Birth Stand 0 0.000000"/>
-        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="SetTintColor 255,170,170"/>
-        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="AnimGroupRemove D"/>
-        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="AnimGroupApply B"/>
-        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="SetTintColor 255,255,255"/>
-        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="AnimGroupRemove B"/>
-        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="AnimGroupApply D"/>
+        <On Terms="ActorCreation" Send="StatusSet Mining 0"/>
+        <On Terms="Effect.AutoHarvestVespeneNod.Start" Send="TimerKill Stopped"/>
+        <On Terms="Effect.AutoHarvestVespeneNod.Start" Send="TimerSet 5.000000 Stopped"/>
+        <On Terms="Effect.AutoHarvestVespeneNod.Start; IsStatus Mining 0" Send="AnimPlay Work Stand,Work"/>
+        <On Terms="Effect.AutoHarvestVespeneNod.Start; IsStatus Mining 0" Send="AnimGroupRemove B"/>
+        <On Terms="Effect.AutoHarvestVespeneNod.Start; IsStatus Mining 0" Send="AnimGroupApply A"/>
+        <On Terms="Effect.AutoHarvestVespeneNod.Start; IsStatus Mining 0" Send="StatusSet Mining 1"/>
+        <On Terms="TimerExpired; TimerName Stopped" Send="AnimGroupRemove A"/>
+        <On Terms="TimerExpired; TimerName Stopped" Send="AnimGroupApply B"/>
+        <On Terms="TimerExpired; TimerName Stopped" Send="StatusSet Mining 0"/>
+        <On Terms="AnimDone; AnimName Work; IsStatus Mining 1" Send="AnimPlay Work Stand,Work"/>
+        <On Terms="Behavior.AutoHarvestVespeneNod.On" Send="SetTintColor 255,255,255"/>
+        <On Terms="Behavior.AutoHarvestVespeneNod.Off" Send="SetTintColor 255,170,170"/>
+        <On Terms="Effect.AutoHarvestVespeneNod.Start" Send="Create AutomatedRefineryTextKickerNod4"/>
+<!--        <On Terms="Effect.AutoHarvestVespeneNod.Start; !ValidateUnit HasMicroFiltering" Send="Create AutomatedRefineryTextKickerNod4"/>-->
+<!--        <On Terms="Effect.AutoHarvestVespeneNod.Start; ValidateUnit HasMicroFiltering" Send="Create AutomatedRefineryTextKicker5"/>-->
+        <On Terms="UnitBirth.NodTiberiumSilo" Send="TimerSet 0.100000 HideGeyser"/>
+        <On Terms="ActorDestruction" Send="Create GeyserUncovered"/>
+
+
+
+<!--        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="SetTintColor 255,170,170"/>-->
+<!--        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="AnimGroupRemove D"/>-->
+<!--        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="AnimGroupApply B"/>-->
+<!--        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="SetTintColor 255,255,255"/>-->
+<!--        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="AnimGroupRemove B"/>-->
+<!--        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="AnimGroupApply D"/>-->
         <On Terms="UnitDeathCustomize; ValidateUnit NoVespene" Send="DeathCustomize Empty"/>
-        <On Terms="UnitBirth.NodTiberiumSilo" Send="TimerSet 0.500000 HideGeyser"/>
         <On Terms="AbilMorph.*.Finish; MorphFrom NodTiberiumSilo" Send="Destroy"/>
         <On Terms="UnitDeathCustomize; Option Model Low" Send="DeathCustomize Low"/>
         <CreepHeightClass value="Medium"/>
@@ -299,7 +319,7 @@
         <BarWidth value="120"/>
         <SoundArray index="Ready" value="Refinery_Ready"/>
         <SoundArray index="What" value="Refinery_What"/>
-        <StatusHarvesterData Text="UI/HarvesterCountVespene"/>
+<!--        <StatusHarvesterData Text="UI/HarvesterCountVespene"/>-->
     </CActorUnit>
     <CActorUnit id="NodTiberiumSiloRich"  parent="NodBuilding" wireframe="NodTiberiumSilo" icon="TiberiumSilo">
         <Macros value="ExtractAnim"/>
@@ -3505,10 +3525,16 @@
     <CActorRange id="NodTurretsHubBuildRange" parent="RangeAbil" abil="NodTurretsHubBuild">
         <Icon value="Assets\Textures\RadarIcon2.dds"/>
     </CActorRange>
-    <CActorModel id="TurretsHubCable" parent="ModelAnimationStyleContinuous">
+
+    <CActorUnit id="TurretsHubCable" parent="NodBuilding" wireframe="NodTurretsHub" icon="NodTurretsHub">
         <ModelFlags index="AllowHitTest" value="0"/>
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
-    </CActorModel>
+    </CActorUnit>
+<!--    -->
+<!--    <CActorModel id="TurretsHubCable" parent="ModelAnimationStyleContinuous">-->
+<!--        <ModelFlags index="AllowHitTest" value="0"/>-->
+<!--        <ModelFlags index="AutomateGlobalLoops" value="1"/>-->
+<!--    </CActorModel>-->
     <CActorUnit id="NodMissileTurretReconstruct" parent="NodBuilding" wireframe="NodMissileTurret" icon="MissileTurret">
         <Model value="NodLaserTurret"/>
         <!--        <On Terms="AbilMorph.*.Finish; MorphTo NodMissileTurretReconstruct" Send="Create"/>-->

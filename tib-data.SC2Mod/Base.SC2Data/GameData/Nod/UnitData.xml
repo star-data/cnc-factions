@@ -41,7 +41,10 @@
     </CUnit>
     <CUnit default="1" id="NodStructure" parent="CNCStructure">
         <Race value="Nod"/>
-        <BehaviorArray Link="FireSuppressionSystem"/>
+<!--        <BehaviorArray Link="FireSuppressionSystem"/>-->
+        <BehaviorArray index="0" Link="GenetronPowerSupplyTracker"/>
+        <BehaviorArray Link="TrackGenetronPowerSupply"/>
+
         <EffectArray index="Birth" value="NodStructureSpawnSet"/>
         <ShieldRegenRate value="2"/>
         <LifeArmorName value="Unit/LifeArmorName/NodBuildingArmor"/>
@@ -980,7 +983,7 @@
             <LayoutButtons Face="NodShadowLand" Type="AbilCmd" AbilCmd="NodShadowLand,0" Row="2" Column="3"/>
             <LayoutButtons Face="GhostHoldFire" Type="AbilCmd" AbilCmd="GhostHoldFire,Execute" Row="1" Column="1"/>
             <LayoutButtons Face="WeaponsFree" Type="AbilCmd" AbilCmd="GhostWeaponsFree,Execute" Row="1" Column="2"/>
-            <LayoutButtons Face="NodAramUpgrade" Type="Passive" Row="1" Column="4"/>
+<!--            <LayoutButtons Face="NodAramUpgrade" Type="Passive" Row="1" Column="4"/>-->
         </CardLayouts>
     </CUnit>
     <CUnit id="NodShadowFlying" parent="NodShadow">
@@ -1224,26 +1227,24 @@
     </CUnit>
     <!--structures-->
     <CUnit id="NodConstructionYard" parent="NodStructure">
+        <Food value="8"/>
         <BehaviorArray Link="NodBuildingsunits"/>
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCTabConstruction"/>
         <BehaviorArray Link="CNCConstructionRadius"/>
         <BehaviorArray Link="NodConstructionYardSupportModuleCreate"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
+        <BehaviorArray Link="CnCPowerGeneration005"/>
+        <BehaviorArray Link="CnCPowerSupply25"/>
+
+
         <SubgroupPriority value="3"/>
         <AbilArray Link="NodConstruction"/>
-        <!--        <AbilArray Link="NodConstructionSupport"/>-->
-        <!--        <AbilArray Link="NodConstructionYardTrain"/>-->
         <AbilArray Link="NodConstructionArm"/>
-        <!--        <AbilArray Link="NodConstructionSupportArm"/>-->
-        <!--        <AbilArray Link="NodConstructionSupportTrainArm"/>-->
-        <!--        <AbilArray Link="NodBuild"/>-->
-        <!--        <AbilArray Link="NodDefenseBuild"/>-->
-        <!--        <AbilArray Link="NodBuildAdvanced"/>-->
-        <!--        <AbilArray Link="NodDefenseBuildAdvanced"/>-->
         <AbilArray Link="NodConstructionYardPack"/>
-        <AbilArray Link="Rally"/>
-        <AbilArray Link="ChooseConjoinedSupportModule"/>
         <AbilArray Link="NodConstructionDiscard"/>
+        <AbilArray Link="ChooseConjoinedSupportModule"/>
+        <AbilArray Link="Rally"/>
 
         <CardLayouts index="0">
             <!--            <LayoutButtons Face="TerranBuild" Type="Submenu" SubmenuCardId="BLD" Row="2" Column="0"/>-->
@@ -1321,6 +1322,7 @@
         <AbilArray Link="NodConstructionDiscard"/>
         <AbilArray Link="Rally"/>
         <BehaviorArray Link="CNCConstructionRadius"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <CardLayouts index="0">
             <LayoutButtons Face="NodBuildingPage" Type="AbilCmd" AbilCmd="ChooseConjoinedConstructionModule,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="NodConstructionDiscard,Execute" Row="2" Column="4"/>
@@ -1376,6 +1378,7 @@
         <BehaviorArray Link="CNCConstructionRadiusMedium"/>
     </CUnit>
     <CUnit id="NodCrane" parent="NodStructure">
+        <Food value="8"/>
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="Deployable"/>
         <BehaviorArray Link="CNCTabConstruction"/>
@@ -1386,6 +1389,7 @@
         <AbilArray Link="ChooseConjoinedSupportModule"/>
         <AbilArray Link="NodConstructionDiscard"/>
         <BehaviorArray Link="NodCraneSupportModuleCreate"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <CardLayouts index="0">
             <LayoutButtons Face="TerranBuildAdvanced" Type="AbilCmd" AbilCmd="ChooseConjoinedSupportModule,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="NodConstructionDiscard,Execute" Row="2" Column="4"/>
@@ -1433,6 +1437,7 @@
         <BehaviorArray index="1" Link=""/>
         <BehaviorArray Link="CNCTabConstruction"/>
         <BehaviorArray Link="CNCConstructionRadiusMedium"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <SubgroupPriority value="3"/>
         <AbilArray Link="NodConstructionSupport"/>
         <AbilArray Link="NodConstructionSupportArm"/>
@@ -1469,17 +1474,20 @@
 
     <CUnit id="NodTiberiumSilo" parent="NodStructure">
         <BehaviorArray Link="Deployable"/>
-        <BehaviorArray Link="HarvestableVespeneGeyserGas"/>
+<!--        <BehaviorArray Link="HarvestableVespeneGeyserGas"/>-->
         <BehaviorArray Link="RefineryMorph"/>
+        <BehaviorArray Link="CNCEnergyDrain5"/>
+        <BehaviorArray Link="AutomaticHarvestableVespene"/>
+        <BehaviorArray Link="AutoHarvestVespeneNod"/>
         <Facing value="315"/>
-        <ResourceState value="Harvestable"/>
+<!--        <ResourceState value="Harvestable"/>-->
         <ResourceType value="Vespene"/>
         <LifeStart value="500"/>
         <LifeMax value="500"/>
         <StationaryTurningRate value="719.4726"/>
         <TurningRate value="719.4726"/>
         <CostCategory value="Economy"/>
-        <CostResource index="Minerals" value="75"/>
+        <CostResource index="Minerals" value="200"/>
         <RepairTime value="14"/>
         <EffectArray index="Create" value="RefineryRichSearch"/>
         <Radius value="1.5"/>
@@ -1526,9 +1534,10 @@
         <BehaviorArray Link="Deployable"/>
         <BehaviorArray Link="UnderConstruction"/>
         <BehaviorArray Link="GenetronEnergyStateNotFull"/>
-        <BehaviorArray Link="GenetronPowerSupplyTracker"/>
         <BehaviorArray Link="TrackAndMirrorGenetronPowerSupply"/>
-        <BehaviorArray Link="NPP_Power"/>
+        <BehaviorArray Link="CnCPowerGeneration015"/>
+        <BehaviorArray Link="CnCPowerSupply100"/>
+<!--        <BehaviorArray Link="NPP_Power"/>-->
         <Facing value="225"/>
         <LifeStart value="500"/>
         <LifeMax value="500"/>
@@ -1538,7 +1547,7 @@
         <ScoreKill value="100"/>
         <StationaryTurningRate value="719.4726"/>
         <TurningRate value="719.4726"/>
-        <Food value="12"/>
+        <Food value="8"/>
         <CostCategory value="Economy"/>
         <Radius value="1.25"/>
         <SeparationRadius value="1.25"/>
@@ -1553,9 +1562,9 @@
         <!--        <EffectArray index="Birth" value="GenetronUpdatePowerGenerationTargetSA"/>-->
     </CUnit>
     <CUnit id="NodPowerPlantUpgraded" parent="NodPowerPlant">
-        <Food value="24"/>
         <CostResource index="Minerals" value="300"/>
         <AbilArray index="0" Link=""/>
+        <BehaviorArray index="6" Link="CnCPowerGeneration030"/>
         <CardLayouts index="0">
             <LayoutButtons index="4" removed="1"/>
         </CardLayouts>
@@ -1564,9 +1573,9 @@
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCTabEconomy"/>
         <BehaviorArray Link="Deployable"/>
-        <BehaviorArray Link="NodSpawnTibSmallOnDeath"/>
+<!--        <BehaviorArray Link="NodSpawnTibSmallOnDeath"/>-->
         <BehaviorArray Link="CNCConstructionRadiusRefinery"/>
-        <BehaviorArray Link="CNCConstructionRadiusRefinery"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <FlagArray index="TownCamera" value="1"/>
         <ResourceDropOff index="Minerals" value="1"/>
         <ResourceDropOff index="Vespene" value="1"/>
@@ -1601,13 +1610,15 @@
         <GlossaryPriority value="30"/>
         <TechTreeProducedUnitArray value="NodHarvester"/>
         <InnerRadius value="2.5"/>
-        <Food value="14"/>
+        <Food value="12"/>
     </CUnit>
     <CUnit id="NodHand" parent="NodStructure">
+        <Food value="8"/>
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCTabInfantry"/>
         <BehaviorArray Link="Deployable"/>
         <BehaviorArray Link="CNCEnergyDrain5"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <LifeStart value="900"/>
         <LifeMax value="900"/>
         <StationaryTurningRate value="719.4726"/>
@@ -1651,9 +1662,11 @@
         <TechTreeProducedUnitArray value="NodTiberiumTrooper"/>
     </CUnit>
     <CUnit id="NodWarFactory" parent="NodStructure">
+        <Food value="8"/>
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="Deployable"/>
-        <BehaviorArray Link="FastBuild"/>
+<!--        <BehaviorArray Link="FastBuild"/>-->
+        <BehaviorArray Link="NodEnergyProduction"/>
         <!--        <BehaviorArray Link="MCVRepairZoneFactory"/>-->
         <BehaviorArray Link="CNCTabVehicles"/>
         <BehaviorArray Link="CNCEnergyDrain5"/>
@@ -1683,20 +1696,21 @@
             <LayoutButtons Face="NodRaider" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train2" Row="0" Column="1"/>
             <LayoutButtons Face="NodScorpionTank" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train3" Row="0" Column="2"/>
             <LayoutButtons Face="NodFlameTank" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train4" Row="0" Column="3"/>
-            <LayoutButtons Face="NodMantis" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train8" Row="1" Column="0"/>
-            <LayoutButtons Face="NodStealthTank" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train5" Row="1" Column="1"/>
-            <LayoutButtons Face="NodBeamCannon" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train6" Row="1" Column="2"/>
-            <LayoutButtons Face="NodSpecter" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train7" Row="1" Column="3"/>
+<!--            <LayoutButtons Face="NodMantis" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train8" Row="1" Column="0"/>-->
+            <LayoutButtons Face="NodStealthTank" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train5" Row="1" Column="0"/>
+            <LayoutButtons Face="NodBeamCannon" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train6" Row="1" Column="1"/>
+            <LayoutButtons Face="NodSpecter" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train7" Row="1" Column="2"/>
+            <LayoutButtons Face="NodReckoner" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train9" Row="1" Column="3"/>
+
             <LayoutButtons Face="NodMCV" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train11" Row="2" Column="0"/>
-            <LayoutButtons Face="NodReckoner" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train9" Row="2" Column="1"/>
-            <LayoutButtons Face="NodAvatar" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train10" Row="2" Column="2"/>
+            <LayoutButtons Face="NodAvatar" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train10" Row="2" Column="1"/>
         </CardLayouts>
         <TechTreeProducedUnitArray value="NodBike"/>
         <TechTreeProducedUnitArray value="NodRaider"/>
         <TechTreeProducedUnitArray value="NodScorpionTank"/>
         <TechTreeProducedUnitArray value="NodFlameTank"/>
         <TechTreeProducedUnitArray value="NodReckoner"/>
-        <TechTreeProducedUnitArray value="NodMantis"/>
+<!--        <TechTreeProducedUnitArray value="NodMantis"/>-->
         <TechTreeProducedUnitArray value="NodStealthTank"/>
         <TechTreeProducedUnitArray value="NodBeamCannon"/>
         <TechTreeProducedUnitArray value="NodSpecter"/>
@@ -1704,12 +1718,14 @@
         <TechTreeProducedUnitArray value="NodMCV"/>
     </CUnit>
     <CUnit id="NodRedeemerFacility" parent="NodStructure">
+        <Food value="8"/>
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCEnergyDrain10"/>
         <BehaviorArray Link="Deployable"/>
-        <BehaviorArray Link="FastBuild"/>
+<!--        <BehaviorArray Link="FastBuild"/>-->
         <BehaviorArray Link="MCVRepairZoneFactory"/>
         <BehaviorArray Link="CNCConstructionRadiusSmall"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <Facing value="315"/>
         <LifeStart value="1100"/>
         <LifeMax value="1100"/>
@@ -1736,13 +1752,14 @@
             <LayoutButtons Face="NodRaider" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train2" Row="0" Column="1"/>
             <LayoutButtons Face="NodScorpionTank" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train3" Row="0" Column="2"/>
             <LayoutButtons Face="NodFlameTank" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train4" Row="0" Column="3"/>
-            <LayoutButtons Face="NodMantis" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train8" Row="1" Column="0"/>
-            <LayoutButtons Face="NodStealthTank" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train5" Row="1" Column="1"/>
-            <LayoutButtons Face="NodBeamCannon" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train6" Row="1" Column="2"/>
-            <LayoutButtons Face="NodSpecter" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train7" Row="1" Column="3"/>
+            <!--            <LayoutButtons Face="NodMantis" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train8" Row="1" Column="0"/>-->
+            <LayoutButtons Face="NodStealthTank" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train5" Row="1" Column="0"/>
+            <LayoutButtons Face="NodBeamCannon" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train6" Row="1" Column="1"/>
+            <LayoutButtons Face="NodSpecter" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train7" Row="1" Column="2"/>
+            <LayoutButtons Face="NodReckoner" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train9" Row="1" Column="3"/>
+
             <LayoutButtons Face="NodMCV" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train11" Row="2" Column="0"/>
-            <LayoutButtons Face="NodReckoner" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train9" Row="2" Column="1"/>
-            <LayoutButtons Face="NodAvatar" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train10" Row="2" Column="2"/>
+            <LayoutButtons Face="NodAvatar" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train10" Row="2" Column="1"/>
             <!--            <LayoutButtons Face="NodPurifier" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train13" Row="2" Column="2"/>-->
             <LayoutButtons Face="NodRedeemer" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train12" Row="2" Column="3"/>
         </CardLayouts>
@@ -1751,11 +1768,11 @@
         <TechTreeProducedUnitArray value="NodScorpionTank"/>
         <TechTreeProducedUnitArray value="NodFlameTank"/>
         <TechTreeProducedUnitArray value="NodReckoner"/>
-        <TechTreeProducedUnitArray value="NodMantis"/>
+<!--        <TechTreeProducedUnitArray value="NodMantis"/>-->
         <TechTreeProducedUnitArray value="NodStealthTank"/>
         <TechTreeProducedUnitArray value="NodBeamCannon"/>
         <TechTreeProducedUnitArray value="NodSpecter"/>
-        <TechTreeProducedUnitArray value="NodPurifier"/>
+<!--        <TechTreeProducedUnitArray value="NodPurifier"/>-->
         <TechTreeProducedUnitArray value="NodMCV"/>
         <TechTreeProducedUnitArray value="NodRedeemer"/>
         <Footprint value="Footprint4x4Contour"/>
@@ -1763,14 +1780,16 @@
         <SubgroupAlias value="NodWarFactory"/>
     </CUnit>
     <CUnit id="NodAirTower" parent="NodStructure">
+        <Food value="8"/>
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCEnergyDrain5"/>
         <BehaviorArray Link="CNCTabAirforce"/>
         <BehaviorArray Link="AirSupport"/>
         <BehaviorArray Link="Deployable"/>
         <!--        <BehaviorArray Link="MCVRepairZoneFactory"/>-->
-        <BehaviorArray Link="FastBuild"/>
+<!--        <BehaviorArray Link="FastBuild"/>-->
         <BehaviorArray Link="Maintenancebeedetectshalorange"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <Facing value="315"/>
         <Footprint value="Footprint4x4AirTowerContour"/>
         <PlacementFootprint value="Footprint4x4NodAirTower"/>
@@ -1870,11 +1889,13 @@
     </CUnit>
     <!--tech-->
     <CUnit id="NodChemicalPlant" parent="NodStructure">
+        <Food value="8"/>
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCConstructionRadiusSmall"/>
         <BehaviorArray Link="CNCEnergyDrain15"/>
         <BehaviorArray Link="Deployable"/>
         <BehaviorArray Link="NodSpawnTibSmallOnDeath"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <Facing value="315"/>
         <ResourceState value="Harvestable"/>
         <ResourceType value="Minerals"/>
@@ -1909,6 +1930,7 @@
         <BehaviorArray Link="CNCConstructionRadiusSmall"/>
         <BehaviorArray Link="Deployable"/>
         <BehaviorArray Link="CNCEnergyDrain15"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <Facing value="315"/>
         <LifeStart value="750"/>
         <LifeMax value="750"/>
@@ -1942,10 +1964,12 @@
         </CardLayouts>
     </CUnit>
     <CUnit id="NodShrine" parent="NodStructure">
+        <Food value="8"/>
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCConstructionRadiusSmall"/>
         <BehaviorArray Link="CNCEnergyDrain10"/>
         <BehaviorArray Link="Deployable"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <LifeStart value="1000"/>
         <LifeMax value="1000"/>
         <StationaryTurningRate value="719.4726"/>
@@ -1968,10 +1992,12 @@
         <GlossaryPriority value="318"/>
     </CUnit>
     <CUnit id="NodTechLab" parent="NodStructure">
+        <Food value="8"/>
         <BehaviorArray Link="CNCConstructionRadiusSmall"/>
         <BehaviorArray Link="CNCEnergyDrain15"/>
         <BehaviorArray Link="Deployable"/>
         <BehaviorArray Link="NodLaserFence"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <Facing value="315"/>
         <LifeStart value="750"/>
         <LifeMax value="750"/>
@@ -2032,10 +2058,12 @@
         <!-- </CardLayouts> -->
     </CUnit>
     <CUnit id="NodOperationsCenter" parent="NodStructure">
+        <Food value="8"/>
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCConstructionRadiusSmall"/>
         <BehaviorArray Link="CNCEnergyDrain10"/>
         <BehaviorArray Link="Deployable"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
         <LifeStart value="750"/>
         <LifeMax value="750"/>
         <StationaryTurningRate value="719.4726"/>
@@ -2093,7 +2121,7 @@
         <GlossaryPriority value="256"/>
     </CUnit>
     <!--defense-->
-    <CUnit id="NodTurretsHubBuildMissile" parent="DESTRUCTIBLE">
+    <CUnit id="TurretsHubCable" parent="DESTRUCTIBLE">
         <Race value="Nod"/>
         <EditorCategories value="ObjectType:Projectile,ObjectFamily:CNC"/>
         <FlagArray index="Turnable" value="1"/>
@@ -2117,12 +2145,13 @@
         <AbilArray Link="attack"/>
         <AbilArray Link="stop"/>
         <AbilArray Link="NodTurretsHubBuild"/>
+        <AbilArray Link="NodTurretsHubSpecialise"/>
         <CardLayouts index="0">
             <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
-            <LayoutButtons Face="NodShredderTurret" Type="AbilCmd" AbilCmd="NoTurretHubSpecialize,Specialize1" Row="1" Column="0"/>
-            <LayoutButtons Face="NodLaserTurret" Type="AbilCmd" AbilCmd="NoTurretHubSpecialize,Specialize2" Row="1" Column="1"/>
-            <LayoutButtons Face="NodMissileTurret" Type="AbilCmd" AbilCmd="NoTurretHubSpecialize,Specialize3" Row="1" Column="2"/>
+            <LayoutButtons Face="NodShredderTurret" Type="AbilCmd" AbilCmd="NodTurretsHubSpecialise,Specialize1" Row="1" Column="0"/>
+            <LayoutButtons Face="NodLaserTurret" Type="AbilCmd" AbilCmd="NodTurretsHubSpecialise,Specialize2" Row="1" Column="1"/>
+            <LayoutButtons Face="NodMissileTurret" Type="AbilCmd" AbilCmd="NodTurretsHubSpecialise,Specialize3" Row="1" Column="2"/>
             <LayoutButtons Face="NodShredderTurret" Type="AbilCmd" AbilCmd="NodTurretsHubBuild,Build1" Row="2" Column="0"/>
             <LayoutButtons Face="NodLaserTurret" Type="AbilCmd" AbilCmd="NodTurretsHubBuild,Build2" Row="2" Column="1"/>
             <LayoutButtons Face="NodMissileTurret" Type="AbilCmd" AbilCmd="NodTurretsHubBuild,Build3" Row="2" Column="2"/>
@@ -2399,6 +2428,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2414,6 +2445,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2429,6 +2462,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2444,6 +2479,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2459,6 +2496,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2474,6 +2513,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2489,6 +2530,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2504,6 +2547,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2519,6 +2564,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2534,6 +2581,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2549,6 +2598,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2564,6 +2615,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2579,6 +2632,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2594,6 +2649,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2609,6 +2666,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2624,6 +2683,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2639,6 +2700,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2654,6 +2717,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
@@ -2669,6 +2734,8 @@
         <BehaviorArray index="4" Link=""/>
         <BehaviorArray index="5" Link=""/>
         <BehaviorArray index="6" Link=""/>
+        <BehaviorArray index="7" Link=""/>
+        <BehaviorArray index="8" Link=""/>
         <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="Uncursorable" value="1"/>
