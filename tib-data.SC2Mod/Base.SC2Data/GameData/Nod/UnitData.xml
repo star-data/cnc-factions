@@ -732,6 +732,7 @@
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="SalvageShared,Off" Row="2" Column="4"/>
         </CardLayouts>
         <GlossaryPriority value="300"/>
+            <CargoSize value="0"/>
         <!--        <FlagArray index="Turnable" value="0"/>-->
         <!--        <LifeStart value="240"/>-->
         <!--        <LifeMax value="240"/>-->
@@ -741,16 +742,6 @@
         <!--&lt;!&ndash;        <AbilArray Link="BunkerAttack"/>&ndash;&gt;-->
         <!--&lt;!&ndash;        <AbilArray Link="AttackRedirect"/>&ndash;&gt;-->
         <!--&lt;!&ndash;        <AbilArray Link="healRedirect"/>&ndash;&gt;-->
-        <!--        <AbilArray Link="Rally"/>-->
-        <!--        <AbilArray Link="BunkerTransport"/>-->
-        <!--        <AbilArray Link="StopRedirect"/>-->
-        <!--        <AbilArray Link="AttackRedirect"/>-->
-        <!--        <CardLayouts index="0">-->
-        <!--            <LayoutButtons Face="AttackRedirect" Type="AbilCmd" AbilCmd="AttackRedirect,Execute" Row="0" Column="4"/>-->
-        <!--            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="StopRedirect,Execute" Row="0" Column="1"/>-->
-        <!--        </CardLayouts>-->
-        <!--        <CargoSize value="0"/>-->
-        <!--        <TacticalAIThink value="AIThinkBunker"/>-->
     </CUnit>
     <CUnit id="NodAvatarWreckage">
         <GlossaryAlias value="NodAvatar"/>
@@ -1039,7 +1030,16 @@
         <BehaviorArray Link="BeamCannonReflectorTracker"/>
         <AbilArray Link="BeamCannonDistantAttackStage2"/>
         <AbilArray Link="BeamCannonDistantAttackStage3"/>
+        <AbilArray Link="NodSignatureGenerator"/>
         <WeaponArray Link="NodVenomParticleBeam" Turret="SiegeTank"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodVenomParticleBeam" Type="AbilCmd" AbilCmd="Attack,Execute" Row="0" Column="0"/>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="1"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="2"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="3"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="4"/>
+            <LayoutButtons Face="NodSignatureGenerator" Type="AbilCmd" AbilCmd="NodSignatureGenerator,Execute" Row="2" Column="0"/>
+        </CardLayouts>
         <Radius value="0.625"/>
         <SeparationRadius value="0.625"/>
         <ScoreMake value="125"/>
@@ -1047,6 +1047,25 @@
         <SubgroupPriority value="14"/>
         <MinimapRadius value="0.625"/>
         <GlossaryPriority value="160"/>
+    </CUnit>
+    <CUnit id="NodSignatureDecoy" parent="NodAir">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="ShowResources" value="0"/>
+        <FlagArray index="NoScore" value="1"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="100"/>
+        <LifeMax value="100"/>
+        <Speed value="3.75"/>
+        <Acceleration value="3.75"/>
+        <Sight value="0"/>
+        <Food value="0"/>
+        <MinimapRadius value="0.625"/>
+        <BehaviorArray Link="NodSignatureDecoyTimedLife"/>
+        <BehaviorArray Link="NodSignatureDecoyWander"/>
     </CUnit>
     <CUnit id="NodArmageddon" parent="NodAirPlane">
         <Attributes index="Light" value="1"/>
@@ -1075,7 +1094,15 @@
         <AbilArray Link="NodNukeStrikeEMP"/>
         <AbilArray Link="NodInvertWarheadStrike"/>
         <AbilArray Link="VertigoAttack"/>
+        <AbilArray Link="NodMineDrop"/>
+        <AbilArray Link="NodSeedTiberium"/>
+        <AbilArray Link="NodTiberiumVapourBomb"/>
+        <AbilArray Link="NodRedemption"/>
         <CardLayouts index="0">
+            <LayoutButtons Face="NodMineDrop" Type="AbilCmd" AbilCmd="NodMineDrop,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="NodSeedTiberium" Type="AbilCmd" AbilCmd="NodSeedTiberium,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="NodTiberiumVapourBomb" Type="AbilCmd" AbilCmd="NodTiberiumVapourBomb,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="NodRedemption" Type="AbilCmd" AbilCmd="NodRedemption,Execute" Row="2" Column="3"/>
             <LayoutButtons Face="NodEMPAttack" Type="AbilCmd" AbilCmd="NodEMPAttack,Execute" Row="0" Column="1"/>
             <LayoutButtons Face="NodVision" Type="AbilCmd" AbilCmd="NodVision,Execute" Row="0" Column="1"/>
             <LayoutButtons Face="CABALFlameMine" Type="AbilCmd" AbilCmd="NodDropFlameMines,Execute" Row="0" Column="1"/>
@@ -1116,7 +1143,11 @@
         <CostResource index="Vespene" value="100"/>
         <RepairTime value="2"/>
         <KillXP value="2"/>
+        <AbilArray Link="NodDisruptionPod"/>
         <WeaponArray Link="VXWeaponGround3"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodDisruptionPod" Type="AbilCmd" AbilCmd="NodDisruptionPod,Execute" Row="2" Column="0"/>
+        </CardLayouts>
         <ScoreMake value="200"/>
         <SubgroupPriority value="13"/>
         <GlossaryPriority value="160"/>
@@ -1163,7 +1194,7 @@
         <AbilArray Link="NodCarryallTransport"/>
         <AbilArray Link="NodCarryallCommandeerTechnology"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="NodCarryallCommandeerTechnology" Type="AbilCmd" AbilCmd="NodCarryallCommandeerTechnology,Execute" Row="2" Column="2"/>
+            <!-- <LayoutButtons Face="NodCarryallCommandeerTechnology" Type="AbilCmd" AbilCmd="NodCarryallCommandeerTechnology,Execute" Row="2" Column="2"/> -->
             <LayoutButtons Face="NodCarryallLoad" Type="AbilCmd" AbilCmd="NodCarryall,Load" Row="2" Column="0"/>
             <LayoutButtons Face="NodCarryallUnloadAll" Type="AbilCmd" AbilCmd="NodCarryall,UnloadAt" Row="2" Column="1"/>
         </CardLayouts>
@@ -2970,5 +3001,53 @@
         <LifeStart value="10"/>
         <BehaviorArray Link="NodDecoyMarkerTimedLife"/>
         <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>
+    </CUnit>
+    <CUnit id="NodDisruptionPod" parent="NodStructure">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="ShowResources" value="0"/>
+        <FlagArray index="NoScore" value="1"/>
+        <Attributes index="Structure" value="1"/>
+        <LifeStart value="100"/>
+        <LifeMax value="100"/>
+        <Sight value="4"/>
+        <Food value="0"/>
+        <Radius value="0.5"/>
+        <SeparationRadius value="0.5"/>
+        <MinimapRadius value="0.5"/>
+        <BehaviorArray Link="NodDisruptionPodCloakField"/>
+        <BehaviorArray Link="NodDisruptionPodTimedLife"/>
+    </CUnit>
+    <CUnit id="NodDisruptionPodMissile" parent="Missile">
+        <Race value="Nod"/>
+        <Mover value="MissileDefault"/>
+    </CUnit>
+    <CUnit id="NodMine">
+        <DeathRevealRadius value="3"/>
+        <Race value="Nod"/>
+        <FlagArray index="Missile" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="NoScore" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="KillCredit" value="0"/>
+        <PlaneArray index="Air" value="1"/>
+        <Collide index="Flying" value="1"/>
+        <Attributes index="Light" value="1"/>
+        <LifeStart value="25"/>
+        <LifeMax value="25"/>
+        <Speed value="0"/>
+        <Acceleration value="1000"/>
+        <Sight value="2"/>
+        <CostResource index="Minerals" value="0"/>
+        <CostResource index="Vespene" value="0"/>
+        <BehaviorArray Link="NodMineCloak"/>
+        <BehaviorArray Link="NodMineExplode"/>
+        <Radius value="0.25"/>
+        <SeparationRadius value="0.25"/>
+        <MinimapRadius value="0"/>
+        <EditorCategories value="Race:Nod,ObjectType:Projectile"/>
     </CUnit>
 </Catalog>
