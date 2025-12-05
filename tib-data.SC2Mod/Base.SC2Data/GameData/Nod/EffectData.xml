@@ -3512,4 +3512,126 @@
     <CEffectApplyBehavior id="NodLaserTurretsHubQuad"/>
     <CEffectApplyBehavior id="NodMissileTurretsHub"/>
     <CEffectApplyBehavior id="NodMissileTurretsHubQuad"/>
+    <CEffectSet id="NodDecoyArmyCreateSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="NodDecoyArmyCreateScorpion"/>
+        <EffectArray value="NodDecoyArmyCreateBuggy"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CEffectCreateUnit id="NodDecoyArmyCreateScorpion">
+        <EditorCategories value="Race:Nod"/>
+        <SpawnUnit value="NodScorpionTank"/>
+        <SpawnCount value="3"/>
+        <SpawnEffect value="NodDecoyArmyApplyBehavior"/>
+        <Origin Value="TargetPoint"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="NodDecoyArmyCreateBuggy">
+        <EditorCategories value="Race:Nod"/>
+        <SpawnUnit value="NodRaiderBuggy"/>
+        <SpawnCount value="3"/>
+        <SpawnEffect value="NodDecoyArmyApplyBehavior"/>
+        <Origin Value="TargetPoint"/>
+    </CEffectCreateUnit>
+    <CEffectApplyBehavior id="NodDecoyArmyApplyBehavior">
+        <EditorCategories value="Race:Nod"/>
+        <Behavior value="NodDecoyBehavior"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="NodRadarJammingMissileSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="NodRadarJammingMissileSearch"/>
+    </CEffectSet>
+    <CEffectEnumArea id="NodRadarJammingMissileSearch">
+        <EditorCategories value="Race:Nod"/>
+        <SearchFilters value="-;Enemy,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Effect="NodRadarJammingMissileApplyBehavior"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="NodRadarJammingMissileApplyBehavior">
+        <EditorCategories value="Race:Nod"/>
+        <Behavior value="NodRadarJammingBehavior"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumArea id="NodCloakingFieldSearch">
+        <EditorCategories value="Race:Nod"/>
+        <SearchFilters value="Mechanical;Player,Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="1.5" Effect="NodCloakingFieldApplyBehavior"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="NodCloakingFieldApplyBehavior">
+        <EditorCategories value="Race:Nod"/>
+        <Behavior value="NodCloakingFieldBuff"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumArea id="NodPowerSignatureScanSearch">
+        <EditorCategories value="Race:Nod"/>
+        <SearchFilters value="Structure;Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Effect="NodPowerSignatureScanApplyBehavior"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="NodPowerSignatureScanApplyBehavior">
+        <EditorCategories value="Race:Nod"/>
+        <Behavior value="NodPowerSignatureReveal"/>
+        <ValidatorArray value="IsPowerOrSupplySource"/>
+    </CEffectApplyBehavior>
+    <CEffectCreateUnit id="NodDecoyArmyCreateSourceMarker">
+        <EditorCategories value="Race:Nod"/>
+        <WhichLocation Value="TargetPoint"/>
+        <SpawnUnit value="NodDecoySourceMarker"/>
+    </CEffectCreateUnit>
+    <CEffectApplyBehavior id="NodDecoyArmyApplyUnlock">
+        <EditorCategories value="Race:Nod"/>
+        <Behavior value="NodDecoyArmyUnlock"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="NodDecoyArmySelectSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="NodDecoyArmyCreateSourceMarker"/>
+        <EffectArray value="NodDecoyArmyApplyUnlock"/>
+    </CEffectSet>
+
+    <CEffectCreateUnit id="NodDecoyArmyCreateDestMarker">
+        <EditorCategories value="Race:Nod"/>
+        <WhichLocation Value="TargetPoint"/>
+        <SpawnUnit value="NodDecoyDestMarker"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="NodDecoyArmyExecuteSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="NodDecoyArmyCreateDestMarker"/>
+        <EffectArray value="NodDecoyArmySearchSource"/>
+        <EffectArray value="NodDecoyArmyRemoveUnlock"/>
+    </CEffectSet>
+    <CEffectRemoveBehavior id="NodDecoyArmyRemoveUnlock">
+        <EditorCategories value="Race:Nod"/>
+        <BehaviorLink value="NodDecoyArmyUnlock"/>
+    </CEffectRemoveBehavior>
+    <CEffectEnumArea id="NodDecoyArmySearchSource">
+        <EditorCategories value="Race:Nod"/>
+        <SearchFilters value="-;Enemy,Neutral,Ally,Dead,Hidden"/>
+        <AreaArray Effect="NodDecoyArmyEnumUnits"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="NodDecoyArmyEnumUnits">
+        <EditorCategories value="Race:Nod"/>
+        <SearchFilters value="-;Enemy,Neutral,Structure,Missile,Item,Dead,Hidden"/>
+        <AreaArray Radius="1.5" Effect="NodDecoyArmyCopy"/>
+    </CEffectEnumArea>
+    <CEffectCreateUnit id="NodDecoyArmyCopy">
+        <EditorCategories value="Race:Nod"/>
+        <WhichLocation Value="TargetUnit"/>
+        <SpawnUnit value="NodMilitant"/>
+        <SpawnEffect value="NodDecoyArmyTeleportSet"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="NodDecoyArmyTeleportSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="NodDecoyArmyApplyTeleportBehavior"/>
+        <EffectArray value="NodDecoyBehavior"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="NodDecoyArmyApplyTeleportBehavior">
+        <EditorCategories value="Race:Nod"/>
+        <Behavior value="NodDecoyTeleport"/>
+    </CEffectApplyBehavior>
+
+    <CEffectEnumArea id="NodDecoyTeleportSearchDest">
+        <EditorCategories value="Race:Nod"/>
+        <SearchFilters value="-;Enemy,Neutral,Ally,Dead,Hidden"/>
+        <AreaArray Effect="NodDecoyTeleportExecute"/>
+    </CEffectEnumArea>
+    <CEffectTeleport id="NodDecoyTeleportExecute">
+        <EditorCategories value="Race:Nod"/>
+        <TargetLocation Value="TargetUnit"/>
+        <ClearQueuedOrders value="0"/>
+    </CEffectTeleport>
 </Catalog>

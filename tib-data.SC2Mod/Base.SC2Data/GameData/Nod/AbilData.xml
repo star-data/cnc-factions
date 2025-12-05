@@ -658,8 +658,6 @@
     </CAbilBuild>
 
 
-
-
     <CAbilEffectInstant id="NodConstructionDiscard">
         <Flags index="BestUnit" value="1"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
@@ -762,6 +760,69 @@
         <MaxCount value="1"/>
         <Flags index="ShowStatus" value="0"/>
     </CAbilArmMagazine>
+
+<!-- Creates a holographic projection of a selected group of units. These units can be controlled as any other and can uncover the fog of war, but do not deal damage and vapourize instantly when fired upon or if one minute is elapsed since their creation. -->
+    <CAbilEffectTarget id="NodDecoyArmy">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodDecoyArmySelectSet"/>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmy"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="60"/>
+            <!-- <Vital index="Energy" value="50"/> -->
+        </Cost>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="NodDecoyArmyExecute">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodDecoyArmyExecuteSet"/>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmyExecute"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="0"/>
+        </Cost>
+    </CAbilEffectTarget>
+<!-- Temporarily disables player signatures on the radar displays of all enemy players. -->
+    <CAbilEffectInstant id="NodRadarJammingMissile">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodRadarJammingMissileSet"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodRadarJammingMissile"/>
+        <Cost>
+            <Cooldown TimeUse="120"/>
+            <!-- <Vital index="Energy" value="50"/> -->
+        </Cost>
+    </CAbilEffectInstant>
+
+<!-- Cloaks selected friendly mechanical units in the small area for 15 seconds.-->
+    <CAbilEffectTarget id="NodCloakingField">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodCloakingFieldSearch"/>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodCloakingField"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="60"/>
+            <!-- <Vital index="Energy" value="50"/> -->
+        </Cost>
+        <CursorEffect value="NodCloakingFieldSearch"/>
+    </CAbilEffectTarget>
+
+
+<!-- Reveals the locations of all Electricy and Supplies providing buildings on the map for 5 seconds. -->
+    <CAbilEffectInstant id="NodPowerSignatureScan">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodPowerSignatureScanSearch"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodPowerSignatureScan"/>
+        <Cost>
+            <Cooldown TimeUse="120"/>
+            <!-- <Vital index="Energy" value="50"/> -->
+        </Cost>
+    </CAbilEffectInstant>
+
 
 
 
