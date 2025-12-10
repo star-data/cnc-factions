@@ -1275,10 +1275,10 @@
     <CActorMissile id="CycloneMissile225" parent="GenericAttackMissile" unitName="CycloneMissile225">
         <Model value="CycloneMissile27"/>
     </CActorMissile>
-    <CActorUnit id="SovietMagneticStormCoil_Actor" parent="GenericUnitStandardNoAutoSoundLinks" unitName="SovietMagneticStormCoil">
-        <On Terms="UnitConstruction.SovietMagneticStormCoil.Start" Send="AnimPlay 111 Birth PlayForever,NonLooping -1.000000 -1.000000 0.520000 AsTimeScale"/>
-        <On Terms="UnitConstruction.SovietMagneticStormCoil.Finish" Send="AnimClear 111"/>
-        <On Terms="UnitConstruction.SovietMagneticStormCoil.Cancel" Send="AnimClear 111"/>
+    <CActorUnit id="SovietMagneticStormCoil_Actor" parent="GenericUnitStandardNoAutoSoundLinks" unitName="SovietTeslaCoil">
+        <On Terms="UnitConstruction.SovietTeslaCoil.Start" Send="AnimPlay 111 Birth PlayForever,NonLooping -1.000000 -1.000000 0.520000 AsTimeScale"/>
+        <On Terms="UnitConstruction.SovietTeslaCoil.Finish" Send="AnimClear 111"/>
+        <On Terms="UnitConstruction.SovietTeslaCoil.Cancel" Send="AnimClear 111"/>
         <Model value="SovietMagneticStormCoil_Model"/>
         <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
         <PlacementSound value="Terran_BuildingPlacement2"/>
@@ -5609,10 +5609,10 @@
     </CActorRange>
     <CActorRange id="SiegeTankSiegedRange22">
         <Inherits index="TeamColor" value="1"/>
-        <On Terms="SelectionLocalUpdate.SovietMagneticStormCoil.Start" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.SovietMagneticStormCoil.StartEditorGround" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.SovietMagneticStormCoil" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.SovietMagneticStormCoil.Stop" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.SovietTeslaCoil.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietTeslaCoil.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietTeslaCoil" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietTeslaCoil.Stop" Send="Destroy"/>
         <Weapon value="ParticleBeam5"/>
         <Icon value="Assets\Textures\radaricon2.dds"/>
         <IconArcLength value="0.300000"/>
@@ -7731,7 +7731,7 @@
             <Image value="Assets\icons\imperial-nuclear-power-plant-icon-and-wireframe.dds"/>
         </Wireframe>
     </CActorUnit>
-    <CActorUnit id="SovietReactor_Actor" parent="TerranBuildingEx" unitName="ChinaNuclearPowerPlant_Model">
+    <CActorUnit id="SovietReactor_Actor" parent="TerranBuildingEx" unitName="ChinaNuclearPowerPlant">
         <Aliases value="_UnitHuge"/>
         <Model value="SovietReactor_Model"/>
         <CreepHeightClass value="Medium"/>
@@ -13960,7 +13960,7 @@
         <Host Subject="_Selectable"/>
         <Model value="nukeCursorSplat22322"/>
     </CActorSplat>
-    <CActorSplat id="OdinNuclearStrikeCursorSplat223222" parent="TerranCursorSplat" abil="SovietIronCurtain222">
+    <CActorSplat id="OdinNuclearStrikeCursorSplat223222" parent="TerranCursorSplat" abil="AlliedChronosphereTargeting">
         <Supporter Subject="::Creator"/>
         <Host Subject="_Selectable"/>
         <Model value="nukeCursorSplat22322"/>
@@ -16156,7 +16156,7 @@
     <CActorUnit id="AlliedChronoSphere_Actor" parent="TerranBuilding" unitName="AlliedChronoSphere">
         <On Terms="Abil.*.PawnTarget" Send="AnimPlay"/>
         <On Terms="Behavior.RAMovementSpeedAndArmor20Percent48222.Off" Send="AnimBracketStart Attack1 Ready,Start Ready Ready,End"/>
-        <On Terms="Abil.SovietIronCurtain222.SourceFinishStart" Send="AnimBracketStop Attack1"/>
+        <On Terms="Abil.AlliedChronosphereTargeting.SourceFinishStart" Send="AnimBracketStop Attack1"/>
         <On Terms="Behavior.RAMovementSpeedAndArmor20Percent4822.Off" Send="PlayUnitSound Board"/>
         <On Terms="Behavior.RAMovementSpeedAndArmor20Percent48222.Off" Send="Create RAChronoTeleportationReadySoundEffect"/>
         <On Terms="ActorCreation" Send="AnimPlay 111 Birth PlayForever,NonLooping -1.000000 -1.000000 1.000000 AsTimeScale"/>
@@ -16196,52 +16196,9 @@
         <Wireframe>
             <Image value="Assets\icons\Allied\chrono-teleporter-wireframe.dds"/>
         </Wireframe>
-        <AbilSoundArray AbilCmd="SovietIronCurtain222,Execute" Sound="Odin_NukeExplode22222"/>
+        <AbilSoundArray AbilCmd="AlliedChronosphereTargeting,Execute" Sound="Odin_NukeExplode22222"/>
         <Model value="AlliedChronoSphere_Model"/>
         <HighlightTooltip value="Unit/Name/AlliedChronoSphere_Actor"/>
-    </CActorUnit>
-    <CActorUnit id="AlliedOldChronosphere_Actor" parent="TerranBuilding" unitName="AlliedOldChronosphere">
-        <On Terms="Abil.*.PawnTarget" Send="AnimPlay"/>
-        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent48222.Off" Send="AnimBracketStart Attack1 Stand,Work,Start Stand,Work Stand,Work,End"/>
-        <On Terms="Abil.SovietIronCurtain222.SourceFinishStart" Send="AnimBracketStop Attack1"/>
-        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent4822.Off" Send="PlayUnitSound Board"/>
-        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent48222.Off" Send="Create RAChronoTeleportationReadySoundEffect"/>
-        <Scale value="0.950000"/>
-        <DeathArray index="Normal" ModelLink="TerranBuildingDeath" SoundLink="Bunker_Explode"/>
-        <DeathActorModel value="UnitDeathModelPersistent"/>
-        <DeathActorModelLow value="UnitDeathModelPersistent"/>
-        <PlacementSound value="Terran_BuildingPlacement2"/>
-        <PortraitModel value="StaticPortrait9"/>
-        <AbilSoundArray AbilCmd="SovietIronCurtain222,Execute" Sound="Odin_NukeExplode22222"/>
-        <BarOffset value="120"/>
-        <BarWidth value="160"/>
-        <GroupIcon>
-            <Image value="Assets\icons\Allied\wireframe-of-the-second-generation-hypertime-teleportation-device.dds"/>
-        </GroupIcon>
-        <HeroIcon value="Assets\icons\Allied\second-generation-hypertime-teleportation-device-icon.dds"/>
-        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
-        <NameOffset value="150"/>
-        <SoundArray index="Birth" value="AlliedChronoSphere_Actor_Birth"/>
-        <SoundArray index="Ready" value="AlliedChronoSphere_Actor_Birth"/>
-        <SoundArray index="Help" value="GhostAcademy_Help"/>
-        <SoundArray index="What" value="AlliedChronoSphere_Actor_Birth"/>
-        <SoundArray index="Yes" value="GhostAcademy_Yes"/>
-        <SoundArray index="Attack" value="GhostAcademy_Attack"/>
-        <SoundArray index="Pissed" value="GhostAcademy_Pissed"/>
-        <SoundArray index="Movement" value="GhostAcademy_Movement"/>
-        <SoundArray index="Turning" value="GhostAcademy_Turning"/>
-        <SoundArray index="Board" value="AlliedChronoSphere_Actor_Board"/>
-        <SoundArray index="Construction" value="AlliedChronoSphere_Actor_Birth"/>
-        <SoundArray index="Click" value="AlliedChronoSphere_Actor_Birth"/>
-        <SoundArray index="ClickError" value="GhostAcademy_ClickError"/>
-        <SoundArray index="Highlight" value="GhostAcademy_Highlight"/>
-        <UnitFlags index="ShowBlobShadow" value="0"/>
-        <UnitIcon value="Assets\icons\Allied\second-generation-hypertime-teleportation-device-icon.dds"/>
-        <Wireframe>
-            <Image value="Assets\icons\Allied\wireframe-of-the-second-generation-hypertime-teleportation-device.dds"/>
-        </Wireframe>
-        <Model value="AlliedOldChronosphere_Actor"/>
-        <HighlightTooltip value="Unit/Name/AlliedOldChronosphere_Actor"/>
     </CActorUnit>
     <CActorUnit id="SovietOldIronCurtain_Actor" parent="TerranBuilding" unitName="SovietOldIronCurtain">
         <On Terms="Abil.*.PawnTarget" Send="AnimPlay"/>
@@ -17591,12 +17548,6 @@
     <CActorUnit id="AlliedPhantomTankSpectralVestUnit_Actor" parent="GenericUnitStandard" unitName="AlliedPhantomTankSpectralVestUnit">
         <Model value="Invisible"/>
         <HighlightTooltip value="Unit/Name/Bogus"/>
-    </CActorUnit>
-    <CActorUnit id="AlliedChronoTeleportationCoverUnit_Actor" parent="GenericUnitStandard" unitName="AlliedChronoTeleportationCoverUnit">
-        <Model value="Invisible"/>
-        <Scale value="0.650000"/>
-        <HighlightTooltip value="Unit/Name/Bogus"/>
-        <On Terms="ActorCreation" Send="AnimBracketStart Brith Stand"/>
     </CActorUnit>
     <CActorUnit id="RAPrismTankPrismReflectiveVestUnit_Actor" parent="GenericUnitStandard" unitName="RAPrismTankPrismReflectiveVestUnit">
         <Model value="Invisible"/>

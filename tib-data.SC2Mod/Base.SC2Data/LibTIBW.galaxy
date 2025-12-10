@@ -153,6 +153,33 @@ void libTIBW_gf_PlayAnnounceSound (int lp_type, int lp_player) {
     }
 }
 
+int libTIBW_gf_GetunitHarvestingStage (unit lp_unit) {
+    // Variable Declarations
+    int lv_stage;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals1") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals1") == true))) {
+        lv_stage = (lv_stage + 1);
+    }
+
+    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals2") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals2") == true))) {
+        lv_stage = (lv_stage + 1);
+    }
+
+    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals3") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals3") == true))) {
+        lv_stage = (lv_stage + 1);
+    }
+
+    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals4") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals4") == true))) {
+        lv_stage = (lv_stage + 1);
+    }
+
+    return lv_stage;
+}
+
 void libTIBW_gf_ApplyPlayerVoicePack (int lp_player, string lp_voiceID) {
     // Variable Declarations
     string lv_voicePackReward;
@@ -407,63 +434,360 @@ void libTIBW_gf_CreateDropPod (int lp_race, point lp_location, unitgroup lp_unit
 
 // Triggers
 //--------------------------------------------------------------------------------------------------
-// Trigger: Untitled Trigger 001
+// Trigger: Construction Started
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_UntitledTrigger001_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_ConstructionStarted_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!(((UnitGetType(EventUnit()) == "NodConstructionYard") || (UnitGetType(EventUnit()) == "NodConstructionYardSupportModule") || (UnitGetType(EventUnit()) == "NodCrane") || (UnitGetType(EventUnit()) == "NodCraneSupportModule")))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_Building, UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ConstructionStarted_Init () {
+    libTIBW_gt_ConstructionStarted = TriggerCreate("libTIBW_gt_ConstructionStarted_Func");
+    TriggerAddEventUnitArmMagazineProgress(libTIBW_gt_ConstructionStarted, null, c_unitProgressStageStart);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Construction Completed
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ConstructionCompleted_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!(((UnitGetType(EventUnit()) == "NodConstructionYard") || (UnitGetType(EventUnit()) == "NodCrane")))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_ConComplete, UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ConstructionCompleted_Init () {
+    libTIBW_gt_ConstructionCompleted = TriggerCreate("libTIBW_gt_ConstructionCompleted_Func");
+    TriggerAddEventUnitArmMagazineProgress(libTIBW_gt_ConstructionCompleted, null, c_unitProgressStageComplete);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Construction Canceled
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ConstructionCanceled_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Actions
     if (!runActions) {
         return true;
     }
 
-    TriggerDebugOutput(1, StringToText((UnitGetType(EventPlayerEffectUsedUnit(c_effectUnitCaster)))), true);
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_Cancelled, UnitGetOwner(EventUnit()));
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_UntitledTrigger001_Init () {
-    libTIBW_gt_UntitledTrigger001 = TriggerCreate("libTIBW_gt_UntitledTrigger001_Func");
-    TriggerAddEventPlayerEffectUsed(libTIBW_gt_UntitledTrigger001, 1, "TrackGenetronPowerSupplyCnC100AB");
+void libTIBW_gt_ConstructionCanceled_Init () {
+    libTIBW_gt_ConstructionCanceled = TriggerCreate("libTIBW_gt_ConstructionCanceled_Func");
+    TriggerAddEventUnitTrainProgress(libTIBW_gt_ConstructionCanceled, null, c_unitProgressStageCancel);
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Untitled Trigger 002
+// Trigger: New Construction Options
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_UntitledTrigger002_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_NewConstructionOptions_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+    string lv_abil;
+    int lv_owner;
+    string lv_type;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_unit = EventUnitCreatedUnit();
+    lv_owner = UnitGetOwner(lv_unit);
+    lv_type = UnitGetType(lv_unit);
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitTypeTestAttribute(lv_type, c_unitAttributeStructure) == true))) {
+            return false;
+        }
+
+        if (!((UnitGroupCount(UnitGroup(lv_type, lv_owner, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) == 1))) {
+            return false;
+        }
+
+        if (!(libTIBW_gf_UnitUnlocksTech(lv_unit))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_NewConstructionOptions, lv_owner);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_NewConstructionOptions_Init () {
+    libTIBW_gt_NewConstructionOptions = TriggerCreate("libTIBW_gt_NewConstructionOptions_Func");
+    TriggerAddEventUnitCreated(libTIBW_gt_NewConstructionOptions, null, null, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Construction Completed 2
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ConstructionCompleted2_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((UnitGroupCount(UnitGroup("NodConstructionYard", UnitGetOwner(EventUnit()), RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) == 1))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_NewConstructionOptions, UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ConstructionCompleted2_Init () {
+    libTIBW_gt_ConstructionCompleted2 = TriggerCreate("libTIBW_gt_ConstructionCompleted2_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_ConstructionCompleted2, null, AbilityCommand("NodMCVDeploy", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Training Started
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_TrainingStarted_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Actions
     if (!runActions) {
         return true;
     }
 
-    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_C1BF53C7"), true);
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_Training, UnitGetOwner(EventUnit()));
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_UntitledTrigger002_Init () {
-    libTIBW_gt_UntitledTrigger002 = TriggerCreate("libTIBW_gt_UntitledTrigger002_Func");
-    TriggerAddEventPlayerEffectUsed(libTIBW_gt_UntitledTrigger002, 1, "CNCEnergyDrainPowerEnumPowerRateSwitch");
+void libTIBW_gt_TrainingStarted_Init () {
+    libTIBW_gt_TrainingStarted = TriggerCreate("libTIBW_gt_TrainingStarted_Func");
+    TriggerAddEventUnitTrainProgress(libTIBW_gt_TrainingStarted, null, c_unitProgressStageStart);
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Untitled Trigger 003
+// Trigger: Training Completed
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_UntitledTrigger003_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_TrainingCompleted_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Actions
     if (!runActions) {
         return true;
     }
 
-    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_D706AFDC"), true);
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_UnitReady, UnitGetOwner(EventUnit()));
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_UntitledTrigger003_Init () {
-    libTIBW_gt_UntitledTrigger003 = TriggerCreate("libTIBW_gt_UntitledTrigger003_Func");
-    TriggerAddEventPlayerEffectUsed(libTIBW_gt_UntitledTrigger003, 1, "CNCEnergyDrainPowerEnumPowerRate30");
+void libTIBW_gt_TrainingCompleted_Init () {
+    libTIBW_gt_TrainingCompleted = TriggerCreate("libTIBW_gt_TrainingCompleted_Func");
+    TriggerAddEventUnitTrainProgress(libTIBW_gt_TrainingCompleted, null, c_unitProgressStageComplete);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Training Canceled
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_TrainingCanceled_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!(((UnitGetType(EventUnit()) == "NodConstructionYard") || (UnitGetType(EventUnit()) == "NodCrane")))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_Cancelled, UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_TrainingCanceled_Init () {
+    libTIBW_gt_TrainingCanceled = TriggerCreate("libTIBW_gt_TrainingCanceled_Func");
+    TriggerAddEventUnitArmMagazineProgress(libTIBW_gt_TrainingCanceled, null, c_unitProgressStageCancel);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Ally Defeated
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_AllyDefeated_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    playergroup auto0E295CC3_g;
+    int auto0E295CC3_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto0E295CC3_g = PlayerGroupAll();
+    auto0E295CC3_var = -1;
+    while (true) {
+        auto0E295CC3_var = PlayerGroupNextPlayer(auto0E295CC3_g, auto0E295CC3_var);
+        if (auto0E295CC3_var < 0) { break; }
+        if ((PlayerGetAlliance(EventPlayer(), c_allianceIdVision, auto0E295CC3_var) == true)) {
+            libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_AllyDefeated, UnitGetOwner(EventUnitCreatedUnit()));
+        }
+        else {
+            libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_EnemyDefeated, UnitGetOwner(EventUnitCreatedUnit()));
+        }
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_AllyDefeated_Init () {
+    libTIBW_gt_AllyDefeated = TriggerCreate("libTIBW_gt_AllyDefeated_Func");
+    TriggerAddEventPlayerLeft(libTIBW_gt_AllyDefeated, c_playerAny, c_gameResultDefeat);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Unit Complete
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_UnitComplete_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_UnitReady, UnitGetOwner(EventUnitCreatedUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_UnitComplete_Init () {
+    libTIBW_gt_UnitComplete = TriggerCreate("libTIBW_gt_UnitComplete_Func");
+    TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodWarFactoryTrain", null);
+    TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodRefineryTrain", null);
+    TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodConstructionYardTrain", null);
+    TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodAirTowerTrain", null);
+    TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodHandTrain", null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Unit Attacked
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_UnitAttacked_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_announceType;
+    unit lv_attacked;
+    unit lv_attacker;
+    int lv_player;
+    playergroup lv_playerGroup;
+    playergroup lv_allyGroup;
+
+    // Automatic Variable Declarations
+    playergroup auto05A58F73_g;
+    int auto05A58F73_var;
+
+    // Variable Initialization
+    lv_attacked = EventUnit();
+    lv_attacker = EventUnitTarget();
+    lv_player = UnitGetOwner(lv_attacked);
+    lv_playerGroup = PlayerGroupSingle(lv_player);
+    lv_allyGroup = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
+
+    // Conditions
+    if (testConds) {
+        if (!((lv_player != UnitGetOwner(lv_attacker)))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((UnitTypeTestAttribute(UnitGetType(lv_attacked), c_unitAttributeStructure) == true)) {
+        libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_BaseUnderAttack, lv_player);
+    }
+    else {
+        if ((UnitTypeTestFlag(UnitGetType(lv_attacked), c_unitFlagWorker) == true)) {
+            libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_HarvesterUnderAttack, lv_player);
+        }
+        else {
+            libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_UnitUnderAttack, lv_player);
+        }
+    }
+    auto05A58F73_g = PlayerGroupAll();
+    auto05A58F73_var = -1;
+    while (true) {
+        auto05A58F73_var = PlayerGroupNextPlayer(auto05A58F73_g, auto05A58F73_var);
+        if (auto05A58F73_var < 0) { break; }
+        if ((lv_player != auto05A58F73_var) && (PlayerGetAlliance(EventPlayer(), c_allianceIdVision, auto05A58F73_var) == true)) {
+            libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_AllyUnderAttack, auto05A58F73_var);
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_UnitAttacked_Init () {
+    libTIBW_gt_UnitAttacked = TriggerCreate("libTIBW_gt_UnitAttacked_Func");
+    TriggerAddEventUnitAttacked2(libTIBW_gt_UnitAttacked, null, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Nuke
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Nuke_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    MinimapPing(PlayerGroupAll(), EventPlayerEffectUsedPoint(c_effectLocationTargetPoint), 10.0, Color(100.00, 0.00, 0.00));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Nuke_Init () {
+    libTIBW_gt_Nuke = TriggerCreate("libTIBW_gt_Nuke_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_Nuke, 1, "NodInvertWarheadAttackAB");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -880,363 +1204,6 @@ void libTIBW_gt_SupportUnitSelection2_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Construction Started
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConstructionStarted_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!(((UnitGetType(EventUnit()) == "NodConstructionYard") || (UnitGetType(EventUnit()) == "NodConstructionYardSupportModule") || (UnitGetType(EventUnit()) == "NodCrane") || (UnitGetType(EventUnit()) == "NodCraneSupportModule")))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_Building, UnitGetOwner(EventUnit()));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConstructionStarted_Init () {
-    libTIBW_gt_ConstructionStarted = TriggerCreate("libTIBW_gt_ConstructionStarted_Func");
-    TriggerAddEventUnitArmMagazineProgress(libTIBW_gt_ConstructionStarted, null, c_unitProgressStageStart);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Construction Completed
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConstructionCompleted_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!(((UnitGetType(EventUnit()) == "NodConstructionYard") || (UnitGetType(EventUnit()) == "NodCrane")))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_ConComplete, UnitGetOwner(EventUnit()));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConstructionCompleted_Init () {
-    libTIBW_gt_ConstructionCompleted = TriggerCreate("libTIBW_gt_ConstructionCompleted_Func");
-    TriggerAddEventUnitArmMagazineProgress(libTIBW_gt_ConstructionCompleted, null, c_unitProgressStageComplete);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Construction Canceled
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConstructionCanceled_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_Cancelled, UnitGetOwner(EventUnit()));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConstructionCanceled_Init () {
-    libTIBW_gt_ConstructionCanceled = TriggerCreate("libTIBW_gt_ConstructionCanceled_Func");
-    TriggerAddEventUnitTrainProgress(libTIBW_gt_ConstructionCanceled, null, c_unitProgressStageCancel);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: New Construction Options
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_NewConstructionOptions_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_unit;
-    string lv_abil;
-    int lv_owner;
-    string lv_type;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_unit = EventUnitCreatedUnit();
-    lv_owner = UnitGetOwner(lv_unit);
-    lv_type = UnitGetType(lv_unit);
-
-    // Conditions
-    if (testConds) {
-        if (!((UnitTypeTestAttribute(lv_type, c_unitAttributeStructure) == true))) {
-            return false;
-        }
-
-        if (!((UnitGroupCount(UnitGroup(lv_type, lv_owner, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) == 1))) {
-            return false;
-        }
-
-        if (!(libTIBW_gf_UnitUnlocksTech(lv_unit))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_NewConstructionOptions, lv_owner);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_NewConstructionOptions_Init () {
-    libTIBW_gt_NewConstructionOptions = TriggerCreate("libTIBW_gt_NewConstructionOptions_Func");
-    TriggerAddEventUnitCreated(libTIBW_gt_NewConstructionOptions, null, null, null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Construction Completed 2
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConstructionCompleted2_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((UnitGroupCount(UnitGroup("NodConstructionYard", UnitGetOwner(EventUnit()), RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), c_unitCountAlive) == 1))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_NewConstructionOptions, UnitGetOwner(EventUnit()));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConstructionCompleted2_Init () {
-    libTIBW_gt_ConstructionCompleted2 = TriggerCreate("libTIBW_gt_ConstructionCompleted2_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_ConstructionCompleted2, null, AbilityCommand("NodMCVDeploy", 0), c_unitAbilStageComplete, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Training Started
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_TrainingStarted_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_Training, UnitGetOwner(EventUnit()));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_TrainingStarted_Init () {
-    libTIBW_gt_TrainingStarted = TriggerCreate("libTIBW_gt_TrainingStarted_Func");
-    TriggerAddEventUnitTrainProgress(libTIBW_gt_TrainingStarted, null, c_unitProgressStageStart);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Training Completed
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_TrainingCompleted_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_UnitReady, UnitGetOwner(EventUnit()));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_TrainingCompleted_Init () {
-    libTIBW_gt_TrainingCompleted = TriggerCreate("libTIBW_gt_TrainingCompleted_Func");
-    TriggerAddEventUnitTrainProgress(libTIBW_gt_TrainingCompleted, null, c_unitProgressStageComplete);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Training Canceled
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_TrainingCanceled_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!(((UnitGetType(EventUnit()) == "NodConstructionYard") || (UnitGetType(EventUnit()) == "NodCrane")))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_Cancelled, UnitGetOwner(EventUnit()));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_TrainingCanceled_Init () {
-    libTIBW_gt_TrainingCanceled = TriggerCreate("libTIBW_gt_TrainingCanceled_Func");
-    TriggerAddEventUnitArmMagazineProgress(libTIBW_gt_TrainingCanceled, null, c_unitProgressStageCancel);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Ally Defeated
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_AllyDefeated_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    playergroup auto0E295CC3_g;
-    int auto0E295CC3_var;
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    auto0E295CC3_g = PlayerGroupAll();
-    auto0E295CC3_var = -1;
-    while (true) {
-        auto0E295CC3_var = PlayerGroupNextPlayer(auto0E295CC3_g, auto0E295CC3_var);
-        if (auto0E295CC3_var < 0) { break; }
-        if ((PlayerGetAlliance(EventPlayer(), c_allianceIdVision, auto0E295CC3_var) == true)) {
-            libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_AllyDefeated, UnitGetOwner(EventUnitCreatedUnit()));
-        }
-        else {
-            libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_EnemyDefeated, UnitGetOwner(EventUnitCreatedUnit()));
-        }
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_AllyDefeated_Init () {
-    libTIBW_gt_AllyDefeated = TriggerCreate("libTIBW_gt_AllyDefeated_Func");
-    TriggerAddEventPlayerLeft(libTIBW_gt_AllyDefeated, c_playerAny, c_gameResultDefeat);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Unit Complete
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_UnitComplete_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_UnitReady, UnitGetOwner(EventUnitCreatedUnit()));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_UnitComplete_Init () {
-    libTIBW_gt_UnitComplete = TriggerCreate("libTIBW_gt_UnitComplete_Func");
-    TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodWarFactoryTrain", null);
-    TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodRefineryTrain", null);
-    TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodConstructionYardTrain", null);
-    TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodAirTowerTrain", null);
-    TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodHandTrain", null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Unit Attacked
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_UnitAttacked_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_announceType;
-    unit lv_attacked;
-    unit lv_attacker;
-    int lv_player;
-    playergroup lv_playerGroup;
-    playergroup lv_allyGroup;
-
-    // Automatic Variable Declarations
-    playergroup auto05A58F73_g;
-    int auto05A58F73_var;
-
-    // Variable Initialization
-    lv_attacked = EventUnit();
-    lv_attacker = EventUnitTarget();
-    lv_player = UnitGetOwner(lv_attacked);
-    lv_playerGroup = PlayerGroupSingle(lv_player);
-    lv_allyGroup = PlayerGroupAlliance(c_playerGroupAlly, lv_player);
-
-    // Conditions
-    if (testConds) {
-        if (!((lv_player != UnitGetOwner(lv_attacker)))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((UnitTypeTestAttribute(UnitGetType(lv_attacked), c_unitAttributeStructure) == true)) {
-        libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_BaseUnderAttack, lv_player);
-    }
-    else {
-        if ((UnitTypeTestFlag(UnitGetType(lv_attacked), c_unitFlagWorker) == true)) {
-            libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_HarvesterUnderAttack, lv_player);
-        }
-        else {
-            libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_UnitUnderAttack, lv_player);
-        }
-    }
-    auto05A58F73_g = PlayerGroupAll();
-    auto05A58F73_var = -1;
-    while (true) {
-        auto05A58F73_var = PlayerGroupNextPlayer(auto05A58F73_g, auto05A58F73_var);
-        if (auto05A58F73_var < 0) { break; }
-        if ((lv_player != auto05A58F73_var) && (PlayerGetAlliance(EventPlayer(), c_allianceIdVision, auto05A58F73_var) == true)) {
-            libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_AllyUnderAttack, auto05A58F73_var);
-        }
-
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_UnitAttacked_Init () {
-    libTIBW_gt_UnitAttacked = TriggerCreate("libTIBW_gt_UnitAttacked_Func");
-    TriggerAddEventUnitAttacked2(libTIBW_gt_UnitAttacked, null, null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Nuke
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_Nuke_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    MinimapPing(PlayerGroupAll(), EventPlayerEffectUsedPoint(c_effectLocationTargetPoint), 10.0, Color(100.00, 0.00, 0.00));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_Nuke_Init () {
-    libTIBW_gt_Nuke = TriggerCreate("libTIBW_gt_Nuke_Func");
-    TriggerAddEventPlayerEffectUsed(libTIBW_gt_Nuke, 1, "NodInvertWarheadAttackAB");
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: Attacking
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_Attacking_Func (bool testConds, bool runActions) {
@@ -1254,6 +1221,168 @@ bool libTIBW_gt_Attacking_Func (bool testConds, bool runActions) {
 void libTIBW_gt_Attacking_Init () {
     libTIBW_gt_Attacking = TriggerCreate("libTIBW_gt_Attacking_Func");
     TriggerAddEventUnitStartedAttack2(libTIBW_gt_Attacking, null, "NodSpecterWeapon");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Carry Minerals
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_CarryMinerals_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+    int lv_stage;
+
+    // Automatic Variable Declarations
+    int autoC66A8F65_val;
+
+    // Variable Initialization
+    lv_unit = EventUnit();
+    lv_stage = libTIBW_gf_GetunitHarvestingStage(lv_unit);
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(lv_unit) == "NodHarvester"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoC66A8F65_val = lv_stage;
+    if (autoC66A8F65_val == 0) {
+        UnitBehaviorAdd(lv_unit, "CarryMinerals1", lv_unit, 1);
+    }
+    else if (autoC66A8F65_val == 1) {
+        UnitBehaviorAdd(lv_unit, "CarryMinerals2", lv_unit, 1);
+    }
+    else if (autoC66A8F65_val == 2) {
+        UnitBehaviorAdd(lv_unit, "CarryMinerals3", lv_unit, 1);
+        UnitAbilityChangeLink(lv_unit, "NodHarvest", (("NodHarvest" + IntToString(UnitGetPropertyInt(lv_unit, c_unitPropCarriedMinerals, c_unitPropCurrent)))));
+    }
+    else if (autoC66A8F65_val == 3) {
+        UnitBehaviorAdd(lv_unit, "CarryMinerals4", lv_unit, 1);
+    }
+    else {
+    }
+    UnitBehaviorRemove(lv_unit, "CarryMineralFieldMinerals", 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_CarryMinerals_Init () {
+    libTIBW_gt_CarryMinerals = TriggerCreate("libTIBW_gt_CarryMinerals_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_CarryMinerals, null, "CarryMineralFieldMinerals", c_unitBehaviorChangeCreate);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Carry HY Minerals
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_CarryHYMinerals_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+    int lv_stage;
+
+    // Automatic Variable Declarations
+    int auto9739B9B5_val;
+
+    // Variable Initialization
+    lv_unit = EventUnit();
+    lv_stage = libTIBW_gf_GetunitHarvestingStage(lv_unit);
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(lv_unit) == "NodHarvester"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto9739B9B5_val = lv_stage;
+    if (auto9739B9B5_val == 0) {
+        UnitBehaviorAdd(lv_unit, "CarryHighYieldMinerals1", lv_unit, 1);
+    }
+    else if (auto9739B9B5_val == 1) {
+        UnitBehaviorAdd(lv_unit, "CarryHighYieldMinerals2", lv_unit, 1);
+    }
+    else if (auto9739B9B5_val == 2) {
+        UnitBehaviorAdd(lv_unit, "CarryHighYieldMinerals3", lv_unit, 1);
+        UnitAbilityChangeLink(lv_unit, "NodHarvest", (("NodHarvest" + IntToString(UnitGetPropertyInt(lv_unit, c_unitPropCarriedMinerals, c_unitPropCurrent)))));
+    }
+    else if (auto9739B9B5_val == 3) {
+        UnitBehaviorAdd(lv_unit, "CarryHighYieldMinerals4", lv_unit, 1);
+    }
+    else {
+    }
+    UnitBehaviorRemove(lv_unit, "CarryHighYieldMineralFieldMinerals", 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_CarryHYMinerals_Init () {
+    libTIBW_gt_CarryHYMinerals = TriggerCreate("libTIBW_gt_CarryHYMinerals_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_CarryHYMinerals, null, "CarryHighYieldMineralFieldMinerals", c_unitBehaviorChangeCreate);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Dropoff
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Dropoff_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_unit = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(lv_unit) == "NodHarvester"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals1", 1);
+    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals2", 1);
+    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals3", 1);
+    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals4", 1);
+    UnitBehaviorRemove(lv_unit, "CarryMinerals1", 1);
+    UnitBehaviorRemove(lv_unit, "CarryMinerals2", 1);
+    UnitBehaviorRemove(lv_unit, "CarryMinerals3", 1);
+    UnitBehaviorRemove(lv_unit, "CarryMinerals4", 1);
+    if ((UnitAbilityExists(lv_unit, "NodHarvest21") == true)) {
+        UnitAbilityChangeLink(lv_unit, "NodHarvest21", "NodHarvest");
+    }
+    else if ((UnitAbilityExists(lv_unit, "NodHarvest19") == true)) {
+        UnitAbilityChangeLink(lv_unit, "NodHarvest19", "NodHarvest");
+    }
+    else if ((UnitAbilityExists(lv_unit, "NodHarvest17") == true)) {
+        UnitAbilityChangeLink(lv_unit, "NodHarvest17", "NodHarvest");
+    }
+    else if ((UnitAbilityExists(lv_unit, "NodHarvest15") == true)) {
+        UnitAbilityChangeLink(lv_unit, "NodHarvest15", "NodHarvest");
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Dropoff_Init () {
+    libTIBW_gt_Dropoff = TriggerCreate("libTIBW_gt_Dropoff_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_Dropoff, null, AbilityCommand("NodHarvest", 1), c_abilHarvestStageDropOff, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_Dropoff, null, AbilityCommand("NodHarvest15", 1), c_abilHarvestStageDropOff, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_Dropoff, null, AbilityCommand("NodHarvest17", 1), c_abilHarvestStageDropOff, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_Dropoff, null, AbilityCommand("NodHarvest19", 1), c_abilHarvestStageDropOff, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_Dropoff, null, AbilityCommand("NodHarvest21", 1), c_abilHarvestStageDropOff, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2306,19 +2435,6 @@ void libTIBW_gt__GDIDropPod_Init () {
 }
 
 void libTIBW_InitTriggers () {
-    libTIBW_gt_UntitledTrigger001_Init();
-    libTIBW_gt_UntitledTrigger002_Init();
-    libTIBW_gt_UntitledTrigger003_Init();
-    libTIBW_gt_VestCreated_Init();
-    libTIBW_gt_CYOwnerChanged_Init();
-    libTIBW_gt_ConjoinedBehaviors_Init();
-    libTIBW_gt_MCVusesRallyWaypoint_Init();
-    libTIBW_gt_MorphtoMCV_Init();
-    libTIBW_gt_ConjoinedSupportModuleCreated_Init();
-    libTIBW_gt_ChooseConjoinedSupportModule_Init();
-    libTIBW_gt_ChooseCnCConjoinedUnit_Init();
-    libTIBW_gt_CYUnitSelection_Init();
-    libTIBW_gt_SupportUnitSelection2_Init();
     libTIBW_gt_ConstructionStarted_Init();
     libTIBW_gt_ConstructionCompleted_Init();
     libTIBW_gt_ConstructionCanceled_Init();
@@ -2331,7 +2447,20 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_UnitComplete_Init();
     libTIBW_gt_UnitAttacked_Init();
     libTIBW_gt_Nuke_Init();
+    libTIBW_gt_VestCreated_Init();
+    libTIBW_gt_CYOwnerChanged_Init();
+    libTIBW_gt_ConjoinedBehaviors_Init();
+    libTIBW_gt_MCVusesRallyWaypoint_Init();
+    libTIBW_gt_MorphtoMCV_Init();
+    libTIBW_gt_ConjoinedSupportModuleCreated_Init();
+    libTIBW_gt_ChooseConjoinedSupportModule_Init();
+    libTIBW_gt_ChooseCnCConjoinedUnit_Init();
+    libTIBW_gt_CYUnitSelection_Init();
+    libTIBW_gt_SupportUnitSelection2_Init();
     libTIBW_gt_Attacking_Init();
+    libTIBW_gt_CarryMinerals_Init();
+    libTIBW_gt_CarryHYMinerals_Init();
+    libTIBW_gt_Dropoff_Init();
     libTIBW_gt_Pushing_Init();
     libTIBW_gt_PushingEnd_Init();
     libTIBW_gt_HubBuild_Init();
