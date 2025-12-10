@@ -1,0 +1,206 @@
+include "TriggerLibs/NativeLib"
+include "NodDecoyArmy_h"
+
+//--------------------------------------------------------------------------------------------------
+// NOD DECOY ARMY TRIGGER IMPLEMENTATION
+// Based on Allied Chronosphere pattern from LibRED3.galaxy
+//--------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Nod Decoy Army Targeting Sticky
+// This trigger fires when the player first activates the Decoy Army ability
+// It creates a marker at the SOURCE location and enables the second targeting mode
+//--------------------------------------------------------------------------------------------------
+bool libNOD_gt_DecoyArmyTargetingSticky_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_player = EventPlayer();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    // Step 1: Create a marker unit at the SOURCE point (where units will be cloned FROM)
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, "NodDecoyArmyMarker", 0, UnitGetOwner(EventUnit()), EventUnitTargetPoint());
+    
+    // Step 2: Add the marker to a unit group for tracking
+    UnitGroupAdd(libNOD_gv_decoyMarkerTarget, UnitLastCreated());
+    
+    // Step 3: Activate the second targeting mode (select DESTINATION point)
+    // This allows the player to click a second location where decoys will appear
+    UISetTargetingOrder(
+        PlayerGroupSingle(lv_player), 
+        libNOD_gv_decoyMarkerTarget, 
+        OrderTargetingPoint(AbilityCommand("NodDecoyArmy_Execute", 0), EventUnitTargetPoint()), 
+        true
+    );
+    
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libNOD_gt_DecoyArmyTargetingSticky_Init () {
+    libNOD_gt_DecoyArmyTargetingSticky = TriggerCreate("libNOD_gt_DecoyArmyTargetingSticky_Func");
+    TriggerAddEventUnitAbility(libNOD_gt_DecoyArmyTargetingSticky, null, AbilityCommand("NodDecoyArmyTargeting", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Nod Decoy Army Execute
+// This trigger fires when the player completes the ability (second click)
+// It clones units from SOURCE and creates decoys at DESTINATION
+//--------------------------------------------------------------------------------------------------
+bool libNOD_gt_DecoyArmyExecute_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unitgroup lv_sourceUnits;
+    unit lv_currentUnit;
+    int lv_unitCount;
+    int lv_index;
+    point lv_sourcePoint;
+    point lv_destinationPoint;
+    string lv_unitType;
+    unit lv_decoyUnit;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    // Get the source point (where the marker was placed)
+    lv_sourcePoint = UnitGetPosition(EventUnit());
+    
+    // Get the destination point (where the player clicked second)
+    lv_destinationPoint = EventUnitTargetPoint();
+
+    // Find all friendly ground units in a 3.5 radius around the source point
+    lv_sourceUnits = UnitGroup(
+        null,                                    // Any unit type
+        UnitGetOwner(EventUnit()),              // Player's units only
+        RegionCircle(lv_sourcePoint, 3.5),      // 3.5 radius around source
+        UnitFilter(
+            0,                                   // Include ground units
+            0,                                   // Include all
+            (1 << c_targetFilterStructure) |     // Exclude structures
+            (1 << c_targetFilterMissile),        // Exclude missiles
+            (1 << (c_targetFilterDead - 32))     // Exclude dead units
+        ),
+        0
+    );
+
+    // Get the count of units to clone
+    lv_unitCount = UnitGroupCount(lv_sourceUnits, c_unitCountAll);
+
+    // Loop through each unit and create a decoy copy at the destination
+    for (lv_index = 1; lv_index <= lv_unitCount; lv_index += 1) {
+        lv_currentUnit = UnitGroupUnit(lv_sourceUnits, lv_index);
+        
+        if (lv_currentUnit != null) {
+            // Get the unit type of the source unit
+            lv_unitType = UnitGetType(lv_currentUnit);
+            
+            // Create a decoy copy at the destination
+            // Note: Position is offset slightly for each unit to avoid stacking
+            libNtve_gf_CreateUnitsWithDefaultFacing(
+                1,                                  // Create 1 unit
+                lv_unitType,                        // Same type as source
+                0,                                  // No flags
+                UnitGetOwner(EventUnit()),          // Same owner
+                PointWithOffsetPolar(               // Offset position slightly
+                    lv_destinationPoint, 
+                    (lv_index * 0.5),               // Distance offset
+                    (lv_index * 45.0)               // Angle offset
+                )
+            );
+            
+            lv_decoyUnit = UnitLastCreated();
+            
+            // Apply the decoy behavior (hallucination + timed life)
+            UnitBehaviorAdd(lv_decoyUnit, "NodDecoyBehavior", lv_decoyUnit, 1);
+            UnitBehaviorAdd(lv_decoyUnit, "NodDecoyTimedLife", lv_decoyUnit, 1);
+            
+            // Make the decoy face the same direction as the original
+            UnitSetFacing(lv_decoyUnit, UnitGetFacing(lv_currentUnit), 0.0);
+            
+            // Optional: Apply a visual effect to show the decoy spawning
+            //libNtve_gf_CreateActorAtUnit("PsiStormPersistent", lv_decoyUnit);
+        }
+    }
+
+    // Clean up the marker unit after a short delay
+    Wait(1.0, c_timeGame);
+    UnitGroupLoopBegin(libNOD_gv_decoyMarkerTarget);
+    while (!UnitGroupLoopDone()) {
+        UnitRemove(UnitGroupLoopCurrent());
+        UnitGroupLoopStep();
+    }
+    UnitGroupLoopEnd();
+    
+    // Clear the unit group
+    UnitGroupClear(libNOD_gv_decoyMarkerTarget);
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libNOD_gt_DecoyArmyExecute_Init () {
+    libNOD_gt_DecoyArmyExecute = TriggerCreate("libNOD_gt_DecoyArmyExecute_Func");
+    TriggerAddEventUnitAbility(libNOD_gt_DecoyArmyExecute, null, AbilityCommand("NodDecoyArmy_Execute", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Clear Decoy Markers on Cancel
+// This trigger fires if the player cancels the ability before completing it
+//--------------------------------------------------------------------------------------------------
+bool libNOD_gt_DecoyArmyCancel_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    unitgroup autoMarkerGroup_g;
+    int autoMarkerGroup_u;
+    unit autoMarkerGroup_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    // Find all marker units and remove them
+    autoMarkerGroup_g = UnitGroup("NodDecoyArmyMarker", c_playerAny, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoMarkerGroup_u = UnitGroupCount(autoMarkerGroup_g, c_unitCountAll);
+    
+    for (;; autoMarkerGroup_u -= 1) {
+        autoMarkerGroup_var = UnitGroupUnitFromEnd(autoMarkerGroup_g, autoMarkerGroup_u);
+        if (autoMarkerGroup_var == null) { break; }
+        UnitRemove(autoMarkerGroup_var);
+    }
+    
+    // Clear the tracking group
+    UnitGroupClear(libNOD_gv_decoyMarkerTarget);
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libNOD_gt_DecoyArmyCancel_Init () {
+    libNOD_gt_DecoyArmyCancel = TriggerCreate("libNOD_gt_DecoyArmyCancel_Func");
+    TriggerAddEventTargetModeUpdate(libNOD_gt_DecoyArmyCancel, c_playerAny, AbilityCommand("NodDecoyArmy_Execute", 0), c_targetModeStateOff);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Initialize all Nod Decoy Army triggers
+// Add this to your main trigger initialization function
+//--------------------------------------------------------------------------------------------------
+void libNOD_InitDecoyArmyTriggers () {
+    libNOD_gt_DecoyArmyTargetingSticky_Init();
+    libNOD_gt_DecoyArmyExecute_Init();
+    libNOD_gt_DecoyArmyCancel_Init();
+}
+
+//--------------------------------------------------------------------------------------------------
+// Variable Initialization
+// Add this to your library's InitVariables function
+//--------------------------------------------------------------------------------------------------
+void libNOD_InitDecoyArmyVariables () {
+    libNOD_gv_decoyMarkerTarget = UnitGroupEmpty();
+}

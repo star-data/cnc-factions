@@ -47,8 +47,49 @@ void libTIBW_InitVariables () {
     libTIBW_gv_cNC_TP_DropPod_Units = UnitGroupEmpty();
 }
 
+// Custom Script
+//--------------------------------------------------------------------------------------------------
+// Custom Script: Include Triggers
+//--------------------------------------------------------------------------------------------------
+include "NodDecoyArmy";
+
+void libTIBW_InitCustomScript () {
+}
+
 // Presets
 // Functions
+void libTIBW_gf_ApplyPlayerVoicePack (int lp_player, string lp_voiceID) {
+    // Variable Declarations
+    string lv_voicePackReward;
+
+    // Automatic Variable Declarations
+    int auto7577C56C_catalog;
+    string auto7577C56C_entry;
+    string auto7577C56C_fieldPath;
+    int auto7577C56C_player;
+    int auto7577C56C_i;
+    int auto1B59D74B_ae;
+    int auto1B59D74B_var;
+
+    // Variable Initialization
+    lv_voicePackReward = "";
+
+    // Implementation
+    auto7577C56C_catalog = c_gameCatalogVoicePack;
+    auto7577C56C_entry = lp_voiceID;
+    auto7577C56C_fieldPath = "UnlockedRewardArray";
+    auto7577C56C_player = lp_player;
+    auto7577C56C_i = 0;
+    for ( ; auto7577C56C_i <= CatalogFieldValueCount(c_gameCatalogVoicePack,auto7577C56C_entry,auto7577C56C_fieldPath,auto7577C56C_player)-1 ; auto7577C56C_i += 1 ) {
+        lv_voicePackReward = CatalogFieldValueGet(c_gameCatalogVoicePack,auto7577C56C_entry,auto7577C56C_fieldPath+"["+IntToString(auto7577C56C_i)+"]",auto7577C56C_player);
+        auto1B59D74B_ae = (CatalogFieldValueCount(c_gameCatalogReward, lv_voicePackReward, "ReplacementArray", lp_player) - 1);
+        auto1B59D74B_var = 0;
+        for ( ; auto1B59D74B_var <= auto1B59D74B_ae; auto1B59D74B_var += 1 ) {
+            CatalogLinkReplace(lp_player, c_gameCatalogSound, CatalogFieldValueGet(c_gameCatalogReward, lv_voicePackReward, "ReplacementArray[" + IntToString(auto1B59D74B_var) + "].From", lp_player), CatalogFieldValueGet(c_gameCatalogReward, lv_voicePackReward, "ReplacementArray[" + IntToString(auto1B59D74B_var) + "].To", lp_player));
+        }
+    }
+}
+
 bool libTIBW_gf_UnitUnlocksTech (unit lp_unit) {
     // Variable Declarations
     string lv_abil;
@@ -178,38 +219,6 @@ int libTIBW_gf_GetunitHarvestingStage (unit lp_unit) {
     }
 
     return lv_stage;
-}
-
-void libTIBW_gf_ApplyPlayerVoicePack (int lp_player, string lp_voiceID) {
-    // Variable Declarations
-    string lv_voicePackReward;
-
-    // Automatic Variable Declarations
-    int auto7577C56C_catalog;
-    string auto7577C56C_entry;
-    string auto7577C56C_fieldPath;
-    int auto7577C56C_player;
-    int auto7577C56C_i;
-    int auto1B59D74B_ae;
-    int auto1B59D74B_var;
-
-    // Variable Initialization
-    lv_voicePackReward = "";
-
-    // Implementation
-    auto7577C56C_catalog = c_gameCatalogVoicePack;
-    auto7577C56C_entry = lp_voiceID;
-    auto7577C56C_fieldPath = "UnlockedRewardArray";
-    auto7577C56C_player = lp_player;
-    auto7577C56C_i = 0;
-    for ( ; auto7577C56C_i <= CatalogFieldValueCount(c_gameCatalogVoicePack,auto7577C56C_entry,auto7577C56C_fieldPath,auto7577C56C_player)-1 ; auto7577C56C_i += 1 ) {
-        lv_voicePackReward = CatalogFieldValueGet(c_gameCatalogVoicePack,auto7577C56C_entry,auto7577C56C_fieldPath+"["+IntToString(auto7577C56C_i)+"]",auto7577C56C_player);
-        auto1B59D74B_ae = (CatalogFieldValueCount(c_gameCatalogReward, lv_voicePackReward, "ReplacementArray", lp_player) - 1);
-        auto1B59D74B_var = 0;
-        for ( ; auto1B59D74B_var <= auto1B59D74B_ae; auto1B59D74B_var += 1 ) {
-            CatalogLinkReplace(lp_player, c_gameCatalogSound, CatalogFieldValueGet(c_gameCatalogReward, lv_voicePackReward, "ReplacementArray[" + IntToString(auto1B59D74B_var) + "].From", lp_player), CatalogFieldValueGet(c_gameCatalogReward, lv_voicePackReward, "ReplacementArray[" + IntToString(auto1B59D74B_var) + "].To", lp_player));
-        }
-    }
 }
 
 trigger auto_libTIBW_gf_NodAirRaid_Trigger = null;
@@ -433,6 +442,84 @@ void libTIBW_gf_CreateDropPod (int lp_race, point lp_location, unitgroup lp_unit
 }
 
 // Triggers
+//--------------------------------------------------------------------------------------------------
+// Trigger: Test
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    PlayerOptionOverride(1, "simplecommandcard", "0");
+    PlayerSetRace(2, "Terr");
+    GameSetSpeedValue(c_gameSpeedFaster);
+    TriggerExecute(libTIBW_gt_PlayNod, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Test_Init () {
+    libTIBW_gt_Test = TriggerCreate("libTIBW_gt_Test_Func");
+    TriggerAddEventMapInit(libTIBW_gt_Test);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Play Nod
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_PlayNod_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    playergroup autoC0198CC5_g;
+    int autoC0198CC5_var;
+    playergroup autoB12AAF8F_g;
+    int autoB12AAF8F_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    PlayerSetRace(1, "Nod");
+    TriggerExecute(libCNCC_gt_InitBeaconsButton, true, false);
+    autoC0198CC5_g = PlayerGroupAll();
+    autoC0198CC5_var = -1;
+    while (true) {
+        autoC0198CC5_var = PlayerGroupNextPlayer(autoC0198CC5_g, autoC0198CC5_var);
+        if (autoC0198CC5_var < 0) { break; }
+        if ((PlayerRace(autoC0198CC5_var) == "Nod")) {
+            TechTreeUpgradeAddLevel(autoC0198CC5_var, "NodAdvisor", 1);
+            UISetFrameVisible(PlayerGroupSingle(autoC0198CC5_var), c_syncFrameTypeConsolePanel, false);
+            DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
+            DialogControlSendAnimationEvent(DialogControlLastCreated(), PlayerGroupSingle(autoC0198CC5_var), "SlimUI_On");
+        }
+
+    }
+    TriggerEnable(libTIBW_gt_Borrowedbombercustomreturntrajectory, true);
+    TriggerEnable(libTIBW_gt_BorrowedbombercreationbindingStarchainTest, true);
+    TriggerEnable(libTIBW_gt_LaunchairstrikeStarchainTest, true);
+    Wait(1.0, c_timeGame);
+    DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
+    autoB12AAF8F_g = PlayerGroupAll();
+    autoB12AAF8F_var = -1;
+    while (true) {
+        autoB12AAF8F_var = PlayerGroupNextPlayer(autoB12AAF8F_g, autoB12AAF8F_var);
+        if (autoB12AAF8F_var < 0) { break; }
+        if ((PlayerRace(autoB12AAF8F_var) == "Nod")) {
+            DialogControlSendAnimationEvent(DialogControlLastCreated(), PlayerGroupSingle(autoB12AAF8F_var), "SlimUI_On");
+        }
+
+    }
+    TriggerExecute(libScio_gt_GenetronInit, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_PlayNod_Init () {
+    libTIBW_gt_PlayNod = TriggerCreate("libTIBW_gt_PlayNod_Func");
+    TriggerAddEventMapInit(libTIBW_gt_PlayNod);
+}
+
 //--------------------------------------------------------------------------------------------------
 // Trigger: Construction Started
 //--------------------------------------------------------------------------------------------------
@@ -1003,6 +1090,10 @@ bool libTIBW_gt_MorphtoMCV_Func (bool testConds, bool runActions) {
         UnitSelect(lv_support, UnitGetOwner(EventUnit()), false);
         UnitIssueOrder(lv_cY, Order(AbilityCommand("NodConstructionYardPack", 0)), c_orderQueueReplace);
     }
+    UnitIssueOrder(lv_cY, Order(AbilityCommand("NodConstruction", 30)), c_orderQueueAddToFront);
+    UnitIssueOrder(lv_support, Order(AbilityCommand("NodConstructionSupport", 30)), c_orderQueueAddToFront);
+    UnitIssueOrder(lv_cY, Order(AbilityCommand("NodConstructionDiscard", 0)), c_orderQueueAddToFront);
+    UnitIssueOrder(lv_support, Order(AbilityCommand("NodConstructionDiscard", 0)), c_orderQueueAddToFront);
     UnitBehaviorRemove(lv_cY, "CnCConjoinedUnit", 1);
     UnitRemove(lv_support);
     return true;
@@ -1963,84 +2054,6 @@ void libTIBW_gt_MoveCommandOverrideComplete_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Test
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    PlayerOptionOverride(1, "simplecommandcard", "0");
-    PlayerSetRace(2, "Terr");
-    GameSetSpeedValue(c_gameSpeedFaster);
-    TriggerExecute(libTIBW_gt_PlayNod, true, false);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_Test_Init () {
-    libTIBW_gt_Test = TriggerCreate("libTIBW_gt_Test_Func");
-    TriggerAddEventMapInit(libTIBW_gt_Test);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Play Nod
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_PlayNod_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    playergroup autoC0198CC5_g;
-    int autoC0198CC5_var;
-    playergroup autoB12AAF8F_g;
-    int autoB12AAF8F_var;
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    PlayerSetRace(1, "Nod");
-    TriggerExecute(libCNCC_gt_InitBeaconsButton, true, false);
-    autoC0198CC5_g = PlayerGroupAll();
-    autoC0198CC5_var = -1;
-    while (true) {
-        autoC0198CC5_var = PlayerGroupNextPlayer(autoC0198CC5_g, autoC0198CC5_var);
-        if (autoC0198CC5_var < 0) { break; }
-        if ((PlayerRace(autoC0198CC5_var) == "Nod")) {
-            TechTreeUpgradeAddLevel(autoC0198CC5_var, "NodAdvisor", 1);
-            UISetFrameVisible(PlayerGroupSingle(autoC0198CC5_var), c_syncFrameTypeConsolePanel, false);
-            DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
-            DialogControlSendAnimationEvent(DialogControlLastCreated(), PlayerGroupSingle(autoC0198CC5_var), "SlimUI_On");
-        }
-
-    }
-    TriggerEnable(libTIBW_gt_Borrowedbombercustomreturntrajectory, true);
-    TriggerEnable(libTIBW_gt_BorrowedbombercreationbindingStarchainTest, true);
-    TriggerEnable(libTIBW_gt_LaunchairstrikeStarchainTest, true);
-    Wait(1.0, c_timeGame);
-    DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
-    autoB12AAF8F_g = PlayerGroupAll();
-    autoB12AAF8F_var = -1;
-    while (true) {
-        autoB12AAF8F_var = PlayerGroupNextPlayer(autoB12AAF8F_g, autoB12AAF8F_var);
-        if (autoB12AAF8F_var < 0) { break; }
-        if ((PlayerRace(autoB12AAF8F_var) == "Nod")) {
-            DialogControlSendAnimationEvent(DialogControlLastCreated(), PlayerGroupSingle(autoB12AAF8F_var), "SlimUI_On");
-        }
-
-    }
-    TriggerExecute(libScio_gt_GenetronInit, true, false);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_PlayNod_Init () {
-    libTIBW_gt_PlayNod = TriggerCreate("libTIBW_gt_PlayNod_Func");
-    TriggerAddEventMapInit(libTIBW_gt_PlayNod);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: Borrowed bomber custom return trajectory
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_Borrowedbombercustomreturntrajectory_Func (bool testConds, bool runActions) {
@@ -2435,6 +2448,8 @@ void libTIBW_gt__GDIDropPod_Init () {
 }
 
 void libTIBW_InitTriggers () {
+    libTIBW_gt_Test_Init();
+    libTIBW_gt_PlayNod_Init();
     libTIBW_gt_ConstructionStarted_Init();
     libTIBW_gt_ConstructionCompleted_Init();
     libTIBW_gt_ConstructionCanceled_Init();
@@ -2470,8 +2485,6 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_MoveCommandOverrideExecute_Init();
     libTIBW_gt_MoveCommandOverrideCancel_Init();
     libTIBW_gt_MoveCommandOverrideComplete_Init();
-    libTIBW_gt_Test_Init();
-    libTIBW_gt_PlayNod_Init();
     libTIBW_gt_Borrowedbombercustomreturntrajectory_Init();
     libTIBW_gt_BorrowedbombercreationbindingStarchainTest_Init();
     libTIBW_gt_LaunchairstrikeStarchainTest_Init();
@@ -2498,6 +2511,7 @@ void libTIBW_InitLib () {
 
     libTIBW_InitLibraries();
     libTIBW_InitVariables();
+    libTIBW_InitCustomScript();
     libTIBW_InitTriggers();
 }
 
