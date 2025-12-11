@@ -54,6 +54,7 @@ void libTIBW_InitVariables () {
 include "NodDecoyArmy";
 
 void libTIBW_InitCustomScript () {
+    libNOD_InitDecoyArmyTriggers();
 }
 
 // Presets
@@ -208,7 +209,7 @@ bool libTIBW_gf_UnitHasConjoinedModule (unit lp_unit) {
 bool libTIBW_gf_UnitIsConjoinedModule (unit lp_unit) {
     // Automatic Variable Declarations
     // Implementation
-    if ((UnitGetType(EventUnitCreatedUnit()) == "NodConstructionYardSupportModule") && (UnitGetType(EventUnitCreatedUnit()) == "NodCraneSupportModule")) {
+    if ((UnitGetType(lp_unit) == "NodConstructionYardSupportModule") && (UnitGetType(lp_unit) == "NodCraneSupportModule")) {
         return true;
     }
     else {
@@ -508,6 +509,7 @@ bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
 
     PlayerOptionOverride(1, "simplecommandcard", "0");
     PlayerSetRace(2, "Terr");
+    PlayerSetDifficulty(2, 7);
     GameSetSpeedValue(c_gameSpeedFaster);
     TriggerExecute(libTIBW_gt_PlayNod, true, false);
     return true;
@@ -1174,6 +1176,7 @@ bool libTIBW_gt_ConjoinedSupportModuleCreated_Func (bool testConds, bool runActi
         return true;
     }
 
+    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_615CB285"), true);
     UnitBehaviorAdd(EventUnitCreatedUnit(), "CnCConjoinedUnit", EventUnit(), 1);
     UnitBehaviorAdd(EventUnit(), "CnCConjoinedUnit", EventUnitCreatedUnit(), 1);
     return true;
