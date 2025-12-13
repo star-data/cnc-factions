@@ -198,7 +198,7 @@ void libTIBW_gf_PlayAnnounceSound (int lp_type, int lp_player) {
 bool libTIBW_gf_UnitHasConjoinedModule (unit lp_unit) {
     // Automatic Variable Declarations
     // Implementation
-    if ((UnitGetType(lp_unit) == "NodConstructionYard") && (UnitGetType(lp_unit) == "NodCrane")) {
+    if (((UnitGetType(lp_unit) == "NodConstructionYard") || (UnitGetType(lp_unit) == "NodCrane"))) {
         return true;
     }
     else {
@@ -209,7 +209,7 @@ bool libTIBW_gf_UnitHasConjoinedModule (unit lp_unit) {
 bool libTIBW_gf_UnitIsConjoinedModule (unit lp_unit) {
     // Automatic Variable Declarations
     // Implementation
-    if ((UnitGetType(lp_unit) == "NodConstructionYardSupportModule") && (UnitGetType(lp_unit) == "NodCraneSupportModule")) {
+    if (((UnitGetType(lp_unit) == "NodConstructionYardSupportModule") || (UnitGetType(lp_unit) == "NodCraneSupportModule"))) {
         return true;
     }
     else {
@@ -934,6 +934,26 @@ void libTIBW_gt_Nuke_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Reckoner Siege
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ReckonerSiege_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitAbilityChangeLink(EventUnit(), "NodBunkerTransport", "NodBunkerTransportExtended");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ReckonerSiege_Init () {
+    libTIBW_gt_ReckonerSiege = TriggerCreate("libTIBW_gt_ReckonerSiege_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_ReckonerSiege, null, AbilityCommand("NodReckonerUnpack", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Vest Created
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_VestCreated_Func (bool testConds, bool runActions) {
@@ -1176,7 +1196,6 @@ bool libTIBW_gt_ConjoinedSupportModuleCreated_Func (bool testConds, bool runActi
         return true;
     }
 
-    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_615CB285"), true);
     UnitBehaviorAdd(EventUnitCreatedUnit(), "CnCConjoinedUnit", EventUnit(), 1);
     UnitBehaviorAdd(EventUnit(), "CnCConjoinedUnit", EventUnitCreatedUnit(), 1);
     return true;
@@ -2473,6 +2492,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_UnitComplete_Init();
     libTIBW_gt_UnitAttacked_Init();
     libTIBW_gt_Nuke_Init();
+    libTIBW_gt_ReckonerSiege_Init();
     libTIBW_gt_VestCreated_Init();
     libTIBW_gt_CYOwnerChanged_Init();
     libTIBW_gt_ConjoinedBehaviors_Init();

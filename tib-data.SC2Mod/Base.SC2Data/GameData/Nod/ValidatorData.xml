@@ -240,8 +240,16 @@
         <CombineArray value="NotDead"/>
         <CombineArray value="CasterNotDead"/>
     </CValidatorCombine>
-    <CValidatorUnitFilters id="NodC4Targets">
-        <Filters value="Ground,Visible;Self,Light,Biological,RawResource,HarvestableResource,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    <CValidatorCombine id="NodC4Targets">
+        <Type value="Or"/>
+        <CombineArray value="MassiveTargets"/>
+        <CombineArray value="StructureTargets"/>
+    </CValidatorCombine>
+    <CValidatorUnitFilters id="MassiveTargets">
+        <Filters value="Ground,Massive,Visible;Self,Light,Biological,RawResource,HarvestableResource,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    </CValidatorUnitFilters>
+    <CValidatorUnitFilters id="StructureTargets">
+        <Filters value="Ground,Structure,Visible;Self,Light,Biological,RawResource,HarvestableResource,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CValidatorUnitFilters>
     <CValidatorUnitCompareBehaviorCount id="SpiderCountmorethan2">
         <Compare value="GE"/>
@@ -485,6 +493,14 @@
     <CValidatorUnitCompareOrderCount id="NodAvatarNotReborning">
         <AbilLink value="NodAvatarReborn"/>
     </CValidatorUnitCompareOrderCount>
+
+    <CValidatorUnitCompareField id="RequiresNod">
+        <Field value="Race"/>
+        <Value value="Nod"/>
+        <ResultFailed value="MustTargetRace"/>
+    </CValidatorUnitCompareField>
+
+
 <!--    <CValidatorCombine id="NodSpecterSiegeValidator">-->
 <!--        <CombineArray value="CasterIsAttacking"/>-->
 <!--        <CombineArray value="HasNoNodSpecterBombardmentOrder"/>-->

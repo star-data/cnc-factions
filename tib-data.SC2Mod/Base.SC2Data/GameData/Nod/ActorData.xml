@@ -12,6 +12,7 @@
         <CreepRateGrow value="Grow"/>
         <CreepRateShrink value="Shrink"/>
         <Macros value="QueueAnim"/>
+        <Macros value="CnCUnpoweredAnim"/>
         <On Terms="UnitConstruction.##unitName##.Start" Send="AnimPlay Standup Unburrow"/>
         <On Terms="UnitConstruction.##unitName##.Start" Send="Create CNCRumble"/>
 
@@ -165,7 +166,7 @@
         <Aliases value="_UnitLarge"/>
         <HostSiteOps Ops="SOpBankerVenom"/>
         <AnimBlendTime value="0.300000"/>
-        <LifeArmorIcon value="Assets\icons\Nod\NodVehiclesArmors.dds"/>
+        <LifeArmorIcon value="Assets\icons\Nod\btn-nod-upgrade-vehiclesarmors.dds"/>
         <DeathArray index="Normal" ModelLink="CABALVenom_Death" SoundLink="Wraith_Explode"/>
         <BarOffset value="55"/>
         <BarWidth value="66"/>
@@ -844,9 +845,21 @@
         <SoundArray index="Movement" value="StealthTank_Movement"/>
     </CActorUnit>
     <CActorUnit id="NodVenom" icon="Venom" parent="NodAir" wireframe="NodVenomWireframe">
-        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+<!--        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>-->
         <On Terms="ActorCreation" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
         <On Terms="ActorCreation" Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
+<!--        <On Terms="ActorCreation" Send="AnimPlay CoverE Cover,E PlayForever 0.000000"/>-->
+
+        <On Terms="Upgrade.NodSignatureGenerators.Add" Send="AnimClear CoverD"/>
+        <On Terms="Upgrade.NodSignatureGenerators.Remove" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
+
+        <On Terms="Upgrade.NodLaserCapacitors.Add" Send="AnimClear CoverA"/>
+        <On Terms="Upgrade.NodLaserCapacitors.Add" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
+
+        <On Terms="Upgrade.NodLaserCapacitors.Remove" Send="AnimClear CoverB"/>
+        <On Terms="Upgrade.NodLaserCapacitors.Remove" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+
     </CActorUnit>
     <CActorUnit id="NodFlameTank" icon="FlameTank" parent="NodVehicle">
         <SoundArray index="Movement" value="NodFlameTank_Movement"/>
@@ -1531,14 +1544,7 @@
         <ImpactMap index="None" Model="VenomAirAttackImpact" Sound="Venom_AttackImpact"/>
         <ImpactPhysics Name="JavelinImpact" MatchKeys="Basic" Physics="ThorAAAttackForce"/>
     </CActorAction>
-    <CActorAction id="VenomparticlebeamAttackleader" parent="GenericAttack" effectAttack="VenomparticlebeamDamageleader">
-        <LaunchAssets Sound="Venomparticlebeam_AttackLaunch"/>
-        <Beam value="VenomParticleAttackBeam"/>
-        <BeamScope value="Caster"/>
-        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
-        <ImpactMap index="None" Model="" Sound="HC_AttackImpact"/>
-        <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
-    </CActorAction>
+
     <CActorSound id="EnlightenedAttackSounds" parent="SoundOneShot">
         <On Terms="Effect.EnlightenedLaunchMissile.Start" Send="Create"/>
         <Sound value="EnlghtenedAttackSounds"/>
@@ -1795,20 +1801,6 @@
     <CActorBeamSimple id="AvatarAttackBeam" parent="GenericAttackBeam">
         <On Terms="ActorOrphan" Send="Destroy"/>
         <Model value="TyrantAttackBeam"/>
-    </CActorBeamSimple>
-    <CActorAction id="VenomparticlebeamAttack" parent="GenericAttack" effectAttack="VenomparticlebeamDamage">
-        <LaunchAssets Sound="Venomparticlebeam_AttackLaunch"/>
-        <BeamScope value="Caster"/>
-        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
-        <ImpactMap index="None" Model="" Sound="HC_AttackImpact"/>
-        <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
-    </CActorAction>
-    <CActorBeamSimple id="VenomParticleAttackBeam" parent="BeamSimpleAnimationStyleOneShot">
-        <Macros value="ActionTargetTeleportDestroy"/>
-        <On Terms="ActorCreation" Send="ModelSwap DarkArchonAttackBeam"/>
-        <On Terms="ActorCreation" Send="AnimBracketStart BSDb Birth Stand Death ContentPlayOnce"/>
-        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSDb" Send="Destroy"/>
-        <Scale value="0.500000"/>
     </CActorBeamSimple>
     <CActorModel id="EnlightenedExplosion" parent="ModelAnimationStyleOneShot">
         <On Terms="Effect.EnlightenedExplosionPersistent.Start" Send="Create"/>
@@ -2280,6 +2272,8 @@
         <Sound value="Reaper_JumpLaunch"/>
     </CActorSound>
     <CActorUnit id="NodConfessor" icon="Confessor" parent="NodUnit">
+        <BarOffset value="50"/>
+        <BarWidth value="42"/>
         <WalkAnimMoveSpeed value="0"/>
         <DeathArray index="Normal" VoiceLink="NodMilitant_Death"/>
         <SoundArray index="Pissed" value="NodMilitant_What"/>
@@ -3797,4 +3791,58 @@
         <Model value="Nod_ShadowSquad_Beacon"/>
         <Scale value="0.5"/>
     </CActorMissile>
+
+
+    <CActorEventMacro id="CnCUnpoweredAnim">
+        <On Terms="Behavior.NodEnergyProduction.On" Send="SetTintColor {150,150,200 1.000000}"/>
+<!--        <On Terms="Behavior.NodEnergyProduction.On" Send="SetTintColor 150,150,200 "/>-->
+        <On Terms="Behavior.NodEnergyProduction.Off" Send="SetTintColor 255,255,255 1.000000"/>
+        <On Terms="Behavior.NodEnergyProduction.Off" Send="SetTintColor 255,255,255"/>
+    </CActorEventMacro>
+
+
+
+
+
+    <CActorAction id="NodVenomWeaponAttack" parent="GenericAttack" effectAttack="NodVenomWeaponDamage">
+<!--        <LaunchAttachQuery Methods="AMFilterWeapon01"/>-->
+        <LaunchAssets Model="GhostAttackLaunch" Sound="NodRaider_AttackLaunch"/>
+        <ContainerAssets Model="MarineAttackLaunch" Sound="NodRaider_AttackLaunch"/>
+        <Beam value="NodLightAttackBeam"/>
+        <ImpactMap index="None" Model="MarineAttackImpact" Sound="Marine_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="BulletImpact" MatchKeys="Basic" Physics="MarineAttackDeathForce"/>
+        <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
+        <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>
+    </CActorAction>
+
+    <CActorAction id="VenomparticlebeamAttack" parent="GenericAttack" effectAttack="VenomparticlebeamDamage">
+        <LaunchAssets Sound="Venomparticlebeam_AttackLaunch"/>
+        <BeamScope value="Caster"/>
+        <Beam value="VenomParticleAttackBeam"/>
+        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
+        <ImpactMap index="None" Model="" Sound="HC_AttackImpact"/>
+        <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
+    </CActorAction>
+    <CActorBeamSimple id="VenomParticleAttackBeam" parent="BeamSimpleAnimationStyleOneShot">
+        <Macros value="ActionTargetTeleportDestroy"/>
+        <On Terms="ActorCreation" Send="ModelSwap DarkArchonAttackBeam"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSDb Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSDb" Send="Destroy"/>
+        <Scale value="0.500000"/>
+    </CActorBeamSimple>
+
+
+
+
+    <!--cabal?-->
+    <CActorAction id="VenomparticlebeamAttackleader" parent="GenericAttack" effectAttack="VenomparticlebeamDamageleader">
+        <LaunchAssets Sound="Venomparticlebeam_AttackLaunch"/>
+        <Beam value="VenomParticleAttackBeam"/>
+        <BeamScope value="Caster"/>
+        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
+        <ImpactMap index="None" Model="" Sound="HC_AttackImpact"/>
+        <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
+    </CActorAction>
+
 </Catalog>

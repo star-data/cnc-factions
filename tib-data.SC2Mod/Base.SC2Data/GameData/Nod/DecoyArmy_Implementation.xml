@@ -18,7 +18,8 @@
         <EditorCategories value="ObjectType:Unit,ObjectFamily:Nod"/>
     </CUnit>
 
-    <!-- STEP 2: Decoy Behavior - Makes units hallucinations that die instantly when hit -->
+
+    <!-- STEP 2: Decoy Behavior - Makes units hallucinations that die instantly when hit-->
     <CBehaviorBuff id="NodDecoyBehavior">
         <InfoIcon value="Assets\Textures\btn-ability-protoss-hallucination.dds"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -26,17 +27,23 @@
         <Duration value="60"/>
         <!-- 60 seconds lifetime -->
         <Modification>
+            <DamageDealtFraction index="Melee" value="0"/>
+            <DamageDealtFraction index="Ranged" value="0"/>
+            <DamageDealtFraction index="Spell" value="0"/>
+            <DamageDealtFraction index="Splash" value="0"/>
+
             <StateFlags index="Hallucination" value="1"/>
-            <!-- Mark as hallucination -->
-            <ModifyFlags index="RevealUnit" value="1"/>
-            <!-- Reveals fog of war -->
         </Modification>
-        <DamageResponse ModifyFraction="0">
-            <!-- Takes no damage but triggers instant death -->
+        <ExpireEffect value="SuicideRemove"/>
+        <DamageResponse Fatal="1" Handled="SuicideRemove">
             <Chance value="1"/>
-            <KillUnit value="1"/>
-            <!-- Dies instantly when hit -->
         </DamageResponse>
+<!--        <DamageResponse ModifyFraction="0">-->
+<!--            &lt;!&ndash; Takes no damage but triggers instant death &ndash;&gt;-->
+<!--            <Chance value="1"/>-->
+<!--            <KillUnit value="1"/>-->
+<!--            &lt;!&ndash; Dies instantly when hit &ndash;&gt;-->
+<!--        </DamageResponse>-->
     </CBehaviorBuff>
 
     <!-- STEP 3: Timed Life for Decoys (60 seconds) -->
@@ -97,6 +104,27 @@
         </CardLayouts>
         <EditorCategories value="ObjectType:Other,ObjectFamily:Nod"/>
     </CUnit>
+
+
+
+<!--    <CBehaviorBuff id="NodDecoyMarkerTimedLife">-->
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
+<!--        <Duration value="5"/>-->
+<!--        <ExpireEffect value="Suicide"/>-->
+<!--    </CBehaviorBuff>-->
+<!--    <CBehaviorBuff id="NodDecoyArmyUnlock">-->
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
+<!--        <Duration value="10"/>-->
+<!--    </CBehaviorBuff>-->
+<!--    <CBehaviorBuff id="NodDecoyTeleport">-->
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
+<!--        <Period value="0.0625"/>-->
+<!--        <PeriodicEffect value="NodDecoyTeleportSearchDest"/>-->
+<!--    </CBehaviorBuff>-->
+
 
     <!-- STEP 7: Marker Behavior - Periodically clones units -->
     <CBehaviorBuff id="NodDecoyMarkerBehavior">
@@ -160,7 +188,7 @@
 
     <!-- STEP 13: Clone units in area -->
     <CEffectEnumArea id="NodDecoyCloneUnitsInArea">
-        <LunchLocation Value="CasterPoint"/>
+        <LaunchLocation Value="CasterPoint"/>
         <ImpactLocation Value="CasterPoint"/>
         <SearchFilters value="Ground;Neutral,Air,Structure,Missile"/>
         <AreaArray Radius="3.5" Effect="NodDecoyCloneSingleUnit"/>
@@ -214,23 +242,16 @@
         <ShadowRadius value="0.000000"/>
     </CModel>
 
-    <!-- STEP 20: Button for ability -->
-    <CButton id="NodDecoyArmy">
-        <Name value="Button/Name/NodDecoyArmy"/>
-        <Tooltip value="Button/Tooltip/NodDecoyArmy"/>
-        <Icon value="Assets\Textures\btn-ability-protoss-hallucination.dds"/>
-    </CButton>
-
     <!-- STEP 21: Cooldown link -->
-    <CCooldown id="NodDecoyArmyCooldown">
-        <TimeStart value="120"/>
-        <TimeUse value="120"/>
-    </CCooldown>
+<!--    <CCooldown id="NodDecoyArmyCooldown">-->
+<!--        <TimeStart value="120"/>-->
+<!--        <TimeUse value="120"/>-->
+<!--    </CCooldown>-->
 
     <!-- STEP 22: Requirement (optional - for tech tree) -->
-    <CRequirement id="NodDecoyArmyRequirement">
-        <CountUnit index="0" value="1"/>
-        <CountUnitUnit index="0" value="NodTechCenter"/>
-    </CRequirement>
+<!--    <CRequirement id="NodDecoyArmyRequirement">-->
+<!--        <CountUnit index="0" value="1"/>-->
+<!--        <CountUnitUnit index="0" value="NodTechCenter"/>-->
+<!--    </CRequirement>-->
 
 </Catalog>

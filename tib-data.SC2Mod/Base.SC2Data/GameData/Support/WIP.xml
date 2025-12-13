@@ -108,4 +108,140 @@
         <On Terms="ActorCreation" Send="TimerSet 2.000000 Die"/>
         <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
     </CActorSiteMover>
+
+
+
+
+
+
+
+
+    <CAbilBehavior id="NodScannersOn">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="NodScannersOn" Requirements="NodScannersOn">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="NodScannersOff">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Charge Link="Abil/BansheeCloak"/>
+            <Cooldown Link="Abil/BansheeCloak"/>
+        </Cost>
+        <BehaviorArray value="Detector11PowerUser"/>
+    </CAbilBehavior>
+    <CBehaviorBuff id="Detector11PowerUser">
+        <Alignment value="Positive"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-status-detector.dds"/>
+        <Modification Detect="11"/>
+        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
+        <InitialEffect value="PowerUserDrainETU025"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="Detector11PowerUserDrainETU"/>
+    </CBehaviorBuff>
+
+    <CEffectEnumTrackedUnits id="PowerUserDrainETU025">
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <Effect value="PowerUserDrainPowerMU025"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectModifyUnit id="PowerUserDrainPowerMU025">
+        <VitalArray index="Energy">
+            <Change value="-25"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+
+
+    <CEffectEnumTrackedUnits id="PowerUserDrainETU075">
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <Effect value="PowerUserDrainPowerMU075"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectModifyUnit id="PowerUserDrainPowerMU075">
+        <VitalArray index="Energy">
+            <Change value="-75"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+
+    <CEffectEnumTrackedUnits id="Detector11PowerUserDrainETU">
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <Effect value="Detector11PowerUserDrainPowerMU"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectModifyUnit id="Detector11PowerUserDrainPowerMU">
+        <VitalArray index="Energy">
+            <Change value="-0.45"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+
+
+
+    <CModel id="Detector11PowerUser">
+        <Model value="Assets\Effects\LensFlares\LensFlare_MaterialSet_AiurCityNight\LensFlare_MaterialSet_AiurCityNight_08.m3"/>
+<!--        <ScaleMax value="0.250000,0.250000,0.250000"/>-->
+<!--        <ScaleMin value="0.250000,0.250000,0.250000"/>-->
+    </CModel>
+    <CActorModel id="Detector11PowerUser" parent="ModelAnimationStyleContinuousUNIT">
+        <On Terms="Behavior.Detector11PowerUser.On" Send="Create"/>
+        <On Terms="Behavior.Detector11PowerUser.Off" Send="Destroy"/>
+        <HostSiteOps Ops="SOpAttachHead SOpMoveByDot15"/>
+        <Scale value="0.750000"/>
+    </CActorModel>
+
+
+
+    <CButton id="NodEnergyCloakOff" parent="CButtonGenetron" HotkeySet="Cloak" Icon="Assets\Textures\btn-ability-genetron-courierdecloak.dds"/>
+    <CButton id="NodEnergyCloakOn" parent="CButtonGenetron" HotkeyAlias="CloakOnBanshee" HotkeySet="Cloak" Icon="Assets\Textures\btn-ability-hornerhan-wraith-permanentcloak.dds"/>
+
+    <CButton id="NodScannersOff" parent="CButtonGenetron" HotkeySet="Cloak" Icon="Assets\Icons\Gdi\btn-gdi-ability-radarscan.dds"/>
+    <CButton id="NodScannersOn" parent="CButtonGenetron" HotkeyAlias="CloakOnBanshee" HotkeySet="Cloak" Icon="Assets\Icons\Gdi\btn-gdi-ability-radarscan.dds"/>
+
+
+
+    <CBehaviorBuff id="NodEnergyCloak">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+<!--        <RemoveValidatorArray value="CanSpendEnergy"/>-->
+        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
+        <Modification>
+            <StateFlags index="Cloak" value="1"/>
+        </Modification>
+        <InitialEffect value="PowerUserDrainETU025"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="Detector11PowerUserDrainETU"/>
+    </CBehaviorBuff>
+    <CAbilBehavior id="NodEnergyCloak">
+        <AbilSetId value="Clok"/>
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="NodEnergyCloakOn" Requirements="NodEnergyCloak">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="NodEnergyCloakOff">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Charge Link="Abil/BansheeCloak"/>
+            <Cooldown Link="Abil/BansheeCloak"/>
+        </Cost>
+        <BehaviorArray value="CourierCloak"/>
+    </CAbilBehavior>
+
+
+
+    <CBehaviorBuff id="CNCConstructionRadiusDisable">
+        <Modification>
+            <BehaviorClassDisableArray index="CBehaviorPowerSource" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+
+    <CEffectRemoveBehavior id="CNCConstructionRadiusDisableRB">
+        <BehaviorLink value="CNCConstructionRadiusDisable"/>
+        <WhichUnit Value="Caster"/>
+    </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="CNCConstructionRadiusDisable">
+        <WhichUnit Value="Caster"/>
+    </CEffectApplyBehavior>
 </Catalog>

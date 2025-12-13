@@ -18,7 +18,7 @@
         <!--        <InfoFlags index="Hidden" value="1"/>-->
         <Modification>
             <WeaponDisableArray value="NodBeamCannonWeapon"/>
-            <WeaponDisableArray value="NodVenomParticleBeam"/>
+            <WeaponDisableArray value="NodVenomWeaponU"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="BeamCannonIsPreparing"/>
@@ -273,19 +273,20 @@
         <Modification>
             <StateFlags index="Cloak" value="1"/>
         </Modification>
-        <DisableValidatorArray value="AttackCheck"/>
+        <DisableValidatorArray value="CasterNotFiringOrAnimatingWeapon"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodUnstableCloak">
+        <InfoFlags index="Hidden" value="1"/>
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="AttackCheck"/>
+<!--        <DisableValidatorArray value="CasterNotFiringOrAnimatingWeapon"/>-->
         <DisableValidatorArray value="HasNoStealthExposure"/>
-        <!-- <DisableValidatorArray value="CasterIsNotAttacking"/> -->
-        <DisableValidatorArray value="HasNoNodSpecterSiege"/>
-        <DisableValidatorArray value="HasNoNodSpecterSiegeBombardment"/>
-        <DisableValidatorArray value="HasNoNodSpecterSieging"/>
-        <DisableValidatorArray value="HasNoNodSpecterUnsiege"/>
+<!--        &lt;!&ndash; <DisableValidatorArray value="CasterIsNotAttacking"/> &ndash;&gt;-->
+<!--        <DisableValidatorArray value="HasNoNodSpecterSiege"/>-->
+<!--        <DisableValidatorArray value="HasNoNodSpecterSiegeBombardment"/>-->
+<!--        <DisableValidatorArray value="HasNoNodSpecterSieging"/>-->
+<!--        <DisableValidatorArray value="HasNoNodSpecterUnsiege"/>-->
         <Modification>
             <StateFlags index="Cloak" value="1"/>
         </Modification>
@@ -320,10 +321,10 @@
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodSpecterUnsiege">
-        <Duration value="2"/>
-        <Modification>
+        <Duration value="1"/>
+        <Modification MoveSpeedMultiplier="0.01">
             <AbilClassDisableArray index="CAbilAttack" value="1"/>
-            <ModifyFlags index="SuppressMoving" value="1"/>
+<!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
             <ModifyFlags index="SuppressTurning" value="1"/>
         </Modification>
     </CBehaviorBuff>
@@ -366,7 +367,7 @@
         <Modification>
             <StateFlags index="Cloak" value="1"/>
         </Modification>
-        <DisableValidatorArray value="AttackCheck"/>
+        <DisableValidatorArray value="CasterNotFiringOrAnimatingWeapon"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="DroppodSuicide">
         <EditorCategories value="AbilityorEffectType:Units,Race:Neut"/>
@@ -544,10 +545,11 @@
             <AbilClassDisableArray index="CAbilAttack" value="1"/>
         </Modification>
     </CBehaviorBuff>
+
     <CBehaviorBuff id="ObeliskCharge">
         <InfoIcon value="Assets\icons\SpiderTankIcon.dds"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <MaxStackCount value="5"/>
+        <MaxStackCount value="6"/>
         <Duration value="1.3"/>
         <Modification WeaponRange="0.5">
             <DamageDealtUnscaled index="Spell" value="10"/>
@@ -571,9 +573,9 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="StealthExposure">
         <Alignment value="Negative"/>
-<!--        <InfoFlags index="Hidden" value="1"/>-->
+        <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <Duration value="3"/>
+        <Duration value="1"/>
 <!--        <Modification>-->
 <!--            <StateFlags index="SuppressCloak" value="1"/>-->
 <!--        </Modification>-->
@@ -674,7 +676,8 @@
     <CBehaviorBuff id="NodShadowC4">
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Duration value="0.5"/>
+        <Duration value="1"/>
+        <MaxStackCount value="10"/>
         <FinalEffect value="NodCommandoC4Damage"/>
         <DisplayDuration index="Self" value="1"/>
         <DisplayDuration index="Ally" value="1"/>
@@ -748,7 +751,8 @@
         <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="AttackCheck"/>
+<!--        <DisableValidatorArray value="CasterNotFiringOrAnimatingWeapon"/>-->
+        <DisableValidatorArray value="HasNoStealthExposure"/>
         <Modification>
             <StateFlags index="Cloak" value="1"/>
         </Modification>
@@ -785,14 +789,15 @@
 
     <CBehaviorBuff id="NodVoiceOfKaneAura">
         <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\icons\Nod\NodVoiceOfKane.dds"/>
+        <InfoIcon value="Assets\icons\Nod\btn-nod-building-voiceofkane.dds"/>
         <EditorCategories value="AbilityorEffectType:Units,Race:UPL"/>
         <DisableValidatorArray value="NotHidden"/>
         <Period value="1"/>
         <PeriodicEffect value="NodVoiceOfKaneAuraSearch"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodConfessorInspired">
-        <InfoIcon value="Assets\icons\Nod\NodConfessorAura.dds"/>
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\icons\Nod\btn-nod-behavior-confessoraura.dds"/>
         <EditorCategories value="AbilityorEffectType:Units,Race:UPL"/>
         <MaxStackCountPerCaster value="1"/>
         <Duration value="1.1"/>
@@ -811,7 +816,8 @@
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodVoiceOfKaneInspired">
-        <InfoIcon value="Assets\icons\Nod\NodVoiceOfKane.dds"/>
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\icons\Nod\btn-nod-building-voiceofkane.dds"/>
         <EditorCategories value="AbilityorEffectType:Units,Race:UPL"/>
         <MaxStackCountPerCaster value="1"/>
         <Duration value="1.1"/>
@@ -1146,21 +1152,6 @@
         <VeterancyLevelArray index="1" MinVeterancyXP="400"/>
         <VeterancyLevelArray index="2" MinVeterancyXP="400"/>
     </CBehaviorVeterancy>
-    <CBehaviorBuff id="NodDecoyBehavior">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Duration value="60"/>
-        <Modification>
-            <DamageDealtFraction index="Melee" value="0"/>
-            <DamageDealtFraction index="Ranged" value="0"/>
-            <DamageDealtFraction index="Spell" value="0"/>
-            <DamageDealtFraction index="Splash" value="0"/>
-            <StateFlags index="Hallucination" value="1"/>
-        </Modification>
-        <DamageResponse Fatal="1" Handled="SuicideRemove">
-            <Chance value="1"/>
-        </DamageResponse>
-        <ExpireEffect value="SuicideRemove"/>
-    </CBehaviorBuff>
     <CBehaviorBuff id="NodRadarJammingBehavior">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Duration value="30"/>
@@ -1185,23 +1176,6 @@
             <Radar value="1"/>
         </Modification>
         <InfoIcon value="Assets\Textures\btn-ability-terran-radar.dds"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodDecoyMarkerTimedLife">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Duration value="5"/>
-        <ExpireEffect value="Suicide"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodDecoyArmyUnlock">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Duration value="10"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodDecoyTeleport">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Period value="0.0625"/>
-        <PeriodicEffect value="NodDecoyTeleportSearchDest"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodSignatureDecoyTimedLife">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>

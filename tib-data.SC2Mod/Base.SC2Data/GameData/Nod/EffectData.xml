@@ -555,10 +555,10 @@
         <Kind value="Spell"/>
         <Death value="Blast"/>
         <ExcludeArray Value="Outer"/>
-        <Amount value="900"/>
+        <Amount value="9999"/>
         <AreaArray Radius="1.5" Fraction="0.2"/>
         <SearchFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Invulnerable"/>
-        <AttributeBonus index="Structure" value="190"/>
+<!--        <AttributeBonus index="Structure" value="190"/>-->
         <ArmorReduction value="0"/>
     </CEffectDamage>
     <CEffectDamage id="NodShadowC4Damage" parent="DU_WEAP">
@@ -566,10 +566,9 @@
         <Kind value="Spell"/>
         <Death value="Blast"/>
         <ExcludeArray Value="Outer"/>
-        <Amount value="190"/>
-        <AreaArray Radius="1.5" Fraction="0.2"/>
+        <Amount value="250"/>
+        <AreaArray Radius="0.5" Fraction="0.2"/>
         <SearchFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Invulnerable"/>
-        <AttributeBonus index="Structure" value="190"/>
         <ArmorReduction value="0"/>
     </CEffectDamage>
     <CEffectSet id="NodRaiderEMP">
@@ -678,10 +677,6 @@
         <ImpactEffect value="NodMilitantRocketDamageUp"/>
         <AmmoUnit value="NodMilitantRocketWeaponUp"/>
     </CEffectLaunchMissile>
-    <CEffectSet id="VenomExposedWhenAttackingSet">
-        <EditorCategories value=""/>
-        <EffectArray value="VenomparticlebeamDamage"/>
-    </CEffectSet>
     <CEffectDamage id="VenomparticlebeamDamageleader" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
         <Kind value="Ranged"/>
@@ -1076,12 +1071,21 @@
         <EditorCategories value="Race:Nod"/>
         <BehaviorLink value="Deployable"/>
     </CEffectRemoveBehavior>
+    <CEffectDamage id="NodVenomWeaponDamage" parent="DU_WEAP">
+        <EditorCategories value="Race:Nod"/>
+        <Kind value="Ranged"/>
+        <Amount value="10"/>
+        <ExcludeArray Value="Outer"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <SearchFlags index="OffsetByUnitRadius" value="0"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
     <CEffectDamage id="VenomparticlebeamDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
-        <AttributeBonus index="Light" value="3"/>
+        <AttributeBonus index="Light" value="4"/>
         <Kind value="Ranged"/>
-        <KindSplash value="Splash"/>
-        <Amount value="8"/>
+        <Amount value="6"/>
         <ExcludeArray Value="Outer"/>
         <ExcludeArray Value="Target"/>
         <SearchFilters value="-;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
@@ -1321,6 +1325,14 @@
         <Effect value="NodSpecterLaunchMissile"/>
         <Radius value="2"/>
     </CEffectRandomPointInCircle>
+
+
+    <CEffectSet id="NodSpecterWeaponSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="StealthExposure"/>
+        <EffectArray value="NodSpecterLaunchMissile"/>
+    </CEffectSet>
+
     <CEffectLaunchMissile id="NodSpecterLaunchMissile">
         <EditorCategories value="Race:Nod"/>
         <LaunchEffect value="StealthExposure"/>
@@ -1678,11 +1690,13 @@
     </CEffectSet>
     <CEffectSet id="NodAvatarFlameThrowerSet">
         <EditorCategories value="Race:Nod"/>
+        <EffectArray value="StealthExposure"/>
         <EffectArray value="NodAvatarFlameThrowerCP"/>
         <EffectArray value="NodAvatarFlameThrowerDamage"/>
     </CEffectSet>
     <CEffectSet id="NodAvatarFlameThrowerUSet">
         <EditorCategories value="Race:Nod"/>
+        <EffectArray value="StealthExposure"/>
         <EffectArray value="NodAvatarFlameThrowerUCP"/>
         <EffectArray value="NodAvatarFlameThrowerUDamage"/>
     </CEffectSet>
@@ -2002,6 +2016,7 @@
         <EditorCategories value="Race:Nod"/>
         <WhichLocation Value="TargetUnit"/>
         <PeriodCount value="5"/>
+        <InitialEffect value="StealthExposure"/>
         <PeriodicEffectArray value="NodStealthTankWeapon@LM1"/>
         <PeriodicPeriodArray value="0.1"/>
     </CEffectCreatePersistent>
@@ -2064,10 +2079,10 @@
         <EditorCategories value="Race:Nod"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
-        <AttributeBonus index="Armored" value="5"/>
+        <AttributeBonus index="Armored" value="8"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
-        <Amount value="5"/>
+        <Amount value="8"/>
         <ExcludeArray Value="Outer"/>
         <ExcludeArray Value="Target"/>
         <SearchFilters value="Visible;Player,Ally,Neutral,Missile,Stasis,Dead,Invulnerable,Benign,Passive"/>
@@ -2462,6 +2477,7 @@
         <TimeScaleSource Value="Caster"/>
         <Flags index="Channeled" value="1"/>
         <PeriodCount value="2"/>
+        <InitialEffect value="StealthExposure"/>
         <PeriodicEffectArray value="NodShadowPistolDamage"/>
         <PeriodicEffectArray value="NodShadowPistolDamage"/>
         <PeriodicPeriodArray value="0.12"/>
@@ -2753,6 +2769,7 @@
     </CEffectApplyBehavior>
     <CEffectSet id="NodAvatarCommandeerTechnologySet">
         <ValidatorArray value="IsNodAvatarCommandeerTechnologyTarget"/>
+        <EffectArray value="StealthExposure"/>
         <EffectArray value="NodAvatarCommandeerTechnologySwitch"/>
         <EffectArray value="KillTargetDeathNormal"/>
     </CEffectSet>
@@ -2843,6 +2860,10 @@
         <ModifyOwnerPlayer Value="Neutral"/>
         <ImpactUnit Value="Source"/>
     </CEffectModifyUnit>
+    <CEffectSet id="NodAvatarBeamCannonSet">
+        <EffectArray value="StealthExposure"/>
+        <EffectArray value="NodAvatarBeamCannonDamage"/>
+    </CEffectSet>
     <CEffectDamage id="NodAvatarBeamCannonDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
         <AttributeBonus index="Armored" value="6"/>
@@ -2853,25 +2874,29 @@
         <SearchFlags index="OffsetByUnitRadius" value="0"/>
         <SearchFlags index="SameCliff" value="0"/>
     </CEffectDamage>
+    <CEffectSet id="NodAvatarLaserSet">
+        <EffectArray value="StealthExposure"/>
+        <EffectArray value="NodAvatarLaserDamage"/>
+    </CEffectSet>
     <CEffectDamage id="NodAvatarLaserDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
-        <AttributeBonus index="Armored" value="10"/>
+        <AttributeBonus index="Armored" value="40"/>
         <Kind value="Ranged"/>
-        <Amount value="55"/>
+        <Amount value="40"/>
         <Death value="Blast"/>
     </CEffectDamage>
     <CEffectDamage id="NodAvatarBeamDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
-        <AttributeBonus index="Armored" value="10"/>
+        <AttributeBonus index="Armored" value="40"/>
         <Kind value="Ranged"/>
-        <Amount value="55"/>
+        <Amount value="40"/>
         <Death value="Blast"/>
     </CEffectDamage>
     <CEffectDamage id="NodPurifierBeamDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
-        <AttributeBonus index="Armored" value="10"/>
+        <AttributeBonus index="Armored" value="40"/>
         <Kind value="Ranged"/>
-        <Amount value="55"/>
+        <Amount value="40"/>
         <Death value="Blast"/>
     </CEffectDamage>
     <CEffectEnumArea id="NodAvatarPilotSearchArea">

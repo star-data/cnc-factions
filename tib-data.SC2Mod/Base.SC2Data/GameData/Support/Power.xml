@@ -15,7 +15,7 @@
         <Modification>
             <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
         </Modification>
-        <!--        <InfoFlags index="Hidden" value="1"/>-->
+        <InfoFlags index="Hidden" value="1"/>
     </CBehaviorBuff>
     <CEffectUserData id="MirrorGenetronPowerSupplyCnCData" default="1">
         <?token id="level"?>
@@ -101,6 +101,10 @@
     <CEffectCreateHealer id="CnCPowerHealer030" parent="CnCPowerHealer">
         <RechargeVitalRate value="1.4298"/>
     </CEffectCreateHealer>
+    <!--2.14 per second ~ 45 Energy Points (Upgraded PowerPlant) -->
+    <CEffectCreateHealer id="CnCPowerHealer045" parent="CnCPowerHealer">
+        <RechargeVitalRate value="2.1445"/>
+    </CEffectCreateHealer>
     <CEffectEnumTrackedUnits id="CnCPowerETU" default="1">
         <?token id="level"?>
         <ValidatorArray value="CasterDataDefaultIs0"/>
@@ -111,6 +115,7 @@
         <BehaviorLink value="GenetronPowerSupplyTracker"/>
         <Effect value="CnCPowerHealer##level##"/>
     </CEffectEnumTrackedUnits>
+    <CEffectEnumTrackedUnits id="CnCPowerETU045" parent="CnCPowerETU" level="045"/>
     <CEffectEnumTrackedUnits id="CnCPowerETU030" parent="CnCPowerETU" level="030"/>
     <CEffectEnumTrackedUnits id="CnCPowerETU015" parent="CnCPowerETU" level="015"/>
     <CEffectEnumTrackedUnits id="CnCPowerETU005" parent="CnCPowerETU" level="005"/>
@@ -153,7 +158,7 @@
 
     <CBehaviorBuff id="CnCPowerGeneration" default="1">
         <?token id="level"?>
-<!--        <InfoFlags index="Hidden" value="1"/>-->
+        <InfoFlags index="Hidden" value="1"/>
         <InfoIcon value="Assets\Textures\btn-tips-computerterminals.dds"/>
         <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
         <DisableValidatorArray value="NotUnderConstruction"/>
@@ -164,6 +169,7 @@
         <InitialEffect value="CnCPowerETU##level##"/>
         <PeriodicEffect value="CnCPowerETU##level##"/>
     </CBehaviorBuff>
+    <CBehaviorBuff parent="CnCPowerGeneration" id="CnCPowerGeneration045" level="045"/>
     <CBehaviorBuff parent="CnCPowerGeneration" id="CnCPowerGeneration030" level="030"/>
     <CBehaviorBuff parent="CnCPowerGeneration"  id="CnCPowerGeneration015" level="015"/>
     <CBehaviorBuff parent="CnCPowerGeneration"  id="CnCPowerGeneration005" level="005"/>
@@ -173,6 +179,7 @@
 
 
     <CBehaviorBuff default="1" id="CNCEnergyDrain">
+        <InfoFlags index="Hidden" value="1"/>
         <InitialEffect value="CNCEnergyDrainSet"/>
         <!-- <DisableValidatorArray value="GenetronPowerSupplyGE05"/> -->
         <Period value="0.125"/>
@@ -218,6 +225,9 @@
     </CEffectCreateHealer>
     <CEffectCreateHealer id="CNCEnergyDrainPowerEnumPowerRate30" parent="CNCEnergyDrainPowerEnumPowerRate">
         <RechargeVitalRate value="1.4296"/>
+    </CEffectCreateHealer>
+    <CEffectCreateHealer id="CNCEnergyDrainPowerEnumPowerRate45" parent="CNCEnergyDrainPowerEnumPowerRate">
+        <RechargeVitalRate value="2.1445"/>
     </CEffectCreateHealer>
     <CValidatorUnitCompareBehaviorCount id="CNCEnergyDrain5"><WhichUnit Value="Caster"/><Value value="1"/><Behavior value="CNCEnergyDrain5"/></CValidatorUnitCompareBehaviorCount>
     <CValidatorUnitCompareBehaviorCount id="CNCEnergyDrain10"><WhichUnit Value="Caster"/><Value value="1"/><Behavior value="CNCEnergyDrain10"/></CValidatorUnitCompareBehaviorCount>
@@ -265,15 +275,71 @@
     </CValidatorCombine> -->
 
     <CBehaviorBuff id="NodEnergyProduction">
+        <Alignment value="Negative"/>
         <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
         <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
-        <Modification TimeScale="2"/>
+        <Modification TimeScale="0.5"/>
         <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
         <TimeScaleSource Value="Global"/>
         <BehaviorCategories index="Fast" value="1"/>
         <InfoFlags index="Hidden" value="0"/>
-        <DisableValidatorArray value="GenetronPowerSupplyGE05"/>
+<!--        <DisableValidatorArray value="GenetronPowerSupplyGE05"/>-->
+        <DisableValidatorArray value="GenetronPowerSupplyLT25"/>
+        <Modification>
+            <ModifyFlags index="DisableWeapons" value="1"/>
+            <AbilClassDisableArray index="CAbilAttack" value="1"/>
+        </Modification>
     </CBehaviorBuff>
 
+    <CBehaviorBuff id="NodEnergyProductionDefense">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
+        <Modification TimeScale="0.5"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <TimeScaleSource Value="Global"/>
+        <BehaviorCategories index="Fast" value="1"/>
+        <InfoFlags index="Hidden" value="0"/>
+        <!--        <DisableValidatorArray value="GenetronPowerSupplyGE05"/>-->
+        <DisableValidatorArray value="GenetronPowerSupplyLT25"/>
+        <Modification>
+            <ModifyFlags index="DisableWeapons" value="1"/>
+            <AbilClassDisableArray index="CAbilAttack" value="1"/>
+            <BehaviorLinkDisableArray value="NodVoiceOfKaneAura"/>
+            <BehaviorLinkDisableArray value="NodDisruptionTowerCloakField"/>
+        </Modification>
+    </CBehaviorBuff>
+
+
+
+    <CValidatorUnitCompareVital id="EnergyLT005">
+        <ResultFailed value="NotEnoughEnergy"/>
+        <Compare value="LT"/>
+        <Value value="5"/>
+        <Vital value="Energy"/>
+    </CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="EnergyLT025">
+        <ResultFailed value="NotEnoughEnergy"/>
+        <Compare value="LT"/>
+        <Value value="25"/>
+        <Vital value="Energy"/>
+    </CValidatorUnitCompareVital>
+
+    <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyLT05">
+        <ResultFailed value="NotEnoughEnergy"/>
+        <Compare value="GT"/>
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <TrackedUnitValidatorArray value="EnergyLT005"/>
+        <TrackedUnitFilters value="-;Dead"/>
+    </CValidatorCompareTrackedUnitsCount>
+
+
+    <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyLT25">
+        <ResultFailed value="NotEnoughEnergy"/>
+        <Compare value="GT"/>
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <TrackedUnitValidatorArray value="EnergyLT025"/>
+        <TrackedUnitFilters value="-;Dead"/>
+    </CValidatorCompareTrackedUnitsCount>
 
 </Catalog>
