@@ -579,7 +579,7 @@
     <CEffectEnumArea id="NodRaiderEMPEA">
         <EditorCategories value=""/>
         <SearchFilters value="Mechanical;Air,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="0.6" Effect="NodRaiderEMPSet"/>
+        <AreaArray Radius="1.5" Effect="NodRaiderEMPSet"/>
         <RevealerParams Duration="6"/>
         <SearchFlags index="ExtendByUnitRadius" value="1"/>
     </CEffectEnumArea>
@@ -617,7 +617,7 @@
         <EffectArray value="MarkOfKaneSearchArea"/>
         <TargetLocationType value="Point"/>
     </CEffectSet>
-    <CEffectDamage id="NodMilitantRocketDamageUp" parent="DU_WEAP_MISSILE">
+    <CEffectDamage id="NodMilitantRocketWeaponDamageUp" parent="DU_WEAP_MISSILE">
         <EditorCategories value="Race:Nod"/>
         <AttributeBonus index="Armored" value="12"/>
         <Amount value="12"/>
@@ -669,15 +669,15 @@
     </CEffectDamage>
     <CEffectLaunchMissile id="NodMilitantRocketWeaponALM2Up">
         <EditorCategories value="Race:Nod"/>
-        <ImpactEffect value="NodMilitantRocketDamageUp"/>
+        <ImpactEffect value="NodMilitantRocketWeaponDamageUp"/>
         <AmmoUnit value="NodMilitantRocketWeaponUp"/>
     </CEffectLaunchMissile>
     <CEffectLaunchMissile id="NodMilitantRocketWeaponALMUp">
         <EditorCategories value="Race:Nod"/>
-        <ImpactEffect value="NodMilitantRocketDamageUp"/>
+        <ImpactEffect value="NodMilitantRocketWeaponDamageUp"/>
         <AmmoUnit value="NodMilitantRocketWeaponUp"/>
     </CEffectLaunchMissile>
-    <CEffectDamage id="VenomparticlebeamDamageleader" parent="DU_WEAP">
+    <CEffectDamage id="NodVenomWeaponUDamageleader" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
         <Kind value="Ranged"/>
         <KindSplash value="Splash"/>
@@ -825,7 +825,7 @@
         <EditorCategories value="Race:Nod"/>
         <ImpactLocation Value="TargetPoint"/>
         <SearchFilters value="-;Missile,Stasis,Dead,Hidden,Invulnerable,HeroUnit"/>
-        <AreaArray Radius="10" Effect="NodInvertWarheadAttackAB"/>
+        <AreaArray Radius="3" Effect="NodInvertWarheadAttackAB"/>
     </CEffectEnumArea>
     <CEffectApplyBehavior id="NodInvertWarheadAttackAB">
         <ValidatorArray value="TiberiumRadiationDamageValidator"/>
@@ -1011,7 +1011,7 @@
         <WhichLocation Value="TargetPoint"/>
         <Effect value="CreateTib"/>
         <Count value="5"/>
-        <Radius value="4"/>
+        <Radius value="3"/>
     </CEffectRandomPointInCircle>
     <CEffectEnumArea id="SpecterTibSearch">
         <EditorCategories value="Race:Nod"/>
@@ -1074,16 +1074,29 @@
     <CEffectDamage id="NodVenomWeaponDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
         <Kind value="Ranged"/>
-        <Amount value="10"/>
+        <Amount value="6"/>
         <ExcludeArray Value="Outer"/>
         <ExcludeArray Value="Target"/>
         <SearchFilters value="-;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
         <SearchFlags index="OffsetByUnitRadius" value="0"/>
         <SearchFlags index="SameCliff" value="0"/>
     </CEffectDamage>
-    <CEffectDamage id="VenomparticlebeamDamage" parent="DU_WEAP">
+    <CEffectDamage id="NodVertigoWeaponAADamage" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
-        <AttributeBonus index="Light" value="4"/>
+        <Kind value="Ranged"/>
+        <Amount value="6"/>
+        <ExcludeArray Value="Outer"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <SearchFlags index="OffsetByUnitRadius" value="0"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+
+
+
+    <CEffectDamage id="NodVenomWeaponUDamage" parent="DU_WEAP">
+        <EditorCategories value="Race:Nod"/>
+        <AttributeBonus index="Armored" value="4"/>
         <Kind value="Ranged"/>
         <Amount value="6"/>
         <ExcludeArray Value="Outer"/>
@@ -1154,56 +1167,60 @@
         <SearchFlags index="OffsetByUnitRadius" value="0"/>
         <SearchFlags index="SameCliff" value="0"/>
     </CEffectDamage>
-    <CEffectLaunchMissile id="NodMilitantRocketWeaponALM2">
-        <EditorCategories value="Race:Nod"/>
-        <ImpactEffect value="NodMilitantRocketDamage"/>
-        <AmmoUnit value="NodMilitantRocketWeapon"/>
-    </CEffectLaunchMissile>
-    <CEffectLaunchMissile id="NodMilitantRocketWeaponALM">
-        <EditorCategories value="Race:Nod"/>
-        <ImpactEffect value="NodMilitantRocketDamage"/>
-        <AmmoUnit value="NodMilitantRocketWeapon"/>
-    </CEffectLaunchMissile>
-    <CEffectCreatePersistent id="NodMilitantRocketMissilePackCP">
-        <EditorCategories value="Race:Nod"/>
-        <WhichLocation Value="TargetUnit"/>
-        <Flags index="Channeled" value="1"/>
-        <PeriodCount value="1"/>
-        <PeriodicEffectArray value="NodMilitantRocketWeaponALM"/>
-        <PeriodicEffectArray value="NodMilitantRocketWeaponALM2"/>
-        <PeriodicPeriodArray value="0"/>
-        <PeriodicPeriodArray value="0"/>
-    </CEffectCreatePersistent>
-    <CEffectDamage id="NodMilitantRocketDamage" parent="DU_WEAP_MISSILE">
-        <EditorCategories value="Race:Nod"/>
-        <AttributeBonus index="Armored" value="8"/>
-        <Amount value="8"/>
-    </CEffectDamage>
-    <CEffectLaunchMissile id="NodMilitantRocketALM2">
-        <EditorCategories value="Race:Nod"/>
-        <ImpactEffect value="NodMilitantRocketAU"/>
-        <AmmoUnit value="NodMilitantRocketWeapon"/>
-    </CEffectLaunchMissile>
-    <CEffectLaunchMissile id="NodMilitantRocketALM">
-        <EditorCategories value="Race:Nod"/>
-        <ImpactEffect value="NodMilitantRocketAU"/>
-        <AmmoUnit value="NodMilitantRocketWeapon"/>
-    </CEffectLaunchMissile>
-    <CEffectCreatePersistent id="NodMilitantRocketA2">
+    <CEffectDamage id="NodLaserTurretsHubWeaponDamage" parent="NodLaserTurretWeaponDamage"/>
+
+<!--    <CEffectCreatePersistent id="NodMilitantRocketMissilePackCP">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <WhichLocation Value="TargetUnit"/>-->
+<!--        <Flags index="Channeled" value="1"/>-->
+<!--        <PeriodCount value="1"/>-->
+<!--        <PeriodicEffectArray value="NodMilitantRocketWeaponALM"/>-->
+<!--        <PeriodicEffectArray value="NodMilitantRocketWeaponALM2"/>-->
+<!--        <PeriodicPeriodArray value="0"/>-->
+<!--        <PeriodicPeriodArray value="0"/>-->
+<!--    </CEffectCreatePersistent>-->
+<!--    <CEffectLaunchMissile id="NodMilitantRocketWeaponALM2">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <ImpactEffect value="NodMilitantRocketWeaponDamage"/>-->
+<!--        <AmmoUnit value="NodMilitantRocketWeapon"/>-->
+<!--    </CEffectLaunchMissile>-->
+<!--    <CEffectLaunchMissile id="NodMilitantRocketWeaponALM">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <ImpactEffect value="NodMilitantRocketWeaponDamage"/>-->
+<!--        <AmmoUnit value="NodMilitantRocketWeapon"/>-->
+<!--    </CEffectLaunchMissile>-->
+
+    <CEffectCreatePersistent id="NodMilitantRocketWeaponCP">
         <EditorCategories value="Race:Nod"/>
         <WhichLocation Value="TargetUnit"/>
         <Flags index="Channeled" value="1"/>
         <PeriodCount value="2"/>
-        <PeriodicEffectArray value="NodMilitantRocketALM"/>
-        <PeriodicEffectArray value="NodMilitantRocketALM2"/>
+        <PeriodicEffectArray value="NodMilitantRocketWeaponLM"/>
+        <PeriodicEffectArray value="NodMilitantRocketWeaponLM2"/>
         <PeriodicPeriodArray value="0.5"/>
         <PeriodicPeriodArray value="0.5"/>
     </CEffectCreatePersistent>
-    <CEffectDamage id="NodMilitantRocketAU" parent="DU_WEAP_MISSILE">
+    <CEffectLaunchMissile id="NodMilitantRocketWeaponLM2">
         <EditorCategories value="Race:Nod"/>
-        <AttributeBonus index="Armored" value="12"/>
-        <Amount value="4"/>
+        <ImpactEffect value="NodMilitantRocketWeaponDamage"/>
+        <AmmoUnit value="NodMilitantRocketWeapon"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="NodMilitantRocketWeaponLM">
+        <EditorCategories value="Race:Nod"/>
+        <ImpactEffect value="NodMilitantRocketWeaponDamage"/>
+        <AmmoUnit value="NodMilitantRocketWeapon"/>
+    </CEffectLaunchMissile>
+    <CEffectDamage id="NodMilitantRocketWeaponDamage" parent="DU_WEAP_MISSILE">
+        <EditorCategories value="Race:Nod"/>
+        <AttributeBonus index="Armored" value="8"/>
+        <Amount value="8"/>
     </CEffectDamage>
+<!--    <CEffectDamage id="NodMilitantRocketAU" parent="DU_WEAP_MISSILE">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <AttributeBonus index="Armored" value="12"/>-->
+<!--        <Amount value="4"/>-->
+<!--    </CEffectDamage>-->
+
     <CEffectCreatePersistent id="BlackHandLiquidTibCreatePersistent">
         <EditorCategories value="Race:Nod"/>
         <InitialEffect value="TemporalRiftDummy"/>
@@ -1322,7 +1339,7 @@
     </CEffectCreatePersistent>
     <CEffectRandomPointInCircle id="NodSpecterLaunchMissileRPIC">
         <WhichLocation Value="TargetUnitOrPoint"/>
-        <Effect value="NodSpecterLaunchMissile"/>
+        <Effect value="NodSpecterWeaponSet"/>
         <Radius value="2"/>
     </CEffectRandomPointInCircle>
 
@@ -2041,6 +2058,7 @@
         <EditorCategories value="Race:Nod"/>
         <WhichLocation Value="TargetUnit"/>
         <PeriodCount value="5"/>
+        <InitialEffect value="StealthExposure"/>
         <PeriodicEffectArray value="NodStealthTankWeaponU@LM1"/>
         <PeriodicPeriodArray value="0.1"/>
     </CEffectCreatePersistent>
@@ -2113,11 +2131,18 @@
         <ExcludeArray Value="Target"/>
         <SearchFilters value="Visible;Player,Ally,Neutral,Missile,Stasis,Dead,Invulnerable,Benign,Passive"/>
     </CEffectDamage>
-    <CEffectCreatePersistent id="NodMissileTurretWeapon@CP">
+    <CEffectCreatePersistent id="NodMissileTurretWeaponCP">
         <EditorCategories value="Race:Nod"/>
         <WhichLocation Value="TargetUnit"/>
         <PeriodCount value="2"/>
         <PeriodicEffectArray value="NodMissileTurretWeapon@LM1"/>
+        <PeriodicPeriodArray value="0.0625"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="NodMissileTurretsHubWeaponCP">
+        <EditorCategories value="Race:Nod"/>
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="NodMissileTurretsHubWeapon@LM1"/>
         <PeriodicPeriodArray value="0.0625"/>
     </CEffectCreatePersistent>
     <CEffectLaunchMissile id="NodMissileTurretWeapon@LM1">
@@ -2125,6 +2150,7 @@
         <ImpactEffect value="NodMissileTurretWeaponDamage"/>
         <AmmoUnit value="NodMissileTurretWeaponMissile"/>
     </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="NodMissileTurretsHubWeapon@LM1" parent="NodMissileTurretWeapon@LM1"/>
     <CEffectDamage id="NodMissileTurretWeaponDamage">
         <EditorCategories value="Race:Nod"/>
         <ResponseFlags index="Acquire" value="1"/>
@@ -2137,6 +2163,7 @@
         <ExcludeArray Value="Target"/>
         <SearchFilters value="Visible;Player,Ally,Neutral,Missile,Stasis,Dead,Invulnerable,Benign,Passive"/>
     </CEffectDamage>
+    <CEffectDamage id="NodMissileTurretsHubWeaponDamage" parent="NodMissileTurretWeaponDamage"/>
     <CEffectCreatePersistent id="NodMissileTurretWeaponU@CP">
         <EditorCategories value="Race:Nod"/>
         <WhichLocation Value="TargetUnit"/>
@@ -2163,21 +2190,20 @@
         <ExcludeArray Value="Target"/>
         <SearchFilters value="Visible;Player,Ally,Neutral,Missile,Stasis,Dead,Invulnerable,Benign,Passive"/>
     </CEffectDamage>
-    <CEffectSwitch id="NodShredderWeaponSwitch">
-        <EditorCategories value="Race:Nod"/>
-        <CaseDefault value="NodShredderWeaponCP"/>
-    </CEffectSwitch>
-    <CEffectCreatePersistent id="NodShredderWeaponCP">
+    <CEffectCreatePersistent id="NodShredderTurretWeaponCP">
         <EditorCategories value="Race:Nod"/>
         <WhichLocation Value="TargetUnit"/>
         <TimeScaleSource Value="Caster"/>
         <Flags index="Channeled" value="1"/>
         <PeriodCount value="2"/>
-        <PeriodicEffectArray value="NodShredderWeaponDamage"/>
+        <PeriodicEffectArray value="NodShredderTurretWeaponDamage"/>
         <PeriodicPeriodArray value="0"/>
         <PeriodicPeriodArray value="0.15"/>
     </CEffectCreatePersistent>
-    <CEffectDamage id="NodShredderWeaponDamage">
+    <CEffectCreatePersistent id="NodShredderTurretsHubWeaponCP" parent="NodShredderTurretWeaponCP">
+        <PeriodicEffectArray index="0" value="NodShredderTurretsHubWeaponDamage"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="NodShredderTurretWeaponDamage">
         <EditorCategories value="Race:Nod"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
@@ -2186,13 +2212,24 @@
         <Amount value="4"/>
         <AttributeBonus index="Light" value="2"/>
     </CEffectDamage>
-    <CEffectCreatePersistent id="NodRaiderMachinegunCP">
+    <CEffectDamage id="NodShredderTurretsHubWeaponDamage" parent="NodShredderTurretWeaponDamage"/>
+    <CEffectCreatePersistent id="NodRaiderWeaponCP">
         <EditorCategories value="Race:Nod"/>
         <WhichLocation Value="TargetUnit"/>
         <TimeScaleSource Value="Caster"/>
         <Flags index="Channeled" value="1"/>
         <PeriodCount value="2"/>
-        <PeriodicEffectArray value="NodRaiderMachinegunDamage"/>
+        <PeriodicEffectArray value="NodRaiderWeaponDamage"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="0.15"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="NodRaiderWeaponUCP">
+        <EditorCategories value="Race:Nod"/>
+        <WhichLocation Value="TargetUnit"/>
+        <TimeScaleSource Value="Caster"/>
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="NodRaiderWeaponUDamage"/>
         <PeriodicPeriodArray value="0"/>
         <PeriodicPeriodArray value="0.15"/>
     </CEffectCreatePersistent>
@@ -2338,13 +2375,25 @@
         <EffectArray value="Suicide"/>
         <TargetLocationType value="UnitOrPoint"/>
     </CEffectSet>
-    <CEffectDamage id="NodRaiderMachinegunDamage">
+    <CEffectDamage id="NodRaiderWeaponDamage">
         <EditorCategories value="Race:Nod"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
         <ArmorReduction value="1"/>
         <Flags index="Notification" value="1"/>
         <Kind value="Ranged"/>
+        <Amount value="6"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+        <SearchFlags index="OffsetByUnitRadius" value="1"/>
+    </CEffectDamage>
+    <CEffectDamage id="NodRaiderWeaponUDamage">
+        <EditorCategories value="Race:Nod"/>
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <ArmorReduction value="1"/>
+        <Flags index="Notification" value="1"/>
+        <Kind value="Ranged"/>
+        <AttributeBonus index="Light" value="4"/>
         <Amount value="6"/>
         <SearchFlags index="CallForHelp" value="1"/>
         <SearchFlags index="OffsetByUnitRadius" value="1"/>
@@ -2382,8 +2431,8 @@
         <OwningPlayer Value="Caster"/>
         <WhichLocation Value="TargetPoint"/>
         <Effect value="NodCreateFlameMine"/>
-        <Count value="13"/>
-        <Radius value="2.5"/>
+        <Count value="7"/>
+        <Radius value="2"/>
     </CEffectRandomPointInCircle>
     <CEffectCreateUnit id="NodShadowFlyCreatePrecursor">
         <WhichLocation Value="TargetPoint"/>
@@ -3124,10 +3173,10 @@
         <Flags index="Channeled" value="1"/>
         <ExpireDelay value="0.73"/>
         <ExpireEffect value="NodRedeemerThermalLancesDamage"/>
-        <PeriodCount value="11"/>
+        <PeriodCount value="7"/>
         <PeriodicEffectArray value="NodRedeemerThermalLancesEA"/>
-        <PeriodicOffsetArray value="-1.25,0,0"/>
-        <PeriodicOffsetArray value="-1,0,0"/>
+<!--        <PeriodicOffsetArray value="-1.25,0,0"/>-->
+<!--        <PeriodicOffsetArray value="-1,0,0"/>-->
         <PeriodicOffsetArray value="-0.75,0,0"/>
         <PeriodicOffsetArray value="-0.5,0,0"/>
         <PeriodicOffsetArray value="-0.25,0,0"/>
@@ -3135,8 +3184,9 @@
         <PeriodicOffsetArray value="0.25,0,0"/>
         <PeriodicOffsetArray value="0.5,0,0"/>
         <PeriodicOffsetArray value="0.75,0,0"/>
-        <PeriodicOffsetArray value="1,0,0"/>
-        <PeriodicOffsetArray value="1.25,0,0"/>
+<!--        <PeriodicOffsetArray value="1,0,0"/>-->
+<!--        <PeriodicOffsetArray value="1.25,0,0"/>-->
+
         <PeriodicPeriodArray value="0.025"/>
     </CEffectCreatePersistent>
     <CEffectCreatePersistent id="NodRedeemerThermalLancesFriendlyCP">
@@ -3174,6 +3224,7 @@
         <Kind value="Ranged"/>
         <KindSplash value="Splash"/>
         <Amount value="50"/>
+        <AttributeBonus index="Massive" value="50"/>
         <Death value="Fire"/>
     </CEffectDamage>
     <CEffectCreatePersistent id="NodRedeemerThermalLancesReverse">
@@ -3185,10 +3236,10 @@
         <Flags index="Channeled" value="1"/>
         <ExpireDelay value="0.73"/>
         <ExpireEffect value="NodRedeemerThermalLancesDamage"/>
-        <PeriodCount value="11"/>
+        <PeriodCount value="7"/>
         <PeriodicEffectArray value="NodRedeemerThermalLancesEAReverse"/>
-        <PeriodicOffsetArray value="1.25,0,0"/>
-        <PeriodicOffsetArray value="1,0,0"/>
+<!--        <PeriodicOffsetArray value="1.25,0,0"/>-->
+<!--        <PeriodicOffsetArray value="1,0,0"/>-->
         <PeriodicOffsetArray value="0.75,0,0"/>
         <PeriodicOffsetArray value="0.5,0,0"/>
         <PeriodicOffsetArray value="0.25,0,0"/>
@@ -3196,8 +3247,8 @@
         <PeriodicOffsetArray value="-0.25,0,0"/>
         <PeriodicOffsetArray value="-0.5,0,0"/>
         <PeriodicOffsetArray value="-0.75,0,0"/>
-        <PeriodicOffsetArray value="-1,0,0"/>
-        <PeriodicOffsetArray value="-1.25,0,0"/>
+<!--        <PeriodicOffsetArray value="-1,0,0"/>-->
+<!--        <PeriodicOffsetArray value="-1.25,0,0"/>-->
         <PeriodicPeriodArray value="0.025"/>
     </CEffectCreatePersistent>
     <CEffectSet id="RedeemerWeaponSet">
@@ -3665,6 +3716,7 @@
     
     <CEffectSet id="NodSignatureGeneratorSet">
         <EditorCategories value="Race:Nod"/>
+        <EffectArray value="PowerUserDrainETU025"/>
         <EffectArray value="NodSignatureGeneratorCreateDecoy1"/>
         <EffectArray value="NodSignatureGeneratorCreateDecoy2"/>
         <EffectArray value="NodSignatureGeneratorCreateDecoy3"/>
@@ -3673,19 +3725,19 @@
         <EditorCategories value="Race:Nod"/>
         <WhichLocation Value="CasterUnit"/>
         <SpawnUnit value="NodSignatureDecoy"/>
-        <SpawnOffset value="2,0"/>
+        <SpawnOffset value="3,0"/>
     </CEffectCreateUnit>
     <CEffectCreateUnit id="NodSignatureGeneratorCreateDecoy2">
         <EditorCategories value="Race:Nod"/>
         <WhichLocation Value="CasterUnit"/>
         <SpawnUnit value="NodSignatureDecoy"/>
-        <SpawnOffset value="-2,2"/>
+        <SpawnOffset value="-3,3"/>
     </CEffectCreateUnit>
     <CEffectCreateUnit id="NodSignatureGeneratorCreateDecoy3">
         <EditorCategories value="Race:Nod"/>
         <WhichLocation Value="CasterUnit"/>
         <SpawnUnit value="NodSignatureDecoy"/>
-        <SpawnOffset value="-2,-2"/>
+        <SpawnOffset value="-3,-3"/>
     </CEffectCreateUnit>
 
     <CEffectLaunchMissile id="NodDisruptionPodLaunch">
@@ -3694,7 +3746,7 @@
         <AmmoUnit value="NodDisruptionPodMissile"/>
     </CEffectLaunchMissile>
 
-    <CEffectSet id="NodDisruptionPodImpact">
+        <CEffectSet id="NodDisruptionPodImpact">
         <EditorCategories value="Race:Nod"/>
         <EffectArray value="NodDisruptionPodSpawn"/>
         <EffectArray value="NodDisruptionPodApplyAttached"/>
@@ -3844,4 +3896,11 @@
 
 
 
+
+    <CEffectCreateUnit id="NodSignatureGeneratorCreateDecoy">
+        <EditorCategories value="Race:Nod"/>
+        <WhichLocation Value="CasterPoint"/>
+        <SpawnUnit value="NodSignatureDecoy"/>
+        <SpawnCount value="1"/>
+    </CEffectCreateUnit>
 </Catalog>

@@ -78,9 +78,25 @@
         <DisableValidatorArray value="DontHaveNodTiberiumRefinery"/>
         <DisableValidatorArray value="GenetronPowerSupplyGE05"/>
     </CBehaviorBuff>
+
+    <CBehaviorBuff id="AutoHarvestVespeneNodRich">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Period value="2.1"/>
+        <PeriodicEffect value="AutoHarvestVespeneNodRich"/>
+        <RemoveValidatorArray value="AutoHarvesterFinish"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <DisableValidatorArray value="DontHaveNodTiberiumRefinery"/>
+        <DisableValidatorArray value="GenetronPowerSupplyGE05"/>
+    </CBehaviorBuff>
+    <CEffectModifyUnit id="AutoHarvestVespeneNodRich">
+        <EditorCategories value=""/>
+        <Resources value="-10"/>
+        <ResourcesHarvestedFraction value="1"/>
+    </CEffectModifyUnit>
     <CEffectModifyUnit id="AutoHarvestVespeneNod">
         <EditorCategories value=""/>
-        <Resources value="-4"/>
+        <Resources value="-5"/>
         <ResourcesHarvestedFraction value="1"/>
     </CEffectModifyUnit>
     <CActorText id="AutomatedRefineryTextKickerNod4">
@@ -95,7 +111,30 @@
         <On Terms="TimerExpired; TimerName StartMover" Send="Create AutomatedExtractorTextMover"/>
         <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
     </CActorText>
-
+    <CActorText id="AutomatedRefineryTextKickerNod5">
+        <Host Subject="_Unit"/>
+        <FixedSize value="28"/>
+        <HeightOffset value="3.5"/>
+        <AlignV value="Bottom"/>
+        <Text value="Button/Tooltip/AutomatedRefineryTextKickerNod5"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.100000 StartMover"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000 Die"/>
+        <On Terms="ActorCreation" Send="SetOpacity 0.000000 2.000000"/>
+        <On Terms="TimerExpired; TimerName StartMover" Send="Create AutomatedExtractorTextMover"/>
+        <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
+    </CActorText>
+    <CActorText id="AutomatedRefineryTextKickerNod10">
+        <Host Subject="_Unit"/>
+        <FixedSize value="28"/>
+        <HeightOffset value="3.5"/>
+        <AlignV value="Bottom"/>
+        <Text value="Button/Tooltip/AutomatedRefineryTextKickerNod10"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.100000 StartMover"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000 Die"/>
+        <On Terms="ActorCreation" Send="SetOpacity 0.000000 2.000000"/>
+        <On Terms="TimerExpired; TimerName StartMover" Send="Create AutomatedExtractorTextMover"/>
+        <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
+    </CActorText>
     <CActorSiteMover id="AutomatedExtractorTextMover">
         <Terms value="Cap 1"/>
         <Acceleration value="5"/>
@@ -108,6 +147,20 @@
         <On Terms="ActorCreation" Send="TimerSet 2.000000 Die"/>
         <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
     </CActorSiteMover>
+
+
+    <CEffectEnumArea id="NodSiloRichSearch">
+        <EditorCategories value="Race:Terran"/>
+        <SearchFilters value="RawResource;-"/>
+        <AreaArray Radius="0.5" Effect="NodSiloRichSet"/>
+    </CEffectEnumArea>
+    <CEffectSet id="NodSiloRichSet">
+        <ValidatorArray value="RichVespeneGeyser"/>
+        <EditorCategories value="Race:Terran"/>
+        <EffectArray value="RefineryRichAB"/>
+        <EffectArray value="RefineryRichRB"/>
+    </CEffectSet>
+
 
 
 
@@ -140,7 +193,7 @@
         <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
         <InitialEffect value="PowerUserDrainETU025"/>
         <Period value="0.5"/>
-        <PeriodicEffect value="Detector11PowerUserDrainETU"/>
+        <PeriodicEffect value="PowerUserDrainETU045"/>
     </CBehaviorBuff>
 
     <CEffectEnumTrackedUnits id="PowerUserDrainETU025">
@@ -164,11 +217,11 @@
         </VitalArray>
     </CEffectModifyUnit>
 
-    <CEffectEnumTrackedUnits id="Detector11PowerUserDrainETU">
+    <CEffectEnumTrackedUnits id="PowerUserDrainETU045">
         <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <Effect value="Detector11PowerUserDrainPowerMU"/>
+        <Effect value="PowerUserDrainPowerMU045"/>
     </CEffectEnumTrackedUnits>
-    <CEffectModifyUnit id="Detector11PowerUserDrainPowerMU">
+    <CEffectModifyUnit id="PowerUserDrainPowerMU045">
         <VitalArray index="Energy">
             <Change value="-0.45"/>
         </VitalArray>
@@ -202,14 +255,13 @@
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
         <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-<!--        <RemoveValidatorArray value="CanSpendEnergy"/>-->
-        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
         <Modification>
             <StateFlags index="Cloak" value="1"/>
         </Modification>
+        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
         <InitialEffect value="PowerUserDrainETU025"/>
         <Period value="0.5"/>
-        <PeriodicEffect value="Detector11PowerUserDrainETU"/>
+        <PeriodicEffect value="PowerUserDrainETU045"/>
     </CBehaviorBuff>
     <CAbilBehavior id="NodEnergyCloak">
         <AbilSetId value="Clok"/>
@@ -226,7 +278,7 @@
             <Charge Link="Abil/BansheeCloak"/>
             <Cooldown Link="Abil/BansheeCloak"/>
         </Cost>
-        <BehaviorArray value="CourierCloak"/>
+        <BehaviorArray value="NodEnergyCloak"/>
     </CAbilBehavior>
 
 

@@ -295,7 +295,11 @@
         <On Terms="AnimDone; AnimName Work; IsStatus Mining 1" Send="AnimPlay Work Stand,Work"/>
         <On Terms="Behavior.AutoHarvestVespeneNod.On" Send="SetTintColor 255,255,255"/>
         <On Terms="Behavior.AutoHarvestVespeneNod.Off" Send="SetTintColor 255,170,170"/>
-        <On Terms="Effect.AutoHarvestVespeneNod.Start" Send="Create AutomatedRefineryTextKickerNod4"/>
+        <On Terms="Effect.AutoHarvestVespeneNod.Start" Send="Create AutomatedRefineryTextKickerNod5"/>
+
+
+
+
 <!--        <On Terms="Effect.AutoHarvestVespeneNod.Start; !ValidateUnit HasMicroFiltering" Send="Create AutomatedRefineryTextKickerNod4"/>-->
 <!--        <On Terms="Effect.AutoHarvestVespeneNod.Start; ValidateUnit HasMicroFiltering" Send="Create AutomatedRefineryTextKicker5"/>-->
         <On Terms="UnitBirth.NodTiberiumSilo" Send="TimerSet 0.100000 HideGeyser"/>
@@ -326,12 +330,26 @@
         <Macros value="ExtractAnim"/>
         <Model value="NodTiberiumSilo"/>
         <On index="35" Send="AnimPlay Birth Stand 0 0.000000"/>
-        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="SetTintColor 255,170,170"/>
-        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="AnimGroupRemove D"/>
-        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="AnimGroupApply B"/>
-        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="SetTintColor 255,255,255"/>
-        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="AnimGroupRemove B"/>
-        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="AnimGroupApply D"/>
+<!--        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="SetTintColor 255,170,170"/>-->
+<!--        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="AnimGroupRemove D"/>-->
+<!--        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="AnimGroupApply B"/>-->
+<!--        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="SetTintColor 255,255,255"/>-->
+<!--        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="AnimGroupRemove B"/>-->
+<!--        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="AnimGroupApply D"/>-->
+        <On Terms="Effect.AutoHarvestVespeneNodRich.Start" Send="TimerKill Stopped"/>
+        <On Terms="Effect.AutoHarvestVespeneNodRich.Start" Send="TimerSet 5.000000 Stopped"/>
+        <On Terms="Effect.AutoHarvestVespeneNodRich.Start; IsStatus Mining 0" Send="AnimPlay Work Stand,Work"/>
+        <On Terms="Effect.AutoHarvestVespeneNodRich.Start; IsStatus Mining 0" Send="AnimGroupRemove B"/>
+        <On Terms="Effect.AutoHarvestVespeneNodRich.Start; IsStatus Mining 0" Send="AnimGroupApply A"/>
+        <On Terms="Effect.AutoHarvestVespeneNodRich.Start; IsStatus Mining 0" Send="StatusSet Mining 1"/>
+        <On Terms="TimerExpired; TimerName Stopped" Send="AnimGroupRemove A"/>
+        <On Terms="TimerExpired; TimerName Stopped" Send="AnimGroupApply B"/>
+        <On Terms="TimerExpired; TimerName Stopped" Send="StatusSet Mining 0"/>
+        <On Terms="AnimDone; AnimName Work; IsStatus Mining 1" Send="AnimPlay Work Stand,Work"/>
+        <On Terms="Behavior.AutoHarvestVespeneNodRich.On" Send="SetTintColor 255,255,255"/>
+        <On Terms="Behavior.AutoHarvestVespeneNodRich.Off" Send="SetTintColor 255,170,170"/>
+        <On Terms="Effect.AutoHarvestVespeneNodRich.Start" Send="Create AutomatedRefineryTextKickerNod10"/>
+
         <On Terms="UnitDeathCustomize; ValidateUnit NoVespene" Send="DeathCustomize Empty"/>
         <On Terms="UnitBirth.RefineryRich" Send="TimerSet 0.100000 HideGeyser"/>
         <CreepHeightClass value="Medium"/>
@@ -534,9 +552,9 @@
         <On Terms="AbilMorph.*.Start; MorphFrom NodMCV" Send="Destroy"/>
         <StandAnimTurnTime value="4.5"/>
         <WalkAnimMoveSpeed value="1.5"/>
-        <MinimapFlashWhenAttacked value="0"/>
-        <MinimapUseSelfColor value="0"/>
-        <MinimapUseSelectionColor value="0"/>
+<!--        <MinimapFlashWhenAttacked value="0"/>-->
+<!--        <MinimapUseSelfColor value="0"/>-->
+<!--        <MinimapUseSelectionColor value="0"/>-->
         <SoundArray index="Attack" value="NodCrawler_Attack"/>
         <SoundArray index="Pissed" value="NodMCV_What"/>
         <SoundArray index="Movement" value="NodVehicleMoveLoopMCVA"/>
@@ -676,7 +694,7 @@
         <ContainerAssets Model="ReaperBunkerAttackLaunch" Sound="Reaper_BunkerAttackLaunch"/>
         <ImpactMap index="None" Model="ReaperAttackImpact" Sound="Reaper_AttackImpact"/>
     </CActorAction>
-    <CActorAction id="NodRaiderMachinegunAttack" parent="GenericAttack" effectAttack="NodRaiderMachinegunDamage">
+    <CActorAction id="NodRaiderWeaponAttack" parent="GenericAttack" effectAttack="NodRaiderWeaponDamage">
         <LaunchAttachQuery Methods="AMFilterWeapon01"/>
         <LaunchAssets Model="GhostAttackLaunch" Sound="NodRaider_AttackLaunch"/>
         <ContainerAssets Model="MarineAttackLaunch" Sound="NodRaider_AttackLaunch"/>
@@ -687,8 +705,40 @@
         <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
         <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>
     </CActorAction>
-    <CActorAction id="NodShredderWeaponAttack" parent="GenericAttack" effectAttack="NodShredderWeaponDamage">
+    <CActorAction id="NodRaiderWeaponUAttack" parent="GenericAttack" effectAttack="NodRaiderWeaponUDamage">
+        <LaunchAssets Sound="Venomparticlebeam_AttackLaunch"/>
+        <BeamScope value="Caster"/>
+        <Beam value="NodRaiderWeaponUAttackBeam"/>
+        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
+        <ImpactMap index="None" Model="" Sound="HC_AttackImpact"/>
+        <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
+    </CActorAction>
+    <CActorBeamSimple id="NodRaiderWeaponUAttackBeam" parent="BeamSimpleAnimationStyleOneShot">
+        <Macros value="ActionTargetTeleportDestroy"/>
+        <On Terms="ActorCreation" Send="ModelSwap DarkArchonAttackBeam"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSDb Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSDb" Send="Destroy"/>
+        <Scale value="0.500000"/>
+    </CActorBeamSimple>
+
+
+
+
+
+
+    <CActorAction id="NodShredderTurretWeaponAttack" parent="GenericAttack" effectAttack="NodShredderTurretWeaponDamage">
         <LaunchAttachQuery Methods="Weapon0102"/>
+        <LaunchAssets Model="GhostAttackLaunch" Sound="NodRaider_AttackLaunch"/>
+        <ContainerAssets Model="MarineAttackLaunch" Sound="NodRaider_AttackLaunch"/>
+        <Beam value="NodLightAttackBeam"/>
+        <ImpactMap index="None" Model="MarineAttackImpact" Sound="Marine_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="BulletImpact" MatchKeys="Basic" Physics="MarineAttackDeathForce"/>
+        <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
+        <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>
+    </CActorAction>
+    <CActorAction id="NodShredderTurretsHubWeaponAttack" parent="GenericAttack" effectAttack="NodShredderTurretsHubWeaponDamage">
+        <LaunchAttachQuery Methods="Weapon0405"/>
         <LaunchAssets Model="GhostAttackLaunch" Sound="NodRaider_AttackLaunch"/>
         <ContainerAssets Model="MarineAttackLaunch" Sound="NodRaider_AttackLaunch"/>
         <Beam value="NodLightAttackBeam"/>
@@ -845,11 +895,12 @@
         <SoundArray index="Movement" value="StealthTank_Movement"/>
     </CActorUnit>
     <CActorUnit id="NodVenom" icon="Venom" parent="NodAir" wireframe="NodVenomWireframe">
-<!--        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>-->
-        <On Terms="ActorCreation" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
+
+        <On Terms="ActorCreation; ValidatePlayer HasNodLaserCapacitors" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <On Terms="ActorCreation; !ValidatePlayer HasNodLaserCapacitors" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
         <On Terms="ActorCreation" Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
-        <On Terms="ActorCreation" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
-<!--        <On Terms="ActorCreation" Send="AnimPlay CoverE Cover,E PlayForever 0.000000"/>-->
+        <On Terms="ActorCreation; !ValidatePlayer HasNodSignatureGenerators" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
+<!--      No Weapon Venom  <On Terms="ActorCreation" Send="AnimPlay CoverE Cover,E PlayForever 0.000000"/>-->
 
         <On Terms="Upgrade.NodSignatureGenerators.Add" Send="AnimClear CoverD"/>
         <On Terms="Upgrade.NodSignatureGenerators.Remove" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
@@ -1865,6 +1916,15 @@
         <ImpactMap index="None" Model="" Sound="HC_AttackImpact"/>
         <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
     </CActorAction>
+    <CActorAction id="NodLaserTurretsHubWeaponAttack" parent="GenericAttack" effectAttack="NodLaserTurretsHubWeaponDamage">
+        <LaunchAssets Sound="NodCommando_AttackLaunch"/>
+        <BeamScope value="Caster"/>
+        <Beam value="NodScorpionTankWeaponUAttackBeam"/>
+        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
+        <LaunchAttachQuery Methods="Weapon0607"/>
+        <ImpactMap index="None" Model="" Sound="HC_AttackImpact"/>
+        <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
+    </CActorAction>
     <!--    <CActorBeamSimple id="NodLaserTurretWeaponAttackBeam" parent="BeamSimpleAnimationStyleOneShot">-->
     <!--        <Macros value="ActionTargetTeleportDestroy"/>-->
     <!--        <On Terms="ActorCreation" Send="ModelSwap DarkArchonAttackBeam"/>-->
@@ -1882,9 +1942,6 @@
         <On Terms="ActorDestruction" Send="Create NodMissileDeath"/>
         <Model value="NodVertigoWeaponMissile"/>
     </CActorMissile>
-    <CActorSound id="NodMilitantRocketAttackSounds" parent="SoundOneShot">
-        <On Terms="Effect.NodMilitantRocketMissilePackCP.Start" Send="Create"/>
-    </CActorSound>
     <CActorAction id="CABALMantisRocketAttack" parent="MarauderAttackBase" effectImpact="CABALMantisRocketDamage" effectLaunch="PunisherGrenadesLM">
         <On Terms="Effect.CABALMantisRocketLaunchMissile.Start; At Caster; !ValidateEffect PunisherGrenadesResearched" Send="Create"/>
         <LaunchAttachQuery Methods="Weapon 4"/>
@@ -1909,32 +1966,48 @@
         <ImpactMap index="None" Model="DefenderAirAttackImpact22" Sound="Defender_AttackImpact2"/>
         <ImpactPhysics Name="JavelinImpact" MatchKeys="Basic" Physics="ThorAAAttackForce"/>
     </CActorAction>
-    <CActorAction id="NodMilitantRocketWeaponAttack2" parent="GenericAttack" effectImpact="NodMilitantRocketDamage" effectLaunch="NodMilitantRocketWeaponALM2">
+
+
+    <CActorSound id="NodMilitantRocketAttackSounds" parent="SoundOneShot">
+<!--        <On Terms="Effect.NodMilitantRocketMissilePackCP.Start" Send="Create"/>-->
+        <On Terms="Effect.NodMilitantRocketWeaponCP.Start" Send="Create"/>
+    </CActorSound>
+
+    <CActorAction id="NodMilitantRocketWeaponAttack2" parent="GenericAttack" effectImpact="NodMilitantRocketWeaponDamage" effectLaunch="NodMilitantRocketWeaponLM2">
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
         <LaunchAssets Model="DefenderAirAttackLaunch2" Sound="Defender_AttackLaunch2"/>
         <Missile value="NodMilitantRocketWeaponMissile"/>
         <ImpactMap index="None" Model="DefenderAirAttackImpact2" Sound="Defender_AttackImpact2"/>
         <ImpactPhysics Name="JavelinImpact" MatchKeys="Basic" Physics="ThorAAAttackForce"/>
     </CActorAction>
-    <CActorAction id="NodMilitantRocketWeaponAttack" parent="GenericAttack" effectImpact="NodMilitantRocketDamage" effectLaunch="NodMilitantRocketWeaponALM">
+    <CActorAction id="NodMilitantRocketWeaponAttack" parent="GenericAttack" effectImpact="NodMilitantRocketWeaponDamage" effectLaunch="NodMilitantRocketWeaponLM">
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
         <LaunchAssets Model="DefenderAirAttackLaunch2" Sound="Defender_AttackLaunch2"/>
+        <Missile value="NodMilitantRocketWeaponMissile"/>
         <ImpactMap index="None" Model="DefenderAirAttackImpact2" Sound="Defender_AttackImpact2"/>
         <ImpactPhysics Name="JavelinImpact" MatchKeys="Basic" Physics="ThorAAAttackForce"/>
     </CActorAction>
-    <CActorAction id="NodMilitantRocketAttack2" parent="GenericAttack" effectImpact="NodMilitantRocketAU" effectLaunch="NodMilitantRocketALM2">
-        <LaunchAttachQuery Methods="AMFilterWeapon"/>
-        <LaunchAssets Model="DefenderAirAttackLaunch2" Sound="Defender_AttackLaunch2"/>
-        <Missile value="NodMilitantRocketAttackMissile"/>
-        <ImpactMap index="None" Model="DefenderAirAttackImpact2" Sound="Defender_AttackImpact2"/>
-        <ImpactPhysics Name="JavelinImpact" MatchKeys="Basic" Physics="ThorAAAttackForce"/>
-    </CActorAction>
-    <CActorAction id="NodMilitantRocketAttack" parent="GenericAttack" effectImpact="NodMilitantRocketAU" effectLaunch="NodMilitantRocketALM">
-        <LaunchAttachQuery Methods="AMFilterWeapon"/>
-        <LaunchAssets Model="DefenderAirAttackLaunch2" Sound="Defender_AttackLaunch2"/>
-        <ImpactMap index="None" Model="DefenderAirAttackImpact2" Sound="Defender_AttackImpact2"/>
-        <ImpactPhysics Name="JavelinImpact" MatchKeys="Basic" Physics="ThorAAAttackForce"/>
-    </CActorAction>
+
+<!--    <CActorAction id="NodMilitantRocketAttack2" parent="GenericAttack" effectImpact="NodMilitantRocketAU" effectLaunch="NodMilitantRocketWeaponLM2">-->
+<!--        <LaunchAttachQuery Methods="AMFilterWeapon"/>-->
+<!--        <LaunchAssets Model="DefenderAirAttackLaunch2" Sound="Defender_AttackLaunch2"/>-->
+<!--        <Missile value="NodMilitantRocketAttackMissile"/>-->
+<!--        <ImpactMap index="None" Model="DefenderAirAttackImpact2" Sound="Defender_AttackImpact2"/>-->
+<!--        <ImpactPhysics Name="JavelinImpact" MatchKeys="Basic" Physics="ThorAAAttackForce"/>-->
+<!--    </CActorAction>-->
+<!--    <CActorAction id="NodMilitantRocketAttack" parent="GenericAttack" effectImpact="NodMilitantRocketAU" effectLaunch="NodMilitantRocketWeaponLM">-->
+<!--        <LaunchAttachQuery Methods="AMFilterWeapon"/>-->
+<!--        <LaunchAssets Model="DefenderAirAttackLaunch2" Sound="Defender_AttackLaunch2"/>-->
+<!--        <ImpactMap index="None" Model="DefenderAirAttackImpact2" Sound="Defender_AttackImpact2"/>-->
+<!--        <ImpactPhysics Name="JavelinImpact" MatchKeys="Basic" Physics="ThorAAAttackForce"/>-->
+<!--    </CActorAction>-->
+
+    <CActorEventMacro id="PhysicsDeathsVoidGround">
+        <On Terms="UnitDeathCustomize; KilledByEffect NodMilitantRocketWeaponDamage" Send="DeathCustomize RagdollSiegeTank"/>
+        <On Terms="UnitDeathCustomize; KilledByEffect NodMilitantRocketWeaponDamageUp" Send="DeathCustomize RagdollSiegeTank"/>
+    </CActorEventMacro>
+
+
     <CActorAction id="NodMilitantAttack" parent="GenericAttack" effectAttack="NodMilitantWeaponDamage">
 <!--        <On index="0" Terms="Effect.NodMilitantWeaponDamage.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>-->
 <!--        <On index="5" Terms="Effect.NodMilitantWeaponDamage.Start; At Caster" Send="Create"/>-->
@@ -2374,10 +2447,21 @@
         <On Terms="Behavior.CarryVespene2.Create" Send="AnimClear CoverB"/>
         <On Terms="Behavior.CarryVespene3.Create" Send="AnimClear CoverC"/>
         <On Terms="Behavior.CarryVespene4.Create" Send="AnimClear CoverD"/>
-        <On Terms="Behavior.CarryHarvestableVespeneGeyserGas.Destroy" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
-        <On Terms="Behavior.CarryHarvestableVespeneGeyserGas.Destroy" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
-        <On Terms="Behavior.CarryHarvestableVespeneGeyserGas.Destroy" Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
-        <On Terms="Behavior.CarryHarvestableVespeneGeyserGas.Destroy" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
+        <On Terms="Behavior.CarryVespene1.Destroy" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <On Terms="Behavior.CarryVespene2.Destroy" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
+        <On Terms="Behavior.CarryVespene3.Destroy" Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
+        <On Terms="Behavior.CarryVespene4.Destroy" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
+
+        <On Terms="Behavior.CarryTiberium1.Create" Send="AnimClear CoverA"/>
+        <On Terms="Behavior.CarryTiberium2.Create" Send="AnimClear CoverB"/>
+        <On Terms="Behavior.CarryTiberium3.Create" Send="AnimClear CoverC"/>
+        <On Terms="Behavior.CarryTiberium4.Create" Send="AnimClear CoverD"/>
+        <On Terms="Behavior.CarryTiberium1.Destroy" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <On Terms="Behavior.CarryTiberium2.Destroy" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
+        <On Terms="Behavior.CarryTiberium3.Destroy" Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
+        <On Terms="Behavior.CarryTiberium4.Destroy" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
+
+
 
         <On Terms="Behavior.CarryMinerals1.Create" Send="AnimClear CoverE"/>
         <On Terms="Behavior.CarryMinerals2.Create" Send="AnimClear CoverF"/>
@@ -2401,10 +2485,10 @@
         <On Terms="Behavior.CarryTerrazine2.Create" Send="AnimClear CoverN"/>
         <On Terms="Behavior.CarryTerrazine3.Create" Send="AnimClear CoverO"/>
         <On Terms="Behavior.CarryTerrazine4.Create" Send="AnimClear CoverP"/>
-        <On Terms="Behavior.CarryHarvestableTerrazineGeyserGas.Destroy" Send="AnimPlay CoverM Cover,M PlayForever 0.000000"/>
-        <On Terms="Behavior.CarryHarvestableTerrazineGeyserGas.Destroy" Send="AnimPlay CoverN Cover,N PlayForever 0.000000"/>
-        <On Terms="Behavior.CarryHarvestableTerrazineGeyserGas.Destroy" Send="AnimPlay CoverO Cover,O PlayForever 0.000000"/>
-        <On Terms="Behavior.CarryHarvestableTerrazineGeyserGas.Destroy" Send="AnimPlay CoverP Cover,P PlayForever 0.000000"/>
+        <On Terms="Behavior.CarryTerrazine1.Destroy" Send="AnimPlay CoverM Cover,M PlayForever 0.000000"/>
+        <On Terms="Behavior.CarryTerrazine2.Destroy" Send="AnimPlay CoverN Cover,N PlayForever 0.000000"/>
+        <On Terms="Behavior.CarryTerrazine3.Destroy" Send="AnimPlay CoverO Cover,O PlayForever 0.000000"/>
+        <On Terms="Behavior.CarryTerrazine4.Destroy" Send="AnimPlay CoverP Cover,P PlayForever 0.000000"/>
 
 
 
@@ -2422,18 +2506,33 @@
         <On Terms="UnitBirth.NodLaserTurretsHub" Send="Create"/>
         <On Terms="UnitBirth.NodMissileTurretsHub" Send="Create"/>
          <On Terms="ActorCreation; ValidatePlayer HasNodQuadTurrets" Send="ModelSwap NodTurretsHub_Upgrade"/>
-        <On Terms="Upgrade.HasNodQuadTurrets.Add" Send="ModelSwap NodTurretsHub_Upgrade"/>
-        <On Terms="Upgrade.HasNodQuadTurrets.Remove" Send="ModelSwap NodTurretsHub"/>
+        <On Terms="Upgrade.NodQuadTurrets.Add" Send="ModelSwap NodTurretsHub_Upgrade"/>
+        <On Terms="Upgrade.NodQuadTurrets.Remove" Send="ModelSwap NodTurretsHub"/>
         <On Terms="ActorCreation; !ValidateUnit HasNodShredderTurretsHub" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
-        <On Terms="ActorCreation; !ValidateUnit HasNodLaserTurretsHub"    Send="AnimPlay CoverB Cover,A PlayForever 0.000000"/>
-        <On Terms="ActorCreation; !ValidateUnit HasNodMissileTurretsHub"  Send="AnimPlay CoverC Cover,A PlayForever 0.000000"/>
+        <On Terms="ActorCreation; !ValidateUnit HasNodLaserTurretsHub"    Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
+        <On Terms="ActorCreation; !ValidateUnit HasNodMissileTurretsHub"  Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
         <On Terms="ActorCreation; !ValidatePlayer HasNodTiberiumCoreMissiles"  Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
         <On Terms="ActorCreation; !ValidatePlayer HasNodMissileTurretsHub"  Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
 
-        <On Terms="Behavior.NodShredderTurretsHub.On" Send="AnimClear CoverA"/>
-        <On Terms="Behavior.NodLaserTurretsHub.On" Send="AnimClear CoverB"/>
-        <On Terms="Behavior.NodMissileTurretsHub.On" Send="AnimClear CoverC"/>
-        <On Terms="Upgrade.NodTiberiumCoreMissiles.Add;ValidateUnit HasNodMissileTurretsHub" Send="AnimClear CoverD"/>
+        <On Terms="Behavior.NodShredderTurretsHub.Create" Send="AnimClear CoverA"/>
+        <On Terms="Behavior.NodLaserTurretsHub.Create" Send="AnimClear CoverB"/>
+        <On Terms="Behavior.NodMissileTurretsHub.Create" Send="AnimClear CoverC"/>
+
+
+        <On Terms="Upgrade.NodQuadTurrets.Add; !ValidateUnit HasNodShredderTurretsHub" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <On Terms="Upgrade.NodQuadTurrets.Add; !ValidateUnit HasNodLaserTurretsHub"    Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
+        <On Terms="Upgrade.NodQuadTurrets.Add; !ValidateUnit HasNodMissileTurretsHub"  Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
+        <On Terms="Upgrade.NodQuadTurrets.Add; !ValidatePlayer HasNodTiberiumCoreMissiles"  Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
+        <On Terms="Upgrade.NodQuadTurrets.Add; !ValidatePlayer HasNodMissileTurretsHub"  Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
+
+
+<!--        <On Terms="Behavior.HasNodQuadTurrets.Create" Send="ModelSwap NodTurretsHub_Upgrade"/>-->
+        <On Terms="Behavior.NodShredderTurretsHub.Destroy" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <On Terms="Behavior.NodLaserTurretsHub.Destroy" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
+        <On Terms="Behavior.NodMissileTurretsHub.Destroy" Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
+<!--        <On Terms="Behavior.HasNodQuadTurrets.Destroy" Send="ModelSwap NodTurretsHub"/>-->
+
+        <On Terms="Upgrade.NodTiberiumCoreMissiles.Add; ValidateUnit HasNodMissileTurretsHub" Send="AnimClear CoverD"/>
         <On Terms="Upgrade.NodTiberiumCoreMissiles.Remove" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
 
         <Aliases value="_UnitLarge"/>
@@ -2558,10 +2657,6 @@
         <HostSiteOps Ops="SOpAttachOrigin SOp2DRotation SOpForwardSouth"/>
         <AutoScaleFactor value="0.800000"/>
     </CActorModel>
-    <CActorEventMacro id="PhysicsDeathsVoidGround">
-        <On Terms="UnitDeathCustomize; KilledByEffect NodMilitantRocketDamage" Send="DeathCustomize RagdollSiegeTank"/>
-        <On Terms="UnitDeathCustomize; KilledByEffect NodMilitantRocketDamageUp" Send="DeathCustomize RagdollSiegeTank"/>
-    </CActorEventMacro>
     <CActorModel id="NodHallucinogenicGrenadeInHand" parent="ModelAddition">
         <Inherits index="BaseModelScale" value="0"/>
         <Inherits index="Scale" value="0"/>
@@ -2799,14 +2894,14 @@
         <ImpactMap index="None" Model="CycloneMissilesAttackImpact" Sound="CABALStealthRocketAttackImpact" ModelReaction="HailstormMissileVolleyImpactReaction"/>
         <ImpactMap index="Shield" Sound="HailstormMissileVolleyImpactShield" ModelReaction="HailstormMissileVolleyImpactReactionShield"/>
     </CActorAction>
-    <CActorAction id="NodMilitantRocketWeaponAttack2Up" parent="GenericAttack" effectImpact="NodMilitantRocketDamageUp" effectLaunch="NodMilitantRocketWeaponALM2Up">
+    <CActorAction id="NodMilitantRocketWeaponAttack2Up" parent="GenericAttack" effectImpact="NodMilitantRocketWeaponDamageUp" effectLaunch="NodMilitantRocketWeaponALM2Up">
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
         <LaunchAssets Model="DefenderAirAttackLaunch2" Sound="Defender_AttackLaunch2"/>
         <Missile value="NodMilitantRocketWeaponMissileUp"/>
         <ImpactMap index="None" Model="DefenderAirAttackImpact2" Sound="Defender_AttackImpact2"/>
         <ImpactPhysics Name="JavelinImpact" MatchKeys="Basic" Physics="ThorAAAttackForce"/>
     </CActorAction>
-    <CActorAction id="NodMilitantRocketWeaponAttackUP" parent="GenericAttack" effectImpact="NodMilitantRocketDamageUp" effectLaunch="NodMilitantRocketWeaponALMUp">
+    <CActorAction id="NodMilitantRocketWeaponAttackUP" parent="GenericAttack" effectImpact="NodMilitantRocketWeaponDamageUp" effectLaunch="NodMilitantRocketWeaponALMUp">
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
         <LaunchAssets Model="DefenderAirAttackLaunch2" Sound="Defender_AttackLaunch2"/>
         <Missile value="NodMilitantRocketWeaponMissileUp"/>
@@ -2862,7 +2957,15 @@
         <ImpactMap index="Shield" Sound="HailstormMissileVolleyImpactShield" ModelReaction="HailstormMissileVolleyImpactReactionShield"/>
     </CActorAction>
     <CActorAction id="NodMissileTurretWeapon@Action" parent="GenericAttack" effectImpact="NodMissileTurretWeaponDamage" effectLaunch="NodMissileTurretWeapon@LM1">
-        <LaunchAttachQuery Methods=""/>
+        <LaunchAttachQuery Methods="Weapon010203"/>
+<!--        <LaunchAttachQuery Methods=""/>-->
+        <LaunchAssets Sound="CABALBikeWeaponAttackLaunch"/>
+        <Missile value="NodBikeWeaponMissile"/>
+        <ImpactMap index="None" Model="HailstormMissileVolleyImpact" Sound="CABALBikeWeaponAttackImpact" ModelReaction="HailstormMissileVolleyImpactReaction"/>
+        <ImpactMap index="Shield" Sound="HailstormMissileVolleyImpactShield" ModelReaction="HailstormMissileVolleyImpactReactionShield"/>
+    </CActorAction>
+    <CActorAction id="NodMissileTurretsHubWeapon@Action" parent="GenericAttack" effectImpact="NodMissileTurretsHubWeaponDamage" effectLaunch="NodMissileTurretsHubWeapon@LM1">
+        <LaunchAttachQuery Methods="Weapon010203"/>
         <LaunchAssets Sound="CABALBikeWeaponAttackLaunch"/>
         <Missile value="NodBikeWeaponMissile"/>
         <ImpactMap index="None" Model="HailstormMissileVolleyImpact" Sound="CABALBikeWeaponAttackImpact" ModelReaction="HailstormMissileVolleyImpactReaction"/>
@@ -2955,6 +3058,9 @@
         <Model value="NodMantisWeaponUMissile"/>
     </CActorMissile>
     <CActorMissile id="NodMilitantRocketWeaponMissile" parent="GenericAttackMissile" unitName="NodMilitantRocketWeapon">
+        <Model value="NodMilitantRocketWeaponMissile"/>
+    </CActorMissile>
+    <CActorMissile id="NodMissileTurretWeaponMissile" parent="GenericAttackMissile" unitName="NodMissileTurretWeaponMissile">
         <Model value="NodMilitantRocketWeaponMissile"/>
     </CActorMissile>
     <CActorMissile id="CABALCrawlerRocketMissile" parent="GenericAttackMissile" unitName="CABALCrawlerRocket">
@@ -3754,29 +3860,6 @@
     <CActorUnit id="NodDisruptionTowerVest" parent="CnCVest" unitName="NodDisruptionTowerVest"/>
     <CActorUnit id="NodObeliskVest" parent="CnCVest" unitName="NodObeliskVest"/>
 
-    <CActorUnit id="NodSignatureDecoy" icon="Venom" parent="NodAir" wireframe="NodVenomWireframe">
-        <Model value="Invisible"/>
-        <BuildModel value="Invisible"/>
-        <!-- <DeathArray index="Normal" Model="Invisible"/> -->
-        <PlacementModel value="Invisible"/>
-        <PortraitModel value="Invisible"/>
-        <WalkAnimMoveSpeed value="0"/>
-        <!-- <BarOffset value="0"/>
-        <BarWidth value="0"/> -->
-        <SoundArray index="Birth" value=""/>
-        <SoundArray index="Ready" value=""/>
-        <SoundArray index="Help" value=""/>
-        <SoundArray index="What" value=""/>
-        <SoundArray index="Yes" value=""/>
-        <SoundArray index="Attack" value=""/>
-        <SoundArray index="Pissed" value=""/>
-        <SoundArray index="Movement" value=""/>
-        <SoundArray index="Turning" value=""/>
-        <SoundArray index="Board" value=""/>
-        <SoundArray index="Click" value=""/>
-        <SoundArray index="ClickError" value=""/>
-        <SoundArray index="Highlight" value=""/>
-    </CActorUnit>
     <CActorUnit id="NodDisruptionPod" parent="GenericUnitStandard" unitName="NodDisruptionPod">
         <Model value="Nod_ShadowSquad_Beacon"/>
         <BuildModel value="Nod_ShadowSquad_Beacon"/>
@@ -3794,14 +3877,29 @@
 
 
     <CActorEventMacro id="CnCUnpoweredAnim">
-        <On Terms="Behavior.NodEnergyProduction.On" Send="SetTintColor {150,150,200 1.000000}"/>
-<!--        <On Terms="Behavior.NodEnergyProduction.On" Send="SetTintColor 150,150,200 "/>-->
+        <On Terms="Behavior.NodEnergyProduction.On" Send="SetTintColor 150,150,200 1.000000"/>
+        <On Terms="Behavior.NodEnergyProduction.On" Send="SetTintColor 150,150,200 "/>
         <On Terms="Behavior.NodEnergyProduction.Off" Send="SetTintColor 255,255,255 1.000000"/>
         <On Terms="Behavior.NodEnergyProduction.Off" Send="SetTintColor 255,255,255"/>
-    </CActorEventMacro>
+        <On Terms="Behavior.NodEnergyProductionDefense.On" Send="SetTintColor 75,75,125 1.000000"/>
+        <On Terms="Behavior.NodEnergyProductionDefense.On" Send="SetTintColor 75,75,125 "/>
+        <On Terms="Behavior.NodEnergyProductionDefense.Off" Send="SetTintColor 255,255,255 1.000000"/>
+        <On Terms="Behavior.NodEnergyProductionDefense.Off" Send="SetTintColor 255,255,255"/>
+    </CActorEventMacro>\
 
 
 
+    <CActorAction id="NodVertigoWeaponAAAttack" parent="GenericAttack" effectAttack="NodVertigoWeaponAADamage">
+        <!--        <LaunchAttachQuery Methods="AMFilterWeapon01"/>-->
+        <LaunchAssets Model="GhostAttackLaunch" Sound="NodRaider_AttackLaunch"/>
+        <ContainerAssets Model="MarineAttackLaunch" Sound="NodRaider_AttackLaunch"/>
+        <Beam value="NodLightAttackBeam"/>
+        <ImpactMap index="None" Model="MarineAttackImpact" Sound="Marine_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="BulletImpact" MatchKeys="Basic" Physics="MarineAttackDeathForce"/>
+        <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
+        <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>
+    </CActorAction>
 
 
     <CActorAction id="NodVenomWeaponAttack" parent="GenericAttack" effectAttack="NodVenomWeaponDamage">
@@ -3816,7 +3914,7 @@
         <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>
     </CActorAction>
 
-    <CActorAction id="VenomparticlebeamAttack" parent="GenericAttack" effectAttack="VenomparticlebeamDamage">
+    <CActorAction id="NodVenomWeaponUAttack" parent="GenericAttack" effectAttack="NodVenomWeaponUDamage">
         <LaunchAssets Sound="Venomparticlebeam_AttackLaunch"/>
         <BeamScope value="Caster"/>
         <Beam value="VenomParticleAttackBeam"/>
@@ -3836,7 +3934,7 @@
 
 
     <!--cabal?-->
-    <CActorAction id="VenomparticlebeamAttackleader" parent="GenericAttack" effectAttack="VenomparticlebeamDamageleader">
+    <CActorAction id="NodVenomWeaponUAttackleader" parent="GenericAttack" effectAttack="NodVenomWeaponUDamageleader">
         <LaunchAssets Sound="Venomparticlebeam_AttackLaunch"/>
         <Beam value="VenomParticleAttackBeam"/>
         <BeamScope value="Caster"/>
@@ -3845,4 +3943,25 @@
         <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
     </CActorAction>
 
+    <CActorUnit id="NodSignatureDecoy" icon="Venom" parent="NodAir" wireframe="NodVenomWireframe">
+        <Model value="Invisible"/>
+<!--        <WalkAnimMoveSpeed value="0"/>-->
+<!--        <BarOffset value="0"/>-->
+<!--        <BarWidth value="0"/>-->
+        <DeathArray index="Normal" ModelLink="Invisible" SoundLink=""/>
+
+        <SoundArray index="Birth" value=""/>
+        <SoundArray index="Ready" value=""/>
+        <SoundArray index="Help" value=""/>
+        <SoundArray index="What" value=""/>
+        <SoundArray index="Yes" value=""/>
+        <SoundArray index="Attack" value=""/>
+        <SoundArray index="Pissed" value=""/>
+        <SoundArray index="Movement" value=""/>
+        <SoundArray index="Turning" value=""/>
+        <SoundArray index="Board" value=""/>
+        <SoundArray index="Click" value=""/>
+        <SoundArray index="ClickError" value=""/>
+        <SoundArray index="Highlight" value=""/>
+    </CActorUnit>
 </Catalog>

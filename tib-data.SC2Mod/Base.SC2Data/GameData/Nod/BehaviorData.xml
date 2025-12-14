@@ -25,19 +25,19 @@
     <CBehaviorBuff id="BeamCannonIsPreparingDistantAttack"/>
     <CBehaviorBuff id="BeamCannonIsFocusing"/>
     <CBehaviorUnitTracker id="BeamCannonFocusTracker">
-        <InfoFlags index="Hidden" value="1"/>
+        <InfoFlags index="Hidden" value="0"/>
     </CBehaviorUnitTracker>
     <CBehaviorUnitTracker id="BeamCannonTargetTracker">
-        <InfoFlags index="Hidden" value="1"/>
+        <InfoFlags index="Hidden" value="0"/>
     </CBehaviorUnitTracker>
     <CBehaviorUnitTracker id="BeamCannonCasterTracker">
-        <InfoFlags index="Hidden" value="1"/>
+        <InfoFlags index="Hidden" value="0"/>
     </CBehaviorUnitTracker>
     <CBehaviorUnitTracker id="BeamCannonReflectorTracker">
-        <InfoFlags index="Hidden" value="1"/>
+        <InfoFlags index="Hidden" value="0"/>
     </CBehaviorUnitTracker>
     <CBehaviorUnitTracker id="BeamCannonPathTracker">
-        <InfoFlags index="Hidden" value="1"/>
+        <InfoFlags index="Hidden" value="0"/>
     </CBehaviorUnitTracker>
 
     <CBehaviorBuff default="1" id="RedeemerWeaponLeft">
@@ -141,22 +141,22 @@
         <DisableValidatorArray value="HasNodQuadTurrets"/>
         <InfoFlags index="Hidden" value="1"/>
         <Modification>
-            <WeaponArray Link="NodShredderMachinegun" Turret="Hellion"/>
+            <WeaponArray Link="NodShredderTurretsHubWeapon" Turret="Hellion"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodLaserTurretsHubQuad">
         <DisableValidatorArray value="HasNodQuadTurrets"/>
         <InfoFlags index="Hidden" value="1"/>
         <Modification>
-            <WeaponArray Link="NodLaserTurretWeapon" Turret="Hellion"/>
+            <WeaponArray Link="NodLaserTurretsHubWeapon" Turret="Hellion"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodMissileTurretsHubQuad">
         <DisableValidatorArray value="HasNodQuadTurrets"/>
         <InfoFlags index="Hidden" value="1"/>
         <Modification>
-            <WeaponArray Link="NodMissileTurretWeapon" Turret="Hellion"/>
-            <WeaponArray Link="NodMissileTurretWeaponU" Turret="Hellion"/>
+            <WeaponArray Link="NodMissileTurretsHubWeapon" Turret="Hellion"/>
+            <WeaponArray Link="NodMissileTurretsHubWeaponU" Turret="Hellion"/>
         </Modification>
     </CBehaviorBuff>
 
@@ -280,65 +280,59 @@
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-<!--        <DisableValidatorArray value="CasterNotFiringOrAnimatingWeapon"/>-->
         <DisableValidatorArray value="HasNoStealthExposure"/>
-<!--        &lt;!&ndash; <DisableValidatorArray value="CasterIsNotAttacking"/> &ndash;&gt;-->
-<!--        <DisableValidatorArray value="HasNoNodSpecterSiege"/>-->
-<!--        <DisableValidatorArray value="HasNoNodSpecterSiegeBombardment"/>-->
-<!--        <DisableValidatorArray value="HasNoNodSpecterSieging"/>-->
-<!--        <DisableValidatorArray value="HasNoNodSpecterUnsiege"/>-->
         <Modification>
             <StateFlags index="Cloak" value="1"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="DistortionSensors">
-        <Modification Detect="11"/>
-    </CBehaviorBuff>
     <CBehaviorBuff id="NodSpecterSieging">
         <Duration value="3.5"/>
         <FinalEffect value="NodSpecterSiege"/>
-        <Modification>
-            <ModifyFlags index="SuppressMoving" value="1"/>
-            <ModifyFlags index="SuppressTurning" value="1"/>
+<!--        <RemoveValidatorArray value="CasterIsNotStationary"/>-->
+        <RemoveValidatorArray value="CasterIsAttacking"/>
+        <Modification MoveSpeedMultiplier="0.045">
+<!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
+<!--            <ModifyFlags index="SuppressTurning" value="1"/>-->
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodSpecterSiege">
 <!--        <RemoveValidatorArray value="NodSpecterSiegeValidator"/>-->
         <RemoveValidatorArray value="CasterIsAttacking"/>
         <FinalEffect value="NodSpecterUnsiege"/>
-        <Modification>
-            <ModifyFlags index="SuppressMoving" value="1"/>
-            <ModifyFlags index="SuppressTurning" value="1"/>
+        <Modification MoveSpeedMultiplier="0.045">
+<!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
+<!--            <ModifyFlags index="SuppressTurning" value="1"/>-->
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodSpecterSiegeBombardment">
 <!--        <RemoveValidatorArray value="HasNodSpecterBombardmentOrder"/>-->
         <FinalEffect value="NodSpecterUnsiege"/>
-        <Modification>
+        <Modification MoveSpeedMultiplier="0.045">
             <AbilClassDisableArray index="CAbilAttack" value="1"/>
-            <ModifyFlags index="SuppressMoving" value="1"/>
-            <ModifyFlags index="SuppressTurning" value="1"/>
+<!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
+<!--            <ModifyFlags index="SuppressTurning" value="1"/>-->
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodSpecterUnsiege">
         <Duration value="1"/>
-        <Modification MoveSpeedMultiplier="0.01">
+        <Modification MoveSpeedMultiplier="0.045">
             <AbilClassDisableArray index="CAbilAttack" value="1"/>
 <!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
-            <ModifyFlags index="SuppressTurning" value="1"/>
+<!--            <ModifyFlags index="SuppressTurning" value="1"/>-->
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="NodBuildingsunits">
+    <CBehaviorBuff id="SpawnMilitantOnDeath">
         <InfoFlags index="Hidden" value="1"/>
         <InfoIcon value="Assets\Icons\Nod\NodMilitant.dds"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
         <Modification>
-            <DeathResponse Effect="CreateMillitant">
-                <!-- <Type index="Remove" value="0"/> -->
+            <DeathResponse Chance="1" Effect="CreateMillitant">
+                <Type index="Remove" value="0"/>
             </DeathResponse>
         </Modification>
     </CBehaviorBuff>
+
     <CBehaviorBuff id="ChemicalPlantharvest">
         <EditorCategories value="AbilityorEffectType:Units,Race:Neut"/>
         <Requirements value="ChemicalFactoryUp"/>
@@ -575,7 +569,7 @@
         <Alignment value="Negative"/>
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <Duration value="1"/>
+        <Duration value="2.5"/>
 <!--        <Modification>-->
 <!--            <StateFlags index="SuppressCloak" value="1"/>-->
 <!--        </Modification>-->
@@ -894,37 +888,6 @@
     </CEffectApplyBehavior>
 
 
-    <!--Veterancy-->
-    <CBehaviorVeterancy default="1" id="NodVeterancyBase">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <ShareFilters index="Kills" value="-;Neutral,Enemy"/>
-        <VeterancyLevelArray MinVeterancyXP="100">
-            <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
-            </Modification>
-        </VeterancyLevelArray>
-        <VeterancyLevelArray MinVeterancyXP="100">
-            <Modification>
-                <DamageTotalMultiplier index="Ranged" value="0.15"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
-            </Modification>
-        </VeterancyLevelArray>
-        <VeterancyLevelArray MinVeterancyXP="100">
-            <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
-                <VitalRegenArray index="Life" value="0.5"/>
-            </Modification>
-        </VeterancyLevelArray>
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorVeterancy>
 
     <CBehaviorBuff default="1" id="NodCarryallTurret">
         <?token id="icon" value="##id##"?>
@@ -946,212 +909,6 @@
     <CBehaviorBuff id="NodCarryallBeamCannon" parent="NodCarryallTurret" weapon="NodBeamCannonWeapon"/>
     <CBehaviorBuff id="NodCarryallStealthTank" parent="NodCarryallTurret" weapon="NodStealthTankWeapon"/>
 
-
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALDevoutVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="100"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="100"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="100"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALBlackHandVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="320"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="320"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="320"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodCommandoVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="520"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="520"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="520"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALAfterShockVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALCenturionVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALVertigoVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="400"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="400"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="400"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodSpecterVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALReaperVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="240"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="240"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="240"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALWidowVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="850"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="850"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="850"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodBeamCannonVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="550"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="550"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="550"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALSalamanderVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="1110"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="1110"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="1110"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALBasiliskVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="1110"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="1110"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="1110"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALMedusaVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="1000"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="1000"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="1000"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALAvengerTankVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodBlackHandVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="200"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="200"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="200"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodFlameTankVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="550"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="550"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="550"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodRedeemerVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="2000"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="2000"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="2000"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodEnlightenedVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="210"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="210"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="210"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALHighConfessorVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="1040"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="1040"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="1040"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodMantisVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodScorpionTankVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALUnderminerVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodMilitantVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="30"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="30"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="30"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodMilitantRocketVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="104"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="104"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="104"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodPurifierVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="700"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="700"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="700"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALLeviathanVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="1600"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="1600"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="1600"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodBikeVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodAttackBikeVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALAscendedVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="120"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="120"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="120"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodAvatarVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodRaiderVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALCommandoVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="520"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="520"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="520"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALSpiderVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="200"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="200"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="200"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALMarauderVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="250"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="250"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="250"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALTyrantVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="350"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="350"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="350"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodScorpionVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALVenomVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALStealthTankVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodStealthTankVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodVenomVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="230"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="230"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="230"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CobraVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="400"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="400"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="400"/>
-    </CBehaviorVeterancy>
     <CBehaviorBuff id="NodRadarJammingBehavior">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Duration value="30"/>
@@ -1179,7 +936,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="NodSignatureDecoyTimedLife">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Duration value="10"/>
+        <Duration value="30"/>
         <ExpireEffect value="Suicide"/>
         <InfoFlags index="Hidden" value="1"/>
     </CBehaviorBuff>
@@ -1245,6 +1002,7 @@
             <Fatal value="1"/>
         </DamageResponse>
     </CBehaviorBuff>
+
 
 
 
