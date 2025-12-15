@@ -919,46 +919,62 @@
 
     <CAbilEffectTarget id="NodRevenantBomb">
         <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <PostEffectBehavior Behavior="NodRevenantBombAbilityChannel"/>
+<!--        <PostEffectBehavior Behavior="NodRevenantBombAbilityChannel"/>-->
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <Flags index="RequireTargetVision" value="0"/>
         <Cost>
-            <Cooldown Location="Unit" Operation="Set" TimeUse="8.4"/>
+            <Charge>
+                <CountMax value="2"/>
+                <CountStart value="2"/>
+                <CountUse value="1"/>
+                <Location value="Unit"/>
+                <Link value="Abil/NodRevenantBomb"/>
+            </Charge>
+            <Cooldown TimeUse="5" Link="Abil/NodRevenantBomb" Location="Unit"/>
         </Cost>
-        <Range value="72"/>
+        <Range value="8"/>
         <Arc value="360"/>
         <CursorEffect value="NodRevenantBombDMG"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBomb"/>
+<!--        <Effect Value="NodRevenantBombLaunchMissile"/>-->
+        <Effect index="0" value="NodRevenantBombLaunchMissile"/>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="NodRevenantBombUnit" parent="NodRevenantBomb">
-        <Name value="Abil/Name/RevenantBombUnit"/>
-        <Effect index="0" value="NodRevenantBombUnit"/>
+<!--        <Name value="Abil/Name/RevenantBombUnit"/>-->
+<!--        <Range value="8"/>-->
+<!--        <CursorEffect value="NodRevenantBombDMG"/>-->
+<!--        <Effect value="NodRevenantBombWeaponSet"/>-->
+<!--        <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBombUnit"/>-->
+<!--        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+<!--        <Flags index="AutoCast" value="1"/>-->
+<!--        <Flags index="AutoCastOn" value="1"/>-->
+<!--        <AutoCastRange value="8"/>-->
+<!--        <AutoCastFilters value="Ground,Visible;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+        <Effect index="0" value="NodRevenantBombSet"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <TargetFilters value="Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <AutoCastRange value="8"/>
+        <AutoCastFilters value="Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable,Benign"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBombUnit"/>
-        <TargetFilters value="Ground;Missile,Stasis,Dead,Invulnerable"/>
+        <AutoCastValidatorArray value="noMarkers"/>
     </CAbilEffectTarget>
-    <CWeaponLegacy id="NodRevenantBomb">
-        <EditorCategories value="Race:Genetron"/>
-        <Icon value="Assets\Textures\btn-upgrade-genetron-rocketweapons-level0.dds"/>
-        <Range value="72"/>
-        <Period value="0.25"/>
-        <Effect value="NodRevenantBombWeaponSet"/>
-        <LegacyOptions index="UseRangeToCenter" value="1"/>
-        <LegacyOptions index="CanRetargetWhileChanneling" value="1"/>
-        <LegacyOptions index="NoDeceleration" value="1"/>
-        <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
-        <DisplayEffect value="NodRevenantBombDMG"/>
-        <Options index="Hidden" value="1"/>
-        <TargetFilters value="Ground,Visible;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AcquireFilters value="-;Player,Ally,Neutral,Enemy"/>
-        <MinScanRange value="0"/>
-        <AllowedMovement value="Moving"/>
-        <Arc value="29.9926"/>
-    </CWeaponLegacy>
-    <CEffectCreatePersistent id="NodRevenantBombImpact" parent="ScionCreatePersistent" Race="Genetron">
+
+
+    <CEffectSet id="NodRevenantBombImpactSet">
+        <EffectArray value="NodRevenantBombImpact"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+    </CEffectSet>
+
+    <CEffectCreatePersistent id="NodRevenantBombImpact">
         <ExpireDelay value="0.0625"/>
         <ExpireEffect value="NodRevenantBombImpactNotification"/>
-        <PeriodCount value="4"/>
+        <PeriodCount value="1"/>
         <PeriodicEffectArray value="NodRevenantBombDMG"/>
 <!--        <PeriodicEffectArray value="NodRevenantBombImpactHeat"/>-->
 <!--        <PeriodicEffectArray value="NodRevenantBombImpactShellShock"/>-->
@@ -966,40 +982,32 @@
         <AINotifyEffect value="NodRevenantBombDMG"/>
         <WhichLocation Value="TargetUnitOrPoint"/>
     </CEffectCreatePersistent>
-    <CEffectModifyUnit id="NodRevenantBombLaunchCooldown">
-        <EditorCategories value="Race:Genetron"/>
-        <ImpactUnit Value="Caster"/>
-        <Cost Abil="NodRevenantBomb,Execute" CooldownOperation="Set" CooldownTimeUse="8.4"/>
-    </CEffectModifyUnit>
-    <CEffectSwitch id="NodRevenantBomb">
-        <EditorCategories value="Race:Genetron"/>
-        <CaseArray Validator="NodRevenantLaunchTargetSlow" Effect="NodRevenantBombLaunchMissile"/>
-        <CaseDefault value="NodRevenantBombSpellDelay"/>
-        <TargetLocationType value="Point"/>
-        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
-    </CEffectSwitch>
-    <CEffectDamage id="NodRevenantBombDMG" parent="ScionDamage" Race="Genetron">
+    <CEffectDamage id="NodRevenantBombDMG" >
         <AINotifyFlags index="HurtEnemy" value="1"/>
         <AINotifyFlags index="MinorDanger" value="1"/>
         <ImpactLocation Value="TargetPoint"/>
-        <Amount value="15"/>
+        <Amount value="150"/>
         <Death value="Blast"/>
-        <AreaArray Fraction="5"/>
         <AreaArray Radius="1.5" Fraction="1"/>
         <ExcludeArray index="0" removed="1"/>
         <SearchFilters value="Ground;Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CEffectDamage>
-    <CEffectLaunchMissile id="NodRevenantBombLaunchMissile" parent="ScionLaunchMissilePoint" Race="Genetron">
-        <ImpactEffect value="NodRevenantBombImpact"/>
+    <CEffectLaunchMissile id="NodRevenantBombLaunchMissile" >
+        <ImpactEffect value="NodRevenantBombImpactSet"/>
         <AmmoUnit value="NodRevenantBombLMWeapon"/>
         <AmmoOwner Value="Caster"/>
         <AINotifyFlags index="HurtEnemy" value="1"/>
         <AINotifyFlags index="MinorDanger" value="1"/>
-        <LaunchEffect value="NodRevenantBombLaunchCooldown"/>
-        <ValidatorArray value="NodRevenantLaunchTargetDistances"/>
+<!--        <LaunchEffect value="NodRevenantBombLaunchCooldown"/>-->
+<!--        <ValidatorArray value="NodRevenantLaunchTargetDistances"/>-->
         <ValidatorArray value="NodRevenantBombCooldownComplete"/>
+        <ImpactLocation Value="TargetPoint"/>
     </CEffectLaunchMissile>
-    <CEffectCreatePersistent id="NodRevenantBombChannel" parent="ScionCreatePersistent" Race="Genetron">
+    <CEffectCreatePersistent id="NodRevenantBombChannel">
+        <EditorCategories value="Race:##Race##"/>
+<!--        <InitialEffect value="NodRevenantBombChannelInit"/>-->
+<!--        <ExpireEffect value="NodRevenantBombChannelExpire"/>-->
+<!--        <FinalEffect value="NodRevenantBombChannelFinal"/>-->
         <WhichLocation Value="TargetUnitOrPoint"/>
         <Flags index="Channeled" value="1"/>
         <Flags index="PersistUntilDestroyed" value="1"/>
@@ -1009,97 +1017,39 @@
 <!--        <FinalEffect value="JupiterSpeedRemoveAccelerator"/>-->
         <PeriodicValidator value="NodRevenantBombCooldownComplete"/>
     </CEffectCreatePersistent>
-<!--    <CEffectEnumArea id="NodRevenantBombImpactHeat" parent="ScionEnumAreaEnemyGround" Race="Genetron">-->
-<!--        <SearchFilters value="Ground;Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
-<!--        <AreaArray Effect="JupiterHeatAddPoint"/>-->
-<!--        <AreaArray Radius="1.5" Effect="JupiterHeatAddArea"/>-->
-<!--    </CEffectEnumArea>-->
-    <CEffectLaunchMissile id="NodRevenantBombLaunchMissileTargetUnit" parent="ScionLaunchMissilePoint" Race="Genetron">
-        <ValidatorArray value="NodRevenantLaunchTargetDistances"/>
-        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
+
+    <CEffectLaunchMissile id="NodRevenantBombLaunchMissileTargetUnit">
+<!--        <ValidatorArray value="NodRevenantLaunchTargetDistances"/>-->
+<!--        <ValidatorArray value="NodRevenantBombCooldownComplete"/>-->
         <AINotifyFlags index="HurtEnemy" value="1"/>
         <AINotifyFlags index="MinorDanger" value="1"/>
-        <LaunchEffect value="NodRevenantBombLaunchCooldown"/>
-        <ImpactEffect value="NodRevenantBombImpact"/>
+<!--        <LaunchEffect value="NodRevenantBombLaunchCooldown"/>-->
+        <ImpactEffect value="NodRevenantBombImpactSet"/>
         <AmmoOwner Value="Caster"/>
         <AmmoUnit value="NodRevenantBombLMWeapon"/>
         <ImpactLocation Value="TargetUnit"/>
+
+        <Marker Link="WidowMineAttack"/>
+<!--        <ValidatorArray value="noMarkers"/>-->
+
     </CEffectLaunchMissile>
-    <CEffectCreatePersistent id="NodRevenantBombWeaponCancelDelay">
-        <EditorCategories value="Race:Genetron"/>
-        <InitialDelay value="0.25"/>
-        <InitialEffect value="CancelActiveBarrageAttackForQueue"/>
-    </CEffectCreatePersistent>
-    <CEffectEnumArea id="NodRevenantBombImpactNotification" parent="ScionEnumAreaEnemyGround" Race="Genetron">
+    <CEffectEnumArea id="NodRevenantBombImpactNotification">
         <AINotifyFlags index="HurtEnemy" value="1"/>
         <AINotifyFlags index="MinorDanger" value="1"/>
         <ImpactLocation Value="TargetPoint"/>
         <AreaArray Radius="1.5" Effect="NotificationResponseDummy"/>
+        <SearchFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CEffectEnumArea>
-    <CEffectSet id="NodRevenantBombWeaponSet">
-        <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="NodRevenantBombWeaponSwitch"/>
-        <EffectArray value="NodRevenantBombWeaponCancelDelay"/>
-        <TargetLocationType value="UnitOrPoint"/>
-    </CEffectSet>
+    <CModel id="NodRevenantBombImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_NapalmBomb_Coop_Explosion\MiraHorner_NapalmBomb_Coop_Explosion.m3"/>
+        <Flags index="Wait" value="1"/>
+        <Priority value="32"/>
+        <ScaleMax value="1.200000,1.200000,0.700000"/>
+        <ScaleMin value="1.200000,1.200000,0.700000"/>
+    </CModel>
 
-    <CEffectSwitch id="NodRevenantBombUnit">
-        <EditorCategories value="Race:Genetron"/>
-        <CaseArray Validator="NodRevenantLaunchTargetSlow" Effect="NodRevenantBombLaunchMissileTargetUnit"/>
-        <CaseDefault value="NodRevenantBombSpellDelay"/>
-        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
-    </CEffectSwitch>
-
-
-
-
-    <CEffectCreatePersistent id="NodRevenantBombSpellDelay">
-        <EditorCategories value="Race:Genetron"/>
-        <Flags index="Channeled" value="1"/>
-        <InitialDelay value="0.0625"/>
-        <InitialEffect value="NodRevenantBombSpellCooldown"/>
-        <ExpireEffect value="NodRevenantBombChannel"/>
-        <WhichLocation Value="TargetUnitOrPoint"/>
-    </CEffectCreatePersistent>
-    <CEffectSwitch id="NodRevenantBombLaunchSwitch">
-        <ValidatorArray value="NodRevenantLaunchTargetDistances"/>
-        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
-        <EditorCategories value="Race:Genetron"/>
-        <CaseArray Effect="NodRevenantBombLaunchMissileTargetUnit"/>
-        <CaseDefault value="NodRevenantBombLaunchMissile"/>
-        <TargetLocationType value="UnitOrPoint"/>
-    </CEffectSwitch>
-    <CEffectSet id="NodRevenantBombChannelPeriodSet">
-        <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="NodRevenantBombLaunchSwitch"/>
-<!--        <EffectArray value="JupiterSpeedAccelerator"/>-->
-        <EffectArray value="NodCasterLookAtTarget"/>
-        <TargetLocationType value="UnitOrPoint"/>
-    </CEffectSet>
     <CEffectModifyUnit id="NodCasterLookAtTarget">
         <ImpactUnit Value="Caster"/>
-        <ModifyFlags index="InterpolateFacing" value="1"/>
-        <FacingLocation Value="TargetUnitOrPoint"/>
-        <FacingType value="LookAt"/>
-    </CEffectModifyUnit>
-    <CEffectSwitch id="NodRevenantBombWeaponSwitch">
-        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
-        <EditorCategories value="Race:Genetron"/>
-        <CaseArray Validator="NodRevenantLaunchTargetSlow" Effect="NodRevenantBombLaunchSwitch"/>
-        <CaseDefault value="NodRevenantBombChannel"/>
-        <TargetLocationType value="UnitOrPoint"/>
-    </CEffectSwitch>
-    <CEffectEnumArea id="NodRevenantBombLaunchTargetUnitPoint">
-        <EditorCategories value="Race:Genetron"/>
-        <ImpactLocation Value="TargetUnit"/>
-        <IncludeArray Value="Target"/>
-        <SearchFilters value="-;Player,Ally,Neutral,Enemy"/>
-        <AreaArray Effect="NodRevenantBombLaunchMissileTargetUnit"/>
-    </CEffectEnumArea>
-    <CEffectModifyUnit id="NodRevenantBombSpellCooldown">
-        <EditorCategories value="Race:Genetron"/>
-        <ImpactUnit Value="Caster"/>
-        <Cost Abil="NodRevenantBomb,Execute" CooldownOperation="Set" CooldownTimeUse="0.0625"/>
         <ModifyFlags index="InterpolateFacing" value="1"/>
         <FacingLocation Value="TargetUnitOrPoint"/>
         <FacingType value="LookAt"/>
@@ -1123,7 +1073,7 @@
     <CActorModel id="NodRevenantBombImpact" parent="ModelAnimationStyleOneShot">
         <On Terms="Effect.NodRevenantBombImpact.Start" Send="Create"/>
     </CActorModel>
-    <CActorAction id="NodVertigoAttackTargetUnit" parent="GenericAttack" effectImpact="NodRevenantBombImpact" effectLaunch="NodRevenantBombLaunchMissileTargetUnit">
+    <CActorAction id="NodVertigoAttackTargetUnit" parent="GenericAttack" effectImpact="NodRevenantBombImpactSet" effectLaunch="NodRevenantBombLaunchMissileTargetUnit">
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
         <LaunchAssets Model="NodVertigoAttackLaunch" Sound="NodVertigoAttackLaunch"/>
         <Beam value="NodVertigoAttackBeam"/>
@@ -1136,20 +1086,18 @@
         <DamageMap index="Shield" Sound="JupiterAttackDamageShield" ModelReaction="JupiterAttackDamageReactionShield"/>
         <ShieldFlashType value="None"/>
     </CActorAction>
-    <CActorSound id="NodRevenantBombImpact" parent="SoundOneShot">
-        <On Terms="Effect.NodRevenantBombImpact.Start" Send="Create"/>
-    </CActorSound>
     <CActorRange id="NodRevenantBombRange" parent="RangeAbilStandard" abil="NodRevenantBomb">
-        <On Terms="Abil.RevenantBombUnit.TargetOn" Send="Create"/>
-        <On Terms="Abil.RevenantBombUnit.TargetOff" Send="Destroy"/>
-        <On Terms="Abil.RevenantBombUnit.ButtonHoverOn" Send="Create"/>
-        <On Terms="Abil.RevenantBombUnit.ButtonHoverOff" Send="Destroy"/>
+        <On Terms="Abil.NodRevenantBombUnit.TargetOn" Send="Create"/>
+        <On Terms="Abil.NodRevenantBombUnit.TargetOff" Send="Destroy"/>
+        <On Terms="Abil.NodRevenantBombUnit.ButtonHoverOn" Send="Create"/>
+        <On Terms="Abil.NodRevenantBombUnit.ButtonHoverOff" Send="Destroy"/>
     </CActorRange>
-    <CActorSound id="NodVertigoBombImpactAdd" parent="SoundOneShotScion" Effect="NodRevenantBombImpact">
+    <CActorSound id="NodVertigoBombImpactAdd">
         <Sound value="JupiterAttackImpactAdd"/>
         <FogVisibility value="Visible"/>
+        <On Terms="Effect.NodRevenantBombImpactSet.Start" Send="Create"/>
     </CActorSound>
-    <CActorAction id="NodVertigoAttack" parent="GenericAttack" effectImpact="NodRevenantBombImpact" effectLaunch="NodRevenantBombLaunchMissile">
+    <CActorAction id="NodVertigoAttack" parent="GenericAttack" effectImpact="NodRevenantBombImpactSet" effectLaunch="NodRevenantBombLaunchMissile">
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
         <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
         <ImpactSiteOps Ops="SOpTargetPointStationary"/>
@@ -1163,21 +1111,15 @@
     <CActorMissile id="NodVertigoAttackMissile" parent="GenericAttackMissile" unitName="NodRevenantBombLMWeapon">
         <Model value="JupiterAttackMissile"/>
     </CActorMissile>
-    <CSound id="NodVertigoAttackLaunch" parent="Combat">
-        <EditorCategories value="Race:Genetron"/>
-        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_01.wav" FacialGroup=""/>
-        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_02.wav" FacialGroup=""/>
-        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_03.wav" FacialGroup=""/>
-    </CSound>
 
     <CButton id="NodRevenantBomb" parent="CButtonGenetron" Icon="Assets\Textures\btn-top-hornerhan-bombers.dds"/>
     <CButton id="NodRevenantBombUnit" parent="CButtonGenetron" Icon="Assets\Textures\btn-top-hornerhan-bombers.dds"/>
 
 
-    <CValidatorCombine id="NodRevenantLaunchTargetDistances">
-        <CombineArray value="NodRevenantLaunchTargetFastCombine"/>
-        <CombineArray value="NodRevenantLaunchTargetSlow"/>
-    </CValidatorCombine>
+<!--    <CValidatorCombine id="NodRevenantLaunchTargetDistances">-->
+<!--        <CombineArray value="NodRevenantLaunchTargetFastCombine"/>-->
+<!--        <CombineArray value="NodRevenantLaunchTargetSlow"/>-->
+<!--    </CValidatorCombine>-->
     <CValidatorCombine id="NodRevenantLaunchTargetFastCombine">
         <Type value="And"/>
         <CombineArray value="NodRevenantLaunchTargetFast"/>
@@ -1193,35 +1135,79 @@
         <Compare value="LT"/>
         <Range value="8"/>
     </CValidatorLocationCompareRange>
-    <CValidatorCombine id="NodVertigoHasBombingOrder">
-        <CombineArray value="CanCharge"/>
-        <CombineArray value="CasterIsBarrageAttacking"/>
-        <CombineArray value="NodVertigoUsingRevenantBomb"/>
-        <CombineArray value="NodVertigoUsingRevenantBombUnit"/>
-    </CValidatorCombine>
-    <CValidatorUnitCompareOrderCount id="NodVertigoUsingRevenantBomb">
-        <AbilLink value="NodRevenantBomb"/>
-        <Value value="1"/>
-    </CValidatorUnitCompareOrderCount>
-    <CValidatorUnitCompareOrderCount id="NodVertigoUsingRevenantBombUnit">
-        <AbilLink value="NodRevenantBombUnit"/>
-        <Value value="1"/>
-    </CValidatorUnitCompareOrderCount>
-    <CValidatorUnitCompareCooldown id="NodRevenantBombCooldownComplete">
-        <WhichUnit Value="Caster"/>
-        <Compare value="LE"/>
-        <CooldownLink value="Abil/RevenantBomb"/>
-        <Ability value="NodRevenantBomb"/>
-        <Location value="Unit"/>
-        <ResultFailed value="Cooldown"/>
-        <ResultNoUnit value="Cooldown"/>
-    </CValidatorUnitCompareCooldown>
+<!--    <CValidatorCombine id="NodVertigoHasBombingOrder">-->
+<!--        <CombineArray value="CanCharge"/>-->
+<!--        <CombineArray value="CasterIsBarrageAttacking"/>-->
+<!--        <CombineArray value="NodVertigoUsingRevenantBomb"/>-->
+<!--        <CombineArray value="NodVertigoUsingRevenantBombUnit"/>-->
+<!--    </CValidatorCombine>-->
+<!--    <CValidatorUnitCompareOrderCount id="NodVertigoUsingRevenantBomb">-->
+<!--        <AbilLink value="NodRevenantBomb"/>-->
+<!--        <Value value="1"/>-->
+<!--    </CValidatorUnitCompareOrderCount>-->
+<!--    <CValidatorUnitCompareOrderCount id="NodVertigoUsingRevenantBombUnit">-->
+<!--        <AbilLink value="NodRevenantBombUnit"/>-->
+<!--        <Value value="1"/>-->
+<!--    </CValidatorUnitCompareOrderCount>-->
 
 
     <CUnit id="NodRevenantBombLMWeapon" parent="MISSILE">
         <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
         <FlagArray index="Invulnerable" value="1"/>
     </CUnit>
+    <CMoverMissile id="NodRevenantBombLMWeapon">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="8"/>
+            <Speed value="0"/>
+            <MinSpeed value="1"/>
+            <MaxSpeed value="10"/>
+            <ActorTracking value="Actual"/>
+            <RotationLaunchActorType value="LaunchToTarget"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+
+    <CWeaponLegacy id="NodRevenantBomb">
+        <EditorCategories value="Race:Genetron"/>
+        <Icon value="Assets\Textures\btn-upgrade-genetron-rocketweapons-level0.dds"/>
+        <Range value="8"/>
+        <Period value="0.25"/>
+        <Effect value="NodRevenantBombWeaponSet"/>
+        <DisplayEffect value="NodRevenantBombDMG"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AllowedMovement value="Moving"/>
+        <Arc value="29.9926"/>
+    </CWeaponLegacy>
+
+    <CValidatorUnitCompareCooldown id="NodRevenantBombCooldownComplete">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LE"/>
+        <CooldownLink value="Abil/NodRevenantBomb"/>
+        <Ability value="NodRevenantBomb"/>
+        <Location value="Unit"/>
+        <ResultFailed value="Cooldown"/>
+        <ResultNoUnit value="Cooldown"/>
+    </CValidatorUnitCompareCooldown>
+    <CValidatorUnitCompareChargeUsed id="NodRevenantBombCharged">
+        <Compare value="LE"/>
+        <ChargeLink value="Abil/NodRevenantBomb"/>
+        <Location value="Unit"/>
+        <Ability value="NodRevenantBomb"/>
+    </CValidatorUnitCompareChargeUsed>
+    <CEffectModifyUnit id="NodRevenantBombLaunchCooldown">
+        <ImpactUnit Value="Caster"/>
+        <Cost Abil="NodRevenantBomb,Execute" CooldownOperation="Set" CooldownTimeUse="5"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="NodRevenantBombChargeUse">
+        <ImpactUnit Value="Caster"/>
+        <Cost Abil="NodRevenantBomb,Execute" ChargeCountUse="1"/>
+    </CEffectModifyUnit>
+
+
+
 
 
 
@@ -1363,6 +1349,85 @@
 <!--        <DamagePhysics Name="InterceptorBeamImpact" MatchKeys="Basic" Physics="InterceptorAttackDeathForce"/>-->
 <!--        <DamagePhysics Name="InterceptorBeamImpact" MatchKeys="BasicAir" Physics="InterceptorAttackAirDeathForce"/>-->
 <!--    </CActorAction>-->
+
+
+
+<!--    <CAbilEffectTarget id="WidowMineAttack">-->
+<!--        <Flags index="AutoCast" value="1"/>-->
+<!--        <Flags index="AutoCastOn" value="1"/>-->
+<!--        <Flags index="ReExecutable" value="1"/>-->
+<!--        <Flags index="Smart" value="1"/>-->
+<!--        <PrepTime value="1.5"/>-->
+<!--        <TargetFilters value="Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>-->
+<!--        <AutoCastRange value="5"/>-->
+<!--        <Range value="5"/>-->
+<!--        <RangeSlop value="0"/>-->
+<!--        <Arc value="360"/>-->
+<!--        <AutoCastFilters value="Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable,Benign"/>-->
+<!--        <CmdButtonArray index="Execute" DefaultButtonFace="WidowMineAttack" Requirements="WidowMineArmed">-->
+<!--            <Flags index="ShowInGlossary" value="0"/>-->
+<!--        </CmdButtonArray>-->
+<!--        <AutoCastValidatorArray value="IsNotDisguisedChangeling"/>-->
+<!--        <AutoCastValidatorArray value="NotHallucinationOrNotDetected"/>-->
+<!--        <AutoCastValidatorArray value="noMarkers"/>-->
+<!--        <Cost>-->
+<!--            <Cooldown TimeUse="40"/>-->
+<!--        </Cost>-->
+<!--    </CAbilEffectTarget>-->
+
+
+    <CEffectSet id="NodRevenantBombWeaponSet">
+        <EffectArray value="NodRevenantBombLaunchCooldown"/>
+        <EffectArray value="NodRevenantBombChargeUse"/>
+        <EffectArray value="NodRevenantBombLaunchMissileTargetUnit"/>
+        <!--        <TargetLocationType value="UnitOrPoint"/>-->
+        <Marker Link="WidowMineAttack"/>
+        <ValidatorArray value="noMarkers"/>
+        <ValidatorArray value="NotLarva"/>
+        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
+        <ValidatorArray value="NodRevenantBombCharged"/>
+    </CEffectSet>
+
+
+
+    <CEffectSet id="NodRevenantBombSet">
+        <EffectArray value="NodRevenantBombLaunchMissileTargetUnit"/>
+<!--        <TargetLocationType value="UnitOrPoint"/>-->
+        <Marker Link="WidowMineAttack"/>
+        <ValidatorArray value="noMarkers"/>
+        <ValidatorArray value="NotLarva"/>
+    </CEffectSet>
+
+
+<!--    <CEffectSet id="WidowMineAttack">-->
+<!--        <EditorCategories value="Race:Terran"/>-->
+<!--        <EffectArray value="WidowMineLM"/>-->
+<!--        <EffectArray value="WidowMineApplyAnimation"/>-->
+<!--        <Marker Link="WidowMineAttack"/>-->
+<!--        <ValidatorArray value="noMarkers"/>-->
+<!--        <ValidatorArray value="NoMineDroneCountdown"/>-->
+<!--        <ValidatorArray value="NotLarva"/>-->
+<!--        <ValidatorArray index="0" value="NoMineDroneCountdown"/>-->
+<!--        <ValidatorArray index="1" value="NotLarva"/>-->
+<!--        <ValidatorArray index="2" removed="1"/>-->
+<!--    </CEffectSet>-->
+<!--    <CEffectLaunchMissile id="WidowMineLM">-->
+<!--        <EditorCategories value="Race:Zerg"/>-->
+<!--        <ImpactEffect value="WidowMineExplodeSet"/>-->
+<!--        <AmmoUnit value="WidowMineWeapon"/>-->
+<!--        <Marker Link="WidowMineAttack"/>-->
+<!--        <ValidatorArray value="noMarkers"/>-->
+<!--        <ValidatorArray index="1" removed="1"/>-->
+<!--    </CEffectLaunchMissile>-->
+<!--    <CEffectSet id="WidowMineExplodeSet">-->
+<!--        <EditorCategories value="Race:Terran"/>-->
+<!--        <EffectArray value="WidowMineExplodeDirect"/>-->
+<!--        <EffectArray value="WidowMineExplodeSplashSearch"/>-->
+<!--        <Marker>-->
+<!--            <MatchFlags index="Id" value="1"/>-->
+<!--        </Marker>-->
+<!--    </CEffectSet>-->
+<!--    -->
 
     
 </Catalog>
