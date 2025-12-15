@@ -296,4 +296,1073 @@
     <CEffectApplyBehavior id="CNCConstructionRadiusDisable">
         <WhichUnit Value="Caster"/>
     </CEffectApplyBehavior>
+
+
+
+    <CActorUnit id="NodNuke" parent="GenericUnitStandard" unitName="NodNuke">
+        <Model value="Invisible"/>
+        <SoundArray index="Ready" value="Alert_TerranNukeReady"/>
+        <UnitIcon value="Assets\Textures\btn-ability-terran-armnuke.dds"/>
+        <StatusBarFlags index="Shields" value="0"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <StatusBarFlags index="Energy" value="0"/>
+        <StatusBarFlags index="Cargo" value="0"/>
+        <StatusBarFlags index="Progress" value="0"/>
+        <StatusBarFlags index="Duration" value="0"/>
+        <StatusBarFlags index="Magazine" value="0"/>
+    </CActorUnit>
+    <CUnit id="NodNuke">
+        <Race value="Terr"/>
+        <LifeStart value="100"/>
+        <LifeMax value="100"/>
+        <SubgroupPriority value="15"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <EditorFlags index="NoPlacement" value="1"/>
+        <PlaneArray index="Air" value="1"/>
+        <Collide index="Flying" value="1"/>
+        <VisionHeight value="4"/>
+        <AbilArray Link="move"/>
+        <CostResource index="Minerals" value="100"/>
+        <CostResource index="Vespene" value="100"/>
+        <ScoreResult value="BuildOrder"/>
+        <ScoreMake value="200"/>
+        <CostCategory value="Technology"/>
+    </CUnit>
+
+
+
+
+
+
+
+<!--    Button/Hotkey/NodDisruptionPod=R-->
+<!--    Abil/Name/NodDisruptionPod=Launch Cloak Charge-->
+<!--    Button/Name/NodDisruptionPod=Launch Cloak Charge-->
+<!--    Button/Tooltip/NodDisruptionPod=Launches the Tesla's charge to the target point with the Cloak Charge configuration.<n/><n/>Cloak Charges cloak units in an area. Energy is used over time.<n/><n/>The charge is destroyed when its energy is exhausted.<n/><n/><c val="78F0FF">Uses <d ref="Effect,TeslaLaunchChargeCostMU,VitalArray[Energy].Change*(-1)"/> power.<c/>-->
+
+
+
+
+    <CBehaviorBuff id="NodDisruptionPodTimedLife">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Duration value="30"/>
+        <ExpireEffect value="Suicide"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+
+<!--    <CBehaviorBuff id="NodDisruptionPodCloakField">-->
+<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
+<!--        <BuffFlags index="RefreshStack" value="1"/>-->
+<!--        <Period value="0.25"/>-->
+<!--        <PeriodicEffect value="NodDisruptionPodCloakSearch"/>-->
+<!--        <InfoIcon value="Assets\Textures\btn-ability-nod-cloakingfield.dds"/>-->
+<!--    </CBehaviorBuff>-->
+
+<!--    <CBehaviorBuff id="NodDisruptionPodCloakEffect">-->
+<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
+<!--        <Duration value="0.5"/>-->
+<!--        <Modification>-->
+<!--            <StateFlags index="Cloak" value="1"/>-->
+<!--        </Modification>-->
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--    </CBehaviorBuff>-->
+
+<!--    <CBehaviorBuff id="NodDisruptionPodAttached">-->
+<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
+<!--        <Duration value="120"/>-->
+<!--        <Period value="0.25"/>-->
+<!--        <PeriodicEffect value="NodDisruptionPodCloakSearch"/>-->
+<!--        <InfoIcon value="Assets\Textures\btn-ability-nod-cloakingfield.dds"/>-->
+<!--    </CBehaviorBuff>-->
+
+<!--    <CEffectLaunchMissile id="NodDisruptionPodLaunch">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <ImpactEffect value="NodDisruptionPodImpact"/>-->
+<!--        <AmmoUnit value="NodDisruptionPodMissile"/>-->
+<!--    </CEffectLaunchMissile>-->
+
+<!--    <CEffectSet id="NodDisruptionPodImpact">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <EffectArray value="NodDisruptionPodSpawn"/>-->
+<!--        <EffectArray value="NodDisruptionPodApplyAttached"/>-->
+<!--        <TargetLocationType value="UnitOrPoint"/>-->
+<!--    </CEffectSet>-->
+
+<!--    <CEffectCreateUnit id="NodDisruptionPodSpawn">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <WhichLocation Value="TargetPoint"/>-->
+<!--        <SpawnUnit value="NodDisruptionPod"/>-->
+<!--        <ValidatorArray value="TargetIsPoint"/>-->
+<!--    </CEffectCreateUnit>-->
+
+<!--    <CEffectApplyBehavior id="NodDisruptionPodApplyAttached">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <Behavior value="NodDisruptionPodAttached"/>-->
+<!--        <ValidatorArray value="TargetIsUnit"/>-->
+<!--    </CEffectApplyBehavior>-->
+
+<!--    <CEffectEnumArea id="NodDisruptionPodCloakSearch">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+<!--        <AreaArray Radius="5" Effect="NodDisruptionPodApplyCloak"/>-->
+<!--    </CEffectEnumArea>-->
+
+<!--    <CEffectApplyBehavior id="NodDisruptionPodApplyCloak">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <Behavior value="NodDisruptionPodCloakEffect"/>-->
+<!--    </CEffectApplyBehavior>-->
+
+
+    
+    
+    
+
+    <CAbilEffectTarget id="NodDisruptionPod">
+        <Effect index="0" value="NodLaunchCloakChargeLS"/>
+        <Range value="10"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodDisruptionPod" Requirements="HasNodDisruptionPods"/>
+        <Cost>
+            <Charge>
+                <CountMax value="1"/>
+                <CountStart value="1"/>
+                <CountUse value="1"/>
+                <Link value="Abil/LaunchShockCharge"/>
+                <Location value="Unit"/>
+            </Charge>
+            <Cooldown TimeUse="60"/>
+<!--            <Vital index="Energy" value="75"/>-->
+        </Cost>
+        <EffectRange index="0" value="1,500"/>
+        <Arc value="360"/>
+        <IgnoreFilters value="-;Ally,Neutral,Enemy"/>
+        <CursorEffect value="NodDisruptionPodCloakingFieldSearch"/>
+    </CAbilEffectTarget>
+
+
+    <CModel id="NodCloakChargeLaunchModel" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\WarHoundHaywireMissileLaunch\WarHoundHaywireMissileLaunch.m3"/>
+        <EditorCategories value="Race:Genetron"/>
+        <ScaleMax value="1.400000,1.400000,1.400000"/>
+        <ScaleMin value="1.400000,1.400000,1.400000"/>
+    </CModel>
+    <CActorModel id="NodCloakChargeLaunchModel" parent="ModelAnimationStyleOneShotUNIT">
+<!--        <On Terms="Effect.LaunchShockCharge.Start" Send="Create"/>-->
+        <On Terms="Effect.NodLaunchCloakCharge.Start" Send="Create"/>
+        <HostSiteOps Ops="SOpAttachWeapon"/>
+    </CActorModel>
+    <CActorRange id="NodLaunchCloakChargeRange" parent="RangeAbilStandard" abil="NodDisruptionPod">
+<!--        <On Terms="Abil.LaunchShockCharge.TargetOn" Send="Create"/>-->
+<!--        <On Terms="Abil.LaunchShockCharge.TargetOff" Send="Destroy"/>-->
+<!--        <On Terms="Abil.LaunchShockCharge.ButtonHoverOn" Send="Create"/>-->
+<!--        <On Terms="Abil.LaunchShockCharge.ButtonHoverOn" Send="Destroy"/>-->
+    </CActorRange>
+    <CActorSplat id="NodCloakChargeCursor" parent="TerranCursorSplat" abil="NodDisruptionPod">
+        <Scale value="3.400000"/>
+    </CActorSplat>
+
+
+    <CUnit id="NodLaunchCloakChargeWeapon" parent="MISSILE">
+        <FlagArray index="Invulnerable" value="1"/>
+    </CUnit>
+
+
+<!--    <CValidatorUnitType id="IsTeslaCloakCharge">-->
+<!--        <Value value="NodDisruptionPod"/>-->
+<!--    </CValidatorUnitType>-->
+<!--    <CValidatorUnitType id="IsNotTeslaCloakCharge">-->
+<!--        <Value value="NodDisruptionPod"/>-->
+<!--        <Find value="0"/>-->
+<!--    </CValidatorUnitType>-->
+
+
+<!--    <CEffectRemoveBehavior id="EquippedRemove">-->
+<!--        <EditorCategories value="Race:Genetron"/>-->
+<!--        <WhichUnit Value="Caster"/>-->
+<!--        <BehaviorLink value="Equipped"/>-->
+<!--    </CEffectRemoveBehavior>-->
+<!--    <CEffectModifyUnit id="ChargeRemove">-->
+<!--        <EditorCategories value="Race:Genetron"/>-->
+<!--        <ImpactUnit Value="Source"/>-->
+<!--        <Cost Abil="ConstructTeslaCharge,Specialize1" ChargeCountUse="-1"/>-->
+<!--    </CEffectModifyUnit>-->
+<!--    <CEffectSet id="ChargeUse" parent="ScionSet" Race="Genetron">-->
+<!--        <EffectArray value="ChargeRemove"/>-->
+<!--        <EffectArray value="EquippedRemove"/>-->
+<!--    </CEffectSet>-->
+<!--    <CEffectEnumTrackedUnits id="TeslaLaunchChargeCostETU">-->
+<!--        <EditorCategories value="Race:Genetron"/>-->
+<!--        <BehaviorLink value="GenetronPowerSupplyTracker"/>-->
+<!--        <Effect value="TeslaLaunchChargeCostMU"/>-->
+<!--    </CEffectEnumTrackedUnits>-->
+    <CMoverMissile id="NodCloakChargeMoverLow">
+        <MotionPhases>
+            <Driver value="Throw"/>
+            <Acceleration value="2"/>
+            <Speed value="0"/>
+            <MinSpeed value="2"/>
+            <MaxSpeed value="20"/>
+            <ActorTracking value="Actual"/>
+            <Outro value="1,2"/>
+            <ThrowRotationType value="LookAtTarget2D"/>
+            <ThrowVector value="0,0,1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <AdaptableParabolaClearance value="-1,0.1"/>
+            <AdaptableParabolaAccels index="Launch" value="0"/>
+            <AdaptableParabolaAccels index="Ascent" value="0"/>
+            <AdaptableParabolaAccels index="Apex" value="0"/>
+            <AdaptableParabolaAccels index="Descent" value="0"/>
+            <AdaptableParabolaAccels index="Land" value="0"/>
+        </MotionPhases>
+        <MotionPhases>
+            <Driver value="Throw"/>
+            <Acceleration value="6"/>
+            <MaxSpeed value="20"/>
+            <BlendType value="Linear"/>
+            <Outro value="-0.5,0"/>
+            <ThrowVector value="0,0,-1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+            <PowerslideAngle value="45"/>
+        </MotionPhases>
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <ArrivalTestType value="2D"/>
+            <BlendType value="Linear"/>
+            <RotationLaunchActorType value="Supplied"/>
+            <RotationActorType value="Upright"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CMoverMissile id="NodLaunchCloakChargeWeapon">
+        <MotionPhases>
+            <Driver value="Throw"/>
+            <Acceleration value="2"/>
+            <Speed value="0"/>
+            <MinSpeed value="2"/>
+            <MaxSpeed value="20"/>
+            <ActorTracking value="Actual"/>
+            <Outro value="1,2"/>
+            <ThrowRotationType value="LookAtTarget2D"/>
+            <ThrowVector value="0,0,1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <AdaptableParabolaClearance value="-1,0.1"/>
+            <AdaptableParabolaAccels index="Launch" value="0"/>
+            <AdaptableParabolaAccels index="Ascent" value="0"/>
+            <AdaptableParabolaAccels index="Apex" value="0"/>
+            <AdaptableParabolaAccels index="Descent" value="0"/>
+            <AdaptableParabolaAccels index="Land" value="0"/>
+        </MotionPhases>
+        <MotionPhases>
+            <Driver value="Throw"/>
+            <Acceleration value="6"/>
+            <MaxSpeed value="20"/>
+            <Outro value="-3,0"/>
+            <ThrowVector value="0,-1,0.1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+        <MotionPhases>
+            <Driver value="Throw"/>
+            <MaxSpeed value="4"/>
+            <BlendType value="Linear"/>
+            <Outro value="-0.75,0"/>
+            <ThrowVector value="0,0.25,-1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+            <PowerslideAngle value="45"/>
+        </MotionPhases>
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <ArrivalTestType value="2D"/>
+            <BlendType value="Linear"/>
+            <RotationLaunchActorType value="Supplied"/>
+            <RotationActorType value="Upright"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CEffectSet id="NodLaunchCloakChargeLS"  >
+        <EffectArray value="NodLaunchCloakCharge"/>
+<!--        <EffectArray value="ChargeUse"/>-->
+<!--        <EffectArray value="TeslaLaunchChargeCostETU"/>-->
+        <TargetLocationType value="Point"/>
+<!--        <ValidatorArray value="GenetronPowerSupplyGE150"/>-->
+    </CEffectSet>
+    <CEffectLaunchMissile id="NodLaunchCloakCharge">
+        <Movers Link="NodCloakChargeMoverLow" IfRangeLTE="2"/>
+        <Movers Link="NodLaunchCloakChargeWeapon" IfRangeLTE="8"/>
+        <AmmoOwner Value="Caster"/>
+        <ImpactEffect value="NodLaunchCloakChargeImpact"/>
+        <ImpactLocation Value="TargetPoint"/>
+    </CEffectLaunchMissile>
+    <CEffectCreateUnit id="NodLaunchCloakChargeImpact">
+        <EditorCategories value="Race:Genetron"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <SpawnEffect value="KillsToCaster"/>
+        <SpawnUnit value="NodDisruptionPod"/>
+    </CEffectCreateUnit>
+    <CEffectEnumArea id="NodDisruptionPodCloakingFieldSearch">
+        <EditorCategories value="Race:Protoss"/>
+        <SearchFilters value="-;Self,Neutral,Enemy,Missile,Dead,Hidden"/>
+        <ImpactLocation Value="CasterUnit"/>
+        <AreaArray Radius="3" Effect="CloakingField"/>
+        <SearchFlags index="ExtendByUnitRadius" value="0"/>
+    </CEffectEnumArea>
+
+
+
+    <CActorSound id="NodCloakOff">
+        <On Terms="Behavior.NodDisruptionPodCloakField.Off" Send="Create"/>
+<!--        <On Terms="Behavior.CourierCloak.Off" Send="Create"/>-->
+        <Sound value="Terran_CloakOff"/>
+    </CActorSound>
+    <CActorSound id="NodCloakOn">
+        <On Terms="Behavior.NodDisruptionPodCloakField.On" Send="Create"/>
+<!--        <On Terms="Behavior.CourierCloak.On" Send="Create"/>-->
+        <Sound value="Terran_CloakOn"/>
+    </CActorSound>
+
+<!--    <CEffectModifyUnit id="ApplyChargeCC">-->
+<!--        <EditorCategories value="Race:Genetron"/>-->
+<!--        <ImpactUnit Value="Source"/>-->
+<!--        <Cost Abil="NodLaunchCloakCharge,Execute" ChargeCountUse="-1"/>-->
+<!--    </CEffectModifyUnit>-->
+
+
+<!--    <CRequirementCountAbil id="CountAbilLaunchCloakChargeCompleteOnlyAtUnit">-->
+<!--        <Flags index="TechTreeCheat" value="0"/>-->
+<!--        <Count Link="NodLaunchCloakCharge" State="CompleteOnlyAtUnit"/>-->
+<!--    </CRequirementCountAbil>-->
+<!--    <CRequirementNot id="NotCountAbilLaunchCloakChargeCompleteOnlyAtUnit">-->
+<!--        <OperandArray index="0" value="CountAbilLaunchCloakChargeCompleteOnlyAtUnit"/>-->
+<!--    </CRequirementNot>-->
+
+
+
+
+    <CUnit id="NodDisruptionPod">
+        <Race value="Gen"/>
+        <FlagArray index="UseLineOfSight" value="1"/>
+        <Collide index="Burrow3" value="1"/>
+        <EnergyStart value="150"/>
+        <EnergyMax value="150"/>
+        <Sight value="4"/>
+        <CostCategory value="Army"/>
+        <EditorCategories value="ObjectType:Other,ObjectFamily:Melee"/>
+        <BehaviorArray Link="NodDisruptionPodCloakField"/>
+        <BehaviorArray Link="Benign"/>
+        <BehaviorArray Link="NodDisruptionPodTimedLife"/>
+        <PlaneArray index="Ground" value="1"/>
+        <GlossaryCategory value="Unit/Category/GenetronUnits"/>
+        <GlossaryPriority value="23"/>
+        <Attributes index="Mechanical" value="1"/>
+    </CUnit>
+
+
+    <CActorMissile id="NodDisruptionPodMissile" parent="GenericAttackMissile" unitName="NodDisruptionPodMissile">
+        <Model value="Nod_ShadowSquad_Beacon"/>
+        <Scale value="0.5"/>
+    </CActorMissile>
+    <CActorUnit id="NodDisruptionPod" parent="GenericUnitStandard" unitName="NodDisruptionPod">
+        <On Terms="ActorCreation" Send="Create NodCloakChargeRangeFriendly"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,B PlayForever"/>
+        <Model value="NodDisruptionPod"/>
+        <BuildModel value="NodDisruptionPod"/>
+        <DeathArray index="Normal" ModelLink="TerranSmallTriggeredExplosion"/>
+        <PlacementModel value="NodDisruptionPod"/>
+        <BarOffset value="30"/>
+        <BarWidth value="35"/>
+        <StatusBarFlags index="Shields" value="0"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <StatusBarFlags index="Cargo" value="0"/>
+        <StatusBarFlags index="Progress" value="0"/>
+        <StatusBarFlags index="Magazine" value="0"/>
+        <StatusBarFlags index="Workers" value="0"/>
+        <StatusBarFlags index="Custom" value="0"/>
+        <Wireframe>
+            <Image value="Assets\Textures\wireframe-genetron-NodDisruptionPod.dds"/>
+        </Wireframe>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <Macros value="UnloadDropAnim"/>
+        <GlossaryAnim value="Cover,B"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-genetron-mechstructurearmor.dds"/>
+        <UnitIcon value="Assets\Textures\btn-ability-nod-cloakingfield.dds"/>
+        <HeroIcon value="Assets\Textures\btn-ability-nod-cloakingfield.dds"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\wireframe-genetron-NodDisruptionPod.dds"/>
+        </GroupIcon>
+    </CActorUnit>
+    <CActorAction id="NodCloakChargeLaunchAction" parent="GenericAttack" effectImpact="NodLaunchCloakChargeImpact" effectLaunch="NodLaunchCloakCharge">
+        <LaunchAttachQuery Methods="AMFilterHardpoint"/>
+        <LaunchAssets Sound="NodChargeLaunch"/>
+        <Missile value="NodCloakChargeMissile"/>
+        <ImpactMap index="None" Model="PhysicsImpactDustMedium" Sound="TeslaChargeImpact"/>
+    </CActorAction>
+    <CSound id="NodChargeLaunch" parent="Spell">
+        <EditorCategories value="Race:Genetron"/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_TakeOff_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_TakeOff_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_TakeOff_03.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_TakeOff_04.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_TakeOff_05.wav" FacialGroup=""/>
+        <Pitch value="6.000000,6.000000"/>
+        <Volume value="-8.000000,-6.000000"/>
+    </CSound>
+    <CActorMissile id="NodCloakChargeMissile" parent="GenericAttackMissile" unitName="NodLaunchCloakChargeWeapon">
+        <Model value="NodDisruptionPod"/>
+        <On index="1" Terms="UnitBirth" Send="AnimBracketStart Lifetime Birth Fly"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,B PlayForever"/>
+        <On Terms="MotionPhaseStart; MotionPhase" Send="Create TeslaChargeFly"/>
+        <On Terms="MotionPhaseStart; MotionPhase 2" Send="Create TeslaChargeLand"/>
+        <On Terms="MotionPhaseStop; MotionPhase 2" Target="TeslaChargeFly" Send="Destroy"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+        <HostSiteOps Ops="SOpRotationSmooth"/>
+    </CActorMissile>
+<!--    <CActorModel id="TeslaCloakChargeModel" parent="ModelAddition">-->
+<!--        <HostSiteOps Ops="SOpAttachHardPoint SOpMoveDownByDot25"/>-->
+<!--        <Model value="TeslaCloakCharge"/>-->
+<!--        <ModelFlags index="AutomateGlobalLoops" value="1"/>-->
+<!--    </CActorModel>-->
+    <CActorRange id="NodCloakChargeRangeFriendly">
+        <Filter index="Neutral" value="1"/>
+        <Filter index="Enemy" value="1"/>
+        <Range value="3.500000"/>
+        <Icon value="Assets\Textures\rangegradient.dds"/>
+        <IconArcLength value="1.500000"/>
+        <IconTint value="255,0,255,255"/>
+        <CliffLevelFlags index="Lower" value="0"/>
+        <CliffLevelFlags index="Higher" value="0"/>
+    </CActorRange>
+
+
+
+
+<!--    <CAbilEffectTarget id="NodMineDrop">-->
+<!--        <Cost>-->
+<!--            <Cooldown TimeStart="45" TimeUse="45"/>-->
+<!--            <Resource index="Minerals" value="50"/>-->
+<!--        </Cost>-->
+<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
+<!--        <Effect index="0" value="NodCreateMineCP"/>-->
+<!--        <Range value="5"/>-->
+<!--        <CursorEffect value="randomFlameMine"/>-->
+<!--        <CmdButtonArray index="Execute" DefaultButtonFace="NodMineDrop"/>-->
+<!--    </CAbilEffectTarget>-->
+
+    <CAbilEffectTarget id="NodMineDrop">
+        <EditorCategories value="AbilityorEffectType:Units,Race:UPL"/>
+        <Effect index="0" value="NodMineDropMainCP"/>
+        <Cost>
+            <Charge>
+                <CountMax value="1"/>
+                <CountUse value="1"/>
+                <TimeStart value="18"/>
+                <TimeUse value="18"/>
+            </Charge>
+            <Cooldown TimeUse="18"/>
+        </Cost>
+        <Range value="8"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodMineDrop"/>
+    </CAbilEffectTarget>
+    <CEffectCreatePersistent id="NodMineDropMainCP">
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="NodMineDropMainLaunch"/>
+        <PeriodicOffsetArray value="0,0,2"/>
+        <PeriodicPeriodArray value="0"/>
+<!--        <InitialEffect value="RaptorJetClearCloak"/>-->
+        <EditorCategories value="Race:UPL"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="NodMineDropMainLaunch">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="NodMineDropCP"/>
+        <AmmoUnit value="NodMineDropMainMissile"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectLaunchMissile>
+    <CEffectCreatePersistent id="NodMineDropCP">
+        <PeriodCount value="16"/>
+        <PeriodicOffsetArray value="1,0,-2"/>
+        <PeriodicOffsetArray value="-1,0,-2"/>
+        <PeriodicOffsetArray value="0,-1,-2"/>
+        <PeriodicOffsetArray value="0,1,-2"/>
+        <PeriodicOffsetArray value="0.5,0.5,-2"/>
+        <PeriodicOffsetArray value="-0.5,0.5,-2"/>
+        <PeriodicOffsetArray value="0.5,-0.5,-2"/>
+        <PeriodicOffsetArray value="-0.5,-0.5,-2"/>
+        <PeriodicOffsetArray value="1.1,0.6,-2"/>
+        <PeriodicOffsetArray value="0.6,1.1,-2"/>
+        <PeriodicOffsetArray value="1.1,0.6,-2"/>
+        <PeriodicOffsetArray value="0.6,1.1,-2"/>
+        <PeriodicOffsetArray value="1.1,-0.6,-2"/>
+        <PeriodicOffsetArray value="0.6,-1.1,-2"/>
+        <PeriodicOffsetArray value="-1.1,0.6,-2"/>
+        <PeriodicOffsetArray value="-0.6,1.1,-2"/>
+        <PeriodicOffsetArray value="-1.1,-0.6,-2"/>
+        <PeriodicOffsetArray value="-0.6,-1.1,-2"/>
+        <PeriodicEffectArray value="NodMineDropSecondaryLaunch"/>
+        <PeriodicPeriodArray value="0"/>
+        <WhichLocation Effect="NodMineDropMainLaunch"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectCreatePersistent>
+<!--    <CEffectEnumArea id="RaptorGroundSearch">-->
+<!--        <SearchFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+<!--        <AreaArray Radius="1.2" Effect="RaptorGroundDamage"/>-->
+<!--        <ImpactLocation Value="TargetPoint"/>-->
+<!--        <EditorCategories value="Race:UPL"/>-->
+<!--    </CEffectEnumArea>-->
+    <CActorMissile id="NodMineDropMainMissile" parent="GenericAttackMissile" unitName="NodMineDropMainMissile">
+        <On Terms="ActorCreation" Send="AnimPlay Phase1 Stand PlayForever"/>
+        <On Terms="MotionPhaseStart; MotionPhase 1" Send="AnimPlay Phase2 Turbo PlayForever"/>
+    </CActorMissile>
+    <CModel id="NodMineDropMainMissile" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\AutoTurretPodMissile\AutoTurretPodMissile.m3"/>
+        <ScaleMax value="0.8,0.8,0.8"/>
+        <ScaleMin value="0.8,0.8,0.8"/>
+        <EditorCategories value="Race:UPL"/>
+    </CModel>
+    <CModel id="NodMineDropSecondaryMissile" parent="NodMine"/>
+    <CUnit id="NodMineDropMainMissile" parent="MISSILE_HALFLIFE">
+        <Race value="UPLL"/>
+        <Mover value="NodMineDropMissileMover"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+        <AIEvaluateAlias value="VikingFighterWeapon"/>
+    </CUnit>
+    <CMoverMissile id="NodMineDropMissileMover" parent="MissileDefault">
+        <MotionPhases index="0">
+            <Driver value="Ballistic"/>
+            <Acceleration value="0"/>
+            <Speed value="7"/>
+            <MaxSpeed value="8"/>
+            <Gravity value="5"/>
+            <ClearanceAcceleration value="-1024"/>
+            <Outro value="0"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CEffectLaunchMissile id="NodMineDropSecondaryLaunch">
+        <LaunchLocation Effect="NodMineDropMainCP" Value="TargetPoint"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactOffset value="0,0,0.1"/>
+        <ImpactEffect value="NodCreateMine"/>
+        <AmmoUnit value="NodMineDropSecondaryMissile"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectLaunchMissile>
+    <CActorAction id="NodMineDropAttack" parent="GenericAttack" effectImpact="NodMineDropCP" effectLaunch="NodMineDropMainLaunch">
+        <LaunchSiteOps Ops="SOpAttachHarness SOpAttachWeapon"/>
+        <LaunchAttachQuery Methods="AMPatternMissileTurret"/>
+        <LaunchAssets Sound="RaptorJet_GroundLaunch"/>
+        <Missile value="NodMineDropMainMissile"/>
+        <ImpactAttachQuery Methods="AMFilterTarget AMRandomUniform"/>
+        <ImpactMap index="None" Model="RaptorAirImpact1" Sound="RaptorJet_GroundImpactMissile"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+    </CActorAction>
+
+
+
+
+    <CActorMissile id="NodMineDropSecondaryMissile" parent="GenericAttackMissile" unitName="NodMineDropSecondaryMissile">
+        <On Terms="ActorCreation" Send="AnimPlay Phase1 Stand PlayForever"/>
+        <On Terms="MotionPhaseStart; MotionPhase 1" Send="AnimPlay Phase2 Turbo PlayForever"/>
+    </CActorMissile>
+    <CActorAction id="NodMineDropMainSecondaryAttack" parent="GenericAttack" effectImpact="NodCreateMine" effectLaunch="NodMineDropSecondaryLaunch">
+        <LaunchSiteOps Ops="SOpSourcePoint"/>
+        <LaunchAttachQuery Methods=""/>
+        <LaunchRequest Scope="Effect"/>
+        <Missile value="NodMineDropSecondaryMissile"/>
+        <ImpactSiteOps Ops="SOpTargetPoint"/>
+        <ImpactAttachQuery Methods="AMFilterTarget AMRandomUniform"/>
+        <ImpactMap index="None" Model="RaptorAirImpact1" Sound="RaptorJet_GroundImpactGround"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+    </CActorAction>
+    <CUnit id="NodMineDropSecondaryMissile" parent="MISSILE_HALFLIFE">
+        <Race value="UPLL"/>
+        <Mover value="NodMineDropSecondaryMissileMover"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CMoverMissile id="NodMineDropSecondaryMissileMover" parent="MissileDefault">
+        <MotionPhases index="0">
+            <Driver value="Ballistic"/>
+            <Acceleration value="0"/>
+            <Speed value="1"/>
+            <SpeedRange value="1.1015"/>
+            <MaxSpeed value="3"/>
+            <Gravity value="5"/>
+            <ClearanceAcceleration value="-1024"/>
+            <ArrivalTestType value="2D"/>
+            <Outro value="0"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="0"/>
+            <Overlays/>
+            <Overlays/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CActorSplat id="NodMineDropCursorSplat" parent="TerranCursorSplat" abil="NodMineDrop">
+        <Scale value="1.700000"/>
+    </CActorSplat>
+
+    <CAbilEffectTarget id="NodRevenantBomb">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <PostEffectBehavior Behavior="NodRevenantBombAbilityChannel"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <Flags index="RequireTargetVision" value="0"/>
+        <Cost>
+            <Cooldown Location="Unit" Operation="Set" TimeUse="8.4"/>
+        </Cost>
+        <Range value="72"/>
+        <Arc value="360"/>
+        <CursorEffect value="NodRevenantBombDMG"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBomb"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="NodRevenantBombUnit" parent="NodRevenantBomb">
+        <Name value="Abil/Name/RevenantBombUnit"/>
+        <Effect index="0" value="NodRevenantBombUnit"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBombUnit"/>
+        <TargetFilters value="Ground;Missile,Stasis,Dead,Invulnerable"/>
+    </CAbilEffectTarget>
+    <CWeaponLegacy id="NodRevenantBomb">
+        <EditorCategories value="Race:Genetron"/>
+        <Icon value="Assets\Textures\btn-upgrade-genetron-rocketweapons-level0.dds"/>
+        <Range value="72"/>
+        <Period value="0.25"/>
+        <Effect value="NodRevenantBombWeaponSet"/>
+        <LegacyOptions index="UseRangeToCenter" value="1"/>
+        <LegacyOptions index="CanRetargetWhileChanneling" value="1"/>
+        <LegacyOptions index="NoDeceleration" value="1"/>
+        <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
+        <DisplayEffect value="NodRevenantBombDMG"/>
+        <Options index="Hidden" value="1"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AcquireFilters value="-;Player,Ally,Neutral,Enemy"/>
+        <MinScanRange value="0"/>
+        <AllowedMovement value="Moving"/>
+        <Arc value="29.9926"/>
+    </CWeaponLegacy>
+    <CEffectCreatePersistent id="NodRevenantBombImpact" parent="ScionCreatePersistent" Race="Genetron">
+        <ExpireDelay value="0.0625"/>
+        <ExpireEffect value="NodRevenantBombImpactNotification"/>
+        <PeriodCount value="4"/>
+        <PeriodicEffectArray value="NodRevenantBombDMG"/>
+<!--        <PeriodicEffectArray value="NodRevenantBombImpactHeat"/>-->
+<!--        <PeriodicEffectArray value="NodRevenantBombImpactShellShock"/>-->
+<!--        <PeriodicEffectArray value="JupiterNapalmCreatePersistent"/>-->
+        <AINotifyEffect value="NodRevenantBombDMG"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+    </CEffectCreatePersistent>
+    <CEffectModifyUnit id="NodRevenantBombLaunchCooldown">
+        <EditorCategories value="Race:Genetron"/>
+        <ImpactUnit Value="Caster"/>
+        <Cost Abil="NodRevenantBomb,Execute" CooldownOperation="Set" CooldownTimeUse="8.4"/>
+    </CEffectModifyUnit>
+    <CEffectSwitch id="NodRevenantBomb">
+        <EditorCategories value="Race:Genetron"/>
+        <CaseArray Validator="NodRevenantLaunchTargetSlow" Effect="NodRevenantBombLaunchMissile"/>
+        <CaseDefault value="NodRevenantBombSpellDelay"/>
+        <TargetLocationType value="Point"/>
+        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
+    </CEffectSwitch>
+    <CEffectDamage id="NodRevenantBombDMG" parent="ScionDamage" Race="Genetron">
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+        <AINotifyFlags index="MinorDanger" value="1"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <Amount value="15"/>
+        <Death value="Blast"/>
+        <AreaArray Fraction="5"/>
+        <AreaArray Radius="1.5" Fraction="1"/>
+        <ExcludeArray index="0" removed="1"/>
+        <SearchFilters value="Ground;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="NodRevenantBombLaunchMissile" parent="ScionLaunchMissilePoint" Race="Genetron">
+        <ImpactEffect value="NodRevenantBombImpact"/>
+        <AmmoUnit value="NodRevenantBombLMWeapon"/>
+        <AmmoOwner Value="Caster"/>
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+        <AINotifyFlags index="MinorDanger" value="1"/>
+        <LaunchEffect value="NodRevenantBombLaunchCooldown"/>
+        <ValidatorArray value="NodRevenantLaunchTargetDistances"/>
+        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
+    </CEffectLaunchMissile>
+    <CEffectCreatePersistent id="NodRevenantBombChannel" parent="ScionCreatePersistent" Race="Genetron">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <Flags index="Channeled" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodicEffectArray value="NodRevenantBombChannelPeriodSet"/>
+        <PeriodicPeriodArray value="0.0625"/>
+<!--        <InitialEffect value="JupiterSpeedAccelerator"/>-->
+<!--        <FinalEffect value="JupiterSpeedRemoveAccelerator"/>-->
+        <PeriodicValidator value="NodRevenantBombCooldownComplete"/>
+    </CEffectCreatePersistent>
+<!--    <CEffectEnumArea id="NodRevenantBombImpactHeat" parent="ScionEnumAreaEnemyGround" Race="Genetron">-->
+<!--        <SearchFilters value="Ground;Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+<!--        <AreaArray Effect="JupiterHeatAddPoint"/>-->
+<!--        <AreaArray Radius="1.5" Effect="JupiterHeatAddArea"/>-->
+<!--    </CEffectEnumArea>-->
+    <CEffectLaunchMissile id="NodRevenantBombLaunchMissileTargetUnit" parent="ScionLaunchMissilePoint" Race="Genetron">
+        <ValidatorArray value="NodRevenantLaunchTargetDistances"/>
+        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+        <AINotifyFlags index="MinorDanger" value="1"/>
+        <LaunchEffect value="NodRevenantBombLaunchCooldown"/>
+        <ImpactEffect value="NodRevenantBombImpact"/>
+        <AmmoOwner Value="Caster"/>
+        <AmmoUnit value="NodRevenantBombLMWeapon"/>
+        <ImpactLocation Value="TargetUnit"/>
+    </CEffectLaunchMissile>
+    <CEffectCreatePersistent id="NodRevenantBombWeaponCancelDelay">
+        <EditorCategories value="Race:Genetron"/>
+        <InitialDelay value="0.25"/>
+        <InitialEffect value="CancelActiveBarrageAttackForQueue"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="NodRevenantBombImpactNotification" parent="ScionEnumAreaEnemyGround" Race="Genetron">
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+        <AINotifyFlags index="MinorDanger" value="1"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <AreaArray Radius="1.5" Effect="NotificationResponseDummy"/>
+    </CEffectEnumArea>
+    <CEffectSet id="NodRevenantBombWeaponSet">
+        <EditorCategories value="Race:Genetron"/>
+        <EffectArray value="NodRevenantBombWeaponSwitch"/>
+        <EffectArray value="NodRevenantBombWeaponCancelDelay"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSet>
+
+    <CEffectSwitch id="NodRevenantBombUnit">
+        <EditorCategories value="Race:Genetron"/>
+        <CaseArray Validator="NodRevenantLaunchTargetSlow" Effect="NodRevenantBombLaunchMissileTargetUnit"/>
+        <CaseDefault value="NodRevenantBombSpellDelay"/>
+        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
+    </CEffectSwitch>
+
+
+
+
+    <CEffectCreatePersistent id="NodRevenantBombSpellDelay">
+        <EditorCategories value="Race:Genetron"/>
+        <Flags index="Channeled" value="1"/>
+        <InitialDelay value="0.0625"/>
+        <InitialEffect value="NodRevenantBombSpellCooldown"/>
+        <ExpireEffect value="NodRevenantBombChannel"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+    </CEffectCreatePersistent>
+    <CEffectSwitch id="NodRevenantBombLaunchSwitch">
+        <ValidatorArray value="NodRevenantLaunchTargetDistances"/>
+        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
+        <EditorCategories value="Race:Genetron"/>
+        <CaseArray Effect="NodRevenantBombLaunchMissileTargetUnit"/>
+        <CaseDefault value="NodRevenantBombLaunchMissile"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSwitch>
+    <CEffectSet id="NodRevenantBombChannelPeriodSet">
+        <EditorCategories value="Race:Genetron"/>
+        <EffectArray value="NodRevenantBombLaunchSwitch"/>
+<!--        <EffectArray value="JupiterSpeedAccelerator"/>-->
+        <EffectArray value="NodCasterLookAtTarget"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSet>
+    <CEffectModifyUnit id="NodCasterLookAtTarget">
+        <ImpactUnit Value="Caster"/>
+        <ModifyFlags index="InterpolateFacing" value="1"/>
+        <FacingLocation Value="TargetUnitOrPoint"/>
+        <FacingType value="LookAt"/>
+    </CEffectModifyUnit>
+    <CEffectSwitch id="NodRevenantBombWeaponSwitch">
+        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
+        <EditorCategories value="Race:Genetron"/>
+        <CaseArray Validator="NodRevenantLaunchTargetSlow" Effect="NodRevenantBombLaunchSwitch"/>
+        <CaseDefault value="NodRevenantBombChannel"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSwitch>
+    <CEffectEnumArea id="NodRevenantBombLaunchTargetUnitPoint">
+        <EditorCategories value="Race:Genetron"/>
+        <ImpactLocation Value="TargetUnit"/>
+        <IncludeArray Value="Target"/>
+        <SearchFilters value="-;Player,Ally,Neutral,Enemy"/>
+        <AreaArray Effect="NodRevenantBombLaunchMissileTargetUnit"/>
+    </CEffectEnumArea>
+    <CEffectModifyUnit id="NodRevenantBombSpellCooldown">
+        <EditorCategories value="Race:Genetron"/>
+        <ImpactUnit Value="Caster"/>
+        <Cost Abil="NodRevenantBomb,Execute" CooldownOperation="Set" CooldownTimeUse="0.0625"/>
+        <ModifyFlags index="InterpolateFacing" value="1"/>
+        <FacingLocation Value="TargetUnitOrPoint"/>
+        <FacingType value="LookAt"/>
+    </CEffectModifyUnit>
+
+
+    <CSound id="NodVertigoAttackLaunch" parent="Combat">
+        <EditorCategories value="Race:Genetron"/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_03.wav" FacialGroup=""/>
+    </CSound>
+    <CSound id="NodRevenantBombImpact" parent="Combat">
+        <EditorCategories value="Race:Genetron"/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombBlast_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombBlast_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombBlast_03.wav" FacialGroup=""/>
+        <Pitch value="-2.000000,-2.000000"/>
+    </CSound>
+
+    <CActorModel id="NodRevenantBombImpact" parent="ModelAnimationStyleOneShot">
+        <On Terms="Effect.NodRevenantBombImpact.Start" Send="Create"/>
+    </CActorModel>
+    <CActorAction id="NodVertigoAttackTargetUnit" parent="GenericAttack" effectImpact="NodRevenantBombImpact" effectLaunch="NodRevenantBombLaunchMissileTargetUnit">
+        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+        <LaunchAssets Model="NodVertigoAttackLaunch" Sound="NodVertigoAttackLaunch"/>
+        <Beam value="NodVertigoAttackBeam"/>
+        <Missile value="NodVertigoAttackMissile"/>
+        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeStandard SOpTargetUnit"/>
+        <ImpactMap index="None" Model="JupiterAttackImpact" Sound="JupiterAttackImpact" ModelReaction="JupiterAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="JupiterAttackImpactShield" ModelReaction="JupiterAttackImpactReactionShield"/>
+        <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
+        <DamageMap index="None" Model="JupiterAttackDamage" Sound="JupiterAttackDamage" ModelReaction="JupiterAttackDamageReaction"/>
+        <DamageMap index="Shield" Sound="JupiterAttackDamageShield" ModelReaction="JupiterAttackDamageReactionShield"/>
+        <ShieldFlashType value="None"/>
+    </CActorAction>
+    <CActorSound id="NodRevenantBombImpact" parent="SoundOneShot">
+        <On Terms="Effect.NodRevenantBombImpact.Start" Send="Create"/>
+    </CActorSound>
+    <CActorRange id="NodRevenantBombRange" parent="RangeAbilStandard" abil="NodRevenantBomb">
+        <On Terms="Abil.RevenantBombUnit.TargetOn" Send="Create"/>
+        <On Terms="Abil.RevenantBombUnit.TargetOff" Send="Destroy"/>
+        <On Terms="Abil.RevenantBombUnit.ButtonHoverOn" Send="Create"/>
+        <On Terms="Abil.RevenantBombUnit.ButtonHoverOff" Send="Destroy"/>
+    </CActorRange>
+    <CActorSound id="NodVertigoBombImpactAdd" parent="SoundOneShotScion" Effect="NodRevenantBombImpact">
+        <Sound value="JupiterAttackImpactAdd"/>
+        <FogVisibility value="Visible"/>
+    </CActorSound>
+    <CActorAction id="NodVertigoAttack" parent="GenericAttack" effectImpact="NodRevenantBombImpact" effectLaunch="NodRevenantBombLaunchMissile">
+        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+        <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
+        <ImpactSiteOps Ops="SOpTargetPointStationary"/>
+        <ShieldFlashType value="None"/>
+    </CActorAction>
+    <CActorSplat id="NodVertigoAttackSplat" parent="GuideVisualCircle" unitName="Bogus">
+        <On index="0" Terms="Abil.RevenantBomb.Cursor" Send="Create"/>
+        <On Terms="Abil.RevenantBombUnit.Cursor" Send="Create"/>
+        <Model value="JupiterAttackSplat"/>
+    </CActorSplat>
+    <CActorMissile id="NodVertigoAttackMissile" parent="GenericAttackMissile" unitName="NodRevenantBombLMWeapon">
+        <Model value="JupiterAttackMissile"/>
+    </CActorMissile>
+    <CSound id="NodVertigoAttackLaunch" parent="Combat">
+        <EditorCategories value="Race:Genetron"/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_03.wav" FacialGroup=""/>
+    </CSound>
+
+    <CButton id="NodRevenantBomb" parent="CButtonGenetron" Icon="Assets\Textures\btn-top-hornerhan-bombers.dds"/>
+    <CButton id="NodRevenantBombUnit" parent="CButtonGenetron" Icon="Assets\Textures\btn-top-hornerhan-bombers.dds"/>
+
+
+    <CValidatorCombine id="NodRevenantLaunchTargetDistances">
+        <CombineArray value="NodRevenantLaunchTargetFastCombine"/>
+        <CombineArray value="NodRevenantLaunchTargetSlow"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="NodRevenantLaunchTargetFastCombine">
+        <Type value="And"/>
+        <CombineArray value="NodRevenantLaunchTargetFast"/>
+        <CombineArray value="CasterIsMovingGTE8"/>
+    </CValidatorCombine>
+    <CValidatorLocationCompareRange id="NodRevenantLaunchTargetSlow">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <Compare value="LT"/>
+        <Range value="3.5"/>
+    </CValidatorLocationCompareRange>
+    <CValidatorLocationCompareRange id="NodRevenantLaunchTargetFast">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <Compare value="LT"/>
+        <Range value="8"/>
+    </CValidatorLocationCompareRange>
+    <CValidatorCombine id="NodVertigoHasBombingOrder">
+        <CombineArray value="CanCharge"/>
+        <CombineArray value="CasterIsBarrageAttacking"/>
+        <CombineArray value="NodVertigoUsingRevenantBomb"/>
+        <CombineArray value="NodVertigoUsingRevenantBombUnit"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareOrderCount id="NodVertigoUsingRevenantBomb">
+        <AbilLink value="NodRevenantBomb"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareOrderCount>
+    <CValidatorUnitCompareOrderCount id="NodVertigoUsingRevenantBombUnit">
+        <AbilLink value="NodRevenantBombUnit"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareOrderCount>
+    <CValidatorUnitCompareCooldown id="NodRevenantBombCooldownComplete">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LE"/>
+        <CooldownLink value="Abil/RevenantBomb"/>
+        <Ability value="NodRevenantBomb"/>
+        <Location value="Unit"/>
+        <ResultFailed value="Cooldown"/>
+        <ResultNoUnit value="Cooldown"/>
+    </CValidatorUnitCompareCooldown>
+
+
+    <CUnit id="NodRevenantBombLMWeapon" parent="MISSILE">
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+        <FlagArray index="Invulnerable" value="1"/>
+    </CUnit>
+
+
+
+
+<!--    <CActorUnit id="NodInterceptor" parent="GenericUnitStandard" unitName="Interceptor">-->
+<!--        <DeathArray index="Normal" ModelLink="InterceptorDeath" SoundLink="Interceptor_Explode"/>-->
+<!--        <UnitFlags index="ShowBlobShadow" value="0"/>-->
+<!--        <BarWidth value="36"/>-->
+<!--        <BarOffset value="25"/>-->
+<!--        <UnitIcon value="Assets\Textures\btn-unit-protoss-interceptor.dds"/>-->
+<!--        <HeroIcon value="Assets\Textures\btn-unit-protoss-interceptor.dds"/>-->
+<!--        <SoundArray index="Birth" value=""/>-->
+<!--        <SoundArray index="Movement" value="InterceptorWeaponBirth"/>-->
+<!--        <LifeArmorIcon value="Assets\Textures\btn-upgrade-protoss-airarmorlevel0.dds"/>-->
+<!--        <Aliases value="_UnitSmall"/>-->
+<!--        <On Terms="Upgrade.DarkProtoss.Add" Send="ModelSwap DarkInterceptor"/>-->
+<!--        <On Terms="UnitBirth; ValidateUnit NoDarkProtoss" Send="ModelSwap DarkInterceptor"/>-->
+<!--        <On Terms="UnitDeathCustomize; ValidateUnit NoDarkProtoss" Send="DeathCustomize DarkProtoss"/>-->
+<!--        <On Terms="UnitHeightUpdate.*.Land" Send="Create Interceptor_Land"/>-->
+<!--        <On Terms="Upgrade.DarkProtoss.Add" Send="DeathCustomsEnablePhysics 0"/>-->
+<!--        <On Terms="UnitBirth; ValidateUnit NoDarkProtoss" Send="DeathCustomsEnablePhysics 0"/>-->
+<!--        <On Terms="Behavior.ReleaseInterceptorsTimedLifeWarning.Off" Send="AnimPlay Work Work PlayForever"/>-->
+<!--        <On Terms="UnitBirth; ValidateUnit HasPurifierProtoss" Send="TextureSelectById PurifierHackDiffuse"/>-->
+<!--        <On Terms="Upgrade.PurifierProtoss.Add" Send="TextureSelectById PurifierHackDiffuse"/>-->
+<!--        <On Terms="Signal.*.PurifierHack" Send="TextureSelectById PurifierHackDiffuse"/>-->
+<!--        <On Terms="UnitDeathCustomize; ValidateUnit IsTerrazineShadow" Send="DeathCustomize Hallucination"/>-->
+<!--        <On Terms="UnitDeathCustomize; ValidateUnit HaveVoidShade" Send="DeathCustomize Shadow"/>-->
+<!--        <On Terms="UnitDeathCustomize; ValidateUnit HaveTerrazineShadow" Send="DeathCustomize Shadow"/>-->
+<!--        <DeathCustoms ModelLink="DarkInterceptorDeath" Name="DarkProtoss"/>-->
+<!--        <DeathCustoms ModelLink="InterceptorDeathRagdoll" Name="RagdollBasic" PhysicsMatchKeysOrdered="BasicAir,Basic">-->
+<!--            <BodySquibs Name="Basic" Model="ProtossTinyRobotSquibDeathRagdoll"/>-->
+<!--        </DeathCustoms>-->
+<!--        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">-->
+<!--            <BodySquibs Name="Fire"/>-->
+<!--        </DeathCustoms>-->
+<!--        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">-->
+<!--            <BodySquibs Name="Fire"/>-->
+<!--        </DeathCustoms>-->
+<!--        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">-->
+<!--            <BodySquibs Name="Acid"/>-->
+<!--        </DeathCustoms>-->
+<!--        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>-->
+<!--        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>-->
+<!--        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>-->
+<!--        <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathSmall" Name="Hallucination"/>-->
+<!--        <DeathCustoms ModelLink="DeathVoidShadowSmall" SoundLink="ShadowUnit_Small_DeathFX" VoiceLink="ShadowUnit_Small_DeathVox" Name="Shadow"/>-->
+<!--        <DeathActorModel value="UnitDeathModelWithDeathMotionFlier"/>-->
+<!--        <PhysicsMatchKeysOrdered value="BasicAir,Basic"/>-->
+<!--        <Macros value="PhysicsDeathsSwarmAir"/>-->
+<!--        <Macros value="PhysicsDeathsVoidAir"/>-->
+<!--        <ModelFlags index="OutlineEmitter" value="1"/>-->
+<!--        <StatusBarFlags index="Shields" value="0"/>-->
+<!--        <StatusBarFlags index="Life" value="0"/>-->
+<!--        <StatusBarFlags index="Energy" value="0"/>-->
+<!--        <StatusBarFlags index="Cargo" value="0"/>-->
+<!--        <StatusBarFlags index="Progress" value="0"/>-->
+<!--        <StatusBarFlags index="Magazine" value="0"/>-->
+<!--        <StatusBarFlags index="Workers" value="0"/>-->
+<!--        <StatusBarFlags index="Custom" value="0"/>-->
+<!--    </CActorUnit>-->
+<!--    <CModel id="NodInterceptor" parent="InterceptorBase">-->
+<!--        <Model value="Assets\Units\Protoss\InterceptorEX2\InterceptorEX2.m3"/>-->
+<!--        <TextureDeclares Prefix="interceptor_">-->
+<!--            <Adaptions TriggerOnSubstring="_Diffuse" Slot="main"/>-->
+<!--        </TextureDeclares>-->
+<!--    </CModel>-->
+<!--    <CUnit id="NodInterceptor">-->
+<!--        <Collide index="FlyingEscorts" value="1"/>-->
+<!--        <Mover value="Fly"/>-->
+<!--        <Speed value="7.5"/>-->
+<!--        <Acceleration value="1000"/>-->
+<!--        <Height value="3.25"/>-->
+<!--        <AttackTargetPriority value="20"/>-->
+<!--        <DamageDealtXP value="1"/>-->
+<!--        <DamageTakenXP value="1"/>-->
+<!--        <KillXP value="5"/>-->
+<!--        <Radius value="0.25"/>-->
+<!--        <SeparationRadius value="0.25"/>-->
+<!--        <SubgroupPriority value="19"/>-->
+<!--        <MinimapRadius value="0.25"/>-->
+<!--        <EditorCategories value="ObjectType:Unit,ObjectFamily:Melee"/>-->
+<!--        <Mass value="0.2"/>-->
+<!--        <FlagArray index="UseLineOfSight" value="1"/>-->
+<!--        <FlagArray index="AILifetime" value="1"/>-->
+<!--        <FlagArray index="ArmySelect" value="1"/>-->
+<!--        <AIEvalFactor value="0"/>-->
+<!--        <PlaneArray index="Air" value="1"/>-->
+<!--        <VisionHeight value="4"/>-->
+<!--        <Sight value="7"/>-->
+<!--        <AbilArray Link="stop"/>-->
+<!--        <AbilArray Link="attack"/>-->
+<!--        <AbilArray Link="move"/>-->
+<!--        <CardLayouts>-->
+<!--            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>-->
+<!--            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>-->
+<!--            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>-->
+<!--            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>-->
+<!--            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>-->
+<!--        </CardLayouts>-->
+<!--        <StationaryTurningRate value="999.8437"/>-->
+<!--        <TurningRate value="999.8437"/>-->
+<!--        <WeaponArray Link="InterceptorBeam"/>-->
+<!--    </CUnit>-->
+
+<!--    <CWeaponStrafe id="InterceptorBeam">-->
+<!--        <EditorCategories value="Race:Protoss"/>-->
+<!--        <DisplayAttackCount value="2"/>-->
+<!--        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+<!--        <Range value="2"/>-->
+<!--        <Arc value="19.6875"/>-->
+<!--        <Period value="3"/>-->
+<!--        <Icon value="Assets\Textures\btn-upgrade-protoss-airweaponslevel0.dds"/>-->
+<!--        <DisplayEffect value="InterceptorBeamDamage"/>-->
+<!--        <Effect value="InterceptorBeamPersistent"/>-->
+<!--        <TeleportResetRange value="0"/>-->
+<!--    </CWeaponStrafe>-->
+<!--    <CEffectCreatePersistent id="InterceptorBeamPersistent">-->
+<!--        <EditorCategories value="Race:Protoss"/>-->
+<!--        <InitialEffect value="InterceptorBeamDamage"/>-->
+<!--        <PeriodCount value="1"/>-->
+<!--        <WhichLocation Value="TargetUnit"/>-->
+<!--        <TimeScaleSource Value="Caster"/>-->
+<!--        <PeriodicPeriodArray value="0"/>-->
+<!--        <PeriodicPeriodArray value="0"/>-->
+<!--        <PeriodicEffectArray value="InterceptorBeamDamage"/>-->
+<!--    </CEffectCreatePersistent>-->
+<!--    <CActorAction id="InterceptorAttack" parent="GenericAttackBase">-->
+<!--        <BeamScope value="Caster"/>-->
+<!--        <LaunchAttachQuery Methods="AMFilterWeapon"/>-->
+<!--        <LaunchAssets Sound="Interceptor_AttackLaunch"/>-->
+<!--        <ImpactModel value="DarkInterceptorTestImpact"/>-->
+<!--        <ImpactMap index="None" Sound="Interceptor_AttackImpact"/>-->
+<!--        <ActionFlags index="ImpactMonitorsTeleports" value="1"/>-->
+<!--        <On Terms="Effect.InterceptorBeamPersistent.Start; At Caster" Send="Create"/>-->
+<!--        <On Terms="Effect.InterceptorBeamDamage.Start; At Caster; FromEffectTreeDescendant" Send="ActionDamage"/>-->
+<!--        <On Terms="Signal.*.DarkProtossTest" Send="RefSetFromMsg ::actor.sender ::Sender"/>-->
+<!--        <On Terms="Signal.*.DarkProtossTest; ValidateUnit NoDarkProtoss" Target="::actor.sender" Send="Signal DarkProtossSwap"/>-->
+<!--        <On Terms="Effect.InterceptorBeamDamage.Stop; At Caster; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>-->
+<!--        <DamagePhysics Name="InterceptorBeamImpact" MatchKeys="Basic" Physics="InterceptorAttackDeathForce"/>-->
+<!--        <DamagePhysics Name="InterceptorBeamImpact" MatchKeys="BasicAir" Physics="InterceptorAttackAirDeathForce"/>-->
+<!--    </CActorAction>-->
+
+    
 </Catalog>

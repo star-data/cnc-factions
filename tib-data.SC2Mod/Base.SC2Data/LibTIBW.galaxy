@@ -934,6 +934,36 @@ void libTIBW_gt_Nuke_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Check Units Placement
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_CheckUnitsPlacement_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(EventUnitCreatedUnit()) == "NodMine"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((PointPathingPassable(UnitGetPosition(EventUnitCreatedUnit())) == false)) {
+        UnitKill(EventUnitCreatedUnit());
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_CheckUnitsPlacement_Init () {
+    libTIBW_gt_CheckUnitsPlacement = TriggerCreate("libTIBW_gt_CheckUnitsPlacement_Func");
+    TriggerAddEventUnitCreated(libTIBW_gt_CheckUnitsPlacement, null, "NodMineDrop", null);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Signature Generator
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_SignatureGenerator_Func (bool testConds, bool runActions) {
@@ -978,7 +1008,7 @@ bool libTIBW_gt_ReckonerSiege_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    UnitAbilityChangeLink(EventUnit(), "NodBunkerTransport", "NodBunkerTransportExtended");
+    UnitAbilityChangeLink(EventUnit(), "NodReckonerTransport", "NodReckonerSiegedTransport");
     return true;
 }
 
@@ -2586,6 +2616,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_UnitComplete_Init();
     libTIBW_gt_UnitAttacked_Init();
     libTIBW_gt_Nuke_Init();
+    libTIBW_gt_CheckUnitsPlacement_Init();
     libTIBW_gt_SignatureGenerator_Init();
     libTIBW_gt_ReckonerSiege_Init();
     libTIBW_gt_VestCreated_Init();

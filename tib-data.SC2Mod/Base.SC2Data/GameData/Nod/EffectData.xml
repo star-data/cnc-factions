@@ -555,7 +555,7 @@
         <Kind value="Spell"/>
         <Death value="Blast"/>
         <ExcludeArray Value="Outer"/>
-        <Amount value="9999"/>
+        <Amount value="2500"/>
         <AreaArray Radius="1.5" Fraction="0.2"/>
         <SearchFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Invulnerable"/>
 <!--        <AttributeBonus index="Structure" value="190"/>-->
@@ -813,9 +813,9 @@
         <EditorCategories value="Race:Nod"/>
         <WhichLocation Value="TargetUnitOrPoint"/>
         <CreateFlags index="OffsetByRadius" value="0"/>
-        <CreateFlags index="Placement" value="0"/>
-        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
-        <CreateFlags index="PlacementIgnoreCliffTest" value="1"/>
+        <CreateFlags index="Placement" value="1"/>
+<!--        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>-->
+<!--        <CreateFlags index="PlacementIgnoreCliffTest" value="1"/>-->
         <CreateFlags index="UseFood" value="0"/>
         <CreateFlags index="NormalizeSpawnOffset" value="0"/>
         <SpawnOwner Value="Neutral"/>
@@ -909,14 +909,29 @@
     <CEffectApplyBehavior id="MarkOfKane">
         <EditorCategories value="Race:Nod"/>
     </CEffectApplyBehavior>
-    <CEffectDamage id="NodNuclearStrikeDamage">
-        <EditorCategories value="Race:Nod"/>
-        <Amount value="500"/>
-        <AreaArray Radius="8" Fraction="1"/>
-        <AreaArray Radius="10" Fraction="0.5"/>
-        <SearchFilters value="-;Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AttributeBonus index="Structure" value="300"/>
+
+<!--    <CEffectUseCalldown id="NodNukeStrike">-->
+<!--        <EditorCategories value="Race:Terran"/>-->
+<!--        <CalldownCount value="1"/>-->
+<!--        <CalldownEffect value="NodNukePersistent"/>-->
+<!--        <WhichLocation Value="TargetPoint"/>-->
+<!--    </CEffectUseCalldown>-->
+    <CEffectDamage id="NodNukeSuicide">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactLocation Value="SourceUnit"/>
+        <Flags index="Kill" value="1"/>
     </CEffectDamage>
+    <CEffectCreatePersistent id="NodNukePersistent">
+        <EditorCategories value="Race:Terran"/>
+        <InitialDelay value="8.75"/>
+        <ExpireEffect value="NodNuclearStrikeDetonate"/>
+<!--        <FinalEffect value="NodNukeSuicide"/>-->
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="50"/>
+        <PeriodicPeriodArray value="0.2"/>
+        <AINotifyEffect value="NodNukeDamage"/>
+        <Alert value="CalldownLaunchObserver"/>
+    </CEffectCreatePersistent>
     <CEffectCreatePersistent id="NodNuclearStrikeDetonate">
         <EditorCategories value="Race:Nod"/>
         <InitialDelay value="1.25"/>
@@ -925,6 +940,14 @@
         <RevealRadius value="8"/>
         <RevealFlags index="Unfog" value="1"/>
     </CEffectCreatePersistent>
+    <CEffectDamage id="NodNuclearStrikeDamage">
+        <EditorCategories value="Race:Nod"/>
+        <Amount value="500"/>
+        <AreaArray Radius="8" Fraction="1"/>
+        <AreaArray Radius="10" Fraction="0.5"/>
+        <SearchFilters value="-;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AttributeBonus index="Structure" value="300"/>
+    </CEffectDamage>
     <CEffectDamage id="PulseCannonDamageNod" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
         <Visibility value="Visible"/>
@@ -1011,7 +1034,7 @@
         <WhichLocation Value="TargetPoint"/>
         <Effect value="CreateTib"/>
         <Count value="5"/>
-        <Radius value="3"/>
+        <Radius value="1.5"/>
     </CEffectRandomPointInCircle>
     <CEffectEnumArea id="SpecterTibSearch">
         <EditorCategories value="Race:Nod"/>
@@ -1096,7 +1119,7 @@
 
     <CEffectDamage id="NodVenomWeaponUDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
-        <AttributeBonus index="Armored" value="4"/>
+        <AttributeBonus index="Light" value="4"/>
         <Kind value="Ranged"/>
         <Amount value="6"/>
         <ExcludeArray Value="Outer"/>
@@ -2426,14 +2449,6 @@
         <RechargeVitalRate value="8"/>
         <EditorCategories value="Race:Nod"/>
     </CEffectCreateHealer>
-    <CEffectRandomPointInCircle id="randomFlameMine">
-        <EditorCategories value="Race:Nod"/>
-        <OwningPlayer Value="Caster"/>
-        <WhichLocation Value="TargetPoint"/>
-        <Effect value="NodCreateFlameMine"/>
-        <Count value="7"/>
-        <Radius value="2"/>
-    </CEffectRandomPointInCircle>
     <CEffectCreateUnit id="NodShadowFlyCreatePrecursor">
         <WhichLocation Value="TargetPoint"/>
         <CreateFlags index="Birth" value="0"/>
@@ -3739,81 +3754,44 @@
         <SpawnUnit value="NodSignatureDecoy"/>
         <SpawnOffset value="-3,-3"/>
     </CEffectCreateUnit>
-
-    <CEffectLaunchMissile id="NodDisruptionPodLaunch">
-        <EditorCategories value="Race:Nod"/>
-        <ImpactEffect value="NodDisruptionPodImpact"/>
-        <AmmoUnit value="NodDisruptionPodMissile"/>
-    </CEffectLaunchMissile>
-
-        <CEffectSet id="NodDisruptionPodImpact">
-        <EditorCategories value="Race:Nod"/>
-        <EffectArray value="NodDisruptionPodSpawn"/>
-        <EffectArray value="NodDisruptionPodApplyAttached"/>
-        <TargetLocationType value="UnitOrPoint"/>
-    </CEffectSet>
-
-    <CEffectCreateUnit id="NodDisruptionPodSpawn">
-        <EditorCategories value="Race:Nod"/>
-        <WhichLocation Value="TargetPoint"/>
-        <SpawnUnit value="NodDisruptionPod"/>
-        <ValidatorArray value="TargetIsPoint"/>
-    </CEffectCreateUnit>
-
-    <CEffectApplyBehavior id="NodDisruptionPodApplyAttached">
-        <EditorCategories value="Race:Nod"/>
-        <Behavior value="NodDisruptionPodAttached"/>
-        <ValidatorArray value="TargetIsUnit"/>
+    <CEffectApplyBehavior id="CloakingField">
+        <ValidatorArray index="0" value="NotMothership_NotNodDisruptionTower"/>
     </CEffectApplyBehavior>
-
-    <CEffectEnumArea id="NodDisruptionPodCloakSearch">
-        <EditorCategories value="Race:Nod"/>
-        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="5" Effect="NodDisruptionPodApplyCloak"/>
+    <CEffectEnumArea id="NodDisruptionTowerCloakingFieldSearch">
+        <EditorCategories value="Race:Protoss"/>
+        <SearchFilters value="-;Self,Neutral,Enemy,Missile,Dead,Hidden"/>
+        <ImpactLocation Value="CasterUnit"/>
+        <AreaArray Radius="5" Effect="CloakingField"/>
+        <SearchFlags index="ExtendByUnitRadius" value="1"/>
     </CEffectEnumArea>
 
-    <CEffectApplyBehavior id="NodDisruptionPodApplyCloak">
-        <EditorCategories value="Race:Nod"/>
-        <Behavior value="NodDisruptionPodCloakEffect"/>
-    </CEffectApplyBehavior>
-    <!-- Mine Drop Effects -->
-    <CEffectSet id="NodMineDropSet">
-        <EditorCategories value="Race:Nod"/>
-        <EffectArray value="NodMineDropPersistent"/>
-    </CEffectSet>
-    <CEffectCreatePersistent id="NodMineDropPersistent">
-        <EditorCategories value="Race:Nod"/>
-        <PeriodCount value="21"/>
-        <PeriodicEffectArray value="NodMineDropSpawn"/>
-        <PeriodicOffsetArray value="0,0"/>
-        <PeriodicPeriodArray value="0.05"/>
-        <OffsetVectorStartLocation Value="TargetPoint"/>
-        <OffsetVectorEndLocation Value="TargetPoint"/>
-    </CEffectCreatePersistent>
-    <CEffectCreateUnit id="NodMineDropSpawn">
-        <EditorCategories value="Race:Nod"/>
-        <SpawnUnit value="NodMine"/>
-        <SpawnCount value="1"/>
-        <SpawnRange value="4"/>
-    </CEffectCreateUnit>
 
-    <!-- Seed Tiberium Effects -->
-    <CEffectSet id="NodSeedTiberiumSet">
+    <!-- Mine Drop Effects -->
+
+    <CEffectCreatePersistent id="NodCreateMineCP">
         <EditorCategories value="Race:Nod"/>
-        <EffectArray value="NodSeedTiberiumPersistent"/>
-    </CEffectSet>
-    <CEffectCreatePersistent id="NodSeedTiberiumPersistent">
-        <EditorCategories value="Race:Nod"/>
-        <PeriodCount value="5"/>
-        <PeriodicEffectArray value="NodSeedTiberiumSpawn"/>
-        <PeriodicOffsetArray value="0,0"/>
-        <PeriodicPeriodArray value="0.1"/>
+        <InitialEffect value="NodCreateDropPod"/>
+        <ExpireEffect value="NodCreateMines"/>
+        <PeriodCount value="1"/>
+        <PeriodicPeriodArray value="1"/>
     </CEffectCreatePersistent>
-    <CEffectCreateUnit id="NodSeedTiberiumSpawn">
+    <CEffectRandomPointInCircle id="NodCreateMines">
         <EditorCategories value="Race:Nod"/>
-        <SpawnUnit value="TibMineralField"/>
-        <SpawnCount value="1"/>
-        <SpawnRange value="1.5"/>
+        <OwningPlayer Value="Caster"/>
+        <WhichLocation Value="TargetPoint"/>
+        <Effect value="NodCreateMine"/>
+        <Count value="7"/>
+        <Radius value="1.25"/>
+    </CEffectRandomPointInCircle>
+    <CEffectCreateUnit id="NodCreateMine">
+        <EditorCategories value="Race:Nod"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <CreateFlags index="OffsetByRadius" value="0"/>
+        <CreateFlags index="Placement" value="0"/>
+        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
+        <CreateFlags index="PlacementIgnoreCliffTest" value="1"/>
+        <CreateFlags index="NormalizeSpawnOffset" value="0"/>
+        <SpawnUnit value="NodMine"/>
     </CEffectCreateUnit>
 
     <!-- Tiberium Vapour Bomb Effects -->
@@ -3882,16 +3860,6 @@
         <Behavior value="NodRedemptionAwakenedTimedLife"/>
     </CEffectApplyBehavior>
 
-    <CEffectEnumArea id="NodMineExplodeSearch">
-        <EditorCategories value="Race:Nod"/>
-        <SearchFilters value="-;Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="0.5" Effect="NodMineExplodeDamage"/>
-    </CEffectEnumArea>
-    <CEffectDamage id="NodMineExplodeDamage">
-        <EditorCategories value="Race:Nod"/>
-        <Amount value="50"/>
-        <Death value="Blast"/>
-    </CEffectDamage>
 
 
 

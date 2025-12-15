@@ -1652,6 +1652,17 @@
     <CActorSound id="DevoutAttackSounds" parent="SoundOneShot">
         <On Terms="Effect.DevoutWCP.Start" Send="Create"/>
     </CActorSound>
+    <CActorModel id="NodNukeIndicator" parent="ModelAnimationStyleOneShot">
+        <Model value="GhostNukeIndicator"/>
+        <Filter index="Enemy" value="0"/>
+        <On Terms="Effect.NodNukePersistent.Start" Send="Create"/>
+        <On Terms="Effect.NodNukePersistent.Stop" Send="Destroy"/>
+<!--        <On Terms="ActorCreation; ValidatePlayer HaveUnfriendlyNukeIndicator" Send="SetFilter Enemy"/>-->
+        <HostSiteOps Ops="SOpShadow"/>
+        <FogVisibility value="Visible"/>
+        <Flags index="SuppressSaveLoad" value="0"/>
+    </CActorModel>
+    <CActorAction id="NodNukeShieldHitter" parent="AoESplashShieldHitter" effectHit="NodNuclearStrikeDamage"/>
     <CActorModel id="NodNukeCollateralFire">
         <On Terms="Effect.NodNuclearStrikeDamage.Start; At Target" Send="Create"/>
         <Model value="GhostNukeCollateralFire"/>
@@ -2344,7 +2355,7 @@
         <On Terms="Behavior.NodShadowJump.Launch" Send="Create"/>
         <Sound value="Reaper_JumpLaunch"/>
     </CActorSound>
-    <CActorUnit id="NodConfessor" icon="Confessor" parent="NodUnit">
+    <CActorUnit id="NodConfessor" icon="Confessor" parent="NodInfantry">
         <BarOffset value="50"/>
         <BarWidth value="42"/>
         <WalkAnimMoveSpeed value="0"/>
@@ -2571,6 +2582,9 @@
         <SoundArray index="What" value="Vertigo_What"/>
         <SoundArray index="Yes" value="Vertigo_Yes"/>
         <SoundArray index="Attack" value="Vertigo_Attack"/>
+        <On Terms="ActorCreation; !ValidatePlayer HasNodDisruptionPods" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <On Terms="Upgrade.NodDisruptionPods.Add" Send="AnimClear CoverA"/>
+        <On Terms="Upgrade.NodDisruptionPods.Remove" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
     </CActorUnit>
     <CActorUnit id="NodArmageddon" icon="Armageddon" parent="NodAir">
         <GroupSoundArray index="Ready" value="Vertigo_Ready"/>
@@ -2683,6 +2697,10 @@
     <CActorAction id="NodShadowC4" parent="GenericAttack" effectLaunch="NodShadowC4Damage">
         <!--        effectImpact="NodC4Damage"-->
         <ImpactMap index="None" Sound="NodHallucinogenicGrenadeImpact"/>
+    </CActorAction>
+    <CActorAction id="NodMineExplosion" parent="GenericAttack" effectLaunch="NodMineExplodeDamage">
+        <!--            <LaunchAssets Sound="Baneling_AttackLaunch"/>-->
+        <ImpactMap index="None" Model="NodFanaticExplosionImpact" Sound="SiegeTank_Explode"/>
     </CActorAction>
     <CActorAction id="NodFanaticExplosion" parent="GenericAttack" effectLaunch="NodFanaticExplosionU">
         <!--            <LaunchAssets Sound="Baneling_AttackLaunch"/>-->
@@ -3860,20 +3878,6 @@
     <CActorUnit id="NodDisruptionTowerVest" parent="CnCVest" unitName="NodDisruptionTowerVest"/>
     <CActorUnit id="NodObeliskVest" parent="CnCVest" unitName="NodObeliskVest"/>
 
-    <CActorUnit id="NodDisruptionPod" parent="GenericUnitStandard" unitName="NodDisruptionPod">
-        <Model value="Nod_ShadowSquad_Beacon"/>
-        <BuildModel value="Nod_ShadowSquad_Beacon"/>
-        <!-- <DeathArray index="Normal" Model="Nod_ShadowSquad_Beacon"/> -->
-        <PlacementModel value="Nod_ShadowSquad_Beacon"/>
-        <PortraitModel value="Nod_ShadowSquad_Beacon"/>
-        <Scale value="0.75"/>
-        <UnitIcon value="Assets\Textures\btn-ability-nod-cloakingfield.dds"/>
-        <HeroIcon value="Assets\Textures\btn-ability-nod-cloakingfield.dds"/>
-    </CActorUnit>
-    <CActorMissile id="NodDisruptionPodMissile" parent="GenericAttackMissile" unitName="NodDisruptionPodMissile">
-        <Model value="Nod_ShadowSquad_Beacon"/>
-        <Scale value="0.5"/>
-    </CActorMissile>
 
 
     <CActorEventMacro id="CnCUnpoweredAnim">
@@ -3933,6 +3937,31 @@
 
 
 
+    <CActorUnit id="NodMine" parent="NodUnit" unitName="NodMine" icon="mine">
+        <Aliases value="_UnitSmall"/>
+        <Model value="NodMine"/>
+        <BuildModel value="NodMine"/>
+        <DeathArray index="Normal" ModelLink="SpiderMineExplosion" SoundLink="Terran_ExplosionSmall"/>
+        <BarOffset value="10"/>
+        <GroupSoundArray index="Birth" value="SpiderMineBirth"/>
+        <GroupSoundArray index="Ready" value="SpiderMineReady"/>
+        <GroupSoundArray index="Help" value="SpiderMineHelp"/>
+        <GroupSoundArray index="What" value="SpiderMineWhat"/>
+        <GroupSoundArray index="Yes" value="SpiderMineYes"/>
+        <GroupSoundArray index="Attack" value="SpiderMineYes"/>
+        <GroupSoundArray index="Pissed" value="SpiderMinePissed"/>
+        <NameOffset value="10"/>
+        <SoundArray index="Birth" value="SpiderMineBirth"/>
+        <SoundArray index="Ready" value="SpiderMineReady"/>
+        <SoundArray index="Help" value="SpiderMineHelp"/>
+        <SoundArray index="What" value="SpiderMineWhat"/>
+        <SoundArray index="Yes" value="SpiderMineYes"/>
+        <SoundArray index="Attack" value="SpiderMineYes"/>
+        <SoundArray index="Pissed" value="SpiderMinePissed"/>
+        <SoundArray index="Movement" value="SpiderMineMovement"/>
+        <SoundArray index="Turning" value="SpiderMineTurning"/>
+        <SoundArray index="Board" value="SpiderMineBoard"/>
+    </CActorUnit>
     <!--cabal?-->
     <CActorAction id="NodVenomWeaponUAttackleader" parent="GenericAttack" effectAttack="NodVenomWeaponUDamageleader">
         <LaunchAssets Sound="Venomparticlebeam_AttackLaunch"/>
