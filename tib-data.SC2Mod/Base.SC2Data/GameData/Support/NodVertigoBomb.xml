@@ -1,0 +1,432 @@
+<Catalog>
+
+    <CAbilEffectTarget id="NodRevenantBomb">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <Flags index="RequireTargetVision" value="0"/>
+        <Cost>
+            <Charge>
+                <CountMax value="2"/>
+                <CountStart value="2"/>
+                <CountUse value="1"/>
+                <Location value="Unit"/>
+                <Link value="Abil/NodRevenantBomb"/>
+            </Charge>
+            <Cooldown  Link="Abil/NodRevenantBomb" Location="Unit" TimeUse="0.2"/>
+        </Cost>
+        <Range value="8"/>
+        <Arc value="360"/>
+        <CursorEffect value="NodRevenantBombDamage"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBomb"/>
+        <Effect index="0" value="NodRevenantBombLaunchMissile"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="NodRevenantBombUnit" parent="NodRevenantBomb">
+        <Effect index="0" value="NodRevenantBombSet"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <TargetFilters value="Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <AutoCastRange value="8"/>
+        <AutoCastFilters value="Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable,Benign"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBombUnit"/>
+        <AutoCastValidatorArray value="NodVertigoBombSmartAutocast"/>
+        <AutoCastValidatorArray value="NotLarva"/>
+    </CAbilEffectTarget>
+    <CWeaponLegacy id="NodRevenantBomb">
+        <Options index="NeverMiss" value="0"/>
+        <EditorCategories value="Race:Genetron"/>
+        <Icon value="Assets\icons\Nod\btn-nod-ability-vertigostrike.dds"/>
+        <Range value="8"/>
+        <Period value="0.25"/>
+        <Effect value="NodRevenantBombWeaponSet"/>
+        <DisplayEffect value="NodRevenantBombDamage"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AcquireFilters value="-;Player,Ally,Neutral,Enemy"/>
+        <AllowedMovement value="Moving"/>
+        <Arc value="29.9926"/>
+
+        <LegacyOptions index="UseRangeToCenter" value="1"/>
+        <LegacyOptions index="CanRetargetWhileChanneling" value="1"/>
+        <LegacyOptions index="NoDeceleration" value="1"/>
+        <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
+        <MinScanRange value="0"/>
+    </CWeaponLegacy>
+
+
+
+    <CWeapon id="NodVertigoWeaponAA">
+        <Icon value="Assets\icons\Nod\btn-nod-upgrade-lightweapons.dds"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <TeleportResetRange value="0"/>
+        <Effect value="NodVertigoWeaponAASet"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <DisplayEffect value="NodVertigoWeaponAADamage"/>
+        <DisplayAttackCount value="1"/>
+        <TargetFilters value="Air,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="6"/>
+        <Arc value="360"/>
+        <Period value="1.2"/>
+        <AllowedMovement value="Moving"/>
+    </CWeapon>
+
+    <CEffectSet id="NodVertigoWeaponAASet">
+        <EffectArray value="StealthExposure"/>
+        <EffectArray value="NodVertigoWeaponAADamage"/>
+    </CEffectSet>
+
+
+
+
+
+
+    <CEffectSet id="NodRevenantBombImpactSet">
+        <EffectArray value="NodRevenantBombImpact"/>
+        <EffectArray value="NodVertigoBombRemoveTracking"/>
+    </CEffectSet>
+
+    <CEffectCreatePersistent id="NodRevenantBombImpact">
+        <ExpireDelay value="0.0625"/>
+        <ExpireEffect value="NodRevenantBombImpactNotification"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="NodRevenantBombDamage"/>
+        <AINotifyEffect value="NodRevenantBombDamage"/>
+        <WhichLocation Value="TargetPoint"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="NodRevenantBombDamage" >
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+        <AINotifyFlags index="MinorDanger" value="1"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <Amount value="100"/>
+        <AttributeBonus index="Armored" value="100"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="0.75" Fraction="1"/>
+        <AreaArray Radius="1.5" Fraction="0.5"/>
+        <ExcludeArray index="0" removed="1"/>
+        <SearchFilters value="Ground;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="NodRevenantBombLaunchMissile" >
+        <ImpactEffect value="NodRevenantBombImpactSet"/>
+        <AmmoUnit value="NodRevenantBombLMWeapon"/>
+        <AmmoOwner Value="Caster"/>
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+        <AINotifyFlags index="MinorDanger" value="1"/>
+        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
+        <ImpactLocation Value="TargetPoint"/>
+    </CEffectLaunchMissile>
+
+    <CEffectLaunchMissile id="NodRevenantBombLaunchMissileTargetUnit">
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+        <AINotifyFlags index="MinorDanger" value="1"/>
+        <ImpactEffect value="NodRevenantBombImpactSet"/>
+        <AmmoOwner Value="Caster"/>
+        <AmmoUnit value="NodRevenantBombLMWeapon"/>
+<!--        <ImpactLocation Value="TargetUnit"/>-->
+        <ImpactLocation Value="TargetUnit"/>
+    </CEffectLaunchMissile>
+    <CEffectEnumArea id="NodRevenantBombImpactNotification">
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+        <AINotifyFlags index="MinorDanger" value="1"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <AreaArray Radius="1.5" Effect="NotificationResponseDummy"/>
+        <SearchFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    </CEffectEnumArea>
+    <CModel id="NodRevenantBombImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_NapalmBomb_Coop_Explosion\MiraHorner_NapalmBomb_Coop_Explosion.m3"/>
+        <Flags index="Wait" value="1"/>
+        <Priority value="32"/>
+        <ScaleMax value="1.200000,1.200000,0.700000"/>
+        <ScaleMin value="1.200000,1.200000,0.700000"/>
+    </CModel>
+    <CEffectModifyUnit id="NodCasterLookAtTarget">
+        <ImpactUnit Value="Caster"/>
+        <ModifyFlags index="InterpolateFacing" value="1"/>
+        <FacingLocation Value="TargetUnitOrPoint"/>
+        <FacingType value="LookAt"/>
+    </CEffectModifyUnit>
+
+    <CSound id="NodVertigoAttackLaunch" parent="Combat">
+        <EditorCategories value="Race:Genetron"/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombWhiz_03.wav" FacialGroup=""/>
+    </CSound>
+    <CSound id="NodRevenantBombImpact" parent="Combat">
+        <EditorCategories value="Race:Genetron"/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombBlast_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombBlast_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AC_StrikeFighter_BombBlast_03.wav" FacialGroup=""/>
+        <Pitch value="-2.000000,-2.000000"/>
+    </CSound>
+
+    <CActorModel id="NodRevenantBombImpact" parent="ModelAnimationStyleOneShot">
+        <On Terms="Effect.NodRevenantBombImpact.Start" Send="Create"/>
+    </CActorModel>
+    <CActorAction id="NodVertigoAttackTargetUnit" parent="GenericAttack" effectImpact="NodRevenantBombImpactSet" effectLaunch="NodRevenantBombLaunchMissileTargetUnit">
+        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+        <LaunchAssets Model="NodVertigoAttackLaunch" Sound="NodVertigoAttackLaunch"/>
+        <Beam value="NodVertigoAttackBeam"/>
+        <Missile value="NodVertigoAttackMissile"/>
+        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeStandard SOpTargetUnit"/>
+        <ImpactMap index="None" Model="JupiterAttackImpact" Sound="JupiterAttackImpact" ModelReaction="JupiterAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="JupiterAttackImpactShield" ModelReaction="JupiterAttackImpactReactionShield"/>
+        <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
+        <DamageMap index="None" Model="JupiterAttackDamage" Sound="JupiterAttackDamage" ModelReaction="JupiterAttackDamageReaction"/>
+        <DamageMap index="Shield" Sound="JupiterAttackDamageShield" ModelReaction="JupiterAttackDamageReactionShield"/>
+        <ShieldFlashType value="None"/>
+    </CActorAction>
+    <CActorRange id="NodRevenantBombRange" parent="RangeAbilStandard" abil="NodRevenantBomb">
+        <On Terms="Abil.NodRevenantBombUnit.TargetOn" Send="Create"/>
+        <On Terms="Abil.NodRevenantBombUnit.TargetOff" Send="Destroy"/>
+        <On Terms="Abil.NodRevenantBombUnit.ButtonHoverOn" Send="Create"/>
+        <On Terms="Abil.NodRevenantBombUnit.ButtonHoverOff" Send="Destroy"/>
+    </CActorRange>
+    <CActorSound id="NodVertigoBombImpactAdd">
+        <Sound value="JupiterAttackImpactAdd"/>
+        <FogVisibility value="Visible"/>
+        <On Terms="Effect.NodRevenantBombImpactSet.Start" Send="Create"/>
+    </CActorSound>
+    <CActorAction id="NodVertigoAttack" parent="GenericAttack" effectImpact="NodRevenantBombImpactSet" effectLaunch="NodRevenantBombLaunchMissile">
+        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+        <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
+        <ImpactSiteOps Ops="SOpTargetPointStationary"/>
+        <ShieldFlashType value="None"/>
+    </CActorAction>
+    <CActorSplat id="NodVertigoAttackSplat" parent="GuideVisualCircle" unitName="Bogus">
+        <On index="0" Terms="Abil.RevenantBomb.Cursor" Send="Create"/>
+        <On Terms="Abil.RevenantBombUnit.Cursor" Send="Create"/>
+        <Model value="JupiterAttackSplat"/>
+    </CActorSplat>
+    <CActorMissile id="NodVertigoAttackMissile" parent="GenericAttackMissile" unitName="NodRevenantBombLMWeapon">
+        <Model value="JupiterAttackMissile"/>
+    </CActorMissile>
+
+
+    <CUnit id="NodRevenantBombLMWeapon" parent="MISSILE">
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+        <FlagArray index="Invulnerable" value="1"/>
+    </CUnit>
+    <CMoverMissile id="NodRevenantBombLMWeapon">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="8"/>
+            <Speed value="0"/>
+            <MinSpeed value="1"/>
+            <MaxSpeed value="10"/>
+            <ActorTracking value="Actual"/>
+            <RotationLaunchActorType value="LaunchToTarget"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+
+    <CValidatorUnitCompareCooldown id="NodRevenantBombCooldownComplete">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LE"/>
+        <CooldownLink value="Abil/NodRevenantBomb"/>
+        <Ability value="NodRevenantBomb"/>
+        <Location value="Unit"/>
+        <ResultFailed value="Cooldown"/>
+        <ResultNoUnit value="Cooldown"/>
+    </CValidatorUnitCompareCooldown>
+    <CValidatorUnitCompareChargeUsed id="NodRevenantBombCharged">
+        <Compare value="LE"/>
+        <Value value="1"/>
+        <ChargeLink value="Abil/NodRevenantBomb"/>
+        <Location value="Unit"/>
+        <Ability value="NodRevenantBomb"/>
+<!--        <ResultFailed value="Cooldown"/>-->
+<!--        <ResultNoUnit value="Cooldown"/>-->
+        <ResultFailed value="Error,Error/NodRevenantBombCharged"/>
+    </CValidatorUnitCompareChargeUsed>
+
+
+
+
+
+    <CEffectModifyUnit id="NodRevenantBombLaunchCooldown">
+        <ImpactUnit Value="Caster"/>
+        <Cost Abil="NodRevenantBomb,Execute" CooldownOperation="Set" CooldownTimeUse="0.2"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="NodRevenantBombChargeUse">
+        <ImpactUnit Value="Caster"/>
+        <Cost Abil="NodRevenantBomb,Execute" ChargeCountUse="1"/>
+    </CEffectModifyUnit>
+
+    <CEffectSet id="NodRevenantBombWeaponSet">
+        <EffectArray value="NodRevenantBombLaunchCooldown"/>
+        <EffectArray value="NodRevenantBombChargeUse"/>
+        <EffectArray value="NodRevenantBombSet"/>
+        <ValidatorArray value="NotLarva"/>
+        <ValidatorArray value="NodRevenantBombCooldownComplete"/>
+        <ValidatorArray value="NodRevenantBombCharged"/>
+    </CEffectSet>
+
+    <CEffectSet id="NodRevenantBombSet">
+        <EffectArray value="StealthExposureCaster"/>
+        <EffectArray value="NodVertigoBombApplyTracking"/>
+        <EffectArray value="NodRevenantBombLaunchMissileTargetUnit"/>
+    </CEffectSet>
+
+    <CBehaviorBuff id="NodVertigoBombTargeted">
+        <InfoFlags index="Hidden" value="1"/>
+        <Duration value="5"/>
+        <StackAlias value="NodVertigoBombTargeted"/>
+        <MaxStackCount value="20"/>
+    </CBehaviorBuff>
+
+    <CEffectApplyBehavior id="NodVertigoBombApplyTracking">
+        <EditorCategories value="Race:Genetron"/>
+        <WhichUnit Value="Target"/>
+        <Behavior value="NodVertigoBombTargeted"/>
+    </CEffectApplyBehavior>
+
+    <CEffectRemoveBehavior id="NodVertigoBombRemoveTracking">
+        <EditorCategories value="Race:Genetron"/>
+        <WhichUnit Value="Target"/>
+        <BehaviorLink value="NodVertigoBombTargeted"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+
+    <!-- Smart Autocast Validators -->
+    <CValidatorCombine id="NodVertigoBombSmartAutocast">
+        <CombineArray value="NodVertigoBombSmartTarget1"/>
+        <CombineArray value="NodVertigoBombSmartTarget2"/>
+        <CombineArray value="NodVertigoBombSmartTarget3"/>
+        <CombineArray value="NodVertigoBombSmartTarget4"/>
+        <CombineArray value="NodVertigoBombSmartTarget5"/>
+        <CombineArray value="NodVertigoBombSmartTarget6"/>
+        <CombineArray value="NodVertigoBombSmartTarget7"/>
+        <CombineArray value="NodVertigoBombSmartTarget8"/>
+        <CombineArray value="NodVertigoBombSmartTarget9"/>
+        <CombineArray value="NodVertigoBombSmartTarget10"/>
+        <CombineArray value="NodVertigoBombSmartTarget11"/>
+        <CombineArray value="NodVertigoBombSmartTarget12"/>
+        <CombineArray value="NodVertigoBombSmartTarget13"/>
+        <CombineArray value="NodVertigoBombSmartTarget14"/>
+        <CombineArray value="NodVertigoBombSmartTarget15"/>
+        <CombineArray value="NodVertigoBombSmartTarget16"/>
+        <CombineArray value="NodVertigoBombSmartTarget17"/>
+        <CombineArray value="NodVertigoBombSmartTarget18"/>
+        <CombineArray value="NodVertigoBombSmartTarget19"/>
+        <CombineArray value="NodVertigoBombSmartTarget20"/>
+        <CombineArray value="NodVertigoBombSmartTarget21"/>
+    </CValidatorCombine>
+
+    <!-- Smart Targets (Need N bombs) -->
+    <CValidatorCombine id="NodVertigoBombSmartTarget1"><Type value="And"/><CombineArray value="NodVertigoBombTargetedLT1"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget2"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT200"/><CombineArray value="NodVertigoBombTargetedLT2"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget3"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT400"/><CombineArray value="NodVertigoBombTargetedLT3"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget4"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT600"/><CombineArray value="NodVertigoBombTargetedLT4"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget5"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT800"/><CombineArray value="NodVertigoBombTargetedLT5"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget6"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT1000"/><CombineArray value="NodVertigoBombTargetedLT6"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget7"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT1200"/><CombineArray value="NodVertigoBombTargetedLT7"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget8"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT1400"/><CombineArray value="NodVertigoBombTargetedLT8"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget9"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT1600"/><CombineArray value="NodVertigoBombTargetedLT9"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget10"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT1800"/><CombineArray value="NodVertigoBombTargetedLT10"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget11"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT2000"/><CombineArray value="NodVertigoBombTargetedLT11"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget12"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT2200"/><CombineArray value="NodVertigoBombTargetedLT12"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget13"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT2400"/><CombineArray value="NodVertigoBombTargetedLT13"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget14"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT2600"/><CombineArray value="NodVertigoBombTargetedLT14"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget15"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT2800"/><CombineArray value="NodVertigoBombTargetedLT15"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget16"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT3000"/><CombineArray value="NodVertigoBombTargetedLT16"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget17"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT3200"/><CombineArray value="NodVertigoBombTargetedLT17"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget18"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT3400"/><CombineArray value="NodVertigoBombTargetedLT18"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget19"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT3600"/><CombineArray value="NodVertigoBombTargetedLT19"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget20"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT3800"/><CombineArray value="NodVertigoBombTargetedLT20"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombSmartTarget21"><Type value="And"/><CombineArray value="NodVertigoBombVitalGT4000"/><CombineArray value="NodVertigoBombTargetedLT21"/></CValidatorCombine>
+
+    <!-- Vital Checks (Life OR Shields > Threshold) -->
+    <CValidatorCombine id="NodVertigoBombVitalGT200"><CombineArray value="NodVertigoBombLifeGT200"/><CombineArray value="NodVertigoBombShieldsGT200"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT400"><CombineArray value="NodVertigoBombLifeGT400"/><CombineArray value="NodVertigoBombShieldsGT400"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT600"><CombineArray value="NodVertigoBombLifeGT600"/><CombineArray value="NodVertigoBombShieldsGT600"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT800"><CombineArray value="NodVertigoBombLifeGT800"/><CombineArray value="NodVertigoBombShieldsGT800"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT1000"><CombineArray value="NodVertigoBombLifeGT1000"/><CombineArray value="NodVertigoBombShieldsGT1000"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT1200"><CombineArray value="NodVertigoBombLifeGT1200"/><CombineArray value="NodVertigoBombShieldsGT1200"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT1400"><CombineArray value="NodVertigoBombLifeGT1400"/><CombineArray value="NodVertigoBombShieldsGT1400"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT1600"><CombineArray value="NodVertigoBombLifeGT1600"/><CombineArray value="NodVertigoBombShieldsGT1600"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT1800"><CombineArray value="NodVertigoBombLifeGT1800"/><CombineArray value="NodVertigoBombShieldsGT1800"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT2000"><CombineArray value="NodVertigoBombLifeGT2000"/><CombineArray value="NodVertigoBombShieldsGT2000"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT2200"><CombineArray value="NodVertigoBombLifeGT2200"/><CombineArray value="NodVertigoBombShieldsGT2200"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT2400"><CombineArray value="NodVertigoBombLifeGT2400"/><CombineArray value="NodVertigoBombShieldsGT2400"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT2600"><CombineArray value="NodVertigoBombLifeGT2600"/><CombineArray value="NodVertigoBombShieldsGT2600"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT2800"><CombineArray value="NodVertigoBombLifeGT2800"/><CombineArray value="NodVertigoBombShieldsGT2800"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT3000"><CombineArray value="NodVertigoBombLifeGT3000"/><CombineArray value="NodVertigoBombShieldsGT3000"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT3200"><CombineArray value="NodVertigoBombLifeGT3200"/><CombineArray value="NodVertigoBombShieldsGT3200"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT3400"><CombineArray value="NodVertigoBombLifeGT3400"/><CombineArray value="NodVertigoBombShieldsGT3400"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT3600"><CombineArray value="NodVertigoBombLifeGT3600"/><CombineArray value="NodVertigoBombShieldsGT3600"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT3800"><CombineArray value="NodVertigoBombLifeGT3800"/><CombineArray value="NodVertigoBombShieldsGT3800"/></CValidatorCombine>
+    <CValidatorCombine id="NodVertigoBombVitalGT4000"><CombineArray value="NodVertigoBombLifeGT4000"/><CombineArray value="NodVertigoBombShieldsGT4000"/></CValidatorCombine>
+
+    <!-- Stack Checks -->
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT1"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="1"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT2"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="2"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT3"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="3"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT4"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="4"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT5"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="5"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT6"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="6"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT7"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="7"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT8"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="8"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT9"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="9"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT10"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="10"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT11"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="11"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT12"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="12"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT13"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="13"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT14"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="14"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT15"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="15"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT16"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="16"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT17"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="17"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT18"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="18"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT19"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="19"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT20"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="20"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="NodVertigoBombTargetedLT21"><WhichUnit Value="Target"/><Compare value="LT"/><Value value="21"/><Behavior value="NodVertigoBombTargeted"/></CValidatorUnitCompareBehaviorCount>
+
+    <!-- Base Vital Validators -->
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT200"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="200"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT400"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="400"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT600"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="600"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT800"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="800"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT1000"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="1000"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT1200"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="1200"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT1400"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="1400"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT1600"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="1600"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT1800"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="1800"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT2000"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="2000"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT2200"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="2200"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT2400"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="2400"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT2600"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="2600"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT2800"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="2800"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT3000"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3000"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT3200"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3200"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT3400"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3400"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT3600"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3600"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT3800"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3800"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombLifeGT4000"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="4000"/></CValidatorUnitCompareVital>
+
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT200"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="200"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT400"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="400"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT600"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="600"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT800"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="800"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT1000"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="1000"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT1200"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="1200"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT1400"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="1400"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT1600"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="1600"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT1800"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="1800"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT2000"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="2000"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT2200"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="2200"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT2400"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="2400"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT2600"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="2600"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT2800"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="2800"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT3000"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3000"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT3200"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3200"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT3400"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3400"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT3600"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3600"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT3800"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3800"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT4000"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="4000"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+</Catalog>
