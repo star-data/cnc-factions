@@ -84,82 +84,8 @@
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
     </CAbilEffectInstant>
-    <CAbilEffectTarget id="CABALEngineerheal">
-        <Alignment value="Positive"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <Effect index="0" value="CABALCNCheal"/>
-        <Flags index="AllowMovement" value="1"/>
-        <Flags index="AutoCast" value="1"/>
-        <Flags index="AutoCastOn" value="1"/>
-        <Flags index="ChannelingMinimum" value="0"/>
-        <Flags index="NoDeceleration" value="1"/>
-        <Flags index="ReExecutable" value="1"/>
-        <Flags index="Smart" value="1"/>
-        <Flags index="PassengerAcquireExternal" value="1"/>
-        <Flags index="PassengerAcquirePassengers" value="1"/>
-        <Flags index="PassengerAcquireTransport" value="1"/>
-        <Flags index="TransportAcquirePassengers" value="1"/>
-        <Flags index="ExternalAcquirePassenger" value="1"/>
-        <TargetFilters value="Visible;Self,Enemy,Missile,UnderConstruction,Dead,Hidden,Invulnerable"/>
-        <TargetSorts RequestCount="1">
-            <SortArray value="TSLifeFraction"/>
-            <SortArray value="TSAlliancePassive"/>
-            <SortArray value="TSDistance"/>
-        </TargetSorts>
-        <Range value="6"/>
-        <SmartValidatorArray value="healSmartTargetFilters"/>
-        <SmartValidatorArray value="NotWarpingIn"/>
-        <AutoCastAcquireLevel value="Defensive"/>
-        <AutoCastFilters value="Visible;Neutral,Enemy"/>
-        <AutoCastRange value="6"/>
-        <AutoCastValidatorArray value="NotWarpingIn"/>
-        <Marker Link="Abil/MedivacHeal"/>
-        <UseMarkerArray index="Approach" value="0"/>
-        <UseMarkerArray index="Prep" value="0"/>
-        <AINotifyEffect value="CNCheal"/>
-        <DefaultError value="RequiresHealTarget"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="MedicHeal">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-        <AcquireAttackers value="1"/>
-        <FollowRange value="1.5"/>
-    </CAbilEffectTarget>
 
 
-    <CAbilEffectInstant default="1" id="Refund">
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
-        <Effect index="0" value="SalvageDeath"/>
-        <UninterruptibleArray index="Approach" value="1"/>
-        <UninterruptibleArray index="Prep" value="1"/>
-        <UninterruptibleArray index="Cast" value="1"/>
-        <UninterruptibleArray index="Channel" value="1"/>
-        <UninterruptibleArray index="Finish" value="1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Salvage"/>
-        <Name value="Abil/Name/Refund"/>
-    </CAbilEffectInstant>
-
-    <CAbilEffectInstant id="CABALHolyOneTaunt">
-        <OrderArray index="0" Model="Assets\UI\Cursors\WayPointConfirm_Void\WayPointConfirm_Void.m3"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <Effect index="0" value="CABALHolyOneTauntCasterAB"/>
-        <Flags index="BestUnit" value="1"/>
-        <Flags index="Transient" value="1"/>
-        <Cost>
-            <Cooldown TimeUse="28"/>
-        </Cost>
-        <AINotifyEffect value="CABALReaperGuerrillaCharge"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="CABALHolyOneTaunt" Requirements="CABALTauntUseRequirement"/>
-    </CAbilEffectInstant>
-    <CAbilEffectInstant id="CABALReaperGuerrillaCharge">
-        <OrderArray index="0" Model="Assets\UI\Cursors\WayPointConfirm_Void\WayPointConfirm_Void.m3"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <Effect index="0" value="CABALReaperGuerrillaChargeSpeedAB"/>
-        <Flags index="Transient" value="1"/>
-        <Cost>
-            <Cooldown TimeUse="28"/>
-        </Cost>
-        <CmdButtonArray index="Execute" DefaultButtonFace="CABALReaperGuerrillaCharge" Requirements="CABALGuerillaChargeUseRequirement"/>
-    </CAbilEffectInstant>
 
     <!--Build-->
     <CAbilBuild id="NodConstruction">
@@ -239,14 +165,11 @@
             <Button DefaultButtonFace="NodTiberiumSilo" Requirements="PlaceNodTiberiumSilo"/>
         </InfoArray>
     </CAbilBuild>
-
-
     <CAbilEffectInstant id="NodConstructionDiscard">
         <Flags index="BestUnit" value="1"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="Cancel" Requirements="NodDiscardConstruction"/>
     </CAbilEffectInstant>
-
     <CAbilBuild id="NodConstructionSupport">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <FlagArray index="BestUnit" value="1"/>
@@ -298,8 +221,6 @@
             <Button DefaultButtonFace="NodTiberiumSilo" Requirements="PlaceNodTiberiumSilo"/>
         </InfoArray>
     </CAbilBuild>
-
-
     <CAbilArmMagazine id="NodConstructionArm">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Activity value="UI/Building"/>
@@ -407,9 +328,6 @@
         </Cost>
     </CAbilEffectInstant>
 
-
-
-
     <CAbilArmMagazine id="NodConstructionSupportArm">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Activity value="UI/Building"/>
@@ -439,18 +357,6 @@
         <MaxCount value="1"/>
         <Flags index="ShowStatus" value="0"/>
     </CAbilArmMagazine>
-<!--    <CAbilArmMagazine id="NodConstructionSupportTrainArm">-->
-<!--        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>-->
-<!--        <Launch value="ReleaseAtSource"/>-->
-<!--        <Activity value="UI/Training"/>-->
-<!--        <Flags index="BestUnit" value="1"/>-->
-<!--        <MaxCount value="1"/>-->
-<!--        <InfoArray index="Ammo1" Alert="TrainComplete" Time="20" Unit="NodEmissaryVest"><Charge Link="Abil/##id##"/><Cooldown Link="Abil/##id##"/>-->
-<!--            <Button DefaultButtonFace="NodEmissary" Requirements="TrainNodEmissary"/>-->
-<!--        </InfoArray>-->
-<!--        <Flags index="ShowStatus" value="0"/>-->
-<!--    </CAbilArmMagazine>-->
-
 
     <!--train-->
     <CAbilTrain id="NodConstructionYardTrain">
@@ -729,41 +635,6 @@
         <EditorCategories value="AbilityorEffectType:Units"/>
         <PowerUserBehavior value="Deployable"/>
     </CAbilWarpable>
-    <CAbilEffectTarget id="DeployMCVDefense">
-        <Effect index="0" value="NodDeployMCVDefenseSet"/>
-        <Cost>
-            <Charge Link="Abil/DeployMCVSupport"/>
-            <Cooldown Link="Abil/DeployMCVSupport" Location="Global" TimeUse="240"/>
-        </Cost>
-        <Range value="500"/>
-        <Arc value="360"/>
-        <CursorEffect value="NodEMPAttackSearch"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="DeployDefenseMCV"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-    </CAbilEffectTarget>
-    <CAbilEffectTarget id="DeployMCVSupport">
-        <Effect index="0" value="NodCreateMCVSupport"/>
-        <Cost>
-            <Cooldown Location="Global" TimeUse="240"/>
-        </Cost>
-        <Range value="500"/>
-        <Arc value="360"/>
-        <CursorEffect value="NodEMPAttackSearch"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="NodEMPAttack"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-    </CAbilEffectTarget>
-    <CAbilEffectTarget id="DeployMCVOffense">
-        <Effect index="0" value="NodDeployMCVOffenseSet"/>
-        <Cost>
-            <Charge Link="Abil/DeployMCVSupport"/>
-            <Cooldown Link="Abil/DeployMCVSupport" Location="Global" TimeUse="240"/>
-        </Cost>
-        <Range value="500"/>
-        <Arc value="360"/>
-        <CursorEffect value="NodEMPAttackSearch"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="NodEMPAttack"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-    </CAbilEffectTarget>
     <CAbilMorphPlacement id="NodMCVDeploy" parent="TerranBuildingLand" unit="NodConstructionYard">
         <Name value="Abil/Name/NodMCVDeploy"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:MorphsandBurrows"/>
@@ -949,6 +820,7 @@
         <Cost>
             <Resource index="Minerals" value="50"/>
             <Cooldown Location="Player" TimeUse="180"/>
+            <Vital index="Energy" value="150"/>
         </Cost>
         <Range value="3"/>
         <Arc value="360"/>
@@ -1135,58 +1007,6 @@
         <UninterruptibleArray index="Cast" value="1"/>
         <UninterruptibleArray index="Channel" value="1"/>
     </CAbilEffectTarget>
-    <CAbilEffectTarget id="CABALHijackerAttack">
-        <Effect index="0" value="CABALHijackerTargetLockCP"/>
-        <Flags index="AutoCast" value="1"/>
-        <Flags index="AutoCastOn" value="1"/>
-        <Flags index="ReExecutable" value="1"/>
-        <Flags index="Smart" value="1"/>
-        <Cost>
-            <Cooldown TimeUse="4"/>
-        </Cost>
-        <TargetFilters value="Mechanical,Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
-        <Range value="8"/>
-        <RangeSlop value="0"/>
-        <Arc value="4.9987"/>
-        <AutoCastFilters value="Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable,Benign"/>
-        <AutoCastRange value="8"/>
-        <AutoCastValidatorArray value="IsNotDisguisedChangeling"/>
-        <AutoCastValidatorArray value="NotHallucinationOrNotDetected"/>
-        <AutoCastValidatorArray value="noMarkers"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="EMPCABALHijacker">
-            <Flags index="ShowInGlossary" value="0"/>
-        </CmdButtonArray>
-        <PrepTime value="1"/>
-        <CastOutroTime value="4"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-    </CAbilEffectTarget>
-    <CAbilEffectTarget id="CABALFlameMine">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Effect index="0" value="SpawnFlameMine"/>
-        <Cost>
-            <Resource index="Minerals" value="25"/>
-            <Charge Location="Unit"/>
-            <Cooldown TimeUse="60"/>
-        </Cost>
-        <Placeholder value="SpiderMine"/>
-        <Range value="0.1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="CABALFlameMine" Requirements="CABALFlameMine"/>
-    </CAbilEffectTarget>
-    <CAbilEffectTarget id="CABALTibBomb">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <Effect index="0" value="BlackHandLaunchMissile"/>
-        <Cost>
-            <Cooldown TimeUse="15"/>
-        </Cost>
-        <Range value="6"/>
-        <Arc value="9.9975"/>
-        <AutoCastFilters value="Ground,Visible;Self,Player,Ally,Neutral,Stasis,Dead,Hidden,Invulnerable"/>
-        <PrepTime value="0.1"/>
-        <UninterruptibleArray index="Prep" value="1"/>
-        <UninterruptibleArray index="Cast" value="1"/>
-        <CursorEffect value="BlackHandLiquidTibSearchArea"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="CABALTibBomb" Requirements="LearnTibBomb"/>
-    </CAbilEffectTarget>
     <CAbilEffectTarget id="healCNC">
         <Alignment value="Positive"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -1299,45 +1119,6 @@
         <Effect index="0" value="ChemicalPlantSet"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="NodChemicalPlant"/>
     </CAbilEffectInstant>
-    <!--arm magazine-->
-    <CAbilArmMagazine id="CABALLeviathanHangar">
-        <AbilSetId value="CarrierHanger"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Flags index="Retarget" value="1"/>
-        <Leash value="12"/>
-        <InfoArray index="Ammo1" Time="10" CountStart="4" Manage="Recall" Unit="CABALLeviathanDrone">
-            <Charge Link="CarrierInterceptor" Location="Unit"/>
-            <Cooldown Link="CarrierTrainInterceptor" TimeUse="0.01"/>
-            <Button DefaultButtonFace="Interceptor" Requirements="NodArmInterceptor">
-                <Flags index="ToSelection" value="1"/>
-            </Button>
-            <Flags index="AutoBuild" value="1"/>
-            <Flags index="AutoBuildOn" value="1"/>
-            <Flags index="LeashRetarget" value="1"/>
-        </InfoArray>
-        <Alert value="TrainComplete"/>
-        <MaxCount value="8"/>
-        <Launch value="ReleaseAtSource"/>
-    </CAbilArmMagazine>
-    <CAbilArmMagazine id="CarrierHangarNod">
-        <AbilSetId value="CarrierHanger"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Flags index="Retarget" value="1"/>
-        <Leash value="256"/>
-        <InfoArray index="Ammo1" Time="25" Manage="Ignore" Unit="CABALVertigoLanded">
-            <Charge Link="vertigo" Location="Unit"/>
-            <Cooldown Link="vertigo" TimeStart="25" TimeUse="25"/>
-            <Button DefaultButtonFace="NodVertigo" Requirements="HaveNodAirTower">
-                <Flags index="ToSelection" value="1"/>
-            </Button>
-            <Flags index="AutoBuild" value="1"/>
-            <Flags index="AutoBuildOn" value="1"/>
-            <Flags index="External" value="1"/>
-        </InfoArray>
-        <Alert value="TrainComplete"/>
-        <MaxCount value="1"/>
-        <EffectArray index="Create" value="VertigoCreate"/>
-    </CAbilArmMagazine>
     <!--transporrt-->
     <CAbilTransport id="NodCarryallTransport">
         <AbilSetId value="ULdM"/>
@@ -1363,77 +1144,6 @@
         <TargetFilters value="Visible;Self,Ally,Neutral,Enemy,Buried,UnderConstruction,Dead,Hidden"/>
         <LoadValidatorArray value="NotWidowMineTarget"/>
     </CAbilTransport>
-    <CAbilTransport id="WidowTransport">
-        <AbilSetId value="ULdS"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <CmdButtonArray index="Load" DefaultButtonFace="BunkerLoad"/>
-        <CmdButtonArray index="UnloadAll" DefaultButtonFace="BunkerUnloadAll">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-        <CmdButtonArray index="UnloadAt">
-            <Flags index="Hidden" value="1"/>
-        </CmdButtonArray>
-        <CmdButtonArray index="UnloadUnit">
-            <Flags index="Hidden" value="1"/>
-        </CmdButtonArray>
-        <CmdButtonArray index="LoadAll">
-            <Flags index="Hidden" value="1"/>
-        </CmdButtonArray>
-        <Range value="0"/>
-        <MaxCargoCount value="6"/>
-        <MaxCargoSize value="2"/>
-        <TotalCargoSpace value="8"/>
-        <LoadValidatorArray value="NotWidowMineTarget"/>
-        <LoadValidatorArray value="isCABALSpider"/>
-        <LoadTransportEffect value="LoadSipderAP"/>
-        <UnloadTransportEffect value="UnloadSipder"/>
-    </CAbilTransport>
-    <!--wreckage-->
-    <CAbilMorph id="WidowReborn">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Thor"/>
-        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
-        <Flags index="BestUnit" value="1"/>
-        <Flags index="DisableAbils" value="1"/>
-        <Flags index="FastBuild" value="1"/>
-        <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="ShowProgress" value="1"/>
-        <Flags index="SuppressMovement" value="1"/>
-        <RefundFraction>
-            <Resource index="Minerals" value="0"/>
-            <Resource index="Vespene" value="0"/>
-            <Resource index="Terrazine" value="0"/>
-            <Resource index="Custom" value="0"/>
-        </RefundFraction>
-        <InfoArray Score="1" Unit="CABALWidow">
-            <SectionArray index="Abils">
-                <DurationArray index="Delay" value="12"/>
-            </SectionArray>
-            <SectionArray index="Actor">
-                <DurationArray index="Duration" value="12"/>
-            </SectionArray>
-            <SectionArray index="Collide">
-                <DurationArray index="Delay" value="12"/>
-            </SectionArray>
-            <SectionArray index="Stats">
-                <DurationArray index="Delay" value="12"/>
-            </SectionArray>
-        </InfoArray>
-        <Alert value="RebornCompleteWidow"/>
-    </CAbilMorph>
-    <CAbilMorph id="CABALWidowWreckage">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Thor"/>
-        <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="IgnoreFood" value="1"/>
-        <Flags index="IgnoreUnitCost" value="1"/>
-        <Flags index="SuppressMovement" value="1"/>
-        <InfoArray Unit="CABALWidowWreckage">
-            <SectionArray index="Stats">
-                <EffectArray index="Finish" value="PostMorphHeal"/>
-            </SectionArray>
-        </InfoArray>
-    </CAbilMorph>
     <!--siege-->
     <CAbilMorphPlacement id="VertigoLand" parent="TerranBuildingLand" unit="Barracks">
         <Name value="Abil/Name/VertigoLand"/>
@@ -1451,108 +1161,17 @@
         <InfoArray index="0" Unit="CABALVertigo"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:MorphsandBurrows"/>
     </CAbilMorph>
-    <CAbilMorph id="CABALReckonerUnpack">
-        <OrderArray index="0">
-            <DisplayType value="Confirm"/>
-            <Color value="255,0,255,0"/>
-            <Model value="Assets\UI\Cursors\WayPointAttack_Void\WayPointAttack_Void.m3"/>
-            <LineTexture value="Assets\Textures\WayPointLine.dds"/>
-        </OrderArray>
-        <AbilSetId value="SiegeMode"/>
-        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="CABALReckonerUnpack">
+
+    <CAbilMorph id="NodDevilUnburrow">
+        <AbilSetId value="BrwU"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="BurrowUp">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <Flags index="IgnoreCollision" value="0"/>
-        <Flags index="SuppressMovement" value="1"/>
-        <InfoArray Unit="CABALReckonerUnpack" RandomDelayMax="0.5">
-            <SectionArray index="Abils">
-                <DurationArray index="Delay" value="0.5"/>
-            </SectionArray>
-            <SectionArray index="Actor">
-                <DurationArray index="Delay" value="0.5"/>
-                <DurationArray index="Duration" value="3.5417"/>
-            </SectionArray>
-            <SectionArray index="Facing">
-                <DurationArray index="Duration" value="0.5"/>
-            </SectionArray>
-            <SectionArray index="Mover">
-                <DurationArray index="Delay" value="0.5"/>
-            </SectionArray>
-            <SectionArray index="Stats">
-                <DurationArray index="Delay" value="0.5"/>
-                <DurationArray index="Duration" value="3.5417"/>
-            </SectionArray>
-        </InfoArray>
-        <BehaviorOn value="SuppressMoving"/>
-    </CAbilMorph>
-    <CAbilMorph id="CABALReckonerPack">
-        <AbilSetId value="Unsieged"/>
-        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="CABALReckonerPack2">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-        <Flags index="IgnoreFacing" value="1"/>
-        <InfoArray Unit="CABALReckonerPack" RandomDelayMax="0.5">
-            <SectionArray index="Actor">
-                <DurationArray index="Duration" value="3.5417"/>
-            </SectionArray>
-            <SectionArray index="Stats">
-                <DurationArray index="Duration" value="3.5417"/>
-            </SectionArray>
-        </InfoArray>
-        <BehaviorOff value="SuppressMoving"/>
-    </CAbilMorph>
-    <!--burrow-->
-    <CAbilMorph id="CABALMissilePodBurrow">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <ActorKey value="BurrowDown"/>
-        <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="SuppressMovement" value="1"/>
-        <InfoArray Unit="CABALMissilePodUG">
-            <SectionArray index="Actor">
-                <DurationArray index="Duration" value="1"/>
-            </SectionArray>
-            <SectionArray index="Mover">
-                <DurationArray index="Duration" value="1"/>
-            </SectionArray>
-            <SectionArray index="Stats">
-                <DurationArray index="Delay" value="1"/>
-            </SectionArray>
-        </InfoArray>
-        <ValidatorArray value="NotAttacking"/>
-    </CAbilMorph>
-    <CAbilMorph id="CABALViperTurretUnburrow">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <ActorKey value="BurrowUp"/>
-        <Flags index="AutoCast" value="1"/>
-        <Flags index="AutoCastOn" value="1"/>
-        <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="IgnorePlacement" value="0"/>
-        <Flags index="MoveBlockers" value="1"/>
-        <Flags index="SuppressMovement" value="1"/>
-        <InfoArray Unit="CABALViperTurret" CollideRange="0">
-            <SectionArray index="Actor">
-                <DurationArray index="Duration" value="0.6"/>
-            </SectionArray>
-            <SectionArray index="Mover">
-                <DurationArray index="Duration" value="0.6"/>
-            </SectionArray>
-            <SectionArray index="Stats">
-                <DurationArray index="Duration" value="0.6"/>
-            </SectionArray>
-        </InfoArray>
-        <ErrorAlert value=""/>
-        <AutoCastFilters value="Ground,Visible;Self,Player,Ally,Neutral,Hover,Missile,Stasis,Dead,Hidden,Invulnerable,Benign"/>
-        <AutoCastRange value="6"/>
-        <AutoCastCountMin value="1"/>
-    </CAbilMorph>
-    <CAbilMorph id="CABALViperTurretBurrow">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <ActorKey value="BurrowDown"/>
         <Flags index="IgnoreFacing" value="1"/>
         <Flags index="SuppressMovement" value="1"/>
-        <InfoArray Unit="CABALViperTurretUG">
+        <InfoArray Unit="NodDevil" RandomDelayMax="0.5">
             <SectionArray index="Actor">
                 <DurationArray index="Duration" value="1"/>
             </SectionArray>
@@ -1560,37 +1179,11 @@
                 <DurationArray index="Duration" value="1"/>
             </SectionArray>
             <SectionArray index="Stats">
-                <DurationArray index="Delay" value="1"/>
+                <DurationArray index="Duration" value="1"/>
             </SectionArray>
         </InfoArray>
-        <ValidatorArray value="NotAttacking"/>
     </CAbilMorph>
-    <CAbilMorph id="CABALMissilePodcastUnburrow">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <ActorKey value="BurrowUp"/>
-        <Flags index="AutoCast" value="1"/>
-        <Flags index="AutoCastOn" value="1"/>
-        <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="IgnorePlacement" value="0"/>
-        <Flags index="MoveBlockers" value="1"/>
-        <Flags index="SuppressMovement" value="1"/>
-        <InfoArray Unit="CABALMissilePod" CollideRange="0">
-            <SectionArray index="Actor">
-                <DurationArray index="Duration" value="0.6"/>
-            </SectionArray>
-            <SectionArray index="Mover">
-                <DurationArray index="Duration" value="0.6"/>
-            </SectionArray>
-            <SectionArray index="Stats">
-                <DurationArray index="Duration" value="0.6"/>
-            </SectionArray>
-        </InfoArray>
-        <ErrorAlert value=""/>
-        <AutoCastFilters value="Visible;Self,Player,Ally,Neutral,Hover,Missile,Stasis,Dead,Hidden,Invulnerable,Benign"/>
-        <AutoCastRange value="7"/>
-        <AutoCastCountMin value="1"/>
-    </CAbilMorph>
-    <CAbilMorph id="ScorpionBurrow">
+    <CAbilMorph id="NodDevilBurrow">
         <AbilSetId value="BrwD"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="BurrowDown">
@@ -1602,7 +1195,7 @@
         <Flags index="IgnoreFacing" value="1"/>
         <Flags index="IgnorePlacement" value="0"/>
         <Flags index="SuppressMovement" value="1"/>
-        <InfoArray Unit="CABALScorpionBurrow" RandomDelayMax="0.5">
+        <InfoArray Unit="NodDevilBurrow" RandomDelayMax="0.5">
             <SectionArray index="Actor">
                 <DurationArray index="Duration" value="3"/>
             </SectionArray>
@@ -1614,94 +1207,8 @@
             </SectionArray>
         </InfoArray>
     </CAbilMorph>
-    <CAbilEffectTarget id="CABALDeepBurrow">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Effect index="0" value="NodDeepBurrowDeepBurrow"/>
-        <Flags index="BestUnit" value="0"/>
-        <Flags index="RequireTargetVision" value="0"/>
-        <Cost>
-            <Cooldown Location="Unit" TimeUse="10"/>
-        </Cost>
-        <Range value="13"/>
-        <Arc value="360"/>
-        <CastIntroTime value="2"/>
-        <CastOutroTime value="1"/>
-        <FinishTime value="0.5"/>
-        <ShowProgressArray index="Cast" value="1"/>
-        <UninterruptibleArray index="Cast" value="1"/>
-        <UninterruptibleArray index="Finish" value="1"/>
-        <AINotifyEffect value="NodDeepBurrowDeepBurrow"/>
-        <ProgressButtonArray index="Cast" value="SwarmHostDeepBurrow"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="CABALDeepBurrow">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-    </CAbilEffectTarget>
-    <CAbilMorph id="TyrantUnburrow">
-        <AbilSetId value="BrwU"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="BurrowUp">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-        <ActorKey value="BurrowUp"/>
-        <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="SuppressMovement" value="1"/>
-        <InfoArray Unit="CABALTyrant" RandomDelayMax="0.5">
-            <SectionArray index="Actor">
-                <DurationArray index="Duration" value="1"/>
-            </SectionArray>
-            <SectionArray index="Mover">
-                <DurationArray index="Duration" value="1"/>
-            </SectionArray>
-            <SectionArray index="Stats">
-                <DurationArray index="Duration" value="1"/>
-            </SectionArray>
-        </InfoArray>
-    </CAbilMorph>
-    <CAbilMorph id="TyrantBurrow">
-        <AbilSetId value="BrwD"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="BurrowDown">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
-        <ActorKey value="BurrowDown"/>
-        <Flags index="Interruptible" value="1"/>
-        <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="IgnorePlacement" value="0"/>
-        <Flags index="SuppressMovement" value="1"/>
-        <InfoArray Unit="CABALTyrantBurrow" RandomDelayMax="0.5">
-            <SectionArray index="Actor">
-                <DurationArray index="Duration" value="3"/>
-            </SectionArray>
-            <SectionArray index="Collide">
-                <DurationArray index="Delay" value="0.5556"/>
-            </SectionArray>
-            <SectionArray index="Stats">
-                <DurationArray index="Delay" value="3"/>
-            </SectionArray>
-        </InfoArray>
-    </CAbilMorph>
-    <CAbilMorph id="ScorpionUnburrow">
-        <AbilSetId value="BrwU"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="BurrowUp">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-        <ActorKey value="BurrowUp"/>
-        <Flags index="IgnoreFacing" value="1"/>
-        <Flags index="SuppressMovement" value="1"/>
-        <InfoArray Unit="CABALScorpion" RandomDelayMax="0.5">
-            <SectionArray index="Actor">
-                <DurationArray index="Duration" value="1"/>
-            </SectionArray>
-            <SectionArray index="Mover">
-                <DurationArray index="Duration" value="1"/>
-            </SectionArray>
-            <SectionArray index="Stats">
-                <DurationArray index="Duration" value="1"/>
-            </SectionArray>
-        </InfoArray>
-    </CAbilMorph>
+
+
     <CAbilMorph id="NodShadowLandMorph">
         <AbilSetId value="NodShadowLand"/>
         <Flags index="IgnoreFacing" value="1"/>
@@ -1808,44 +1315,6 @@
         </Cost>
         <CmdButtonArray index="Execute" DefaultButtonFace="NodHarvesterCloak"/>
     </CAbilEffectInstant>
-    <CAbilTransport id="CABALTunnelTransport">
-        <OrderArray index="0">
-            <DisplayType value="Confirm"/>
-            <Color value="255,0,255,0"/>
-            <Model value="Assets\UI\Cursors\WayPointConfirm_Void\WayPointConfirm_Void.m3"/>
-            <Scale value="0.750000"/>
-            <LineTexture value="Assets\Textures\WayPointLine.dds"/>
-        </OrderArray>
-        <AbilSetId value="ULdS"/>
-        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Load" DefaultButtonFace="NydusCanalLoad"/>
-        <CmdButtonArray index="UnloadAll" DefaultButtonFace="NydusCanalUnloadAll">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-        <CmdButtonArray index="UnloadAt">
-            <Flags index="Hidden" value="1"/>
-        </CmdButtonArray>
-        <CmdButtonArray index="UnloadUnit">
-            <Flags index="Hidden" value="1"/>
-        </CmdButtonArray>
-        <CmdButtonArray index="LoadAll">
-            <Flags index="Hidden" value="1"/>
-        </CmdButtonArray>
-        <Flags index="CargoDeath" value="1"/>
-        <Flags index="PlayerHold" value="1"/>
-        <Flags index="ShowCargoSize" value="0"/>
-        <Range value="0.5"/>
-        <MaxCargoCount value="255"/>
-        <MaxCargoSize value="4"/>
-        <TotalCargoSpace value="1020"/>
-        <InitialUnloadDelay value="0.5"/>
-        <LoadPeriod value="0.25"/>
-        <UnloadPeriod value="0.5"/>
-        <LoadValidatorArray value="NotSpawnling"/>
-        <LoadValidatorArray value="NotWidowMineTarget"/>
-        <MaxUnloadRange value="2"/>
-        <UnloadCargoEffect value="PurificationNovaTargettedCasterRB"/>
-    </CAbilTransport>
     <CAbilEffectTarget id="NodSabotage">
         <EditorCategories value="AbilityorEffectType:Units,Race:UPL"/>
         <Range value="0.5"/>
@@ -2195,7 +1664,6 @@
             <Button DefaultButtonFace="NodDozerBlades" Requirements="LearnNodDozerBlades"/>
         </InfoArray>
     </CAbilResearch>
-
     <CAbilSpecialize id="NodTurretsHubSpecialise">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <Activity value="UI/Researching"/>
@@ -2288,7 +1756,6 @@
         <Flags index="SuppressMovement" value="1"/>
         <InfoArray Unit="NodShredderTurretReconstruct"/>
     </CAbilMorph>
-
     <CAbilEffectTarget id="NodDropFlameMines">
         <Effect index="0" value="NodCreateFlameMineCP"/>
         <Cost>
@@ -2315,7 +1782,6 @@
             <Requirements value="HaveTechLab"/> <!-- Placeholder requirement, need to verify actual Tech Lab req name -->
         </CmdButtonArray>
     </CAbilEffectTarget>
-
     <CAbilEffectInstant id="NodSignatureGenerator">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Effect index="0" value="NodSignatureGeneratorSet"/>

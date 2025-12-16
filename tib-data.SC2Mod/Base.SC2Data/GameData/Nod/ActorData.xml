@@ -917,9 +917,28 @@
     </CActorUnit>
     <CActorUnit id="NodDevil" icon="Devil" parent="NodVehicle">
         <SoundArray index="Movement" value="NodFlameTank_Movement"/>
-    </CActorUnit>
+        <On Terms="UnitBirth.NodDevilBurrow" Send="Create"/>
+        <On Terms="UnitBirth.NodDevilBurrow" Send="AnimPlay Burrow Burrow PlayForever,NonLooping"/>
+        <On Terms="ActorCreation" Send="StatusSet Fired 0"/>
+        <On Terms="AbilMorph.*.Start; MorphTo NodDevilBurrow" Send="AnimPlay Burrow Burrow NonLooping"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo NodDevilBurrow" Send="AnimClear Burrow 0.000000"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo NodDevilBurrow" Send="AnimPlay BurrowStand Stand,Burrow PlayForever 0.000000"/>
+<!--        <On Terms="AbilMorph.*.Start; MorphTo NodDevilBurrow" Send="AnimClear Unburrow 0.000000"/>-->
+<!--        <On Terms="AbilMorph.*.Start; MorphTo" Send="AnimClear Burrow"/>-->
+        <On Terms="AbilMorph.*.Start; MorphTo NodDevil" Send="AnimClear BurrowStand"/>
+        <On Terms="AbilMorph.*.Start; MorphTo NodDevil" Send="AnimPlay Unburrow Unburrow PlayForever,NonLooping 0.000000 0.000000"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo NodDevil" Send="AnimClear Unburrow 0.000000"/>
 
-    
+        <On Terms="AbilMorph.*.Start; MorphTo NodDevil" Send="Create NodBurrowDown"/>
+        <On Terms="AbilMorph.*.Start; MorphTo NodDevilBurrow" Send="Create NodBurrowDown"/>
+
+<!--        <On Terms="UnitDeathCustomize; ValidateUnit" Send="DeathCustomize Variation0"/>-->
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create WidowMine_Land"/>
+        <DeathArray index="Normal" ModelLink="CABALTyrant_Death" SoundLink="Terran_ExplosionSmall"/>
+        <DeathCustoms ModelLink="CABALTyrant_Death" Name="RagdollBasic">
+            <BodySquibs Name="TerranSquibDeathRagdoll"/>
+        </DeathCustoms>
+    </CActorUnit>
 
     <CActorUnit id="NodCaster" icon="Caster" parent="NodBuilding" wireframe="wireframe-protoss-shipgeneratorsmall" unitName="NodCaster">
         <Macros value="GlobalLoopMacro"/>
@@ -2587,13 +2606,18 @@
         <On Terms="Upgrade.NodDisruptionPods.Remove" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
     </CActorUnit>
     <CActorUnit id="NodArmageddon" icon="Armageddon" parent="NodAir">
-        <GroupSoundArray index="Ready" value="Vertigo_Ready"/>
-        <GroupSoundArray index="Help" value="Vertigo_Help"/>
-        <GroupSoundArray index="What" value="Vertigo_What"/>
-        <GroupSoundArray index="Yes" value="Vertigo_Yes"/>
-        <GroupSoundArray index="Attack" value="Vertigo_Attack"/>
-        <GroupSoundArray index="Pissed" value="Vertigo_What"/>
-        <SoundArray index="Pissed" value="Vertigo_What"/>
+        <GroupSoundArray index="Ready" value="CABALSalamander_Ready"/>
+        <GroupSoundArray index="Help" value="CABALSalamander_Help"/>
+        <GroupSoundArray index="What" value="CABALSalamander_What"/>
+        <GroupSoundArray index="Yes" value="CABALSalamander_Yes"/>
+        <GroupSoundArray index="Attack" value="CABALSalamander_Attack"/>
+        <GroupSoundArray index="Pissed" value="CABALSalamander_What"/>
+        <SoundArray index="Ready" value="CABALSalamander_Ready"/>
+        <SoundArray index="Help" value="CABALSalamander_Help"/>
+        <SoundArray index="What" value="CABALSalamander_What"/>
+        <SoundArray index="Yes" value="CABALSalamander_Yes"/>
+        <SoundArray index="Attack" value="CABALSalamander_Attack"/>
+        <SoundArray index="Pissed" value="CABALSalamander_What"/>
     </CActorUnit>
     <CActorUnit id="NodBanshee" icon="Banshee" parent="NodAir">
         <GroupSoundArray index="Ready" value="Vertigo_Ready"/>
@@ -3941,7 +3965,7 @@
         <Aliases value="_UnitSmall"/>
         <Model value="NodMine"/>
         <BuildModel value="NodMine"/>
-        <DeathArray index="Normal" ModelLink="SpiderMineExplosion" SoundLink="Terran_ExplosionSmall"/>
+        <DeathArray index="Normal" ModelLink="NodFanaticExplosionImpact" SoundLink="Terran_ExplosionSmall"/>
         <BarOffset value="10"/>
         <GroupSoundArray index="Birth" value="SpiderMineBirth"/>
         <GroupSoundArray index="Ready" value="SpiderMineReady"/>
