@@ -21,15 +21,22 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBomb"/>
         <Effect index="0" value="NodRevenantBombLaunchMissile"/>
     </CAbilEffectTarget>
+<!--    <CEffectSet id="NodRevenantBombPointSet">-->
+<!--        <EffectArray value="StealthExposure"/>-->
+<!--        <EffectArray value="NodRevenantBombLaunchMissile"/>-->
+<!--        <WhichLocation Value="TargetPoint"/>-->
+<!--    </CEffectSet>-->
+
+
     <CAbilEffectTarget id="NodRevenantBombUnit" parent="NodRevenantBomb">
-        <Effect index="0" value="NodRevenantBombSet"/>
+        <Effect index="0" value="NodRevenantBombUnitSet"/>
         <Flags index="AutoCast" value="1"/>
         <Flags index="AutoCastOn" value="1"/>
         <Flags index="ReExecutable" value="1"/>
         <Flags index="Smart" value="1"/>
-        <TargetFilters value="Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <TargetFilters value="Ground,Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
         <AutoCastRange value="8"/>
-        <AutoCastFilters value="Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable,Benign"/>
+        <AutoCastFilters value="Ground,Visible;Player,Ally,Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable,Benign"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBombUnit"/>
         <AutoCastValidatorArray value="NodVertigoBombSmartAutocast"/>
         <AutoCastValidatorArray value="NotLarva"/>
@@ -42,7 +49,7 @@
         <Period value="0.25"/>
         <Effect value="NodRevenantBombWeaponSet"/>
         <DisplayEffect value="NodRevenantBombDamage"/>
-        <TargetFilters value="Ground,Visible;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
         <AcquireFilters value="-;Player,Ally,Neutral,Enemy"/>
         <AllowedMovement value="Moving"/>
         <Arc value="29.9926"/>
@@ -56,7 +63,7 @@
 
 
 
-    <CWeapon id="NodVertigoWeaponAA">
+    <CWeaponLegacy id="NodVertigoWeaponAA">
         <Icon value="Assets\icons\Nod\btn-nod-upgrade-lightweapons.dds"/>
         <Options index="OnlyFireWhileInAttackOrder" value="0"/>
         <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
@@ -73,7 +80,7 @@
         <Arc value="360"/>
         <Period value="1.2"/>
         <AllowedMovement value="Moving"/>
-    </CWeapon>
+    </CWeaponLegacy>
 
     <CEffectSet id="NodVertigoWeaponAASet">
         <EffectArray value="StealthExposure"/>
@@ -111,6 +118,7 @@
         <SearchFilters value="Ground;Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CEffectDamage>
     <CEffectLaunchMissile id="NodRevenantBombLaunchMissile" >
+        <LaunchEffect value="StealthExposureCaster"/>
         <ImpactEffect value="NodRevenantBombImpactSet"/>
         <AmmoUnit value="NodRevenantBombLMWeapon"/>
         <AmmoOwner Value="Caster"/>
@@ -121,6 +129,7 @@
     </CEffectLaunchMissile>
 
     <CEffectLaunchMissile id="NodRevenantBombLaunchMissileTargetUnit">
+        <LaunchEffect value="StealthExposureCaster"/>
         <AINotifyFlags index="HurtEnemy" value="1"/>
         <AINotifyFlags index="MinorDanger" value="1"/>
         <ImpactEffect value="NodRevenantBombImpactSet"/>
@@ -262,14 +271,20 @@
     <CEffectSet id="NodRevenantBombWeaponSet">
         <EffectArray value="NodRevenantBombLaunchCooldown"/>
         <EffectArray value="NodRevenantBombChargeUse"/>
-        <EffectArray value="NodRevenantBombSet"/>
+        <EffectArray value="NodRevenantBombUnitSet"/>
         <ValidatorArray value="NotLarva"/>
         <ValidatorArray value="NodRevenantBombCooldownComplete"/>
         <ValidatorArray value="NodRevenantBombCharged"/>
     </CEffectSet>
 
-    <CEffectSet id="NodRevenantBombSet">
-        <EffectArray value="StealthExposureCaster"/>
+
+
+
+
+
+
+
+    <CEffectSet id="NodRevenantBombUnitSet">
         <EffectArray value="NodVertigoBombApplyTracking"/>
         <EffectArray value="NodRevenantBombLaunchMissileTargetUnit"/>
     </CEffectSet>
