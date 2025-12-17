@@ -59,6 +59,772 @@ void libTIBW_InitCustomScript () {
 
 // Presets
 // Functions
+void libTIBW_gf_AttachUnitModelToUnit (unit lp_attachmentUnit, unit lp_targetUnit, string lp_attachPont2, fixed lp_xOffset, fixed lp_yOffset, fixed lp_zOffset, string lp_facingAdjustment) {
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SendActorMessageToUnit(lp_attachmentUnit, "RefSet ::global.XanthosNewPart ::Self");
+    libNtve_gf_SendActorMessageToUnit(lp_targetUnit, "RefSet ::global.XanthosBody ::Self");
+    libNtve_gf_SendActorMessageToUnit(lp_attachmentUnit, "RefSet ::actor.MainBody ::global.XanthosBody");
+    libNtve_gf_SendActorMessageToUnit(lp_attachmentUnit, "Signal BaselineHook");
+    libNtve_gf_SendActorMessageToUnit(lp_targetUnit, (("AttachOffset ::global.XanthosNewPart {" + lp_attachPont2 + "} " + FixedToString(lp_xOffset, c_fixedPrecisionAny) + "," + FixedToString(lp_yOffset, c_fixedPrecisionAny) + "," + FixedToString(lp_zOffset, c_fixedPrecisionAny) + " {} {" + (lp_facingAdjustment) + "}")));
+    ActorSend(ActorFromActor(libNtve_gf_MainActorofUnit(lp_targetUnit), "XanthosPartList"), "ListAdd ::global.XanthosNewPart");
+}
+
+void libTIBW_gf_Theplanetakesoff (unit lp_airplane) {
+    // Automatic Variable Declarations
+    // Implementation
+    UnitBehaviorRemove(lp_airplane, "Airportlanded", 1);
+    UnitBehaviorRemove(lp_airplane, "Notifyairportaftertakeofforexplosion", 1);
+    UnitBehaviorRemove(lp_airplane, "Airportcirclingprohibitedforaperiodoftime", 1);
+    UnitCreateEffectUnit(lp_airplane, "AircraftTraverseTrackingAirport", lp_airplane);
+    UnitBehaviorRemove(lp_airplane, "Aircraftreversesurveillanceoftheairport", 1);
+    UnitBehaviorAdd(lp_airplane, "Airporttakingoff", lp_airplane, 1);
+    if ((UnitGetType(lp_airplane) == "AlliedCenturyBomber")) {
+        UnitSetHeight(lp_airplane, 5.0, 1.6);
+        UnitBehaviorSetDuration(lp_airplane, "Airporttakingoff", 1.6);
+    }
+    else {
+        UnitSetHeight(lp_airplane, 5.0, 0.75);
+        UnitBehaviorSetDuration(lp_airplane, "Airporttakingoff", 0.75);
+    }
+}
+
+void libTIBW_gf_SearchForAirportandLockit (unit lp_airplane, unit lp_searchTarget, int lp_radius, bool lp_skipOccupied) {
+    // Variable Declarations
+    unit lv_searchTarget;
+    unit lv_airport;
+    unit lv_airplane;
+    int lv_useslot;
+    int lv_radius;
+    unitgroup lv_priority1;
+    unitgroup lv_priority2;
+    unitgroup lv_priority3;
+    string lv_uD;
+    point lv_landingpoint;
+
+    // Automatic Variable Declarations
+    unitgroup autoD0065C45_g;
+    int autoD0065C45_u;
+    unit autoD0065C45_var;
+
+    // Variable Initialization
+    lv_searchTarget = lp_searchTarget;
+    lv_airplane = lp_airplane;
+    lv_radius = lp_radius;
+    lv_priority1 = UnitGroupEmpty();
+    lv_priority2 = UnitGroupEmpty();
+    lv_priority3 = UnitGroupEmpty();
+
+    // Implementation
+    if ((lv_radius == 0)) {
+        lv_radius = 999;
+    }
+
+    if ((lv_searchTarget == null)) {
+        lv_searchTarget = lv_airplane;
+    }
+
+    autoD0065C45_g = UnitGroup(null, UnitGetOwner(lv_airplane), RegionCircle(UnitGetPosition(lv_searchTarget), lv_radius), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterUnderConstruction - 32)) | (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoD0065C45_u = UnitGroupCount(autoD0065C45_g, c_unitCountAll);
+    for (;; autoD0065C45_u -= 1) {
+        autoD0065C45_var = UnitGroupUnitFromEnd(autoD0065C45_g, autoD0065C45_u);
+        if (autoD0065C45_var == null) { break; }
+        if ((UnitHasBehavior2(autoD0065C45_var, "AircraftAirportParkingAircraftTracking") == true)) {
+            if ((UnitHasBehavior2(autoD0065C45_var, "Docked") == false)) {
+                if ((UnitHasBehavior2(autoD0065C45_var, "LockedLandingPad") == false)) {
+                    UnitGroupAdd(lv_priority1, autoD0065C45_var);
+                }
+                else {
+                    UnitGroupAdd(lv_priority2, autoD0065C45_var);
+                }
+            }
+            else {
+                if ((lp_skipOccupied == false)) {
+                    UnitGroupAdd(lv_priority3, autoD0065C45_var);
+                }
+
+            }
+        }
+
+    }
+    if ((UnitGroupCount(lv_priority1, c_unitCountAlive) > 0)) {
+        lv_airport = UnitGroupClosestToPoint(lv_priority1, UnitGetPosition(lv_searchTarget));
+    }
+    else {
+        if ((UnitGroupCount(lv_priority2, c_unitCountAlive) > 0)) {
+            lv_airport = UnitGroupClosestToPoint(lv_priority2, UnitGetPosition(lv_searchTarget));
+        }
+        else {
+            if ((UnitGroupCount(lv_priority3, c_unitCountAlive) > 0)) {
+                lv_airport = UnitGroupClosestToPoint(lv_priority3, UnitGetPosition(lv_searchTarget));
+            }
+
+        }
+    }
+    if ((lv_airport != null)) {
+        libTIBW_gf_TargetAirport(lv_airplane, lv_airport);
+    }
+
+}
+
+void libTIBW_gf_TargetAirport (unit lp_airplane, unit lp_airport) {
+    // Variable Declarations
+    unit lv_airport;
+    unit lv_airplane;
+    int lv_useslot;
+    point lv_landingpoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airport = lp_airport;
+    lv_airplane = lp_airplane;
+
+    // Implementation
+    lv_landingpoint = PointWithOffsetPolar(PointWithOffsetPolar(UnitGetPosition(lp_airport), UnitGetCustomValue(lv_airport, 1), (-45.0 + UnitGetFacing(lv_airport))), UnitGetCustomValue(lv_airport, 2), (UnitGetFacing(lv_airport) + 45.0));
+    UnitIssueOrder(lp_airplane, OrderTargetingPoint(AbilityCommand("VS_ReturnToAirport", 0), lv_landingpoint), c_orderQueueReplace);
+    DataTableSetUnit(true, ("TARGETAIRPORT" + IntToString(UnitGetTag(lv_airplane))), lv_airport);
+    UnitBehaviorAdd(lv_airport, "LockedLandingPad", lv_airplane, 1);
+}
+
+point libTIBW_gf_Circledunitsturntoacquisitionpoint (unit lp_attackingunit, point lp_locationoftheattackedunit, bool lp_whetherthetargetpointistotheleftoftheunit) {
+    // Variable Declarations
+    point[37] lv_circlepoint;
+    int lv_a;
+    int lv_b;
+    fixed lv_distance;
+    point lv_closestpoint;
+    fixed lv_anglefromcentertonearestpoint;
+    fixed lv_theproperangle;
+    point lv_finalpoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_distance = 200.0;
+
+    // Implementation
+    lv_anglefromcentertonearestpoint = AngleBetweenPoints(lp_locationoftheattackedunit, UnitGetPosition(lp_attackingunit));
+    if (((TechTreeUnitCount(1, "Nexus", c_techCountCompleteOnly) == 1) && (lv_anglefromcentertonearestpoint < -150.0) && (lv_anglefromcentertonearestpoint > -180.0))) {
+        lv_theproperangle = (180.0 - (lv_anglefromcentertonearestpoint - -180.0));
+    }
+    else {
+        if ((lp_whetherthetargetpointistotheleftoftheunit == false)) {
+            lv_theproperangle = (lv_anglefromcentertonearestpoint - 30.0);
+        }
+        else {
+            lv_theproperangle = (lv_anglefromcentertonearestpoint + 30.0);
+        }
+    }
+    lv_finalpoint = PointWithOffsetPolar(lp_locationoftheattackedunit, 7.0, lv_theproperangle);
+    return lv_finalpoint;
+}
+
+void libTIBW_gf_Accuraterotation (fixed lp_angleX, fixed lp_angleY, fixed lp_angleZ, actor lp_actor) {
+    // Automatic Variable Declarations
+    // Implementation
+    ActorSend(lp_actor, libTIBW_gf_ZhunQueXuanZhuanFunc(lp_angleX, lp_angleY, lp_angleZ));
+}
+
+string libTIBW_gf_ZhunQueXuanZhuanFunc (fixed lp_angleX, fixed lp_angleY, fixed lp_angleZ) {
+    // Variable Declarations
+    fixed lv_forwardX;
+    fixed lv_forwardY;
+    fixed lv_forwardZ;
+    fixed lv_upX;
+    fixed lv_upY;
+    fixed lv_upZ;
+    fixed lv_oB;
+    fixed lv_angleBOX;
+    fixed lv_x;
+    fixed lv_y;
+    string lv_message;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    lv_forwardX = (Cos(lp_angleY) * Cos(lp_angleZ));
+    lv_forwardY = (Cos(lp_angleY) * Sin(lp_angleZ));
+    lv_forwardZ = Sin(lp_angleY);
+    lv_x = (Cos(lp_angleX) * Cos((lp_angleY + 90.0)));
+    lv_y = Cos((lp_angleX + 90.0));
+    lv_oB = SquareRoot(((lv_x * lv_x) + (lv_y * lv_y)));
+    lv_angleBOX = (ATan2(lv_y, lv_x) + lp_angleZ);
+    lv_upX = (lv_oB * Cos(lv_angleBOX));
+    lv_upY = (lv_oB * Sin(lv_angleBOX));
+    lv_upZ = (Cos(lp_angleX) * Sin((lp_angleY + 90.0)));
+    lv_message = libTIBW_gf_Combinedaccuraterotation(lv_forwardX, lv_forwardY, lv_forwardZ, lv_upX, lv_upY, lv_upZ);
+    return lv_message;
+}
+
+string libTIBW_gf_Combinedaccuraterotation (fixed lp_forward_X, fixed lp_forward_Y, fixed lp_forward_Z, fixed lp_up_X, fixed lp_up_Y, fixed lp_up_Z) {
+    // Variable Declarations
+    string lv_temp;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_temp = "";
+
+    // Implementation
+    lv_temp = ("SetRotation {" + (libNtve_gf_Convert3DVectorToString(lp_forward_X, lp_forward_Y, lp_forward_Z) + " " + libNtve_gf_Convert3DVectorToString(lp_up_X, lp_up_Y, lp_up_Z)) + "}");
+    return (lv_temp);
+}
+
+bool libTIBW_gf_Theanglebetweentheunitandthetargetpointisabout (unit lp_unit, point lp_point) {
+    // Variable Declarations
+    fixed lv_anglebetween;
+    fixed lv_unitorientation;
+    bool lv_oneispositiveandtheotherisnegative;
+    unit lv_attackingunit;
+    fixed lv_angle;
+    point lv_centerpoint;
+    point lv_movingtargetpoint;
+    fixed lv_angledifference;
+    fixed lv_preliminarydifference;
+    bool lv_whetherthetargetpointistotheleftoftheunit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_oneispositiveandtheotherisnegative = true;
+
+    // Implementation
+    lv_anglebetween = AngleBetweenPoints(UnitGetPosition(lp_unit), lp_point);
+    lv_unitorientation = UnitGetFacing(lp_unit);
+    if (((lv_unitorientation >= 0.0) && (lv_anglebetween >= 0.0))) {
+        lv_oneispositiveandtheotherisnegative = false;
+        if (((lv_unitorientation >= lv_anglebetween))) {
+            lv_whetherthetargetpointistotheleftoftheunit = false;
+        }
+        else {
+            lv_whetherthetargetpointistotheleftoftheunit = true;
+        }
+    }
+
+    if (((lv_unitorientation < 0.0) && (lv_anglebetween < 0.0))) {
+        lv_oneispositiveandtheotherisnegative = false;
+        if (((lv_unitorientation >= lv_anglebetween))) {
+            lv_whetherthetargetpointistotheleftoftheunit = false;
+        }
+        else {
+            lv_whetherthetargetpointistotheleftoftheunit = true;
+        }
+    }
+
+    if ((lv_oneispositiveandtheotherisnegative == true)) {
+        if ((lv_anglebetween < 0.0)) {
+            lv_preliminarydifference = (lv_anglebetween-(lv_unitorientation - 360.0));
+            if ((lv_preliminarydifference <= 180.0)) {
+                lv_whetherthetargetpointistotheleftoftheunit = true;
+            }
+            else {
+                lv_whetherthetargetpointistotheleftoftheunit = false;
+            }
+        }
+        else {
+            if ((lv_unitorientation < 0.0)) {
+                lv_preliminarydifference = (lv_unitorientation-(lv_anglebetween - 360.0));
+                if ((lv_preliminarydifference <= 180.0)) {
+                    lv_whetherthetargetpointistotheleftoftheunit = false;
+                }
+                else {
+                    lv_whetherthetargetpointistotheleftoftheunit = true;
+                }
+            }
+
+        }
+    }
+
+    return lv_whetherthetargetpointistotheleftoftheunit;
+}
+
+trigger auto_libTIBW_gf_Actormessagerotation_Trigger = null;
+unit auto_libTIBW_gf_Actormessagerotation_lp_attackingunit;
+fixed auto_libTIBW_gf_Actormessagerotation_lp_headtiltangle;
+fixed auto_libTIBW_gf_Actormessagerotation_lp_sidewaistangle;
+
+void libTIBW_gf_Actormessagerotation (unit lp_attackingunit, fixed lp_headtiltangle, fixed lp_sidewaistangle) {
+    auto_libTIBW_gf_Actormessagerotation_lp_attackingunit = lp_attackingunit;
+    auto_libTIBW_gf_Actormessagerotation_lp_headtiltangle = lp_headtiltangle;
+    auto_libTIBW_gf_Actormessagerotation_lp_sidewaistangle = lp_sidewaistangle;
+
+    if (auto_libTIBW_gf_Actormessagerotation_Trigger == null) {
+        auto_libTIBW_gf_Actormessagerotation_Trigger = TriggerCreate("auto_libTIBW_gf_Actormessagerotation_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libTIBW_gf_Actormessagerotation_Trigger, false, false);
+}
+
+bool auto_libTIBW_gf_Actormessagerotation_TriggerFunc (bool testConds, bool runActions) {
+    unit lp_attackingunit = auto_libTIBW_gf_Actormessagerotation_lp_attackingunit;
+    fixed lp_headtiltangle = auto_libTIBW_gf_Actormessagerotation_lp_headtiltangle;
+    fixed lp_sidewaistangle = auto_libTIBW_gf_Actormessagerotation_lp_sidewaistangle;
+
+    // Automatic Variable Declarations
+    // Implementation
+    libNtve_gf_SendActorMessageToUnit(lp_attackingunit, libTIBW_gf_ZhunQueXuanZhuanFunc(lp_sidewaistangle, lp_headtiltangle, UnitGetFacing(lp_attackingunit)));
+    return true;
+}
+
+fixed libTIBW_gf_Angledifferencebetweenunitandtargetpoint (unit lp_unit, point lp_point) {
+    // Variable Declarations
+    fixed lv_anglebetween;
+    fixed lv_unitorientation;
+    bool lv_oneispositiveandtheotherisnegative;
+    unit lv_attackingunit;
+    fixed lv_angle;
+    point lv_centerpoint;
+    point lv_movetargetpoint;
+    fixed lv_angledifference;
+    fixed lv_preliminarydifference;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_oneispositiveandtheotherisnegative = true;
+
+    // Implementation
+    lv_anglebetween = AngleBetweenPoints(UnitGetPosition(lp_unit), lp_point);
+    lv_unitorientation = UnitGetFacing(lp_unit);
+    if (((lv_unitorientation >= 0.0) && (lv_anglebetween >= 0.0))) {
+        lv_oneispositiveandtheotherisnegative = false;
+        if (((lv_unitorientation >= lv_anglebetween))) {
+            lv_angledifference = (lv_unitorientation - lv_anglebetween);
+        }
+        else {
+            lv_angledifference = (lv_anglebetween - lv_unitorientation);
+        }
+    }
+
+    if (((lv_unitorientation < 0.0) && (lv_anglebetween < 0.0))) {
+        lv_oneispositiveandtheotherisnegative = false;
+        lv_anglebetween = AbsF(lv_anglebetween);
+        lv_unitorientation = AbsF(lv_unitorientation);
+        if (((lv_unitorientation >= lv_anglebetween))) {
+            lv_angledifference = (lv_unitorientation - lv_anglebetween);
+        }
+        else {
+            lv_angledifference = (lv_anglebetween - lv_unitorientation);
+        }
+    }
+
+    if ((lv_oneispositiveandtheotherisnegative == true)) {
+        if ((lv_anglebetween < 0.0)) {
+            lv_preliminarydifference = (lv_anglebetween-(lv_unitorientation - 360.0));
+            if ((lv_preliminarydifference <= 180.0)) {
+                lv_angledifference = lv_preliminarydifference;
+            }
+            else {
+                lv_angledifference = (360.0 - lv_preliminarydifference);
+            }
+        }
+        else {
+            if ((lv_unitorientation < 0.0)) {
+                lv_preliminarydifference = (lv_unitorientation-(lv_anglebetween - 360.0));
+                if ((lv_preliminarydifference <= 180.0)) {
+                    lv_angledifference = lv_preliminarydifference;
+                }
+                else {
+                    lv_angledifference = (360.0 - lv_preliminarydifference);
+                }
+            }
+
+        }
+    }
+
+    return lv_angledifference;
+}
+
+trigger auto_libTIBW_gf_Continuemovingtotargetpoint_Trigger = null;
+unit auto_libTIBW_gf_Continuemovingtotargetpoint_lp_attackingunit;
+point auto_libTIBW_gf_Continuemovingtotargetpoint_lp_point;
+fixed auto_libTIBW_gf_Continuemovingtotargetpoint_lp_movingdistance;
+
+void libTIBW_gf_Continuemovingtotargetpoint (unit lp_attackingunit, point lp_point, fixed lp_movingdistance) {
+    auto_libTIBW_gf_Continuemovingtotargetpoint_lp_attackingunit = lp_attackingunit;
+    auto_libTIBW_gf_Continuemovingtotargetpoint_lp_point = lp_point;
+    auto_libTIBW_gf_Continuemovingtotargetpoint_lp_movingdistance = lp_movingdistance;
+
+    if (auto_libTIBW_gf_Continuemovingtotargetpoint_Trigger == null) {
+        auto_libTIBW_gf_Continuemovingtotargetpoint_Trigger = TriggerCreate("auto_libTIBW_gf_Continuemovingtotargetpoint_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libTIBW_gf_Continuemovingtotargetpoint_Trigger, false, false);
+}
+
+bool auto_libTIBW_gf_Continuemovingtotargetpoint_TriggerFunc (bool testConds, bool runActions) {
+    unit lp_attackingunit = auto_libTIBW_gf_Continuemovingtotargetpoint_lp_attackingunit;
+    point lp_point = auto_libTIBW_gf_Continuemovingtotargetpoint_lp_point;
+    fixed lp_movingdistance = auto_libTIBW_gf_Continuemovingtotargetpoint_lp_movingdistance;
+
+    // Variable Declarations
+    fixed lv_distance;
+    point lv_predeterminedtargetpoint;
+
+    // Automatic Variable Declarations
+    const int autoC5EE311E_n = 1;
+    int autoC5EE311E_i;
+
+    // Variable Initialization
+
+    // Implementation
+    lv_distance = DistanceBetweenPoints(UnitGetPosition(lp_attackingunit), lp_point);
+    for (autoC5EE311E_i = 1; autoC5EE311E_i <= autoC5EE311E_n; autoC5EE311E_i += 1) {
+        lv_predeterminedtargetpoint = PointWithOffsetPolar(UnitGetPosition(lp_attackingunit), lp_movingdistance, AngleBetweenPoints(UnitGetPosition(lp_attackingunit), lp_point));
+        if ((RegionContainsPoint(RegionPlayableMap(), lv_predeterminedtargetpoint) == true)) {
+            libTIBW_gf_ContinuousOrientationAlgorithm(lp_attackingunit, lv_predeterminedtargetpoint);
+            UnitCreateEffectPoint(lp_attackingunit, "SIInfestedBunkerUprootedRangedFarForcePush3", lv_predeterminedtargetpoint);
+            Wait(0.0625, c_timeGame);
+        }
+        else {
+            break;
+        }
+    }
+    return true;
+}
+
+trigger auto_libTIBW_gf_ContinuousOrientationAlgorithm_Trigger = null;
+unit auto_libTIBW_gf_ContinuousOrientationAlgorithm_lp_attackingunit;
+point auto_libTIBW_gf_ContinuousOrientationAlgorithm_lp_point;
+
+void libTIBW_gf_ContinuousOrientationAlgorithm (unit lp_attackingunit, point lp_point) {
+    auto_libTIBW_gf_ContinuousOrientationAlgorithm_lp_attackingunit = lp_attackingunit;
+    auto_libTIBW_gf_ContinuousOrientationAlgorithm_lp_point = lp_point;
+
+    if (auto_libTIBW_gf_ContinuousOrientationAlgorithm_Trigger == null) {
+        auto_libTIBW_gf_ContinuousOrientationAlgorithm_Trigger = TriggerCreate("auto_libTIBW_gf_ContinuousOrientationAlgorithm_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libTIBW_gf_ContinuousOrientationAlgorithm_Trigger, false, false);
+}
+
+bool auto_libTIBW_gf_ContinuousOrientationAlgorithm_TriggerFunc (bool testConds, bool runActions) {
+    unit lp_attackingunit = auto_libTIBW_gf_ContinuousOrientationAlgorithm_lp_attackingunit;
+    point lp_point = auto_libTIBW_gf_ContinuousOrientationAlgorithm_lp_point;
+
+    // Variable Declarations
+    fixed lv_anglebetween;
+    fixed lv_anglebetween2;
+    fixed lv_unitorientation;
+    fixed lv_unitOrientation2;
+    bool lv_oneispositiveandtheotherisnegative;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_oneispositiveandtheotherisnegative = true;
+
+    // Implementation
+    lv_anglebetween = AngleBetweenPoints(UnitGetPosition(lp_attackingunit), lp_point);
+    lv_unitorientation = UnitGetFacing(lp_attackingunit);
+    if (((lv_unitorientation >= 0.0) && (lv_anglebetween >= 0.0))) {
+        if ((lv_unitorientation < (lv_anglebetween - 10.0))) {
+            UnitSetFacing(lp_attackingunit, (lv_unitorientation + 10.0), 0.0625);
+        }
+        else {
+            if ((lv_unitorientation > (lv_anglebetween + 10.0))) {
+                UnitSetFacing(lp_attackingunit, (lv_unitorientation - 10.0), 0.0625);
+            }
+            else {
+                UnitSetFacing(lp_attackingunit, lv_anglebetween, 0.0625);
+            }
+        }
+        lv_oneispositiveandtheotherisnegative = false;
+    }
+
+    if (((lv_unitorientation < 0.0) && (lv_anglebetween < 0.0))) {
+        if ((lv_unitorientation < (lv_anglebetween - 10.0))) {
+            UnitSetFacing(lp_attackingunit, (lv_unitorientation + 10.0), 0.0625);
+        }
+        else {
+            if ((lv_unitorientation > (lv_anglebetween + 10.0))) {
+                UnitSetFacing(lp_attackingunit, (lv_unitorientation - 10.0), 0.0625);
+            }
+            else {
+                UnitSetFacing(lp_attackingunit, lv_anglebetween, 0.0625);
+            }
+        }
+        lv_oneispositiveandtheotherisnegative = false;
+    }
+
+    if ((lv_oneispositiveandtheotherisnegative == true)) {
+        if ((lv_anglebetween < 0.0)) {
+            if (((lv_unitorientation + (0.0 - lv_anglebetween)) <= 180.0)) {
+                if (((lv_unitorientation + (0.0 - lv_anglebetween)) <= 10.0)) {
+                    UnitSetFacing(lp_attackingunit, lv_anglebetween, 0.0625);
+                }
+                else {
+                    UnitSetFacing(lp_attackingunit, (lv_unitorientation - 10.0), 0.0625);
+                }
+            }
+            else {
+                if (((lv_unitorientation + (0.0 - lv_anglebetween)) > 180.0)) {
+                    if (((lv_unitorientation + (0.0 - lv_anglebetween)) >= 350.0)) {
+                        UnitSetFacing(lp_attackingunit, lv_anglebetween, 0.0625);
+                    }
+                    else {
+                        UnitSetFacing(lp_attackingunit, (lv_unitorientation + 10.0), 0.0625);
+                    }
+                }
+
+            }
+        }
+        else {
+            if ((lv_unitorientation < 0.0)) {
+                if (((lv_anglebetween + (0.0 - lv_unitorientation)) <= 180.0)) {
+                    if (((lv_anglebetween + (0.0 - lv_unitorientation)) <= 10.0)) {
+                        UnitSetFacing(lp_attackingunit, lv_anglebetween, 0.0625);
+                    }
+                    else {
+                        UnitSetFacing(lp_attackingunit, (lv_unitorientation + 10.0), 0.0625);
+                    }
+                }
+                else {
+                    if (((lv_anglebetween + (0.0 - lv_unitorientation)) > 180.0)) {
+                        if (((lv_anglebetween + (0.0 - lv_unitorientation)) >= 350.0)) {
+                            UnitSetFacing(lp_attackingunit, lv_anglebetween, 0.0625);
+                        }
+                        else {
+                            UnitSetFacing(lp_attackingunit, (lv_unitorientation - 10.0), 0.0625);
+                        }
+                    }
+
+                }
+            }
+
+        }
+    }
+
+    return true;
+}
+
+trigger auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_Trigger = null;
+unit auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_lp_attackingunit;
+point auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_lp_centerpoint;
+
+void libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft (unit lp_attackingunit, point lp_centerpoint) {
+    auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_lp_attackingunit = lp_attackingunit;
+    auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_lp_centerpoint = lp_centerpoint;
+
+    if (auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_Trigger == null) {
+        auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_Trigger = TriggerCreate("auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_Trigger, false, false);
+}
+
+bool auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_TriggerFunc (bool testConds, bool runActions) {
+    unit lp_attackingunit = auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_lp_attackingunit;
+    point lp_centerpoint = auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_lp_centerpoint;
+
+    // Variable Declarations
+    point lv_movetargetpoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    UnitBehaviorAdd(lp_attackingunit, "VanguardIsCircling", lp_attackingunit, 1);
+    lv_movetargetpoint = libTIBW_gf_HoveringAcquisitionPointPeacekeeperBomber(lp_attackingunit, lp_centerpoint);
+    libTIBW_gf_Continuemovingtotargetpoint(lp_attackingunit, lv_movetargetpoint, 0.2);
+    return true;
+}
+
+trigger auto_libTIBW_gf_Cruiseoncewhilestopped_Trigger = null;
+unit auto_libTIBW_gf_Cruiseoncewhilestopped_lp_attackingunit;
+point auto_libTIBW_gf_Cruiseoncewhilestopped_lp_centerpoint;
+
+void libTIBW_gf_Cruiseoncewhilestopped (unit lp_attackingunit, point lp_centerpoint) {
+    auto_libTIBW_gf_Cruiseoncewhilestopped_lp_attackingunit = lp_attackingunit;
+    auto_libTIBW_gf_Cruiseoncewhilestopped_lp_centerpoint = lp_centerpoint;
+
+    if (auto_libTIBW_gf_Cruiseoncewhilestopped_Trigger == null) {
+        auto_libTIBW_gf_Cruiseoncewhilestopped_Trigger = TriggerCreate("auto_libTIBW_gf_Cruiseoncewhilestopped_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libTIBW_gf_Cruiseoncewhilestopped_Trigger, false, false);
+}
+
+bool auto_libTIBW_gf_Cruiseoncewhilestopped_TriggerFunc (bool testConds, bool runActions) {
+    unit lp_attackingunit = auto_libTIBW_gf_Cruiseoncewhilestopped_lp_attackingunit;
+    point lp_centerpoint = auto_libTIBW_gf_Cruiseoncewhilestopped_lp_centerpoint;
+
+    // Variable Declarations
+    point lv_movetargetpoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    UnitBehaviorAdd(lp_attackingunit, "VanguardIsCircling", lp_attackingunit, 1);
+    lv_movetargetpoint = libTIBW_gf_SurroundAttackAcquisitionPoint(lp_attackingunit, lp_centerpoint);
+    libTIBW_gf_Continuemovingtotargetpoint(lp_attackingunit, lv_movetargetpoint, 0.2);
+    return true;
+}
+
+trigger auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_Trigger = null;
+unit auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_lp_attackingunit;
+point auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_lp_centerpoint;
+
+void libTIBW_gf_Cruiseoncewhendestroyingatarget (unit lp_attackingunit, point lp_centerpoint) {
+    auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_lp_attackingunit = lp_attackingunit;
+    auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_lp_centerpoint = lp_centerpoint;
+
+    if (auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_Trigger == null) {
+        auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_Trigger = TriggerCreate("auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_TriggerFunc");
+    }
+
+    TriggerExecute(auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_Trigger, false, false);
+}
+
+bool auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_TriggerFunc (bool testConds, bool runActions) {
+    unit lp_attackingunit = auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_lp_attackingunit;
+    point lp_centerpoint = auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_lp_centerpoint;
+
+    // Variable Declarations
+    point lv_movetargetpoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Implementation
+    UnitBehaviorAdd(lp_attackingunit, "VanguardIsCircling", lp_attackingunit, 1);
+    lv_movetargetpoint = libTIBW_gf_SurroundAttackAcquisitionPoint(lp_attackingunit, lp_centerpoint);
+    libTIBW_gf_Continuemovingtotargetpoint(lp_attackingunit, lv_movetargetpoint, 0.2);
+    return true;
+}
+
+point libTIBW_gf_SurroundAttackAcquisitionPoint (unit lp_attackingunit, point lp_locationoftheattackedunit) {
+    // Variable Declarations
+    point[37] lv_circlePoint;
+    int lv_a;
+    int lv_b;
+    fixed lv_distance;
+    point lv_closestpoint;
+    fixed lv_anglefromcentertonearestpoint;
+    fixed lv_theproperangle;
+    point lv_finalpoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_distance = 200.0;
+
+    // Implementation
+    lv_anglefromcentertonearestpoint = AngleBetweenPoints(lp_locationoftheattackedunit, UnitGetPosition(lp_attackingunit));
+    if (((TechTreeUnitCount(1, "Nexus", c_techCountCompleteOnly) == 1) && (lv_anglefromcentertonearestpoint < -150.0) && (lv_anglefromcentertonearestpoint > -180.0))) {
+        lv_theproperangle = (180.0 - (lv_anglefromcentertonearestpoint - -180.0));
+    }
+    else {
+        lv_theproperangle = (lv_anglefromcentertonearestpoint - 30.0);
+    }
+    lv_finalpoint = PointWithOffsetPolar(lp_locationoftheattackedunit, 10.0, lv_theproperangle);
+    return lv_finalpoint;
+}
+
+point libTIBW_gf_SurroundAttackAcquisitionPointLargeBomber (unit lp_attackingunit, point lp_locationoftheattackedunit) {
+    // Variable Declarations
+    point[37] lv_circlepoint;
+    int lv_a;
+    int lv_b;
+    fixed lv_distance;
+    point lv_closestpoint;
+    fixed lv_anglefromcentertonearestpoint;
+    fixed lv_theproperangle;
+    point lv_finalpoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_distance = 200.0;
+
+    // Implementation
+    lv_anglefromcentertonearestpoint = AngleBetweenPoints(lp_locationoftheattackedunit, UnitGetPosition(lp_attackingunit));
+    if (((TechTreeUnitCount(1, "Nexus", c_techCountCompleteOnly) == 1) && (lv_anglefromcentertonearestpoint < -150.0) && (lv_anglefromcentertonearestpoint > -180.0))) {
+        lv_theproperangle = (180.0 - (lv_anglefromcentertonearestpoint - -180.0));
+    }
+    else {
+        lv_theproperangle = (lv_anglefromcentertonearestpoint - 30.0);
+    }
+    lv_finalpoint = PointWithOffsetPolar(lp_locationoftheattackedunit, 10.0, lv_theproperangle);
+    return lv_finalpoint;
+}
+
+point libTIBW_gf_OrbitalAttackAcquisitionPointPeacekeeperBomber (unit lp_attackingunit, point lp_locationoftheattackedunit) {
+    // Variable Declarations
+    point[37] lv_circlepoint;
+    int lv_a;
+    int lv_b;
+    fixed lv_distance;
+    point lv_closestpoint;
+    fixed lv_anglefromcentertonearestpoint;
+    fixed lv_theproperangle;
+    point lv_finalpoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_distance = 200.0;
+
+    // Implementation
+    lv_anglefromcentertonearestpoint = AngleBetweenPoints(lp_locationoftheattackedunit, UnitGetPosition(lp_attackingunit));
+    if (((TechTreeUnitCount(1, "Nexus", c_techCountCompleteOnly) == 1) && (lv_anglefromcentertonearestpoint < -150.0) && (lv_anglefromcentertonearestpoint > -180.0))) {
+        lv_theproperangle = (180.0 - (lv_anglefromcentertonearestpoint - -180.0));
+    }
+    else {
+        lv_theproperangle = (lv_anglefromcentertonearestpoint - 30.0);
+    }
+    lv_finalpoint = PointWithOffsetPolar(UnitGetPosition(lp_attackingunit), 1.0, lv_theproperangle);
+    return lv_finalpoint;
+}
+
+point libTIBW_gf_HoveringAcquisitionPointPeacekeeperBomber (unit lp_attackingunit, point lp_locationoftheattackedunit) {
+    // Variable Declarations
+    point[37] lv_circlePoint;
+    int lv_a;
+    int lv_b;
+    fixed lv_distance;
+    point lv_closestpoint;
+    fixed lv_anglefromcentertonearestpoint;
+    fixed lv_theproperangle;
+    point lv_finalpoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_distance = 200.0;
+
+    // Implementation
+    lv_anglefromcentertonearestpoint = AngleBetweenPoints(lp_locationoftheattackedunit, UnitGetPosition(lp_attackingunit));
+    if (((TechTreeUnitCount(1, "Nexus", c_techCountCompleteOnly) == 1) && (lv_anglefromcentertonearestpoint < -150.0) && (lv_anglefromcentertonearestpoint > -180.0))) {
+        lv_theproperangle = (180.0 - (lv_anglefromcentertonearestpoint - -180.0));
+    }
+    else {
+        lv_theproperangle = (lv_anglefromcentertonearestpoint - 30.0);
+    }
+    lv_finalpoint = PointWithOffsetPolar(lp_locationoftheattackedunit, 3.0, lv_theproperangle);
+    return lv_finalpoint;
+}
+
+point libTIBW_gf_Circleacquisitionpointotherlargebombers (unit lp_attackingunit, point lp_locationoftheattackedunit) {
+    // Variable Declarations
+    point[37] lv_circlepoint;
+    int lv_a;
+    int lv_b;
+    fixed lv_distance;
+    point lv_closestpoint;
+    fixed lv_anglefromcentertonearestpoint;
+    fixed lv_theproperangle;
+    point lv_finalpoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_distance = 200.0;
+
+    // Implementation
+    lv_anglefromcentertonearestpoint = AngleBetweenPoints(lp_locationoftheattackedunit, UnitGetPosition(lp_attackingunit));
+    if (((TechTreeUnitCount(1, "Nexus", c_techCountCompleteOnly) == 1) && (lv_anglefromcentertonearestpoint < -150.0) && (lv_anglefromcentertonearestpoint > -180.0))) {
+        lv_theproperangle = (180.0 - (lv_anglefromcentertonearestpoint - -180.0));
+    }
+    else {
+        lv_theproperangle = (lv_anglefromcentertonearestpoint - 30.0);
+    }
+    lv_finalpoint = PointWithOffsetPolar(lp_locationoftheattackedunit, 10.0, lv_theproperangle);
+    return lv_finalpoint;
+}
+
 void libTIBW_gf_ApplyPlayerVoicePack (int lp_player, string lp_voiceID) {
     // Variable Declarations
     string lv_voicePackReward;
@@ -498,6 +1264,978 @@ void libTIBW_gf_CreateDropPod (int lp_race, point lp_location, unitgroup lp_unit
 
 // Triggers
 //--------------------------------------------------------------------------------------------------
+// Trigger: Maintenance bee height adjustment
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Maintenancebeeheightadjustment_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(EventPlayerEffectUsedUnit(c_effectUnitCaster)) == "AlliedRepairBee"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitSetHeight(EventPlayerEffectUsedUnit(c_effectUnitCaster), (UnitGetHeight(EventPlayerEffectUsedUnitImpact()) + 0.6), 1.0);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Maintenancebeeheightadjustment_Init () {
+    libTIBW_gt_Maintenancebeeheightadjustment = TriggerCreate("libTIBW_gt_Maintenancebeeheightadjustment_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_Maintenancebeeheightadjustment, c_playerAny, "Repair3");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Maintenance bee height restored
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Maintenancebeeheightrestored_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitSetHeight(EventPlayerEffectUsedUnitImpact(), 3.75, 1.5);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Maintenancebeeheightrestored_Init () {
+    libTIBW_gt_Maintenancebeeheightrestored = TriggerCreate("libTIBW_gt_Maintenancebeeheightrestored_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_Maintenancebeeheightrestored, c_playerAny, "AurepairDroneHighstart2");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AIRSUPPORT CREATED
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_AIRSUPPORTCREATED_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airport;
+    unit lv_slotUnit;
+    string lv_slotUnitType;
+    string lv_uD;
+    string lv_uDTemp;
+    int lv_slot;
+
+    // Automatic Variable Declarations
+    string auto3A63B6CB_userType;
+    int auto3A63B6CB_i;
+    int auto03165329_ae;
+    const int auto03165329_ai = 1;
+
+    // Variable Initialization
+    lv_airport = EventUnitCreatedUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitHasBehavior2(lv_airport, "AirSupport") == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto3A63B6CB_userType = "Airports";
+    auto3A63B6CB_i = 1;
+    for ( ; auto3A63B6CB_i <= UserDataInstanceCount(auto3A63B6CB_userType) ; auto3A63B6CB_i += 1 ) {
+        lv_uDTemp = UserDataInstance(auto3A63B6CB_userType, auto3A63B6CB_i);
+        if ((UnitGetType(lv_airport) == UserDataGetUnit("Airports", lv_uDTemp, "Airport", 1))) {
+            lv_uD = lv_uDTemp;
+            break;
+        }
+
+    }
+    if ((lv_uD == null)) {
+        return true;
+    }
+
+    auto03165329_ae = UserDataGetInt("Airports", lv_uD, "Slots", 1);
+    lv_slot = 1;
+    for ( ; ( (auto03165329_ai >= 0 && lv_slot <= auto03165329_ae) || (auto03165329_ai < 0 && lv_slot >= auto03165329_ae) ) ; lv_slot += auto03165329_ai ) {
+        lv_slotUnitType = UserDataGetUnit("Airports", lv_uD, "SlotUnit", lv_slot);
+        if ((lv_slotUnitType == null)) {
+            lv_slotUnitType = "DockDummy";
+        }
+
+        libNtve_gf_CreateUnitsWithDefaultFacing(1, lv_slotUnitType, c_unitCreateIgnorePlacement, UnitGetOwner(lv_airport), UnitGetPosition(lv_airport));
+        lv_slotUnit = UnitLastCreated();
+        UnitSetState(lv_slotUnit, c_unitStateInvulnerable, true);
+        UnitSetState(lv_slotUnit, c_unitStateTargetable, false);
+        UnitSetState(lv_slotUnit, c_unitStateSelectable, false);
+        libTIBW_gf_AttachUnitModelToUnit(lv_slotUnit, lv_airport, ("Ref_Hardpoint 0" + IntToString(lv_slot)), 0.0, 0.0, 0.0, "SOp270");
+        UnitSetCustomValue(lv_slotUnit, 1, UserDataGetFixed("Airports", lv_uD, "SlotsOffsetX", lv_slot));
+        UnitSetCustomValue(lv_slotUnit, 2, UserDataGetFixed("Airports", lv_uD, "SlotsOffsetY", lv_slot));
+        UnitSetCustomValue(lv_slotUnit, 3, UserDataGetFixed("Airports", lv_uD, "SlotsHeight", lv_slot));
+        UnitSetCustomValue(lv_slotUnit, 4, UserDataGetFixed("Airports", lv_uD, "SlotsFacing", lv_slot));
+        UnitSetCustomValue(lv_slotUnit, 5, lv_slot);
+        UnitBehaviorAdd(lv_slotUnit, "SuicideWithCaster", lv_airport, 1);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_AIRSUPPORTCREATED_Init () {
+    libTIBW_gt_AIRSUPPORTCREATED = TriggerCreate("libTIBW_gt_AIRSUPPORTCREATED_Func");
+    TriggerAddEventUnitCreated(libTIBW_gt_AIRSUPPORTCREATED, null, null, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AIRPOD CREATED
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_AIRPODCREATED_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airport;
+    string lv_uD;
+    string lv_uDTemp;
+
+    // Automatic Variable Declarations
+    string autoFDAE1AD7_userType;
+    int autoFDAE1AD7_i;
+
+    // Variable Initialization
+    lv_airport = EventUnitCreatedUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetCustomValue(lv_airport, 5) == 0.0))) {
+            return false;
+        }
+
+        if (!((UnitHasBehavior2(lv_airport, "AircraftAirportParkingAircraftTracking") == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoFDAE1AD7_userType = "Airports";
+    autoFDAE1AD7_i = 1;
+    for ( ; autoFDAE1AD7_i <= UserDataInstanceCount(autoFDAE1AD7_userType) ; autoFDAE1AD7_i += 1 ) {
+        lv_uDTemp = UserDataInstance(autoFDAE1AD7_userType, autoFDAE1AD7_i);
+        if ((UnitGetType(lv_airport) == UserDataGetUnit("Airports", lv_uDTemp, "Airport", 1))) {
+            lv_uD = lv_uDTemp;
+            break;
+        }
+
+    }
+    if ((lv_uD == null)) {
+        return true;
+    }
+
+    UnitSetCustomValue(lv_airport, 1, UserDataGetFixed("Airports", lv_uD, "SlotsOffsetX", 1));
+    UnitSetCustomValue(lv_airport, 2, UserDataGetFixed("Airports", lv_uD, "SlotsOffsetY", 1));
+    UnitSetCustomValue(lv_airport, 3, UserDataGetFixed("Airports", lv_uD, "SlotsHeight", 1));
+    UnitSetCustomValue(lv_airport, 4, UserDataGetFixed("Airports", lv_uD, "SlotsFacing", 1));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_AIRPODCREATED_Init () {
+    libTIBW_gt_AIRPODCREATED = TriggerCreate("libTIBW_gt_AIRPODCREATED_Func");
+    TriggerAddEventUnitCreated(libTIBW_gt_AIRPODCREATED, null, null, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AIRPORTS Map INIT
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_AIRPORTSMapINIT_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airport;
+    unit lv_slotUnit;
+    string lv_slotUnitType;
+    string lv_uD;
+    int lv_slot;
+
+    // Automatic Variable Declarations
+    string auto1447518F_userType;
+    int auto1447518F_i;
+    unitgroup auto69274B30_g;
+    int auto69274B30_u;
+    int auto7D208784_ae;
+    const int auto7D208784_ai = 1;
+
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto1447518F_userType = "Airports";
+    auto1447518F_i = 1;
+    for ( ; auto1447518F_i <= UserDataInstanceCount(auto1447518F_userType) ; auto1447518F_i += 1 ) {
+        lv_uD = UserDataInstance(auto1447518F_userType, auto1447518F_i);
+        auto69274B30_g = UnitGroup(UserDataGetUnit("Airports", lv_uD, "Airport", 1), c_playerAny, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+        auto69274B30_u = UnitGroupCount(auto69274B30_g, c_unitCountAll);
+        for (;; auto69274B30_u -= 1) {
+            lv_airport = UnitGroupUnitFromEnd(auto69274B30_g, auto69274B30_u);
+            if (lv_airport == null) { break; }
+            auto7D208784_ae = UserDataGetInt("Airports", lv_uD, "Slots", 1);
+            lv_slot = 1;
+            for ( ; ( (auto7D208784_ai >= 0 && lv_slot <= auto7D208784_ae) || (auto7D208784_ai < 0 && lv_slot >= auto7D208784_ae) ) ; lv_slot += auto7D208784_ai ) {
+                lv_slotUnitType = UserDataGetUnit("Airports", lv_uD, "SlotUnit", lv_slot);
+                if ((lv_slotUnitType == null)) {
+                    lv_slotUnitType = "DockDummy";
+                }
+
+                libNtve_gf_CreateUnitsWithDefaultFacing(1, lv_slotUnitType, c_unitCreateIgnorePlacement, UnitGetOwner(lv_airport), UnitGetPosition(lv_airport));
+                lv_slotUnit = UnitLastCreated();
+                libTIBW_gf_AttachUnitModelToUnit(lv_slotUnit, lv_airport, ("Ref_Hardpoint 0" + IntToString(lv_slot)), 0.0, 0.0, 0.0, "SOp270");
+                UnitSetCustomValue(lv_slotUnit, 1, UserDataGetFixed("Airports", lv_uD, "SlotsOffsetX", lv_slot));
+                UnitSetCustomValue(lv_slotUnit, 2, UserDataGetFixed("Airports", lv_uD, "SlotsOffsetY", lv_slot));
+                UnitSetCustomValue(lv_slotUnit, 3, UserDataGetFixed("Airports", lv_uD, "SlotsHeight", lv_slot));
+                UnitSetCustomValue(lv_slotUnit, 4, UserDataGetFixed("Airports", lv_uD, "SlotsFacing", lv_slot));
+                UnitBehaviorAdd(lv_slotUnit, "SuicideWithCaster", lv_airport, 1);
+            }
+        }
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_AIRPORTSMapINIT_Init () {
+    libTIBW_gt_AIRPORTSMapINIT = TriggerCreate("libTIBW_gt_AIRPORTSMapINIT_Func");
+    TriggerAddEventMapInit(libTIBW_gt_AIRPORTSMapINIT);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: MoveCommandOverrideExecute 2
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_MoveCommandOverrideExecute2_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+    unit lv_airport;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+    lv_airport = EventUnitTargetUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitAbilityExists(lv_airplane, "VS_ReturnToAirport") == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((UnitHasBehavior2(lv_airport, "AirSupport") == true)) {
+        libTIBW_gf_SearchForAirportandLockit(lv_airplane, lv_airport, 15, false);
+    }
+    else {
+        if ((UnitHasBehavior2(lv_airport, "AircraftAirportParkingAircraftTracking") == true)) {
+            libTIBW_gf_TargetAirport(lv_airplane, lv_airport);
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_MoveCommandOverrideExecute2_Init () {
+    libTIBW_gt_MoveCommandOverrideExecute2 = TriggerCreate("libTIBW_gt_MoveCommandOverrideExecute2_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_MoveCommandOverrideExecute2, null, AbilityCommand("CNCAirplaneMove", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: CREATED - Aircraft manufacturing completed
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_CREATEDAircraftmanufacturingcompleted_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airport;
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airport = EventUnitProgressUnit();
+    lv_airplane = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitAbilityExists(lv_airplane, "VS_ReturnToAirport") == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_SearchForAirportandLockit(lv_airplane, lv_airport, 15, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_CREATEDAircraftmanufacturingcompleted_Init () {
+    libTIBW_gt_CREATEDAircraftmanufacturingcompleted = TriggerCreate("libTIBW_gt_CREATEDAircraftmanufacturingcompleted_Func");
+    TriggerAddEventUnitTrainProgress(libTIBW_gt_CREATEDAircraftmanufacturingcompleted, null, c_unitProgressStageComplete);
+    TriggerAddEventUnitConstructProgress(libTIBW_gt_CREATEDAircraftmanufacturingcompleted, null, c_unitProgressStageComplete);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Shadow Glide
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ShadowGlide_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitAbilityExists(lv_airplane, "CNCAirplaneMove") == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_F97291B1"), true);
+    Wait(0.2, c_timeGame);
+    UnitAbilityAdd(lv_airplane, "CNCAirplaneMove");
+    UnitAbilityAdd(lv_airplane, "attack2");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ShadowGlide_Init () {
+    libTIBW_gt_ShadowGlide = TriggerCreate("libTIBW_gt_ShadowGlide_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_ShadowGlide, null, "VanguardIsCircling", c_unitBehaviorChangeIncrease);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Shadow Landing
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ShadowLanding_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitAbilityExists(lv_airplane, "CNCAirplaneMove") == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    Wait(0.05, c_timeGame);
+    UnitAbilityRemove(lv_airplane, "CNCAirplaneMove");
+    UnitAbilityRemove(lv_airplane, "attack2");
+    UnitAbilityAdd(lv_airplane, "move");
+    UnitAbilityAdd(lv_airplane, "attack");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ShadowLanding_Init () {
+    libTIBW_gt_ShadowLanding = TriggerCreate("libTIBW_gt_ShadowLanding_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_ShadowLanding, null, AbilityCommand("NodShadowLand", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: LANDING - Allied airfield landing
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_LANDINGAlliedairfieldlanding_Func (bool testConds, bool runActions) {
+    int init_i;
+
+    // Variable Declarations
+    string lv_behavior;
+    unit lv_airport;
+    unit lv_airplane;
+    point lv_landingpoint;
+    point lv_lowerlandingpoint;
+    point lv_upperlandingpoint;
+    fixed lv_angledifference;
+    fixed lv_turningtime;
+    int lv_aircraftheading;
+    string lv_airportcustomvaluestringtotal;
+    string[5] lv_airportcustomvaluestringgroup;
+    int lv_useslot;
+    fixed lv_landingTime;
+    string lv_dataTag;
+
+    // Automatic Variable Declarations
+    string autoDD2E61DE_val;
+
+    // Variable Initialization
+    lv_airplane = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+    lv_landingpoint = EventPlayerEffectUsedPoint(c_effectLocationTargetPoint);
+    lv_airportcustomvaluestringtotal = "";
+    for (init_i = 0; init_i <= 4; init_i += 1) {
+        lv_airportcustomvaluestringgroup[init_i] = "";
+    }
+    lv_dataTag = ("TARGETAIRPORT" + IntToString(UnitGetTag(lv_airplane)));
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((DataTableValueExists(true, lv_dataTag) == false)) {
+        libTIBW_gf_SearchForAirportandLockit(lv_airplane, null, 0, false);
+        return true;
+    }
+
+    lv_airport = DataTableGetUnit(true, lv_dataTag);
+    DataTableValueRemove(true, ("TARGETAIRPORT" + lv_dataTag));
+    UnitBehaviorRemove(lv_airport, "LockedLandingPad", 1);
+    if ((UnitHasBehavior2(lv_airport, "Docked") == true)) {
+        libTIBW_gf_SearchForAirportandLockit(lv_airplane, lv_airport, 15, true);
+        return true;
+    }
+
+    UnitBehaviorAdd(lv_airport, "Docked", lv_airplane, 1);
+    UnitBehaviorAdd(lv_airplane, "AirportCurrentlyLanding", lv_airport, 1);
+    lv_aircraftheading = FixedToInt(((-45.0 + UnitGetFacing(lv_airport)) + UnitGetCustomValue(lv_airport, 4)));
+    UnitIssueOrder(lv_airplane, Order(AbilityCommand("ReloadingDummy", 0)), c_orderQueueAddToFront);
+    UnitIssueOrder(lv_airplane, OrderTargetingPoint(AbilityCommand("CNCAirplaneMove", 0), lv_landingpoint), c_orderQueueAddToFront);
+    Wait(0.5, c_timeGame);
+    if (((UnitIsAlive(lv_airplane) == false) || (UnitIsAlive(lv_airport) == false))) {
+        UnitBehaviorRemove(lv_airplane, "Airportcirclingprohibitedforaperiodoftime", 1);
+        UnitBehaviorRemove(lv_airplane, "AirportCurrentlyLanding", 1);
+
+    }
+    else {
+        UnitSetPosition(lv_airplane, lv_landingpoint, false);
+        if ((UnitIsAlive(lv_airplane) == true) && (UnitIsAlive(lv_airport) == true)) {
+            lv_angledifference = libTIBW_gf_Angledifferencebetweenunitandtargetpoint(lv_airplane, PointWithOffsetPolar(lv_landingpoint, 1.0, lv_aircraftheading));
+            lv_turningtime = (lv_angledifference / UnitGetPropertyFixed(lv_airplane, c_unitPropTurnRate, c_unitPropCurrent));
+            if ((lv_turningtime >= 1)) {
+                lv_turningtime = 1.0;
+            }
+
+            UnitSetFacing(lv_airplane, lv_aircraftheading, lv_turningtime);
+        }
+        else {
+            UnitBehaviorRemove(lv_airplane, "Airportcirclingprohibitedforaperiodoftime", 1);
+            UnitBehaviorRemove(lv_airplane, "AirportCurrentlyLanding", 1);
+            UnitBehaviorRemove(lv_airport, "Docked", 1);
+
+        }
+        if ((UnitIsAlive(lv_airplane) == true) && (UnitIsAlive(lv_airport) == true)) {
+            UnitBehaviorAdd(lv_airplane, "AirportNousefortakeoff", lv_airplane, 1);
+            autoDD2E61DE_val = UnitGetType(lv_airplane);
+            if (autoDD2E61DE_val == "SovietBeaver") {
+                lv_landingTime = 2.0;
+            }
+            else if (autoDD2E61DE_val == "ChinaH20StealthBomber") {
+                lv_landingTime = 2.0;
+            }
+            else if (autoDD2E61DE_val == "AlliedCenturyBomber") {
+                lv_landingTime = 1.6;
+            }
+            else {
+                lv_landingTime = 0.75;
+            }
+            UnitSetHeight(lv_airplane, (UnitGetHeight(lv_airport) + UnitGetCustomValue(lv_airport, 3)), lv_landingTime);
+            UnitBehaviorRemove(lv_airplane, "AirportCurrentlyLanding", 1);
+            UnitBehaviorSetDuration(lv_airplane, "AirportNousefortakeoff", lv_landingTime);
+            UnitBehaviorAdd(lv_airplane, "Airportlanded", lv_airplane, 1);
+            UnitBehaviorAdd(lv_airplane, "Aircraftreversesurveillanceoftheairport", lv_airplane, 1);
+            UnitCreateEffectUnit(lv_airport, "CNCTrackairporttoaircraft", lv_airplane);
+            UnitBehaviorAdd(lv_airplane, "Notifyairportaftertakeofforexplosion", lv_airplane, 1);
+            UnitBehaviorRemove(lv_airplane, "Airportslotassigned", 1);
+            Wait(lv_landingTime, c_timeGame);
+            UnitSetHeight(lv_airplane, (UnitGetHeight(lv_airport) + UnitGetCustomValue(lv_airport, 3)), 0.0);
+        }
+        else {
+            UnitBehaviorRemove(lv_airplane, "AirportCurrentlyLanding", 1);
+            UnitBehaviorRemove(lv_airplane, "Airportcirclingprohibitedforaperiodoftime", 1);
+            UnitBehaviorRemove(lv_airport, "Docked", 1);
+
+        }
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_LANDINGAlliedairfieldlanding_Init () {
+    libTIBW_gt_LANDINGAlliedairfieldlanding = TriggerCreate("libTIBW_gt_LANDINGAlliedairfieldlanding_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_LANDINGAlliedairfieldlanding, c_playerAny, "DockedDummy");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Aircraft restoration slot
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Aircraftrestorationslot_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airport;
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airport = EventPlayerEffectUsedUnit(c_effectUnitTarget);
+    lv_airplane = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitBehaviorRemove(lv_airport, "Docked", 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Aircraftrestorationslot_Init () {
+    libTIBW_gt_Aircraftrestorationslot = TriggerCreate("libTIBW_gt_Aircraftrestorationslot_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_Aircraftrestorationslot, c_playerAny, "Vesteffectwhenaircraftdiesortakesoff");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: TAKEOFF - The effect of the plane after takeoff
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_TAKEOFFTheeffectoftheplaneaftertakeoff_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airport;
+    unit lv_airplane;
+    fixed lv_waitingtime;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_Theplanetakesoff(lv_airplane);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_TAKEOFFTheeffectoftheplaneaftertakeoff_Init () {
+    libTIBW_gt_TAKEOFFTheeffectoftheplaneaftertakeoff = TriggerCreate("libTIBW_gt_TAKEOFFTheeffectoftheplaneaftertakeoff_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_TAKEOFFTheeffectoftheplaneaftertakeoff, c_playerAny, "PlaneTakesOffC");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: TAKEOFF ATTACK
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_TAKEOFFATTACK_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+    fixed lv_waitingtime;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitHasBehavior2(lv_airplane, "Notifyairportaftertakeofforexplosion") == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(lv_airplane, Order(AbilityCommand("CNCAirportPlanetakingoff", 0)), c_orderQueueAddToFront);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_TAKEOFFATTACK_Init () {
+    libTIBW_gt_TAKEOFFATTACK = TriggerCreate("libTIBW_gt_TAKEOFFATTACK_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_TAKEOFFATTACK, null, AbilityCommand("attack2", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_TAKEOFFATTACK, null, AbilityCommand("CNCAirplaneMove", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_TAKEOFFATTACK, null, AbilityCommand("CNCAirplaneMove", 1), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_TAKEOFFATTACK, null, AbilityCommand("CNCAirplaneMove", 3), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: NO AMMO - RETURN
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_NOAMMORETURN_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_05D1435A"), true);
+    if ((UnitGetCustomValue(lv_airplane, 11) == 0.0)) {
+        libTIBW_gf_SearchForAirportandLockit(lv_airplane, null, 0, false);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_NOAMMORETURN_Init () {
+    libTIBW_gt_NOAMMORETURN = TriggerCreate("libTIBW_gt_NOAMMORETURN_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_NOAMMORETURN, c_playerAny, "AirReturnLackOfAmmoDummy");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: NO AMMO - Attack Complete
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_NOAMMOAttackComplete_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_6285126F"), true);
+    if ((ValidatorExecute("CasterHasEnergy22", lv_airplane, lv_airplane) == 0) && (UnitGetCustomValue(lv_airplane, 11) == 0.0)) {
+        libTIBW_gf_SearchForAirportandLockit(lv_airplane, null, 0, false);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_NOAMMOAttackComplete_Init () {
+    libTIBW_gt_NOAMMOAttackComplete = TriggerCreate("libTIBW_gt_NOAMMOAttackComplete_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_NOAMMOAttackComplete, null, AbilityCommand("attack2", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ENABLE AUTO-RETURN
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ENABLEAUTORETURN_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitSetCustomValue(lv_airplane, 11, 0.0);
+    if ((ValidatorExecute("CasterHasEnergy22", lv_airplane, lv_airplane) == 0)) {
+        libTIBW_gf_SearchForAirportandLockit(lv_airplane, null, 0, false);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ENABLEAUTORETURN_Init () {
+    libTIBW_gt_ENABLEAUTORETURN = TriggerCreate("libTIBW_gt_ENABLEAUTORETURN_Func");
+    TriggerAddEventUnitAbilityAutoCastChange(libTIBW_gt_ENABLEAUTORETURN, null, AbilityCommand("CNCReturnToTheAirport", 0), c_unitAbilAutoCastChangeOn, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DISABLE AUTO-RETURN
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_DISABLEAUTORETURN_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitSetCustomValue(lv_airplane, 11, 1.0);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_DISABLEAUTORETURN_Init () {
+    libTIBW_gt_DISABLEAUTORETURN = TriggerCreate("libTIBW_gt_DISABLEAUTORETURN_Func");
+    TriggerAddEventUnitAbilityAutoCastChange(libTIBW_gt_DISABLEAUTORETURN, null, AbilityCommand("CNCReturnToTheAirport", 0), c_unitAbilAutoCastChangeOff, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: DOCKED CANCELLED - remove lock
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_DOCKEDCANCELLEDremovelock_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+    unit lv_airport;
+    string lv_dataTag;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+    lv_dataTag = ("TARGETAIRPORT" + IntToString(UnitGetTag(lv_airplane)));
+
+    // Conditions
+    if (testConds) {
+        if (!((DataTableValueExists(true, lv_dataTag) == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_airport = DataTableGetUnit(true, lv_dataTag);
+    DataTableValueRemove(true, ("TARGETAIRPORT" + lv_dataTag));
+    UnitBehaviorRemove(lv_airport, "LockedLandingPad", 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_DOCKEDCANCELLEDremovelock_Init () {
+    libTIBW_gt_DOCKEDCANCELLEDremovelock = TriggerCreate("libTIBW_gt_DOCKEDCANCELLEDremovelock_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_DOCKEDCANCELLEDremovelock, null, AbilityCommand("VS_ReturnToAirport", 0), c_unitAbilStageCancel, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ABILITY - RETURN TO AIRPORT GLOBAL
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ABILITYRETURNTOAIRPORTGLOBAL_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_SearchForAirportandLockit(EventPlayerEffectUsedUnit(c_effectUnitCaster), null, 0, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ABILITYRETURNTOAIRPORTGLOBAL_Init () {
+    libTIBW_gt_ABILITYRETURNTOAIRPORTGLOBAL = TriggerCreate("libTIBW_gt_ABILITYRETURNTOAIRPORTGLOBAL_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_ABILITYRETURNTOAIRPORTGLOBAL, c_playerAny, "AirReturn");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ABILITY - RETURN TO AIRPORT TARGET
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ABILITYRETURNTOAIRPORTTARGET_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_TargetAirport(EventPlayerEffectUsedUnit(c_effectUnitCaster), EventPlayerEffectUsedUnit(c_effectUnitTarget));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ABILITYRETURNTOAIRPORTTARGET_Init () {
+    libTIBW_gt_ABILITYRETURNTOAIRPORTTARGET = TriggerCreate("libTIBW_gt_ABILITYRETURNTOAIRPORTTARGET_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_ABILITYRETURNTOAIRPORTTARGET, c_playerAny, "DockedDummy2");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Pioneer mobile reset cd
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Pioneermobileresetcd_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_attackingunit;
+    fixed lv_angle;
+    point lv_centerpoint;
+    point lv_movetargetpoint;
+    fixed lv_angledifference;
+    fixed lv_timerequired;
+    int lv_requirednumberoftimes;
+    bool lv_isitleft;
+    fixed lv_approximatearcdistance;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_attackingunit = EventUnit();
+    lv_angledifference = libTIBW_gf_Angledifferencebetweenunitandtargetpoint(lv_attackingunit, EventUnitTargetPoint());
+    if ((lv_angledifference > 45.0)) {
+        UnitBehaviorAdd(lv_attackingunit, "VanguardCannotUseMovementSkills", lv_attackingunit, 1);
+        UnitBehaviorSetDuration(lv_attackingunit, "VanguardCannotUseMovementSkills", 0.5);
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Pioneermobileresetcd_Init () {
+    libTIBW_gt_Pioneermobileresetcd = TriggerCreate("libTIBW_gt_Pioneermobileresetcd_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_Pioneermobileresetcd, null, AbilityCommand("CNCAirplaneMove", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Vanguard Attack Surround
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_VanguardAttackSurround_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_attackingunit;
+    unit lv_attackedunit;
+    point lv_movetargetpoint;
+    fixed lv_angle;
+    point lv_centerpoint;
+    int lv_numberofdelays;
+
+    // Automatic Variable Declarations
+    const int autoB2BFEA98_n = 80;
+    int autoB2BFEA98_i;
+    int auto93D5416E_n;
+    int auto93D5416E_i;
+
+    // Variable Initialization
+    lv_numberofdelays = 80;
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitBehaviorCount(EventPlayerEffectUsedUnit(c_effectUnitCaster), "VanguardCannotUseMovementSkills") == 0))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_attackingunit = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+    lv_attackedunit = EventPlayerEffectUsedUnit(c_effectUnitTarget);
+    lv_attackingunit = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+    lv_angle = AngleBetweenPoints(UnitGetPosition(lv_attackingunit), UnitGetPosition(lv_attackedunit));
+    lv_centerpoint = PointWithOffsetPolar(UnitGetPosition(lv_attackingunit), 0.1, lv_angle);
+    Wait(0.1, c_timeGame);
+    for (autoB2BFEA98_i = 1; autoB2BFEA98_i <= autoB2BFEA98_n; autoB2BFEA98_i += 1) {
+        if (((UnitIsAlive(lv_attackingunit) == true) && (UnitIsAlive(lv_attackedunit) == true) && (UnitBehaviorCount(lv_attackingunit, "DisablestopautoandattackinVanguardmovementcommand") == 0))) {
+            lv_numberofdelays -= 1;
+            lv_angle = AngleBetweenPoints(UnitGetPosition(lv_attackingunit), UnitGetPosition(lv_attackedunit));
+            UnitBehaviorAdd(lv_attackingunit, "PioneerDisablesStoppingAutoCirclingA", lv_attackingunit, 1);
+            UnitBehaviorSetDuration(lv_attackingunit, "PioneerDisablesStoppingAutoCirclingA", 0.125);
+            lv_movetargetpoint = libTIBW_gf_SurroundAttackAcquisitionPoint(lv_attackingunit, UnitGetPosition(lv_attackedunit));
+            libTIBW_gf_Continuemovingtotargetpoint(lv_attackingunit, lv_movetargetpoint, 0.2);
+            Wait(0.0625, c_timeGame);
+        }
+        else {
+            if (((UnitIsAlive(lv_attackingunit) == true) && (UnitIsAlive(lv_attackedunit) == false) && (UnitBehaviorCount(lv_attackingunit, "DisablestopautoandattackinVanguardmovementcommand") == 0))) {
+                lv_centerpoint = PointWithOffsetPolar(UnitGetPosition(lv_attackingunit), 6.0, lv_angle);
+                lv_numberofdelays -= 3;
+                auto93D5416E_n = lv_numberofdelays;
+                for (auto93D5416E_i = 1; auto93D5416E_i <= auto93D5416E_n; auto93D5416E_i += 1) {
+                    if ((UnitBehaviorCount(lv_attackingunit, "DisablestopautoandattackinVanguardmovementcommand") == 0)) {
+                        libTIBW_gf_Cruiseoncewhendestroyingatarget(lv_attackingunit, lv_centerpoint);
+                        Wait(0.0625, c_timeGame);
+                    }
+                    else {
+                        break;
+                    }
+                }
+                break;
+            }
+            else {
+                UnitBehaviorRemove(lv_attackingunit, "PioneerDisablesStoppingAutoCirclingA", 1);
+                break;
+            }
+        }
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_VanguardAttackSurround_Init () {
+    libTIBW_gt_VanguardAttackSurround = TriggerCreate("libTIBW_gt_VanguardAttackSurround_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_VanguardAttackSurround, c_playerAny, "Vanguardsurroundingvesteffect");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: CIRCLE - Allied fighter planes automatically circle when stopped
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_attackingunit;
+    fixed lv_angle;
+    point lv_centerpoint;
+    point lv_movetargetpoint;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+
+    // Conditions
+    if (testConds) {
+        if (!(((UnitBehaviorCount(EventPlayerEffectUsedUnit(c_effectUnitCaster), "PioneerDisablesStoppingAutoCirclingA") == 0) && (UnitBehaviorCount(EventPlayerEffectUsedUnit(c_effectUnitCaster), "DisablestopautoandattackinVanguardmovementcommand") == 0)))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_attackingunit = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+    lv_angle = (UnitGetFacing(lv_attackingunit) - 150.0);
+    lv_centerpoint = PointWithOffsetPolar(UnitGetPosition(lv_attackingunit), 0.1, lv_angle);
+    while (true) {
+        if (((UnitIsAlive(lv_attackingunit) == true) && (UnitBehaviorCount(lv_attackingunit, "PioneerDisablesStoppingAutoCirclingA") == 0) && (UnitBehaviorCount(lv_attackingunit, "DisablestopautoandattackinVanguardmovementcommand") == 0) && (UnitBehaviorCount(lv_attackingunit, "StopautocirclingdisabledinPeacekeeperbomberattackcommand") == 0) && (UnitOrderCount(lv_attackingunit) == 0))) {
+            libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft(lv_attackingunit, lv_centerpoint);
+            Wait(0.0625, c_timeGame);
+        }
+        else {
+            break;
+        }
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped_Init () {
+    libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped = TriggerCreate("libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped, c_playerAny, "Thehoveringvesteffectwhenthevanguardisstopped");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Test
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
@@ -934,6 +2672,33 @@ void libTIBW_gt_Nuke_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Salvage Refund
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_SalvageRefund_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_player = UnitGetOwner(EventUnit());
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_player, c_playerPropMinerals) + CeilingI((CatalogFieldValueGetAsInt(c_gameCatalogUnit, UnitGetType(EventUnit()), "CostResource[" + IntToString(0) + "]", lv_player) * 0.75))));
+    PlayerModifyPropertyInt(lv_player, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_player, c_playerPropVespene) + CeilingI((CatalogFieldValueGetAsInt(c_gameCatalogUnit, UnitGetType(EventUnit()), "CostResource[" + IntToString(1) + "]", lv_player) * 0.75))));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_SalvageRefund_Init () {
+    libTIBW_gt_SalvageRefund = TriggerCreate("libTIBW_gt_SalvageRefund_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_SalvageRefund, null, AbilityCommand("NodStructureSalvageRefund", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Check Units Placement
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_CheckUnitsPlacement_Func (bool testConds, bool runActions) {
@@ -1019,6 +2784,137 @@ void libTIBW_gt_ReckonerSiege_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Start construction
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_UntitledTrigger001_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitBehaviorAdd(EventUnit(), "NodVestConstruction", EventUnit(), 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_UntitledTrigger001_Init () {
+    libTIBW_gt_UntitledTrigger001 = TriggerCreate("libTIBW_gt_UntitledTrigger001_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 1), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 6), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 10), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 5), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 4), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 9), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 3), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 8), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 7), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 13), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Start Support construction
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_UntitledTrigger003_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitBehaviorAdd(EventUnit(), "NodSupportVestConstruction", EventUnit(), 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_UntitledTrigger003_Init () {
+    libTIBW_gt_UntitledTrigger003 = TriggerCreate("libTIBW_gt_UntitledTrigger003_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger003, null, AbilityCommand("NodConstructionSupportArm", 5), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger003, null, AbilityCommand("NodConstructionSupportArm", 2), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger003, null, AbilityCommand("NodConstructionSupportArm", 4), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger003, null, AbilityCommand("NodConstructionSupportArm", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger003, null, AbilityCommand("NodConstructionSupportArm", 3), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger003, null, AbilityCommand("NodConstructionSupportArm", 1), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger003, null, AbilityCommand("NodConstructionSupportArm", 6), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger003, null, AbilityCommand("NodConstructionYardTrain", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Construction Ends
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_UntitledTrigger002_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitBehaviorRemove(EventUnit(), "NodVestConstruction", 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_UntitledTrigger002_Init () {
+    libTIBW_gt_UntitledTrigger002 = TriggerCreate("libTIBW_gt_UntitledTrigger002_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 1), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 1), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 6), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 6), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 10), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 10), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 5), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 5), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 4), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 4), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 0), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 0), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 9), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 9), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 3), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 3), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 8), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 8), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 7), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 7), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 13), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 13), c_unitAbilStageCancel, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Construction Support  Ends
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_UntitledTrigger004_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitBehaviorRemove(EventUnit(), "NodSupportVestConstruction", 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_UntitledTrigger004_Init () {
+    libTIBW_gt_UntitledTrigger004 = TriggerCreate("libTIBW_gt_UntitledTrigger004_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 5), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 5), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 2), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 2), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 4), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 4), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 0), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 0), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 3), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 3), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 6), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 6), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionYardTrain", 0), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionYardTrain", 0), c_unitAbilStageCancel, false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Vest Created
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_VestCreated_Func (bool testConds, bool runActions) {
@@ -1050,6 +2946,7 @@ bool libTIBW_gt_VestCreated_Func (bool testConds, bool runActions) {
 void libTIBW_gt_VestCreated_Init () {
     libTIBW_gt_VestCreated = TriggerCreate("libTIBW_gt_VestCreated_Func");
     TriggerAddEventUnitCreated(libTIBW_gt_VestCreated, null, "NodConstructionArm", null);
+    TriggerAddEventUnitCreated(libTIBW_gt_VestCreated, null, "NodConstructionSupportArm", null);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1118,7 +3015,13 @@ bool libTIBW_gt_ConjoinedBehaviors_Func (bool testConds, bool runActions) {
 
     lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
     auto7C2D447B_val = EventUnitBehavior();
-    if (auto7C2D447B_val == "ChronoBoostEnergyCost") {
+    if (auto7C2D447B_val == "NodVestConstruction") {
+        lv_behavior = "NodVestConstruction";
+    }
+    else if (auto7C2D447B_val == "NodVestArmed") {
+        lv_behavior = "NodVestArmed";
+    }
+    else if (auto7C2D447B_val == "ChronoBoostEnergyCost") {
         lv_behavior = "ChronoBoostEnergyCostSupport";
     }
     else if (auto7C2D447B_val == "Contaminated") {
@@ -1149,6 +3052,66 @@ bool libTIBW_gt_ConjoinedBehaviors_Func (bool testConds, bool runActions) {
 void libTIBW_gt_ConjoinedBehaviors_Init () {
     libTIBW_gt_ConjoinedBehaviors = TriggerCreate("libTIBW_gt_ConjoinedBehaviors_Func");
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_ConjoinedBehaviors, null, null, c_unitBehaviorChangeAny);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Conjoined Behaviors 2
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ConjoinedBehaviors2_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+    unit lv_conjoined;
+    string lv_behavior;
+
+    // Automatic Variable Declarations
+    string autoF3162313_val;
+    int autoDC3329E5_val;
+
+    // Variable Initialization
+    lv_unit = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!(libTIBW_gf_UnitIsConjoinedModule(lv_unit))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
+    autoF3162313_val = EventUnitBehavior();
+    if (autoF3162313_val == "NodVestSupportArmed") {
+        lv_behavior = "NodVestSupportArmed";
+    }
+    else if (autoF3162313_val == "NodSupportVestConstruction") {
+        lv_behavior = "NodSupportVestConstruction";
+    }
+    else {
+        return true;
+    }
+    if ((lv_behavior != null)) {
+        autoDC3329E5_val = EventUnitBehaviorChange();
+        if (autoDC3329E5_val == c_unitBehaviorChangeCreate) {
+            UnitBehaviorAdd(lv_conjoined, lv_behavior, lv_unit, 1);
+        }
+        else if (autoDC3329E5_val == c_unitBehaviorChangeDestroy) {
+            UnitBehaviorRemove(lv_conjoined, lv_behavior, 1);
+        }
+        else {
+        }
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ConjoinedBehaviors2_Init () {
+    libTIBW_gt_ConjoinedBehaviors2 = TriggerCreate("libTIBW_gt_ConjoinedBehaviors2_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_ConjoinedBehaviors2, null, null, c_unitBehaviorChangeAny);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1232,8 +3195,6 @@ bool libTIBW_gt_MorphtoMCV_Func (bool testConds, bool runActions) {
         UnitSelect(lv_support, UnitGetOwner(EventUnit()), false);
         UnitIssueOrder(lv_cY, Order(AbilityCommand("NodConstructionYardPack", 0)), c_orderQueueReplace);
     }
-    UnitIssueOrder(lv_cY, Order(AbilityCommand("NodConstruction", 30)), c_orderQueueAddToFront);
-    UnitIssueOrder(lv_support, Order(AbilityCommand("NodConstructionSupport", 30)), c_orderQueueAddToFront);
     UnitIssueOrder(lv_cY, Order(AbilityCommand("NodConstructionDiscard", 0)), c_orderQueueAddToFront);
     UnitIssueOrder(lv_support, Order(AbilityCommand("NodConstructionDiscard", 0)), c_orderQueueAddToFront);
     UnitBehaviorRemove(lv_cY, "CnCConjoinedUnit", 1);
@@ -2602,6 +4563,29 @@ void libTIBW_gt__GDIDropPod_Init () {
 }
 
 void libTIBW_InitTriggers () {
+    libTIBW_gt_Maintenancebeeheightadjustment_Init();
+    libTIBW_gt_Maintenancebeeheightrestored_Init();
+    libTIBW_gt_AIRSUPPORTCREATED_Init();
+    libTIBW_gt_AIRPODCREATED_Init();
+    libTIBW_gt_AIRPORTSMapINIT_Init();
+    libTIBW_gt_MoveCommandOverrideExecute2_Init();
+    libTIBW_gt_CREATEDAircraftmanufacturingcompleted_Init();
+    libTIBW_gt_ShadowGlide_Init();
+    libTIBW_gt_ShadowLanding_Init();
+    libTIBW_gt_LANDINGAlliedairfieldlanding_Init();
+    libTIBW_gt_Aircraftrestorationslot_Init();
+    libTIBW_gt_TAKEOFFTheeffectoftheplaneaftertakeoff_Init();
+    libTIBW_gt_TAKEOFFATTACK_Init();
+    libTIBW_gt_NOAMMORETURN_Init();
+    libTIBW_gt_NOAMMOAttackComplete_Init();
+    libTIBW_gt_ENABLEAUTORETURN_Init();
+    libTIBW_gt_DISABLEAUTORETURN_Init();
+    libTIBW_gt_DOCKEDCANCELLEDremovelock_Init();
+    libTIBW_gt_ABILITYRETURNTOAIRPORTGLOBAL_Init();
+    libTIBW_gt_ABILITYRETURNTOAIRPORTTARGET_Init();
+    libTIBW_gt_Pioneermobileresetcd_Init();
+    libTIBW_gt_VanguardAttackSurround_Init();
+    libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped_Init();
     libTIBW_gt_Test_Init();
     libTIBW_gt_PlayNod_Init();
     libTIBW_gt_ConstructionStarted_Init();
@@ -2616,12 +4600,18 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_UnitComplete_Init();
     libTIBW_gt_UnitAttacked_Init();
     libTIBW_gt_Nuke_Init();
+    libTIBW_gt_SalvageRefund_Init();
     libTIBW_gt_CheckUnitsPlacement_Init();
     libTIBW_gt_SignatureGenerator_Init();
     libTIBW_gt_ReckonerSiege_Init();
+    libTIBW_gt_UntitledTrigger001_Init();
+    libTIBW_gt_UntitledTrigger003_Init();
+    libTIBW_gt_UntitledTrigger002_Init();
+    libTIBW_gt_UntitledTrigger004_Init();
     libTIBW_gt_VestCreated_Init();
     libTIBW_gt_CYOwnerChanged_Init();
     libTIBW_gt_ConjoinedBehaviors_Init();
+    libTIBW_gt_ConjoinedBehaviors2_Init();
     libTIBW_gt_MCVusesRallyWaypoint_Init();
     libTIBW_gt_MorphtoMCV_Init();
     libTIBW_gt_ConjoinedSupportModuleCreated_Init();
