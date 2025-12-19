@@ -1845,7 +1845,6 @@ void libTIBW_gt_TAKEOFFTheeffectoftheplaneaftertakeoff_Init () {
 bool libTIBW_gt_TAKEOFFATTACK_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit lv_airplane;
-    fixed lv_waitingtime;
 
     // Automatic Variable Declarations
     // Variable Initialization
@@ -2641,6 +2640,41 @@ bool libTIBW_gt_Nuke_Func (bool testConds, bool runActions) {
 void libTIBW_gt_Nuke_Init () {
     libTIBW_gt_Nuke = TriggerCreate("libTIBW_gt_Nuke_Func");
     TriggerAddEventPlayerEffectUsed(libTIBW_gt_Nuke, 1, "NodInvertWarheadAttackAB");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Vertigo Abilities Takeoff
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_VertigoAbilitiesTakeoff_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitHasBehavior2(lv_airplane, "Notifyairportaftertakeofforexplosion") == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(lv_airplane, Order(AbilityCommand("CNCAirportPlanetakingoff", 0)), c_orderQueueAddToFront);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_VertigoAbilitiesTakeoff_Init () {
+    libTIBW_gt_VertigoAbilitiesTakeoff = TriggerCreate("libTIBW_gt_VertigoAbilitiesTakeoff_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("NodRevenantBombUnit", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("NodRevenantBomb", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("GDIUpgradesCache", 5), c_unitAbilStageExecute, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4642,6 +4676,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_UnitComplete_Init();
     libTIBW_gt_UnitAttacked_Init();
     libTIBW_gt_Nuke_Init();
+    libTIBW_gt_VertigoAbilitiesTakeoff_Init();
     libTIBW_gt_EnergyCalculation_Init();
     libTIBW_gt_SalvageRefund_Init();
     libTIBW_gt_CheckUnitsPlacement_Init();

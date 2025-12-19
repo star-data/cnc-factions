@@ -3929,7 +3929,18 @@
     </CActorAction>
 
 
-    <CActorAction id="NodVenomWeaponAttack" parent="GenericAttack" effectAttack="NodVenomWeaponDamage">
+    <CActorAction id="NodVenomWeaponAAAttack" parent="GenericAttack" effectAttack="NodVenomWeaponAADamage">
+<!--        <LaunchAttachQuery Methods="AMFilterWeapon01"/>-->
+        <LaunchAssets Model="GhostAttackLaunch" Sound="NodRaider_AttackLaunch"/>
+        <ContainerAssets Model="MarineAttackLaunch" Sound="NodRaider_AttackLaunch"/>
+        <Beam value="NodLightAttackBeam"/>
+        <ImpactMap index="None" Model="MarineAttackImpact" Sound="Marine_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="BulletImpact" MatchKeys="Basic" Physics="MarineAttackDeathForce"/>
+        <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
+        <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>
+    </CActorAction>
+    <CActorAction id="NodVenomWeaponAGAttack" parent="GenericAttack" effectAttack="NodVenomWeaponAGDamage">
 <!--        <LaunchAttachQuery Methods="AMFilterWeapon01"/>-->
         <LaunchAssets Model="GhostAttackLaunch" Sound="NodRaider_AttackLaunch"/>
         <ContainerAssets Model="MarineAttackLaunch" Sound="NodRaider_AttackLaunch"/>
@@ -3941,7 +3952,7 @@
         <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>
     </CActorAction>
 
-    <CActorAction id="NodVenomWeaponUAttack" parent="GenericAttack" effectAttack="NodVenomWeaponUDamage">
+    <CActorAction id="NodVenomWeaponAAUAttack" parent="GenericAttack" effectAttack="NodVenomWeaponAAUDamage">
         <LaunchAssets Sound="Venomparticlebeam_AttackLaunch"/>
         <BeamScope value="Caster"/>
         <Beam value="VenomParticleAttackBeam"/>
@@ -3949,6 +3960,15 @@
         <ImpactMap index="None" Model="" Sound="HC_AttackImpact"/>
         <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
     </CActorAction>
+    <CActorAction id="NodVenomWeaponAGUAttack" parent="GenericAttack" effectAttack="NodVenomWeaponAGUDamage">
+        <LaunchAssets Sound="Venomparticlebeam_AttackLaunch"/>
+        <BeamScope value="Caster"/>
+        <Beam value="VenomParticleAttackBeam"/>
+        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
+        <ImpactMap index="None" Model="" Sound="HC_AttackImpact"/>
+        <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
+    </CActorAction>
+    
     <CActorBeamSimple id="VenomParticleAttackBeam" parent="BeamSimpleAnimationStyleOneShot">
         <Macros value="ActionTargetTeleportDestroy"/>
         <On Terms="ActorCreation" Send="ModelSwap DarkArchonAttackBeam"/>
