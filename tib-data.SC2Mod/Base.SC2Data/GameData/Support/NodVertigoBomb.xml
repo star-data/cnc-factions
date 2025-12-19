@@ -117,8 +117,15 @@
         <ExcludeArray index="0" removed="1"/>
         <SearchFilters value="Ground;Missile,Stasis,Dead,Hidden,Invulnerable"/>
     </CEffectDamage>
+
+
+    <CEffectSet id="NodRevenantBombLE">
+        <EffectArray value="StealthExposureCaster"/>
+        <!-- <EffectArray value="NodRevenantBombCheckAmmo"/> -->
+    </CEffectSet>
+
     <CEffectLaunchMissile id="NodRevenantBombLaunchMissile" >
-        <LaunchEffect value="StealthExposureCaster"/>
+        <LaunchEffect value="NodRevenantBombLE"/>
         <ImpactEffect value="NodRevenantBombImpactSet"/>
         <AmmoUnit value="NodRevenantBombLMWeapon"/>
         <AmmoOwner Value="Caster"/>
@@ -129,7 +136,7 @@
     </CEffectLaunchMissile>
 
     <CEffectLaunchMissile id="NodRevenantBombLaunchMissileTargetUnit">
-        <LaunchEffect value="StealthExposureCaster"/>
+        <LaunchEffect value="NodRevenantBombLE"/>
         <AINotifyFlags index="HurtEnemy" value="1"/>
         <AINotifyFlags index="MinorDanger" value="1"/>
         <ImpactEffect value="NodRevenantBombImpactSet"/>
@@ -244,9 +251,26 @@
         <ResultFailed value="Cooldown"/>
         <ResultNoUnit value="Cooldown"/>
     </CValidatorUnitCompareCooldown>
+    <!-- 1 or 2 bombs  (NOT EMPTY)-->
     <CValidatorUnitCompareChargeUsed id="NodRevenantBombCharged">
         <Compare value="LE"/>
         <Value value="1"/>
+        <ChargeLink value="Abil/NodRevenantBomb"/>
+        <Location value="Unit"/>
+        <Ability value="NodRevenantBomb"/>
+        <ResultFailed value="Error,Error/NodRevenantBombCharged"/>
+    </CValidatorUnitCompareChargeUsed>
+
+    <!-- 0 bombs (EMPTY) -->
+    <CValidatorCombine id="NodRevenantBombEmpty">
+        <CombineArray value="NodRevenantBombCharged"/>
+        <Negate value="1"/>
+    </CValidatorCombine>
+
+    <!-- 2 bombs (FULL) -->
+    <CValidatorUnitCompareChargeUsed id="NodRevenantBombFull">
+        <Compare value="LE"/>
+        <Value value="0"/>
         <ChargeLink value="Abil/NodRevenantBomb"/>
         <Location value="Unit"/>
         <Ability value="NodRevenantBomb"/>
@@ -254,10 +278,14 @@
 <!--        <ResultNoUnit value="Cooldown"/>-->
         <ResultFailed value="Error,Error/NodRevenantBombCharged"/>
     </CValidatorUnitCompareChargeUsed>
+    <!-- 0-1 bombs (NOT FULL) -->
+    <CValidatorCombine id="NodRevenantBombNotFull">
+        <CombineArray value="NodRevenantBombFull"/>
+        <Negate value="1"/>
+    </CValidatorCombine>
 
 
-
-
+ 
 
     <CEffectModifyUnit id="NodRevenantBombLaunchCooldown">
         <ImpactUnit Value="Caster"/>
@@ -277,6 +305,62 @@
         <ValidatorArray value="NodRevenantBombCharged"/>
     </CEffectSet>
 
+    
+    <CBehaviorBuff id="CnCAirPlaneLackOfAmmo">
+        <InfoFlags index="Hidden" value="0"/>
+        <InfoIcon value="Assets\Textures\btn-command-cancel.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="NodRevenantBombEmpty"/>
+        
+        
+        <!-- <InitialEffect value="RepulserField6SearchArea"/> -->
+<!--        <PeriodicEffect value="Fighterslackammunitionandsearchforairfields"/>-->
+        <Modification>
+            <!-- <ModifyFlags index="DisableWeapons" value="1"/> -->
+            <WeaponDisableArray value="NodRevenantBomb"/>
+<!--            <BehaviorLinkDisableArray value="ThePioneerarmedcombataircraftkeepscirclingwhenstopped"/>-->
+<!--            <BehaviorLinkDisableArray value="VanguardIsCircling"/>-->
+        </Modification>
+    </CBehaviorBuff>
+
+
+    <CValidatorUnitCompareBehaviorCount id="DoesNotHaveNodVertigoReloading">
+        <Behavior value="NodVertigoReloading"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="IsNotAirportLanded">
+        <Behavior value="Airportlanded"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="IsAirportLanded">
+        <Behavior value="Airportlanded"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareBehaviorCount>
+
+    <CBehaviorBuff id="NodVertigoReloading">
+        <InfoFlags index="Hidden" value="0"/>
+        <InfoIcon value="Assets\icons\Nod\btn-nod-ability-vertigostrike.dds"/>
+        <Duration value="5"/>
+        <ExpireEffect value="NodRevenantBombChargeAdd"/>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
+        <RemoveValidatorArray value="IsAirportLanded"/>
+    </CBehaviorBuff>
+    <CEffectModifyUnit id="NodRevenantBombChargeAdd">
+        <ImpactUnit Value="Caster"/>
+        <Cost Abil="NodRevenantBomb,Execute" ChargeCountUse="-1"/>
+    </CEffectModifyUnit>
+    
+    <CBehaviorBuff id="NodVertigoReloadWhileLanded">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-land.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="DoesNotHaveNodVertigoReloading"/>
+        <DisableValidatorArray value="IsAirportLanded"/>
+        <DisableValidatorArray value="NodRevenantBombNotFull"/>
+        <Period value="0.0625"/> 
+        <PeriodicEffect value="NodVertigoReloading"/>
+    </CBehaviorBuff>
+
+    <CEffectApplyBehavior id="NodVertigoReloading"/>
 
 
 
