@@ -719,6 +719,23 @@
 
 
 
+    <CActorSound id="NodPowerSignatureScanSound" parent="SoundContinuous">
+        <On Terms="Effect.NodPowerSignatureScanSet.Start" Send="Create"/>
+<!--        <On Terms="Effect.ScannerSweep.Stop" Send="Destroy"/>-->
+        <Sound value="OrbitalCommand_ScannerSweep"/>
+        <HostSiteOps Ops="SOpShadow"/>
+        <Filter index="Ally" value="1"/>
+        <Filter index="Neutral" value="1"/>
+        <Filter index="Enemy" value="1"/>
+    </CActorSound>
+    <CActorSound id="NodPowerSignatureScanSoundOthers" parent="SoundContinuous">
+        <On Terms="Effect.NodPowerSignatureScanSet.Start" Send="Create"/>
+<!--        <On Terms="Effect.ScannerSweep.Stop" Send="Destroy"/>-->
+        <Sound value="OrbitalCommand_ScannerSweep_Others"/>
+        <HostSiteOps Ops="SOpShadow"/>
+        <Filter index="Self" value="1"/>
+    </CActorSound>
+
     <!-- Reveals the locations of all Electricy and Supplies providing buildings on the map for 5 seconds. -->
     <CAbilEffectInstant id="NodPowerSignatureScan">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
@@ -819,8 +836,9 @@
         <EditorCategories value=""/>
         <WhichLocation Value="TargetUnit"/>
         <ExpireDelay value="60"/>
-        <RevealRadius value="3"/>
-        <RevealFlags index="Unfog" value="1"/>
+<!--        <RevealRadius value="0.5"/>-->
+        <RevealFlags index="Detect" value="1"/>
+        <RevealFlags index="Radar" value="1"/>
         <PeriodicValidator value=""/>
     </CEffectCreatePersistent>
 

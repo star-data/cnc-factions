@@ -47,16 +47,6 @@ void libTIBW_InitVariables () {
     libTIBW_gv_cNC_TP_DropPod_Units = UnitGroupEmpty();
 }
 
-// Custom Script
-//--------------------------------------------------------------------------------------------------
-// Custom Script: Include Triggers
-//--------------------------------------------------------------------------------------------------
-include "NodDecoyArmy";
-
-void libTIBW_InitCustomScript () {
-    libNOD_InitDecoyArmyTriggers();
-}
-
 // Presets
 // Functions
 void libTIBW_gf_AttachUnitModelToUnit (unit lp_attachmentUnit, unit lp_targetUnit, string lp_attachPont2, fixed lp_xOffset, fixed lp_yOffset, fixed lp_zOffset, string lp_facingAdjustment) {
@@ -162,12 +152,12 @@ void libTIBW_gf_SearchForAirportandLockit (unit lp_airplane, unit lp_searchTarge
         }
     }
     if ((lv_airport != null)) {
-        libTIBW_gf_TargetAirport(lv_airplane, lv_airport);
+        libTIBW_gf_TargetAirportForLanding(lv_airplane, lv_airport);
     }
 
 }
 
-void libTIBW_gf_TargetAirport (unit lp_airplane, unit lp_airport) {
+void libTIBW_gf_TargetAirportForLanding (unit lp_airplane, unit lp_airport) {
     // Variable Declarations
     unit lv_airport;
     unit lv_airplane;
@@ -1541,7 +1531,7 @@ bool libTIBW_gt_MoveCommandOverrideExecute2_Func (bool testConds, bool runAction
     }
     else {
         if ((UnitHasBehavior2(lv_airport, "AircraftAirportParkingAircraftTracking") == true)) {
-            libTIBW_gf_TargetAirport(lv_airplane, lv_airport);
+            libTIBW_gf_TargetAirportForLanding(lv_airplane, lv_airport);
         }
 
     }
@@ -2058,7 +2048,7 @@ bool libTIBW_gt_ABILITYRETURNTOAIRPORTTARGET_Func (bool testConds, bool runActio
         return true;
     }
 
-    libTIBW_gf_TargetAirport(EventPlayerEffectUsedUnit(c_effectUnitCaster), EventPlayerEffectUsedUnit(c_effectUnitTarget));
+    libTIBW_gf_TargetAirportForLanding(EventPlayerEffectUsedUnit(c_effectUnitCaster), EventPlayerEffectUsedUnit(c_effectUnitTarget));
     return true;
 }
 
@@ -2234,6 +2224,124 @@ void libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped_Init () 
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: NodDecoyArmyTargeting
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_NodDecoyArmyTargeting_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+    unitgroup lv_units;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_player = UnitGetOwner(EventUnit());
+    lv_units = UnitGroupEmpty();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, "NodDecoyArmyMarker", 0, lv_player, EventUnitTargetPoint());
+    UnitGroupAdd(lv_units, UnitLastCreated());
+    TriggerDebugOutput(1, StringToText((UnitGetType(UnitLastCreated()))), true);
+    UISetTargetingOrder(PlayerGroupSingle(EventPlayer()), lv_units, OrderTargetingPoint(AbilityCommand("NodDecoyArmy_Execute", 0), EventUnitTargetPoint()), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_NodDecoyArmyTargeting_Init () {
+    libTIBW_gt_NodDecoyArmyTargeting = TriggerCreate("libTIBW_gt_NodDecoyArmyTargeting_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_NodDecoyArmyTargeting, null, AbilityCommand("NodDecoyArmyTargeting", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: NodDecoyArmyTargeting 2
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_NodDecoyArmyTargeting2_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    unitgroup auto7BF4AF6D_g;
+    int auto7BF4AF6D_u;
+    unit auto7BF4AF6D_var;
+
+    // Variable Initialization
+    lv_player = UnitGetOwner(EventUnit());
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto7BF4AF6D_g = UnitGroup(null, lv_player, RegionCircle(UnitGetPosition(EventUnit()), 2.0), UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile) | (1 << c_targetFilterItem) | (1 << c_targetFilterUncommandable), (1 << (c_targetFilterStasis - 32)) | (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterSummoned - 32))), 0);
+    auto7BF4AF6D_u = UnitGroupCount(auto7BF4AF6D_g, c_unitCountAll);
+    for (;; auto7BF4AF6D_u -= 1) {
+        auto7BF4AF6D_var = UnitGroupUnitFromEnd(auto7BF4AF6D_g, auto7BF4AF6D_u);
+        if (auto7BF4AF6D_var == null) { break; }
+        if ((auto7BF4AF6D_var != EventUnit())) {
+            libNtve_gf_CreateUnitsWithDefaultFacing(1, UnitGetType(auto7BF4AF6D_var), 0, lv_player, EventUnitTargetPoint());
+            UnitBehaviorAdd(UnitLastCreated(), "NodDecoyBehavior", UnitLastCreated(), 1);
+            UnitBehaviorAdd(UnitLastCreated(), "NodDecoyTimedLife", UnitLastCreated(), 1);
+        }
+
+    }
+    UnitRemove(EventUnit());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_NodDecoyArmyTargeting2_Init () {
+    libTIBW_gt_NodDecoyArmyTargeting2 = TriggerCreate("libTIBW_gt_NodDecoyArmyTargeting2_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_NodDecoyArmyTargeting2, null, AbilityCommand("NodDecoyArmy_Execute", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: NodDecoyArmyTargeting 3
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_NodDecoyArmyTargeting3_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitRemove(EventUnit());
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_NodDecoyArmyTargeting3_Init () {
+    libTIBW_gt_NodDecoyArmyTargeting3 = TriggerCreate("libTIBW_gt_NodDecoyArmyTargeting3_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_NodDecoyArmyTargeting3, null, AbilityCommand("NodDecoyArmy_Execute", 0), c_unitAbilStageCancel, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Test
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    PlayerOptionOverride(1, "simplecommandcard", "0");
+    PlayerSetRace(2, "Terr");
+    PlayerSetDifficulty(2, 7);
+    TriggerExecute(libCNCC_gt_ProductionUI, true, false);
+    GameSetSpeedValue(c_gameSpeedFaster);
+    TriggerExecute(libTIBW_gt_PlayNod, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Test_Init () {
+    libTIBW_gt_Test = TriggerCreate("libTIBW_gt_Test_Func");
+    TriggerAddEventMapInit(libTIBW_gt_Test);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Play Nod
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_PlayNod_Func (bool testConds, bool runActions) {
@@ -2248,6 +2356,7 @@ bool libTIBW_gt_PlayNod_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    PlayerSetRace(1, "Nod");
     TriggerExecute(libCNCC_gt_InitBeaconsButton, true, false);
     autoC0198CC5_g = PlayerGroupAll();
     autoC0198CC5_var = -1;
@@ -2687,7 +2796,11 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
     playergroup lv_players;
     unitgroup lv_units;
     unit lv_unit;
-    fixed lv_balance;
+    fixed lv_balanceUpdate;
+    fixed lv_oldBalance;
+    fixed lv_newBalance;
+    fixed lv_energyDrain;
+    fixed lv_energyGeneration;
 
     // Automatic Variable Declarations
     playergroup autoE56A3554_g;
@@ -2713,7 +2826,10 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
             autoE56A3554_var = PlayerGroupNextPlayer(autoE56A3554_g, autoE56A3554_var);
             if (autoE56A3554_var < 0) { break; }
             if ((UnitGetPropertyFixed(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], c_unitPropEnergyMax, c_unitPropCurrent) > 0.0)) {
-                lv_balance = 0.0;
+                lv_balanceUpdate = 0.0;
+                lv_energyDrain = 0.0;
+                lv_energyGeneration = 0.0;
+                lv_oldBalance = UnitGetPropertyFixed(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], c_unitPropEnergy, c_unitPropCurrent);
                 lv_units = UnitGroup(null, autoE56A3554_var, RegionEntireMap(), UnitFilter((1 << c_targetFilterStructure), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
                 autoA2EC64F4_g = lv_units;
                 autoA2EC64F4_u = UnitGroupCount(autoA2EC64F4_g, c_unitCountAll);
@@ -2721,22 +2837,30 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
                     lv_unit = UnitGroupUnitFromEnd(autoA2EC64F4_g, autoA2EC64F4_u);
                     if (lv_unit == null) { break; }
                     if ((UnitHasBehavior(lv_unit, "CNCEnergyDrain5") == true)) {
-                        lv_balance = (lv_balance - 0.18);
+                        lv_energyDrain = (lv_energyDrain + 0.18);
                     }
                     else if ((UnitHasBehavior(lv_unit, "CNCEnergyDrain10") == true)) {
-                        lv_balance = (lv_balance - 0.36);
+                        lv_energyDrain = (lv_energyDrain + 0.36);
                     }
                     else if ((UnitHasBehavior(lv_unit, "CNCEnergyDrain15") == true)) {
-                        lv_balance = (lv_balance - 0.71);
+                        lv_energyDrain = (lv_energyDrain + 0.71);
                     }
                     else if ((UnitHasBehavior(lv_unit, "CnCPowerGeneration015") == true)) {
-                        lv_balance = (lv_balance + 0.71);
+                        lv_energyGeneration = (lv_energyGeneration + 0.71);
                     }
                     else if ((UnitHasBehavior(lv_unit, "CnCPowerGeneration045") == true)) {
-                        lv_balance = (lv_balance + 2.13);
+                        lv_energyGeneration = (lv_energyGeneration + 2.13);
                     }
                 }
-                UnitSetPropertyFixed(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], c_unitPropEnergy, (UnitGetPropertyFixed(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], c_unitPropEnergy, c_unitPropCurrent) + lv_balance));
+                lv_balanceUpdate = (lv_energyGeneration - lv_energyDrain);
+                lv_newBalance = (lv_oldBalance + lv_balanceUpdate);
+                UnitSetPropertyFixed(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], c_unitPropEnergy, lv_newBalance);
+                if ((lv_newBalance < 0.0) && (UnitHasBehavior2(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], "PowerShortage") == false)) {
+                    UnitBehaviorAdd(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], "PowerShortage", libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], 1);
+                }
+                else if ((lv_newBalance > 0.0) && (UnitHasBehavior2(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], "PowerShortage") == true)) {
+                    UnitBehaviorRemove(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], "PowerShortage", 1);
+                }
             }
 
         }
@@ -4665,6 +4789,10 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_Pioneermobileresetcd_Init();
     libTIBW_gt_VanguardAttackSurround_Init();
     libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped_Init();
+    libTIBW_gt_NodDecoyArmyTargeting_Init();
+    libTIBW_gt_NodDecoyArmyTargeting2_Init();
+    libTIBW_gt_NodDecoyArmyTargeting3_Init();
+    libTIBW_gt_Test_Init();
     libTIBW_gt_PlayNod_Init();
     libTIBW_gt_ConstructionStarted_Init();
     libTIBW_gt_ConstructionCompleted_Init();
@@ -4738,7 +4866,6 @@ void libTIBW_InitLib () {
 
     libTIBW_InitLibraries();
     libTIBW_InitVariables();
-    libTIBW_InitCustomScript();
     libTIBW_InitTriggers();
 }
 

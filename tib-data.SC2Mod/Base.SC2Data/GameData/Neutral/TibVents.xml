@@ -1,0 +1,88 @@
+<Catalog>
+
+    <CModel id="GreenTiberiumVent" parent="Building">
+        <Model value="Assets\Buildings\Neutral\GreenTiberiumVent.m3"/>
+        <Radius value="1.5"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="1.5"/>
+        <ShadowRadius value="1.5"/>
+    </CModel>
+    <CModel id="BlueTiberiumVent" parent="Building">
+        <Model value="Assets\Buildings\Neutral\BlueTiberiumVent.m3"/>
+        <Radius value="1.5"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="1.5"/>
+        <ShadowRadius value="1.5"/>
+    </CModel>
+    <CUnit id="GreenTiberiumVent" parent="VespeneGeyser"/>
+    <CUnit id="BlueTiberiumVent" parent="RichVespeneGeyser"/>
+    <CActorUnit id="GreenTiberiumVent" parent="GenericUnitStandardNoAutoSoundLinks" unitName="GreenTiberiumVent">
+        <On Terms="ActorCreation; Option Shader Ultra" Send="ModelSwap VespeneGeyserHigh"/>
+        <On Terms="ActorCreation; Option Shader Extreme" Send="ModelSwap VespeneGeyserHigh"/>
+        <On Terms="Behavior.RawVespeneGeyserGas.HostStart" Send="SetMinimapVisibility"/>
+        <On Terms="Behavior.RawVespeneGeyserGas.HostClear" Send="SetMinimapVisibility 1"/>
+        <On Terms="Behavior.RawVespeneGeyserGas.HostStart" Send="AnimPlay CoverStart Cover,Start 0 0.000000 0.300000 30.200001 AsDuration"/>
+        <On Terms="Behavior.RawVespeneGeyserGas.HostFinish" Send="AnimPlay Cover Cover PlayForever 0.000000 0.000000"/>
+        <On Terms="Behavior.RawVespeneGeyserGas.HostClear" Send="TimerKill GeyserHostFinish"/>
+        <On Terms="Behavior.RawVespeneGeyserGas.HostClear" Send="AnimClear CoverStart"/>
+        <On Terms="Behavior.RawVespeneGeyserGas.HostClear" Send="AnimClear Cover"/>
+        <On Terms="Behavior.RawVespeneGeyserGas.Deplete" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.RawVespeneGeyserGas.Deplete" Send="AnimGroupApply D"/>
+        <On Terms="Behavior.RawVespeneGeyserGas.Restore" Send="AnimGroupRemove D"/>
+        <On Terms="Behavior.RawVespeneGeyserGas.Restore" Send="AnimGroupApply B"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <StatusBarFlags index="Shields" value="0"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <StatusBarFlags index="Energy" value="0"/>
+        <StatusBarFlags index="Cargo" value="0"/>
+        <StatusBarFlags index="Progress" value="0"/>
+        <StatusBarFlags index="Duration" value="0"/>
+        <StatusBarFlags index="Magazine" value="0"/>
+        <UnitIcon value="Assets\Textures\Wireframe-General-VespeneGeyser.dds"/>
+        <HeroIcon value="Assets\Textures\Wireframe-General-VespeneGeyser.dds"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-General-VespeneGeyser.dds"/>
+        </GroupIcon>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-General-VespeneGeyser.dds"/>
+        </Wireframe>
+        <Aliases value="_Geyser"/>
+        <MinimapRenderPriority value="Resource"/>
+        <CantSelectUncontrollableTooltip value="Unit/Name/VespeneGeyser"/>
+    </CActorUnit>
+    <CActorUnit id="BlueTiberiumVent" parent="GenericUnitStandardNoAutoSoundLinks" unitName="BlueTiberiumVent">
+        <Aliases value="_Geyser"/>
+        <Aliases value="_RichGeyser"/>
+        <On Terms="Behavior.RawRichVespeneGeyserGas.HostStart" Send="SetMinimapVisibility"/>
+        <On Terms="Behavior.RawRichVespeneGeyserGas.HostClear" Send="SetMinimapVisibility 1"/>
+        <On Terms="Behavior.RawRichVespeneGeyserGas.HostStart" Send="AnimPlay CoverStart Cover,Start 0 0.000000 0.300000 30.200001 AsDuration"/>
+        <On Terms="Behavior.RawRichVespeneGeyserGas.HostFinish" Send="TimerSet 0.130000 GeyserHostFinish"/>
+        <On Terms="TimerExpired; TimerName GeyserHostFinish" Send="AnimClear CoverStart"/>
+        <On Terms="TimerExpired; TimerName GeyserHostFinish" Send="AnimPlay Cover Cover PlayForever 0.000000 0.300000"/>
+        <On Terms="Behavior.RawRichVespeneGeyserGas.HostClear" Send="TimerKill GeyserHostFinish"/>
+        <On Terms="Behavior.RawRichVespeneGeyserGas.HostClear" Send="AnimClear CoverStart"/>
+        <On Terms="Behavior.RawRichVespeneGeyserGas.HostClear" Send="AnimClear Cover"/>
+        <On Terms="Behavior.RawRichVespeneGeyserGas.Deplete" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.RawRichVespeneGeyserGas.Deplete" Send="AnimGroupApply D"/>
+        <On Terms="Behavior.RawRichVespeneGeyserGas.Restore" Send="AnimGroupRemove D"/>
+        <On Terms="Behavior.RawRichVespeneGeyserGas.Restore" Send="AnimGroupApply B"/>
+        <CantSelectUncontrollableTooltip value="Unit/Name/RichVespeneGeyser"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-General-VespeneGeyser.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Textures\Wireframe-General-VespeneGeyser.dds"/>
+        <MinimapRenderPriority value="Resource"/>
+        <StatusBarFlags index="Shields" value="0"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <StatusBarFlags index="Energy" value="0"/>
+        <StatusBarFlags index="Cargo" value="0"/>
+        <StatusBarFlags index="Progress" value="0"/>
+        <StatusBarFlags index="Duration" value="0"/>
+        <StatusBarFlags index="Magazine" value="0"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Textures\Wireframe-General-VespeneGeyser.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-General-VespeneGeyser.dds"/>
+        </Wireframe>
+    </CActorUnit>
+</Catalog>

@@ -274,6 +274,11 @@
         <CombineArray value="HasNodUpgradePowerPlant"/>
     </CValidatorCombine> -->
 
+    <CBehaviorBuff id="PowerShortage">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
+    </CBehaviorBuff>
+
     <CBehaviorBuff id="NodEnergyProduction">
         <Alignment value="Negative"/>
         <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
@@ -284,7 +289,8 @@
         <BehaviorCategories index="Fast" value="1"/>
         <InfoFlags index="Hidden" value="0"/>
 <!--        <DisableValidatorArray value="GenetronPowerSupplyGE05"/>-->
-        <DisableValidatorArray value="GenetronPowerSupplyLT25"/>
+<!--        <DisableValidatorArray value="GenetronPowerSupplyLT25"/>-->
+        <DisableValidatorArray value="GenetronPowerSupplyHasPowerShortage"/>
         <Modification>
             <ModifyFlags index="DisableWeapons" value="1"/>
             <AbilClassDisableArray index="CAbilAttack" value="1"/>
@@ -301,7 +307,8 @@
         <BehaviorCategories index="Fast" value="1"/>
         <InfoFlags index="Hidden" value="0"/>
         <!--        <DisableValidatorArray value="GenetronPowerSupplyGE05"/>-->
-        <DisableValidatorArray value="GenetronPowerSupplyLT25"/>
+<!--        <DisableValidatorArray value="GenetronPowerSupplyLT25"/>-->
+        <DisableValidatorArray value="GenetronPowerSupplyHasPowerShortage"/>
         <Modification>
             <ModifyFlags index="DisableWeapons" value="1"/>
             <AbilClassDisableArray index="CAbilAttack" value="1"/>
@@ -339,6 +346,20 @@
         <Compare value="GT"/>
         <BehaviorLink value="GenetronPowerSupplyTracker"/>
         <TrackedUnitValidatorArray value="EnergyLT025"/>
+        <TrackedUnitFilters value="-;Dead"/>
+    </CValidatorCompareTrackedUnitsCount>
+
+    <CValidatorUnitCompareBehaviorCount id="HasPowerShortage">
+<!--        <WhichUnit Value="Caster"/>-->
+        <Value value="1"/>
+        <Behavior value="PowerShortage"/>
+    </CValidatorUnitCompareBehaviorCount>
+
+    <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyHasPowerShortage">
+        <ResultFailed value="NotEnoughEnergy"/>
+        <Compare value="GT"/>
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <TrackedUnitValidatorArray value="HasPowerShortage"/>
         <TrackedUnitFilters value="-;Dead"/>
     </CValidatorCompareTrackedUnitsCount>
 

@@ -4,55 +4,160 @@
          Based on Allied Chronosphere pattern
          ======================================== -->
 
+    <CActorSimple id="NodHallucinationActor">
+        <Aliases value="_HallucinationTinter"/>
+        <On Terms="Behavior.NodDecoyBehavior.On" Send="Create"/>
+        <On Terms="Behavior.NodDecoyBehavior.On; ViewerTreatsUnitAs Detected" Send="Signal HallucinationTintOn"/>
+        <On Terms="Signal.*.HallucinationTintOn" Target="_Unit" Send="SetTintColor 108,108,255 1.000000 OneShot Hallucination"/>
+        <On Terms="Signal.*.HallucinationTintOn; !Option Shader Low" Target="_Unit" Send="SetOpacity 0.700000 1.000000 Hallucination"/>
+        <On Terms="Signal.*.HallucinationTintOff" Target="_Unit" Send="ClearTintColor 1.000000 Hallucination"/>
+        <On Terms="Signal.*.HallucinationTintOff; !Option Shader Low" Target="_Unit" Send="ClearOpacity 1.000000 Hallucination"/>
+        <On Terms="Behavior.NodDecoyBehavior.Off" Send="Destroy"/>
+
+<!--        <On Terms="Behavior.ArtanisHallucination.On" Send="Create"/>-->
+<!--        <On Terms="Behavior.ArtanisHallucination.On; ViewerTreatsUnitAs Detected" Send="Signal HallucinationTintOn"/>-->
+<!--        <On Terms="Behavior.ArtanisHallucination.Off" Send="Destroy"/>-->
+<!--        <On Terms="Behavior.VoidStalkerBlinkHallucination.On" Send="Create"/>-->
+<!--        <On Terms="Behavior.VoidStalkerBlinkHallucination.On; ViewerTreatsUnitAs Detected" Send="Signal HallucinationTintOn"/>-->
+<!--        <On Terms="Behavior.VoidStalkerBlinkHallucination.Off" Send="Destroy"/>-->
+    </CActorSimple>
+
+
+
+    <CValidatorUnitCompareBehaviorCount id="IsNodHallucination">
+        <Value value="1"/>
+        <Behavior value="NodDecoyBehavior"/>
+    </CValidatorUnitCompareBehaviorCount>
+
+    <CActorModel id="NodHallucinationBirth" parent="ModelAnimationStyleOneShot">
+        <AutoScaleFactor value="1"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="Behavior.NodDecoyBehavior.On; !ValidateUnit CasterIsColossus" Send="Create"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+    </CActorModel>
+    <CModel id="NodHallucinationBirth" parent="OneShotSpellFX">
+        <Model value="Assets\Effects\Protoss\HallucinateBirth\HallucinateBirth.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CModel>
+    <CActorModel id="NodHallucinationColossusBirth" parent="ModelAnimationStyleOneShot">
+        <AutoScaleFactor value="1"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="Behavior.NodDecoyBehavior.On; ValidateUnit CasterIsColossus" Send="Create"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+    </CActorModel>
+    <CModel id="NodHallucinationColossusBirth" parent="OneShotSpellFX">
+        <Model value="Assets\Effects\Protoss\HallucinateColossusBirth\HallucinateColossusBirth.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CModel>
+    <CActorSound id="NodHallucinationBirthSoundLarge" parent="SoundOneShot">
+        <Sound value="Sentry_HallucinationLaunchLarge"/>
+    </CActorSound>
+    <CActorSound id="NodHallucinationBirthSoundMedium" parent="SoundOneShot">
+        <Sound value="Sentry_HallucinationLaunchMedium"/>
+    </CActorSound>
+    <CActorSound id="NodHallucinationBirthSoundSmall" parent="SoundOneShot">
+        <Sound value="Sentry_HallucinationLaunchSmall"/>
+    </CActorSound>
+
+
+
+
+
+
+
     <!-- STEP 1: Create the Decoy Unit Template -->
-    <CUnit id="NodDecoyUnit" parent="NodInfantry">
-        <Race value="Nod"/>
-        <FlagArray index="Undetectable" value="0"/>
-        <FlagArray index="Invulnerable" value="0"/>
-        <FlagArray index="ClearRallyOnTargetLost" value="0"/>
-        <Sight value="11"/>
-        <!-- Decoys have normal sight range to reveal fog -->
-        <BehaviorArray Link="NodDecoyBehavior"/>
-        <BehaviorArray Link="NodDecoyTimedLife"/>
-        <!-- This unit will be created as a copy of the selected units -->
-        <EditorCategories value="ObjectType:Unit,ObjectFamily:Nod"/>
-    </CUnit>
+<!--    <CUnit id="NodDecoyUnit" parent="NodInfantry">-->
+<!--        <Race value="Nod"/>-->
+<!--        <FlagArray index="Undetectable" value="0"/>-->
+<!--        <FlagArray index="Invulnerable" value="0"/>-->
+<!--        <FlagArray index="ClearRallyOnTargetLost" value="0"/>-->
+<!--        <Sight value="11"/>-->
+<!--        &lt;!&ndash; Decoys have normal sight range to reveal fog &ndash;&gt;-->
+<!--        <BehaviorArray Link="NodDecoyBehavior"/>-->
+<!--        <BehaviorArray Link="NodDecoyTimedLife"/>-->
+<!--        &lt;!&ndash; This unit will be created as a copy of the selected units &ndash;&gt;-->
+<!--        <EditorCategories value="ObjectType:Unit,ObjectFamily:Nod"/>-->
+<!--    </CUnit>-->
 
 
-    <!-- STEP 2: Decoy Behavior - Makes units hallucinations that die instantly when hit-->
     <CBehaviorBuff id="NodDecoyBehavior">
-        <InfoIcon value="Assets\Textures\btn-ability-protoss-hallucination.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <DisplayDuration index="Self" value="1"/>
-        <Duration value="60"/>
-        <!-- 60 seconds lifetime -->
-        <Modification>
-            <DamageDealtFraction index="Melee" value="0"/>
-            <DamageDealtFraction index="Ranged" value="0"/>
-            <DamageDealtFraction index="Spell" value="0"/>
-            <DamageDealtFraction index="Splash" value="0"/>
-
-            <StateFlags index="Hallucination" value="1"/>
-        </Modification>
-        <ExpireEffect value="SuicideRemove"/>
-        <DamageResponse Fatal="1" Handled="SuicideRemove">
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <DamageResponse ModifyFraction="5000">
             <Chance value="1"/>
         </DamageResponse>
-<!--        <DamageResponse ModifyFraction="0">-->
-<!--            &lt;!&ndash; Takes no damage but triggers instant death &ndash;&gt;-->
-<!--            <Chance value="1"/>-->
-<!--            <KillUnit value="1"/>-->
-<!--            &lt;!&ndash; Dies instantly when hit &ndash;&gt;-->
-<!--        </DamageResponse>-->
+        <Modification LifeArmorMultiplier="0" ShieldArmorMultiplier="0" SubgroupPriority="-100">
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="EnableAttack" value="1"/>
+            <ModifyFlags index="EnableMove" value="1"/>
+            <ModifyFlags index="HideChangeUI" value="1"/>
+            <StateFlags index="Hallucination" value="1"/>
+            <StateFlags index="SuppressCombat" value="1"/>
+            <StateFlags index="SuppressDetection" value="1"/>
+            <StateFlags index="SuppressRadar" value="1"/>
+            <DamageDealtMaximum index="Spell" value="0"/>
+            <DamageDealtMaximum index="Melee" value="0"/>
+            <DamageDealtMaximum index="Ranged" value="0"/>
+            <DamageDealtMaximum index="Splash" value="0"/>
+            <AbilClassEnableArray index="CAbilMorph" value="1"/>
+            <AbilClassEnableArray index="CAbilMorphPlacement" value="1"/>
+            <AbilClassEnableArray index="CAbilStop" value="1"/>
+            <AbilLinkDisableArray value="MorphZerglingToBaneling"/>
+            <AbilLinkDisableArray value="DevourerAspect"/>
+            <AbilLinkDisableArray value="MorphToBroodLord"/>
+            <AbilLinkDisableArray value="LurkerAspect"/>
+            <AbilLinkDisableArray value="MorphToOverseer"/>
+            <AbilLinkDisableArray value="MorphQueen2"/>
+            <AbilLinkDisableArray value="MorphQueen3"/>
+            <AbilLinkDisableArray value="ThorCrippled"/>
+            <AbilLinkDisableArray value="ThorUncrippled"/>
+            <AbilLinkDisableArray value="PhasingMode"/>
+            <BehaviorLinkDisableArray value="NodConfessorAura"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodDecoyTimedLife">
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="60"/>
+        <ExpireEffect value="KillHallucination"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <DisplayDuration index="Self" value="1"/>
+        <Modification>
+            <StateFlags index="SuppressPassenger" value="1"/>
+        </Modification>
     </CBehaviorBuff>
 
-    <!-- STEP 3: Timed Life for Decoys (60 seconds) -->
-    <CBehaviorBuff id="NodDecoyTimedLife" parent="TimedLife">
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <Duration value="60"/>
-        <!-- Auto-vaporize after 60 seconds -->
-        <BuffFlags index="Countdown" value="1"/>
-    </CBehaviorBuff>
+
+    <!-- Creates a holographic projection of a selected group of units. These units can be controlled as any other and can uncover the fog of war, but do not deal damage and vapourize instantly when fired upon or if one minute is elapsed since their creation. -->
+<!--    <CAbilEffectTarget id="NodDecoyArmy">-->
+<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
+<!--        <Effect index="0" value="NodDecoyArmySelectSet"/>-->
+<!--        <Range value="500"/>-->
+<!--        <Arc value="360"/>-->
+<!--        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmy"/>-->
+<!--        <Flags index="Transient" value="1"/>-->
+<!--        <Cost>-->
+<!--            <Cooldown TimeUse="60"/>-->
+<!--        </Cost>-->
+<!--        &lt;!&ndash; <Vital index="Energy" value="50"/> &ndash;&gt;-->
+<!--    </CAbilEffectTarget>-->
+<!--    <CAbilEffectTarget id="NodDecoyArmyExecute">-->
+<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
+<!--        <Effect index="0" value="NodDecoyArmyExecuteSet"/>-->
+<!--        <Range value="500"/>-->
+<!--        <Arc value="360"/>-->
+<!--        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmyExecute"/>-->
+<!--        <Flags index="Transient" value="1"/>-->
+<!--        <Cost/>-->
+<!--    </CAbilEffectTarget>-->
+
+
 
     <!-- STEP 4: Main Targeting Ability (First Click - Select Source Units) -->
     <CAbilEffectTarget id="NodDecoyArmyTargeting">
@@ -60,21 +165,21 @@
         <Effect index="0" value="NodDecoyArmyTestNullEffect"/>
         <Cost>
             <Charge Link="Abil/NovaNuclearStrike"/>
-            <Cooldown Link="NodDecoyArmyCooldown" TimeStart="120" TimeUse="120"/>
+            <Cooldown Link="NodDecoyArmyCooldown" TimeStart="0" TimeUse="30"/>
         </Cost>
         <Range value="500"/>
         <Arc value="360"/>
         <Marker Link="Abil/NovaNuclearStrike"/>
         <AlertArray index="Cast" value="CalldownLaunch"/>
         <CursorEffect value="NodDecoyArmySearchForUnits"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmyButton" Requirements="NodDecoyArmyRequirement"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmy" Requirements="NodDecoyArmyRequirement"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
     </CAbilEffectTarget>
 
     <!-- STEP 5: Second Stage Ability (Second Click - Select Destination) -->
     <CAbilEffectTarget id="NodDecoyArmy_Execute">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Effect index="0" value="NodDecoyArmyExecuteEffect"/>
+        <Effect index="0" value="NodDecoyArmy_Execute"/>
         <Cost>
             <Charge Link="Abil/NovaNuclearStrike"/>
             <Cooldown Link="NodDecoyArmyCooldown" TimeUse="120"/>
@@ -84,9 +189,12 @@
         <Marker Link="Abil/NovaNuclearStrike"/>
         <AlertArray index="Cast" value="CalldownLaunch"/>
         <CursorEffect value="NodDecoyArmySearchForUnits"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmyButton"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmyExecute"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel32"/>
     </CAbilEffectTarget>
+        <CEffectSet id="NodDecoyArmy_Execute">
+         <TargetLocationType value="Point"/>
+        </CEffectSet>
 
     <!-- STEP 6: Marker Unit (placed at source location) -->
     <CUnit id="NodDecoyArmyMarker">
@@ -96,15 +204,25 @@
         <FlagArray index="ClearRallyOnTargetLost" value="0"/>
         <Sight value="4"/>
         <AbilArray Link="NodDecoyArmy_Execute"/>
-        <BehaviorArray Link="NodDecoyMarkerBehavior"/>
-        <BehaviorArray Link="NodDecoyMarkerTimedLife"/>
+        <!-- <BehaviorArray Link="NodDecoyMarkerBehavior"/>
+        <BehaviorArray Link="NodDecoyMarkerTimedLife"/> -->
         <CardLayouts>
-            <LayoutButtons Face="NodDecoyArmyButton" Type="AbilCmd" AbilCmd="NodDecoyArmy_Execute,Execute" Row="0" Column="0"/>
-            <LayoutButtons Face="Cancel32" Type="AbilCmd" AbilCmd="NodDecoyArmy_Execute,Cancel" Row="2" Column="4"/>
+            <LayoutButtons Face="NodDecoyArmyExecute" Type="AbilCmd" AbilCmd="NodDecoyArmy_Execute,Execute" Row="0" Column="0"/>
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="NodDecoyArmy_Execute,Cancel" Row="2" Column="4"/>
         </CardLayouts>
         <EditorCategories value="ObjectType:Other,ObjectFamily:Nod"/>
     </CUnit>
 
+<!--    <CModel id="NodDecoyArmyMarker">-->
+<!--        <Model value="Assets\Effects\Protoss\TimeBomb\TimeBomb.m3"/>-->
+<!--        <SelectionRadius value="1.000000"/>-->
+<!--        <ShadowRadius value="0.000000"/>-->
+<!--    </CModel>-->
+<!--    <CActorUnit id="NodDecoyArmyMarker" parent="GenericUnitStandard" unitName="NodDecoyArmyMarker">-->
+<!--        <Scale value="0.3"/>-->
+<!--        <HighlightTooltip value="Unit/Name/Bogus"/>-->
+<!--        <On Terms="ActorCreation" Send="AnimBracketStart Brith Stand"/>-->
+<!--    </CActorUnit>-->
 
 
 <!--    <CBehaviorBuff id="NodDecoyMarkerTimedLife">-->
@@ -127,120 +245,124 @@
 
 
     <!-- STEP 7: Marker Behavior - Periodically clones units -->
-    <CBehaviorBuff id="NodDecoyMarkerBehavior">
+    <!-- <CBehaviorBuff id="NodDecoyMarkerBehavior">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <Period value="0.1"/>
         <InitialEffect value="NodDecoyCloneUnitsInArea"/>
         <PeriodicEffect value="NodDecoyCloneUnitsInArea"/>
-    </CBehaviorBuff>
+    </CBehaviorBuff> -->
 
     <!-- STEP 8: Marker Timed Life -->
-    <CBehaviorBuff id="NodDecoyMarkerTimedLife" parent="TimedLife">
+    <!-- <CBehaviorBuff id="NodDecoyMarkerTimedLife" parent="TimedLife">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <Duration value="70"/>
         <BuffFlags index="Countdown" value="0"/>
-    </CBehaviorBuff>
+    </CBehaviorBuff> -->
 
     <!-- STEP 9: Effect to create marker at source location -->
     <CEffectSet id="NodDecoyArmyTestNullEffect">
         <TargetLocationType value="Point"/>
-        <EffectArray value="NodDecoyArmyTestEmptyEffectStarts"/>
-        <EffectArray value="NodDecoyArmyCooldownStart"/>
+        <EffectArray value="NodDecoyArmySearchForUnits"/>
+        <!-- <EffectArray value="NodDecoyArmyCooldownStart"/> -->
     </CEffectSet>
+    <CEffectEnumArea id="NodDecoyArmySearchForUnits">
+        <!-- <LaunchLocation Value="CasterPoint"/>
+        <ImpactLocation Value="CasterPoint"/> -->
+        <SearchFilters value="-;Neutral,Ally,Enemy,Structure,Missile,Item,Stasis,Dead,Hidden"/>
+        <AreaArray Radius="2" Effect="NodDecoyCloneSingleUnitDummy"/>
+    </CEffectEnumArea> 
+    <CEffectSet id="NodDecoyCloneSingleUnitDummy"/>
 
-    <CEffectSet id="NodDecoyArmyTestEmptyEffectStarts">
+    <!-- <CEffectSet id="NodDecoyArmyTestEmptyEffectStarts">
         <TargetLocationType value="Unknown"/>
-    </CEffectSet>
+    </CEffectSet> -->
 
     <!-- STEP 10: Cooldown management -->
-    <CEffectApplyBehavior id="NodDecoyArmyCooldownStart">
+    <!-- <CEffectApplyBehavior id="NodDecoyArmyCooldownStart">
         <WhichUnit Value="Caster"/>
         <Behavior value="NodDecoyArmyCooldownBehavior"/>
-    </CEffectApplyBehavior>
+    </CEffectApplyBehavior> -->
 
-    <CBehaviorBuff id="NodDecoyArmyCooldownBehavior">
+    <!-- <CBehaviorBuff id="NodDecoyArmyCooldownBehavior">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
         <Duration value="120"/>
         <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorBuff>
+    </CBehaviorBuff> -->
 
     <!-- STEP 11: Execute Effect - Creates marker and clones units -->
-    <CEffectCreatePersistent id="NodDecoyArmyExecuteEffect">
+     <!-- <CEffectCreatePersistent id="NodDecoyArmyExecuteEffect">
         <InitialEffect value="NodDecoyArmyEffectCollection"/>
         <PeriodCount value="1"/>
         <PeriodicPeriodArray value="0.1"/>
         <RevealRadius value="6"/>
         <RevealFlags index="Unfog" value="1"/>
-    </CEffectCreatePersistent>
+    </CEffectCreatePersistent>  -->
 
-    <CEffectSet id="NodDecoyArmyEffectCollection">
+    <!-- <CEffectSet id="NodDecoyArmyEffectCollection">
         <EffectArray value="NodDecoyCreateMarker"/>
         <EffectArray value="NodDecoyCloneUnitsInArea"/>
         <TargetLocationType value="Unknown"/>
-    </CEffectSet>
+    </CEffectSet> -->
 
     <!-- STEP 12: Create marker unit -->
-    <CEffectCreateUnit id="NodDecoyCreateMarker">
+    <!-- <CEffectCreateUnit id="NodDecoyCreateMarker">
         <WhichLocation Value="TargetPoint"/>
         <SpawnUnit value="NodDecoyArmyMarker"/>
-    </CEffectCreateUnit>
+    </CEffectCreateUnit> -->
 
     <!-- STEP 13: Clone units in area -->
-    <CEffectEnumArea id="NodDecoyCloneUnitsInArea">
+    <!-- <CEffectEnumArea id="NodDecoyCloneUnitsInArea">
         <LaunchLocation Value="CasterPoint"/>
         <ImpactLocation Value="CasterPoint"/>
         <SearchFilters value="Ground;Neutral,Air,Structure,Missile"/>
         <AreaArray Radius="3.5" Effect="NodDecoyCloneSingleUnit"/>
-    </CEffectEnumArea>
+    </CEffectEnumArea>  -->
 
     <!-- STEP 14: Search for units at destination -->
-    <CEffectEnumArea id="NodDecoyArmySearchForUnits">
+    <!-- <CEffectEnumArea id="NodDecoyArmySearchForUnits">
         <LaunchLocation Value="TargetPoint"/>
         <ImpactLocation Value="CasterPoint"/>
-        <SearchFilters value="Ground;Neutral,Air,Structure"/>
+        <SearchFilters value="-;Neutral,Ally,Enemy,Structure,Missile,Item,Stasis,Dead,Hidden"/>
         <AreaArray Radius="3.5" Effect="NodDecoyTeleportUnit"/>
-    </CEffectEnumArea>
+    </CEffectEnumArea> -->
 
     <!-- STEP 15: Clone individual unit effect -->
-    <CEffectCreateUnit id="NodDecoyCloneSingleUnit">
+    <!-- <CEffectCreateUnit id="NodDecoyCloneSingleUnit">
         <WhichLocation Value="TargetPoint"/>
-        <!-- This needs to be enhanced with triggers to copy unit type -->
         <SpawnUnit value="NodDecoyUnit"/>
         <SpawnCount value="1"/>
-        <SpawnEffect value="NodDecoyApplyBehavior"/>
-    </CEffectCreateUnit>
+        <SpawnEffect value="NodDecoyBehavior"/>
+    </CEffectCreateUnit> -->
 
     <!-- STEP 16: Apply decoy behavior to cloned unit -->
-    <CEffectApplyBehavior id="NodDecoyApplyBehavior">
-        <Behavior value="NodDecoyBehavior"/>
-    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="NodDecoyBehavior"/>
 
     <!-- STEP 17: Teleport effect (for moving decoys to destination) -->
-    <CEffectTeleport id="NodDecoyTeleportUnit">
+    <!-- <CEffectTeleport id="NodDecoyTeleportUnit">
         <PlacementAround Effect="NodDecoyArmySearchForUnits"/>
         <TargetLocation Effect="NodDecoyArmySearchForUnits" Value="TargetPoint"/>
         <PlacementRange value="10"/>
         <SourceLocation Effect="NodDecoyArmySearchForUnits" Value="CasterPoint"/>
         <TeleportFlags index="TestFog" value="0"/>
-        <TeleportEffect value="NodDecoyApplyBehavior"/>
-    </CEffectTeleport>
+        <TeleportEffect value="NodDecoyBehavior"/>
+    </CEffectTeleport> -->
 
     <!-- STEP 18: Actor for marker unit -->
-    <CActorUnit id="NodDecoyArmyMarker" parent="GenericUnitStandard" unitName="NodDecoyArmyMarker">
+    <!-- <CActorUnit id="NodDecoyArmyMarker" parent="GenericUnitStandard" unitName="NodDecoyArmyMarker">
         <Scale value="0.650000"/>
         <HighlightTooltip value="Unit/Name/NodDecoyArmyMarker"/>
         <On Terms="ActorCreation" Send="AnimBracketStart Birth Stand"/>
-    </CActorUnit>
+    </CActorUnit> -->
 
     <!-- STEP 19: Model for marker -->
-    <CModel id="NodDecoyArmyMarker" Race="Nod">
+    <!-- <CModel id="NodDecoyArmyMarker" Race="Nod">
         <Model value="Assets\Effects\Protoss\TimeBomb\TimeBomb.m3"/>
         <EditorCategories value="Race:Nod"/>
         <Flags index="TeenSafe" value="1"/>
         <SelectionRadius value="1.000000"/>
         <ShadowRadius value="0.000000"/>
-    </CModel>
+    </CModel> -->
 
     <!-- STEP 21: Cooldown link -->
 <!--    <CCooldown id="NodDecoyArmyCooldown">-->
