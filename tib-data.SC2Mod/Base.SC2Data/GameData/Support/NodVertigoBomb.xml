@@ -8,7 +8,7 @@
         <Cost>
             <Charge>
                 <CountMax value="2"/>
-                <CountStart value="2"/>
+                <CountStart value="0"/>
                 <CountUse value="1"/>
                 <Location value="Unit"/>
                 <Link value="Abil/NodRevenantBomb"/>
@@ -214,10 +214,16 @@
         <ShieldFlashType value="None"/>
     </CActorAction>
     <CActorSplat id="NodVertigoAttackSplat" parent="GuideVisualCircle" unitName="Bogus">
-        <On index="0" Terms="Abil.RevenantBomb.Cursor" Send="Create"/>
-        <On Terms="Abil.RevenantBombUnit.Cursor" Send="Create"/>
-        <Model value="JupiterAttackSplat"/>
+        <On index="0" Terms="Abil.NodRevenantBomb.Cursor" Send="Create"/>
+        <On Terms="Abil.NodRevenantBombUnit.Cursor" Send="Create"/>
+        <Model value="NodVertigoAttackSplat"/>
     </CActorSplat>
+    <CModel id="NodVertigoAttackSplat" parent="Splat">
+        <Model value="Assets\UI\Cursors\TerranAOECursor\TerranAOECursor.m3"/>
+        <EditorCategories value="Race:Genetron"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+    </CModel>
     <CActorMissile id="NodVertigoAttackMissile" parent="GenericAttackMissile" unitName="NodRevenantBombLMWeapon">
         <Model value="JupiterAttackMissile"/>
     </CActorMissile>
@@ -528,4 +534,542 @@
     <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT3600"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3600"/><Vital value="Shields"/></CValidatorUnitCompareVital>
     <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT3800"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="3800"/><Vital value="Shields"/></CValidatorUnitCompareVital>
     <CValidatorUnitCompareVital id="NodVertigoBombShieldsGT4000"><WhichUnit Value="Target"/><Compare value="GT"/><Value value="4000"/><Vital value="Shields"/></CValidatorUnitCompareVital>
+
+
+
+
+
+
+
+
+
+
+
+<!--    <CEffectCreatePersistent id="NodInvertWarheadStrikeDetonate">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <InitialDelay value="1.25"/>-->
+<!--        <InitialEffect value="NodInvertWarheadAttackSearch"/>-->
+<!--        <ExpireDelay value="8.25"/>-->
+<!--        <PeriodCount value="1"/>-->
+<!--        <PeriodicEffectArray value="NodInvertWarheadStrikeDamage"/>-->
+<!--        <PeriodicPeriodArray value="0.1"/>-->
+<!--        <RevealRadius value="8"/>-->
+<!--        <RevealFlags index="Unfog" value="1"/>-->
+<!--    </CEffectCreatePersistent>-->
+<!--    <CActorSquib id="NodInvertWarheadDrop">-->
+<!--        <On Terms="Effect.NodInvertWarheadStrikeDetonate.Start" Send="Create"/>-->
+<!--        <HostSiteOps Ops="SOpTargetPointStationary"/>-->
+<!--        <Map index="None" Model="GhostNukeDrop" Sound="Odin_NukeDrop"/>-->
+<!--    </CActorSquib>-->
+<!--    <CEffectEnumArea id="NodInvertWarheadAttackSearch">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <ImpactLocation Value="TargetPoint"/>-->
+<!--        <SearchFilters value="-;Missile,Stasis,Dead,Hidden,Invulnerable,HeroUnit"/>-->
+<!--        <AreaArray Radius="3" Effect="NodInvertWarheadAttackAB"/>-->
+<!--    </CEffectEnumArea>-->
+<!--    <CEffectApplyBehavior id="NodInvertWarheadAttackAB">-->
+<!--        <ValidatorArray value="TiberiumRadiationDamageValidator"/>-->
+<!--        <Behavior value="TiberiumInfest"/>-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--    </CEffectApplyBehavior>-->
+<!--    <CActorSquib id="NodInvertWarheadExplode22">-->
+<!--        <On Terms="Effect.NodInvertWarheadStrikeDamage.Start; At Effect" Send="Create"/>-->
+<!--        <On Terms="ActorCreation" Send="SetTintColor 90,255,90"/>-->
+<!--        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>-->
+<!--        <Map index="None" Model="NodInvertWarheadExplode2" Sound="Odin_NukeExplode"/>-->
+<!--    </CActorSquib>-->
+<!--    <CActorSquib id="NodInvertWarheadExplode2">-->
+<!--        <On Terms="Effect.NodInvertWarheadStrikeDamage.Start; At Effect" Send="Create"/>-->
+<!--        <On Terms="ActorCreation" Send="SetTintColor 90,255,90"/>-->
+<!--        <HostSiteOps Ops="SOpTargetPointStationary"/>-->
+<!--        <Map index="None" Model="NodInvertWarheadExplode3" Sound="Odin_NukeExplode"/>-->
+<!--    </CActorSquib>-->
+
+    <CAbilEffectTarget id="NodTiberiumVapourBomb">
+        <EditorCategories value="AbilityorEffectType:Units,Race:UPL"/>
+        <Effect index="0" value="NodTiberiumVapourBombCP"/>
+        <Cost>
+            <Cooldown TimeUse="1"/>
+            <Vital index="Energy" value="75"/>
+        </Cost>
+        <Range value="8"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodTiberiumVapourBomb" Requirements="NodTiberiumVapourBomb"/>
+    </CAbilEffectTarget>
+    <CEffectCreatePersistent id="NodTiberiumVapourBombCP">
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="NodTiberiumVapourBombLaunch"/>
+        <PeriodicOffsetArray value="0,0,2"/>
+        <PeriodicPeriodArray value="0"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="NodTiberiumVapourBombLaunch">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="NodTiberiumVapourBombImpactCP"/>
+        <AmmoUnit value="NodTiberiumVapourBomb"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectLaunchMissile>
+    <CActorAction id="NodTiberiumVapourBombAttack" parent="GenericAttack" effectImpact="NodTiberiumVapourBombImpactCP" effectLaunch="NodTiberiumVapourBombLaunch">
+        <LaunchSiteOps Ops="SOpAttachHarness SOpAttachWeapon"/>
+        <LaunchAttachQuery Methods="AMPatternMissileTurret"/>
+        <LaunchAssets Sound="RaptorJet_GroundLaunch"/>
+        <Missile value="NodTiberiumVapourBomb"/>
+        <ImpactAttachQuery Methods="AMFilterTarget AMRandomUniform"/>
+        <ImpactMap index="None" Model="RaptorAirImpact1" Sound="RaptorJet_GroundImpactMissile"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+    </CActorAction>
+    <CUnit id="NodTiberiumVapourBomb" parent="MISSILE_HALFLIFE">
+        <Mover value="NodTiberiumVapourBombMover"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+        <AIEvaluateAlias value="VikingFighterWeapon"/>
+    </CUnit>
+    <CActorMissile id="NodTiberiumVapourBomb" parent="GenericAttackMissile" unitName="NodTiberiumVapourBomb">
+        <Model value="JupiterAttackMissile"/>
+        <On Terms="ActorCreation" Send="SetTintColor 90,255,90"/>
+        <On Terms="ActorCreation" Send="AnimPlay Phase1 Stand PlayForever"/>
+        <On Terms="MotionPhaseStart; MotionPhase 1" Send="AnimPlay Phase2 Turbo PlayForever"/>
+    </CActorMissile>
+    <CModel id="NodTiberiumVapourBomb" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\AutoTurretPodMissile\AutoTurretPodMissile.m3"/>
+        <ScaleMax value="0.8,0.8,0.8"/>
+        <ScaleMin value="0.8,0.8,0.8"/>
+        <EditorCategories value="Race:UPL"/>
+    </CModel>
+    <CMoverMissile id="NodTiberiumVapourBombMover" parent="MissileDefault">
+        <MotionPhases index="0">
+            <Driver value="Ballistic"/>
+            <Acceleration value="8"/>
+            <Speed value="10"/>
+            <MinSpeed value="10"/>
+            <MaxSpeed value="10"/>
+            <ActorTracking value="Actual"/>
+            <RotationLaunchActorType value="LaunchToTarget"/>
+            <Gravity value="1"/>
+            <ClearanceAcceleration value="-1024"/>
+            <Outro value="0"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+
+
+    <CActorModel id="NodTiberiumVapourBombImpactCharge" parent="ModelAnimationStyleOneShotEffect" Effect="NodTiberiumVapourBombImpactCP">
+        <Aliases value="_Scalable"/>
+        <On Terms="ActorCreation" Send="SetTintColor 90,255,90"/>
+        <On index="0" Send="AnimBracketStart BSD Birth Stand Death"/>
+        <On Terms="Effect.NodTiberiumVapourBombImpactCP.Stop" Send="AnimBracketStop BSD"/>
+    </CActorModel>
+    <CModel id="NodTiberiumVapourBombImpactCharge">
+        <Model value="Assets\Effects\Keiron\ConvergenceCharge.m3"/>
+        <ScaleMax value="1.0,1.0,1.0"/>
+        <ScaleMin value="1.0,1.0,1.0"/>
+    </CModel>
+    <CActorSplat id="NodTiberiumVapourBombSplat" abil="NodTiberiumVapourBomb" parent="CursorSplat">
+        <Model value="NodTiberiumVapourBombSplat"/>
+        <On Terms="ActorCreation" Send="AnimPlay BSD GLstand PlayForever -1.000000 -1.000000 -1.000000 AsAutomatic 0.000000 100"/>
+    </CActorSplat>
+    <CModel id="NodTiberiumVapourBombSplat" parent="Splat">
+        <Model value="Assets\UI\Cursors\TerranAOECursor\TerranAOECursor.m3"/>
+        <EditorCategories value="Race:Genetron"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+    </CModel>
+    <CActorRange id="NodTiberiumVapourBombRange" parent="RangeAbilStandard" abil="NodTiberiumVapourBomb"/>
+
+
+
+
+<!--    <CActorSquib id="NodTiberiumVapourBombExplode">-->
+<!--        <On Terms="Effect.NodTiberiumVapourBombImpactCP.Start; At Effect" Send="Create"/>-->
+<!--        <On Terms="Effect.NodTiberiumVapourBombImpactCP.Finish; At Effect" Send="Destroy"/>-->
+<!--        <On Terms="ActorCreation" Send="SetTintColor 90,255,90"/>-->
+<!--        <HostSiteOps Ops="SOpTargetPointStationary"/>-->
+<!--        <Map index="None" Model="NodTiberiumVapourBombExplode" Sound="Odin_NukeExplode"/>-->
+<!--    </CActorSquib>-->
+<!--    <CModel id="NodTiberiumVapourBombExplode" parent="OneShotSpellFX">-->
+<!--        <Model value="Assets\Effects\Zerg\DisablingCloudImpact\DisablingCloudImpact.m3"/>-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <RadiusLoose value="1.000000"/>-->
+<!--        <ScaleMax value="4,4,4"/>-->
+<!--        <ScaleMin value="4,4,4"/>-->
+<!--    </CModel>-->
+
+    <CEffectCreatePersistent id="NodTiberiumVapourBombImpactCP">
+        <EditorCategories value="Race:Protoss"/>
+        <InitialEffect value="NodTiberiumVapourBombSearch"/>
+        <FinalEffect value="NodTiberiumVapourBombFinal"/>
+        <PeriodCount value="4"/>
+        <PeriodicEffectArray value="NodTiberiumVapourBombSearch"/>
+        <PeriodicPeriodArray value="0.5712"/>
+        <AINotifyEffect value="NodTiberiumVapourBombSearch"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="NodTiberiumVapourBombSearch">
+        <EditorCategories value="Race:Protoss"/>
+        <SearchFilters value="-;Structure,Missile,Destructible,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="2.5" Effect="NodTiberiumVapourBombBehavior"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+        <AINotifyFlags index="HurtFriend" value="1"/>
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="NodTiberiumVapourBombFinal">
+        <EditorCategories value="Race:Protoss"/>
+        <SearchFilters value="-;Structure,Missile,Destructible,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="2.25" Effect="NodTiberiumVapourBombDamageFinalSet"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+        <AINotifyFlags index="HurtFriend" value="1"/>
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="NodTiberiumVapourBombBehavior"/>
+    <CEffectApplyBehavior id="NodTiberiumVapourBombFinalBuff"/>
+
+    
+    <CEffectDamage id="NodTiberiumVapourBombDamageInitial">
+        <EditorCategories value="Race:Protoss"/>
+        <Amount value="8"/>
+        <ValidatorArray value="PsiStormUTargetFilters"/>
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <Flags index="Notification" value="1"/>
+    </CEffectDamage>
+    <CEffectDamage id="NodTiberiumVapourBombDamage">
+        <EditorCategories value="Race:Protoss"/>
+        <Visibility value="Hidden"/>
+        <Amount value="8"/>
+        <ValidatorArray value="PsiStormUTargetFilters"/>
+    </CEffectDamage>
+    <CBehaviorBuff id="NodTiberiumVapourBombBehavior">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-slow.dds"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="0.6665"/>
+        <Period value="0.571"/>
+        <InitialEffect value="NodTiberiumVapourBombDamageInitial"/>
+        <PeriodicEffect value="NodTiberiumVapourBombDamage"/>
+        <TimeScaleSource Value="Global"/>
+        <Modification MoveSpeedMultiplier="0.5"/>
+    </CBehaviorBuff>
+
+
+    <CEffectDamage id="NodTiberiumVapourBombFinalDamage" parent="ScionDamage" Race="Keiron">
+        <ResponseFlags index="Acquire" value="0"/>
+        <ResponseFlags index="Flee" value="0"/>
+        <Flags index="Notification" value="0"/>
+        <Amount value="75"/>
+        <Death value="Disintegrate"/>
+    </CEffectDamage>
+    <CActorModel id="NodTiberiumVapourBombFinalDamage" parent="ModelAnimationStyleContinuousUNIT" effectAttack="NodTiberiumVapourBombFinalDamage" effectImpact="Bogus" effectLaunch="Bogus">
+        <On Terms="Behavior.NodTiberiumVapourBombFinalBuff.On" Send="Create"/>
+        <On Terms="Behavior.NodTiberiumVapourBombFinalBuff.Off" Send="AnimBracketStop BSD"/>
+        <HostSiteOps Ops="SOpAttachCenter" HoldRotation="1"/>
+        <AutoScaleFactor value="0.900000"/>
+    </CActorModel>
+
+
+    <CEffectDamage id="NodTiberiumVapourBombDamageFinal">
+        <EditorCategories value="Race:Protoss"/>
+        <Amount value="50"/>
+        <ValidatorArray value="PsiStormUTargetFilters"/>
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <Flags index="Notification" value="1"/>
+    </CEffectDamage>
+    <CBehaviorBuff id="NodTiberiumVapourBombFinalBuff">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-keiron-convergence.dds"/>
+        <EditorCategories value="Race:Keiron,AbilityorEffectType:Units"/>
+        <MaxStackCount value="65535"/>
+        <Duration value="4.2"/>
+        <Period value="0.21"/>
+        <InitialEffect value="NodTiberiumVapourBombFinalDamage"/>
+        <Modification MoveSpeedMultiplier="0.5"/>
+    </CBehaviorBuff>
+    <CEffectSet id="NodTiberiumVapourBombDamageFinalSet">
+        <EditorCategories value="Race:Keiron"/>
+        <EffectArray value="NodTiberiumVapourBombFinalBuff"/>
+        <EffectArray value="NodNotificationResponseDummy"/>
+    </CEffectSet>
+    <CEffectDamage id="NodNotificationResponseDummy">
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <Flags index="Notification" value="1"/>
+    </CEffectDamage>
+<!--    <CModel id="NodTiberiumVapourBombFinalDamage">-->
+<!--        <Model value="Assets\Effects\Protoss\Adept_Collection_Purifier_RicochetGlaive_Debuff\Adept_Collection_Purifier_RicochetGlaive_Debuff.m3"/>-->
+<!--        <ScaleMax value="1.500000,1.500000,1.500000"/>-->
+<!--        <ScaleMin value="1.500000,1.500000,1.500000"/>-->
+<!--    </CModel>-->
+    <CModel id="NodTiberiumVapourBombFinal">
+        <!--        <On Terms="ActorCreation" Send="SetTintColor 90,255,90"/>-->
+        <Model value="Assets\Effects\Keiron\ConvergenceImpact.m3"/>
+        <ScaleMax value="1.0,1.0,1.0"/>
+        <ScaleMin value="1.0,1.0,1.0"/>
+    </CModel>
+    <CActorModel id="NodTiberiumVapourBombFinal" parent="ModelAnimationStyleOneShotEffect" Effect="NodTiberiumVapourBombFinal">
+        <Aliases value="_Scalable"/>
+        <On Terms="ActorCreation" Send="SetTintColor 90,255,90"/>
+        <On index="3" Terms="Effect.NodTiberiumVapourBombFinal.Start; At Effect" Send="Create"/>
+    </CActorModel>
+
+
+
+<!--===========================-->
+<!-- REDEMPTION -->
+    <CAbilEffectTarget id="NodRedemption">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodRedemptionBombCP"/>
+        <Range value="8"/>
+        <Cost>
+            <Cooldown TimeUse="1"/>
+            <Vital index="Energy" value="125"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodRedemption" Requirements="NodRedemption"/>
+    </CAbilEffectTarget>
+
+    <CEffectCreatePersistent id="NodRedemptionBombCP">
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="NodRedemptionBombLaunch"/>
+        <PeriodicOffsetArray value="0,0,2"/>
+        <PeriodicPeriodArray value="0"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="NodRedemptionBombLaunch">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="NodRedemptionBombImpactCP"/>
+        <AmmoUnit value="NodRedemptionBomb"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectLaunchMissile>
+    <CActorAction id="NodRedemptionBombAttack" parent="GenericAttack" effectImpact="NodRedemptionBombImpactCP" effectLaunch="NodRedemptionBombLaunch">
+        <LaunchSiteOps Ops="SOpAttachHarness SOpAttachWeapon"/>
+        <LaunchAttachQuery Methods="AMPatternMissileTurret"/>
+        <LaunchAssets Sound="RaptorJet_GroundLaunch"/>
+        <Missile value="NodRedemptionBomb"/>
+        <ImpactAttachQuery Methods="AMFilterTarget AMRandomUniform"/>
+        <ImpactMap index="None" Model="RaptorAirImpact1" Sound="RaptorJet_GroundImpactMissile"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+    </CActorAction>
+    <CUnit id="NodRedemptionBomb" parent="MISSILE_HALFLIFE">
+        <Mover value="NodTiberiumVapourBombMover"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+        <AIEvaluateAlias value="VikingFighterWeapon"/>
+    </CUnit>
+    <CActorMissile id="NodRedemptionBomb" parent="GenericAttackMissile" unitName="NodRedemptionBomb">
+        <Model value="JupiterAttackMissile"/>
+        <On Terms="ActorCreation" Send="SetTintColor 255,255,90"/>
+        <On Terms="ActorCreation" Send="AnimPlay Phase1 Stand PlayForever"/>
+        <On Terms="MotionPhaseStart; MotionPhase 1" Send="AnimPlay Phase2 Turbo PlayForever"/>
+    </CActorMissile>
+    <CModel id="NodRedemptionBomb" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\AutoTurretPodMissile\AutoTurretPodMissile.m3"/>
+        <ScaleMax value="0.8,0.8,0.8"/>
+        <ScaleMin value="0.8,0.8,0.8"/>
+        <EditorCategories value="Race:UPL"/>
+    </CModel>
+
+    <CActorSquib id="NodRedemptionBombExplode">
+        <On Terms="Effect.NodRedemptionBombImpactCP.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.NodRedemptionBombImpactCP.Finish; At Effect" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SetTintColor 255,0,0"/>
+        <HostSiteOps Ops="SOpTargetPointStationary"/>
+        <Map index="None" Model="ParasiticBomb" Sound="Odin_NukeExplode"/>
+    </CActorSquib>
+<!--    <CModel id="NodRedemptionBombExplode" parent="OneShotSpellFX">-->
+<!--        <Model value="Assets\Effects\Zerg\DisablingCloudImpact\DisablingCloudImpact.m3"/>-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <RadiusLoose value="1.000000"/>-->
+<!--        <ScaleMax value="4,4,4"/>-->
+<!--        <ScaleMin value="4,4,4"/>-->
+<!--    </CModel>-->
+
+
+    <CEffectCreatePersistent id="NodRedemptionBombImpactCP">
+        <InitialEffect value="NodRedemptionBombSearch"/>
+        <PeriodCount value="10"/>
+        <PeriodicEffectArray value="NodRedemptionBombSearch"/>
+        <PeriodicPeriodArray value="0.5712"/>
+        <AINotifyEffect value="NodRedemptionBombSearch"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="NodRedemptionBombSearch">
+        <EditorCategories value="Race:Protoss"/>
+        <SearchFilters value="Ground;Ally,Neutral,Enemy,Structure,Missile,Destructible,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="2.5" Effect="NodRedemption"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="NodRedemption">
+        <ValidatorArray value="IsNodMilitant"/>
+    </CEffectApplyBehavior>
+
+    <CBehaviorBuff id="NodRedemption">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-slow.dds"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Duration value="1"/>
+        <DamageResponse Chance="1" Fatal="1" Handled="NodRedemptionSpawnAwakened"/>
+    </CBehaviorBuff>
+
+<!--        <CEffectSet id="NodRedemptionSpawnSet">-->
+<!--            <EditorCategories value="Race:Nod"/>-->
+<!--            <EffectArray value="NodRedemptionSpawnSwitch"/>-->
+<!--        </CEffectSet>-->
+<!--        <CEffectSwitch id="NodRedemptionSpawnSwitch">-->
+<!--            <EditorCategories value="Race:Nod"/>-->
+<!--            <CaseArray Validator="IsNodMilitant" Effect="NodRedemptionSpawnMilitantChance"/>-->
+<!--            <CaseArray Validator="IsNodMilitantRocket" Effect="NodRedemptionSpawnRocketChance"/>-->
+<!--        </CEffectSwitch>-->
+<!--        <CEffectSet id="NodRedemptionSpawnMilitantChance">-->
+<!--            <EditorCategories value="Race:Nod"/>-->
+<!--            <EffectArray value="NodRedemptionSpawnAwakened"/>-->
+<!--&lt;!&ndash;            <Chance value="0.25"/>&ndash;&gt;-->
+<!--        </CEffectSet>-->
+<!--        <CEffectSet id="NodRedemptionSpawnRocketChance">-->
+<!--            <EditorCategories value="Race:Nod"/>-->
+<!--            <EffectArray value="NodRedemptionSpawnAwakened"/>-->
+<!--&lt;!&ndash;            <Chance value="0.5"/>&ndash;&gt;-->
+<!--        </CEffectSet>-->
+        <CEffectCreateUnit id="NodRedemptionSpawnAwakened">
+            <WhichLocation Value="SourcePoint"/>
+            <CreateFlags index="Placement" value="0"/>
+            <EditorCategories value="Race:Nod"/>
+            <SpawnUnit value="NodAwakened"/>
+            <SpawnCount value="1"/>
+            <SelectUnit Value="Target"/>
+            <SpawnEffect value="NodRedemptionSpawnAwakenedApplyTimedLife"/>
+        </CEffectCreateUnit>
+        <CEffectApplyBehavior id="NodRedemptionSpawnAwakenedApplyTimedLife">
+            <EditorCategories value="Race:Nod"/>
+            <Behavior value="NodRedemptionAwakenedTimedLife"/>
+        </CEffectApplyBehavior>
+    <CActorSound id="NodRedemptionSound" parent="SoundOneShot">
+        <On Terms="Effect.NodRedemptionBombImpactCP.Start" Send="Create"/>
+        <Sound value="NodVisionSound"/>
+    </CActorSound>
+    <CActorSplat id="NodRedemptionCursorSplat" parent="ProtossCursorSplat" abil="NodRedemption">
+        <On index="0" Terms="Abil.NodRedemption.Cursor" Send="Create"/>
+        <Model value="NodAOECursorSplat"/>
+        <Scale value="3.000000"/>
+    </CActorSplat>
+    <CActorModelMaterial id="NodRedemption" parent="GlazeParent">
+        <On Terms="Behavior.NodRedemption.On" Send="Create"/>
+        <On Terms="Behavior.NodRedemption.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Main"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModelMaterial>
+    <CBehaviorBuff id="NodRedemptionAwakenedTimedLife" parent="TimedLife">
+        <InfoIcon value="Assets\Textures\btn-ability-zerg-explode.dds"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Duration value="60"/>
+    </CBehaviorBuff>
+    <CModel id="NodRedemption" parent="Glaze">
+        <Model value="Assets\Effects\Glaze\Glaze_Purifier_Zealot_Resurrection_Alarm\Glaze_Purifier_Zealot_Resurrection_Alarm.m3"/>
+        <Priority value="32"/>
+        <EditorCategories value="Race:Nod"/>
+    </CModel>
+
+<!-- ================ -->
+
+    <CEffectEnumArea id="MarkOfKaneSearchArea">
+        <EditorCategories value="Race:Nod"/>
+        <SearchFilters value="-;Neutral,Enemy,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="10" Effect="MarkOfKane"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="MarkOfKane"/>
+    <CAbilEffectTarget id="MarkOfKane">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="MarkOfKaneset"/>
+        <Cost>
+            <Resource index="Minerals" value="150"/>
+            <Cooldown Location="Global" TimeUse="180"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CursorEffect value="MarkOfKaneSearchArea"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="MarkOfKane" Requirements="HaveNodTechPlant"/>
+    </CAbilEffectTarget>
+    <CModel id="MarkOfKane" parent="Glaze">
+        <Model value="Assets\Effects\Glaze\Glaze_Purifier_Zealot_Resurrection_Alarm\Glaze_Purifier_Zealot_Resurrection_Alarm.m3"/>
+        <Priority value="32"/>
+        <EditorCategories value="Race:Nod"/>
+    </CModel>
+    <CEffectApplyBehavior id="MarkOfKaneSPAB">
+        <ValidatorArray index="0" removed="1"/>
+        <Behavior value="MarkOfKaneSP"/>
+        <EditorCategories value="Race:Nod"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumArea id="MarkOfKaneSPSearch">
+        <EditorCategories value="Race:Nod"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <SearchFilters value="-;Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="10" Effect="MarkOfKaneSPAB"/>
+    </CEffectEnumArea>
+    <CEffectSet id="MarkOfKaneset">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="MarkOfKaneSPSearch"/>
+        <EffectArray value="MarkOfKaneSearchArea"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CBehaviorBuff id="MarkOfKane">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\icons\InfusionEngineUpgrade.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <Duration value="30"/>
+        <Modification AttackSpeedMultiplier="1.5"/>
+    </CBehaviorBuff>
+    <CActorSound id="MarkOfKaneSound" parent="SoundOneShot">
+        <On Terms="Effect.MarkOfKaneSearchArea.Start" Send="Create"/>
+        <Sound value="NodVisionSound"/>
+    </CActorSound>
+    <CActorSplat id="MarkOfKaneCursorSplat" parent="ProtossCursorSplat" abil="PsiStorm">
+        <On index="0" Terms="Abil.MarkOfKane.Cursor" Send="Create"/>
+        <Model value="NodAOECursorSplat"/>
+    </CActorSplat>
+    <CActorModelMaterial id="MarkOfKane" parent="GlazeParent">
+        <On Terms="Behavior.MarkOfKane.On" Send="Create"/>
+        <On Terms="Behavior.MarkOfKane.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Main"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModelMaterial>
+    <CButton id="MarkOfKane" parent="CABAL" icon="InfusionEngineUpgrade"/>
+
+
+
+    <!-- Redemption Effects -->
+    <!--    <CEffectEnumArea id="NodRedemptionSearch">-->
+    <!--        <EditorCategories value="Race:Nod"/>-->
+    <!--        <SearchFilters value="-;Enemy,Neutral,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+    <!--        <AreaArray Radius="6" Effect="NodRedemptionApplyBehavior"/>-->
+    <!--    </CEffectEnumArea>-->
+    <!--    <CEffectApplyBehavior id="NodRedemptionApplyBehavior">-->
+    <!--        <EditorCategories value="Race:Nod"/>-->
+    <!--        <Behavior value="NodRedemptionBuff"/>-->
+    <!--    </CEffectApplyBehavior>-->
+    <!--    <CEffectDamage id="NodRedemptionDamage">-->
+    <!--        <EditorCategories value="Race:Nod"/>-->
+    <!--        <Amount value="2"/>-->
+    <!--    </CEffectDamage>-->
+
+
+
+
+
+
+
+    <!-- Tiberium Vapour Bomb Effects -->
+<!--    <CEffectSet id="NodTiberiumVapourBombSet">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <EffectArray value="NodTiberiumVapourBombPersistent"/>-->
+<!--    </CEffectSet>-->
+<!--    <CEffectCreatePersistent id="NodTiberiumVapourBombPersistent">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <PeriodCount value="20"/>-->
+<!--        <PeriodicEffectArray value="NodTiberiumVapourBombSearch"/>-->
+<!--        <PeriodicPeriodArray value="0.5"/>-->
+<!--    </CEffectCreatePersistent>-->
+<!--    <CEffectEnumArea id="NodTiberiumVapourBombSearch">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <SearchFilters value="-;Player,Ally,Neutral,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+<!--        <AreaArray Radius="6" Effect="NodTiberiumVapourBombDamage"/>-->
+<!--    </CEffectEnumArea>-->
+<!--    <CEffectDamage id="NodTiberiumVapourBombDamage">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <Amount value="10"/>-->
+<!--        <AttributeBonus index="Biological" value="10"/>-->
+<!--    </CEffectDamage>-->
 </Catalog>

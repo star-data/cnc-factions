@@ -1623,13 +1623,8 @@
     <CActorSound id="NodMilitantAttackSounds" parent="SoundOneShot">
         <On Terms="Effect.NodConfessorWeaponCP.Start" Send="Create"/>
         <On Terms="Effect.NodMilitantWCP.Start" Send="Create"/>
+        <On Terms="Effect.NodAwakenedWeaponCP.Start" Send="Create"/>
     </CActorSound>
-    <CActorModelMaterial id="MarkOfKane" parent="GlazeParent">
-        <On Terms="Behavior.MarkOfKane.On" Send="Create"/>
-        <On Terms="Behavior.MarkOfKane.Off" Send="Destroy"/>
-        <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Main"/>
-        <ModelFlags index="AutomateGlobalLoops" value="1"/>
-    </CActorModelMaterial>
     <CActorModel id="FloatingTextTib32" parent="FloatingTextActorDefault" effectPickup="PickupMinerals100" actorCreate="PickupTibText">
         <On index="0" Terms="Effect.PickupTib.Start" Send="Create"/>
     </CActorModel>
@@ -1774,10 +1769,6 @@
     <CActorMissile id="NodArtilleryAttackMissile" parent="GenericAttackMissile" unitName="CABALArtillery">
         <Model value="NodArtilleryWeapon"/>
     </CActorMissile>
-    <CActorSplat id="MarkOfKaneCursorSplat" parent="ProtossCursorSplat" abil="PsiStorm">
-        <On index="0" Terms="Abil.MarkOfKane.Cursor" Send="Create"/>
-        <Model value="NodAOECursorSplat"/>
-    </CActorSplat>
     <CActorSound id="NodVisionSound" parent="SoundOneShot">
         <On Terms="Effect.NodVisionSearchArea.Start" Send="Create"/>
     </CActorSound>
@@ -1796,10 +1787,6 @@
         <On Terms="Abil.VertigoAttack.Cursor" Send="Create"/>
         <Model value="NodAOECursorSplat"/>
     </CActorSplat>
-    <CActorSound id="MarkOfKaneSound" parent="SoundOneShot">
-        <On Terms="Effect.MarkOfKaneSearchArea.Start" Send="Create"/>
-        <Sound value="NodVisionSound"/>
-    </CActorSound>
     <CActorModel id="NodVisionImpact" parent="ModelAnimationStyleContinuous">
         <On Terms="Behavior.NodVision.On" Send="Create"/>
         <On Terms="Behavior.NodVision.Off" Send="Destroy"/>
@@ -2037,12 +2024,22 @@
 
 
     <CActorAction id="NodMilitantAttack" parent="GenericAttack" effectAttack="NodMilitantWeaponDamage">
-<!--        <On index="0" Terms="Effect.NodMilitantWeaponDamage.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>-->
-<!--        <On index="5" Terms="Effect.NodMilitantWeaponDamage.Start; At Caster" Send="Create"/>-->
+        <!--        <On index="0" Terms="Effect.NodMilitantWeaponDamage.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>-->
+        <!--        <On index="5" Terms="Effect.NodMilitantWeaponDamage.Start; At Caster" Send="Create"/>-->
         <On Terms="Effect.NodConfessorWeaponDamage.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
         <On Terms="Effect.NodConfessorWeaponDamage.Start; At Caster" Send="Create"/>
         <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
+        <LaunchAssets Model="GhostAttackLaunch" Sound="NodMilitant_AttackLaunch"/>
+        <ContainerAssets Model="GhostAttackLaunch" Sound="NodMilitant_AttackLaunch"/>
+        <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>
+        <ImpactMap index="None" Model="MarineAttackImpact" Sound="Marine_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="BulletImpact" MatchKeys="Basic" Physics="MarineAttackDeathForce"/>
+    </CActorAction>
+    <CActorAction id="NodAwakenedAttack" parent="GenericAttack" effectAttack="NodAwakenedWeaponDamage">
+        <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
+        <LaunchAttachQuery Methods="AMFilterWeapon01"/>
         <LaunchAssets Model="GhostAttackLaunch" Sound="NodMilitant_AttackLaunch"/>
         <ContainerAssets Model="GhostAttackLaunch" Sound="NodMilitant_AttackLaunch"/>
         <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>

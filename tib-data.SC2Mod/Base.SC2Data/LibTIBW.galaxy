@@ -180,9 +180,11 @@ void libTIBW_gf_TargetAirport (unit lp_airplane, unit lp_airport) {
     lv_airplane = lp_airplane;
 
     // Implementation
+    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_F01ECFB4"), true);
     lv_landingpoint = PointWithOffsetPolar(PointWithOffsetPolar(UnitGetPosition(lp_airport), UnitGetCustomValue(lv_airport, 1), (-45.0 + UnitGetFacing(lv_airport))), UnitGetCustomValue(lv_airport, 2), (UnitGetFacing(lv_airport) + 45.0));
     UnitIssueOrder(lp_airplane, OrderTargetingPoint(AbilityCommand("VS_ReturnToAirport", 0), lv_landingpoint), c_orderQueueReplace);
     DataTableSetUnit(true, ("TARGETAIRPORT" + IntToString(UnitGetTag(lv_airplane))), lv_airport);
+    TriggerDebugOutput(1, StringToText((UnitGetType(lv_airport))), true);
     UnitBehaviorAdd(lv_airport, "LockedLandingPad", lv_airplane, 1);
 }
 
@@ -1562,8 +1564,8 @@ bool libTIBW_gt_CREATEDAircraftmanufacturingcompleted_Func (bool testConds, bool
 
     // Automatic Variable Declarations
     // Variable Initialization
-    lv_airport = EventUnitProgressUnit();
-    lv_airplane = EventUnit();
+    lv_airport = EventUnit();
+    lv_airplane = EventUnitProgressUnit();
 
     // Conditions
     if (testConds) {
@@ -1577,7 +1579,7 @@ bool libTIBW_gt_CREATEDAircraftmanufacturingcompleted_Func (bool testConds, bool
         return true;
     }
 
-    libTIBW_gf_SearchForAirportandLockit(lv_airplane, lv_airport, 15, true);
+    UnitIssueOrder(lv_airplane, Order(AbilityCommand("CNCReturnToTheAirport", 0)), c_orderQueueReplace);
     return true;
 }
 
