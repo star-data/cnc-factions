@@ -161,6 +161,16 @@
         </VitalArray>
     </CEffectModifyUnit>
 
+    <CEffectEnumTrackedUnits id="PowerUserDrainETU100">
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <Effect value="PowerUserDrainPowerMU100"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectModifyUnit id="PowerUserDrainPowerMU100">
+        <VitalArray index="Energy">
+            <Change value="-100"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+
     <CEffectEnumTrackedUnits id="PowerUserDrainETU045">
         <BehaviorLink value="GenetronPowerSupplyTracker"/>
         <Effect value="PowerUserDrainPowerMU045"/>
@@ -705,5 +715,131 @@
     </CActorSplat>
 
 
+
+
+
+
+    <!-- Reveals the locations of all Electricy and Supplies providing buildings on the map for 5 seconds. -->
+    <CAbilEffectInstant id="NodPowerSignatureScan">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodPowerSignatureScanSet"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodPowerSignatureScan" Requirements="NodPowerSignatureScan"/>
+        <Cost>
+            <Cooldown TimeUse="120"/>
+        </Cost>
+        <!-- <Vital index="Energy" value="50"/> -->
+    </CAbilEffectInstant>
+
+    <CEffectSet id="NodPowerSignatureScanSet">
+        <EffectArray value="PowerUserDrainETU100"/>
+        <EffectArray value="NodPowerSignatureScanSearch"/>
+    </CEffectSet>
+
+
+    <CEffectEnumArea id="NodPowerSignatureScanSearch">
+        <EditorCategories value="Race:Nod"/>
+<!--        CanHaveEnergy-->
+        <SearchFilters value="-;Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="500" Effect="NodPowerSignatureRevealSet"/>
+    </CEffectEnumArea>
+    <CEffectSet id="NodPowerSignatureRevealSet">
+        <ValidatorArray value="IsPowerSource"/>
+<!--        <ValidatorArray value="MaxEnergyGT0"/>-->
+        <EffectArray value="NodPowerSignatureReveal"/>
+        <EffectArray value="NodPowerSignatureRevealPersistent"/>
+<!--        <EffectArray value="OracleRevelationDummyDamage"/>-->
+    </CEffectSet>
+    <CValidatorCombine id="IsPowerOrSupplySource">
+        <CombineArray value="IsPowerSource"/>
+        <CombineArray value="IsSupplySource"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsPowerSource">
+        <CombineArray value="CanHaveEnergy"/>
+        <CombineArray value="HasCnCPowerGeneration015"/>
+        <CombineArray value="HasCnCPowerGeneration030"/>
+        <CombineArray value="HasCnCPowerGeneration045"/>
+        <CombineArray value="IsNodeOrGenerator"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsSupplySource">
+        <Type value="And"/>
+        <CombineArray value="IsSupplySourceBase"/>
+        <CombineArray value="NotResourceDropOffMinerals"/>
+        <CombineArray value="NotResourceDropOffVespene"/>
+        <CombineArray value="IsOverlord"/>
+        <CombineArray value="IsOverseer"/>
+        <CombineArray value="IsTransportOverlord"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareField id="IsSupplySourceBase">
+        <Field value="Food"/>
+        <Value value="10"/>
+        <Compare value="GE"/>
+    </CValidatorUnitCompareField>
+    <CValidatorUnitCompareField id="NotResourceDropOffMinerals">
+        <Field value="ResourceDropOff[Minerals]"/>
+        <Value value="0"/>
+    </CValidatorUnitCompareField>
+    <CValidatorUnitCompareField id="NotResourceDropOffVespene">
+        <Field value="ResourceDropOff[Vespene]"/>
+        <Value value="0"/>
+    </CValidatorUnitCompareField>
+
+
+
+<!--    <CEffectDamage id="OracleRevelationDummyDamage">-->
+<!--        <EditorCategories value=""/>-->
+<!--        <ResponseFlags index="Acquire" value="1"/>-->
+<!--        <Flags index="Notification" value="1"/>-->
+<!--        <Flags index="NoDamageTimerReset" value="1"/>-->
+<!--    </CEffectDamage>-->
+    <CEffectApplyBehavior id="NodPowerSignatureReveal">
+        <EditorCategories value="Race:Nod"/>
+        <Behavior value="NodPowerSignatureReveal"/>
+    </CEffectApplyBehavior>
+    <CBehaviorBuff id="NodPowerSignatureReveal">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-status-detector.dds"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Duration value="10"/>
+        <Modification>
+            <ModifyFlags index="Reveal" value="1"/>
+            <StateFlags index="SuppressCloak" value="1"/>
+        </Modification>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-radar.dds"/>
+        <FinalEffect value="NodPowerSignatureRevealDestroy"/>
+        <ExpireEffect value="NodPowerSignatureRevealDestroy"/>
+    </CBehaviorBuff>
+    <CEffectDestroyPersistent id="NodPowerSignatureRevealDestroy">
+        <EditorCategories value=""/>
+        <WhichLocation Value="TargetUnit"/>
+        <Effect value="NodPowerSignatureRevealPersistent"/>
+        <Count value="1"/>
+        <Radius value="0.5"/>
+    </CEffectDestroyPersistent>
+    <CEffectCreatePersistent id="NodPowerSignatureRevealPersistent">
+        <EditorCategories value=""/>
+        <WhichLocation Value="TargetUnit"/>
+        <ExpireDelay value="60"/>
+        <RevealRadius value="3"/>
+        <RevealFlags index="Unfog" value="1"/>
+        <PeriodicValidator value=""/>
+    </CEffectCreatePersistent>
+
+
+    <CActorModel id="NodPowerSignatureRevealBehaviorModel" parent="ModelAnimationStyleContinuous">
+        <AutoScaleFactor value="1"/>
+        <On Terms="Behavior.NodPowerSignatureReveal.On" Send="Create"/>
+        <On Terms="Behavior.NodPowerSignatureReveal.Off" Send="AnimBracketStop BSD"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+        <Inherits index="Visibility" value="1"/>
+        <Macros value="GlobalLoopMacro"/>
+        <Macros value="GlobalLoopMacroMore"/>
+    </CActorModel>
+    <CModel id="NodPowerSignatureRevealBehaviorModel" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Protoss\Revelation_Ex2\Revelation_Ex2.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.500000,0.500000,0.500000"/>
+        <ScaleMin value="0.500000,0.500000,0.500000"/>
+    </CModel>
 
 </Catalog>
