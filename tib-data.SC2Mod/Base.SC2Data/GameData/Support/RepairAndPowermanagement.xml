@@ -1,0 +1,155 @@
+<Catalog>
+<!--
+Requireed abilities:
+    - Boost Power ( similar to timewarp, allow to boost 1 building, toggled ability )
+    - Disable Power
+    - Repair Structure ( similar to timewarp, select target to repair, toggled ability)
+-->
+    <CAbilEffectTarget id="NodTimeWarp">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <Cost index="0">
+<!--            <Vital index="Energy" value="25"/>-->
+            <Cooldown TimeUse="5"/>
+        </Cost>
+        <TargetFilters value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <TargetFilters index="0" value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="TimeWarp"/>
+        <UninterruptibleArray index="Approach" value="0"/>
+        <UninterruptibleArray index="Prep" value="0"/>
+        <UninterruptibleArray index="Cast" value="0"/>
+        <UninterruptibleArray index="Channel" value="0"/>
+        <UninterruptibleArray index="Finish" value="0"/>
+        <Effect index="0" value="NodTimeWarpSwitch"/>
+        <AINotifyEffect value="ChronoBoost"/>
+        <Flags index="Transient" value="0"/>
+    </CAbilEffectTarget>
+    <CBehaviorBuff id="NodTimeWarpProduction">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
+        <Duration value="0"/>
+        <Modification TimeScale="1.5"/>
+        <TimeScaleSource Value="Global"/>
+        <ExpireEffect value=""/>
+        <BehaviorCategories index="Fast" value="1"/>
+        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
+    </CBehaviorBuff>
+    <CEffectSwitch id="NodTimeWarpSwitch">
+        <CaseArray Validator="IsNotNodChronoBoosted" Effect="NodTimeWarpCP"/>
+        <CaseArray Validator="IsNodChronoBoosted" Effect="NodTimeWarpProductionRB"/>
+    </CEffectSwitch>
+
+
+    <CEffectCreatePersistent id="NodTimeWarpCP">
+        <WhichLocation Value="TargetUnit"/>
+        <EditorCategories value="Race:Protoss"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="NodTimeWarpControllerRBCaster"/>
+        <PeriodicEffectArray value="NodTimeWarpControllerABCaster"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <ValidatorArray value="NodTimeWarpTargetFilters"/>
+        <ValidatorArray value="NodTimeWarpViableTargets"/>
+<!--        <ValidatorArray value="IsNotNodChronoBoosted"/>-->
+    </CEffectCreatePersistent>
+    <CEffectRemoveBehavior id="NodTimeWarpProductionRB">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Value="Target"/>
+        <BehaviorLink value="NodTimeWarpProduction"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+
+
+    <CEffectApplyBehavior id="NodTimeWarpControllerABCaster">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="NodTimeWarpController"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="NodTimeWarpControllerRBCaster">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="NodTimeWarpController"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="NodTimeWarpControllerABTarget">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Effect="NodTimeWarpCP"/>
+        <Behavior value="NodTimeWarpProduction"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="NodTimeWarpControllerRBTarget">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Effect="NodTimeWarpCP"/>
+        <BehaviorLink value="NodTimeWarpProduction"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+    <CBehaviorBuff id="NodTimeWarpController">
+        <InfoFlags index="Hidden" value="1"/>
+        <InitialEffect value="NodTimeWarpControllerABTarget"/>
+        <FinalEffect value="NodTimeWarpControllerRBTarget"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="NodTimeWarpControllerIssueOrderSelf"/>
+    </CBehaviorBuff>
+    <CEffectIssueOrder id="NodTimeWarpControllerIssueOrderSelf">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Value="Caster"/>
+        <Abil value="NodTimeWarp"/>
+        <Target Value="CasterUnit"/>
+        <ValidatorArray value="IsNotNodChronoBoosted"/>
+        <ValidatorArray value="NodPreviousChronoBoostTargetIsDead"/>
+    </CEffectIssueOrder>
+    <CValidatorUnitFilters id="NodPreviousChronoBoostTargetIsDead">
+        <WhichUnit Effect="NodTimeWarpCP"/>
+        <Filters value="Dead;-"/>
+    </CValidatorUnitFilters>
+    <CValidatorCombine id="NodTimeWarpTargetFilters">
+        <CombineArray value="NodTimeWarpViableTargets"/>
+        <CombineArray value="NotDeadOrConstruction"/>
+        <ResultFailed value="CantTargetThatUnit"/>
+        <Type value="And"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="NodTimeWarpViableTargets">
+        <CombineArray value="NodConstructionYard"/>
+        <CombineArray value="NodCrane"/>
+        <CombineArray value="NodTiberiumRefinery"/>
+        <CombineArray value="NodHand"/>
+        <CombineArray value="NodWarFactory"/>
+        <CombineArray value="NodRedeemerFacility"/>
+        <CombineArray value="NodAirTower"/>
+        <CombineArray value="NodTemple"/>
+        <CombineArray value="NodShrine"/>
+        <CombineArray value="NodTechLab"/>
+        <CombineArray value="NodOperationsCenter"/>
+        <CombineArray value="NodTiberiumSilo"/>
+        <CombineArray value="NodTiberiumSiloRich"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareBehaviorCount id="IsNotNodChronoBoosted">
+        <ResultFailed value="Error,Error/AlreadyChronoBoosted"/>
+        <Behavior value="NodTimeWarpProduction"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="IsNodChronoBoosted">
+        <ResultFailed value="Error,Error/AlreadyChronoBoosted"/>
+        <Behavior value="NodTimeWarpProduction"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CActorSound id="NodTimeWarpImpactSound" parent="SoundOneShot">
+        <Sound value="Obelisk_TimeWarpImpact"/>
+        <On Terms="BehaviorLevel.NodTimeWarpProduction.Start; Level 1" Send="Create"/>
+        <Host Subject="_Unit"/>
+    </CActorSound>
+    <CActorModel id="NodTimeWarpEffect" parent="ModelAnimationStyleContinuous">
+        <AutoScaleFactor value="0.75"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="ActorCreation" Send="SetScale 0.300000"/>
+        <On Terms="Behavior.NodTimeWarpProduction.On" Send="Create"/>
+        <On Terms="Behavior.NodTimeWarpProduction.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SetTintColor 255,165,165"/>
+        <Model value="TimeWarp"/>
+        <Host Subject="_Unit"/>
+    </CActorModel>
+
+</Catalog>

@@ -104,14 +104,14 @@
             <StateFlags index="SuppressPassenger" value="1"/>
         </Modification>
     </CBehaviorBuff>
+    <CBehaviorBuff id="NodDecoyArmyTargeting"/>
 
     <!-- STEP 4: Main Targeting Ability (First Click - Select Source Units) -->
     <CAbilEffectTarget id="NodDecoyArmyTargeting">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Effect index="0" value="NodDecoyArmyTestNullEffect"/>
         <Cost>
-            <Charge Link="Abil/NovaNuclearStrike"/>
-            <Cooldown Link="NodDecoyArmyCooldown" TimeStart="0" TimeUse="30"/>
+            <Vital index="Energy" value="75"/>
         </Cost>
         <Range value="500"/>
         <Arc value="360"/>
@@ -121,6 +121,11 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmy" Requirements="NodDecoyArmyRequirement"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
     </CAbilEffectTarget>
+    <CActorSplat id="NodDecoyArmyTargetingSplat" parent="ProtossCursorSplat" abil="NodDecoyArmyTargeting">
+        <On index="0" Terms="Abil.NodDecoyArmyTargeting.Cursor" Send="Create"/>
+        <Model value="NodAOECursorSplat"/>
+        <Scale value="3.000000"/>
+    </CActorSplat>
 
     <!-- STEP 6: Marker Unit (placed at source location) -->
     <CUnit id="NodDecoyArmyMarker">
@@ -169,14 +174,15 @@
             <Charge Link="Abil/NovaNuclearStrike"/>
             <Cooldown Link="NodDecoyArmyCooldown" TimeUse="30"/>
         </Cost>
-        <Range value="500"/>
+        <Range value="13"/>
         <Arc value="360"/>
         <Marker Link="Abil/NovaNuclearStrike"/>
         <AlertArray index="Cast" value="CalldownLaunch"/>
         <CursorEffect value="NodDecoyArmySearchForUnits"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmyExecute"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmyExecute" Requirements="NodDecoyArmyExecute"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
     </CAbilEffectTarget>
+    <CActorRange id="NodDecoyArmyExecuteRange" parent="RangeAbil" abil="NodDecoyArmyExecute"/>
     <CEffectCreatePersistent id="NodDecoyArmyCP">
         <InitialEffect value="NodDecoyArmySet"/>
         <PeriodCount value="1"/>
