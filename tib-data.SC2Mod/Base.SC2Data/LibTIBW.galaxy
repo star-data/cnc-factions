@@ -1,6 +1,7 @@
 include "TriggerLibs/NativeLib"
 include "LibScio"
 include "LibCNCC"
+include "LibRED3"
 
 include "LibTIBW_h"
 
@@ -12,6 +13,7 @@ void libTIBW_InitLibraries () {
     libNtve_InitVariables();
     libScio_InitVariables();
     libCNCC_InitVariables();
+    libRED3_InitVariables();
 }
 
 // Variable Initialization
@@ -27,6 +29,7 @@ void libTIBW_InitVariables () {
 
     libTIBW_InitVariables_completed = true;
 
+    libTIBW_gv_markTarget = UnitGroupEmpty();
     for (init_i = 0; init_i <= 16; init_i += 1) {
         for (init_j = 0; init_j <= 200; init_j += 1) {
             libTIBW_gv_announcerTimers[init_i][init_j] = TimerCreate();
@@ -2241,10 +2244,9 @@ bool libTIBW_gt_NodDecoyArmyTargeting_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    libNtve_gf_CreateUnitsWithDefaultFacing(1, "NodDecoyArmyMarker", 0, lv_player, EventUnitTargetPoint());
-    UnitGroupAdd(lv_units, UnitLastCreated());
-    TriggerDebugOutput(1, StringToText((UnitGetType(UnitLastCreated()))), true);
-    UISetTargetingOrder(PlayerGroupSingle(EventPlayer()), lv_units, OrderTargetingPoint(AbilityCommand("NodDecoyArmy_Execute", 0), EventUnitTargetPoint()), true);
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, "NodDecoyArmyMarker", 0, UnitGetOwner(EventUnit()), EventUnitTargetPoint());
+    UnitGroupAdd(libTIBW_gv_markTarget, UnitLastCreated());
+    UISetTargetingOrder(PlayerGroupSingle(EventPlayer()), libTIBW_gv_markTarget, OrderTargetingPoint(AbilityCommand("NodDecoyArmyExecute", 0), EventUnitTargetPoint()), true);
     return true;
 }
 
@@ -2252,6 +2254,7 @@ bool libTIBW_gt_NodDecoyArmyTargeting_Func (bool testConds, bool runActions) {
 void libTIBW_gt_NodDecoyArmyTargeting_Init () {
     libTIBW_gt_NodDecoyArmyTargeting = TriggerCreate("libTIBW_gt_NodDecoyArmyTargeting_Func");
     TriggerAddEventUnitAbility(libTIBW_gt_NodDecoyArmyTargeting, null, AbilityCommand("NodDecoyArmyTargeting", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_NodDecoyArmyTargeting, null, AbilityCommand("AlliedChronoSphereExecute", 0), c_unitAbilStageComplete, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2293,7 +2296,7 @@ bool libTIBW_gt_NodDecoyArmyTargeting2_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_NodDecoyArmyTargeting2_Init () {
     libTIBW_gt_NodDecoyArmyTargeting2 = TriggerCreate("libTIBW_gt_NodDecoyArmyTargeting2_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_NodDecoyArmyTargeting2, null, AbilityCommand("NodDecoyArmy_Execute", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_NodDecoyArmyTargeting2, null, AbilityCommand("NodDecoyArmyExecute", 0), c_unitAbilStageExecute, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2313,7 +2316,8 @@ bool libTIBW_gt_NodDecoyArmyTargeting3_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_NodDecoyArmyTargeting3_Init () {
     libTIBW_gt_NodDecoyArmyTargeting3 = TriggerCreate("libTIBW_gt_NodDecoyArmyTargeting3_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_NodDecoyArmyTargeting3, null, AbilityCommand("NodDecoyArmy_Execute", 0), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_NodDecoyArmyTargeting3, null, AbilityCommand("NodDecoyArmyExecute", 0), c_unitAbilStageComplete, false);
+    TriggerAddEventTargetModeUpdate(libTIBW_gt_NodDecoyArmyTargeting3, c_playerAny, AbilityCommand("NodDecoyArmyExecute", 0), c_targetModeStateOff);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2819,7 +2823,7 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
 
     Wait(1.0, c_timeGame);
     while (true) {
-        Wait(1.0, c_timeGame);
+        Wait(0.25, c_timeGame);
         autoE56A3554_g = lv_players;
         autoE56A3554_var = -1;
         while (true) {
@@ -2837,19 +2841,19 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
                     lv_unit = UnitGroupUnitFromEnd(autoA2EC64F4_g, autoA2EC64F4_u);
                     if (lv_unit == null) { break; }
                     if ((UnitHasBehavior(lv_unit, "CNCEnergyDrain5") == true)) {
-                        lv_energyDrain = (lv_energyDrain + 0.18);
+                        lv_energyDrain = (lv_energyDrain + 0.045);
                     }
                     else if ((UnitHasBehavior(lv_unit, "CNCEnergyDrain10") == true)) {
-                        lv_energyDrain = (lv_energyDrain + 0.36);
+                        lv_energyDrain = (lv_energyDrain + 0.09);
                     }
                     else if ((UnitHasBehavior(lv_unit, "CNCEnergyDrain15") == true)) {
-                        lv_energyDrain = (lv_energyDrain + 0.71);
+                        lv_energyDrain = (lv_energyDrain + 0.135);
                     }
                     else if ((UnitHasBehavior(lv_unit, "CnCPowerGeneration015") == true)) {
-                        lv_energyGeneration = (lv_energyGeneration + 0.71);
+                        lv_energyGeneration = (lv_energyGeneration + 0.135);
                     }
                     else if ((UnitHasBehavior(lv_unit, "CnCPowerGeneration045") == true)) {
-                        lv_energyGeneration = (lv_energyGeneration + 2.13);
+                        lv_energyGeneration = (lv_energyGeneration + 0.405);
                     }
                 }
                 lv_balanceUpdate = (lv_energyGeneration - lv_energyDrain);
