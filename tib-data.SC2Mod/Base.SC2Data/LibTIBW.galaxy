@@ -953,6 +953,12 @@ void libTIBW_gf_PlayAnnounceSound (int lp_type, int lp_player) {
     else if (autoF4226EF4_val == libTIBW_ge_NEVA_NEVA_Cancelled) {
         SoundPlayForPlayer(SoundLink("NodAdvisor", 0), c_maxPlayers, lv_players, 100.0, 0.0);
     }
+    else if (autoF4226EF4_val == libTIBW_ge_NEVA_NEVA_Repairing) {
+        SoundPlayForPlayer(SoundLink("NodAdvisor", 25), c_maxPlayers, lv_players, 100.0, 0.0);
+    }
+    else if (autoF4226EF4_val == libTIBW_ge_NEVA_NEVA_StructureSold) {
+        SoundPlayForPlayer(SoundLink("NodAdvisor", 13), c_maxPlayers, lv_players, 100.0, 0.0);
+    }
     else {
     }
 }
@@ -2445,6 +2451,26 @@ bool libTIBW_gt_ConstructionCompleted2_Func (bool testConds, bool runActions) {
 void libTIBW_gt_ConstructionCompleted2_Init () {
     libTIBW_gt_ConstructionCompleted2 = TriggerCreate("libTIBW_gt_ConstructionCompleted2_Func");
     TriggerAddEventUnitAbility(libTIBW_gt_ConstructionCompleted2, null, AbilityCommand("NodMCVDeploy", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Repairng
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Repairng_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_Repairing, UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Repairng_Init () {
+    libTIBW_gt_Repairng = TriggerCreate("libTIBW_gt_Repairng_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_Repairng, null, "NodRepair", c_unitBehaviorChangeCreate);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4836,6 +4862,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_ConstructionCanceled_Init();
     libTIBW_gt_NewConstructionOptions_Init();
     libTIBW_gt_ConstructionCompleted2_Init();
+    libTIBW_gt_Repairng_Init();
     libTIBW_gt_TrainingStarted_Init();
     libTIBW_gt_TrainingCompleted_Init();
     libTIBW_gt_TrainingCanceled_Init();
