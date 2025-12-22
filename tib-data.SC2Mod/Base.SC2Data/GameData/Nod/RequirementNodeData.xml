@@ -134,6 +134,19 @@
     <CRequirementNot parent="RN" id="RN_NodDozerBlades" upgrade="NodDozerBlades"/>
     <CRequirementNot parent="RN" id="RN_NodExplosiveDamage" upgrade="NodExplosiveDamage"/>
 
+
+    <CRequirementNot id="NodAvatarCommandeerTechnologyNotComplete">
+        <OperandArray index="0" value="NodAvatarCommandeerTechnologyComplete"/>
+    </CRequirementNot>
+    <CRequirementAnd id="NodAvatarCommandeerTechnologyComplete">
+        <OperandArray value="CBU_NodAvatarFlameCannon"/>
+        <OperandArray value="CBU_NodAvatarBeamCannon"/>
+        <OperandArray value="CBU_NodAvatarDetector"/>
+        <OperandArray value="CBU_NodAvatarStealthGenerator"/>
+    </CRequirementAnd>
+
+
+
     <CRequirementNot id="NoTurretHubSpecialize">
         <OperandArray index="0" value="HasTurretHubSpecialize"/>
     </CRequirementNot>
@@ -142,15 +155,8 @@
         <OperandArray value="CBU_NodLaserTurretsHub"/>
         <OperandArray value="CBU_NodMissileTurretsHub"/>
     </CRequirementOr>
-    <CRequirementCountBehavior id="CBU_NodShredderTurretsHub">
-        <Count Link="NodShredderTurretsHub" State="CompleteOnlyAtUnit"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CBU_NodLaserTurretsHub">
-        <Count Link="NodLaserTurretsHub" State="CompleteOnlyAtUnit"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CBU_NodMissileTurretsHub">
-        <Count Link="NodMissileTurretsHub" State="CompleteOnlyAtUnit"/>
-    </CRequirementCountBehavior>
+
+
 
     <!--Construction-->
     <CRequirementOr id="REQC_NodPower">
@@ -360,7 +366,7 @@
 
 
     <CRequirementAnd id="NodNukeStrike">
-        <OperandArray value="UCU_NodNuke"/>
+<!--        <OperandArray value="UCU_NodNuke"/>-->
     </CRequirementAnd>
     <CRequirementAnd id="NodArmNuke">
         <OperandArray value="UNU_NodNuke"/>
@@ -409,43 +415,60 @@
         <OperandArray value="RC_NodSignatureGenerators"/>
         <OperandArray value="CBU_GenetronPowerBalance025On"/>
     </CRequirementAnd>
+    <CRequirementAnd id="NodWeaponsFree">
+        <!--holding fire-->
+        <OperandArray value="CBU_NodHoldFireB"/>
+        <OperandArray value="CBU_NodUnstableCloak_Or_NodAvatarStealthGenerator"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodHoldFire">
+        <!--not holding fire-->
+        <OperandArray value="NBU_NodHoldFireB"/>
+        <OperandArray value="CBU_NodUnstableCloak_Or_NodAvatarStealthGenerator"/>
+    </CRequirementAnd>
 
-    <CRequirementCountBehavior id="CBU_NodAvatarStealthGenerator">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="NodAvatarStealthGenerator" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
 
-    <CRequirementCountBehavior id="CBU_GenetronPowerBalance015On">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance015On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CBU_GenetronPowerBalance020On">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance020On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CBU_GenetronPowerBalance025On">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance025On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CBU_GenetronPowerBalance050On">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance050On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CBU_GenetronPowerBalance075On">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance075On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CBU_GenetronPowerBalance100On">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance100On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CBU_GenetronPowerBalance150On">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance150On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CBU_NodDecoyArmyTargeting">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="NodDecoyArmyTargeting" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
 
+    <CRequirementOr id="CBU_NodRedeemerConfession">
+        <!--unstable disruption device-->
+        <OperandArray value="CBU_NodRedeemerConfessionRight"/>
+        <OperandArray value="CBU_HasNodRedeemerConfessionLeft"/>
+    </CRequirementOr>
+
+    <CRequirementOr id="CBU_NodRFT">
+        <!--unstable disruption device-->
+        <OperandArray value="CBU_NodRFTRight"/>
+        <OperandArray value="CBU_NodRFTLeft"/>
+    </CRequirementOr>
+
+
+    <CRequirementOr id="CBU_NodUnstableCloak_Or_NodAvatarStealthGenerator">
+        <!--unstable disruption device-->
+        <OperandArray value="CBU_NodUnstableCloak"/>
+        <OperandArray value="CBU_NodAvatarStealthGenerator"/>
+    </CRequirementOr>
+    <CRequirementCountBehavior parent="CBU" id="CBU_GenetronPowerBalance015On" behavior="GenetronPowerBalance015On"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_GenetronPowerBalance020On" behavior="GenetronPowerBalance020On"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_GenetronPowerBalance025On" behavior="GenetronPowerBalance025On"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_GenetronPowerBalance100On" behavior="GenetronPowerBalance100On"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_GenetronPowerBalance050On" behavior="GenetronPowerBalance050On"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_GenetronPowerBalance075On" behavior="GenetronPowerBalance075On"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_GenetronPowerBalance150On" behavior="GenetronPowerBalance150On"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodDecoyArmyTargeting" behavior="NodDecoyArmyTargeting"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodAvatarStealthGenerator" behavior="NodAvatarStealthGenerator"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodAvatarFlameCannon" behavior="NodAvatarFlameCannon"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodAvatarBeamCannon" behavior="NodAvatarBeamCannon"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodAvatarDetector" behavior="NodAvatarDetector"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodMissileTurretsHub" behavior="NodMissileTurretsHub"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodLaserTurretsHub" behavior="NodLaserTurretsHub"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodShredderTurretsHub" behavior="NodShredderTurretsHub"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodHoldFireB" behavior="NodHoldFireB"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodUnstableCloak" behavior="NodUnstableCloak"/>
+
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodRFTRight" behavior="NodRFTRight"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodRFTLeft" behavior="NodRFTLeft"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodRedeemerConfessionRight" behavior="NodRedeemerConfessionRight"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_HasNodRedeemerConfessionLeft" behavior="HasNodRedeemerConfessionLeft"/>
+
+
+    <CRequirementNot parent="NBU" id="NBU_NodHoldFireB" behavior="NodHoldFireB"/>
 </Catalog>

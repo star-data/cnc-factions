@@ -44,4 +44,69 @@
         <Behavior value="CnCPowerGeneration045"/>
         <Value value="1"/>
     </CValidatorUnitCompareBehaviorCount>
+
+
+
+    <!--    <CValidatorUnitCompareResourceContents id="CarryMineralFieldMinerals0"><Compare value="GT"/><Value value="0"/></CValidatorUnitCompareResourceContents>-->
+    <!--    <CValidatorUnitCompareResourceContents id="CarryMineralFieldMinerals1"><Compare value="GE"/><Value value="5"/></CValidatorUnitCompareResourceContents>-->
+    <!--    <CValidatorUnitCompareResourceContents id="CarryMineralFieldMinerals2"><Compare value="GE"/><Value value="10"/></CValidatorUnitCompareResourceContents>-->
+    <!--    <CValidatorUnitCompareResourceContents id="CarryMineralFieldMinerals3"><Compare value="GE"/><Value value="15"/></CValidatorUnitCompareResourceContents>-->
+    <!--    <CValidatorUnitCompareResourceContents id="CarryMineralFieldMinerals4"><Compare value="GE"/><Value value="20"/></CValidatorUnitCompareResourceContents>-->
+
+    <CValidatorUnitCompareBehaviorCount id="CarryMineralFieldMinerals0"><Value value="0"/><Behavior value="CarryMineralFieldMinerals"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryMineralFieldMinerals1"><Value value="1"/><Behavior value="CarryMineralFieldMinerals"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryMineralFieldMinerals2"><Value value="2"/><Behavior value="CarryMineralFieldMinerals"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryMineralFieldMinerals3"><Value value="3"/><Behavior value="CarryMineralFieldMinerals"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryMineralFieldMinerals4"><Value value="4"/><Behavior value="CarryMineralFieldMinerals"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+
+    <CValidatorUnitCompareBehaviorCount id="CarryHighYieldMineralFieldMinerals0"><Value value="0"/><Behavior value="CarryHighYieldMineralFieldMinerals"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryHighYieldMineralFieldMinerals1"><Value value="1"/><Behavior value="CarryHighYieldMineralFieldMinerals"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryHighYieldMineralFieldMinerals2"><Value value="2"/><Behavior value="CarryHighYieldMineralFieldMinerals"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryHighYieldMineralFieldMinerals3"><Value value="3"/><Behavior value="CarryHighYieldMineralFieldMinerals"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryHighYieldMineralFieldMinerals4"><Value value="4"/><Behavior value="CarryHighYieldMineralFieldMinerals"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+
+    <CValidatorUnitCompareBehaviorCount id="CarryHarvestableVespeneGeyserGas0"><Value value="0"/><Behavior value="CarryHarvestableVespeneGeyserGas"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryHarvestableVespeneGeyserGas1"><Value value="1"/><Behavior value="CarryHarvestableVespeneGeyserGas"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryHarvestableVespeneGeyserGas2"><Value value="2"/><Behavior value="CarryHarvestableVespeneGeyserGas"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryHarvestableVespeneGeyserGas3"><Value value="3"/><Behavior value="CarryHarvestableVespeneGeyserGas"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CarryHarvestableVespeneGeyserGas4"><Value value="4"/><Behavior value="CarryHarvestableVespeneGeyserGas"/><WhichUnit Value="Caster"/></CValidatorUnitCompareBehaviorCount>
+
+
+    <CValidatorCombine id="CnCRepairOutOfResources">
+        <Type value="Or"/>
+        <CombineArray value="CnCRepairOutOfMinerals"/>
+        <CombineArray value="CnCRepairOutOfVespene"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="CnCRepairOutOfMinerals">
+        <Type value="And"/>
+        <CombineArray value="TargetCostsMinerals"/>
+        <CombineArray value="CnCOutOfMinerals"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="CnCRepairOutOfVespene">
+        <Type value="And"/>
+        <CombineArray value="TargetCostsVespene"/>
+        <CombineArray value="CnCOutOfVespene"/>
+    </CValidatorCombine>
+
+    <CValidatorUnitCompareField id="TargetCostsMinerals">
+        <WhichUnit Value="Target"/>
+        <Compare value="GE"/>
+        <Field value="CostResource[Minerals]"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareField>
+    <CValidatorUnitCompareField id="TargetCostsVespene">
+        <WhichUnit Value="Target"/>
+        <Compare value="GE"/>
+        <Field value="CostResource[Vespene]"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareField>
+
+    <CValidatorPlayerCompareResource id="CnCOutOfMinerals">
+        <Compare value="GT"/>
+        <Resource value="Minerals"/>
+    </CValidatorPlayerCompareResource>
+    <CValidatorPlayerCompareResource id="CnCOutOfVespene">
+        <Compare value="GT"/>
+        <Resource value="Vespene"/>
+    </CValidatorPlayerCompareResource>
 </Catalog>

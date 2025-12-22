@@ -1,0 +1,445 @@
+<Catalog>
+<!--    <BehaviorArray Link="CnCMaintenanceArea"/>           -->
+<!--    <LayoutButtons Face="CnCRepairDrones" Type="AbilCmd" AbilCmd="CnCMaintenanceDrones,Ammo2" Row="0" Column="4"/>-->
+
+    <CActorRange id="CnCMaintenanceRange">
+        <Inherits index="TeamColor" value="1"/>
+        <On Terms="SelectionLocalUpdate.NodWarFactory.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodWarFactory.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodWarFactory" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodWarFactory.Stop" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.NodAirTower.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirTower.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirTower" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirTower.Stop" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.NodAirSupport.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirSupport.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirSupport" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirSupport.Stop" Send="Destroy"/>
+        <Weapon value="CnCMaintenanceWeaponDummy"/>
+        <Icon value="Assets\Textures\radaricon2.dds"/>
+        <IconArcLength value="0.300000"/>
+    </CActorRange>
+    <CWeaponLegacy id="CnCMaintenanceWeaponDummy">
+        <Range value="4"/>
+    </CWeaponLegacy>
+    <CBehaviorBuff id="CnCMaintenanceAreaGround">
+        <InfoFlags index="Hidden" value="1"/>
+        <Period value="1"/>
+        <PeriodicEffect value="CnCMaintenanceGroundEA"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CnCMaintenanceAreaAir">
+        <InfoFlags index="Hidden" value="1"/>
+        <Period value="1"/>
+        <PeriodicEffect value="CnCMaintenanceAirEA"/>
+    </CBehaviorBuff>
+    <CEffectEnumArea id="CnCMaintenanceGroundEA">
+        <ImpactLocation Value="TargetUnit"/>
+        <SearchFilters value="Mechanical,Ground;Ally,Neutral,Enemy,Biological,Structure,Stasis,Dead,Hidden"/>
+        <AreaArray Radius="3" Effect="CnCMaintenanceGroundAB"/>
+        <SearchFlags index="ExtendByUnitRadius" value="1"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="CnCMaintenanceAirEA">
+        <ImpactLocation Value="TargetUnit"/>
+        <SearchFilters value="Mechanical,Air;Ally,Neutral,Enemy,Biological,Structure,Stasis,Dead,Hidden"/>
+        <AreaArray Radius="3" Effect="CnCMaintenanceAirAB"/>
+        <SearchFlags index="ExtendByUnitRadius" value="1"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="CnCMaintenanceAirAB">
+        <EditorCategories value="Race:Protoss"/>
+        <Behavior value="CnCAwaitMaintenanceAir"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="CnCMaintenanceGroundAB">
+        <EditorCategories value="Race:Protoss"/>
+        <Behavior value="CnCAwaitMaintenanceGround"/>
+    </CEffectApplyBehavior>
+    <CBehaviorBuff id="CnCAwaitMaintenanceAir">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-swann-improvednanorepair.dds"/>
+        <Duration value="2"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CnCAwaitMaintenanceGround">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-swann-improvednanorepair.dds"/>
+        <Duration value="2"/>
+    </CBehaviorBuff>
+    <CButton id="CnCRepairDrones">
+        <Icon value="Assets\Textures\btn-ability-protoss-carrierrepairdrones.dds"/>
+        <HotkeyAlias value="RepairDrones"/>
+    </CButton>
+    <CButton id="CnCMaintenanceDroneRepair">
+        <Icon value="Assets\Textures\btn-ability-protoss-carrierrepairdrones.dds"/>
+        <HotkeyAlias value="RepairDrones"/>
+    </CButton>
+    <CActorSound id="CnCMaintenanceSound" parent="SoundOneShot">
+        <On Terms="Effect.CnCMaintenanceDroneRepair.TargetStart" Send="Create"/>
+        <On Terms="Effect.CnCMaintenanceDroneRepair.TargetStop" Send="Destroy"/>
+        <Sound value="CnCMaintenanceSound"/>
+    </CActorSound>
+    <CSound id="CnCMaintenanceSound" parent="Gather">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\multifunctional-repair-tank-sound-effects.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="3"/>
+        <Pitch value="-2.000000,0.000000"/>
+        <Volume value="-10.000000,-7.000000"/>
+    </CSound>
+    <CActorModel id="CnCMaintenanceModel" parent="ModelAnimationStyleContinuous">
+        <On Terms="ActorCreation" Send="$Birth PlayForever,ForceLooping"/>
+        <On Terms="Effect.CnCMaintenanceDroneRepair.TargetStart" Send="Create"/>
+        <On Terms="Effect.CnCMaintenanceDroneRepair.TargetStop" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+        <Model value="CnCMaintenanceModel"/>
+    </CActorModel>
+    <CModel id="CnCMaintenanceModel" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Other\PhysicsImpactSparksLight\PhysicsImpactSparksLight.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+
+    <CAbilArmMagazine id="NodMaintenanceDronesGround">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Launch value="ReleaseAtSource"/>
+        <Flags index="AutoCreate" value="1"/>
+        <Flags index="Retarget" value="1"/>
+        <Flags index="ShowStatus" value="0"/>
+        <Leash value="5"/>
+        <InfoArray index="Ammo1" CountStart="3" Manage="Ignore" Unit="NodRepairBeeGround">
+            <Charge Link="Abil/##id##"/>
+            <Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="CnCRepairDrones"/>
+            <Flags index="AutoBuild" value="1"/>
+            <Flags index="AutoBuildOn" value="1"/>
+            <Flags index="External" value="1"/>
+        </InfoArray>
+        <MaxCount value="3"/>
+    </CAbilArmMagazine>
+    <CAbilArmMagazine id="NodMaintenanceDronesAir">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Launch value="ReleaseAtSource"/>
+        <Flags index="AutoCreate" value="1"/>
+        <Flags index="Retarget" value="1"/>
+        <Flags index="ShowStatus" value="0"/>
+        <Leash value="5"/>
+        <InfoArray index="Ammo1" CountStart="3" Manage="Ignore" Unit="NodRepairBeeAir">
+            <Charge Link="Abil/##id##"/>
+            <Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="CnCRepairDrones"/>
+            <Flags index="AutoBuild" value="1"/>
+            <Flags index="AutoBuildOn" value="1"/>
+            <Flags index="External" value="1"/>
+        </InfoArray>
+        <MaxCount value="3"/>
+    </CAbilArmMagazine>
+
+    <CAbilArmMagazine id="CnCMaintenanceDrones">
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Launch value="ReleaseAtSource"/>
+        <Flags index="AutoCreate" value="1"/>
+        <Flags index="Retarget" value="1"/>
+        <Flags index="ShowStatus" value="0"/>
+        <Leash value="5"/>
+        <InfoArray index="Ammo2" CountStart="3" Manage="Ignore" Unit="AlliedRepairBee">
+            <Charge Link="Abil/##id##"/>
+            <Cooldown Link="Abil/##id##"/>
+            <Button DefaultButtonFace="CnCRepairDrones"/>
+            <Flags index="AutoBuild" value="1"/>
+            <Flags index="AutoBuildOn" value="1"/>
+            <Flags index="External" value="1"/>
+        </InfoArray>
+        <MaxCount value="3"/>
+    </CAbilArmMagazine>
+
+    <CEffectCreateHealer id="CnCMaintenanceDroneRepair" parent="Repair">
+        <Name value="Effect/Name/CnCMaintenanceDroneRepair"/>
+        <ValidatorArray index="0" value="noMarkers"/>
+        <ValidatorArray index="1" value="NotHidden"/>
+        <ValidatorArray index="2" value="NotWarpingIn"/>
+        <ValidatorArray index="3" value="NotThorWreckage"/>
+        <ValidatorArray index="4" value="NotOdinWreckage"/>
+        <ValidatorArray value="NotVortexd"/>
+        <ValidatorArray value="NoSOATimeFreeze"/>
+        <DrainResourceCostFactor index="Minerals" value="0"/>
+        <DrainResourceCostFactor index="Vespene" value="0"/>
+        <DrainResourceCostFactor index="Terrazine" value="0"/>
+        <DrainResourceCostFactor index="Custom" value="0"/>
+        <RechargeVitalRate value="10"/>
+        <TimeFactor value="0"/>
+        <FinalEffect value="CnCRepairDroneHeightRestore"/>
+    </CEffectCreateHealer>
+    <CEffectModifyUnit id="CnCRepairDroneHeightRestore">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactUnit Value="Caster"/>
+    </CEffectModifyUnit>
+    <CAbilEffectTarget id="CnCMaintenanceDroneRepairAir">
+        <Effect index="0" value="CnCMaintenanceDroneRepair"/>
+        <Alignment value="Positive"/>
+        <AbilSetId value="Repair"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOffOwnerLeave" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="BestUnit" value="0"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Flags index="PassengerAcquirePassengers" value="1"/>
+        <TargetFilters value="Mechanical,Visible;Self,Enemy,Missile,Stasis,UnderConstruction,Dead,Hidden"/>
+        <Range value="0"/>
+        <RangeSlop value="0"/>
+        <AutoCastAcquireLevel value="Defensive"/>
+        <AutoCastFilters value="Visible;Neutral,Enemy"/>
+        <AutoCastRange value="8"/>
+        <AutoCastValidatorArray value="CnCAwaitMaintenanceAirCheck"/>
+        <AutoCastValidatorArray value="noMarkers"/>
+        <InheritAttackPriorityArray index="Prep" value="1"/>
+        <InheritAttackPriorityArray index="Cast" value="1"/>
+        <InheritAttackPriorityArray index="Channel" value="1"/>
+        <DefaultError value="RequiresRepairTarget"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Repair">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="CnCMaintenanceDroneRepairGround">
+        <Effect index="0" value="CnCMaintenanceDroneRepair"/>
+        <Alignment value="Positive"/>
+        <AbilSetId value="Repair"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOffOwnerLeave" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="BestUnit" value="0"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Flags index="PassengerAcquirePassengers" value="1"/>
+        <TargetFilters value="Mechanical,Visible;Self,Enemy,Missile,Stasis,UnderConstruction,Dead,Hidden"/>
+        <Range value="0"/>
+        <RangeSlop value="0"/>
+        <AutoCastAcquireLevel value="Defensive"/>
+        <AutoCastFilters value="Visible;Neutral,Enemy"/>
+        <AutoCastRange value="8"/>
+        <AutoCastValidatorArray value="CnCAwaitMaintenanceGroundCheck"/>
+        <AutoCastValidatorArray value="noMarkers"/>
+        <InheritAttackPriorityArray index="Prep" value="1"/>
+        <InheritAttackPriorityArray index="Cast" value="1"/>
+        <InheritAttackPriorityArray index="Channel" value="1"/>
+        <DefaultError value="RequiresRepairTarget"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Repair">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+    </CAbilEffectTarget>
+    <CValidatorUnitCompareBehaviorCount id="CnCAwaitMaintenanceAirCheck">
+        <Value value="1"/>
+        <Behavior value="CnCAwaitMaintenanceAir"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="CnCAwaitMaintenanceGroundCheck">
+        <Value value="1"/>
+        <Behavior value="CnCAwaitMaintenanceGround"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CBehaviorWander id="CnCMaintenanceDroneWander">
+        <Leash value="1"/>
+        <Range value="4"/>
+        <Delay value="2"/>
+    </CBehaviorWander>
+
+    <CEffectModifyUnit id="CnCMaintenanceDroneAirHeightStart">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactUnit Value="Caster"/>
+        <Height value="3.75"/>
+        <HeightTime value="2"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="CnCMaintenanceDroneGroundHeightStart">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactUnit Value="Caster"/>
+        <Height value="1.75"/>
+        <HeightTime value="1"/>
+    </CEffectModifyUnit>
+
+
+
+
+    <CUnit id="NodRepairBeeAir" parent="AlliedAir">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="AISupport" value="1"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <EnergyStart value="10"/>
+        <EnergyMax value="10"/>
+        <EnergyRegenRate value="10"/>
+        <Speed value="2.5"/>
+        <Acceleration value="2.125"/>
+        <AbilArray Link="Warpable"/>
+        <AbilArray Link="CnCMaintenanceDroneRepairAir"/>
+        <BehaviorArray Link="AbilityTargetExclusionBehavior"/>
+        <BehaviorArray Link="CnCMaintenanceDroneWander"/>
+<!--        <EffectArray index="Create" value="CnCMaintenanceDroneAirHeightStart"/>-->
+        <CardLayouts index="0">
+            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="move,AcquireMove" Row="0" Column="4"/>
+            <LayoutButtons Face="CnCMaintenanceDroneRepair" Type="AbilCmd" AbilCmd="CnCMaintenanceDroneRepairAir,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <Radius value="0"/>
+        <SeparationRadius value="0"/>
+        <SubgroupPriority value="4"/>
+    </CUnit>
+    <CUnit id="NodRepairBeeGround" parent="AlliedAir">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="AISupport" value="1"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <EnergyStart value="10"/>
+        <EnergyMax value="10"/>
+        <EnergyRegenRate value="10"/>
+        <Speed value="2.5"/>
+        <Acceleration value="2.125"/>
+        <AbilArray Link="Warpable"/>
+        <AbilArray Link="CnCMaintenanceDroneRepairGround"/>
+        <BehaviorArray Link="AbilityTargetExclusionBehavior"/>
+        <BehaviorArray Link="CnCMaintenanceDroneWander"/>
+<!--        <EffectArray index="Create" value="CnCMaintenanceDroneGroundHeightStart"/>-->
+        <CardLayouts index="0">
+            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="move,AcquireMove" Row="0" Column="4"/>
+            <LayoutButtons Face="CnCMaintenanceDroneRepair" Type="AbilCmd" AbilCmd="CnCMaintenanceDroneRepairGround,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <Radius value="0"/>
+        <SeparationRadius value="0"/>
+        <SubgroupPriority value="4"/>
+    </CUnit>
+    <CActorUnit id="NodRepairBeeAir" parent="NodAir" unitName="NodRepairBeeAir">
+        <!--        <On Terms="Behavior.WarpInEffect15.On" Send="ModelSwap ObserverWarpIn"/>-->
+        <!--        <On Terms="Behavior.WarpInEffect15.On" Send="$Birth"/>-->
+        <!--        <On Terms="Behavior.WarpInEffect15.Off" Send="ModelSwap Observer"/>-->
+        <!--        <On Terms="Behavior.WarpInEffect15.Off" Send="AnimBaselineStart"/>-->
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Observer_Land"/>
+        <Scale value="0.800000"/>
+        <AnimBlendTime value="1.200000"/>
+        <DeathArray index="Normal" ModelLink="CarrierRepairDroneDeath" SoundLink="Observer_Explode"/>
+        <PortraitModel value="ObserverPortrait"/>
+        <BarOffset value="40"/>
+        <BarWidth value="42"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-Protoss-Observer.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Textures\btn-unit-protoss-observer.dds"/>
+        <SoundArray index="Ready" value="Observer_Ready"/>
+        <SoundArray index="What" value="Observer_What"/>
+        <SoundArray index="Yes" value="Observer_Yes"/>
+        <SoundArray index="Pissed" value="Observer_Pissed"/>
+        <UnitIcon value="Assets\Textures\btn-unit-protoss-observer.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-Protoss-Observer.dds"/>
+        </Wireframe>
+        <Model value="NodRepairBee"/>
+    </CActorUnit>
+    <CActorUnit id="NodRepairBeeGround" parent="NodAir" unitName="NodRepairBeeGround">
+        <!--        <On Terms="Behavior.WarpInEffect15.On" Send="ModelSwap ObserverWarpIn"/>-->
+        <!--        <On Terms="Behavior.WarpInEffect15.On" Send="$Birth"/>-->
+        <!--        <On Terms="Behavior.WarpInEffect15.Off" Send="ModelSwap Observer"/>-->
+        <!--        <On Terms="Behavior.WarpInEffect15.Off" Send="AnimBaselineStart"/>-->
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Observer_Land"/>
+        <Scale value="0.800000"/>
+        <AnimBlendTime value="1.200000"/>
+        <DeathArray index="Normal" ModelLink="CarrierRepairDroneDeath" SoundLink="Observer_Explode"/>
+        <PortraitModel value="ObserverPortrait"/>
+        <BarOffset value="40"/>
+        <BarWidth value="42"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-Protoss-Observer.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Textures\btn-unit-protoss-observer.dds"/>
+        <SoundArray index="Ready" value="Observer_Ready"/>
+        <SoundArray index="What" value="Observer_What"/>
+        <SoundArray index="Yes" value="Observer_Yes"/>
+        <SoundArray index="Pissed" value="Observer_Pissed"/>
+        <UnitIcon value="Assets\Textures\btn-unit-protoss-observer.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-Protoss-Observer.dds"/>
+        </Wireframe>
+        <Model value="NodRepairBee"/>
+    </CActorUnit>
+    <CModel id="NodRepairBee" parent="Unit" Race="Protoss">
+        <Model value="Assets\Units\Nod\NodRepairDrone.m3"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraLow05"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="Star2CameraLow05"/>
+        <UnitGlossaryCamera value="Star2CameraLow05"/>
+    </CModel>
+
+
+
+
+    <CUnit id="AlliedRepairBee" parent="AlliedAir">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="AISupport" value="1"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/ProtossPlating"/>
+        <EnergyStart value="10"/>
+        <EnergyMax value="10"/>
+        <EnergyRegenRate value="10"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/ProtossPlasmaShields"/>
+        <Speed value="2.5"/>
+        <Acceleration value="2.125"/>
+        <AbilArray Link="Warpable"/>
+        <AbilArray Link="CnCMaintenanceDroneRepair"/>
+        <BehaviorArray Link="AbilityTargetExclusionBehavior"/>
+        <BehaviorArray Link="CnCMaintenanceDroneWander"/>
+        <EffectArray index="Create" value="CnCMaintenanceDroneHeightStart"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="move,AcquireMove" Row="0" Column="4"/>
+            <LayoutButtons Face="CnCMaintenanceDroneRepair" Type="AbilCmd" AbilCmd="CnCMaintenanceDroneRepair,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <Radius value="0"/>
+        <SeparationRadius value="0"/>
+        <SubgroupPriority value="4"/>
+    </CUnit>
+    <CActorUnit id="AlliedRepairBee" parent="GenericUnitStandard" unitName="AlliedRepairBee">
+<!--        <On Terms="Behavior.WarpInEffect15.On" Send="ModelSwap ObserverWarpIn"/>-->
+<!--        <On Terms="Behavior.WarpInEffect15.On" Send="$Birth"/>-->
+<!--        <On Terms="Behavior.WarpInEffect15.Off" Send="ModelSwap Observer"/>-->
+<!--        <On Terms="Behavior.WarpInEffect15.Off" Send="AnimBaselineStart"/>-->
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Observer_Land"/>
+        <Scale value="0.800000"/>
+        <AnimBlendTime value="1.200000"/>
+        <DeathArray index="Normal" ModelLink="CarrierRepairDroneDeath" SoundLink="Observer_Explode"/>
+        <PortraitModel value="ObserverPortrait"/>
+        <BarOffset value="40"/>
+        <BarWidth value="42"/>
+        <GroupIcon>
+            <Image value="Assets\Textures\Wireframe-Protoss-Observer.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Textures\btn-unit-protoss-observer.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-protoss-airarmorlevel0.dds"/>
+        <SoundArray index="Ready" value="Observer_Ready"/>
+        <SoundArray index="What" value="Observer_What"/>
+        <SoundArray index="Yes" value="Observer_Yes"/>
+        <SoundArray index="Pissed" value="Observer_Pissed"/>
+        <UnitIcon value="Assets\Textures\btn-unit-protoss-observer.dds"/>
+        <Wireframe>
+            <Image value="Assets\Textures\Wireframe-Protoss-Observer.dds"/>
+        </Wireframe>
+        <WireframeShield>
+            <Image value="Assets\Textures\Wireframe-Protoss-Observer-Shield01.dds"/>
+            <Image value="Assets\Textures\Wireframe-Protoss-Observer-Shield02.dds"/>
+            <Image value="Assets\Textures\Wireframe-Protoss-Observer-Shield03.dds"/>
+        </WireframeShield>
+        <Model value="AlliedRepairBee"/>
+        <HighlightTooltip value="Unit/Name/AlliedRepairBee"/>
+    </CActorUnit>
+    <CModel id="AlliedRepairBee" parent="Unit" Race="Protoss">
+        <Model value="Assets\models\allied\AurepariDrone.m3"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraLow05"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="Star2CameraLow05"/>
+        <UnitGlossaryCamera value="Star2CameraLow05"/>
+    </CModel>
+</Catalog>

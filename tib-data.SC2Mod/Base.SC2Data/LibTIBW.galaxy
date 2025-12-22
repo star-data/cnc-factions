@@ -1264,13 +1264,6 @@ void libTIBW_gf_CreateDropPod (int lp_race, point lp_location, unitgroup lp_unit
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_Maintenancebeeheightadjustment_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((UnitGetType(EventPlayerEffectUsedUnit(c_effectUnitCaster)) == "AlliedRepairBee"))) {
-            return false;
-        }
-    }
-
     // Actions
     if (!runActions) {
         return true;
@@ -1283,7 +1276,7 @@ bool libTIBW_gt_Maintenancebeeheightadjustment_Func (bool testConds, bool runAct
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_Maintenancebeeheightadjustment_Init () {
     libTIBW_gt_Maintenancebeeheightadjustment = TriggerCreate("libTIBW_gt_Maintenancebeeheightadjustment_Func");
-    TriggerAddEventPlayerEffectUsed(libTIBW_gt_Maintenancebeeheightadjustment, c_playerAny, "Repair3");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_Maintenancebeeheightadjustment, c_playerAny, "CnCMaintenanceDroneRepair");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1303,7 +1296,7 @@ bool libTIBW_gt_Maintenancebeeheightrestored_Func (bool testConds, bool runActio
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_Maintenancebeeheightrestored_Init () {
     libTIBW_gt_Maintenancebeeheightrestored = TriggerCreate("libTIBW_gt_Maintenancebeeheightrestored_Func");
-    TriggerAddEventPlayerEffectUsed(libTIBW_gt_Maintenancebeeheightrestored, c_playerAny, "AurepairDroneHighstart2");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_Maintenancebeeheightrestored, c_playerAny, "CnCRepairDroneHeightRestore");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2720,7 +2713,7 @@ bool libTIBW_gt_NodDecoyArmyExecute_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    auto7BF4AF6D_g = UnitGroup(null, lv_player, RegionCircle(UnitGetPosition(lv_mark), 2.4), UnitFilter(0, 0, (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile) | (1 << c_targetFilterItem) | (1 << c_targetFilterUncommandable), (1 << (c_targetFilterStasis - 32)) | (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterSummoned - 32))), 0);
+    auto7BF4AF6D_g = UnitGroup(null, lv_player, RegionCircle(UnitGetPosition(lv_mark), 2.4), UnitFilter(0, 0, (1 << c_targetFilterAir) | (1 << c_targetFilterStructure) | (1 << c_targetFilterMissile) | (1 << c_targetFilterItem) | (1 << c_targetFilterUncommandable), (1 << (c_targetFilterStasis - 32)) | (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32)) | (1 << (c_targetFilterSummoned - 32))), 0);
     auto7BF4AF6D_u = UnitGroupCount(auto7BF4AF6D_g, c_unitCountAll);
     for (;; auto7BF4AF6D_u -= 1) {
         auto7BF4AF6D_var = UnitGroupUnitFromEnd(auto7BF4AF6D_g, auto7BF4AF6D_u);
@@ -2896,9 +2889,6 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
                 lv_balanceUpdate = (lv_energyGeneration - lv_energyDrain);
                 lv_newBalance = (lv_oldBalance + lv_balanceUpdate);
                 UnitSetPropertyFixed(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], c_unitPropEnergy, lv_newBalance);
-                TextExpressionSetToken("Param/Expression/lib_TIBW_D2CF559F", "A", FixedToText(lv_energyGeneration, c_fixedPrecisionAny));
-                TextExpressionSetToken("Param/Expression/lib_TIBW_D2CF559F", "B", FixedToText(lv_energyDrain, c_fixedPrecisionAny));
-                TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_TIBW_D2CF559F"), true);
                 if ((lv_newBalance < 0.0) && (UnitHasBehavior2(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], "PowerShortage") == false)) {
                     UnitBehaviorAdd(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], "PowerShortage", libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], 1);
                 }
@@ -3276,6 +3266,12 @@ bool libTIBW_gt_ConjoinedBehaviors_Func (bool testConds, bool runActions) {
     }
     else if (auto7C2D447B_val == "Contaminated") {
         lv_behavior = "ContaminatedSupport";
+    }
+    else if (auto7C2D447B_val == "NodTimeWarpProduction") {
+        lv_behavior = "NodTimeWarpProductionSupport";
+    }
+    else if (auto7C2D447B_val == "NodRepair") {
+        lv_behavior = "NodRepairSupport";
     }
     else {
         return true;

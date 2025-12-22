@@ -670,7 +670,7 @@
         <SearchFlags index="OffsetByUnitRadius" value="0"/>
         <SearchFlags index="SameCliff" value="0"/>
     </CEffectDamage>
-    <CEffectDamage id="NodObeliskWeaponNewDamage" parent="DU_WEAP">
+    <CEffectDamage id="NodObeliskWeaponDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Nod"/>
         <Kind value="Ranged"/>
         <KindSplash value="Splash"/>
@@ -793,11 +793,6 @@
         <AmmoUnit value="NodVertigoweapon"/>
         <ImpactLocation Value="TargetUnitOrPoint"/>
     </CEffectLaunchMissile>
-    <CEffectSet id="NodSpecterSet">
-        <EditorCategories value="Race:Nod"/>
-        <EffectArray value="NodSpecterDamage"/>
-        <EffectArray value="SpecterTibSearch"/>
-    </CEffectSet>
     <CEffectApplyBehavior id="SpecterTibAP">
         <EditorCategories value="Race:Nod"/>
         <Behavior value="SpecterTib"/>
@@ -1347,96 +1342,6 @@
         <EffectArray value="RedeemerConfusionInitialApplyBehavior"/>
     </CEffectSet>
 
-    <CEffectCreatePersistent id="NodSpecterBombardment">
-        <Flags index="Channeled" value="1"/>
-<!--        <Flags index="PersistUntilDestroyed" value="1"/>-->
-        <PeriodCount value="3"/>
-        <PeriodicPeriodArray value="0"/>
-        <PeriodicPeriodArray value="3.5"/>
-        <PeriodicEffectArray value="NodSpecterSiegeBombardment"/>
-        <PeriodicEffectArray value="NodSpecterBombardmentAttackCP"/>
-        <ValidatorArray value="NodArtilleryBeaconInRangeTarget_Or_NodArtilleryRangeCheck"/>
-    </CEffectCreatePersistent>
-    <CEffectCreatePersistent id="NodSpecterBombardmentEnd">
-        <PeriodCount value="1"/>
-        <PeriodicPeriodArray value="0"/>
-<!--        <PeriodicPeriodArray value="0"/>-->
-        <PeriodicEffectArray value="NodSpecterSiegeBombardmentRB"/>
-<!--        <PeriodicEffectArray value="NodSpecterUnsiege"/>-->
-    </CEffectCreatePersistent>
-    <CEffectCreatePersistent id="NodSpecterWeaponEnd">
-        <PeriodCount value="2"/>
-        <PeriodicPeriodArray value="0"/>
-        <PeriodicPeriodArray value="0"/>
-        <PeriodicEffectArray value="NodSpecterSiegeRB"/>
-        <PeriodicEffectArray value="NodSpecterUnsiege"/>
-    </CEffectCreatePersistent>
-    <CEffectCreatePersistent id="NodSpecterBombardmentAttackCP">
-        <EditorCategories value="Race:Nod"/>
-        <PeriodicPeriodArray value="6"/>
-        <ValidatorArray value="NodArtilleryBeaconInRangeTarget_Or_NodArtilleryRangeCheck"/>
-        <PeriodicValidator value="NodArtilleryBeaconInRangeTarget_Or_NodArtilleryRangeCheck"/>
-        <WhichLocation Value="TargetPoint"/>
-        <Flags index="Channeled" value="1"/>
-        <Flags index="PersistUntilDestroyed" value="1"/>
-        <FinalEffect value="NodSpecterBombardmentEnd"/>
-        <InitialEffect value="NodSpecterLaunchMissileRPIC"/>
-        <PeriodicEffectArray value="NodSpecterLaunchMissileRPIC"/>
-    </CEffectCreatePersistent>
-    <CEffectRandomPointInCircle id="NodSpecterLaunchMissileRPIC">
-        <WhichLocation Value="TargetUnitOrPoint"/>
-        <Effect value="NodSpecterWeaponSet"/>
-        <Radius value="2"/>
-    </CEffectRandomPointInCircle>
-
-
-    <CEffectSet id="NodSpecterWeaponSet">
-        <EditorCategories value="Race:Nod"/>
-        <EffectArray value="StealthExposure"/>
-        <EffectArray value="NodSpecterLaunchMissile"/>
-    </CEffectSet>
-
-    <CEffectLaunchMissile id="NodSpecterLaunchMissile">
-        <EditorCategories value="Race:Nod"/>
-        <LaunchEffect value="StealthExposure"/>
-        <ImpactEffect value="NodSpecterDamage"/>
-        <AmmoUnit value="NodSpecterWeapon"/>
-        <ImpactLocation Value="TargetPoint"/>
-    </CEffectLaunchMissile>
-    <CEffectDamage id="NodSpecterDamage" parent="DU_WEAP">
-        <EditorCategories value="Race:Nod"/>
-        <Kind value="Ranged"/>
-        <Amount value="50"/>
-        <Death value="Blast"/>
-        <AreaArray Radius="1" Fraction="1"/>
-        <AreaArray Radius="1.75" Fraction="0.5"/>
-        <SearchFilters value="Ground;Stasis,Dead,Hidden,Invulnerable"/>
-        <KindSplash value="Splash"/>
-    </CEffectDamage>
-    <CEffectApplyBehavior id="NodSpecterUnsiege">
-        <WhichUnit Value="Caster"/>
-        <EditorCategories value="Race:Nod"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="NodSpecterSiege">
-        <WhichUnit Value="Caster"/>
-        <EditorCategories value="Race:Nod"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="NodSpecterSiegeBombardment">
-        <WhichUnit Value="Caster"/>
-        <EditorCategories value="Race:Nod"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="StealthExposurePersistent">
-        <EditorCategories value="Race:Nod"/>
-        <WhichUnit Value="Caster"/>
-    </CEffectApplyBehavior>
-    <CEffectRemoveBehavior id="NodSpecterSiegeRB">
-        <WhichUnit Value="Caster"/>
-        <BehaviorLink value="NodSpecterSiege"/>
-    </CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="NodSpecterSiegeBombardmentRB">
-        <WhichUnit Value="Caster"/>
-        <BehaviorLink value="NodSpecterSiegeBombardment"/>
-    </CEffectRemoveBehavior>
     <CEffectRemoveBehavior id="StealthExposurePersistentRB">
         <WhichUnit Value="Caster"/>
         <BehaviorLink value="StealthExposurePersistent"/>

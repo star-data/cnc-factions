@@ -1,0 +1,402 @@
+<Catalog>
+    <CUnit id="NodSpecter" parent="NodGround">
+        <BehaviorArray Link="NodUnstableCloak"/>
+        <FlagArray index="TurnBeforeMove" value="1"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <SubgroupPriority value="13"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="125"/>
+        <LifeMax value="125"/>
+        <LifeArmor value="1"/>
+        <Speed value="3.38"/>
+        <Acceleration value="1.875"/>
+        <LateralAcceleration value="64"/>
+        <TurningRate value="360"/>
+        <Sight value="11"/>
+        <Food value="-3"/>
+        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Vespene" value="175"/>
+        <RepairTime value="45"/>
+        <KillXP value="50"/>
+        <WeaponArray Link="NodSpecterWeapon"/>
+        <AbilArray Link="NodSpecterBombardment"/>
+        <Radius value="0.625"/>
+        <SeparationRadius value="0.75"/>
+        <InnerRadius value="0.5"/>
+        <MinimapRadius value="0.625"/>
+        <CargoSize value="4"/>
+        <ScoreMake value="275"/>
+        <ScoreKill value="275"/>
+        <TacticalAI value="SiegeTank"/>
+        <AIEvalFactor value="1.5"/>
+        <GlossaryPriority value="145"/>
+        <PushPriority value="20"/>
+        <AbilArray Link="NodHoldFire"/>
+        <AbilArray Link="NodWeaponsFree"/>
+<!--        <AbilArray Link="NodSpecterSiege"/>-->
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodUnstableCloak" Type="Passive" Row="1" Column="0"/>
+            <LayoutButtons Face="GhostHoldFire" Type="AbilCmd" AbilCmd="NodHoldFire,Execute" Row="1" Column="1"/>
+            <LayoutButtons Face="WeaponsFree" Type="AbilCmd" AbilCmd="NodWeaponsFree,Execute" Row="1" Column="2"/>
+            <LayoutButtons Face="NodBombardArea" Type="AbilCmd" AbilCmd="NodSpecterBombardment,Execute" Row="2" Column="0"/>
+<!--            <LayoutButtons Face="NodSpecterSiege" Type="AbilCmd" AbilCmd="NodSpecterSiege,On" Row="2" Column="1"/>-->
+<!--            <LayoutButtons Face="NodSpecterUnsiege" Type="AbilCmd" AbilCmd="NodSpecterSiege,Off" Row="2" Column="2"/>-->
+        </CardLayouts>
+    </CUnit>
+    <CButton id="NodSpecterSiege" parent="Nod"><TintRacially value="1"/><Icon value="Assets\Icons\btn-cnc-ability-deploy.dds"/></CButton>
+    <CButton id="NodSpecterUnsiege" parent="Nod"><TintRacially value="1"/><Icon value="Assets\Icons\btn-cnc-ability-pack.dds"/></CButton>
+
+
+    <CActorSplat id="NodSpecterWeaponSplat" parent="GuideVisualCircle" unitName="Bogus">
+        <On index="0" Terms="Abil.NodBombardArea.Cursor" Send="Create"/>
+        <Model value="NodSpecterWeaponSplat"/>
+    </CActorSplat>
+    <CModel id="NodSpecterWeaponSplat" parent="Splat">
+        <Model value="Assets\UI\Cursors\TerranAOECursor\TerranAOECursor.m3"/>
+        <EditorCategories value="Race:Genetron"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+    </CModel>
+
+
+    <CAbilBehavior id="NodSpecterSiege">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="NodSpecterSiege">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="NodSpecterUnsiege">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <BehaviorArray value="NodSpecterSiege"/>
+    </CAbilBehavior>
+
+
+
+<!--    <CAbilEffectInstant id="NodSpecterSiege">-->
+<!--        <Cost>-->
+<!--            <Cooldown TimeUse="6"/>-->
+<!--        </Cost>-->
+<!--        <CmdButtonArray index="Execute" DefaultButtonFace="NodSpecterSiege" Requirements="NodSpecterUnsieged"/>-->
+<!--    </CAbilEffectInstant>-->
+
+    <CActorRange id="NodSpecterWeaponRange" parent="RangeAbilStandard" abil="NodSpecterBombardment">
+        <On Terms="Abil.NodSpecterBombardment.TargetOn" Send="Create"/>
+        <On Terms="Abil.NodSpecterBombardment.TargetOff" Send="Destroy"/>
+        <On Terms="Abil.NodSpecterBombardment.ButtonHoverOn" Send="Create"/>
+        <On Terms="Abil.NodSpecterBombardment.ButtonHoverOff" Send="Destroy"/>
+        <Range value="13.000000"/>
+        <Icon value="Assets\Textures\RadarIcon2.dds"/>
+        <IconArcLength value="3.250000"/>
+    </CActorRange>
+
+<!--    <CActorRange id="NodObeliskRange">-->
+<!--        <Weapon value="NodObeliskWeapon"/>-->
+<!--        <On Terms="SelectionLocalUpdate.NodObelisk.Start" Send="Create"/>-->
+<!--        <On Terms="SelectionLocalUpdate.NodObelisk.StartEditorGround" Send="Create"/>-->
+<!--        <On Terms="SelectionLocalUpdate.NodObelisk.StartEditorFlyer" Send="Create"/>-->
+<!--        <On Terms="SelectionLocalUpdate.NodObelisk.Stop" Send="Destroy"/>-->
+<!--        <On Terms="ActorCreation; ValidateUnit NodObeliskCharge1" Send="SetVisibility"/>-->
+<!--        <On Terms="ActorCreation; ValidateUnit NodObeliskCharge2" Send="SetVisibility"/>-->
+<!--        <On Terms="ActorCreation; ValidateUnit NodObeliskCharge3" Send="SetVisibility"/>-->
+<!--        <On Terms="ActorCreation; ValidateUnit NodObeliskCharge4" Send="SetVisibility"/>-->
+<!--        <On Terms="ActorCreation; ValidateUnit NodObeliskCharge5" Send="SetVisibility"/>-->
+<!--        <On Terms="BehaviorLevel.NodObeliskCharge.Start; ValidateUnit NodObeliskCharge1" Send="SetVisibility"/>-->
+<!--        <On Terms="BehaviorLevel.NodObeliskCharge.Start; ValidateUnit NodObeliskCharge2" Send="SetVisibility"/>-->
+<!--        <On Terms="BehaviorLevel.NodObeliskCharge.Start; ValidateUnit NodObeliskCharge3" Send="SetVisibility"/>-->
+<!--        <On Terms="BehaviorLevel.NodObeliskCharge.Start; ValidateUnit NodObeliskCharge4" Send="SetVisibility"/>-->
+<!--        <On Terms="BehaviorLevel.NodObeliskCharge.Start; ValidateUnit NodObeliskCharge5" Send="SetVisibility"/>-->
+
+<!--    </CActorRange>-->
+
+<!--    <CEffectApplyBehavior id="NodSpecterSiege">-->
+<!--        <WhichUnit Value="Caster"/>-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--    </CEffectApplyBehavior>-->
+<!--    <CEffectApplyBehavior id="NodSpecterTemporarySiege">-->
+<!--        <WhichUnit Value="Caster"/>-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--    </CEffectApplyBehavior>-->
+
+<!--    <CBehaviorBuff id="NodSpecterTemporarySiege">-->
+<!--        &lt;!&ndash;        <RemoveValidatorArray value="NodSpecterSiegeValidator"/>&ndash;&gt;-->
+<!--        <RemoveValidatorArray value="CasterIsAttacking"/>-->
+<!--        <FinalEffect value="NodSpecterUnsiege"/>-->
+<!--        <Modification MoveSpeedMultiplier="0.045">-->
+<!--            &lt;!&ndash;            <ModifyFlags index="SuppressMoving" value="1"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <ModifyFlags index="SuppressTurning" value="1"/>&ndash;&gt;-->
+<!--        </Modification>-->
+<!--    </CBehaviorBuff>-->
+
+
+<!--    <CAbilEffectInstant id="NodSpecterUnsiege">-->
+<!--        <Cost>-->
+<!--            <Cooldown TimeUse="6"/>-->
+<!--        </Cost>-->
+<!--        <CmdButtonArray index="Execute" DefaultButtonFace="NodSpecterUnsiege" Requirements="NodSpecterSieged"/>-->
+<!--    </CAbilEffectInstant>-->
+
+    <CAbilEffectTarget id="NodSpecterBombardment">
+        <Cost>
+            <Cooldown TimeUse="6"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="29.9926"/>
+        <Flags index="BestUnit" value="1"/>
+        <CursorEffect value="NodSpecterDamage"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodBombardArea"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+<!--    <CWeaponLegacy id="NodSpecterWeaponDummy" parent="NodWeapon">-->
+<!--        <DisplayEffect value="NodSpecterDamage"/>-->
+<!--        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+<!--        <Range value="13"/>-->
+<!--        <Period value="5"/>-->
+<!--        <Effect value="NodSpecterWeaponDummySet"/>-->
+<!--        <DamagePoint value="4"/>-->
+<!--        <Backswing value="3"/>-->
+<!--        <MinimumRange value="3"/>-->
+<!--        <Options index="DisplayCooldown" value="1"/>-->
+<!--    </CWeaponLegacy>-->
+    <CWeaponLegacy id="NodSpecterWeapon" parent="NodWeapon">
+        <DisplayEffect value="NodSpecterDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="13"/>
+        <Period value="5"/>
+        <Effect value="NodSpecterWeaponSet"/>
+        <DamagePoint value="3"/>
+        <Backswing value="3"/>
+        <MinimumRange value="3"/>
+        <Options index="DisplayCooldown" value="1"/>
+    </CWeaponLegacy>
+
+
+
+    <CEffectSet id="NodSpecterWeaponSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="StealthExposure"/>
+        <EffectArray value="NodSpecterLaunchMissile"/>
+    </CEffectSet>
+
+<!--    <CBehaviorBuff id="NodSpecterSiege">-->
+<!--        <Duration value="3.5"/>-->
+<!--        <FinalEffect value="NodSpecterTemporarySiege"/>-->
+<!--        &lt;!&ndash;        <RemoveValidatorArray value="CasterIsNotStationary"/>&ndash;&gt;-->
+<!--        <RemoveValidatorArray value="CasterIsAttacking"/>-->
+<!--        <Modification MoveSpeedMultiplier="0.045">-->
+<!--            &lt;!&ndash;            <ModifyFlags index="SuppressMoving" value="1"/>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <ModifyFlags index="SuppressTurning" value="1"/>&ndash;&gt;-->
+<!--        </Modification>-->
+<!--    </CBehaviorBuff>-->
+    <CBehaviorBuff id="NodSpecterSiege">
+        <!--        <RemoveValidatorArray value="HasNodSpecterBombardmentOrder"/>-->
+        <FinalEffect value="NodSpecterUnsiege"/>
+        <Modification>
+<!--            <AbilClassDisableArray index="CAbilAttack" value="1"/>-->
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <!--            <ModifyFlags index="SuppressTurning" value="1"/>-->
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodSpecterSiegeBombardment">
+        <!--        <RemoveValidatorArray value="HasNodSpecterBombardmentOrder"/>-->
+        <FinalEffect value="NodSpecterUnsiege"/>
+        <Modification>
+            <AbilClassDisableArray index="CAbilAttack" value="1"/>
+<!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
+            <!--            <ModifyFlags index="SuppressTurning" value="1"/>-->
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodSpecterUnsiege">
+        <Duration value="1"/>
+        <Modification MoveSpeedMultiplier="0.045">
+<!--            <AbilClassDisableArray index="CAbilAttack" value="1"/>-->
+            <!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
+            <!--            <ModifyFlags index="SuppressTurning" value="1"/>-->
+        </Modification>
+    </CBehaviorBuff>
+
+    <CEffectSet id="NodSpecterSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="NodSpecterDamage"/>
+        <EffectArray value="SpecterTibSearch"/>
+    </CEffectSet>
+<!--    <CEffectCreatePersistent id="NodSpecterBombardment">-->
+<!--        <Flags index="Channeled" value="1"/>-->
+<!--        &lt;!&ndash;        <Flags index="PersistUntilDestroyed" value="1"/>&ndash;&gt;-->
+<!--        <PeriodCount value="3"/>-->
+<!--        <PeriodicPeriodArray value="0"/>-->
+<!--        <PeriodicPeriodArray value="3.5"/>-->
+<!--        <PeriodicEffectArray value="NodSpecterSiegeBombardment"/>-->
+<!--        <PeriodicEffectArray value="NodSpecterBombardmentAttackCP"/>-->
+<!--        <ValidatorArray value="NodArtilleryBeaconInRangeTarget_Or_NodArtilleryRangeCheck"/>-->
+<!--    </CEffectCreatePersistent>-->
+    <CEffectCreatePersistent id="NodSpecterWeaponEnd">
+        <PeriodCount value="2"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicEffectArray value="NodSpecterSiegeRB"/>
+        <PeriodicEffectArray value="NodSpecterUnsiege"/>
+    </CEffectCreatePersistent>
+
+
+    <CEffectModifyUnit id="NodSpecterWeaponLaunchCooldown">
+        <ImpactUnit Value="Caster"/>
+        <Weapon Weapon="NodSpecterWeapon" CooldownOperation="Set" CooldownFraction="1"/>
+    </CEffectModifyUnit>
+
+
+
+    <CEffectCreatePersistent id="NodSpecterBombardment">
+        <EditorCategories value="Race:Nod"/>
+        <ValidatorArray value="NodArtilleryBeaconInRangeTarget_Or_NodArtilleryRangeCheck"/>
+        <PeriodicValidator value="NodArtilleryBeaconInRangeTarget_Or_NodArtilleryRangeCheck"/>
+        <WhichLocation Value="TargetPoint"/>
+        <Flags index="Channeled" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <FinalEffect value="NodSpecterBombardmentEnd"/>
+        <InitialEffect value="NodSpecterBombardmentSet"/>
+        <PeriodicEffectArray value="NodSpecterLaunchMissileSwitch"/>
+        <PeriodicEffectArray value="NodSpecterWeaponLaunchCooldown"/>
+        <PeriodicPeriodArray value="3.5"/>
+        <PeriodicPeriodArray value="1.5"/>
+    </CEffectCreatePersistent>
+
+
+    <CEffectSet id="NodSpecterBombardmentSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="NodSpecterWeaponLaunchCooldown"/>
+        <EffectArray value="NodSpecterSiegeBombardment"/>
+    </CEffectSet>
+
+    <CEffectCreatePersistent id="NodSpecterBombardmentCP">
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="3.5"/>
+        <PeriodicEffectArray value="NodSpecterWeaponLaunchCooldown"/>
+        <PeriodicEffectArray value="NodSpecterLaunchMissileSwitch"/>
+    </CEffectCreatePersistent>
+
+    <CEffectCreatePersistent id="NodSpecterBombardmentEnd">
+        <PeriodCount value="1"/>
+        <PeriodicPeriodArray value="0"/>
+        <!--        <PeriodicPeriodArray value="0"/>-->
+        <PeriodicEffectArray value="NodSpecterSiegeBombardmentRB"/>
+        <PeriodicEffectArray value="NodSpecterUnsiege"/>
+    </CEffectCreatePersistent>
+
+    <CValidatorLocationCompareRange id="NodSpecterDistanceLessThanWeaponRange">
+        <WhichLocation Value="TargetUnit"/>
+        <Compare value="LT"/>
+        <Range value="13.5"/>
+    </CValidatorLocationCompareRange>
+    <CEffectSwitch id="NodSpecterLaunchMissileSwitch">
+        <CaseArray Validator="NodSpecterDistanceLessThanWeaponRange" Effect="NodSpecterWeaponSet"/>
+        <CaseArray Effect="NodSpecterLaunchMissileRPIC"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSwitch>
+
+    <CEffectRandomPointInCircle id="NodSpecterLaunchMissileRPIC">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <Effect value="NodSpecterWeaponSet"/>
+        <Radius value="2"/>
+    </CEffectRandomPointInCircle>
+
+
+
+    <CEffectLaunchMissile id="NodSpecterLaunchMissile">
+        <EditorCategories value="Race:Nod"/>
+        <LaunchEffect value="StealthExposure"/>
+        <ImpactEffect value="NodSpecterDamage"/>
+        <AmmoUnit value="NodSpecterWeapon"/>
+        <ImpactLocation Value="TargetPoint"/>
+    </CEffectLaunchMissile>
+    <CEffectDamage id="NodSpecterDamage" parent="DU_WEAP">
+        <EditorCategories value="Race:Nod"/>
+        <Kind value="Ranged"/>
+        <Amount value="50"/>
+        <AttributeBonus index="Armored" value="30"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="1" Fraction="1"/>
+        <AreaArray Radius="1.5" Fraction="0.5"/>
+        <AreaArray Radius="1.75" Fraction="0.25"/>
+        <SearchFilters value="Ground;Stasis,Dead,Hidden,Invulnerable"/>
+        <KindSplash value="Splash"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="NodSpecterUnsiege">
+        <WhichUnit Value="Caster"/>
+        <EditorCategories value="Race:Nod"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="NodSpecterSiegeBombardment">
+        <WhichUnit Value="Caster"/>
+        <EditorCategories value="Race:Nod"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="StealthExposurePersistent">
+        <EditorCategories value="Race:Nod"/>
+        <WhichUnit Value="Caster"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="NodSpecterSiegeRB">
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="NodSpecterTemporarySiege"/>
+    </CEffectRemoveBehavior>
+    <CEffectRemoveBehavior id="NodSpecterSiegeBombardmentRB">
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="NodSpecterSiegeBombardment"/>
+    </CEffectRemoveBehavior>
+
+
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodSpecterSiege" behavior="NodSpecterSiege"/>
+    <CRequirementNot parent="NBU" id="NBU_NodSpecterSiege" behavior="NodSpecterSiege"/>
+    <CRequirement id="NodSpecterSieged">
+        <EditorCategories value="Race:Nod,TechType:Unit"/>
+        <NodeArray index="Show" Link="CBU_NodSpecterSiege"/>
+    </CRequirement>
+    <CRequirement id="NodSpecterUnsieged">
+        <EditorCategories value="Race:Nod,TechType:Unit"/>
+        <NodeArray index="Show" Link="NBU_NodSpecterSiege"/>
+    </CRequirement>
+
+
+
+<!--    <CValidatorUnitCompareBehaviorCount id="HasNoNodSpecterSiege">-->
+<!--        <Behavior value="NodSpecterTemporarySiege"/>-->
+<!--    </CValidatorUnitCompareBehaviorCount>-->
+<!--    <CValidatorUnitCompareBehaviorCount id="HasNoNodSpecterUnsiege">-->
+<!--        <Behavior value="NodSpecterUnsiege"/>-->
+<!--    </CValidatorUnitCompareBehaviorCount>-->
+
+    <!--    <CValidatorCombine id="NodSpecterSiegeValidator">-->
+    <!--        <CombineArray value="CasterIsAttacking"/>-->
+    <!--        <CombineArray value="HasNoNodSpecterBombardmentOrder"/>-->
+    <!--    </CValidatorCombine>-->
+    <!--    <CValidatorUnitCompareOrderCount id="HasNodSpecterBombardmentOrder">-->
+    <!--        <WhichUnit Value="Caster"/>-->
+    <!--        <Compare value="GE"/>-->
+    <!--        <AbilLink value="NodSpecterBombardment"/>-->
+    <!--    </CValidatorUnitCompareOrderCount>-->
+<!--    <CValidatorUnitCompareBehaviorCount id="HasNoNodSpecterSiegeBombardment">-->
+<!--        <Behavior value="NodSpecterSiegeBombardment"/>-->
+<!--    </CValidatorUnitCompareBehaviorCount>-->
+<!--    <CValidatorUnitCompareBehaviorCount id="HasNoNodSpecterSieging">-->
+<!--        <Behavior value="NodSpecterSieging"/>-->
+<!--    </CValidatorUnitCompareBehaviorCount>-->
+
+
+    <CActorUnit id="NodSpecter" icon="Specter" parent="NodVehicle">
+        <On index="64" Terms="Abil.attack.ReadyStart" Send="AnimClear NULL"/>
+        <On index="68" Terms="Abil.attack.ReadyStop" Send="AnimClear NULL"/>
+        <On index="65" Terms="WeaponStart.*.AttackStart; Scope" Send="AnimClear NULL"/>
+        <On index="66" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Morph Morph,Start Morph Morph,End"/>
+        <On index="65" Terms="WeaponStop.*.AttackStop; Scope" Send="AnimClear NULL"/>
+        <On index="67" Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Morph"/>
+
+        <!--        <On  Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Morph Morph,Start Morph Morph,End"/>-->
+        <!--        <On  Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Morph"/>-->
+        <On Terms="Effect.NodSpecterLaunchMissile.Start" Send="AnimPlay Attack Attack"/>
+        <On Terms="Behavior.NodSpecterSiege.On" Send="AnimBracketStart Morph Morph,Start Morph Morph,End"/>
+        <On Terms="Behavior.NodSpecterSiege.Off" Send="AnimBracketStop Morph"/>
+        <On Terms="Behavior.NodSpecterSiegeBombardment.On" Send="AnimBracketStart Morph Morph,Start Morph Morph,End"/>
+        <On Terms="Behavior.NodSpecterSiegeBombardment.Off" Send="AnimBracketStop Morph"/>
+    </CActorUnit>
+</Catalog>

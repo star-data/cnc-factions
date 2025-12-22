@@ -1,48 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
-<!--
-Requireed abilities:
-    - Boost Power ( similar to timewarp, allow to boost 1 building, toggled ability )
-    - Disable Power
-    - Repair Structure ( similar to timewarp, select target to repair, toggled ability)
--->
-    <CAbilEffectTarget id="NodTimeWarp">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
-        <Cost index="0">
-<!--            <Vital index="Energy" value="25"/>-->
-            <Cooldown TimeUse="5"/>
-        </Cost>
-        <TargetFilters value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <TargetFilters index="0" value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
-        <Range value="500"/>
-        <Arc value="360"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="TimeWarp"/>
-        <UninterruptibleArray index="Approach" value="0"/>
-        <UninterruptibleArray index="Prep" value="0"/>
-        <UninterruptibleArray index="Cast" value="0"/>
-        <UninterruptibleArray index="Channel" value="0"/>
-        <UninterruptibleArray index="Finish" value="0"/>
-        <Effect index="0" value="NodTimeWarpSwitch"/>
-        <AINotifyEffect value="ChronoBoost"/>
-        <Flags index="Transient" value="0"/>
-    </CAbilEffectTarget>
-    <CBehaviorBuff id="NodTimeWarpProduction">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
-        <Duration value="0"/>
-        <Modification TimeScale="1.5"/>
-        <TimeScaleSource Value="Global"/>
-        <ExpireEffect value=""/>
-        <BehaviorCategories index="Fast" value="1"/>
-        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodTimeWarpController">
-        <InfoFlags index="Hidden" value="1"/>
-        <InitialEffect value="NodTimeWarpControllerABTarget"/>
-        <FinalEffect value="NodTimeWarpControllerRBTarget"/>
-        <Period value="0.5"/>
-        <PeriodicEffect value="NodTimeWarpControllerIssueOrderSelf"/>
-    </CBehaviorBuff>
     <CEffectSwitch id="NodTimeWarpSwitch">
         <CaseArray Validator="IsNotNodChronoBoosted" Effect="NodTimeWarpCP"/>
         <CaseArray Validator="IsNodChronoBoosted" Effect="NodTimeWarpProductionRB"/>
@@ -57,11 +14,10 @@ Requireed abilities:
         <PeriodicPeriodArray value="0.0625"/>
         <ValidatorArray value="NodTimeWarpTargetFilters"/>
         <ValidatorArray value="NodTimeWarpViableTargets"/>
-<!--        <ValidatorArray value="IsNotNodChronoBoosted"/>-->
+        <!--        <ValidatorArray value="IsNotNodChronoBoosted"/>-->
     </CEffectCreatePersistent>
     <CEffectRemoveBehavior id="NodTimeWarpProductionRB">
         <EditorCategories value="Race:Protoss"/>
-        <WhichUnit Value="Target"/>
         <BehaviorLink value="NodTimeWarpProduction"/>
         <Count value="1"/>
     </CEffectRemoveBehavior>
@@ -95,125 +51,20 @@ Requireed abilities:
         <ValidatorArray value="IsNotNodChronoBoosted"/>
         <ValidatorArray value="NodTimeWarpPreviousTargetIsDead"/>
     </CEffectIssueOrder>
-    <CValidatorUnitFilters id="NodTimeWarpPreviousTargetIsDead">
-        <WhichUnit Effect="NodTimeWarpCP"/>
-        <Filters value="Dead;-"/>
-    </CValidatorUnitFilters>
-    <CValidatorCombine id="NodTimeWarpTargetFilters">
-        <CombineArray value="NodTimeWarpViableTargets"/>
-        <CombineArray value="NotDeadOrConstruction"/>
-        <ResultFailed value="CantTargetThatUnit"/>
-        <Type value="And"/>
-    </CValidatorCombine>
-    <CValidatorCombine id="NodTimeWarpViableTargets">
-        <CombineArray value="NodConstructionYard"/>
-        <CombineArray value="NodCrane"/>
-        <CombineArray value="NodTiberiumRefinery"/>
-        <CombineArray value="NodHand"/>
-        <CombineArray value="NodWarFactory"/>
-        <CombineArray value="NodRedeemerFacility"/>
-        <CombineArray value="NodAirTower"/>
-        <CombineArray value="NodTemple"/>
-        <CombineArray value="NodShrine"/>
-        <CombineArray value="NodTechLab"/>
-        <CombineArray value="NodOperationsCenter"/>
-        <CombineArray value="NodTiberiumSilo"/>
-        <CombineArray value="NodTiberiumSiloRich"/>
-    </CValidatorCombine>
-    <CValidatorUnitCompareBehaviorCount id="IsNotNodChronoBoosted">
-        <ResultFailed value="Error,Error/AlreadyChronoBoosted"/>
-        <Behavior value="NodTimeWarpProduction"/>
-    </CValidatorUnitCompareBehaviorCount>
-    <CValidatorUnitCompareBehaviorCount id="IsNodChronoBoosted">
-        <ResultFailed value="Error,Error/AlreadyChronoBoosted"/>
-        <Behavior value="NodTimeWarpProduction"/>
-        <Value value="1"/>
-    </CValidatorUnitCompareBehaviorCount>
-    <CActorSound id="NodTimeWarpImpactSound" parent="SoundOneShot">
-        <Sound value="Obelisk_TimeWarpImpact"/>
-        <On Terms="BehaviorLevel.NodTimeWarpProduction.Start; Level 1" Send="Create"/>
-        <Host Subject="_Unit"/>
-    </CActorSound>
-    <CActorModel id="NodTimeWarpEffect" parent="ModelAnimationStyleContinuous">
-        <AutoScaleFactor value="0.75"/>
-        <Inherits index="BaseModelScale" value="1"/>
-        <Inherits index="CloakEffect" value="1"/>
-        <Inherits index="Scale" value="1"/>
-        <Inherits index="Visibility" value="1"/>
-        <On Terms="ActorCreation" Send="SetScale 0.300000"/>
-        <On Terms="Behavior.NodTimeWarpProduction.On" Send="Create"/>
-        <On Terms="Behavior.NodTimeWarpProduction.Off" Send="Destroy"/>
-        <On Terms="ActorCreation" Send="SetTintColor 255,165,165"/>
-        <Model value="TimeWarp"/>
-        <Host Subject="_Unit"/>
-    </CActorModel>
-
-
-<!--    <CEffectModifyUnit id="NodRepair">-->
-<!--        <ValidatorArray value="LifeNotFull"/>-->
-<!--        <EditorCategories value="Race:Nod"/>-->
-<!--        <VitalArray index="Life">-->
-<!--            <Change value="1"/>-->
-<!--        </VitalArray>-->
-<!--    </CEffectModifyUnit>-->
-<!--    <CBehaviorBuff id="NodRepair">-->
-<!--        <EditorCategories value="AbilityorEffectType:Units"/>-->
-<!--        <Period value="0.275"/>-->
-<!--        <PeriodicEffect value="NodRepair"/>-->
-<!--    </CBehaviorBuff>-->
-
-    <CAbilEffectTarget id="NodRepair">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
-        <Cost index="0">
-            <!--            <Vital index="Energy" value="25"/>-->
-            <Cooldown TimeUse="5"/>
-        </Cost>
-        <TargetFilters value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <TargetFilters index="0" value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
-        <Range value="500"/>
-        <Arc value="360"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="TimeWarp"/>
-        <UninterruptibleArray index="Approach" value="0"/>
-        <UninterruptibleArray index="Prep" value="0"/>
-        <UninterruptibleArray index="Cast" value="0"/>
-        <UninterruptibleArray index="Channel" value="0"/>
-        <UninterruptibleArray index="Finish" value="0"/>
-        <Effect index="0" value="NodRepairSwitch"/>
-        <AINotifyEffect value="ChronoBoost"/>
-        <Flags index="Transient" value="0"/>
-    </CAbilEffectTarget>
-    <CBehaviorBuff id="NodRepair">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
-        <Duration value="0"/>
-        <Period value="0.275"/>
-        <PeriodicEffect value="NodRepair"/>
-<!--        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>-->
-        <RemoveValidatorArray value="TargetLifeNotFull"/>
-    </CBehaviorBuff>
     <CEffectCreateHealer id="NodRepair">
         <EditorCategories value="Race:Terran"/>
-        <DrainResourceCostFactor index="Minerals" value="0.25"/>
-        <DrainResourceCostFactor index="Vespene" value="0.25"/>
-        <DrainResourceCostFactor index="Terrazine" value="0.25"/>
-        <DrainResourceCostFactor index="Custom" value="0.25"/>
-        <RechargeVitalRate value="1"/>
-        <TimeFactor value="1"/>
-<!--        <ValidatorArray value="NotWarpingIn"/>-->
-<!--        <ValidatorArray value="HiddenCompareBA"/>-->
-<!--        <ValidatorArray value="HiddenCompareAB"/>-->
-<!--        <ValidatorArray value="NotVortexd"/>-->
-<!--        <ValidatorArray value="NotStasis"/>-->
+        <DrainResourceCostFactor index="Minerals" value="0.01"/>
+        <DrainResourceCostFactor index="Vespene" value="0.01"/>
+        <DrainResourceCostFactor index="Terrazine" value="0.01"/>
+        <DrainResourceCostFactor index="Custom" value="0.01"/>
+        <PeriodCount value="1"/>
+        <!--        <ValidatorArray value="NotWarpingIn"/>-->
+        <!--        <ValidatorArray value="HiddenCompareBA"/>-->
+        <!--        <ValidatorArray value="HiddenCompareAB"/>-->
+        <ValidatorArray value="NotStasis"/>
+        <RechargeVitalRate value="20"/>
+        <PeriodicPeriod value="0.5"/>
     </CEffectCreateHealer>
-
-    <CBehaviorBuff id="NodRepairController">
-        <InfoFlags index="Hidden" value="1"/>
-        <InitialEffect value="NodRepairControllerABTarget"/>
-        <FinalEffect value="NodRepairControllerRBTarget"/>
-        <Period value="0.5"/>
-        <PeriodicEffect value="NodRepairControllerIssueOrderSelf"/>
-    </CBehaviorBuff>
     <CEffectSwitch id="NodRepairSwitch">
         <CaseArray Validator="IsNotNodRepairing" Effect="NodRepairCP"/>
         <CaseArray Validator="IsNodRepairing" Effect="NodRepairRB"/>
@@ -227,12 +78,9 @@ Requireed abilities:
         <PeriodicPeriodArray value="0"/>
         <PeriodicPeriodArray value="0.0625"/>
         <ValidatorArray value="NodRepairTargetFilters"/>
-<!--        <ValidatorArray value="NodRepairViableTargets"/>-->
-        <!--        <ValidatorArray value="IsNotNodRepairing"/>-->
     </CEffectCreatePersistent>
     <CEffectRemoveBehavior id="NodRepairRB">
         <EditorCategories value="Race:Protoss"/>
-        <WhichUnit Value="Target"/>
         <BehaviorLink value="NodRepair"/>
         <Count value="1"/>
     </CEffectRemoveBehavior>
@@ -266,6 +114,67 @@ Requireed abilities:
         <ValidatorArray value="IsNotNodRepairing"/>
         <ValidatorArray value="NodRepairPreviousTargetIsDead"/>
     </CEffectIssueOrder>
+    <CAbilEffectTarget id="NodTimeWarp">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <Cost>
+            <!--            <Vital index="Energy" value="25"/>-->
+            <Cooldown TimeUse="5"/>
+        </Cost>
+        <TargetFilters value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="TimeWarp"/>
+        <Effect index="0" value="NodTimeWarpSwitch"/>
+        <AINotifyEffect value="ChronoBoost"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="NodRepair">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <Cost>
+            <!--            <Vital index="Energy" value="25"/>-->
+            <Cooldown TimeUse="5"/>
+        </Cost>
+        <TargetFilters value="Ground,Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden,Summoned"/>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="TimeWarp"/>
+        <Effect index="0" value="NodRepairSwitch"/>
+        <AINotifyEffect value="ChronoBoost"/>
+    </CAbilEffectTarget>
+    <CValidatorUnitFilters id="NodTimeWarpPreviousTargetIsDead">
+        <WhichUnit Effect="NodTimeWarpCP"/>
+        <Filters value="Dead;-"/>
+    </CValidatorUnitFilters>
+    <CValidatorCombine id="NodTimeWarpTargetFilters">
+        <CombineArray value="NodTimeWarpViableTargets"/>
+        <CombineArray value="NotDeadOrConstruction"/>
+        <ResultFailed value="CantTargetThatUnit"/>
+        <Type value="And"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="NodTimeWarpViableTargets">
+        <CombineArray value="NodConstructionYard"/>
+        <CombineArray value="NodConstructionYardSupportModule"/>
+        <CombineArray value="NodCrane"/>
+        <CombineArray value="NodCraneSupportModule"/>
+        <CombineArray value="NodTiberiumRefinery"/>
+        <CombineArray value="NodHand"/>
+        <CombineArray value="NodWarFactory"/>
+        <CombineArray value="NodRedeemerFacility"/>
+        <CombineArray value="NodAirTower"/>
+        <CombineArray value="NodShrine"/>
+        <CombineArray value="NodTechLab"/>
+        <CombineArray value="NodOperationsCenter"/>
+        <CombineArray value="NodTiberiumSilo"/>
+        <CombineArray value="NodTiberiumSiloRich"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareBehaviorCount id="IsNotNodChronoBoosted">
+        <ResultFailed value="Error,Error/AlreadyChronoBoosted"/>
+        <Behavior value="NodTimeWarpProduction"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="IsNodChronoBoosted">
+        <ResultFailed value="Error,Error/AlreadyChronoBoosted"/>
+        <Behavior value="NodTimeWarpProduction"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareBehaviorCount>
     <CValidatorUnitFilters id="NodRepairPreviousTargetIsDead">
         <WhichUnit Effect="NodRepairCP"/>
         <Filters value="Dead;-"/>
@@ -285,13 +194,31 @@ Requireed abilities:
         <Behavior value="NodRepair"/>
         <Value value="1"/>
     </CValidatorUnitCompareBehaviorCount>
+    <CActorSound id="NodTimeWarpImpactSound" parent="SoundOneShot">
+        <Sound value="Obelisk_TimeWarpImpact"/>
+        <On Terms="BehaviorLevel.NodTimeWarpProduction.Start; Level 1" Send="Create"/>
+        <Host Subject="_Unit"/>
+    </CActorSound>
+    <CActorModel id="NodTimeWarpEffect" parent="ModelAnimationStyleContinuous">
+        <AutoScaleFactor value="0.750000"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="ActorCreation" Send="SetScale 0.300000"/>
+        <On Terms="Behavior.NodTimeWarpProduction.On" Send="Create"/>
+        <On Terms="Behavior.NodTimeWarpProduction.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SetTintColor 255,165,165"/>
+        <Model value="TimeWarp"/>
+        <Host Subject="_Unit"/>
+    </CActorModel>
     <CActorSound id="NodRepairImpactSound" parent="SoundOneShot">
         <Sound value="Obelisk_TimeWarpImpact"/>
         <On Terms="BehaviorLevel.NodRepair.Start; Level 1" Send="Create"/>
         <Host Subject="_Unit"/>
     </CActorSound>
     <CActorModel id="NodRepairEffect" parent="ModelAnimationStyleContinuous">
-        <AutoScaleFactor value="0.75"/>
+        <AutoScaleFactor value="0.750000"/>
         <Inherits index="BaseModelScale" value="1"/>
         <Inherits index="CloakEffect" value="1"/>
         <Inherits index="Scale" value="1"/>
@@ -303,5 +230,37 @@ Requireed abilities:
         <Model value="TimeWarp"/>
         <Host Subject="_Unit"/>
     </CActorModel>
-
+    <CBehaviorBuff id="NodTimeWarpProduction">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
+        <Modification TimeScale="1.5"/>
+        <TimeScaleSource Value="Global"/>
+        <BehaviorCategories index="Fast" value="1"/>
+        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodTimeWarpController">
+        <InfoFlags index="Hidden" value="1"/>
+        <InitialEffect value="NodTimeWarpControllerABTarget"/>
+        <FinalEffect value="NodTimeWarpControllerRBTarget"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="NodTimeWarpControllerIssueOrderSelf"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodRepair">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
+        <Period value="0.25"/>
+        <PeriodicEffect value="NodRepair"/>
+        <!--        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>-->
+        <RemoveValidatorArray value="TargetLifeNotFull"/>
+        <RemoveValidatorArray value="CnCRepairOutOfResources"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodRepairController">
+        <InfoFlags index="Hidden" value="1"/>
+        <InitialEffect value="NodRepairControllerABTarget"/>
+        <FinalEffect value="NodRepairControllerRBTarget"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="NodRepairControllerIssueOrderSelf"/>
+    </CBehaviorBuff>
 </Catalog>

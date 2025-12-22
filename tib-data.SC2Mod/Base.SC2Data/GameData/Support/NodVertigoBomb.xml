@@ -45,7 +45,7 @@
         <Options index="NeverMiss" value="0"/>
         <EditorCategories value="Race:Genetron"/>
         <Icon value="Assets\icons\Nod\btn-nod-ability-vertigostrike.dds"/>
-        <Range value="6"/>
+        <Range value="4"/>
         <Period value="0.25"/>
         <Effect value="NodRevenantBombWeaponSet"/>
         <DisplayEffect value="NodRevenantBombDamage"/>
@@ -296,6 +296,7 @@
     <CEffectModifyUnit id="NodRevenantBombLaunchCooldown">
         <ImpactUnit Value="Caster"/>
         <Cost Abil="NodRevenantBomb,Execute" CooldownOperation="Set" CooldownTimeUse="0.2"/>
+        <Weapon Weapon="NodRevenantBomb" CooldownOperation="Set" CooldownFraction="1"/>
     </CEffectModifyUnit>
     <CEffectModifyUnit id="NodRevenantBombChargeUse">
         <ImpactUnit Value="Caster"/>
@@ -592,7 +593,7 @@
             <Cooldown TimeUse="1"/>
             <Vital index="Energy" value="75"/>
         </Cost>
-        <Range value="8"/>
+        <Range value="4"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="NodTiberiumVapourBomb" Requirements="NodTiberiumVapourBomb"/>
     </CAbilEffectTarget>
     <CEffectCreatePersistent id="NodTiberiumVapourBombCP">
@@ -811,13 +812,12 @@
     </CActorModel>
 
 
-
 <!--===========================-->
 <!-- REDEMPTION -->
     <CAbilEffectTarget id="NodRedemption">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Effect index="0" value="NodRedemptionBombCP"/>
-        <Range value="8"/>
+        <Range value="4"/>
         <Cost>
             <Cooldown TimeUse="1"/>
             <Vital index="Energy" value="125"/>
@@ -905,38 +905,19 @@
         <DamageResponse Chance="1" Fatal="1" Handled="NodRedemptionSpawnAwakened"/>
     </CBehaviorBuff>
 
-<!--        <CEffectSet id="NodRedemptionSpawnSet">-->
-<!--            <EditorCategories value="Race:Nod"/>-->
-<!--            <EffectArray value="NodRedemptionSpawnSwitch"/>-->
-<!--        </CEffectSet>-->
-<!--        <CEffectSwitch id="NodRedemptionSpawnSwitch">-->
-<!--            <EditorCategories value="Race:Nod"/>-->
-<!--            <CaseArray Validator="IsNodMilitant" Effect="NodRedemptionSpawnMilitantChance"/>-->
-<!--            <CaseArray Validator="IsNodMilitantRocket" Effect="NodRedemptionSpawnRocketChance"/>-->
-<!--        </CEffectSwitch>-->
-<!--        <CEffectSet id="NodRedemptionSpawnMilitantChance">-->
-<!--            <EditorCategories value="Race:Nod"/>-->
-<!--            <EffectArray value="NodRedemptionSpawnAwakened"/>-->
-<!--&lt;!&ndash;            <Chance value="0.25"/>&ndash;&gt;-->
-<!--        </CEffectSet>-->
-<!--        <CEffectSet id="NodRedemptionSpawnRocketChance">-->
-<!--            <EditorCategories value="Race:Nod"/>-->
-<!--            <EffectArray value="NodRedemptionSpawnAwakened"/>-->
-<!--&lt;!&ndash;            <Chance value="0.5"/>&ndash;&gt;-->
-<!--        </CEffectSet>-->
-        <CEffectCreateUnit id="NodRedemptionSpawnAwakened">
-            <WhichLocation Value="SourcePoint"/>
-            <CreateFlags index="Placement" value="0"/>
-            <EditorCategories value="Race:Nod"/>
-            <SpawnUnit value="NodAwakened"/>
-            <SpawnCount value="1"/>
-            <SelectUnit Value="Target"/>
-            <SpawnEffect value="NodRedemptionSpawnAwakenedApplyTimedLife"/>
-        </CEffectCreateUnit>
-        <CEffectApplyBehavior id="NodRedemptionSpawnAwakenedApplyTimedLife">
-            <EditorCategories value="Race:Nod"/>
-            <Behavior value="NodRedemptionAwakenedTimedLife"/>
-        </CEffectApplyBehavior>
+    <CEffectCreateUnit id="NodRedemptionSpawnAwakened">
+        <WhichLocation Value="SourcePoint"/>
+        <CreateFlags index="Placement" value="0"/>
+        <EditorCategories value="Race:Nod"/>
+        <SpawnUnit value="NodAwakened"/>
+        <SpawnCount value="1"/>
+        <SelectUnit Value="Target"/>
+        <SpawnEffect value="NodRedemptionSpawnAwakenedApplyTimedLife"/>
+    </CEffectCreateUnit>
+    <CEffectApplyBehavior id="NodRedemptionSpawnAwakenedApplyTimedLife">
+        <EditorCategories value="Race:Nod"/>
+        <Behavior value="NodRedemptionAwakenedTimedLife"/>
+    </CEffectApplyBehavior>
     <CActorSound id="NodRedemptionSound" parent="SoundOneShot">
         <On Terms="Effect.NodRedemptionBombImpactCP.Start" Send="Create"/>
         <Sound value="NodVisionSound"/>
@@ -1028,48 +1009,4 @@
     </CActorModelMaterial>
     <CButton id="MarkOfKane" parent="CABAL" icon="InfusionEngineUpgrade"/>
 
-
-
-    <!-- Redemption Effects -->
-    <!--    <CEffectEnumArea id="NodRedemptionSearch">-->
-    <!--        <EditorCategories value="Race:Nod"/>-->
-    <!--        <SearchFilters value="-;Enemy,Neutral,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
-    <!--        <AreaArray Radius="6" Effect="NodRedemptionApplyBehavior"/>-->
-    <!--    </CEffectEnumArea>-->
-    <!--    <CEffectApplyBehavior id="NodRedemptionApplyBehavior">-->
-    <!--        <EditorCategories value="Race:Nod"/>-->
-    <!--        <Behavior value="NodRedemptionBuff"/>-->
-    <!--    </CEffectApplyBehavior>-->
-    <!--    <CEffectDamage id="NodRedemptionDamage">-->
-    <!--        <EditorCategories value="Race:Nod"/>-->
-    <!--        <Amount value="2"/>-->
-    <!--    </CEffectDamage>-->
-
-
-
-
-
-
-
-    <!-- Tiberium Vapour Bomb Effects -->
-<!--    <CEffectSet id="NodTiberiumVapourBombSet">-->
-<!--        <EditorCategories value="Race:Nod"/>-->
-<!--        <EffectArray value="NodTiberiumVapourBombPersistent"/>-->
-<!--    </CEffectSet>-->
-<!--    <CEffectCreatePersistent id="NodTiberiumVapourBombPersistent">-->
-<!--        <EditorCategories value="Race:Nod"/>-->
-<!--        <PeriodCount value="20"/>-->
-<!--        <PeriodicEffectArray value="NodTiberiumVapourBombSearch"/>-->
-<!--        <PeriodicPeriodArray value="0.5"/>-->
-<!--    </CEffectCreatePersistent>-->
-<!--    <CEffectEnumArea id="NodTiberiumVapourBombSearch">-->
-<!--        <EditorCategories value="Race:Nod"/>-->
-<!--        <SearchFilters value="-;Player,Ally,Neutral,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
-<!--        <AreaArray Radius="6" Effect="NodTiberiumVapourBombDamage"/>-->
-<!--    </CEffectEnumArea>-->
-<!--    <CEffectDamage id="NodTiberiumVapourBombDamage">-->
-<!--        <EditorCategories value="Race:Nod"/>-->
-<!--        <Amount value="10"/>-->
-<!--        <AttributeBonus index="Biological" value="10"/>-->
-<!--    </CEffectDamage>-->
 </Catalog>

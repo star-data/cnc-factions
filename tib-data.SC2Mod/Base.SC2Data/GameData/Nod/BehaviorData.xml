@@ -280,42 +280,6 @@
             <StateFlags index="Cloak" value="1"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="NodSpecterSieging">
-        <Duration value="3.5"/>
-        <FinalEffect value="NodSpecterSiege"/>
-<!--        <RemoveValidatorArray value="CasterIsNotStationary"/>-->
-        <RemoveValidatorArray value="CasterIsAttacking"/>
-        <Modification MoveSpeedMultiplier="0.045">
-<!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
-<!--            <ModifyFlags index="SuppressTurning" value="1"/>-->
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodSpecterSiege">
-<!--        <RemoveValidatorArray value="NodSpecterSiegeValidator"/>-->
-        <RemoveValidatorArray value="CasterIsAttacking"/>
-        <FinalEffect value="NodSpecterUnsiege"/>
-        <Modification MoveSpeedMultiplier="0.045">
-<!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
-<!--            <ModifyFlags index="SuppressTurning" value="1"/>-->
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodSpecterSiegeBombardment">
-<!--        <RemoveValidatorArray value="HasNodSpecterBombardmentOrder"/>-->
-        <FinalEffect value="NodSpecterUnsiege"/>
-        <Modification MoveSpeedMultiplier="0.045">
-            <AbilClassDisableArray index="CAbilAttack" value="1"/>
-<!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
-<!--            <ModifyFlags index="SuppressTurning" value="1"/>-->
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodSpecterUnsiege">
-        <Duration value="1"/>
-        <Modification MoveSpeedMultiplier="0.045">
-            <AbilClassDisableArray index="CAbilAttack" value="1"/>
-<!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
-<!--            <ModifyFlags index="SuppressTurning" value="1"/>-->
-        </Modification>
-    </CBehaviorBuff>
     <CBehaviorBuff id="SpawnMilitantOnDeath">
         <InfoFlags index="Hidden" value="1"/>
         <InfoIcon value="Assets\Icons\Nod\NodMilitant.dds"/>
@@ -533,12 +497,12 @@
         <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
         <MaxStackCount value="4"/>
         <Duration value="1.3"/>
-        <Modification WeaponRange="1">
-            <DamageDealtUnscaled index="Spell" value="10"/>
-            <DamageDealtUnscaled index="Melee" value="10"/>
-            <DamageDealtUnscaled index="Ranged" value="10"/>
-            <DamageDealtUnscaled index="Splash" value="10"/>
-            <DamageDealtUnscaled index="NoProc" value="10"/>
+        <Modification WeaponRange="1" UnifiedAttackSpeedFactor="0.10">
+<!--            <DamageDealtUnscaled index="Spell" value="10"/>-->
+<!--            <DamageDealtUnscaled index="Melee" value="10"/>-->
+<!--            <DamageDealtUnscaled index="Ranged" value="10"/>-->
+<!--            <DamageDealtUnscaled index="Splash" value="10"/>-->
+<!--            <DamageDealtUnscaled index="NoProc" value="10"/>-->
         </Modification>
         <MaxStackCountPerCaster value="1"/>
     </CBehaviorBuff>
@@ -748,17 +712,24 @@
     <CBehaviorBuff id="NodAvatarFlameCannon">
         <DisableValidatorArray value="IsNotStructure"/>
         <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <Modification>-->
+<!--            <WeaponEnableArray value="NodAvatarFlameThrower"/>-->
+<!--        </Modification>-->
         <Modification>
-            <WeaponEnableArray value="NodAvatarFlameThrower"/>
+            <WeaponArray Link="NodAvatarFlameThrower" Turret="SiegeTank"/>
+            <WeaponArray Link="NodAvatarFlameThrowerU" Turret="SiegeTank"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodAvatarBeamCannon">
         <DisableValidatorArray value="IsNotStructure"/>
         <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <Modification>-->
+<!--            <WeaponEnableArray value="NodAvatarBeamCannon"/>-->
+<!--        </Modification>-->
         <Modification>
-            <WeaponEnableArray value="NodAvatarBeamCannon"/>
+            <WeaponArray Link="NodAvatarBeamCannon" Turret="SiegeTank"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodArtilleryBeaconTimedLife" parent="TimedLife">
@@ -938,6 +909,10 @@
         <Period value="0.1"/>
     </CBehaviorBuff>
 
+    <CBehaviorBuff id="NodSummoned">
+        <Modification>
+        </Modification>
+    </CBehaviorBuff>
 
 
 

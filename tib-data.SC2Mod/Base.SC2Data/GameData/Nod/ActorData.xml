@@ -468,6 +468,15 @@
         <SoundArray index="What" value="Factory_What"/>
         <SoundArray index="Movement" value="Factory_Movement"/>
     </CActorUnit>
+    <CActorUnit id="NodTempleDecoy"  icon="Temple" parent="NodBuilding" wireframe="NodTemple">
+        <Aliases value="_UnitHuge"/>
+        <Model value="NodTemple"/>
+        <CreepHeightClass value="Medium"/>
+        <DeathArray index="Normal" ModelLink="CABALPrimeTemple_Death"/>
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="EngineeringBay_Explode"/>
+        <SoundArray index="Ready" value="EngineeringBay_Ready"/>
+        <SoundArray index="What" value="EngineeringBay_What"/>
+    </CActorUnit>
     <CActorUnit id="NodTemple"  icon="Temple" parent="NodBuilding" wireframe="NodTemple">
         <Aliases value="_UnitHuge"/>
         <CreepHeightClass value="Medium"/>
@@ -608,6 +617,9 @@
         <StatusBarFlags index="Shields" value="0"/>
         <StatusBarFlags index="Life" value="0"/>
         <StatusBarFlags index="Energy" value="0"/>
+        <Wireframe>
+            <Image index="0" value="Assets\Textures\black.dds"/>
+        </Wireframe>
     </CActorUnit>
 
 
@@ -884,24 +896,6 @@
         <On Terms="Upgrade.NodTiberiumCoreMissiles.Remove" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
         <SoundArray index="Attack" value="NodMantisAttack"/>
         <SoundArray index="Movement" value="NodVehicleMoveLoopC"/>
-    </CActorUnit>
-    <CActorUnit id="NodSpecter" icon="Specter" parent="NodVehicle">
-        <On index="64" Terms="Abil.attack.ReadyStart" Send="AnimClear NULL"/>
-        <On index="65" Terms="WeaponStart.*.AttackStart; Scope" Send="AnimClear NULL"/>
-        <On index="66" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Morph Morph,Start Morph Morph,End"/>
-        <On index="67" Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Morph"/>
-        <On index="68" Terms="Abil.attack.ReadyStop" Send="AnimClear NULL"/>
-
-<!--        <On  Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Morph Morph,Start Morph Morph,End"/>-->
-<!--        <On  Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Morph"/>-->
-
-
-
-        <On Terms="Effect.NodSpecterLaunchMissile.Start" Send="AnimPlay Attack Attack"/>
-        <On Terms="Behavior.NodSpecterSiege.On" Send="AnimBracketStart Morph Morph,Start Morph Morph,End"/>
-        <On Terms="Behavior.NodSpecterSiege.Off" Send="AnimBracketStop Morph"/>
-        <On Terms="Behavior.NodSpecterSiegeBombardment.On" Send="AnimBracketStart Morph Morph,Start Morph Morph,End"/>
-        <On Terms="Behavior.NodSpecterSiegeBombardment.Off" Send="AnimBracketStop Morph"/>
     </CActorUnit>
     <CActorUnit id="NodStealthTank" icon="StealthTank" parent="NodVehicle">
         <DeathCustomData Name="RagdollBasic"/>
@@ -1529,20 +1523,20 @@
         <On Terms="AnimBracketState.*.AfterClosing; AnimName BSDb" Send="Destroy"/>
         <Scale value="0.500000"/>
     </CActorBeamSimple>
-    <CActorAction id="NodObeliskWeaponNewAttack" parent="GenericAttack" effectAttack="NodObeliskWeaponNewDamage">
-        <LaunchAssets Sound="NodObeliskWeaponNew_AttackLaunch"/>
-        <Beam value="NodObeliskWeaponNewBeam"/>
+    <CActorAction id="NodObeliskWeaponAttack" parent="GenericAttack" effectAttack="NodObeliskWeaponDamage">
+        <LaunchAssets Sound="NodObeliskWeapon_AttackLaunch"/>
+        <Beam value="NodObeliskWeaponBeam"/>
         <BeamScope value="Caster"/>
         <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>
-        <ImpactMap index="None" Model="" Sound="NodObeliskWeaponNewImpact"/>
+        <ImpactMap index="None" Model="" Sound="NodObeliskWeaponImpact"/>
         <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
     </CActorAction>
-    <CActorBeamSimple id="NodObeliskWeaponNewBeam" parent="BeamSimpleAnimationStyleOneShot">
+    <CActorBeamSimple id="NodObeliskWeaponBeam" parent="BeamSimpleAnimationStyleOneShot">
         <Macros value="ActionTargetTeleportDestroy"/>
         <On Terms="ActorCreation" Send="ModelSwap DarkArchonAttackBeam"/>
         <On Terms="ActorCreation" Send="AnimBracketStart BSDb Birth Stand Death ContentPlayOnce"/>
         <On Terms="AnimBracketState.*.AfterClosing; AnimName BSDb" Send="Destroy"/>
-        <Model value="NodObeliskWeaponNewAttackBeam"/>
+        <Model value="NodObeliskWeaponAttackBeam"/>
         <Scale value="0.500000"/>
     </CActorBeamSimple>
     <CActorAction id="NodVertigoweaponAttackLaunch" parent="GenericAttack" effectImpact="CABALLeviathanDamage" effectLaunch="NodVertigoweaponLaunchMissile">
@@ -4056,4 +4050,7 @@
         <SoundArray index="ClickError" value=""/>
         <SoundArray index="Highlight" value=""/>
     </CActorUnit>
+
+
+
 </Catalog>
