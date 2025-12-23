@@ -5,6 +5,10 @@
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <Flags index="RequireTargetVision" value="0"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
         <Cost>
             <Charge>
                 <CountMax value="2"/>
@@ -15,32 +19,32 @@
             </Charge>
             <Cooldown  Link="Abil/NodRevenantBomb" Location="Unit" TimeUse="0.2"/>
         </Cost>
-        <Range value="6"/>
+        <AutoCastRange value="4"/>
+        <AutoCastFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable,Benign"/>
+<!--        <TargetFilters value="Ground;Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>-->
+        <Range value="4"/>
         <Arc value="360"/>
         <CursorEffect value="NodRevenantBombDamage"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBomb"/>
-        <Effect index="0" value="NodRevenantBombLaunchMissile"/>
-    </CAbilEffectTarget>
-<!--    <CEffectSet id="NodRevenantBombPointSet">-->
-<!--        <EffectArray value="StealthExposure"/>-->
-<!--        <EffectArray value="NodRevenantBombLaunchMissile"/>-->
-<!--        <WhichLocation Value="TargetPoint"/>-->
-<!--    </CEffectSet>-->
-
-
-    <CAbilEffectTarget id="NodRevenantBombUnit" parent="NodRevenantBomb">
-        <Effect index="0" value="NodRevenantBombUnitSet"/>
-        <Flags index="AutoCast" value="1"/>
-        <Flags index="AutoCastOn" value="1"/>
-        <Flags index="ReExecutable" value="1"/>
-        <Flags index="Smart" value="1"/>
-        <TargetFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
-        <AutoCastRange value="6"/>
-        <AutoCastFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable,Benign"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBombUnit"/>
+<!--        <Effect index="0" value="NodRevenantBombLaunchMissile"/>-->
+        <!--        <Effect index="0" value="NodRevenantBombUnitSet"/>-->
+        <Effect index="0" value="NodRevenantBombSwitch"/>
         <AutoCastValidatorArray value="NodVertigoBombSmartAutocast"/>
         <AutoCastValidatorArray value="NotLarva"/>
     </CAbilEffectTarget>
+<!--    <CAbilEffectTarget id="NodRevenantBombUnit" parent="NodRevenantBomb">-->
+<!--        <Effect index="0" value="NodRevenantBombUnitSet"/>-->
+<!--        <Flags index="AutoCast" value="1"/>-->
+<!--        <Flags index="AutoCastOn" value="1"/>-->
+<!--        <Flags index="ReExecutable" value="1"/>-->
+<!--        <Flags index="Smart" value="1"/>-->
+<!--        <TargetFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>-->
+<!--        <AutoCastRange value="4"/>-->
+<!--        <AutoCastFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable,Benign"/>-->
+<!--        <CmdButtonArray index="Execute" DefaultButtonFace="NodRevenantBombUnit"/>-->
+<!--        <AutoCastValidatorArray value="NodVertigoBombSmartAutocast"/>-->
+<!--        <AutoCastValidatorArray value="NotLarva"/>-->
+<!--    </CAbilEffectTarget>-->
     <CWeaponLegacy id="NodRevenantBomb">
         <Options index="NeverMiss" value="0"/>
         <EditorCategories value="Race:Genetron"/>
@@ -53,7 +57,6 @@
         <AcquireFilters value="-;Player,Ally,Neutral,Enemy"/>
         <AllowedMovement value="Moving"/>
         <Arc value="29.9926"/>
-
         <LegacyOptions index="UseRangeToCenter" value="1"/>
         <LegacyOptions index="CanRetargetWhileChanneling" value="1"/>
         <LegacyOptions index="NoDeceleration" value="1"/>
@@ -62,6 +65,15 @@
     </CWeaponLegacy>
 
 
+    <CValidatorUnitCompareField id="CnCIsGroundUnit">
+        <Field value="PlaneArray[0]"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareField>
+    <CEffectSwitch id="NodRevenantBombSwitch">
+        <CaseArray Validator="CnCIsGroundUnit" Effect="NodRevenantBombUnitSet"/>
+        <CaseDefault value="NodRevenantBombLaunchMissile"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSwitch>
 
     <CWeaponLegacy id="NodVertigoWeaponAA">
         <Icon value="Assets\icons\Nod\btn-nod-upgrade-lightweapons.dds"/>
@@ -86,11 +98,6 @@
         <EffectArray value="StealthExposure"/>
         <EffectArray value="NodVertigoWeaponAADamage"/>
     </CEffectSet>
-
-
-
-
-
 
     <CEffectSet id="NodRevenantBombImpactSet">
         <EffectArray value="NodRevenantBombImpact"/>

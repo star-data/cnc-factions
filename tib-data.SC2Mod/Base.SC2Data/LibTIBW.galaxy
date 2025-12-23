@@ -33,6 +33,9 @@ void libTIBW_InitVariables () {
         }
     }
     for (init_i = 0; init_i <= 15; init_i += 1) {
+        libTIBW_gv_powerUsers[init_i] = UnitGroupEmpty();
+    }
+    for (init_i = 0; init_i <= 15; init_i += 1) {
         libTIBW_gv_markTarget[init_i] = UnitGroupEmpty();
     }
     for (init_i = 0; init_i <= 15; init_i += 1) {
@@ -76,11 +79,11 @@ void libTIBW_gf_Theplanetakesoff (unit lp_airplane) {
     UnitBehaviorRemove(lp_airplane, "Aircraftreversesurveillanceoftheairport", 1);
     UnitBehaviorAdd(lp_airplane, "Airporttakingoff", lp_airplane, 1);
     if ((UnitGetType(lp_airplane) == "AlliedCenturyBomber")) {
-        UnitSetHeight(lp_airplane, 5.0, 1.6);
+        UnitSetHeight(lp_airplane, 3.75, 1.6);
         UnitBehaviorSetDuration(lp_airplane, "Airporttakingoff", 1.6);
     }
     else {
-        UnitSetHeight(lp_airplane, 5.0, 0.75);
+        UnitSetHeight(lp_airplane, 3.75, 0.75);
         UnitBehaviorSetDuration(lp_airplane, "Airporttakingoff", 0.75);
     }
 }
@@ -959,6 +962,12 @@ void libTIBW_gf_PlayAnnounceSound (int lp_type, int lp_player) {
     else if (autoF4226EF4_val == libTIBW_ge_NEVA_NEVA_StructureSold) {
         SoundPlayForPlayer(SoundLink("NodAdvisor", 13), c_maxPlayers, lv_players, 100.0, 0.0);
     }
+    else if (autoF4226EF4_val == libTIBW_ge_NEVA_NEVA_LowPower) {
+        SoundPlayForPlayer(SoundLink("NodAdvisor", 35), c_maxPlayers, lv_players, 100.0, 0.0);
+    }
+    else if (autoF4226EF4_val == libTIBW_ge_NEVA_NEVA_PowerRestored) {
+        SoundPlayForPlayer(SoundLink("NodAdvisor", 21), c_maxPlayers, lv_players, 100.0, 0.0);
+    }
     else {
     }
 }
@@ -1581,79 +1590,6 @@ void libTIBW_gt_CREATEDAircraftmanufacturingcompleted_Init () {
     libTIBW_gt_CREATEDAircraftmanufacturingcompleted = TriggerCreate("libTIBW_gt_CREATEDAircraftmanufacturingcompleted_Func");
     TriggerAddEventUnitTrainProgress(libTIBW_gt_CREATEDAircraftmanufacturingcompleted, null, c_unitProgressStageComplete);
     TriggerAddEventUnitConstructProgress(libTIBW_gt_CREATEDAircraftmanufacturingcompleted, null, c_unitProgressStageComplete);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Shadow Glide
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ShadowGlide_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_airplane;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_airplane = EventUnit();
-
-    // Conditions
-    if (testConds) {
-        if (!((UnitAbilityExists(lv_airplane, "CNCAirplaneMove") == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_F97291B1"), true);
-    Wait(0.2, c_timeGame);
-    UnitAbilityAdd(lv_airplane, "CNCAirplaneMove");
-    UnitAbilityAdd(lv_airplane, "attack2");
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ShadowGlide_Init () {
-    libTIBW_gt_ShadowGlide = TriggerCreate("libTIBW_gt_ShadowGlide_Func");
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_ShadowGlide, null, "VanguardIsCircling", c_unitBehaviorChangeIncrease);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Shadow Landing
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ShadowLanding_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_airplane;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_airplane = EventUnit();
-
-    // Conditions
-    if (testConds) {
-        if (!((UnitAbilityExists(lv_airplane, "CNCAirplaneMove") == false))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    Wait(0.05, c_timeGame);
-    UnitAbilityRemove(lv_airplane, "CNCAirplaneMove");
-    UnitAbilityRemove(lv_airplane, "attack2");
-    UnitAbilityAdd(lv_airplane, "move");
-    UnitAbilityAdd(lv_airplane, "attack");
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ShadowLanding_Init () {
-    libTIBW_gt_ShadowLanding = TriggerCreate("libTIBW_gt_ShadowLanding_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_ShadowLanding, null, AbilityCommand("NodShadowLand", 0), c_unitAbilStageExecute, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2307,6 +2243,26 @@ void libTIBW_gt_PlayNod_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: CNCStructureSalvageRefund
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_CNCStructureSalvageRefund_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_StructureSold, UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_CNCStructureSalvageRefund_Init () {
+    libTIBW_gt_CNCStructureSalvageRefund = TriggerCreate("libTIBW_gt_CNCStructureSalvageRefund_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_CNCStructureSalvageRefund, null, AbilityCommand("CNCStructureSalvageRefund", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Construction Started
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_ConstructionStarted_Func (bool testConds, bool runActions) {
@@ -2471,6 +2427,46 @@ bool libTIBW_gt_Repairng_Func (bool testConds, bool runActions) {
 void libTIBW_gt_Repairng_Init () {
     libTIBW_gt_Repairng = TriggerCreate("libTIBW_gt_Repairng_Func");
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_Repairng, null, "NodRepair", c_unitBehaviorChangeCreate);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Low Power
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_LowPower_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_LowPower, UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_LowPower_Init () {
+    libTIBW_gt_LowPower = TriggerCreate("libTIBW_gt_LowPower_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_LowPower, null, "PowerShortage", c_unitBehaviorChangeCreate);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: PowerRestored
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_PowerRestored_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_PowerRestored, UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_PowerRestored_Init () {
+    libTIBW_gt_PowerRestored = TriggerCreate("libTIBW_gt_PowerRestored_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerRestored, null, "PowerShortage", c_unitBehaviorChangeDestroy);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2684,6 +2680,278 @@ void libTIBW_gt_Nuke_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Power Users Management
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_PowerUsersManagement_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    int auto6D83FF96_val;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto6D83FF96_val = EventUnitBehaviorChange();
+    if (auto6D83FF96_val == c_unitBehaviorChangeActivate) {
+        UnitGroupAdd(libTIBW_gv_powerUsers[UnitGetOwner(EventUnit())], EventUnit());
+    }
+    else if (auto6D83FF96_val == c_unitBehaviorChangeDeactivate) {
+        UnitGroupRemove(libTIBW_gv_powerUsers[UnitGetOwner(EventUnit())], EventUnit());
+    }
+    else {
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_PowerUsersManagement_Init () {
+    libTIBW_gt_PowerUsersManagement = TriggerCreate("libTIBW_gt_PowerUsersManagement_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain5", c_unitBehaviorChangeAny);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain10", c_unitBehaviorChangeAny);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain15", c_unitBehaviorChangeAny);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CnCPowerGeneration015", c_unitBehaviorChangeAny);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CnCPowerGeneration045", c_unitBehaviorChangeAny);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Energy Calculation
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    playergroup lv_players;
+    unitgroup lv_units;
+    unit lv_u;
+    unit lv_powerDummy;
+    fixed lv_balanceUpdate;
+    fixed lv_oldBalance;
+    fixed lv_newBalance;
+    fixed lv_energyDrain;
+    fixed lv_unitDrain;
+    fixed lv_energyGeneration;
+    int lv_p;
+
+    // Automatic Variable Declarations
+    playergroup auto03848070_g;
+    unitgroup auto3976E74D_g;
+    int auto3976E74D_u;
+
+    // Variable Initialization
+    lv_players = PlayerGroupAll();
+    lv_units = UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    Wait(1.0, c_timeGame);
+    while (true) {
+        Wait(0.25, c_timeGame);
+        auto03848070_g = lv_players;
+        lv_p = -1;
+        while (true) {
+            lv_p = PlayerGroupNextPlayer(auto03848070_g, lv_p);
+            if (lv_p < 0) { break; }
+            lv_powerDummy = libScio_gv_sCION_POWERDUMMIES[lv_p];
+            if ((UnitGroupCount(libTIBW_gv_powerUsers[lv_p], c_unitCountAlive) == 0)) {
+                if ((UnitHasBehavior2(lv_powerDummy, "PowerShortage") == true)) {
+                    UnitBehaviorRemove(lv_powerDummy, "PowerShortage", 1);
+                    continue;
+                }
+
+                continue;
+            }
+
+            lv_balanceUpdate = 0.0;
+            lv_energyDrain = 0.0;
+            lv_energyGeneration = 0.0;
+            lv_oldBalance = UnitGetPropertyFixed(lv_powerDummy, c_unitPropEnergy, c_unitPropCurrent);
+            auto3976E74D_g = libTIBW_gv_powerUsers[lv_p];
+            auto3976E74D_u = UnitGroupCount(auto3976E74D_g, c_unitCountAll);
+            for (;; auto3976E74D_u -= 1) {
+                lv_u = UnitGroupUnitFromEnd(auto3976E74D_g, auto3976E74D_u);
+                if (lv_u == null) { break; }
+                if ((UnitIsAlive(lv_u) == false)) {
+                    UnitGroupRemove(libTIBW_gv_powerUsers[lv_p], lv_u);
+                }
+
+                if ((UnitGetOwner(lv_u) != lv_p)) {
+                    UnitGroupRemove(libTIBW_gv_powerUsers[lv_p], lv_u);
+                    UnitGroupAdd(libTIBW_gv_powerUsers[UnitGetOwner(lv_u)], lv_u);
+                }
+
+                lv_unitDrain = 0.0;
+                if ((UnitHasBehavior(lv_u, "CNCEnergyDrain5") == true)) {
+                    lv_unitDrain = 0.045;
+                    lv_energyDrain = (lv_energyDrain + lv_unitDrain);
+                }
+                else if ((UnitHasBehavior(lv_u, "CNCEnergyDrain10") == true)) {
+                    lv_unitDrain = 0.09;
+                    lv_energyDrain = (lv_energyDrain + lv_unitDrain);
+                }
+                else if ((UnitHasBehavior(lv_u, "CNCEnergyDrain15") == true)) {
+                    lv_unitDrain = 0.135;
+                    lv_energyDrain = (lv_energyDrain + lv_unitDrain);
+                }
+                else if ((UnitHasBehavior(lv_u, "CnCPowerGeneration015") == true)) {
+                    lv_energyGeneration = (lv_energyGeneration + 0.135);
+                }
+                else if ((UnitHasBehavior(lv_u, "CnCPowerGeneration045") == true)) {
+                    lv_energyGeneration = (lv_energyGeneration + 0.405);
+                }
+                else if ((UnitHasBehavior(lv_u, "CnCPowerGeneration045") == true)) {
+                    lv_energyGeneration = (lv_energyGeneration + 0.405);
+                }
+                if ((UnitHasBehavior2(lv_u, "NodProductionBoost") == true)) {
+                    lv_energyDrain = (lv_energyDrain + 0.09);
+                }
+
+            }
+            lv_balanceUpdate = (lv_energyGeneration - lv_energyDrain);
+            lv_newBalance = (lv_oldBalance + lv_balanceUpdate);
+            UnitSetPropertyFixed(lv_powerDummy, c_unitPropEnergy, lv_newBalance);
+            if ((lv_newBalance < 0.0) && (UnitHasBehavior2(lv_powerDummy, "PowerShortage") == false)) {
+                UnitBehaviorAdd(lv_powerDummy, "PowerShortage", lv_powerDummy, 1);
+            }
+            else if ((lv_newBalance >= 0.0) && (UnitHasBehavior2(lv_powerDummy, "PowerShortage") == true)) {
+                UnitBehaviorRemove(lv_powerDummy, "PowerShortage", 1);
+            }
+        }
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_EnergyCalculation_Init () {
+    libTIBW_gt_EnergyCalculation = TriggerCreate("libTIBW_gt_EnergyCalculation_Func");
+    TriggerAddEventMapInit(libTIBW_gt_EnergyCalculation);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Shadow Glide
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ShadowGlide_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitAbilityExists(lv_airplane, "CNCAirplaneMove") == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    Wait(0.2, c_timeGame);
+    UnitAbilityAdd(lv_airplane, "CNCAirplaneMove");
+    UnitAbilityAdd(lv_airplane, "attack2");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ShadowGlide_Init () {
+    libTIBW_gt_ShadowGlide = TriggerCreate("libTIBW_gt_ShadowGlide_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_ShadowGlide, null, "VanguardIsCircling", c_unitBehaviorChangeIncrease);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Shadow Landing
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ShadowLanding_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitAbilityExists(lv_airplane, "CNCAirplaneMove") == false))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    Wait(0.05, c_timeGame);
+    UnitAbilityRemove(lv_airplane, "CNCAirplaneMove");
+    UnitAbilityRemove(lv_airplane, "attack2");
+    UnitAbilityAdd(lv_airplane, "move");
+    UnitAbilityAdd(lv_airplane, "attack");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ShadowLanding_Init () {
+    libTIBW_gt_ShadowLanding = TriggerCreate("libTIBW_gt_ShadowLanding_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_ShadowLanding, null, AbilityCommand("NodShadowLand", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Attach Disruption Pods
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_AttachDisruptionPods_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_pod;
+    string lv_behavior;
+    unit lv_target;
+
+    // Automatic Variable Declarations
+    unitgroup autoC6D70788_g;
+    int autoC6D70788_u;
+    unit autoC6D70788_var;
+
+    // Variable Initialization
+    lv_behavior = EventUnitBehavior();
+    lv_target = EventUnit();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoC6D70788_g = UnitGroup("NodDisruptionPod", c_playerAny, RegionCircle(UnitGetPosition(lv_target), 5.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoC6D70788_u = UnitGroupCount(autoC6D70788_g, c_unitCountAll);
+    for (;; autoC6D70788_u -= 1) {
+        autoC6D70788_var = UnitGroupUnitFromEnd(autoC6D70788_g, autoC6D70788_u);
+        if (autoC6D70788_var == null) { break; }
+        lv_pod = autoC6D70788_var;
+        if ((UnitHasBehavior2(lv_pod, "NodDisruptionPodAttached") == true)) {
+            continue;
+        }
+
+        libTIBW_gf_AttachUnitModelToUnit(lv_pod, lv_target, "Ref_Overhead", 0.0, 0.0, 0.0, "");
+        break;
+    }
+    while ((UnitHasBehavior2(lv_target, lv_behavior) == true) && (UnitIsAlive(lv_target) == true)) {
+        UnitBehaviorAdd(lv_pod, "NodDisruptionPodAttached", lv_pod, 1);
+        UnitSetPosition(lv_pod, UnitGetPosition(lv_target), false);
+        Wait(0.0625, c_timeGame);
+    }
+    UnitKill(lv_pod);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_AttachDisruptionPods_Init () {
+    libTIBW_gt_AttachDisruptionPods = TriggerCreate("libTIBW_gt_AttachDisruptionPods_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_AttachDisruptionPods, null, "NodDisruptionPodAttachedEnemy", c_unitBehaviorChangeCreate);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_AttachDisruptionPods, null, "NodDisruptionPodAttachedAlly", c_unitBehaviorChangeCreate);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: NodDecoyArmyTargeting
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_NodDecoyArmyTargeting_Func (bool testConds, bool runActions) {
@@ -2829,109 +3097,6 @@ void libTIBW_gt_VertigoAbilitiesTakeoff_Init () {
     TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("NodRevenantBombUnit", 0), c_unitAbilStageExecute, false);
     TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("NodRevenantBomb", 0), c_unitAbilStageExecute, false);
     TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("GDIUpgradesCache", 5), c_unitAbilStageExecute, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Energy Calculation
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    playergroup lv_players;
-    unitgroup lv_units;
-    unit lv_unit;
-    fixed lv_balanceUpdate;
-    fixed lv_oldBalance;
-    fixed lv_newBalance;
-    fixed lv_energyDrain;
-    fixed lv_unitDrain;
-    fixed lv_energyGeneration;
-
-    // Automatic Variable Declarations
-    playergroup autoE56A3554_g;
-    int autoE56A3554_var;
-    unitgroup autoA2EC64F4_g;
-    int autoA2EC64F4_u;
-
-    // Variable Initialization
-    lv_players = PlayerGroupAll();
-    lv_units = UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    Wait(1.0, c_timeGame);
-    while (true) {
-        Wait(0.25, c_timeGame);
-        autoE56A3554_g = lv_players;
-        autoE56A3554_var = -1;
-        while (true) {
-            autoE56A3554_var = PlayerGroupNextPlayer(autoE56A3554_g, autoE56A3554_var);
-            if (autoE56A3554_var < 0) { break; }
-            if ((UnitGetPropertyFixed(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], c_unitPropEnergyMax, c_unitPropCurrent) > 0.0)) {
-                lv_balanceUpdate = 0.0;
-                lv_energyDrain = 0.0;
-                lv_energyGeneration = 0.0;
-                lv_oldBalance = UnitGetPropertyFixed(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], c_unitPropEnergy, c_unitPropCurrent);
-                lv_units = UnitGroup(null, autoE56A3554_var, RegionEntireMap(), UnitFilter((1 << c_targetFilterStructure), 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-                autoA2EC64F4_g = lv_units;
-                autoA2EC64F4_u = UnitGroupCount(autoA2EC64F4_g, c_unitCountAll);
-                for (;; autoA2EC64F4_u -= 1) {
-                    lv_unit = UnitGroupUnitFromEnd(autoA2EC64F4_g, autoA2EC64F4_u);
-                    if (lv_unit == null) { break; }
-                    lv_unitDrain = 0.0;
-                    if ((UnitHasBehavior(lv_unit, "CNCEnergyDrain5") == true)) {
-                        lv_unitDrain = 0.045;
-                        lv_energyDrain = (lv_energyDrain + lv_unitDrain);
-                    }
-                    else if ((UnitHasBehavior(lv_unit, "CNCEnergyDrain10") == true)) {
-                        lv_unitDrain = 0.09;
-                        lv_energyDrain = (lv_energyDrain + lv_unitDrain);
-                    }
-                    else if ((UnitHasBehavior(lv_unit, "CNCEnergyDrain15") == true)) {
-                        lv_unitDrain = 0.135;
-                        lv_energyDrain = (lv_energyDrain + lv_unitDrain);
-                    }
-                    else if ((UnitHasBehavior(lv_unit, "CnCPowerGeneration015") == true)) {
-                        lv_energyGeneration = (lv_energyGeneration + 0.135);
-                    }
-                    else if ((UnitHasBehavior(lv_unit, "CnCPowerGeneration045") == true)) {
-                        lv_energyGeneration = (lv_energyGeneration + 0.405);
-                    }
-                    else if ((UnitHasBehavior(lv_unit, "CnCPowerGeneration045") == true)) {
-                        lv_energyGeneration = (lv_energyGeneration + 0.405);
-                    }
-                    if ((UnitHasBehavior2(lv_unit, "NodTimeWarpProduction") == true)) {
-                        lv_energyDrain = (lv_energyDrain + 0.09);
-                    }
-
-                }
-                lv_balanceUpdate = (lv_energyGeneration - lv_energyDrain);
-                if ((lv_energyGeneration == 0.0) && (lv_energyDrain == 0.0)) {
-                    continue;
-                }
-
-                lv_balanceUpdate = (lv_energyGeneration - lv_energyDrain);
-                lv_newBalance = (lv_oldBalance + lv_balanceUpdate);
-                UnitSetPropertyFixed(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], c_unitPropEnergy, lv_newBalance);
-                if ((lv_newBalance < 0.0) && (UnitHasBehavior2(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], "PowerShortage") == false)) {
-                    UnitBehaviorAdd(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], "PowerShortage", libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], 1);
-                }
-                else if ((lv_newBalance >= 0.0) && (UnitHasBehavior2(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], "PowerShortage") == true)) {
-                    UnitBehaviorRemove(libScio_gv_sCION_POWERDUMMIES[autoE56A3554_var], "PowerShortage", 1);
-                }
-            }
-
-        }
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_EnergyCalculation_Init () {
-    libTIBW_gt_EnergyCalculation = TriggerCreate("libTIBW_gt_EnergyCalculation_Func");
-    TriggerAddEventMapInit(libTIBW_gt_EnergyCalculation);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3249,9 +3414,9 @@ void libTIBW_gt_CYOwnerChanged_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Conjoined Behaviors
+// Trigger: Conjoined Behaviors Main
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConjoinedBehaviors_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_ConjoinedBehaviorsMain_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit lv_unit;
     unit lv_conjoined;
@@ -3293,11 +3458,8 @@ bool libTIBW_gt_ConjoinedBehaviors_Func (bool testConds, bool runActions) {
     else if (auto7C2D447B_val == "Contaminated") {
         lv_behavior = "ContaminatedSupport";
     }
-    else if (auto7C2D447B_val == "NodTimeWarpProduction") {
-        lv_behavior = "NodTimeWarpProductionSupport";
-    }
-    else if (auto7C2D447B_val == "NodRepair") {
-        lv_behavior = "NodRepairSupport";
+    else if (auto7C2D447B_val == "NodProductionBoost") {
+        lv_behavior = "NodProductionBoostSupport";
     }
     else {
         return true;
@@ -3318,15 +3480,15 @@ bool libTIBW_gt_ConjoinedBehaviors_Func (bool testConds, bool runActions) {
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConjoinedBehaviors_Init () {
-    libTIBW_gt_ConjoinedBehaviors = TriggerCreate("libTIBW_gt_ConjoinedBehaviors_Func");
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_ConjoinedBehaviors, null, null, c_unitBehaviorChangeAny);
+void libTIBW_gt_ConjoinedBehaviorsMain_Init () {
+    libTIBW_gt_ConjoinedBehaviorsMain = TriggerCreate("libTIBW_gt_ConjoinedBehaviorsMain_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_ConjoinedBehaviorsMain, null, null, c_unitBehaviorChangeAny);
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Conjoined Behaviors 2
+// Trigger: Conjoined Behaviors Support
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConjoinedBehaviors2_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_ConjoinedBehaviorsSupport_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit lv_unit;
     unit lv_conjoined;
@@ -3378,9 +3540,9 @@ bool libTIBW_gt_ConjoinedBehaviors2_Func (bool testConds, bool runActions) {
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConjoinedBehaviors2_Init () {
-    libTIBW_gt_ConjoinedBehaviors2 = TriggerCreate("libTIBW_gt_ConjoinedBehaviors2_Func");
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_ConjoinedBehaviors2, null, null, c_unitBehaviorChangeAny);
+void libTIBW_gt_ConjoinedBehaviorsSupport_Init () {
+    libTIBW_gt_ConjoinedBehaviorsSupport = TriggerCreate("libTIBW_gt_ConjoinedBehaviorsSupport_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_ConjoinedBehaviorsSupport, null, null, c_unitBehaviorChangeAny);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3402,11 +3564,7 @@ bool libTIBW_gt_MCVusesRallyWaypoint_Func (bool testConds, bool runActions) {
 
     // Conditions
     if (testConds) {
-        if (!((UnitGroupHasUnit(UnitGroupSelected(UnitGetOwner(lv_unit)), lv_unit) == true))) {
-            return false;
-        }
-
-        if (!(((UnitGetType(lv_unit) == "NodConstructionYard") || (UnitGetType(lv_unit) == "NodConstructionYardSupportModule")))) {
+        if (!((libTIBW_gf_UnitIsConjoinedModule(lv_unit) || libTIBW_gf_UnitHasConjoinedModule(lv_unit)))) {
             return false;
         }
     }
@@ -3416,18 +3574,16 @@ bool libTIBW_gt_MCVusesRallyWaypoint_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    if ((UnitGetType(lv_unit) == "NodConstructionYard")) {
-        lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
-    }
-    else {
-        lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
-    }
+    lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
+    TriggerEnable(TriggerGetCurrent(), false);
     if ((lv_targetUnit != null)) {
         UnitIssueOrder(lv_conjoined, OrderTargetingUnit(AbilityCommand("Rally", 0), lv_targetUnit), c_orderQueueAddToFront);
     }
     else {
         UnitIssueOrder(lv_conjoined, OrderTargetingPoint(AbilityCommand("Rally", 0), lv_targetPoint), c_orderQueueAddToFront);
     }
+    Wait(0.625, c_timeGame);
+    TriggerEnable(TriggerGetCurrent(), true);
     return true;
 }
 
@@ -4839,8 +4995,6 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_AIRPORTSMapINIT_Init();
     libTIBW_gt_MoveCommandOverrideExecute2_Init();
     libTIBW_gt_CREATEDAircraftmanufacturingcompleted_Init();
-    libTIBW_gt_ShadowGlide_Init();
-    libTIBW_gt_ShadowLanding_Init();
     libTIBW_gt_LANDINGAlliedairfieldlanding_Init();
     libTIBW_gt_Aircraftrestorationslot_Init();
     libTIBW_gt_TAKEOFFTheeffectoftheplaneaftertakeoff_Init();
@@ -4857,12 +5011,15 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped_Init();
     libTIBW_gt_Test_Init();
     libTIBW_gt_PlayNod_Init();
+    libTIBW_gt_CNCStructureSalvageRefund_Init();
     libTIBW_gt_ConstructionStarted_Init();
     libTIBW_gt_ConstructionCompleted_Init();
     libTIBW_gt_ConstructionCanceled_Init();
     libTIBW_gt_NewConstructionOptions_Init();
     libTIBW_gt_ConstructionCompleted2_Init();
     libTIBW_gt_Repairng_Init();
+    libTIBW_gt_LowPower_Init();
+    libTIBW_gt_PowerRestored_Init();
     libTIBW_gt_TrainingStarted_Init();
     libTIBW_gt_TrainingCompleted_Init();
     libTIBW_gt_TrainingCanceled_Init();
@@ -4870,11 +5027,15 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_UnitComplete_Init();
     libTIBW_gt_UnitAttacked_Init();
     libTIBW_gt_Nuke_Init();
+    libTIBW_gt_PowerUsersManagement_Init();
+    libTIBW_gt_EnergyCalculation_Init();
+    libTIBW_gt_ShadowGlide_Init();
+    libTIBW_gt_ShadowLanding_Init();
+    libTIBW_gt_AttachDisruptionPods_Init();
     libTIBW_gt_NodDecoyArmyTargeting_Init();
     libTIBW_gt_NodDecoyArmyExecute_Init();
     libTIBW_gt_NodDecoyArmyExecuteCancel_Init();
     libTIBW_gt_VertigoAbilitiesTakeoff_Init();
-    libTIBW_gt_EnergyCalculation_Init();
     libTIBW_gt_SalvageRefund_Init();
     libTIBW_gt_CheckUnitsPlacement_Init();
     libTIBW_gt_SignatureGenerator_Init();
@@ -4885,8 +5046,8 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_UntitledTrigger004_Init();
     libTIBW_gt_VestCreated_Init();
     libTIBW_gt_CYOwnerChanged_Init();
-    libTIBW_gt_ConjoinedBehaviors_Init();
-    libTIBW_gt_ConjoinedBehaviors2_Init();
+    libTIBW_gt_ConjoinedBehaviorsMain_Init();
+    libTIBW_gt_ConjoinedBehaviorsSupport_Init();
     libTIBW_gt_MCVusesRallyWaypoint_Init();
     libTIBW_gt_MorphtoMCV_Init();
     libTIBW_gt_ConjoinedSupportModuleCreated_Init();
