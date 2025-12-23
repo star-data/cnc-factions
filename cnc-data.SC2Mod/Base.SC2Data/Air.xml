@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CEffectSet id="Vanguardsurroundingvesteffect">
+        <ValidatorArray value="xfzzdwjs2"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSet>
+    <CEffectSet id="Thehoveringvesteffectwhenthevanguardisstopped"/>
     <CButton id="CNCReturnToTheAirport">
         <Icon value="Assets\icons\btn-cnc-ability-capture.dds"/>
     </CButton>
@@ -153,6 +158,40 @@
         <Period value="0.1"/>
         <PeriodicEffect value="Thehoveringvesteffectwhenthevanguardisstopped"/>
     </CBehaviorBuff>
+
+    <CBehaviorUnitTracker id="Aircraftreversesurveillanceoftheairport">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <MaxTrackedUnits value="1"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorBuff id="Aircraftautomaticallyreplenishesammunitionpeacekeepingbomber">
+        <BehaviorFlags index="Disabled" value="1"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <TimeScaleSource Value="Global"/>
+        <Period value="2"/>
+        <PeriodicEffect value="hf10bfzdy"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="xfjytzzdpx22">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="CasterIsFiringWeapon"/>
+        <DisableValidatorArray value="CasterIsNotStationary23"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+<!--    restore 10% ammo-->
+    <CEffectModifyUnit id="hf10bfzdy">
+        <ValidatorArray value="EnergyNotFullCaster"/>
+        <ImpactUnit Value="Caster"/>
+        <VitalArray index="Energy">
+            <ChangeFraction value="0.1"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+
+    <CValidatorUnitState id="TheCasterIsIdle">
+        <WhichUnit Value="Caster"/>
+        <Enabled value="1"/>
+        <State value="Idle"/>
+    </CValidatorUnitState>
     <CBehaviorBuff id="ThePioneerarmedcombataircraftcontinuouslytraverseswhenattackingthetrackingtarget">
 <!--        <InfoFlags index="Hidden" value="1"/>-->
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -480,6 +519,10 @@
         <DisableValidatorArray value="CasterIsNotStationary23"/>
         <Modification MoveSpeedMaximum="2"/>
     </CBehaviorBuff>
+    <CValidatorUnitCompareSpeed id="CasterIsNotStationary23">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GT"/>
+    </CValidatorUnitCompareSpeed>
     <CBehaviorBuff id="AirplaneLandindPad">
         <!--        <InfoFlags index="Hidden" value="1"/>-->
     </CBehaviorBuff>

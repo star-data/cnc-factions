@@ -1,5 +1,4 @@
 include "TriggerLibs/NativeLib"
-include "LibScio"
 include "LibCNCC"
 
 include "LibTIBW_h"
@@ -10,7 +9,6 @@ include "LibTIBW_h"
 // External Library Initialization
 void libTIBW_InitLibraries () {
     libNtve_InitVariables();
-    libScio_InitVariables();
     libCNCC_InitVariables();
 }
 
@@ -2163,86 +2161,6 @@ void libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped_Init () 
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Test
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    PlayerOptionOverride(1, "simplecommandcard", "0");
-    PlayerSetRace(2, "Terr");
-    PlayerSetDifficulty(2, 7);
-    TriggerExecute(libCNCC_gt_ProductionUI, true, false);
-    GameSetSpeedValue(c_gameSpeedFaster);
-    TriggerExecute(libTIBW_gt_PlayNod, true, false);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_Test_Init () {
-    libTIBW_gt_Test = TriggerCreate("libTIBW_gt_Test_Func");
-    TriggerAddEventMapInit(libTIBW_gt_Test);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Play Nod
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_PlayNod_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    playergroup autoC0198CC5_g;
-    int autoC0198CC5_var;
-    playergroup autoB12AAF8F_g;
-    int autoB12AAF8F_var;
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    PlayerSetRace(1, "Nod");
-    TriggerExecute(libCNCC_gt_InitBeaconsButton, true, false);
-    autoC0198CC5_g = PlayerGroupAll();
-    autoC0198CC5_var = -1;
-    while (true) {
-        autoC0198CC5_var = PlayerGroupNextPlayer(autoC0198CC5_g, autoC0198CC5_var);
-        if (autoC0198CC5_var < 0) { break; }
-        if ((PlayerRace(autoC0198CC5_var) == "Nod")) {
-            TechTreeUpgradeAddLevel(autoC0198CC5_var, "NodAdvisor", 1);
-            UISetFrameVisible(PlayerGroupSingle(autoC0198CC5_var), c_syncFrameTypeConsolePanel, false);
-            DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
-            DialogControlSendAnimationEvent(DialogControlLastCreated(), PlayerGroupSingle(autoC0198CC5_var), "SlimUI_On");
-        }
-
-    }
-    TriggerEnable(libTIBW_gt_Borrowedbombercustomreturntrajectory, true);
-    TriggerEnable(libTIBW_gt_BorrowedbombercreationbindingStarchainTest, true);
-    TriggerEnable(libTIBW_gt_LaunchairstrikeStarchainTest, true);
-    Wait(1.0, c_timeGame);
-    DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
-    autoB12AAF8F_g = PlayerGroupAll();
-    autoB12AAF8F_var = -1;
-    while (true) {
-        autoB12AAF8F_var = PlayerGroupNextPlayer(autoB12AAF8F_g, autoB12AAF8F_var);
-        if (autoB12AAF8F_var < 0) { break; }
-        if ((PlayerRace(autoB12AAF8F_var) == "Nod")) {
-            PlayerOptionOverride(autoB12AAF8F_var, "simplecommandcard", "0");
-            DialogControlSendAnimationEvent(DialogControlLastCreated(), PlayerGroupSingle(autoB12AAF8F_var), "SlimUI_On");
-        }
-
-    }
-    TriggerExecute(libScio_gt_GenetronInit, true, false);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_PlayNod_Init () {
-    libTIBW_gt_PlayNod = TriggerCreate("libTIBW_gt_PlayNod_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: CNCStructureSalvageRefund
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_CNCStructureSalvageRefund_Func (bool testConds, bool runActions) {
@@ -2537,6 +2455,27 @@ void libTIBW_gt_TrainingCanceled_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: New Rally Point
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_NewRallyPoint_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_NewRallyPointEstablished, UnitGetOwner(EventUnit()));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_NewRallyPoint_Init () {
+    libTIBW_gt_NewRallyPoint = TriggerCreate("libTIBW_gt_NewRallyPoint_Func");
+    TriggerEnable(libTIBW_gt_NewRallyPoint, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_NewRallyPoint, null, AbilityCommand("Rally", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Ally Defeated
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_AllyDefeated_Func (bool testConds, bool runActions) {
@@ -2660,26 +2599,6 @@ void libTIBW_gt_UnitAttacked_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Nuke
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_Nuke_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    MinimapPing(PlayerGroupAll(), EventPlayerEffectUsedPoint(c_effectLocationTargetPoint), 10.0, Color(100.00, 0.00, 0.00));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_Nuke_Init () {
-    libTIBW_gt_Nuke = TriggerCreate("libTIBW_gt_Nuke_Func");
-    TriggerAddEventPlayerEffectUsed(libTIBW_gt_Nuke, 1, "NodInvertWarheadAttackAB");
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: Power Users Management
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_PowerUsersManagement_Func (bool testConds, bool runActions) {
@@ -2706,11 +2625,113 @@ bool libTIBW_gt_PowerUsersManagement_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_PowerUsersManagement_Init () {
     libTIBW_gt_PowerUsersManagement = TriggerCreate("libTIBW_gt_PowerUsersManagement_Func");
+    TriggerEnable(libTIBW_gt_PowerUsersManagement, false);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain5", c_unitBehaviorChangeAny);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain10", c_unitBehaviorChangeAny);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain15", c_unitBehaviorChangeAny);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CnCPowerGeneration015", c_unitBehaviorChangeAny);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CnCPowerGeneration045", c_unitBehaviorChangeAny);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Power Dummy Init (Scion)
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_PowerDummyInitScion_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    playergroup lv_players;
+    int lv_genetron_energy_panel_ui;
+    int lv_genetron_energy_current_ui;
+    int lv_genetron_energy_max_ui;
+    int lv_genetron_energy_label_ui;
+
+    // Automatic Variable Declarations
+    playergroup auto4FE6C4DD_g;
+    int auto4FE6C4DD_var;
+    playergroup auto0CF0DF24_g;
+    int auto0CF0DF24_var;
+    playergroup auto0990109D_g;
+    int auto0990109D_var;
+    const int auto624CBD02_n = 16;
+    int auto624CBD02_i;
+    playergroup auto45E8F9C5_g;
+    int auto45E8F9C5_var;
+
+    // Variable Initialization
+    lv_players = PlayerGroupEmpty();
+    lv_genetron_energy_panel_ui = c_invalidDialogControlId;
+    lv_genetron_energy_current_ui = c_invalidDialogControlId;
+    lv_genetron_energy_max_ui = c_invalidDialogControlId;
+    lv_genetron_energy_label_ui = c_invalidDialogControlId;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto4FE6C4DD_g = PlayerGroupAll();
+    auto4FE6C4DD_var = -1;
+    while (true) {
+        auto4FE6C4DD_var = PlayerGroupNextPlayer(auto4FE6C4DD_g, auto4FE6C4DD_var);
+        if (auto4FE6C4DD_var < 0) { break; }
+        if ((TechTreeUnitCount(auto4FE6C4DD_var, "GenetronPowerSupplyDummy", c_techCountCompleteOnly) == 0)) {
+            libNtve_gf_CreateUnitsWithDefaultFacing(1, "GenetronPowerSupplyDummy", 0, auto4FE6C4DD_var, Point(0.0, 0.0));
+            libTIBW_gv_sCION_POWERDUMMIES[auto4FE6C4DD_var] = UnitLastCreated();
+        }
+        else {
+            libTIBW_gv_sCION_POWERDUMMIES[auto4FE6C4DD_var] = UnitGroupUnit(UnitGroup("GenetronPowerSupplyDummy", auto4FE6C4DD_var, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), 1);
+        }
+    }
+    DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/FullscreenUpperContainer/GenetronEnergyPanel");
+    lv_genetron_energy_panel_ui = DialogControlLastCreated();
+    DialogControlHookupStandard(c_triggerControlTypeCountdownLabel, "UIContainer/FullscreenUpperContainer/GenetronEnergyPanel/EnergyCurrent");
+    lv_genetron_energy_current_ui = DialogControlLastCreated();
+    DialogControlHookupStandard(c_triggerControlTypeCountdownLabel, "UIContainer/FullscreenUpperContainer/GenetronEnergyPanel/EnergyMax");
+    lv_genetron_energy_max_ui = DialogControlLastCreated();
+    DialogControlHookupStandard(c_triggerControlTypeCountdownLabel, "UIContainer/FullscreenUpperContainer/GenetronEnergyPanel/EnergyLabel");
+    lv_genetron_energy_label_ui = DialogControlLastCreated();
+    auto0CF0DF24_g = PlayerGroupAll();
+    auto0CF0DF24_var = -1;
+    while (true) {
+        auto0CF0DF24_var = PlayerGroupNextPlayer(auto0CF0DF24_g, auto0CF0DF24_var);
+        if (auto0CF0DF24_var < 0) { break; }
+        if ((PlayerType(auto0CF0DF24_var) == c_playerTypeUser)) {
+            PlayerGroupAdd(lv_players, auto0CF0DF24_var);
+        }
+
+    }
+    Wait(0.0625, c_timeGame);
+    while (true) {
+        auto0990109D_g = lv_players;
+        auto0990109D_var = -1;
+        while (true) {
+            auto0990109D_var = PlayerGroupNextPlayer(auto0990109D_g, auto0990109D_var);
+            if (auto0990109D_var < 0) { break; }
+            if ((UnitGetPropertyFixed(libTIBW_gv_sCION_POWERDUMMIES[auto0990109D_var], c_unitPropEnergyMax, c_unitPropCurrent) > 0.0)) {
+                libNtve_gf_SetDialogItemTooltip(lv_genetron_energy_label_ui, (StringExternal("Param/Value/lib_TIBW_A12B8163") + (IntToText(TechTreeUnitCount(auto0990109D_var, "ProcessingCore", c_techCountCompleteOnly)) + ((StringExternal("Param/Value/lib_TIBW_95EAA164") + (StringExternal("Param/Value/lib_TIBW_C755FD04") + IntToText(TechTreeUnitCount(auto0990109D_var, "Node", c_techCountCompleteOnly)))) + (StringExternal("Param/Value/lib_TIBW_3484E0F3") + (StringExternal("Param/Value/lib_TIBW_D9EAEFC7") + IntToText(TechTreeUnitCount(auto0990109D_var, "Generator", c_techCountCompleteOnly))))))), PlayerGroupAll());
+                DialogControlSetVisible(lv_genetron_energy_panel_ui, PlayerGroupSingle(auto0990109D_var), true);
+            }
+            else {
+                DialogControlSetVisible(lv_genetron_energy_panel_ui, PlayerGroupSingle(auto0990109D_var), false);
+            }
+        }
+        for (auto624CBD02_i = 1; auto624CBD02_i <= auto624CBD02_n; auto624CBD02_i += 1) {
+            auto45E8F9C5_g = lv_players;
+            auto45E8F9C5_var = -1;
+            while (true) {
+                auto45E8F9C5_var = PlayerGroupNextPlayer(auto45E8F9C5_g, auto45E8F9C5_var);
+                if (auto45E8F9C5_var < 0) { break; }
+                libNtve_gf_SetDialogItemCurrentValue(lv_genetron_energy_max_ui, UnitGetPropertyFixed(libTIBW_gv_sCION_POWERDUMMIES[auto45E8F9C5_var], c_unitPropEnergyMax, c_unitPropCurrent), PlayerGroupSingle(auto45E8F9C5_var));
+                libNtve_gf_SetDialogItemCurrentValue(lv_genetron_energy_current_ui, UnitGetPropertyFixed(libTIBW_gv_sCION_POWERDUMMIES[auto45E8F9C5_var], c_unitPropEnergy, c_unitPropCurrent), PlayerGroupSingle(auto45E8F9C5_var));
+            }
+            Wait(0.0625, c_timeGame);
+        }
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_PowerDummyInitScion_Init () {
+    libTIBW_gt_PowerDummyInitScion = TriggerCreate("libTIBW_gt_PowerDummyInitScion_Func");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2744,6 +2765,8 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerExecute(libTIBW_gt_PowerDummyInitScion, true, false);
+    TriggerEnable(libTIBW_gt_PowerUsersManagement, true);
     Wait(1.0, c_timeGame);
     while (true) {
         Wait(0.25, c_timeGame);
@@ -2752,7 +2775,7 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
         while (true) {
             lv_p = PlayerGroupNextPlayer(auto03848070_g, lv_p);
             if (lv_p < 0) { break; }
-            lv_powerDummy = libScio_gv_sCION_POWERDUMMIES[lv_p];
+            lv_powerDummy = libTIBW_gv_sCION_POWERDUMMIES[lv_p];
             if ((UnitGroupCount(libTIBW_gv_powerUsers[lv_p], c_unitCountAlive) == 0)) {
                 if ((UnitHasBehavior2(lv_powerDummy, "PowerShortage") == true)) {
                     UnitBehaviorRemove(lv_powerDummy, "PowerShortage", 1);
@@ -2824,7 +2847,7 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_EnergyCalculation_Init () {
     libTIBW_gt_EnergyCalculation = TriggerCreate("libTIBW_gt_EnergyCalculation_Func");
-    TriggerAddEventMapInit(libTIBW_gt_EnergyCalculation);
+    TriggerAddEventGeneric(libTIBW_gt_EnergyCalculation, "GAME START Nod");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2897,58 +2920,6 @@ bool libTIBW_gt_ShadowLanding_Func (bool testConds, bool runActions) {
 void libTIBW_gt_ShadowLanding_Init () {
     libTIBW_gt_ShadowLanding = TriggerCreate("libTIBW_gt_ShadowLanding_Func");
     TriggerAddEventUnitAbility(libTIBW_gt_ShadowLanding, null, AbilityCommand("NodShadowLand", 0), c_unitAbilStageExecute, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Attach Disruption Pods
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_AttachDisruptionPods_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_pod;
-    string lv_behavior;
-    unit lv_target;
-
-    // Automatic Variable Declarations
-    unitgroup autoC6D70788_g;
-    int autoC6D70788_u;
-    unit autoC6D70788_var;
-
-    // Variable Initialization
-    lv_behavior = EventUnitBehavior();
-    lv_target = EventUnit();
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    autoC6D70788_g = UnitGroup("NodDisruptionPod", c_playerAny, RegionCircle(UnitGetPosition(lv_target), 5.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
-    autoC6D70788_u = UnitGroupCount(autoC6D70788_g, c_unitCountAll);
-    for (;; autoC6D70788_u -= 1) {
-        autoC6D70788_var = UnitGroupUnitFromEnd(autoC6D70788_g, autoC6D70788_u);
-        if (autoC6D70788_var == null) { break; }
-        lv_pod = autoC6D70788_var;
-        if ((UnitHasBehavior2(lv_pod, "NodDisruptionPodAttached") == true)) {
-            continue;
-        }
-
-        libTIBW_gf_AttachUnitModelToUnit(lv_pod, lv_target, "Ref_Overhead", 0.0, 0.0, 0.0, "");
-        break;
-    }
-    while ((UnitHasBehavior2(lv_target, lv_behavior) == true) && (UnitIsAlive(lv_target) == true)) {
-        UnitBehaviorAdd(lv_pod, "NodDisruptionPodAttached", lv_pod, 1);
-        UnitSetPosition(lv_pod, UnitGetPosition(lv_target), false);
-        Wait(0.0625, c_timeGame);
-    }
-    UnitKill(lv_pod);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_AttachDisruptionPods_Init () {
-    libTIBW_gt_AttachDisruptionPods = TriggerCreate("libTIBW_gt_AttachDisruptionPods_Func");
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_AttachDisruptionPods, null, "NodDisruptionPodAttachedEnemy", c_unitBehaviorChangeCreate);
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_AttachDisruptionPods, null, "NodDisruptionPodAttachedAlly", c_unitBehaviorChangeCreate);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3062,153 +3033,6 @@ void libTIBW_gt_NodDecoyArmyExecuteCancel_Init () {
     libTIBW_gt_NodDecoyArmyExecuteCancel = TriggerCreate("libTIBW_gt_NodDecoyArmyExecuteCancel_Func");
     TriggerAddEventUnitAbility(libTIBW_gt_NodDecoyArmyExecuteCancel, null, AbilityCommand("NodDecoyArmyExecute", 0), c_unitAbilStageComplete, false);
     TriggerAddEventTargetModeUpdate(libTIBW_gt_NodDecoyArmyExecuteCancel, c_playerAny, AbilityCommand("NodDecoyArmyExecute", 0), c_targetModeStateOff);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Vertigo Abilities Takeoff
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_VertigoAbilitiesTakeoff_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_airplane;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_airplane = EventUnit();
-
-    // Conditions
-    if (testConds) {
-        if (!((UnitHasBehavior2(lv_airplane, "Notifyairportaftertakeofforexplosion") == true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    UnitIssueOrder(lv_airplane, Order(AbilityCommand("CNCAirportPlanetakingoff", 0)), c_orderQueueAddToFront);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_VertigoAbilitiesTakeoff_Init () {
-    libTIBW_gt_VertigoAbilitiesTakeoff = TriggerCreate("libTIBW_gt_VertigoAbilitiesTakeoff_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("NodRevenantBombUnit", 0), c_unitAbilStageExecute, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("NodRevenantBomb", 0), c_unitAbilStageExecute, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("GDIUpgradesCache", 5), c_unitAbilStageExecute, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Salvage Refund
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_SalvageRefund_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_player;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_player = UnitGetOwner(EventUnit());
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_player, c_playerPropMinerals) + CeilingI((CatalogFieldValueGetAsInt(c_gameCatalogUnit, UnitGetType(EventUnit()), "CostResource[" + IntToString(0) + "]", lv_player) * 0.75))));
-    PlayerModifyPropertyInt(lv_player, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_player, c_playerPropVespene) + CeilingI((CatalogFieldValueGetAsInt(c_gameCatalogUnit, UnitGetType(EventUnit()), "CostResource[" + IntToString(1) + "]", lv_player) * 0.75))));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_SalvageRefund_Init () {
-    libTIBW_gt_SalvageRefund = TriggerCreate("libTIBW_gt_SalvageRefund_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_SalvageRefund, null, AbilityCommand("CNCStructureSalvageRefund", 0), c_unitAbilStageComplete, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Check Units Placement
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_CheckUnitsPlacement_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((UnitGetType(EventUnitCreatedUnit()) == "NodMine"))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((PointPathingPassable(UnitGetPosition(EventUnitCreatedUnit())) == false)) {
-        UnitKill(EventUnitCreatedUnit());
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_CheckUnitsPlacement_Init () {
-    libTIBW_gt_CheckUnitsPlacement = TriggerCreate("libTIBW_gt_CheckUnitsPlacement_Func");
-    TriggerAddEventUnitCreated(libTIBW_gt_CheckUnitsPlacement, null, "NodMineDrop", null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Signature Generator
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_SignatureGenerator_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_signature;
-    unit lv_unit;
-    fixed lv_dx;
-    fixed lv_dy;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_signature = EventUnitCreatedUnit();
-    lv_unit = EventUnit();
-    lv_dx = (PointGetX(UnitGetPosition(lv_signature)) - PointGetX(UnitGetPosition(lv_unit)));
-    lv_dy = (PointGetY(UnitGetPosition(lv_signature)) - PointGetY(UnitGetPosition(lv_unit)));
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    while ((UnitIsAlive(lv_unit) == true) && (UnitIsAlive(lv_signature) == true)) {
-        UnitIssueOrder(lv_signature, OrderTargetingPoint(AbilityCommand("move", 0), Point((PointGetX(UnitGetPosition(lv_unit)) + lv_dx), (PointGetY(UnitGetPosition(lv_unit)) + lv_dy))), c_orderQueueReplace);
-        Wait(0.2, c_timeGame);
-    }
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_SignatureGenerator_Init () {
-    libTIBW_gt_SignatureGenerator = TriggerCreate("libTIBW_gt_SignatureGenerator_Func");
-    TriggerAddEventUnitCreated(libTIBW_gt_SignatureGenerator, null, "NodSignatureGenerator", null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Reckoner Siege
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ReckonerSiege_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    UnitAbilityChangeLink(EventUnit(), "NodReckonerTransport", "NodReckonerSiegedTransport");
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ReckonerSiege_Init () {
-    libTIBW_gt_ReckonerSiege = TriggerCreate("libTIBW_gt_ReckonerSiege_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_ReckonerSiege, null, AbilityCommand("NodReckonerUnpack", 0), c_unitAbilStageComplete, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3776,26 +3600,6 @@ bool libTIBW_gt_SupportUnitSelection_Func (bool testConds, bool runActions) {
 void libTIBW_gt_SupportUnitSelection_Init () {
     libTIBW_gt_SupportUnitSelection = TriggerCreate("libTIBW_gt_SupportUnitSelection_Func");
     TriggerAddEventUnitSelected(libTIBW_gt_SupportUnitSelection, null, c_playerAny, true);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Attacking
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_Attacking_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    UnitBehaviorAdd(EventUnit(), "NodSpecterSieging", EventUnit(), 1);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_Attacking_Init () {
-    libTIBW_gt_Attacking = TriggerCreate("libTIBW_gt_Attacking_Func");
-    TriggerAddEventUnitStartedAttack2(libTIBW_gt_Attacking, null, "NodSpecterWeapon");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4594,6 +4398,225 @@ void libTIBW_gt_MoveCommandOverrideComplete_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Nuke
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Nuke_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    MinimapPing(PlayerGroupAll(), EventPlayerEffectUsedPoint(c_effectLocationTargetPoint), 10.0, Color(100.00, 0.00, 0.00));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Nuke_Init () {
+    libTIBW_gt_Nuke = TriggerCreate("libTIBW_gt_Nuke_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_Nuke, 1, "NodInvertWarheadAttackAB");
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Attach Disruption Pods
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_AttachDisruptionPods_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_pod;
+    string lv_behavior;
+    unit lv_target;
+
+    // Automatic Variable Declarations
+    unitgroup autoC6D70788_g;
+    int autoC6D70788_u;
+    unit autoC6D70788_var;
+
+    // Variable Initialization
+    lv_behavior = EventUnitBehavior();
+    lv_target = EventUnit();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    autoC6D70788_g = UnitGroup("NodDisruptionPod", c_playerAny, RegionCircle(UnitGetPosition(lv_target), 5.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    autoC6D70788_u = UnitGroupCount(autoC6D70788_g, c_unitCountAll);
+    for (;; autoC6D70788_u -= 1) {
+        autoC6D70788_var = UnitGroupUnitFromEnd(autoC6D70788_g, autoC6D70788_u);
+        if (autoC6D70788_var == null) { break; }
+        lv_pod = autoC6D70788_var;
+        if ((UnitHasBehavior2(lv_pod, "NodDisruptionPodAttached") == true)) {
+            continue;
+        }
+
+        libTIBW_gf_AttachUnitModelToUnit(lv_pod, lv_target, "Ref_Overhead", 0.0, 0.0, 0.0, "");
+        break;
+    }
+    while ((UnitHasBehavior2(lv_target, lv_behavior) == true) && (UnitIsAlive(lv_target) == true)) {
+        UnitBehaviorAdd(lv_pod, "NodDisruptionPodAttached", lv_pod, 1);
+        UnitSetPosition(lv_pod, UnitGetPosition(lv_target), false);
+        Wait(0.0625, c_timeGame);
+    }
+    UnitKill(lv_pod);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_AttachDisruptionPods_Init () {
+    libTIBW_gt_AttachDisruptionPods = TriggerCreate("libTIBW_gt_AttachDisruptionPods_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_AttachDisruptionPods, null, "NodDisruptionPodAttachedEnemy", c_unitBehaviorChangeCreate);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_AttachDisruptionPods, null, "NodDisruptionPodAttachedAlly", c_unitBehaviorChangeCreate);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Vertigo Abilities Takeoff
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_VertigoAbilitiesTakeoff_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_airplane;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_airplane = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitHasBehavior2(lv_airplane, "Notifyairportaftertakeofforexplosion") == true))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitIssueOrder(lv_airplane, Order(AbilityCommand("CNCAirportPlanetakingoff", 0)), c_orderQueueAddToFront);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_VertigoAbilitiesTakeoff_Init () {
+    libTIBW_gt_VertigoAbilitiesTakeoff = TriggerCreate("libTIBW_gt_VertigoAbilitiesTakeoff_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("NodRevenantBombUnit", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("NodRevenantBomb", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_VertigoAbilitiesTakeoff, null, AbilityCommand("GDIUpgradesCache", 5), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Salvage Refund
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_SalvageRefund_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_player = UnitGetOwner(EventUnit());
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_player, c_playerPropMinerals) + CeilingI((CatalogFieldValueGetAsInt(c_gameCatalogUnit, UnitGetType(EventUnit()), "CostResource[" + IntToString(0) + "]", lv_player) * 0.75))));
+    PlayerModifyPropertyInt(lv_player, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_player, c_playerPropVespene) + CeilingI((CatalogFieldValueGetAsInt(c_gameCatalogUnit, UnitGetType(EventUnit()), "CostResource[" + IntToString(1) + "]", lv_player) * 0.75))));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_SalvageRefund_Init () {
+    libTIBW_gt_SalvageRefund = TriggerCreate("libTIBW_gt_SalvageRefund_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_SalvageRefund, null, AbilityCommand("CNCStructureSalvageRefund", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Check Units Placement
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_CheckUnitsPlacement_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(EventUnitCreatedUnit()) == "NodMine"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((PointPathingPassable(UnitGetPosition(EventUnitCreatedUnit())) == false)) {
+        UnitKill(EventUnitCreatedUnit());
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_CheckUnitsPlacement_Init () {
+    libTIBW_gt_CheckUnitsPlacement = TriggerCreate("libTIBW_gt_CheckUnitsPlacement_Func");
+    TriggerAddEventUnitCreated(libTIBW_gt_CheckUnitsPlacement, null, "NodMineDrop", null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Signature Generator
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_SignatureGenerator_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_signature;
+    unit lv_unit;
+    fixed lv_dx;
+    fixed lv_dy;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_signature = EventUnitCreatedUnit();
+    lv_unit = EventUnit();
+    lv_dx = (PointGetX(UnitGetPosition(lv_signature)) - PointGetX(UnitGetPosition(lv_unit)));
+    lv_dy = (PointGetY(UnitGetPosition(lv_signature)) - PointGetY(UnitGetPosition(lv_unit)));
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    while ((UnitIsAlive(lv_unit) == true) && (UnitIsAlive(lv_signature) == true)) {
+        UnitIssueOrder(lv_signature, OrderTargetingPoint(AbilityCommand("move", 0), Point((PointGetX(UnitGetPosition(lv_unit)) + lv_dx), (PointGetY(UnitGetPosition(lv_unit)) + lv_dy))), c_orderQueueReplace);
+        Wait(0.2, c_timeGame);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_SignatureGenerator_Init () {
+    libTIBW_gt_SignatureGenerator = TriggerCreate("libTIBW_gt_SignatureGenerator_Func");
+    TriggerAddEventUnitCreated(libTIBW_gt_SignatureGenerator, null, "NodSignatureGenerator", null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Reckoner Siege
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ReckonerSiege_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitAbilityChangeLink(EventUnit(), "NodReckonerTransport", "NodReckonerSiegedTransport");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ReckonerSiege_Init () {
+    libTIBW_gt_ReckonerSiege = TriggerCreate("libTIBW_gt_ReckonerSiege_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_ReckonerSiege, null, AbilityCommand("NodReckonerUnpack", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Borrowed bomber custom return trajectory
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_Borrowedbombercustomreturntrajectory_Func (bool testConds, bool runActions) {
@@ -4987,6 +5010,67 @@ void libTIBW_gt__GDIDropPod_Init () {
     TriggerEnable(libTIBW_gt__GDIDropPod, false);
 }
 
+//--------------------------------------------------------------------------------------------------
+// Trigger: Test
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    playergroup autoC0198CC5_g;
+    int autoC0198CC5_var;
+    playergroup autoB12AAF8F_g;
+    int autoB12AAF8F_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    PlayerOptionOverride(1, "simplecommandcard", "0");
+    PlayerSetRace(2, "Terr");
+    PlayerSetDifficulty(2, 7);
+    TriggerExecute(libCNCC_gt_ProductionUI, true, false);
+    GameSetSpeedValue(c_gameSpeedFaster);
+    PlayerSetRace(1, "Nod");
+    TriggerExecute(libCNCC_gt_InitBeaconsButton, true, false);
+    autoC0198CC5_g = PlayerGroupAll();
+    autoC0198CC5_var = -1;
+    while (true) {
+        autoC0198CC5_var = PlayerGroupNextPlayer(autoC0198CC5_g, autoC0198CC5_var);
+        if (autoC0198CC5_var < 0) { break; }
+        if ((PlayerRace(autoC0198CC5_var) == "Nod")) {
+            TechTreeUpgradeAddLevel(autoC0198CC5_var, "NodAdvisor", 1);
+            UISetFrameVisible(PlayerGroupSingle(autoC0198CC5_var), c_syncFrameTypeConsolePanel, false);
+            DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
+            DialogControlSendAnimationEvent(DialogControlLastCreated(), PlayerGroupSingle(autoC0198CC5_var), "SlimUI_On");
+        }
+
+    }
+    TriggerEnable(libTIBW_gt_Borrowedbombercustomreturntrajectory, true);
+    TriggerEnable(libTIBW_gt_BorrowedbombercreationbindingStarchainTest, true);
+    TriggerEnable(libTIBW_gt_LaunchairstrikeStarchainTest, true);
+    Wait(1.0, c_timeGame);
+    DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
+    autoB12AAF8F_g = PlayerGroupAll();
+    autoB12AAF8F_var = -1;
+    while (true) {
+        autoB12AAF8F_var = PlayerGroupNextPlayer(autoB12AAF8F_g, autoB12AAF8F_var);
+        if (autoB12AAF8F_var < 0) { break; }
+        if ((PlayerRace(autoB12AAF8F_var) == "Nod")) {
+            PlayerOptionOverride(autoB12AAF8F_var, "simplecommandcard", "0");
+            DialogControlSendAnimationEvent(DialogControlLastCreated(), PlayerGroupSingle(autoB12AAF8F_var), "SlimUI_On");
+        }
+
+    }
+    TriggerSendEvent("GAME START Nod");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Test_Init () {
+    libTIBW_gt_Test = TriggerCreate("libTIBW_gt_Test_Func");
+    TriggerAddEventMapInit(libTIBW_gt_Test);
+}
+
 void libTIBW_InitTriggers () {
     libTIBW_gt_Maintenancebeeheightadjustment_Init();
     libTIBW_gt_Maintenancebeeheightrestored_Init();
@@ -5009,8 +5093,6 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_Pioneermobileresetcd_Init();
     libTIBW_gt_VanguardAttackSurround_Init();
     libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped_Init();
-    libTIBW_gt_Test_Init();
-    libTIBW_gt_PlayNod_Init();
     libTIBW_gt_CNCStructureSalvageRefund_Init();
     libTIBW_gt_ConstructionStarted_Init();
     libTIBW_gt_ConstructionCompleted_Init();
@@ -5023,23 +5105,18 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_TrainingStarted_Init();
     libTIBW_gt_TrainingCompleted_Init();
     libTIBW_gt_TrainingCanceled_Init();
+    libTIBW_gt_NewRallyPoint_Init();
     libTIBW_gt_AllyDefeated_Init();
     libTIBW_gt_UnitComplete_Init();
     libTIBW_gt_UnitAttacked_Init();
-    libTIBW_gt_Nuke_Init();
     libTIBW_gt_PowerUsersManagement_Init();
+    libTIBW_gt_PowerDummyInitScion_Init();
     libTIBW_gt_EnergyCalculation_Init();
     libTIBW_gt_ShadowGlide_Init();
     libTIBW_gt_ShadowLanding_Init();
-    libTIBW_gt_AttachDisruptionPods_Init();
     libTIBW_gt_NodDecoyArmyTargeting_Init();
     libTIBW_gt_NodDecoyArmyExecute_Init();
     libTIBW_gt_NodDecoyArmyExecuteCancel_Init();
-    libTIBW_gt_VertigoAbilitiesTakeoff_Init();
-    libTIBW_gt_SalvageRefund_Init();
-    libTIBW_gt_CheckUnitsPlacement_Init();
-    libTIBW_gt_SignatureGenerator_Init();
-    libTIBW_gt_ReckonerSiege_Init();
     libTIBW_gt_UntitledTrigger001_Init();
     libTIBW_gt_UntitledTrigger003_Init();
     libTIBW_gt_UntitledTrigger002_Init();
@@ -5054,7 +5131,6 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_ChooseConjoinedSupportModule_Init();
     libTIBW_gt_CYUnitSelection_Init();
     libTIBW_gt_SupportUnitSelection_Init();
-    libTIBW_gt_Attacking_Init();
     libTIBW_gt_CarryMinerals_Init();
     libTIBW_gt_CarryHYMinerals_Init();
     libTIBW_gt_CarryTiberiumMinerals_Init();
@@ -5068,6 +5144,13 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_MoveCommandOverrideExecute_Init();
     libTIBW_gt_MoveCommandOverrideCancel_Init();
     libTIBW_gt_MoveCommandOverrideComplete_Init();
+    libTIBW_gt_Nuke_Init();
+    libTIBW_gt_AttachDisruptionPods_Init();
+    libTIBW_gt_VertigoAbilitiesTakeoff_Init();
+    libTIBW_gt_SalvageRefund_Init();
+    libTIBW_gt_CheckUnitsPlacement_Init();
+    libTIBW_gt_SignatureGenerator_Init();
+    libTIBW_gt_ReckonerSiege_Init();
     libTIBW_gt_Borrowedbombercustomreturntrajectory_Init();
     libTIBW_gt_BorrowedbombercreationbindingStarchainTest_Init();
     libTIBW_gt_LaunchairstrikeStarchainTest_Init();
@@ -5078,6 +5161,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_MCVredeployStarchainTest_Init();
     libTIBW_gt__NodDropPodStarchainTest_Init();
     libTIBW_gt__GDIDropPod_Init();
+    libTIBW_gt_Test_Init();
 }
 
 //--------------------------------------------------------------------------------------------------

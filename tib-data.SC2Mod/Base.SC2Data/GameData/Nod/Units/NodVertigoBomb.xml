@@ -203,7 +203,7 @@
         <DamageMap index="Shield" Sound="JupiterAttackDamageShield" ModelReaction="JupiterAttackDamageReactionShield"/>
         <ShieldFlashType value="None"/>
     </CActorAction>
-    <CActorRange id="NodRevenantBombRange" parent="RangeAbilStandard" abil="NodRevenantBomb">
+    <CActorRange id="NodRevenantBombRange" parent="CnCRangeAbilStandard" abil="NodRevenantBomb">
         <On Terms="Abil.NodRevenantBombUnit.TargetOn" Send="Create"/>
         <On Terms="Abil.NodRevenantBombUnit.TargetOff" Send="Destroy"/>
         <On Terms="Abil.NodRevenantBombUnit.ButtonHoverOn" Send="Create"/>
@@ -661,8 +661,9 @@
     </CMoverMissile>
 
 
-    <CActorModel id="NodTiberiumVapourBombImpactCharge" parent="ModelAnimationStyleOneShotEffect" Effect="NodTiberiumVapourBombImpactCP">
+    <CActorModel id="NodTiberiumVapourBombImpactCharge" parent="ModelAnimationStyleOneShot" Effect="NodTiberiumVapourBombImpactCP">
         <Aliases value="_Scalable"/>
+        <On Terms="Effect.NodTiberiumVapourBombImpactCP.Start" Send="Create"/>
         <On Terms="ActorCreation" Send="SetTintColor 90,255,90"/>
         <On index="0" Send="AnimBracketStart BSD Birth Stand Death"/>
         <On Terms="Effect.NodTiberiumVapourBombImpactCP.Stop" Send="AnimBracketStop BSD"/>
@@ -682,7 +683,7 @@
         <ScaleMax value="3.000000,3.000000,3.000000"/>
         <ScaleMin value="3.000000,3.000000,3.000000"/>
     </CModel>
-    <CActorRange id="NodTiberiumVapourBombRange" parent="RangeAbilStandard" abil="NodTiberiumVapourBomb"/>
+    <CActorRange id="NodTiberiumVapourBombRange" parent="CnCRangeAbilStandard" abil="NodTiberiumVapourBomb"/>
 
 
 
@@ -757,8 +758,12 @@
         <Modification MoveSpeedMultiplier="0.5"/>
     </CBehaviorBuff>
 
-
-    <CEffectDamage id="NodTiberiumVapourBombFinalDamage" parent="ScionDamage" Race="Keiron">
+    <CEffectDamage id="NodTiberiumVapourBombFinalDamage" >
+        <Flags index="Notification" value="1"/>
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <SearchFilters value="-;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <ExcludeArray Value="Target"/>
         <ResponseFlags index="Acquire" value="0"/>
         <ResponseFlags index="Flee" value="0"/>
         <Flags index="Notification" value="0"/>
@@ -812,7 +817,8 @@
         <ScaleMax value="1.0,1.0,1.0"/>
         <ScaleMin value="1.0,1.0,1.0"/>
     </CModel>
-    <CActorModel id="NodTiberiumVapourBombFinal" parent="ModelAnimationStyleOneShotEffect" Effect="NodTiberiumVapourBombFinal">
+    <CActorModel id="NodTiberiumVapourBombFinal" parent="ModelAnimationStyleOneShot" Effect="NodTiberiumVapourBombFinal">
+        <On Terms="Effect.NodTiberiumVapourBombFinal.Start" Send="Create"/>
         <Aliases value="_Scalable"/>
         <On Terms="ActorCreation" Send="SetTintColor 90,255,90"/>
         <On index="3" Terms="Effect.NodTiberiumVapourBombFinal.Start; At Effect" Send="Create"/>
@@ -951,69 +957,5 @@
         <EditorCategories value="Race:Nod"/>
     </CModel>
 
-<!-- ================ -->
-
-    <CEffectEnumArea id="MarkOfKaneSearchArea">
-        <EditorCategories value="Race:Nod"/>
-        <SearchFilters value="-;Neutral,Enemy,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="10" Effect="MarkOfKane"/>
-    </CEffectEnumArea>
-    <CEffectApplyBehavior id="MarkOfKane"/>
-    <CAbilEffectTarget id="MarkOfKane">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Effect index="0" value="MarkOfKaneset"/>
-        <Cost>
-            <Resource index="Minerals" value="150"/>
-            <Cooldown Location="Global" TimeUse="180"/>
-        </Cost>
-        <Range value="500"/>
-        <Arc value="360"/>
-        <CursorEffect value="MarkOfKaneSearchArea"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="MarkOfKane" Requirements="HaveNodTechPlant"/>
-    </CAbilEffectTarget>
-    <CModel id="MarkOfKane" parent="Glaze">
-        <Model value="Assets\Effects\Glaze\Glaze_Purifier_Zealot_Resurrection_Alarm\Glaze_Purifier_Zealot_Resurrection_Alarm.m3"/>
-        <Priority value="32"/>
-        <EditorCategories value="Race:Nod"/>
-    </CModel>
-    <CEffectApplyBehavior id="MarkOfKaneSPAB">
-        <ValidatorArray index="0" removed="1"/>
-        <Behavior value="MarkOfKaneSP"/>
-        <EditorCategories value="Race:Nod"/>
-    </CEffectApplyBehavior>
-    <CEffectEnumArea id="MarkOfKaneSPSearch">
-        <EditorCategories value="Race:Nod"/>
-        <ImpactLocation Value="TargetPoint"/>
-        <SearchFilters value="-;Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="10" Effect="MarkOfKaneSPAB"/>
-    </CEffectEnumArea>
-    <CEffectSet id="MarkOfKaneset">
-        <EditorCategories value="Race:Nod"/>
-        <EffectArray value="MarkOfKaneSPSearch"/>
-        <EffectArray value="MarkOfKaneSearchArea"/>
-        <TargetLocationType value="Point"/>
-    </CEffectSet>
-    <CBehaviorBuff id="MarkOfKane">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\icons\InfusionEngineUpgrade.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <Duration value="30"/>
-        <Modification AttackSpeedMultiplier="1.5"/>
-    </CBehaviorBuff>
-    <CActorSound id="MarkOfKaneSound" parent="SoundOneShot">
-        <On Terms="Effect.MarkOfKaneSearchArea.Start" Send="Create"/>
-        <Sound value="NodVisionSound"/>
-    </CActorSound>
-    <CActorSplat id="MarkOfKaneCursorSplat" parent="ProtossCursorSplat" abil="PsiStorm">
-        <On index="0" Terms="Abil.MarkOfKane.Cursor" Send="Create"/>
-        <Model value="NodAOECursorSplat"/>
-    </CActorSplat>
-    <CActorModelMaterial id="MarkOfKane" parent="GlazeParent">
-        <On Terms="Behavior.MarkOfKane.On" Send="Create"/>
-        <On Terms="Behavior.MarkOfKane.Off" Send="Destroy"/>
-        <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Main"/>
-        <ModelFlags index="AutomateGlobalLoops" value="1"/>
-    </CActorModelMaterial>
-    <CButton id="MarkOfKane" parent="CABAL" icon="InfusionEngineUpgrade"/>
 
 </Catalog>
