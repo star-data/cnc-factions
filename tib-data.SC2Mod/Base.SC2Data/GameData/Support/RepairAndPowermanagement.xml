@@ -254,7 +254,7 @@
         <PeriodicEffect value="NodRepair"/>
         <!--        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>-->
         <RemoveValidatorArray value="TargetLifeNotFull"/>
-        <RemoveValidatorArray value="CnCRepairOutOfResources"/>
+        <RemoveValidatorArray value="CNCRepairOutOfResources"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodRepairController">
         <InfoFlags index="Hidden" value="1"/>
@@ -286,18 +286,18 @@
         <On Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
         <On Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
         <On Terms="ActorCreation" Target="_Unit" Send="SetTintColor {128,128,128 0.500000} 0.500000 OneShot SeekerTarget"/>
-        <On Terms="Behavior.CnCPowerLow.On" Send="Create"/>
-        <On Terms="Behavior.CnCPowerLow.Off" Send="Destroy"/>
-        <On Terms="Behavior.CnCPowerLow.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.CNCPowerLow.On" Send="Create"/>
+        <On Terms="Behavior.CNCPowerLow.Off" Send="Destroy"/>
+        <On Terms="Behavior.CNCPowerLow.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
     </CActorSimple>
-    <CActorModel id="CnCCnCPowerLowSign" parent="ModelAnimationStyleContinuous">
-        <On Terms="Behavior.CnCPowerLow.On" Send="Create"/>
-        <On Terms="Behavior.CnCPowerLow.Off" Send="Destroy"/>
+    <CActorModel id="CNCCNCPowerLowSign" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.CNCPowerLow.On" Send="Create"/>
+        <On Terms="Behavior.CNCPowerLow.Off" Send="Destroy"/>
         <Host Subject="_Unit"/>
         <HostSiteOps Ops="SOpAttachOverhead"/>
         <Scale value="2.000000"/>
     </CActorModel>
-    <CActorModel id="CnCRepairSign" parent="ModelAnimationStyleContinuous">
+    <CActorModel id="CNCRepairSign" parent="ModelAnimationStyleContinuous">
         <On Terms="Behavior.NodRepair.On" Send="Create"/>
         <On Terms="Behavior.NodRepair.Off" Send="Destroy"/>
 <!--        <On Terms="Effect.Repair22.TargetStart; At Target" Send="Create"/>-->
@@ -306,33 +306,33 @@
         <HostSiteOps Ops="SOpAttachOverhead"/>
         <Scale value="2.000000"/>
     </CActorModel>
-    <CActorSound id="CnCCnCPowerLow" parent="SoundOneShot">
+    <CActorSound id="CNCCNCPowerLow" parent="SoundOneShot">
         <FogVisibility value="Visible"/>
-<!--        <On Terms="Behavior.CnCPowerLow22.On" Send="Create"/>-->
-<!--        <On Terms="Behavior.CnCPowerLow22.Off" Send="Destroy"/>-->
-        <Sound value="CnCCnCPowerLow"/>
+<!--        <On Terms="Behavior.CNCPowerLow22.On" Send="Create"/>-->
+<!--        <On Terms="Behavior.CNCPowerLow22.Off" Send="Destroy"/>-->
+        <Sound value="CNCCNCPowerLow"/>
     </CActorSound>
-    <CActorSound id="CnCPowerRestore" parent="SoundOneShot">
+    <CActorSound id="CNCPowerRestore" parent="SoundOneShot">
         <FogVisibility value="Visible"/>
-        <On Terms="Behavior.CnCPowerLow.Off" Send="Create"/>
-        <Sound value="CnCPowerRestore"/>
+        <On Terms="Behavior.CNCPowerLow.Off" Send="Create"/>
+        <Sound value="CNCPowerRestore"/>
     </CActorSound>
-    <CActorSound id="CnCCnCPowerLowOthers" parent="SoundOneShot">
+    <CActorSound id="CNCCNCPowerLowOthers" parent="SoundOneShot">
         <Filter index="Ally" value="1"/>
         <Filter index="Neutral" value="1"/>
         <Filter index="Enemy" value="1"/>
         <FogVisibility value="Visible"/>
-        <On Terms="Behavior.CnCPowerLow.On" Send="Create"/>
-        <On Terms="Behavior.CnCPowerLow.Off" Send="Destroy"/>
-        <Sound value="CnCCnCPowerLowOthers"/>
+        <On Terms="Behavior.CNCPowerLow.On" Send="Create"/>
+        <On Terms="Behavior.CNCPowerLow.Off" Send="Destroy"/>
+        <Sound value="CNCCNCPowerLowOthers"/>
     </CActorSound>
-    <CModel id="CnCRepairSign">
+    <CModel id="CNCRepairSign">
         <Model value="Assets\Models\RepairBUFF.m3"/>
     </CModel>
-    <CModel id="CnCCnCPowerLowSign">
+    <CModel id="CNCCNCPowerLowSign">
         <Model value="assets\models\LowPowerBUFF.m3"/>
     </CModel>
-    <CSound id="CnCCnCPowerLow" parent="Spell">
+    <CSound id="CNCCNCPowerLow" parent="Spell">
         <EditorCategories value="Race:Terran"/>
         <AssetArray File="Assets\sounds\low-power-sound-effect.ogg" FacialGroup=""/>
         <DupeMaximumMethod value="Replace"/>
@@ -340,7 +340,7 @@
         <Mode value="2D"/>
         <Spread value="180.000000"/>
     </CSound>
-    <CSound id="CnCPowerRestore" parent="Spell">
+    <CSound id="CNCPowerRestore" parent="Spell">
         <EditorCategories value="Race:Terran"/>
         <AssetArray File="Assets\sounds\power-restoration-sound-effects.ogg" FacialGroup=""/>
         <DupeMaximumMethod value="Replace"/>
@@ -348,7 +348,7 @@
         <Mode value="2D"/>
         <Spread value="180.000000"/>
     </CSound>
-    <CSound id="CnCCnCPowerLowOthers" parent="Alert">
+    <CSound id="CNCCNCPowerLowOthers" parent="Alert">
         <AssetArray File="Assets\sounds\allied-adjutant:-low-battery.ogg" FacialGroup=""/>
         <DupeHistoryCount value="1"/>
         <DupeRepeatCount value="1"/>
@@ -360,20 +360,20 @@
 
 
 
-    <CValidatorCombine id="CnCRepairOutOfResources">
+    <CValidatorCombine id="CNCRepairOutOfResources">
         <Type value="Or"/>
-        <CombineArray value="CnCRepairOutOfMinerals"/>
-        <CombineArray value="CnCRepairOutOfVespene"/>
+        <CombineArray value="CNCRepairOutOfMinerals"/>
+        <CombineArray value="CNCRepairOutOfVespene"/>
     </CValidatorCombine>
-    <CValidatorCombine id="CnCRepairOutOfMinerals">
+    <CValidatorCombine id="CNCRepairOutOfMinerals">
         <Type value="And"/>
         <CombineArray value="TargetCostsMinerals"/>
-        <CombineArray value="CnCOutOfMinerals"/>
+        <CombineArray value="CNCOutOfMinerals"/>
     </CValidatorCombine>
-    <CValidatorCombine id="CnCRepairOutOfVespene">
+    <CValidatorCombine id="CNCRepairOutOfVespene">
         <Type value="And"/>
         <CombineArray value="TargetCostsVespene"/>
-        <CombineArray value="CnCOutOfVespene"/>
+        <CombineArray value="CNCOutOfVespene"/>
     </CValidatorCombine>
 
     <CValidatorUnitCompareField id="TargetCostsMinerals">
@@ -389,12 +389,12 @@
         <Value value="1"/>
     </CValidatorUnitCompareField>
 
-    <CValidatorPlayerCompareResource id="CnCOutOfMinerals">
+    <CValidatorPlayerCompareResource id="CNCOutOfMinerals">
         <Compare value="LT"/>
         <Resource value="Minerals"/>
         <Value value="1"/>
     </CValidatorPlayerCompareResource>
-    <CValidatorPlayerCompareResource id="CnCOutOfVespene">
+    <CValidatorPlayerCompareResource id="CNCOutOfVespene">
         <Compare value="LT"/>
         <Resource value="Vespene"/>
         <Value value="1"/>

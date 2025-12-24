@@ -79,10 +79,6 @@ const int libTIBW_gv_platformMaxCountRoyalGuardExperienceGainingUnitGroupReturne
 
 // Variable Declarations
 timer[17][201] libTIBW_gv_announcerTimers;
-unit[17] libTIBW_gv_sCION_POWERDUMMIES;
-unitgroup[16] libTIBW_gv_powerUsers;
-unitgroup[16] libTIBW_gv_markTarget;
-unitgroup[16] libTIBW_gv_decoyCaster;
 int libTIBW_gv_platformNowCountRoyalGuardExperienceGainingUnitGroupReturnedworkunitgroupPickedupweaponsetWeaponPickupUnitGroupStarChargeLevel;
 int libTIBW_gv_bomberUsable;
 unitgroup[libTIBW_gv_platformMaxCountRoyalGuardExperienceGainingUnitGroupReturnedworkunitgroupPickedupweaponsetWeaponPickupUnitGroupStarChargeLevel + 1] libTIBW_gv_bomberPFUnitsGroupRoyalGuardExperienceGainingUnitGroupReturnedworkunitgroupPickedupweaponsetWeaponPickupUnitGroupStarChargeLevel;
@@ -101,8 +97,13 @@ unit libTIBW_gv_mCVCasterRoyalGuardExperienceGainingUnitGroupReturnedworkunitgro
 point libTIBW_gv_cNC_TP_DropPod_LocationRoyalGuardExperienceGainingUnitGroupReturnedworkunitgroupPickedupweaponsetWeaponPickupUnitGroupStarChargeLevel;
 unitgroup libTIBW_gv_cNC_TP_DropPod_Units;
 int libTIBW_gv_playerIntegerRoyalGuardExperienceGainingUnitGroupReturnedworkunitgroupPickedupweaponsetWeaponPickupUnitGroupStarChargeLevel;
+unit[17] libTIBW_gv_sCION_POWERDUMMIES;
+unitgroup[16] libTIBW_gv_powerUsers;
+unitgroup[16] libTIBW_gv_markTarget;
+unitgroup[16] libTIBW_gv_decoyCaster;
 
 // Function Declarations
+void libTIBW_gf_TiberiumSpawn (point lp_point, int lp_amount);
 void libTIBW_gf_AttachUnitModelToUnit (unit lp_attachmentUnit, unit lp_targetUnit, string lp_attachPont2, fixed lp_xOffset, fixed lp_yOffset, fixed lp_zOffset, string lp_facingAdjustment);
 void libTIBW_gf_Theplanetakesoff (unit lp_airplane);
 void libTIBW_gf_SearchForAirportandLockit (unit lp_airplane, unit lp_searchTarget, int lp_radius, bool lp_skipOccupied);
@@ -127,20 +128,18 @@ point libTIBW_gf_Circleacquisitionpointotherlargebombers (unit lp_attackingunit,
 void libTIBW_gf_ApplyPlayerVoicePack (int lp_player, string lp_voiceID);
 bool libTIBW_gf_UnitUnlocksTech (unit lp_unit);
 void libTIBW_gf_PlayAnnounceSound (int lp_type, int lp_player);
-bool libTIBW_gf_UnitHasConjoinedModule (unit lp_unit);
-bool libTIBW_gf_UnitIsConjoinedModule (unit lp_unit);
-unit libTIBW_gf_Getconjoinedunit (unit lp_unit);
-int libTIBW_gf_GetunitHarvestingStage (unit lp_unit);
 void libTIBW_gf_NodAirRaid (unit lp_unit, region lp_area);
 void libTIBW_gf_ShowhideNodtoppanel (bool lp_showHide, int lp_player);
 void libTIBW_gf_Showhidetoppanel (bool lp_showHide);
 void libTIBW_gf__NodDropPod (point lp_location, unitgroup lp_units, int lp_player);
 void libTIBW_gf__GDIDropPod (point lp_location, unitgroup lp_units, int lp_player);
 void libTIBW_gf_CreateDropPod (int lp_race, point lp_location, unitgroup lp_units, bool lp_waitDontWait, int lp_playerinteger);
+bool libTIBW_gf_UnitHasConjoinedModule (unit lp_unit);
+bool libTIBW_gf_UnitIsConjoinedModule (unit lp_unit);
+unit libTIBW_gf_Getconjoinedunit (unit lp_unit);
+int libTIBW_gf_GetunitHarvestingStage (unit lp_unit);
 
 // Trigger Declarations
-trigger libTIBW_gt_Maintenancebeeheightadjustment;
-trigger libTIBW_gt_Maintenancebeeheightrestored;
 trigger libTIBW_gt_AIRSUPPORTCREATED;
 trigger libTIBW_gt_AIRPODCREATED;
 trigger libTIBW_gt_AIRPORTSMapINIT;
@@ -160,6 +159,8 @@ trigger libTIBW_gt_ABILITYRETURNTOAIRPORTTARGET;
 trigger libTIBW_gt_Pioneermobileresetcd;
 trigger libTIBW_gt_VanguardAttackSurround;
 trigger libTIBW_gt_CIRCLEAlliedfighterplanesautomaticallycirclewhenstopped;
+trigger libTIBW_gt_Maintenancebeeheightadjustment;
+trigger libTIBW_gt_Maintenancebeeheightrestored;
 trigger libTIBW_gt_CNCStructureSalvageRefund;
 trigger libTIBW_gt_ConstructionStarted;
 trigger libTIBW_gt_ConstructionCompleted;
@@ -176,6 +177,16 @@ trigger libTIBW_gt_NewRallyPoint;
 trigger libTIBW_gt_AllyDefeated;
 trigger libTIBW_gt_UnitComplete;
 trigger libTIBW_gt_UnitAttacked;
+trigger libTIBW_gt_Borrowedbombercustomreturntrajectory;
+trigger libTIBW_gt_BorrowedbombercreationbindingStarchainTest;
+trigger libTIBW_gt_LaunchairstrikeStarchainTest;
+trigger libTIBW_gt_NodTopPanelStarchainTest;
+trigger libTIBW_gt_MCVDeployPanelStarchainTest;
+trigger libTIBW_gt_DeploymentdetectionStarchainTest;
+trigger libTIBW_gt_DisableotherMCVsStarchainTest;
+trigger libTIBW_gt_MCVredeployStarchainTest;
+trigger libTIBW_gt__NodDropPodStarchainTest;
+trigger libTIBW_gt__GDIDropPod;
 trigger libTIBW_gt_PowerUsersManagement;
 trigger libTIBW_gt_PowerDummyInitScion;
 trigger libTIBW_gt_EnergyCalculation;
@@ -211,23 +222,14 @@ trigger libTIBW_gt_NodBeamCannonWeaponDelay;
 trigger libTIBW_gt_MoveCommandOverrideExecute;
 trigger libTIBW_gt_MoveCommandOverrideCancel;
 trigger libTIBW_gt_MoveCommandOverrideComplete;
+trigger libTIBW_gt_SeedTiberium;
 trigger libTIBW_gt_Nuke;
 trigger libTIBW_gt_AttachDisruptionPods;
 trigger libTIBW_gt_VertigoAbilitiesTakeoff;
 trigger libTIBW_gt_SalvageRefund;
-trigger libTIBW_gt_CheckUnitsPlacement;
+trigger libTIBW_gt_MineDrop;
 trigger libTIBW_gt_SignatureGenerator;
 trigger libTIBW_gt_ReckonerSiege;
-trigger libTIBW_gt_Borrowedbombercustomreturntrajectory;
-trigger libTIBW_gt_BorrowedbombercreationbindingStarchainTest;
-trigger libTIBW_gt_LaunchairstrikeStarchainTest;
-trigger libTIBW_gt_NodTopPanelStarchainTest;
-trigger libTIBW_gt_MCVDeployPanelStarchainTest;
-trigger libTIBW_gt_DeploymentdetectionStarchainTest;
-trigger libTIBW_gt_DisableotherMCVsStarchainTest;
-trigger libTIBW_gt_MCVredeployStarchainTest;
-trigger libTIBW_gt__NodDropPodStarchainTest;
-trigger libTIBW_gt__GDIDropPod;
 trigger libTIBW_gt_Test;
 
 // Library Initialization

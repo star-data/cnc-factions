@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
-
-
-    <CActorRange default="1" id="CnCRangeAbilStandard" parent="RangeAbil">
-        <Icon value="Assets\Textures\RadarIcon2.dds"/>
-        <IconArcLength value="3.250000"/>
-    </CActorRange>
-
-
+    <CActorModel id="CNCRumble" parent="ModelAddition">
+        <Model value="NydusRumble"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="UnitConstruction.*.Finish" Send="Destroy"/>
+    </CActorModel>
 
     <CActorUnit default="1" id="NodBuilding" parent="GenericUnitStandard">
         <?token id="unitName" type="CUnitLink" value="##id##"?>
@@ -21,12 +18,13 @@
         <CreepRateGrow value="Grow"/>
         <CreepRateShrink value="Shrink"/>
         <Macros value="QueueAnim"/>
-        <Macros value="CnCUnpoweredAnim"/>
+        <Macros value="CNCUnpoweredAnim"/>
+<!--RUMBLE UNURROW-->
         <On Terms="UnitConstruction.##unitName##.Start" Send="AnimPlay Standup Unburrow"/>
-        <On Terms="UnitConstruction.##unitName##.Start" Send="Create CNCRumble"/>
-
+<!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create CNCRumble"/>-->
+<!--DROPPOD-->
 <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create NodConstructionDropPod"/>-->
-        <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create ##unitName##Build"/>-->
+<!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create ##unitName##Build"/>-->
 <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="AnimPlay Unburrow Unburrow"/>-->
 <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create NodDropPodDamage"/>-->
         <On Terms="UnitConstruction.##unitName##.Start" Send="Create BuildingTerrainFlatten"/>
@@ -215,7 +213,7 @@
         <AcceptedHostedPropTransfers index="BaseModelScale" value="0"/>
     </CActorBeamSimple>
 
-    <CActorModel id="GhostEMPAttackImpactEffect" parent="ModelAnimationStyleOneShot">
+    <CActorModel id="NodRaiderEMPImpactEffect" parent="ModelAnimationStyleOneShot">
         <Model value="GhostEMPAttackImpactEffect"/>
         <On Terms="Effect.NodRaiderEMP.Start" Send="Create"/>
         <On Terms="Effect.NodRaiderEMP.Stop" Send="AnimBracketStop BSD"/>
@@ -266,16 +264,6 @@
     <!--        <On Terms="Behavior.AwakenEMPStunned.On" Send="SetTintColor {0,0,0 0.400000} 0.300000"/>-->
     <!--        <On Terms="Behavior.AwakenEMPStunned.Off" Send="ClearTintColor 0.100000"/>-->
     <!--    </CActorAction>-->
-    <CActorForceCylinder id="CNCRailgunAttackDeathForce">
-        <Receiver Subject="::Main"/>
-        <Host Subject="_ImpactGuide"/>
-        <HostSiteOps Ops="SOpForwardCasterPoint SOpMoveBy1" HoldPosition="1" HoldRotation="1"/>
-        <HostEnd Subject="_ImpactGuide"/>
-        <HostEndSiteOps Ops="SOpForwardCasterPointInverted SOpMoveBy1" HoldPosition="1" HoldRotation="1"/>
-        <Radius value="1.000000"/>
-        <Magnitude value="33.000000,7.000000"/>
-        <Duration value="0.150000"/>
-    </CActorForceCylinder>
 
     <CActorUnit id="NodBike" icon="bike" parent="NodWheeler">
         <On Terms="ActorCreation; !ValidatePlayer HasNodTiberiumCoreMissiles" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
@@ -512,8 +500,6 @@
         <StatusBarFlags index="Life" value="0"/>
         <StatusBarFlags index="Energy" value="0"/>
     </CActorUnit>
-
-
     <CActorModel id="NodPlaceholderActorModel" parent="PlacementModel">
         <!--        <Model value="NodPowerPlant"/>-->
         <!--        <On Terms="ActorCreation" Send="GlowStart"/>-->
@@ -523,11 +509,6 @@
         <!--        <On Terms="ActorCreation" Send="TextureSelectById HoloMainEmis"/>-->
         <!--        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>-->
         <On Terms="ActorCreation" Send="SetTintColor {233,0,0 10.000000}"/>
-    </CActorModel>
-    <CActorModel id="CNCRumble" parent="ModelAddition">
-        <Model value="NydusRumble"/>
-        <On Terms="ActorOrphan" Send="Destroy"/>
-        <On Terms="UnitConstruction.*.Finish" Send="Destroy"/>
     </CActorModel>
     <CActorUnit id="NodHand" icon="Hand" parent="NodBuilding">
         <DeathArray index="UnderConstruction" ModelLink="TerranLargeBuildingDeath" SoundLink="Barracks_Explode"/>
@@ -540,6 +521,7 @@
     <CActorUnit id="NodPowerPlant" icon="PowerPlant" parent="NodBuilding">
         <Aliases value="_UnitLarge"/>
         <CreepHeightClass value="Small"/>
+<!--        <BuildModel value="NodPowerPlant_Build"/>-->
         <DeathArray index="Normal" SoundLink="SupplyDepot_Explode"/>
         <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="SupplyDepot_Explode"/>
         <PlacementSound value="Terran_BuildingPlacementSmall"/>
@@ -630,12 +612,6 @@
             <Image index="0" value="Assets\Textures\black.dds"/>
         </Wireframe>
     </CActorUnit>
-
-
-
-
-
-
 
     <CActorUnit id="NodMCV_Morph"  parent="NodBuilding" wireframe="NodConstructionYardWireframe" unitName="NodMCV_Morph" icon="ConstructionYard">
         <Baselines index="Stand" AnimProps=""/>
@@ -759,11 +735,6 @@
         <On Terms="AnimBracketState.*.AfterClosing; AnimName BSDb" Send="Destroy"/>
         <Scale value="0.500000"/>
     </CActorBeamSimple>
-
-
-
-
-
 
     <CActorAction id="NodShredderTurretWeaponAttack" parent="GenericAttack" effectAttack="NodShredderTurretWeaponDamage">
         <LaunchAttachQuery Methods="Weapon0102"/>
@@ -1507,9 +1478,9 @@
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
     </CActorModelMaterial>
     <CActorModel id="LiquidTibNodVertigoweapon" parent="ModelAnimationStyleContinuous">
-        <On Terms="Effect.NodVertigoweaponCreatePersistent.Start" Send="Create"/>
-        <On Terms="Effect.NodVertigoweaponCreatePersistent.Stop" Send="AnimBracketStop BSD"/>
-        <Model value="NodVertigoweapon"/>
+        <On Terms="Effect.CABALVertigoBombImpactCP.Start" Send="Create"/>
+        <On Terms="Effect.CABALVertigoBombImpactCP.Stop" Send="AnimBracketStop BSD"/>
+        <Model value="CABALVertigoBombMissile"/>
     </CActorModel>
     <CActorModel id="LiquidTib3" parent="ModelAnimationStyleContinuous">
         <On Terms="Effect.LiquidTibCreatePersistentFlameTank.Start" Send="Create"/>
@@ -1548,9 +1519,9 @@
         <Model value="NodObeliskWeaponAttackBeam"/>
         <Scale value="0.500000"/>
     </CActorBeamSimple>
-    <CActorAction id="NodVertigoweaponAttackLaunch" parent="GenericAttack" effectImpact="CABALLeviathanDamage" effectLaunch="NodVertigoweaponLaunchMissile">
-        <On index="1" Terms="Effect.NodVertigoweaponCreatePersistent.Start; FromEffectTreeDescendant" Send="ActionImpact"/>
-        <On index="2" Terms="Effect.NodVertigoweaponCreatePersistent.Start; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+    <CActorAction id="NodVertigoweaponAttackLaunch" parent="GenericAttack" effectImpact="CABALLeviathanDamage" effectLaunch="CABALVertigoBombLM">
+        <On index="1" Terms="Effect.CABALVertigoBombImpactCP.Start; FromEffectTreeDescendant" Send="ActionImpact"/>
+        <On index="2" Terms="Effect.CABALVertigoBombImpactCP.Start; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
         <LaunchAttachQuery Methods="Weapon 1"/>
         <LaunchAssets Sound="NodVertigoweaponAttackLaunch"/>
         <Missile value="NodVertigoweaponMissile"/>
@@ -1976,7 +1947,7 @@
     </CActorMissile>
     <CActorMissile id="NodSpecterAttackMissileUpgrade" parent="GenericAttackMissile" unitName="CABALSpecterWeaponUpgrade"/>
     <CActorMissile id="VenomAttackMissileup" parent="GenericAttackMissile" unitName="CABALVenomWeaponUMissile"/>
-    <CActorMissile id="NodVertigoweaponMissile" parent="GenericAttackMissile" unitName="NodVertigoweapon">
+    <CActorMissile id="NodVertigoweaponMissile" parent="GenericAttackMissile" unitName="CABALVertigoBombMissile">
         <On Terms="ActorDestruction" Send="Create NodMissileDeath"/>
         <Model value="NodVertigoWeaponMissile"/>
     </CActorMissile>
@@ -2459,13 +2430,13 @@
         <On Terms="ActorCreation" Send="$Stand,B PlayForever 0.000000"/>
     </CActorModel>
     <CActorUnit id="NodHarvester" icon="Harvester" parent="NodVehicle">
-        <On Terms="Abil.NodHarvest.Start" Send="TimerSet 0.000000,0.300000 Gather"/>
-        <On Terms="Abil.NodHarvest.Stop" Send="AnimClear Gather"/>
-        <On Terms="Abil.NodHarvest.Stop" Send="TimerKill Gather"/>
+        <On Terms="Abil.CNCHarvest.Start" Send="TimerSet 0.000000,0.300000 Gather"/>
+        <On Terms="Abil.CNCHarvest.Stop" Send="AnimClear Gather"/>
+        <On Terms="Abil.CNCHarvest.Stop" Send="TimerKill Gather"/>
         <On Terms="AnimDone.*.Complete; AnimName Gather" Send="TimerSet 0.000000,0.300000 Gather"/>
         <On Terms="TimerExpired; TimerName Gather" Send="AnimPlay Gather Work NonLooping"/>
         <On Terms="TimerExpired; TimerName Gather" Send="Create SCVGatherSound"/>
-        <On Terms="Abil.NodHarvest.Start" Send="StatusSet CloakSound 1"/>
+        <On Terms="Abil.CNCHarvest.Start" Send="StatusSet CloakSound 1"/>
         <On Terms="Behavior.CarryHarvestableVespeneGeyserGas.Create" Send="StatusSet CloakSound 1"/>
         <On Terms="Abil.GatherSpecialObject.SourcePrepStart" Send="TimerSet 0.000000,0.300000 Gather"/>
         <On Terms="Abil.GatherSpecialObject.SourceCastStop" Send="AnimClear Gather"/>
@@ -3322,7 +3293,7 @@
         <DeathArray index="Normal" ModelLink="NodRedeemer_Death"/>
         <DeathCustomData Name="RagdollBasic"/>
         <StandAnimTurnTime value="4.5"/>
-        <AbilSoundArray AbilCmd="RedeemerConfusion,Execute" Sound="NodRedeemerSpell"/>
+        <AbilSoundArray AbilCmd="NodRedeemerConfusion,Execute" Sound="NodRedeemerSpell"/>
         <BarOffset value="120"/>
         <SoundArray index="Movement" value="NodRedeemer_Movement"/>
         <AnimBlendTime value="0.500000"/>
@@ -3332,8 +3303,8 @@
         <Scale value="0.600000"/>
     </CActorModel>
     <CActorModel id="RedeemerConfusionModel" parent="ModelAnimationStyleContinuous">
-        <On Terms="Behavior.RedeemerConfusion.On" Send="Create"/>
-        <On Terms="Behavior.RedeemerConfusion.Off" Send="Destroy"/>
+        <On Terms="Behavior.NodRedeemerConfusion.On" Send="Create"/>
+        <On Terms="Behavior.NodRedeemerConfusion.Off" Send="Destroy"/>
         <On Terms="ActorOrphan" Send="Destroy"/>
         <Host Subject="_Selectable"/>
         <HostSiteOps Ops="SOpAttachOverhead"/>
@@ -3877,13 +3848,13 @@
     </CActorBeamSimple>
     <CActorBeamSimple id="NodDistantAttackChargeBeam" parent="BeamSimpleAnimationStyleContinuous">
         <Inherits index="Visibility" value="1"/>
-        <On Terms="Effect.BeamCannonDistantAttackStage1.Stop" Send="Destroy"/>
-        <On Terms="Effect.BeamCannonDistantAttackStage2.Start" Send="Create"/>
-        <On Terms="Effect.BeamCannonDistantAttackStage2.Stop" Send="Destroy"/>
-        <On Terms="Effect.BeamCannonDistantAttackStage3.Start" Send="Create"/>
-        <On Terms="Effect.BeamCannonDistantAttackStage3.Stop" Send="Destroy"/>
-        <On Terms="Effect.BeamCannonDistantAttackStage1PreparingETUSet.Start" Send="Create"/>
-        <On Terms="Effect.BeamCannonDistantAttackStage3Preparing.Start" Send="Create"/>
+        <On Terms="Effect.NodBeamCannonDistantAttackStage1.Stop" Send="Destroy"/>
+        <On Terms="Effect.NodBeamCannonDistantAttackStage2.Start" Send="Create"/>
+        <On Terms="Effect.NodBeamCannonDistantAttackStage2.Stop" Send="Destroy"/>
+        <On Terms="Effect.NodBeamCannonDistantAttackStage3.Start" Send="Create"/>
+        <On Terms="Effect.NodBeamCannonDistantAttackStage3.Stop" Send="Destroy"/>
+        <On Terms="Effect.NodBeamCannonDistantAttackStage1PreparingETUSet.Start" Send="Create"/>
+        <On Terms="Effect.NodBeamCannonDistantAttackStage3Preparing.Start" Send="Create"/>
         <On Terms="Effect.NodBeamCannonWeaponDamage10.Start" Send="ModelSwap BeamWeaponCC3CC3AttackBeam10"/>
         <On Terms="Effect.NodBeamCannonWeaponDamage9.Start" Send="ModelSwap BeamWeaponCC3CC3AttackBeam9"/>
         <On Terms="Effect.NodBeamCannonWeaponDamage8.Start" Send="ModelSwap BeamWeaponCC3CC3AttackBeam8"/>
@@ -3902,28 +3873,26 @@
         <Model value="BeamWeaponCC3CC3AttackBeam"/>
     </CActorBeamSimple>
 
-    <CActorUnit id="NodTiberiumRefineryVest" parent="CnCVest" unitName="NodTiberiumRefineryVest"/>
-    <CActorUnit id="NodHandVest" parent="CnCVest" unitName="NodHandVest"/>
-    <CActorUnit id="NodWarFactoryVest" parent="CnCVest" unitName="NodWarFactoryVest"/>
-    <CActorUnit id="NodPowerPlantVest" parent="CnCVest" unitName="NodPowerPlantVest"/>
-    <CActorUnit id="NodCraneVest" parent="CnCVest" unitName="NodCraneVest"/>
-    <CActorUnit id="NodTiberiumSiloVest" parent="CnCVest" unitName="NodTiberiumSiloVest"/>
-    <CActorUnit id="NodRedeemerFacilityVest" parent="CnCVest" unitName="NodRedeemerFacilityVest"/>
-    <CActorUnit id="NodAirTowerVest" parent="CnCVest" unitName="NodAirTowerVest"/>
-    <CActorUnit id="NodAirSupportVest" parent="CnCVest" unitName="NodAirSupportVest"/>
-    <CActorUnit id="NodChemicalPlantVest" parent="CnCVest" unitName="NodChemicalPlantVest"/>
-    <CActorUnit id="NodTempleVest" parent="CnCVest" unitName="NodTempleVest"/>
-    <CActorUnit id="NodShrineVest" parent="CnCVest" unitName="NodShrineVest"/>
-    <CActorUnit id="NodTechLabVest" parent="CnCVest" unitName="NodTechLabVest"/>
-    <CActorUnit id="NodOperationsCenterVest" parent="CnCVest" unitName="NodOperationsCenterVest"/>
-    <CActorUnit id="NodTurretsHubVest" parent="CnCVest" unitName="NodTurretsHubVest"/>
-    <CActorUnit id="NodVoiceOfKaneVest" parent="CnCVest" unitName="NodVoiceOfKaneVest"/>
-    <CActorUnit id="NodDisruptionTowerVest" parent="CnCVest" unitName="NodDisruptionTowerVest"/>
-    <CActorUnit id="NodObeliskVest" parent="CnCVest" unitName="NodObeliskVest"/>
+    <CActorUnit id="NodTiberiumRefineryVest" parent="CNCVest" unitName="NodTiberiumRefineryVest"/>
+    <CActorUnit id="NodHandVest" parent="CNCVest" unitName="NodHandVest"/>
+    <CActorUnit id="NodWarFactoryVest" parent="CNCVest" unitName="NodWarFactoryVest"/>
+    <CActorUnit id="NodPowerPlantVest" parent="CNCVest" unitName="NodPowerPlantVest"/>
+    <CActorUnit id="NodCraneVest" parent="CNCVest" unitName="NodCraneVest"/>
+    <CActorUnit id="NodTiberiumSiloVest" parent="CNCVest" unitName="NodTiberiumSiloVest"/>
+    <CActorUnit id="NodRedeemerFacilityVest" parent="CNCVest" unitName="NodRedeemerFacilityVest"/>
+    <CActorUnit id="NodAirTowerVest" parent="CNCVest" unitName="NodAirTowerVest"/>
+    <CActorUnit id="NodAirSupportVest" parent="CNCVest" unitName="NodAirSupportVest"/>
+    <CActorUnit id="NodChemicalPlantVest" parent="CNCVest" unitName="NodChemicalPlantVest"/>
+    <CActorUnit id="NodTempleVest" parent="CNCVest" unitName="NodTempleVest"/>
+    <CActorUnit id="NodShrineVest" parent="CNCVest" unitName="NodShrineVest"/>
+    <CActorUnit id="NodTechLabVest" parent="CNCVest" unitName="NodTechLabVest"/>
+    <CActorUnit id="NodOperationsCenterVest" parent="CNCVest" unitName="NodOperationsCenterVest"/>
+    <CActorUnit id="NodTurretsHubVest" parent="CNCVest" unitName="NodTurretsHubVest"/>
+    <CActorUnit id="NodVoiceOfKaneVest" parent="CNCVest" unitName="NodVoiceOfKaneVest"/>
+    <CActorUnit id="NodDisruptionTowerVest" parent="CNCVest" unitName="NodDisruptionTowerVest"/>
+    <CActorUnit id="NodObeliskVest" parent="CNCVest" unitName="NodObeliskVest"/>
 
-
-
-    <CActorEventMacro id="CnCUnpoweredAnim">
+    <CActorEventMacro id="CNCUnpoweredAnim">
         <On Terms="Behavior.NodEnergyProduction.On" Send="SetTintColor 150,150,200 1.000000"/>
         <On Terms="Behavior.NodEnergyProduction.On" Send="SetTintColor 150,150,200 "/>
         <On Terms="Behavior.NodEnergyProduction.Off" Send="SetTintColor 255,255,255 1.000000"/>
@@ -3937,10 +3906,8 @@
 <!--        <On Terms="Behavior.NodProductionBoost.Off" Send="SetTintColor 255,255,255 1.000000"/>-->
     </CActorEventMacro>
 
-
-
     <CActorAction id="NodVertigoWeaponAAAttack" parent="GenericAttack" effectAttack="NodVertigoWeaponAADamage">
-        <!--        <LaunchAttachQuery Methods="AMFilterWeapon01"/>-->
+        <LaunchAttachQuery Methods="Weapon0102"/>
         <LaunchAssets Model="GhostAttackLaunch" Sound="NodRaider_AttackLaunch"/>
         <ContainerAssets Model="MarineAttackLaunch" Sound="NodRaider_AttackLaunch"/>
         <Beam value="NodLightAttackBeam"/>
@@ -3950,8 +3917,6 @@
         <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
         <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>
     </CActorAction>
-
-
     <CActorAction id="NodVenomWeaponAAAttack" parent="GenericAttack" effectAttack="NodVenomWeaponAADamage">
 <!--        <LaunchAttachQuery Methods="AMFilterWeapon01"/>-->
         <LaunchAssets Model="GhostAttackLaunch" Sound="NodRaider_AttackLaunch"/>
@@ -3974,7 +3939,6 @@
         <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
         <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>
     </CActorAction>
-
     <CActorAction id="NodVenomWeaponAAUAttack" parent="GenericAttack" effectAttack="NodVenomWeaponAAUDamage">
         <LaunchAssets Sound="Venomparticlebeam_AttackLaunch"/>
         <BeamScope value="Caster"/>
@@ -3991,7 +3955,6 @@
         <ImpactMap index="None" Model="" Sound="HC_AttackImpact"/>
         <ActionFlags index="ImpactMonitorsTeleports" value="1"/>
     </CActorAction>
-    
     <CActorBeamSimple id="VenomParticleAttackBeam" parent="BeamSimpleAnimationStyleOneShot">
         <Macros value="ActionTargetTeleportDestroy"/>
         <On Terms="ActorCreation" Send="ModelSwap DarkArchonAttackBeam"/>
@@ -3999,9 +3962,6 @@
         <On Terms="AnimBracketState.*.AfterClosing; AnimName BSDb" Send="Destroy"/>
         <Scale value="0.500000"/>
     </CActorBeamSimple>
-
-
-
 
     <CActorUnit id="NodMine" parent="NodUnit" unitName="NodMine" icon="mine">
         <Aliases value="_UnitSmall"/>
@@ -4059,7 +4019,4 @@
         <SoundArray index="ClickError" value=""/>
         <SoundArray index="Highlight" value=""/>
     </CActorUnit>
-
-
-
 </Catalog>

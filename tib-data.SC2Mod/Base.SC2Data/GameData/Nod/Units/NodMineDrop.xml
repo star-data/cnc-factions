@@ -140,4 +140,113 @@
     <CActorSplat id="NodMineDropCursorSplat" parent="TerranCursorSplat" abil="NodMineDrop">
         <Scale value="1.700000"/>
     </CActorSplat>
+
+    <CEffectCreateUnit id="NodCreateMine">
+        <EditorCategories value="Race:Nod"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <CreateFlags index="OffsetByRadius" value="0"/>
+        <CreateFlags index="Placement" value="0"/>
+        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
+        <CreateFlags index="PlacementIgnoreCliffTest" value="1"/>
+        <CreateFlags index="NormalizeSpawnOffset" value="0"/>
+        <SpawnUnit value="NodMine"/>
+    </CEffectCreateUnit>
+
+
+
+    <CAbilEffectTarget id="NodSeedTiberium">
+        <Effect index="0" value="NodSeedTiberiumCP"/>
+        <Cost>
+            <Resource index="Minerals" value="50"/>
+            <Vital index="Energy" value="150"/>
+            <Cooldown Location="Player" TimeUse="180"/>
+        </Cost>
+        <Range value="1"/>
+        <Arc value="360"/>
+        <CursorEffect value="NodSeedTiberiumImpact"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodSeedTiberium" Requirements="NodSeedTiberium"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+    <CEffectCreatePersistent id="NodSeedTiberiumCP">
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="NodSeedTiberiumLM"/>
+        <PeriodicOffsetArray value="0,0,2"/>
+        <PeriodicPeriodArray value="0"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="NodSeedTiberiumLM">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="NodSeedTiberiumImpact"/>
+        <AmmoUnit value="NodSeedTiberiumMissile"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectLaunchMissile>
+
+    <CUnit id="NodSeedTiberiumMissile" parent="MISSILE">
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+        <FlagArray index="Invulnerable" value="1"/>
+    </CUnit>
+    <CMoverMissile id="NodSeedTiberiumMissile">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="8"/>
+            <Speed value="0"/>
+            <MinSpeed value="1"/>
+            <MaxSpeed value="10"/>
+            <ActorTracking value="Actual"/>
+            <RotationLaunchActorType value="LaunchToTarget"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CActorMissile id="NodSeedTiberiumMissile" parent="GenericAttackMissile" unitName="NodSeedTiberiumMissile">
+        <Model value="NodSeedTiberiumMissile"/>
+    </CActorMissile>
+    <CModel id="NodSeedTiberiumMissile" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_Carrier_Coop_Missile\MiraHorner_Carrier_Coop_Missile.m3"/>
+        <Flags index="Wait" value="1"/>
+        <Priority value="32"/>
+        <AnimSpeed value="0.500000"/>
+        <ScaleMax value="1,0.750000,1"/>
+        <ScaleMin value="1,0.750000,1"/>
+    </CModel>
+    <CModel id="NodSeedTiberiumAttackSplat" parent="Splat">
+        <Model value="Assets\UI\Cursors\TerranAOECursor\TerranAOECursor.m3"/>
+        <EditorCategories value="Race:Genetron"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+    </CModel>
+    <CActorAction id="NodSeedTiberiumAttack" parent="GenericAttack" effectImpact="NodSeedTiberiumImpact" effectLaunch="NodSeedTiberiumLM">
+        <LaunchSiteOps Ops="SOpAttachHarness SOpAttachWeapon"/>
+        <LaunchAttachQuery Methods="AMPatternMissileTurret"/>
+        <LaunchAssets Sound="NodVertigoAttackLaunch"/>
+        <Missile value="NodSeedTiberiumMissile"/>
+        <ImpactAttachQuery Methods="AMFilterTarget AMRandomUniform"/>
+        <ImpactMap index="None" Model="RaptorAirImpact1" Sound="RaptorJet_GroundImpactMissile"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+    </CActorAction>
+    <CActorSplat id="NodSeedTiberiumAttackSplat" parent="GuideVisualCircle" unitName="Bogus">
+        <On index="0" Terms="Abil.NodSeedTiberium.Cursor" Send="Create"/>
+        <Model value="NodSeedTiberiumAttackSplat"/>
+    </CActorSplat>
+    <CActorSound id="NodSeedTiberiumImpactAdd">
+        <Sound value="NodSeedTiberiumImpactAdd"/>
+        <FogVisibility value="Visible"/>
+        <On Terms="Effect.NodSeedTiberiumImpact.Start" Send="Create"/>
+    </CActorSound>
+    <CSound id="NodSeedTiberiumImpactAdd" parent="Combat">
+        <EditorCategories value="Race:Genetron"/>
+        <AssetArray File="Assets\Sounds\Explo_Lrg_Distant_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Explo_Lrg_Distant_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Explo_Lrg_Distant_03.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Explo_Lrg_Distant_04.wav" FacialGroup=""/>
+        <Pitch value="-6.000000,-4.000000"/>
+        <Volume value="3.000000,4.000000"/>
+        <VolumeRolloffPoints Distance="10.000000"/>
+        <VolumeRolloffPoints Distance="50.000000" Volume="-96.000000"/>
+    </CSound>
+
+    <CEffectSet id="NodSeedTiberiumImpact"/>
+
+
 </Catalog>

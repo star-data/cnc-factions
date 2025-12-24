@@ -65,12 +65,12 @@
     </CWeaponLegacy>
 
 
-    <CValidatorUnitCompareField id="CnCIsGroundUnit">
+    <CValidatorUnitCompareField id="CNCIsGroundUnit">
         <Field value="PlaneArray[0]"/>
         <Value value="1"/>
     </CValidatorUnitCompareField>
     <CEffectSwitch id="NodRevenantBombSwitch">
-        <CaseArray Validator="CnCIsGroundUnit" Effect="NodRevenantBombUnitSet"/>
+        <CaseArray Validator="CNCIsGroundUnit" Effect="NodRevenantBombUnitSet"/>
         <CaseDefault value="NodRevenantBombLaunchMissile"/>
         <TargetLocationType value="UnitOrPoint"/>
     </CEffectSwitch>
@@ -90,7 +90,7 @@
         <TargetFilters value="Air,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
         <Range value="6"/>
         <Arc value="360"/>
-        <Period value="1.2"/>
+        <Period value="0.6"/>
         <AllowedMovement value="Moving"/>
     </CWeaponLegacy>
 
@@ -196,24 +196,43 @@
         <Beam value="NodVertigoAttackBeam"/>
         <Missile value="NodVertigoAttackMissile"/>
         <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeStandard SOpTargetUnit"/>
-        <ImpactMap index="None" Model="JupiterAttackImpact" Sound="JupiterAttackImpact" ModelReaction="JupiterAttackImpactReaction"/>
+        <ImpactMap index="None" Model="NodVertigoAttackImpact" Sound="JupiterAttackImpact" ModelReaction="JupiterAttackImpactReaction"/>
         <ImpactMap index="Shield" Sound="JupiterAttackImpactShield" ModelReaction="JupiterAttackImpactReactionShield"/>
         <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
         <DamageMap index="None" Model="JupiterAttackDamage" Sound="JupiterAttackDamage" ModelReaction="JupiterAttackDamageReaction"/>
         <DamageMap index="Shield" Sound="JupiterAttackDamageShield" ModelReaction="JupiterAttackDamageReactionShield"/>
         <ShieldFlashType value="None"/>
     </CActorAction>
-    <CActorRange id="NodRevenantBombRange" parent="CnCRangeAbilStandard" abil="NodRevenantBomb">
+    <CModel id="NodVertigoAttackImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_NapalmBomb_Coop_Explosion\MiraHorner_NapalmBomb_Coop_Explosion.m3"/>
+        <EditorCategories value="Race:Genetron"/>
+        <Flags index="Wait" value="1"/>
+        <Priority value="32"/>
+        <ScaleMax value="1.100000,1.100000,0.750000"/>
+        <ScaleMin value="1.100000,1.100000,0.750000"/>
+    </CModel>
+    <CActorRange id="NodRevenantBombRange" parent="CNCRange" abil="NodRevenantBomb">
         <On Terms="Abil.NodRevenantBombUnit.TargetOn" Send="Create"/>
         <On Terms="Abil.NodRevenantBombUnit.TargetOff" Send="Destroy"/>
         <On Terms="Abil.NodRevenantBombUnit.ButtonHoverOn" Send="Create"/>
         <On Terms="Abil.NodRevenantBombUnit.ButtonHoverOff" Send="Destroy"/>
     </CActorRange>
     <CActorSound id="NodVertigoBombImpactAdd">
-        <Sound value="JupiterAttackImpactAdd"/>
+        <Sound value="NodVertigoBombImpactAdd"/>
         <FogVisibility value="Visible"/>
         <On Terms="Effect.NodRevenantBombImpactSet.Start" Send="Create"/>
     </CActorSound>
+    <CSound id="NodVertigoBombImpactAdd" parent="Combat">
+        <EditorCategories value="Race:Genetron"/>
+        <AssetArray File="Assets\Sounds\Explo_Lrg_Distant_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Explo_Lrg_Distant_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Explo_Lrg_Distant_03.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Explo_Lrg_Distant_04.wav" FacialGroup=""/>
+        <Pitch value="-6.000000,-4.000000"/>
+        <Volume value="3.000000,4.000000"/>
+        <VolumeRolloffPoints Distance="10.000000"/>
+        <VolumeRolloffPoints Distance="50.000000" Volume="-96.000000"/>
+    </CSound>
     <CActorAction id="NodVertigoAttack" parent="GenericAttack" effectImpact="NodRevenantBombImpactSet" effectLaunch="NodRevenantBombLaunchMissile">
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
         <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
@@ -232,9 +251,17 @@
         <ScaleMin value="3.000000,3.000000,3.000000"/>
     </CModel>
     <CActorMissile id="NodVertigoAttackMissile" parent="GenericAttackMissile" unitName="NodRevenantBombLMWeapon">
-        <Model value="JupiterAttackMissile"/>
+        <Model value="NodVertigoAttackMissile"/>
     </CActorMissile>
-
+    <CModel id="NodVertigoAttackMissile" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_Carrier_Coop_Missile\MiraHorner_Carrier_Coop_Missile.m3"/>
+        <EditorCategories value="Race:Genetron"/>
+        <Flags index="Wait" value="1"/>
+        <Priority value="32"/>
+        <AnimSpeed value="0.500000"/>
+        <ScaleMax value="1,0.750000,1"/>
+        <ScaleMin value="1,0.750000,1"/>
+    </CModel>
 
     <CUnit id="NodRevenantBombLMWeapon" parent="MISSILE">
         <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
@@ -320,7 +347,7 @@
     </CEffectSet>
 
     
-    <CBehaviorBuff id="CnCAirPlaneLackOfAmmo">
+    <CBehaviorBuff id="CNCAirPlaneLackOfAmmo">
         <InfoFlags index="Hidden" value="0"/>
         <InfoIcon value="Assets\Textures\btn-command-cancel.dds"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
@@ -600,7 +627,7 @@
             <Cooldown TimeUse="1"/>
             <Vital index="Energy" value="75"/>
         </Cost>
-        <Range value="4"/>
+        <Range value="7"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="NodTiberiumVapourBomb" Requirements="NodTiberiumVapourBomb"/>
     </CAbilEffectTarget>
     <CEffectCreatePersistent id="NodTiberiumVapourBombCP">
@@ -619,7 +646,7 @@
     <CActorAction id="NodTiberiumVapourBombAttack" parent="GenericAttack" effectImpact="NodTiberiumVapourBombImpactCP" effectLaunch="NodTiberiumVapourBombLaunch">
         <LaunchSiteOps Ops="SOpAttachHarness SOpAttachWeapon"/>
         <LaunchAttachQuery Methods="AMPatternMissileTurret"/>
-        <LaunchAssets Sound="RaptorJet_GroundLaunch"/>
+        <LaunchAssets Sound="NodVertigoAttackLaunch"/>
         <Missile value="NodTiberiumVapourBomb"/>
         <ImpactAttachQuery Methods="AMFilterTarget AMRandomUniform"/>
         <ImpactMap index="None" Model="RaptorAirImpact1" Sound="RaptorJet_GroundImpactMissile"/>
@@ -631,11 +658,20 @@
         <AIEvaluateAlias value="VikingFighterWeapon"/>
     </CUnit>
     <CActorMissile id="NodTiberiumVapourBomb" parent="GenericAttackMissile" unitName="NodTiberiumVapourBomb">
-        <Model value="JupiterAttackMissile"/>
+        <Model value="NodTiberiumVapourBombMissile"/>
         <On Terms="ActorCreation" Send="SetTintColor 90,255,90"/>
         <On Terms="ActorCreation" Send="AnimPlay Phase1 Stand PlayForever"/>
         <On Terms="MotionPhaseStart; MotionPhase 1" Send="AnimPlay Phase2 Turbo PlayForever"/>
     </CActorMissile>
+    <CModel id="NodTiberiumVapourBombMissile" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_Carrier_Coop_Missile\MiraHorner_Carrier_Coop_Missile.m3"/>
+        <EditorCategories value="Race:Genetron"/>
+        <Flags index="Wait" value="1"/>
+        <Priority value="32"/>
+        <AnimSpeed value="0.500000"/>
+        <ScaleMax value="1,0.750000,1"/>
+        <ScaleMin value="1,0.750000,1"/>
+    </CModel>
     <CModel id="NodTiberiumVapourBomb" parent="MissileFX">
         <Model value="Assets\Effects\Terran\AutoTurretPodMissile\AutoTurretPodMissile.m3"/>
         <ScaleMax value="0.8,0.8,0.8"/>
@@ -683,7 +719,7 @@
         <ScaleMax value="3.000000,3.000000,3.000000"/>
         <ScaleMin value="3.000000,3.000000,3.000000"/>
     </CModel>
-    <CActorRange id="NodTiberiumVapourBombRange" parent="CnCRangeAbilStandard" abil="NodTiberiumVapourBomb"/>
+    <CActorRange id="NodTiberiumVapourBombRange" parent="CNCRange" abil="NodTiberiumVapourBomb"/>
 
 
 
@@ -854,7 +890,7 @@
     <CActorAction id="NodRedemptionBombAttack" parent="GenericAttack" effectImpact="NodRedemptionBombImpactCP" effectLaunch="NodRedemptionBombLaunch">
         <LaunchSiteOps Ops="SOpAttachHarness SOpAttachWeapon"/>
         <LaunchAttachQuery Methods="AMPatternMissileTurret"/>
-        <LaunchAssets Sound="RaptorJet_GroundLaunch"/>
+        <LaunchAssets Sound="NodVertigoAttackLaunch"/>
         <Missile value="NodRedemptionBomb"/>
         <ImpactAttachQuery Methods="AMFilterTarget AMRandomUniform"/>
         <ImpactMap index="None" Model="RaptorAirImpact1" Sound="RaptorJet_GroundImpactMissile"/>
@@ -866,16 +902,18 @@
         <AIEvaluateAlias value="VikingFighterWeapon"/>
     </CUnit>
     <CActorMissile id="NodRedemptionBomb" parent="GenericAttackMissile" unitName="NodRedemptionBomb">
-        <Model value="JupiterAttackMissile"/>
+        <Model value="NodRedemptionBomb"/>
         <On Terms="ActorCreation" Send="SetTintColor 255,255,90"/>
         <On Terms="ActorCreation" Send="AnimPlay Phase1 Stand PlayForever"/>
         <On Terms="MotionPhaseStart; MotionPhase 1" Send="AnimPlay Phase2 Turbo PlayForever"/>
     </CActorMissile>
     <CModel id="NodRedemptionBomb" parent="MissileFX">
-        <Model value="Assets\Effects\Terran\AutoTurretPodMissile\AutoTurretPodMissile.m3"/>
-        <ScaleMax value="0.8,0.8,0.8"/>
-        <ScaleMin value="0.8,0.8,0.8"/>
-        <EditorCategories value="Race:UPL"/>
+        <Model value="Assets\Effects\Terran\MiraHorner_Carrier_Coop_Missile\MiraHorner_Carrier_Coop_Missile.m3"/>
+        <Flags index="Wait" value="1"/>
+        <Priority value="32"/>
+        <AnimSpeed value="0.500000"/>
+        <ScaleMax value="1,0.750000,1"/>
+        <ScaleMin value="1,0.750000,1"/>
     </CModel>
 
     <CActorSquib id="NodRedemptionBombExplode">

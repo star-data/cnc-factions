@@ -1,5 +1,343 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CAbilEffectTarget id="VertigoAttack">
+        <Effect index="0" value="VertigoAttackSet"/>
+        <Cost>
+            <Cooldown Location="Player" TimeUse="30"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CursorEffect value="NodEMPAttackSearch"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="VertigoAttack" Requirements="HaveNodVertigo"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="NodDominateMachine">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodDominateMachinePersistent"/>
+        <Flags index="AbortOnAllianceChange" value="0"/>
+        <Cost>
+            <Cooldown TimeUse="30"/>
+        </Cost>
+        <TargetFilters value="Mechanical,Visible;Player,Ally,Neutral,Robotic,Structure,Missile,Stasis,Dead,Invulnerable"/>
+        <Range value="7"/>
+        <RangeSlop value="100"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="DominationMechanical"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="LiquidTibFlameTank">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="LiquidTibSetFlameTank"/>
+        <Cost>
+            <Charge Link="LiquidTibLiquidTib2LiquidTibLiquidTibFlameTank" Location="Unit"/>
+            <Cooldown TimeUse="60"/>
+        </Cost>
+        <Range value="4"/>
+        <CastIntroTime value="0.5"/>
+        <CastOutroTime value="3.3"/>
+        <UseMarkerArray index="Approach" value="0"/>
+        <UseMarkerArray index="Prep" value="0"/>
+        <UninterruptibleArray index="Prep" value="1"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <UninterruptibleArray index="Channel" value="1"/>
+        <CursorEffect value="LiquidTibUnitSearchArea"/>
+        <AINotifyEffect value=""/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="LiquidTibFlameTank" Requirements="LiquidTibFLameTank"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="CABALVertigoBomb">
+        <!--        btn-nod-ability-vertigostrike-->
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <Effect index="0" value="CABALVertigoBombEA"/>
+        <Cost>
+            <Cooldown TimeUse="5"/>
+        </Cost>
+        <Range value="8"/>
+        <Arc value="14.9963"/>
+        <AutoCastFilters value="Ground,Visible;Self,Player,Ally,Neutral,Stasis,Dead,Hidden,Invulnerable"/>
+        <UninterruptibleArray index="Prep" value="1"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <CursorEffect value="BlackHandLiquidTibSearchArea"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="CABALVertigoBomb"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="healCNCObelisk">
+        <Alignment value="Positive"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="CNCHealObelisk"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="ChannelingMinimum" value="0"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Flags index="PassengerAcquireExternal" value="1"/>
+        <Flags index="PassengerAcquirePassengers" value="1"/>
+        <Flags index="PassengerAcquireTransport" value="1"/>
+        <Flags index="TransportAcquirePassengers" value="1"/>
+        <Flags index="ExternalAcquirePassenger" value="1"/>
+        <TargetFilters value="Visible;Self,Enemy,Missile,UnderConstruction,Dead,Hidden,Invulnerable"/>
+        <TargetSorts RequestCount="1">
+            <SortArray value="TSLifeFraction"/>
+            <SortArray value="TSAlliancePassive"/>
+            <SortArray value="TSDistance"/>
+        </TargetSorts>
+        <Range value="9"/>
+        <SmartValidatorArray value="healSmartTargetFilters"/>
+        <SmartValidatorArray value="NotWarpingIn"/>
+        <AutoCastAcquireLevel value="Defensive"/>
+        <AutoCastFilters value="Visible;Neutral,Enemy"/>
+        <AutoCastRange value="9"/>
+        <AutoCastValidatorArray value="NotWarpingIn"/>
+        <Marker Link="Abil/MedivacHeal"/>
+        <UseMarkerArray index="Approach" value="0"/>
+        <UseMarkerArray index="Prep" value="0"/>
+        <AINotifyEffect value="CNCheal"/>
+        <DefaultError value="RequiresHealTarget"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="MedicHealObelisk">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <AcquireAttackers value="1"/>
+        <FollowRange value="1.5"/>
+        <Arc value="360"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="launchinterceptor">
+        <Effect index="0" value="InterceptorLaunchPersistent"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="8"/>
+        </Cost>
+        <TargetFilters value="Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="9"/>
+        <RangeSlop value="0"/>
+        <Arc value="360"/>
+        <AutoCastFilters value="Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable,Benign"/>
+        <AutoCastRange value="9"/>
+        <AutoCastValidatorArray value="IsNotDisguisedChangeling"/>
+        <AutoCastValidatorArray value="NotHallucinationOrNotDetected"/>
+        <AutoCastValidatorArray value="noMarkers"/>
+        <PrepTime value="0"/>
+        <CastOutroTime value="4"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="InterceptorLaunch">
+            <Flags index="ShowInGlossary" value="0"/>
+        </CmdButtonArray>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="NodInvertWarheadStrike">
+        <Effect index="0" value="NodInvertWarheadStrikeDetonate"/>
+        <Cost/>
+        <!--            <Resource index="Minerals" value="200"/>-->
+        <!--            <Cooldown Location="Global" TimeUse="240"/>-->
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CursorEffect value="NodInvertWarheadStrikeDamage"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodInvertWarhead" Requirements="NodInvertWarheadStrike"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="NodNukeStrikeEMP">
+        <Effect index="0" value="NodNuclearEMPStrikeDetonate"/>
+        <Cost>
+            <Resource index="Minerals" value="200"/>
+            <Cooldown Location="Global" TimeUse="240"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CursorEffect value="NodNuclearEMPStrikeDamage"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodEMPWarhead"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="CABALSpawnTib">
+        <Effect index="0" value="CABALSpawnTib"/>
+        <Cost>
+            <Resource index="Minerals" value="50"/>
+            <Vital index="Energy" value="150"/>
+            <Cooldown Location="Player" TimeUse="180"/>
+        </Cost>
+        <Range value="1"/>
+        <Arc value="360"/>
+        <CursorEffect value="CABALSpawnTib"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="CABALSpawnTib" Requirements="NodSeedTiberium"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+
+    <CAbilMorphPlacement id="VertigoLand" parent="TerranBuildingLand" unit="Barracks">
+        <Name value="Abil/Name/VertigoLand"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="LandVertigo"/>
+        <InfoArray index="0" Unit="CABALVertigoLanded" CollideRange="0">
+            <SectionArray index="Abils">
+                <DurationArray index="Delay" value="2"/>
+            </SectionArray>
+        </InfoArray>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:MorphsandBurrows"/>
+    </CAbilMorphPlacement>
+    <CAbilMorph id="Vertigotakeoff" parent="TerranBuildingLiftOff" unit="BarracksFlying">
+        <Name value="Abil/Name/Vertigotakeoff"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Vertigotakeoff"/>
+        <InfoArray index="0" Unit="CABALVertigo"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:MorphsandBurrows"/>
+    </CAbilMorph>
+
+    <CAbilEffectInstant id="ChemicalPlantGainMineral">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <Effect index="0" value="ChemicalPlantSet"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodChemicalPlant"/>
+    </CAbilEffectInstant>
+    <CAbilEffectTarget id="LiquidTib">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="LiquidTibSet"/>
+        <Cost>
+            <Charge Link="LiquidTib" Location="Unit"/>
+            <Cooldown TimeUse="60"/>
+        </Cost>
+        <Range value="0.2"/>
+        <CursorEffect value="LiquidTibUnitSearchArea"/>
+        <AINotifyEffect value=""/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="LiquidTib"/>
+        <CastIntroTime value="0.5"/>
+        <CastOutroTime value="3.3"/>
+        <UseMarkerArray index="Approach" value="0"/>
+        <UseMarkerArray index="Prep" value="0"/>
+        <UninterruptibleArray index="Prep" value="1"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <UninterruptibleArray index="Channel" value="1"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="healCNC">
+        <Alignment value="Positive"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="CNCheal"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="ChannelingMinimum" value="0"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Flags index="PassengerAcquireExternal" value="1"/>
+        <Flags index="PassengerAcquirePassengers" value="1"/>
+        <Flags index="PassengerAcquireTransport" value="1"/>
+        <Flags index="TransportAcquirePassengers" value="1"/>
+        <Flags index="ExternalAcquirePassenger" value="1"/>
+        <TargetFilters value="Visible;Self,Enemy,Missile,UnderConstruction,Dead,Hidden,Invulnerable"/>
+        <TargetSorts RequestCount="1">
+            <SortArray value="TSLifeFraction"/>
+            <SortArray value="TSAlliancePassive"/>
+            <SortArray value="TSDistance"/>
+        </TargetSorts>
+        <Range value="6"/>
+        <SmartValidatorArray value="healSmartTargetFilters"/>
+        <SmartValidatorArray value="NotWarpingIn"/>
+        <AutoCastAcquireLevel value="Defensive"/>
+        <AutoCastFilters value="Visible;Neutral,Enemy"/>
+        <AutoCastRange value="6"/>
+        <AutoCastValidatorArray value="NotWarpingIn"/>
+        <Marker Link="Abil/MedivacHeal"/>
+        <UseMarkerArray index="Approach" value="0"/>
+        <UseMarkerArray index="Prep" value="0"/>
+        <AINotifyEffect value="CNCheal"/>
+        <DefaultError value="RequiresHealTarget"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="MedicHeal">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <AcquireAttackers value="1"/>
+        <FollowRange value="1.5"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="healObelisk">
+        <Alignment value="Positive"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="CNCheal"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Flags index="PassengerAcquirePassengers" value="1"/>
+        <TargetFilters value="Visible;Self,Enemy,Missile,UnderConstruction,Dead,Hidden,Invulnerable"/>
+        <TargetSorts RequestCount="1">
+            <SortArray value="TSAlliancePassive"/>
+            <SortArray value="TSDistance"/>
+            <SortArray value="TSLifeFraction"/>
+        </TargetSorts>
+        <Range value="8"/>
+        <SmartValidatorArray value="healSmartTargetFilters"/>
+        <SmartValidatorArray value="NotWarpingIn"/>
+        <AutoCastFilters value="Visible;Neutral,Enemy"/>
+        <AutoCastRange value="8"/>
+        <AutoCastValidatorArray value="NotWarpingIn"/>
+        <Marker Link="Abil/MedivacHeal"/>
+        <UseMarkerArray index="Approach" value="0"/>
+        <UseMarkerArray index="Prep" value="0"/>
+        <AINotifyEffect value="CNCheal"/>
+        <DefaultError value="RequiresHealTarget"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="MedicHeal"/>
+        <AcquireAttackers value="1"/>
+        <FollowRange value="1.5"/>
+        <Arc value="360"/>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="FlameMineAttack">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="FlameMineSet"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Arc value="360"/>
+        <AutoCastFilters value="Ground,Visible;Self,Player,Ally,Neutral,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AutoCastRange value="0.1"/>
+        <AutoCastValidatorArray value="FlameMineAttackEnemyCheck"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="FlameMineAttack"/>
+    </CAbilEffectInstant>
+    <CAbilEffectTarget id="PsiStormtemplet">
+        <Alignment value="Negative"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="PsiStormPersistent"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Cost>
+            <Vital index="Energy" value="75"/>
+            <Cooldown TimeUse="2"/>
+        </Cost>
+        <Range value="9"/>
+        <CastOutroTime value="0.5"/>
+        <CursorEffect value="PsiStormSearch"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="PsiStorm"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="NodStasisField">
+        <Alignment value="Negative"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="StassisFieldPersistent"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="30"/>
+        </Cost>
+        <Range value="9"/>
+        <CastOutroTime value="3"/>
+        <CursorEffect value="StasisFieldSearch"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodStasisField"/>
+        <UseMarkerArray index="Approach" value="0"/>
+        <UseMarkerArray index="Prep" value="0"/>
+        <UninterruptibleArray index="Prep" value="1"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <UninterruptibleArray index="Channel" value="1"/>
+    </CAbilEffectTarget>
+
+    <CAbilEffectTarget id="CABALDropMines">
+        <Effect index="0" value="CABALCreateMineCP"/>
+        <Cost>
+            <Cooldown Location="Global" TimeStart="60" TimeUse="60"/>
+            <!--            <Resource index="Minerals" value="100"/>-->
+        </Cost>
+        <!--            <Cooldown Location="Global" TimeUse="45"/>-->
+        <Range value="5"/>
+        <Arc value="360"/>
+        <CursorEffect value="randomFlameMine"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodMines"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+
+
     <CAbilEffectTarget id="DeployMCVDefense">
         <Effect index="0" value="NodDeployMCVDefenseSet"/>
         <Cost>
