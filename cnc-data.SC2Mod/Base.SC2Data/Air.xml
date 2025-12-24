@@ -1,5 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CValidatorUnitCompareSpeed id="RAAircraftStationary">
+        <Compare value="LE"/>
+    </CValidatorUnitCompareSpeed>
+
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent36">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InitialEffect value="RACarrierBasedAircraftReturnsToMagazine"/>
+        <Modification MoveSpeedBonus="3">
+            <ModifyFlags index="DisableWeapons" value="1"/>
+        </Modification>
+        <InfoFlags index="Hidden" value="1"/>
+        <DamageResponse ModifyFraction="0.5">
+            <Chance value="1"/>
+        </DamageResponse>
+        <Period value="1"/>
+        <PeriodicEffect value="RACarrierBasedAircraftReturnsToMagazine"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent362">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="CasterHasEnergy2"/>
+        <Period value="1"/>
+        <InitialEffect value="RACarrierBasedAircraftReturnsToMagazine"/>
+        <PeriodicEffect value="RACarrierBasedAircraftReturns"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent37">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="RALessThan02Range"/>
+        <RemoveValidatorArray value="RAExcludeCarrierbasedAircraftStartingToReturn"/>
+        <Duration value="3"/>
+        <Period value="0.0625"/>
+        <InitialEffect value="RACenturyBomberBombingApplication"/>
+        <PeriodicEffect value="RACenturyBomberBombingApplication"/>
+        <Modification MoveSpeedMaximum="5" MoveSpeedMinimum="3">
+            <ModifyFlags index="SuppressTurning" value="1"/>
+        </Modification>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+
+    <CEffectApplyForce id="PioneerApplicationForceTarget">
+        <WhichLocation Value="TargetPoint"/>
+        <WhichUnit Value="Caster"/>
+        <Amount value="-1"/>
+    </CEffectApplyForce>
+    <CEffectApplyBehavior id="RACarrierBasedAircraftReturns">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent36"/>
+    </CEffectApplyBehavior>
+    <CEffectReturnMagazine id="RACarrierBasedAircraftReturnsToMagazine"/>
+    <CEffectEnumMagazine id="RACarrierAircraftMagazineDestroyed">
+        <EffectInternal value="RADestroyBehavior1ImposedOnAircraft"/>
+    </CEffectEnumMagazine>
+    <CEffectRemoveBehavior id="RACarrierBasedAircraftRestoresAmmunition">
+        <BehaviorLink value="RAMovementSpeedAndArmor20Percent36"/>
+    </CEffectRemoveBehavior>
+    <CEffectRemoveBehavior id="RAFixedTheBugOfRecoveringAmmunitionForCarrierBasedAircraft">
+        <ValidatorArray index="0" value="RAAircraftStationary"/>
+        <BehaviorLink value="RAMovementSpeedAndArmor20Percent36"/>
+    </CEffectRemoveBehavior>
+    <CEffectModifyUnit id="RATheCarrierBasedAircraftRecoversAmmunitionAndReplenishesEnergy">
+        <VitalArray index="Energy">
+            <ChangeFraction value="1"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectCreatePersistent id="RACarrierBasedAircraftReturnsToDelayedInitialization">
+        <ExpireDelay value="0.5"/>
+        <FinalEffect value="RACarrierBasedAircraftReturns"/>
+        <PeriodCount value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectSwitch id="RASwitchingTheAntiGroundWeaponEffectOfAntiAircraftCrawlerVehicles">
+        <CaseArray Validator="RAAirDefenseCrawlerVehicleStarRatingVerification" Effect="BattleshipArtilleryP3252"/>
+        <CaseDefault value="BattleshipArtilleryP325"/>
+    </CEffectSwitch>
+    <CEffectSwitch id="RASwitchingTheAntiAirWeaponEffectOfAntiAircraftCrawlerVehicles">
+        <CaseArray Validator="RAAirDefenseCrawlerVehicleStarRatingVerification" Effect="SovietFlakIn2"/>
+        <CaseDefault value="SovietFlakIn"/>
+    </CEffectSwitch>
+
+    <CEffectCreatePersistent id="RAPioneerArmedCombatCraftContinuesToCircle">
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="RAPioneerArmedCombatAircraftHovering"/>
+        <PeriodicOffsetArray value="0,0.1,0"/>
+        <PeriodicOffsetArray value="0.1,0.1,0"/>
+        <PeriodicPeriodArray value="0.1"/>
+    </CEffectCreatePersistent>
+    <CEffectIssueOrder id="RAPioneerArmedCombatAircraftHovering">
+        <Abil value="CNCAirplaneMove"/>
+        <CmdFlags index="Alternate" value="1"/>
+        <CmdFlags index="SmartClick" value="1"/>
+        <CmdFlags index="IsOrder" value="1"/>
+        <WhichUnit Value="Caster"/>
+        <Target Value="TargetPoint"/>
+        <ValidatorArray value="VanguardCannotDisableUnitsForMovement"/>
+    </CEffectIssueOrder>
+
+    <CEffectAddTrackedUnit id="xfzzmbdw">
+        <BehaviorLink value="VanguardTrackingAttackTarget"/>
+        <TrackedUnit Value="Target"/>
+    </CEffectAddTrackedUnit>
+    <CEffectSet id="xftjzzdwjh">
+        <EffectArray value="Vanguardsurroundingvesteffect"/>
+        <EffectArray value="xfyczzdw"/>
+        <EffectArray value="xfzzmbdw"/>
+    </CEffectSet>
+    <CEffectSet id="Pioneersurroundingvesteffectmachinegun">
+        <ValidatorArray value="xfzzdwjs2"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSet>
+    <CEffectSet id="Theeffectofthevanguardsurroundingthevestisempty">
+        <ValidatorArray value="xfzzdwjs2"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSet>
+    <CEffectRemoveTrackedUnit id="xfyczzdw">
+        <BehaviorLink value="VanguardTrackingAttackTarget"/>
+    </CEffectRemoveTrackedUnit>
+    <CEffectSet id="Vanguardmobilevesteffect">
+        <EffectArray value="RAPioneerArmedCombatAircraftHovering"/>
+        <EffectArray value="Vanguardmobilevesteffect2"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CEffectSet id="Vanguardmobilevesteffect2">
+        <EffectArray value="RAPioneerArmedCombatAircraftHovering"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+
+
+
+
     <CEffectSet id="Vanguardsurroundingvesteffect">
         <ValidatorArray value="xfzzdwjs2"/>
         <TargetLocationType value="UnitOrPoint"/>
@@ -24,6 +152,15 @@
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
     </CAbilEffectInstant>
+    <CRequirement id="LandOnly">
+        <EditorCategories value="Race:Terran,TechType:Unit"/>
+        <NodeArray index="Use" Link="CountBehaviorAirportlandedCompleteOnlyAtUnit"/>
+        <NodeArray index="Show" Link="CountBehaviorAirportlandedCompleteOnlyAtUnit"/>
+    </CRequirement>
+    <CRequirement id="LandOnly2">
+        <EditorCategories value="Race:Terran,TechType:Unit"/>
+        <NodeArray index="Show" Link="EqCountBehaviorAirportlandedCompleteOnlyAtUnit0"/>
+    </CRequirement>
     <CEffectSet id="PlaneTakesOffC">
 <!--        <TargetLocationType value="UnitOrPoint"/>-->
     </CEffectSet>
@@ -585,4 +722,90 @@
         <OperandArray index="0" value="CountBehaviorAirportlandedCompleteOnlyAtUnit"/>
         <OperandArray index="1" value="0"/>
     </CRequirementEq>
+
+
+
+    <CEffectEnumTrackedUnits id="VanguardArmedCombatAircraftTraversingTrackingUnits">
+        <BehaviorLink value="VanguardTrackingAttackTarget"/>
+        <Effect value="Pioneersurroundingvesteffectmachinegun"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectEnumTrackedUnits id="AircraftTraverseTrackingAirport">
+        <ValidatorArray value="Aircraftistrackingtheairport"/>
+        <BehaviorLink value="Aircraftreversesurveillanceoftheairport"/>
+        <TrackerUnit Value="Target"/>
+        <Effect value="Vesteffectwhenaircraftdiesortakesoff"/>
+        <TrackedUnitFilters value="-;Missile,Dead,Hidden"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectEnumTrackedUnits id="CNCAirporttraversaltrackingaircraft">
+        <ValidatorArray value="Airporttrackingisgreaterthan0"/>
+        <BehaviorLink value="AircraftAirportParkingAircraftTracking"/>
+        <Effect value="chfj"/>
+        <TrackedUnitFilters value="-;Missile,Dead,Hidden"/>
+    </CEffectEnumTrackedUnits>
+
+
+    <CEffectApplyBehavior id="ApplicationProhibitsHoveringForPeriodOfTime">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="Airportcirclingprohibitedforaperiodoftime"/>
+    </CEffectApplyBehavior>
+
+    <CEffectCreatePersistent id="CNCAirportcontinuestomonitoraircraft">
+        <WhichLocation Value="TargetUnit"/>
+        <Flags index="Channeling" value="1"/>
+        <PeriodCount value="65535"/>
+        <PeriodicPeriodArray value="0.5"/>
+    </CEffectCreatePersistent>
+    <!--    <CEffectSwitch id="CNCAirportjudgmentswitching">-->
+    <!--        <CaseArray Validator="SovietAirport" Effect="CNCTrackaircrafttogatheratSovietairport"/>-->
+    <!--        <CaseArray Validator="ShenzhouAirport" Effect="CNCTrackaircrafttogatheratShenzhouAirport"/>-->
+    <!--        <CaseDefault value="CNCTrackaircrafttogatheratAlliedairfield"/>-->
+    <!--    </CEffectSwitch>-->
+    <CEffectAddTrackedUnit id="TrackingaircrafttoAlliedairfields">
+        <BehaviorLink value="AircraftAirportParkingAircraftTracking"/>
+        <TrackerUnit Value="Target"/>
+    </CEffectAddTrackedUnit>
+    <CEffectAddTrackedUnit id="CNCTrackairporttoaircraft">
+        <BehaviorLink value="Aircraftreversesurveillanceoftheairport"/>
+        <TrackerUnit Value="Target"/>
+    </CEffectAddTrackedUnit>
+    <CEffectSet id="CNCTrackaircrafttogatheratAlliedairfield">
+        <EffectArray value="TrackingaircrafttoAlliedairfields"/>
+    </CEffectSet>
+    <!--    <CEffectSet id="CNCTrackaircrafttogatheratSovietairport">-->
+    <!--        <EffectArray value="CNCTrackingaircrafttoSovietairports"/>-->
+    <!--    </CEffectSet>-->
+    <!--    <CEffectSet id="CNCTrackaircrafttogatheratShenzhouAirport">-->
+    <!--        <EffectArray value="CNCTracktheplanetoShenzhouAirport"/>-->
+    <!--    </CEffectSet>-->
+    <!--    <CEffectAddTrackedUnit id="CNCTrackingaircrafttoSovietairports">-->
+    <!--        <BehaviorLink value="AircraftAirportParkingAircraftTracking"/>-->
+    <!--        <TrackerUnit Value="Target"/>-->
+    <!--    </CEffectAddTrackedUnit>-->
+    <!--    <CEffectAddTrackedUnit id="CNCTracktheplanetoShenzhouAirport">-->
+    <!--        <BehaviorLink value="AircraftAirportParkingAircraftTracking"/>-->
+    <!--        <TrackerUnit Value="Target"/>-->
+    <!--    </CEffectAddTrackedUnit>-->
+
+    <CAbilEffectTarget id="CNCAirportPlaneTakeoffVestSkill">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+    <CBehaviorBuff id="AirportNousefortakeoff">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <AbilLinkDisableArray value="CNCAirportPlanetakingoff"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CEffectRemoveTrackedUnit id="xfyczzdw2">
+        <BehaviorLink value="Aircraftreversesurveillanceoftheairport"/>
+        <TrackedUnit Value="Target"/>
+    </CEffectRemoveTrackedUnit>
+    <CEffectRemoveTrackedUnit id="CNCAirportremovestrackingaircraft">
+        <BehaviorLink value="AircraftAirportParkingAircraftTracking"/>
+        <TrackerUnit Value="Target"/>
+    </CEffectRemoveTrackedUnit>
+    <CEffectSet id="CNCSovietairportlandingvesteffect"/>
+    <CEffectSet id="Vesteffectwhenaircraftdiesortakesoff">
+        <EffectArray value="xfyczzdw2"/>
+        <EffectArray value="CNCAirportremovestrackingaircraft"/>
+    </CEffectSet>
 </Catalog>

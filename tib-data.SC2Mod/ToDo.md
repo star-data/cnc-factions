@@ -17,6 +17,7 @@ broken rally points for construction yard
 shadow flying height is broken
 Energy mnagement improvement
 REMOVE SCION DEP
+REMOVE RED ALERT DEP
 
 >>>
 > 
@@ -44,5 +45,3 @@ Harpy? flamethrower helicopter
 Blades? rockets copter
 Banshee? laser aircraft
 btn-nod-ability-boobytrap model
-
-REMOVE RED ALERT DEP
