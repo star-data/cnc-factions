@@ -1,599 +1,6 @@
 <Catalog>
 
-<!--    <CAbilEffectInstant id="Scion_DisplayCooldownDummy">-->
-<!--        <TechPlayer value="Owner"/>-->
-<!--        <Cost>-->
-<!--            <Cooldown TimeUse="0.0625"/>-->
-<!--        </Cost>-->
-<!--        <CmdButtonArray index="Execute" DefaultButtonFace="Scion_DisplayCooldownDummy"/>-->
-<!--    </CAbilEffectInstant>-->
 
-<!--    <CAccumulatorConstant id="AddDot5">-->
-<!--        <Amount value="0.5"/>-->
-<!--    </CAccumulatorConstant>-->
-<!--    <CAccumulatorConstant id="Add1">-->
-<!--        <Amount value="1"/>-->
-<!--    </CAccumulatorConstant>-->
-<!--    <CAccumulatorConstant id="MultiplyBy0">-->
-<!--        <ApplicationRule value="Multiply"/>-->
-<!--    </CAccumulatorConstant>-->
-<!--    <CAccumulatorConstant id="MultiplyBy2">-->
-<!--        <ApplicationRule value="Multiply"/>-->
-<!--        <Amount value="2"/>-->
-<!--    </CAccumulatorConstant>-->
-<!--    <CAccumulatorConstant id="DivideBy2">-->
-<!--        <ApplicationRule value="Multiply"/>-->
-<!--        <Amount value="0.5"/>-->
-<!--    </CAccumulatorConstant>-->
-<!--    <CAccumulatorConstant id="DivideBy4">-->
-<!--        <ApplicationRule value="Multiply"/>-->
-<!--        <Amount value="0.25"/>-->
-<!--    </CAccumulatorConstant>-->
-<!--    <CAccumulatorVitals id="EnergyMaxCaster">-->
-<!--        <Ratio value="1"/>-->
-<!--        <VitalType value="Energy"/>-->
-<!--        <ModificationType value="PerUnitMaxVital"/>-->
-<!--    </CAccumulatorVitals>-->
-<!--    <CAccumulatorVitals id="EnergyMaxTarget">-->
-<!--        <Ratio value="1"/>-->
-<!--        <VitalType value="Energy"/>-->
-<!--        <UnitSource Value="Target"/>-->
-<!--        <ModificationType value="PerUnitMaxVital"/>-->
-<!--    </CAccumulatorVitals>-->
-<!--    <CAccumulatorUserData id="Scion_DisplayCooldown">-->
-<!--        <MinAccumulation value="0"/>-->
-<!--        <Key value="DisplayCooldown"/>-->
-<!--    </CAccumulatorUserData>-->
-<!--    <CAccumulatorSwitch id="EnergyMaxTargetSwitch">-->
-<!--        <CaseArray Validator="CanHaveEnergy" Accumulator="EnergyMaxTarget"/>-->
-<!--    </CAccumulatorSwitch>-->
-    <!--    <CEffectCreatePersistent id="DisplayCooldownDummyAddPersistent">-->
-    <!--        <WhichLocation Value="TargetUnit"/>-->
-    <!--        <PeriodCount value="0">-->
-    <!--            <AccumulatorArray value="Scion_DisplayCooldown"/>-->
-    <!--        </PeriodCount>-->
-    <!--        <PeriodicEffectArray value="Scion_DisplayCooldownDummyAddCooldown"/>-->
-    <!--    </CEffectCreatePersistent>-->
-    <!--    <CEffectCreatePersistent id="Scion_DisplayCooldownDummySubtractPersistent">-->
-    <!--        <WhichLocation Value="TargetUnit"/>-->
-    <!--        <PeriodCount value="0">-->
-    <!--            <AccumulatorArray value="Scion_DisplayCooldown"/>-->
-    <!--        </PeriodCount>-->
-    <!--        <PeriodicEffectArray value="Scion_DisplayCooldownDummySubtractCooldown"/>-->
-    <!--    </CEffectCreatePersistent>-->
-    <!--    <CEffectModifyUnit id="Scion_DisplayCooldownDummyAddCooldown">-->
-    <!--        <Cost Abil="Scion_DisplayCooldownDummy,Execute" CooldownOperation="Add" CooldownTimeUse="1"/>-->
-    <!--    </CEffectModifyUnit>-->
-    <!--    <CEffectModifyUnit id="Scion_DisplayCooldownDummySubtractCooldown">-->
-    <!--        <Cost Abil="Scion_DisplayCooldownDummy,Execute" CooldownOperation="Add" CooldownTimeUse="-1"/>-->
-    <!--    </CEffectModifyUnit>-->
-    <!--    <CEffectUserData id="Scion_DisplayCooldownDummyResetData">-->
-    <!--        <Key value="DisplayCooldown"/>-->
-    <!--        <Amount value="0"/>-->
-    <!--        <SourceKey value="DisplayCooldown"/>-->
-    <!--        <Operation value="Set"/>-->
-    <!--    </CEffectUserData>-->
-    <!--    <CEffectModifyUnit id="Scion_DisplayCooldownDummyCooldownResetCooldown">-->
-    <!--        <Cost Abil="Scion_DisplayCooldownDummy,Execute" CooldownOperation="Set"/>-->
-    <!--    </CEffectModifyUnit>-->
-
-    <CAccumulatorConstant id="MultiplyByNeg1">
-        <ApplicationRule value="Multiply"/>
-        <Amount value="-1"/>
-    </CAccumulatorConstant>
-    <CAccumulatorVitals id="EnergyCurrentCaster">
-        <Ratio value="1"/>
-        <VitalType value="Energy"/>
-        <ModificationType value="PerUnit"/>
-    </CAccumulatorVitals>
-    <CAccumulatorVitals id="EnergyCurrentTarget">
-        <Ratio value="1"/>
-        <VitalType value="Energy"/>
-        <UnitSource Value="Target"/>
-        <ModificationType value="PerUnit"/>
-    </CAccumulatorVitals>
-    <CAccumulatorUserData id="DefaultDataAdd"/>
-    <CAccumulatorUserData id="EnergyDataAdd">
-        <Key value="Energy"/>
-    </CAccumulatorUserData>
-    <CAccumulatorArithmetic id="EnergyDamage">
-        <Parameters value="0">
-            <AccumulatorArray value="EnergyCurrentCaster"/>
-        </Parameters>
-        <Parameters value="0">
-            <AccumulatorArray value="EnergyDataAdd"/>
-        </Parameters>
-        <Operation value="Subtract"/>
-    </CAccumulatorArithmetic>
-
-    <CBehaviorBuff id="GenetronPowerBalance015On">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <RemoveValidatorArray value="EnergyGTE015"/>
-        <FinalEffect value="GenetronPowerBalance015OnDelay"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GenetronPowerBalance020On">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <RemoveValidatorArray value="EnergyGTE020"/>
-        <FinalEffect value="GenetronPowerBalance020OnDelay"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GenetronPowerBalance025On">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <RemoveValidatorArray value="EnergyGTE025"/>
-        <FinalEffect value="GenetronPowerBalance025OnDelay"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GenetronPowerBalance050On">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <RemoveValidatorArray value="EnergyGTE050"/>
-        <FinalEffect value="GenetronPowerBalance050OnDelay"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GenetronPowerBalance075On">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <RemoveValidatorArray value="EnergyGTE075"/>
-        <FinalEffect value="GenetronPowerBalance075OnDelay"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GenetronPowerBalance100On">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <RemoveValidatorArray value="EnergyGTE100"/>
-        <FinalEffect value="GenetronPowerBalance100OnDelay"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GenetronPowerBalance150On">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <RemoveValidatorArray value="EnergyGTE150"/>
-        <FinalEffect value="GenetronPowerBalance150OnDelay"/>
-    </CBehaviorBuff>
-
-
-    <CBehaviorBuff id="TrackAndMirrorGenetronPowerSupply">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <Period value="0.0625"/>
-        <InitialEffect value="TrackGenetronPowerSupplySwitch"/>
-        <PeriodicEffect value="MirrorGenetronPowerSupplySwitch"/>
-        <RemoveValidatorArray value="GenetronUnitOwnerNotChanged"/>
-        <FinalEffect value="TrackGenetronPowerSupplyEndMirrorOrphan"/>
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorUnitTracker id="GenetronPowerSupplyTracker">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorUnitTracker>
-    <CBehaviorBuff id="GenetronProductionInternalEnergy">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="TrackGenetronPowerSupply">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <Period value="0.0625"/>
-        <InitialEffect value="TrackGenetronPowerSupplySwitch"/>
-        <RemoveValidatorArray value="GenetronUnitOwnerNotChanged"/>
-        <FinalEffect value="TrackGenetronPowerSupplyEndOrphan"/>
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="TrackGenetronPowerSupplyUnit">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <RemoveValidatorArray value="GenetronUnitOwnerNotChanged"/>
-        <Period value="0.0625"/>
-        <InitialEffect value="TrackGenetronPowerSupplyUnitSwitch"/>
-        <FinalEffect value="TrackGenetronPowerSupplyEndUnitOrphan"/>
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="DummyUnit">
-        <InfoFlags index="Hidden" value="1"/>
-        <Modification>
-            <StateFlags index="Invulnerable" value="1"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GenetronEnergyStateFull">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <RemoveValidatorArray value="EnergyFullCaster"/>
-        <FinalEffect value="GenetronEnergyStateSet"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GenetronEnergyStateNotFull">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <RemoveValidatorArray value="EnergyNotFullCaster"/>
-        <FinalEffect value="GenetronEnergyStateFull"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GenetronPowerOutage">
-        <Alignment value="Negative"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Textures\btn-ability-stetmann-stetelliteoverloadenergy.dds"/>
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <TimeScaleSource Value="Global"/>
-        <Duration value="0.25"/>
-        <Modification>
-            <RateMultiplierArray index="Queueable" value="0.001"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CEffectApplyBehavior id="GenetronPowerBalance015On">
-        <EditorCategories value="Race:Genetron"/>
-        <ValidatorArray index="0" value="EnergyGTE015"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="GenetronPowerBalance025On">
-        <EditorCategories value="Race:Genetron"/>
-        <ValidatorArray index="0" value="EnergyGTE025"/>
-    </CEffectApplyBehavior>
-    <CEffectCreatePersistent id="GenetronPowerBalance015OnDelay">
-        <EditorCategories value="Race:Genetron"/>
-        <Flags index="EffectSuccess" value="1"/>
-        <Flags index="PersistUntilDestroyed" value="1"/>
-        <PeriodicValidator value="SourceNotDead"/>
-        <PeriodicEffectArray value="GenetronPowerBalance015On"/>
-        <WhichLocation Value="TargetUnit"/>
-        <PeriodicPeriodArray value="0.0625"/>
-    </CEffectCreatePersistent>
-    <CEffectApplyBehavior id="GenetronPowerBalance020On">
-        <ValidatorArray index="0" value="EnergyGTE020"/>
-        <EditorCategories value="Race:Genetron"/>
-    </CEffectApplyBehavior>
-    <CEffectCreatePersistent id="GenetronPowerBalance020OnDelay">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichLocation Value="TargetUnit"/>
-        <Flags index="EffectSuccess" value="1"/>
-        <Flags index="PersistUntilDestroyed" value="1"/>
-        <PeriodicValidator value="SourceNotDead"/>
-        <PeriodicEffectArray value="GenetronPowerBalance020On"/>
-        <PeriodicPeriodArray value="0.0625"/>
-    </CEffectCreatePersistent>
-    <CEffectApplyBehavior id="GenetronPowerBalance050On">
-        <EditorCategories value="Race:Genetron"/>
-        <ValidatorArray index="0" value="EnergyGTE050"/>
-    </CEffectApplyBehavior>
-    <CEffectCreatePersistent id="GenetronPowerBalance025OnDelay">
-        <EditorCategories value="Race:Genetron"/>
-        <Flags index="EffectSuccess" value="1"/>
-        <Flags index="PersistUntilDestroyed" value="1"/>
-        <PeriodicEffectArray value="GenetronPowerBalance025On"/>
-        <PeriodicValidator value="SourceNotDead"/>
-        <WhichLocation Value="TargetUnit"/>
-        <PeriodicPeriodArray value="0.0625"/>
-    </CEffectCreatePersistent>
-    <CEffectApplyBehavior id="GenetronPowerBalance075On">
-        <EditorCategories value="Race:Genetron"/>
-        <ValidatorArray index="0" value="EnergyGTE075"/>
-    </CEffectApplyBehavior>
-    <CEffectCreatePersistent id="GenetronPowerBalance050OnDelay">
-        <EditorCategories value="Race:Genetron"/>
-        <Flags index="EffectSuccess" value="1"/>
-        <Flags index="PersistUntilDestroyed" value="1"/>
-        <PeriodicEffectArray value="GenetronPowerBalance050On"/>
-        <PeriodicValidator value="SourceNotDead"/>
-        <WhichLocation Value="TargetUnit"/>
-        <PeriodicPeriodArray value="0.0625"/>
-    </CEffectCreatePersistent>
-    <CEffectCreatePersistent id="GenetronPowerBalance075OnDelay">
-        <EditorCategories value="Race:Genetron"/>
-        <Flags index="EffectSuccess" value="1"/>
-        <Flags index="PersistUntilDestroyed" value="1"/>
-        <PeriodicEffectArray value="GenetronPowerBalance075On"/>
-        <PeriodicValidator value="SourceNotDead"/>
-        <WhichLocation Value="TargetUnit"/>
-        <PeriodicPeriodArray value="0.0625"/>
-    </CEffectCreatePersistent>
-    <CEffectApplyBehavior id="GenetronPowerBalance100On">
-        <ValidatorArray index="0" value="EnergyGTE100"/>
-        <EditorCategories value="Race:Genetron"/>
-    </CEffectApplyBehavior>
-    <CEffectCreatePersistent id="GenetronPowerBalance100OnDelay">
-        <EditorCategories value="Race:Genetron"/>
-        <Flags index="EffectSuccess" value="1"/>
-        <Flags index="PersistUntilDestroyed" value="1"/>
-        <PeriodicEffectArray value="GenetronPowerBalance100On"/>
-        <PeriodicValidator value="SourceNotDead"/>
-        <WhichLocation Value="TargetUnit"/>
-        <PeriodicPeriodArray value="0.0625"/>
-    </CEffectCreatePersistent>
-    <CEffectCreatePersistent id="GenetronPowerBalance150OnDelay">
-        <EditorCategories value="Race:Genetron"/>
-        <Flags index="EffectSuccess" value="1"/>
-        <Flags index="PersistUntilDestroyed" value="1"/>
-        <PeriodicEffectArray value="GenetronPowerBalance150On"/>
-        <PeriodicValidator value="SourceNotDead"/>
-        <WhichLocation Value="TargetUnit"/>
-        <PeriodicPeriodArray value="0.0625"/>
-    </CEffectCreatePersistent>
-    <CEffectApplyBehavior id="GenetronPowerBalance150On">
-        <ValidatorArray index="0" value="EnergyGTE150"/>
-        <EditorCategories value="Race:Genetron"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="DummyUnit">
-        <EditorCategories value="Race:Xayid"/>
-    </CEffectApplyBehavior>
-    <CEffectUserData id="GenetronTrainCheckInternalEnergyHaltData">
-        <EditorCategories value="Race:Genetron"/>
-        <Amount value="0">
-            <AccumulatorArray value="GenetronCheckInternalEnergy"/>
-        </Amount>
-        <Operation value="Set"/>
-        <ValidateMax value="500000"/>
-        <EffectFailure value="GenetronTrainABHalt"/>
-    </CEffectUserData>
-    <CEffectUserData id="GenetronTrainFullInternalEnergyData">
-        <EditorCategories value="Race:Genetron"/>
-        <Key value="InternalEnergy"/>
-        <Amount value="0">
-            <AccumulatorArray value="GenetronTrainEnergyRemaining"/>
-        </Amount>
-        <SourceKey value="InternalEnergy"/>
-        <BehaviorScope Behavior="GenetronProductionInternalEnergy"/>
-    </CEffectUserData>
-    <CEffectSet id="GenetronTrainFullSet">
-        <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="GenetronTrainFullMU"/>
-        <EffectArray value="GenetronTrainFullInternalEnergyData"/>
-    </CEffectSet>
-    <CEffectUserData id="GenetronTrainPartialInternalEnergyData">
-        <EditorCategories value="Race:Genetron"/>
-        <Key value="InternalEnergy"/>
-        <Amount value="0">
-            <AccumulatorArray value="EnergyCurrentTarget"/>
-        </Amount>
-        <SourceKey value="InternalEnergy"/>
-        <BehaviorScope Behavior="GenetronProductionInternalEnergy"/>
-    </CEffectUserData>
-    <CEffectUserData id="GenetronTrainEnergyData">
-        <EditorCategories value="Race:Genetron"/>
-        <Key value="Energy"/>
-        <Amount value="0">
-            <AccumulatorArray value="GenetronTrainEnergyRequested"/>
-        </Amount>
-        <SourceKey value="Energy"/>
-        <Operation value="Set"/>
-        <ValidateMax value="500000"/>
-        <EffectSuccess value="GenetronTrainFullSet"/>
-        <EffectFailure value="GenetronTrainPartialSet"/>
-    </CEffectUserData>
-    <CEffectModifyUnit id="GenetronTrainFullMU">
-        <EditorCategories value="Race:Genetron"/>
-        <VitalArray index="Energy">
-            <Change value="0">
-                <AccumulatorArray value="GenetronTrainEnergyRemaining"/>
-                <AccumulatorArray value="MultiplyByNeg1"/>
-            </Change>
-        </VitalArray>
-    </CEffectModifyUnit>
-    <CEffectModifyUnit id="GenetronTrainPartialMU">
-        <EditorCategories value="Race:Genetron"/>
-        <VitalArray index="Energy">
-            <Change value="0">
-                <AccumulatorArray value="EnergyCurrentTarget"/>
-                <AccumulatorArray value="MultiplyByNeg1"/>
-            </Change>
-        </VitalArray>
-    </CEffectModifyUnit>
-    <CEffectSet id="GenetronTrainPartialSet">
-        <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="GenetronTrainPartialInternalEnergyData"/>
-        <EffectArray value="GenetronTrainPartialMU"/>
-    </CEffectSet>
-    <CEffectSwitch id="GenetronTrainSwitch">
-        <EditorCategories value="Race:Genetron"/>
-        <CaseArray Validator="hasEnergy" Effect="GenetronTrainSet"/>
-        <CaseDefault value="GenetronTrainABHalt"/>
-    </CEffectSwitch>
-    <CEffectEnumTrackedUnits id="MirrorGenetronPowerSupplyETU">
-        <EditorCategories value="Race:Genetron"/>
-        <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <Effect value="MirrorGenetronPowerSupplySet"/>
-    </CEffectEnumTrackedUnits>
-    <CEffectModifyUnit id="MirrorGenetronPowerSupplyEnergyLossMU">
-        <ValidatorArray value="CasterNotDead"/>
-        <ValidatorArray value="CasterMaximumEnergy0"/>
-        <ValidatorArray value="CasterIsNotHidden"/>
-        <EditorCategories value="Race:Genetron"/>
-        <VitalArray index="Energy">
-            <Change value="0">
-                <AccumulatorArray value="EnergyDamage"/>
-            </Change>
-        </VitalArray>
-    </CEffectModifyUnit>
-    <CEffectModifyUnit id="MirrorGenetronPowerSupplyMU">
-        <EditorCategories value="Race:Genetron"/>
-        <ImpactUnit Value="Caster"/>
-        <VitalArray index="Energy">
-            <Change value="0.001">
-                <AccumulatorArray value="EnergyCurrentTarget"/>
-            </Change>
-        </VitalArray>
-        <ModifyFlags index="SetVitals" value="1"/>
-        <ValidatorArray value="MaximumEnergy0"/>
-    </CEffectModifyUnit>
-    <CEffectUserData id="MirrorGenetronPowerSupplyStoreEnergyData">
-        <EditorCategories value="Race:Genetron"/>
-        <Key value="Energy"/>
-        <Amount value="0">
-            <AccumulatorArray value="EnergyCurrentCaster"/>
-        </Amount>
-        <SourceKey value="Energy"/>
-        <Operation value="Set"/>
-        <ValidatorArray value="CasterMaximumEnergy0"/>
-    </CEffectUserData>
-    <CEffectUserData id="MirrorGenetronPowerSupplyStoreEnergyDataSet0">
-        <EditorCategories value="Race:Genetron"/>
-        <Key value="Energy"/>
-        <Amount value="0"/>
-        <SourceKey value="Energy"/>
-        <Operation value="Set"/>
-    </CEffectUserData>
-    <CEffectSwitch id="MirrorGenetronPowerSupplySwitch">
-        <EditorCategories value="Race:Genetron"/>
-        <CaseArray Validator="MirrorGenetronPowerSupplyValidator" Effect="MirrorGenetronPowerSupplyETU"/>
-        <CaseDefault value="MirrorGenetronPowerSupplyRBSet"/>
-    </CEffectSwitch>
-    <CEffectAddTrackedUnit id="TrackGenetronPowerSupplyATU">
-        <EditorCategories value="Race:Genetron"/>
-        <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <TrackedUnit Value="Target"/>
-    </CEffectAddTrackedUnit>
-    <CEffectCreateUnit id="TrackGenetronPowerSupplyCU">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichLocation Value="CasterPoint"/>
-        <CreateFlags index="Placement" value="0"/>
-        <SpawnEffect value="TrackGenetronPowerSupplySet"/>
-        <SpawnUnit value="GenetronPowerSupplyDummy"/>
-    </CEffectCreateUnit>
-    <CEffectApplyBehavior id="TrackGenetronPowerSupplyEndMirrorAB">
-        <ValidatorArray index="0" value="CasterNotDead"/>
-        <EditorCategories value="Race:Genetron"/>
-        <WhichUnit Value="Caster"/>
-        <Behavior value="TrackAndMirrorGenetronPowerSupply"/>
-    </CEffectApplyBehavior>
-    <CEffectCreatePersistent id="TrackGenetronPowerSupplyEndMirrorOrphan">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichLocation Value="CasterUnit"/>
-        <Flags index="OrphanParams" value="1"/>
-        <InitialEffect value="TrackGenetronPowerSupplyEndETU"/>
-        <FinalEffect value="TrackGenetronPowerSupplyEndMirrorAB"/>
-    </CEffectCreatePersistent>
-    <CEffectApplyBehavior id="TrackGenetronPowerSupplyEndUnitAB">
-        <ValidatorArray index="0" value="CasterNotDead"/>
-        <EditorCategories value="Race:Genetron"/>
-        <WhichUnit Value="Caster"/>
-        <Behavior value="TrackGenetronPowerSupplyUnit"/>
-    </CEffectApplyBehavior>
-    <CEffectEnumTrackedUnits id="TrackGenetronPowerSupplyEndETU">
-        <EditorCategories value="Race:Genetron"/>
-        <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <Effect value="TrackGenetronPowerSupplyEndRTU"/>
-    </CEffectEnumTrackedUnits>
-    <CEffectRemoveTrackedUnit id="TrackGenetronPowerSupplyEndRTU">
-        <EditorCategories value="Race:Genetron"/>
-        <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <TrackedUnit Value="Target"/>
-    </CEffectRemoveTrackedUnit>
-    <CEffectApplyBehavior id="TrackGenetronPowerSupplyEndAB">
-        <ValidatorArray index="0" value="CasterNotDead"/>
-        <EditorCategories value="Race:Genetron"/>
-        <WhichUnit Value="Caster"/>
-        <Behavior value="TrackGenetronPowerSupply"/>
-    </CEffectApplyBehavior>
-    <CEffectCreatePersistent id="TrackGenetronPowerSupplyEndUnitOrphan">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichLocation Value="CasterUnit"/>
-        <Flags index="OrphanParams" value="1"/>
-        <InitialEffect value="TrackGenetronPowerSupplyEndETU"/>
-        <FinalEffect value="TrackGenetronPowerSupplyEndUnitAB"/>
-    </CEffectCreatePersistent>
-    <CEffectCreatePersistent id="TrackGenetronPowerSupplyEndOrphan">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichLocation Value="CasterUnit"/>
-        <Flags index="OrphanParams" value="1"/>
-        <InitialEffect value="TrackGenetronPowerSupplyEndETU"/>
-        <FinalEffect value="TrackGenetronPowerSupplyEndAB"/>
-    </CEffectCreatePersistent>
-    <CEffectSet id="TrackGenetronPowerSupplyUnitSet">
-        <ValidatorArray value="IsGenetronPowerSupplyDummy"/>
-        <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="TrackGenetronPowerSupplyATU"/>
-    </CEffectSet>
-    <CEffectCreateUnit id="TrackGenetronPowerSupplyUnitCU">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichLocation Value="CasterPoint"/>
-        <CreateFlags index="Placement" value="0"/>
-        <SpawnEffect value="TrackGenetronPowerSupplyUnitSet"/>
-        <SpawnUnit value="GenetronPowerSupplyDummy"/>
-    </CEffectCreateUnit>
-    <CEffectEnumArea id="TrackGenetronPowerSupplySA">
-        <EditorCategories value="Race:Genetron"/>
-        <SearchFilters value="Invulnerable;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
-        <AreaArray MaxCount="1" Radius="500" Effect="TrackGenetronPowerSupplySet"/>
-    </CEffectEnumArea>
-    <CEffectEnumArea id="TrackGenetronPowerSupplyUnitSA">
-        <EditorCategories value="Race:Genetron"/>
-        <SearchFilters value="Invulnerable;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
-        <AreaArray MaxCount="1" Radius="500" Effect="TrackGenetronPowerSupplyUnitSet"/>
-    </CEffectEnumArea>
-    <CEffectSet id="TrackGenetronPowerSupplySet">
-        <ValidatorArray value="IsGenetronPowerSupplyDummy"/>
-        <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="TrackGenetronPowerSupplyATU"/>
-        <EffectArray value="TrackGenetronPowerSupplyEnergySwitch"/>
-    </CEffectSet>
-    <CEffectSwitch id="TrackGenetronPowerSupplySwitch">
-        <EditorCategories value="Race:Genetron"/>
-        <CaseArray Validator="GenetronHasNoPowerSupply" Effect="TrackGenetronPowerSupplyCU"/>
-        <CaseDefault value="TrackGenetronPowerSupplySA"/>
-    </CEffectSwitch>
-    <CEffectSwitch id="TrackGenetronPowerSupplyUnitSwitch">
-        <EditorCategories value="Race:Genetron"/>
-        <CaseArray Validator="GenetronHasNoPowerSupply" Effect="TrackGenetronPowerSupplyUnitCU"/>
-        <CaseDefault value="TrackGenetronPowerSupplyUnitSA"/>
-    </CEffectSwitch>
-    <CEffectSet id="GenetronTrainSet">
-        <ValidatorArray value="EnergyGTE005"/>
-        <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="GenetronTrainEnergyData"/>
-        <EffectArray value="GenetronTrainCheckInternalEnergyData"/>
-    </CEffectSet>
-    <CEffectEnumTrackedUnits id="GenetronTrainETU">
-        <EditorCategories value="Race:Genetron"/>
-        <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <Effect value="GenetronTrainSwitch"/>
-    </CEffectEnumTrackedUnits>
-    <CEffectApplyBehavior id="GenetronTrainABHalt">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichUnit Value="Caster"/>
-        <Behavior value="GenetronPowerOutage"/>
-    </CEffectApplyBehavior>
-    <CEffectUserData id="GenetronTrainCheckInternalEnergyData">
-        <EditorCategories value="Race:Genetron"/>
-        <Amount value="0">
-            <AccumulatorArray value="GenetronCheckInternalEnergy"/>
-        </Amount>
-        <Operation value="Set"/>
-        <ValidateMax value="500000"/>
-        <EffectFailure value="GenetronTrainETU"/>
-    </CEffectUserData>
-<!--    <CEffectUserData id="SetEnergyNeededData0">-->
-<!--        <EditorCategories value="Race:Genetron"/>-->
-<!--        <Key value="EnergyNeeded"/>-->
-<!--        <Amount value="0"/>-->
-<!--        <SourceKey value="EnergyNeeded"/>-->
-<!--        <Operation value="Set"/>-->
-<!--        <BehaviorScope Behavior="GenetronProductionInternalEnergy"/>-->
-<!--    </CEffectUserData>-->
-    <CEffectUserData id="DataDefaultSet1">
-        <Operation value="Set"/>
-    </CEffectUserData>
-    <CEffectUserData id="DataDefaultSet0">
-        <Amount value="0"/>
-        <Operation value="Set"/>
-    </CEffectUserData>
-
-
-    <CActorUnit id="GenetronPowerSupplyDummy" parent="GenericUnitStandard" unitName="GenetronPowerSupplyDummy">
-        <Aliases index="1" removed="1"/>
-        <AcceptedHostedPropTransfers index="CastShadows" value="0"/>
-        <Model value="Sphere"/>
-        <UnitFlags index="ShowBlobShadow" value="0"/>
-    </CActorUnit>
-
-
-    <CValidatorUnitFilters id="CanHaveEnergy">
-        <ResultFailed value="MustTargetEnergyCapableUnits"/>
-        <Filters value="CanHaveEnergy;-"/>
-    </CValidatorUnitFilters>
-    <CValidatorUnitCompareVital id="SourceEnergyGTE025">
-        <WhichUnit Value="Source"/>
-        <Compare value="GE"/>
-        <Value value="25"/>
-        <Vital value="Energy"/>
-    </CValidatorUnitCompareVital>
-    <CValidatorCondition id="IfHasEnergyDrainThenDeltaGTE10">
-        <IfArray Test="HasPowershell" Return="EnergyDeltaGTE10"/>
-        <IfArray Test="HasCourierCloak" Return="EnergyDeltaGTE10"/>
-    </CValidatorCondition>
-    <CValidatorUnitCompareVital id="EnergyGTE020">
-        <Compare value="GE"/>
-        <Value value="20"/>
-        <Vital value="Energy"/>
-    </CValidatorUnitCompareVital>
-    <CValidatorUnitCompareVital id="EnergyDeltaGTE10">
-        <Compare value="GE"/>
-        <Type value="Delta"/>
-        <Value value="10"/>
-        <Vital value="Energy"/>
-    </CValidatorUnitCompareVital>
     <CValidatorUnitCompareVital id="EnergyLT025">
         <Compare value="LT"/>
         <Value value="25"/>
@@ -604,23 +11,31 @@
         <Value value="50"/>
         <Vital value="Energy"/>
     </CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="EnergyLT100">
+        <Compare value="LT"/>
+        <Value value="100"/>
+        <Vital value="Energy"/>
+    </CValidatorUnitCompareVital>
     <CValidatorUnitCompareVital id="EnergyLT150">
         <Compare value="LT"/>
         <Value value="150"/>
         <Vital value="Energy"/>
     </CValidatorUnitCompareVital>
-    <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyGE020">
+
+    <CValidatorUnitCompareVital id="EnergyGTE005">
         <ResultFailed value="NotEnoughEnergy"/>
-        <Compare value="GT"/>
-        <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <TrackedUnitValidatorArray value="EnergyGTE020"/>
-        <TrackedUnitFilters value="-;Dead"/>
-    </CValidatorCompareTrackedUnitsCount>
-
-
+        <Compare value="GE"/>
+        <Value value="5"/>
+        <Vital value="Energy"/>
+    </CValidatorUnitCompareVital>
     <CValidatorUnitCompareVital id="EnergyGTE015">
         <Compare value="GE"/>
         <Value value="15"/>
+        <Vital value="Energy"/>
+    </CValidatorUnitCompareVital>
+    <CValidatorUnitCompareVital id="EnergyGTE020">
+        <Compare value="GE"/>
+        <Value value="20"/>
         <Vital value="Energy"/>
     </CValidatorUnitCompareVital>
     <CValidatorUnitCompareVital id="EnergyGTE025">
@@ -648,10 +63,28 @@
         <Value value="150"/>
         <Vital value="Energy"/>
     </CValidatorUnitCompareVital>
-    <CValidatorPlayerRequirement id="GenetronHasNoPowerSupply">
-        <Find value="1"/>
-        <Value value="GenetronHasNoPowerSupply"/>
-    </CValidatorPlayerRequirement>
+
+    <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyGE001">
+        <ResultFailed value="NotEnoughEnergy"/>
+        <Compare value="GT"/>
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <TrackedUnitValidatorArray value="hasEnergy"/>
+        <TrackedUnitFilters value="-;Dead"/>
+    </CValidatorCompareTrackedUnitsCount>
+    <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyGE005">
+        <ResultFailed value="NotEnoughEnergy"/>
+        <Compare value="GT"/>
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <TrackedUnitValidatorArray value="EnergyGTE005"/>
+        <TrackedUnitFilters value="-;Dead"/>
+    </CValidatorCompareTrackedUnitsCount>
+    <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyGE020">
+        <ResultFailed value="NotEnoughEnergy"/>
+        <Compare value="GT"/>
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <TrackedUnitValidatorArray value="EnergyGTE020"/>
+        <TrackedUnitFilters value="-;Dead"/>
+    </CValidatorCompareTrackedUnitsCount>
     <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyGE025">
         <ResultFailed value="NotEnoughEnergy"/>
         <Compare value="GT"/>
@@ -694,20 +127,526 @@
         <TrackedUnitValidatorArray value="EnergyGTE150"/>
         <TrackedUnitFilters value="-;Dead"/>
     </CValidatorCompareTrackedUnitsCount>
-    <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyGE05">
-        <ResultFailed value="NotEnoughEnergy"/>
-        <Compare value="GT"/>
+
+    <CBehaviorBuff id="GenetronPowerBalance015On">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="EnergyGTE015"/>
+        <FinalEffect value="GenetronPowerBalance015OnDelay"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="GenetronPowerBalance020On">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="EnergyGTE020"/>
+        <FinalEffect value="GenetronPowerBalance020OnDelay"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="GenetronPowerBalance025On">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="EnergyGTE025"/>
+        <FinalEffect value="GenetronPowerBalance025OnDelay"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="GenetronPowerBalance050On">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="EnergyGTE050"/>
+        <FinalEffect value="GenetronPowerBalance050OnDelay"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="GenetronPowerBalance075On">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="EnergyGTE075"/>
+        <FinalEffect value="GenetronPowerBalance075OnDelay"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="GenetronPowerBalance100On">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="EnergyGTE100"/>
+        <FinalEffect value="GenetronPowerBalance100OnDelay"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="GenetronPowerBalance150On">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="EnergyGTE150"/>
+        <FinalEffect value="GenetronPowerBalance150OnDelay"/>
+    </CBehaviorBuff>
+
+    <CEffectApplyBehavior id="GenetronPowerBalance015On">
+        <ValidatorArray index="0" value="EnergyGTE015"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="GenetronPowerBalance020On">
+        <ValidatorArray index="0" value="EnergyGTE020"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="GenetronPowerBalance025On">
+        <ValidatorArray index="0" value="EnergyGTE025"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="GenetronPowerBalance050On">
+        <ValidatorArray index="0" value="EnergyGTE050"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="GenetronPowerBalance075On">
+        <ValidatorArray index="0" value="EnergyGTE075"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="GenetronPowerBalance100On">
+        <ValidatorArray index="0" value="EnergyGTE100"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="GenetronPowerBalance150On">
+        <ValidatorArray index="0" value="EnergyGTE150"/>
+    </CEffectApplyBehavior>
+
+    <CEffectCreatePersistent id="GenetronPowerBalance015OnDelay">
+        <Flags index="EffectSuccess" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodicValidator value="SourceNotDead"/>
+        <PeriodicEffectArray value="GenetronPowerBalance015On"/>
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodicPeriodArray value="0.0625"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="GenetronPowerBalance020OnDelay">
+        <WhichLocation Value="TargetUnit"/>
+        <Flags index="EffectSuccess" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodicValidator value="SourceNotDead"/>
+        <PeriodicEffectArray value="GenetronPowerBalance020On"/>
+        <PeriodicPeriodArray value="0.0625"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="GenetronPowerBalance025OnDelay">
+        <Flags index="EffectSuccess" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodicEffectArray value="GenetronPowerBalance025On"/>
+        <PeriodicValidator value="SourceNotDead"/>
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodicPeriodArray value="0.0625"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="GenetronPowerBalance050OnDelay">
+        <Flags index="EffectSuccess" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodicEffectArray value="GenetronPowerBalance050On"/>
+        <PeriodicValidator value="SourceNotDead"/>
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodicPeriodArray value="0.0625"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="GenetronPowerBalance075OnDelay">
+        <Flags index="EffectSuccess" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodicEffectArray value="GenetronPowerBalance075On"/>
+        <PeriodicValidator value="SourceNotDead"/>
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodicPeriodArray value="0.0625"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="GenetronPowerBalance100OnDelay">
+        <Flags index="EffectSuccess" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodicEffectArray value="GenetronPowerBalance100On"/>
+        <PeriodicValidator value="SourceNotDead"/>
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodicPeriodArray value="0.0625"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="GenetronPowerBalance150OnDelay">
+        <Flags index="EffectSuccess" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodicEffectArray value="GenetronPowerBalance150On"/>
+        <PeriodicValidator value="SourceNotDead"/>
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodicPeriodArray value="0.0625"/>
+    </CEffectCreatePersistent>
+
+    <CRequirement id="GenetronPowerBalance0015">
+        <EditorCategories value="Race:Genetron,TechType:Unit"/>
+        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance015OnCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="GenetronPowerBalance0020">
+        <EditorCategories value="Race:Genetron,TechType:Unit"/>
+        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance020OnCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="GenetronPowerBalance0025">
+        <EditorCategories value="Race:Genetron,TechType:Unit"/>
+        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance025OnCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="GenetronPowerBalance0050">
+        <EditorCategories value="Race:Genetron,TechType:Unit"/>
+        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance050OnCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="GenetronPowerBalance0075">
+        <EditorCategories value="Race:Genetron,TechType:Unit"/>
+        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance075OnCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="GenetronPowerBalance0100">
+        <EditorCategories value="Race:Genetron,TechType:Unit"/>
+        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance100OnCompleteOnly"/>
+    </CRequirement>
+    <CRequirement id="GenetronPowerBalance0150">
+        <EditorCategories value="Race:Genetron,TechType:Unit"/>
+        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance150OnCompleteOnly"/>
+    </CRequirement>
+
+    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance015OnCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="GenetronPowerBalance015On" State="CompleteOnly"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance020OnCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="GenetronPowerBalance020On" State="CompleteOnly"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance025OnCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="GenetronPowerBalance025On" State="CompleteOnly"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance050OnCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="GenetronPowerBalance050On" State="CompleteOnly"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance075OnCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="GenetronPowerBalance075On" State="CompleteOnly"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance100OnCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="GenetronPowerBalance100On" State="CompleteOnly"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance150OnCompleteOnly">
+        <Flags index="TechTreeCheat" value="0"/>
+        <Count Link="GenetronPowerBalance150On" State="CompleteOnly"/>
+    </CRequirementCountBehavior>
+
+    <CUnit id="GenetronPowerSupplyDummy">
+        <FlagArray index="Turnable" value="0"/>
+        <FlagArray index="Movable" value="0"/>
+        <FlagArray index="NoDraw" value="1"/>
+        <FlagArray index="KillCredit" value="0"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="NoScore" value="1"/>
+        <FlagArray index="Unstoppable" value="1"/>
+        <FlagArray index="CameraFollow" value="0"/>
+        <EditorFlags index="BlockStructures" value="0"/>
+        <Mover value="Fly"/>
+        <BehaviorArray Link="DummyUnit"/>
+        <BehaviorArray Link="GenetronPowerBalance015On"/>
+        <BehaviorArray Link="GenetronPowerBalance020On"/>
+        <BehaviorArray Link="GenetronPowerBalance025On"/>
+        <BehaviorArray Link="GenetronPowerBalance050On"/>
+        <BehaviorArray Link="GenetronPowerBalance075On"/>
+        <BehaviorArray Link="GenetronPowerBalance100On"/>
+        <BehaviorArray Link="GenetronPowerBalance150On"/>
+        <EditorCategories value="ObjectType:Other,ObjectFamily:Melee"/>
+        <LeaderAlias value=""/>
+        <HotkeyAlias value=""/>
+    </CUnit>
+    <CActorUnit id="GenetronPowerSupplyDummy" parent="GenericUnitStandard" unitName="GenetronPowerSupplyDummy">
+        <Aliases index="1" removed="1"/>
+        <AcceptedHostedPropTransfers index="CastShadows" value="0"/>
+        <Model value="Sphere"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+    </CActorUnit>
+
+    <CAccumulatorConstant id="MultiplyByNeg1">
+        <ApplicationRule value="Multiply"/>
+        <Amount value="-1"/>
+    </CAccumulatorConstant>
+    <CAccumulatorVitals id="EnergyCurrentCaster">
+        <Ratio value="1"/>
+        <VitalType value="Energy"/>
+        <ModificationType value="PerUnit"/>
+    </CAccumulatorVitals>
+    <CAccumulatorVitals id="EnergyCurrentTarget">
+        <Ratio value="1"/>
+        <VitalType value="Energy"/>
+        <UnitSource Value="Target"/>
+        <ModificationType value="PerUnit"/>
+    </CAccumulatorVitals>
+    <CAccumulatorUserData id="DefaultDataAdd"/>
+    <CAccumulatorUserData id="EnergyDataAdd">
+        <Key value="Energy"/>
+    </CAccumulatorUserData>
+    <CAccumulatorArithmetic id="EnergyDamage">
+        <Parameters value="0">
+            <AccumulatorArray value="EnergyCurrentCaster"/>
+        </Parameters>
+        <Parameters value="0">
+            <AccumulatorArray value="EnergyDataAdd"/>
+        </Parameters>
+        <Operation value="Subtract"/>
+    </CAccumulatorArithmetic>
+
+    <CBehaviorBuff id="DummyUnit">
+        <InfoFlags index="Hidden" value="1"/>
+        <Modification>
+            <StateFlags index="Invulnerable" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="TrackAndMirrorGenetronPowerSupply">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <Period value="0.0625"/>
+        <InitialEffect value="TrackGenetronPowerSupplySwitch"/>
+        <PeriodicEffect value="MirrorGenetronPowerSupplySwitch"/>
+        <RemoveValidatorArray value="GenetronUnitOwnerNotChanged"/>
+        <FinalEffect value="TrackGenetronPowerSupplyEndMirrorOrphan"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="GenetronProductionInternalEnergy">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="TrackGenetronPowerSupply">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <Period value="0.0625"/>
+        <InitialEffect value="TrackGenetronPowerSupplySwitch"/>
+        <RemoveValidatorArray value="GenetronUnitOwnerNotChanged"/>
+        <FinalEffect value="TrackGenetronPowerSupplyEndOrphan"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="TrackGenetronPowerSupplyUnit">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="GenetronUnitOwnerNotChanged"/>
+        <Period value="0.0625"/>
+        <InitialEffect value="TrackGenetronPowerSupplyUnitSwitch"/>
+        <FinalEffect value="TrackGenetronPowerSupplyEndUnitOrphan"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="GenetronEnergyStateFull">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="EnergyFullCaster"/>
+        <FinalEffect value="GenetronEnergyStateSet"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="GenetronEnergyStateNotFull">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="EnergyNotFullCaster"/>
+        <FinalEffect value="GenetronEnergyStateFull"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="GenetronPowerOutage">
+        <Alignment value="Negative"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-ability-stetmann-stetelliteoverloadenergy.dds"/>
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <TimeScaleSource Value="Global"/>
+        <Duration value="0.25"/>
+        <Modification>
+            <RateMultiplierArray index="Queueable" value="0.001"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorUnitTracker id="GenetronPowerSupplyTracker">
+        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorUnitTracker>
+
+    <CEffectApplyBehavior id="DummyUnit">
+        <EditorCategories value="Race:Xayid"/>
+    </CEffectApplyBehavior>
+    <CEffectUserData id="GenetronTrainCheckInternalEnergyHaltData">
+        <Amount value="0">
+            <AccumulatorArray value="GenetronCheckInternalEnergy"/>
+        </Amount>
+        <Operation value="Set"/>
+        <ValidateMax value="500000"/>
+        <EffectFailure value="GenetronTrainABHalt"/>
+    </CEffectUserData>
+    <CEffectUserData id="GenetronTrainFullInternalEnergyData">
+        <Key value="InternalEnergy"/>
+        <Amount value="0">
+            <AccumulatorArray value="GenetronTrainEnergyRemaining"/>
+        </Amount>
+        <SourceKey value="InternalEnergy"/>
+        <BehaviorScope Behavior="GenetronProductionInternalEnergy"/>
+    </CEffectUserData>
+    <CEffectSet id="GenetronTrainFullSet">
+        <EffectArray value="GenetronTrainFullMU"/>
+        <EffectArray value="GenetronTrainFullInternalEnergyData"/>
+    </CEffectSet>
+    <CEffectUserData id="GenetronTrainPartialInternalEnergyData">
+        <Key value="InternalEnergy"/>
+        <Amount value="0">
+            <AccumulatorArray value="EnergyCurrentTarget"/>
+        </Amount>
+        <SourceKey value="InternalEnergy"/>
+        <BehaviorScope Behavior="GenetronProductionInternalEnergy"/>
+    </CEffectUserData>
+    <CEffectUserData id="GenetronTrainEnergyData">
+        <Key value="Energy"/>
+        <Amount value="0">
+            <AccumulatorArray value="GenetronTrainEnergyRequested"/>
+        </Amount>
+        <SourceKey value="Energy"/>
+        <Operation value="Set"/>
+        <ValidateMax value="500000"/>
+        <EffectSuccess value="GenetronTrainFullSet"/>
+        <EffectFailure value="GenetronTrainPartialSet"/>
+    </CEffectUserData>
+    <CEffectModifyUnit id="GenetronTrainFullMU">
+        <VitalArray index="Energy">
+            <Change value="0">
+                <AccumulatorArray value="GenetronTrainEnergyRemaining"/>
+                <AccumulatorArray value="MultiplyByNeg1"/>
+            </Change>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="GenetronTrainPartialMU">
+        <VitalArray index="Energy">
+            <Change value="0">
+                <AccumulatorArray value="EnergyCurrentTarget"/>
+                <AccumulatorArray value="MultiplyByNeg1"/>
+            </Change>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectSet id="GenetronTrainPartialSet">
+        <EffectArray value="GenetronTrainPartialInternalEnergyData"/>
+        <EffectArray value="GenetronTrainPartialMU"/>
+    </CEffectSet>
+    <CEffectSwitch id="GenetronTrainSwitch">
+        <CaseArray Validator="hasEnergy" Effect="GenetronTrainSet"/>
+        <CaseDefault value="GenetronTrainABHalt"/>
+    </CEffectSwitch>
+    <CEffectEnumTrackedUnits id="MirrorGenetronPowerSupplyETU">
         <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <TrackedUnitValidatorArray value="EnergyGTE005"/>
-        <TrackedUnitFilters value="-;Dead"/>
-    </CValidatorCompareTrackedUnitsCount>
-    <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyGE001">
-        <ResultFailed value="NotEnoughEnergy"/>
-        <Compare value="GT"/>
+        <Effect value="MirrorGenetronPowerSupplySet"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectModifyUnit id="MirrorGenetronPowerSupplyEnergyLossMU">
+        <ValidatorArray value="CasterNotDead"/>
+        <ValidatorArray value="CasterMaximumEnergy0"/>
+        <ValidatorArray value="CasterIsNotHidden"/>
+        <VitalArray index="Energy">
+            <Change value="0">
+                <AccumulatorArray value="EnergyDamage"/>
+            </Change>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="MirrorGenetronPowerSupplyMU">
+        <ImpactUnit Value="Caster"/>
+        <VitalArray index="Energy">
+            <Change value="0.001">
+                <AccumulatorArray value="EnergyCurrentTarget"/>
+            </Change>
+        </VitalArray>
+        <ModifyFlags index="SetVitals" value="1"/>
+        <ValidatorArray value="MaximumEnergy0"/>
+    </CEffectModifyUnit>
+    <CEffectUserData id="MirrorGenetronPowerSupplyStoreEnergyData">
+        <Key value="Energy"/>
+        <Amount value="0">
+            <AccumulatorArray value="EnergyCurrentCaster"/>
+        </Amount>
+        <SourceKey value="Energy"/>
+        <Operation value="Set"/>
+        <ValidatorArray value="CasterMaximumEnergy0"/>
+    </CEffectUserData>
+    <CEffectUserData id="MirrorGenetronPowerSupplyStoreEnergyDataSet0">
+        <Key value="Energy"/>
+        <Amount value="0"/>
+        <SourceKey value="Energy"/>
+        <Operation value="Set"/>
+    </CEffectUserData>
+    <CEffectSwitch id="MirrorGenetronPowerSupplySwitch">
+        <CaseArray Validator="MirrorGenetronPowerSupplyValidator" Effect="MirrorGenetronPowerSupplyETU"/>
+        <CaseDefault value="MirrorGenetronPowerSupplyRBSet"/>
+    </CEffectSwitch>
+    <CEffectAddTrackedUnit id="TrackGenetronPowerSupplyATU">
         <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <TrackedUnitValidatorArray value="hasEnergy"/>
-        <TrackedUnitFilters value="-;Dead"/>
-    </CValidatorCompareTrackedUnitsCount>
+        <TrackedUnit Value="Target"/>
+    </CEffectAddTrackedUnit>
+    <CEffectCreateUnit id="TrackGenetronPowerSupplyCU">
+        <WhichLocation Value="CasterPoint"/>
+        <CreateFlags index="Placement" value="0"/>
+        <SpawnEffect value="TrackGenetronPowerSupplySet"/>
+        <SpawnUnit value="GenetronPowerSupplyDummy"/>
+    </CEffectCreateUnit>
+    <CEffectApplyBehavior id="TrackGenetronPowerSupplyEndMirrorAB">
+        <ValidatorArray index="0" value="CasterNotDead"/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="TrackAndMirrorGenetronPowerSupply"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="TrackGenetronPowerSupplyEndMirrorOrphan">
+        <WhichLocation Value="CasterUnit"/>
+        <Flags index="OrphanParams" value="1"/>
+        <InitialEffect value="TrackGenetronPowerSupplyEndETU"/>
+        <FinalEffect value="TrackGenetronPowerSupplyEndMirrorAB"/>
+    </CEffectCreatePersistent>
+    <CEffectApplyBehavior id="TrackGenetronPowerSupplyEndUnitAB">
+        <ValidatorArray index="0" value="CasterNotDead"/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="TrackGenetronPowerSupplyUnit"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumTrackedUnits id="TrackGenetronPowerSupplyEndETU">
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <Effect value="TrackGenetronPowerSupplyEndRTU"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectRemoveTrackedUnit id="TrackGenetronPowerSupplyEndRTU">
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <TrackedUnit Value="Target"/>
+    </CEffectRemoveTrackedUnit>
+    <CEffectApplyBehavior id="TrackGenetronPowerSupplyEndAB">
+        <ValidatorArray index="0" value="CasterNotDead"/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="TrackGenetronPowerSupply"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="TrackGenetronPowerSupplyEndUnitOrphan">
+        <WhichLocation Value="CasterUnit"/>
+        <Flags index="OrphanParams" value="1"/>
+        <InitialEffect value="TrackGenetronPowerSupplyEndETU"/>
+        <FinalEffect value="TrackGenetronPowerSupplyEndUnitAB"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="TrackGenetronPowerSupplyEndOrphan">
+        <WhichLocation Value="CasterUnit"/>
+        <Flags index="OrphanParams" value="1"/>
+        <InitialEffect value="TrackGenetronPowerSupplyEndETU"/>
+        <FinalEffect value="TrackGenetronPowerSupplyEndAB"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="TrackGenetronPowerSupplyUnitSet">
+        <ValidatorArray value="IsGenetronPowerSupplyDummy"/>
+        <EffectArray value="TrackGenetronPowerSupplyATU"/>
+    </CEffectSet>
+    <CEffectCreateUnit id="TrackGenetronPowerSupplyUnitCU">
+        <WhichLocation Value="CasterPoint"/>
+        <CreateFlags index="Placement" value="0"/>
+        <SpawnEffect value="TrackGenetronPowerSupplyUnitSet"/>
+        <SpawnUnit value="GenetronPowerSupplyDummy"/>
+    </CEffectCreateUnit>
+    <CEffectEnumArea id="TrackGenetronPowerSupplySA">
+        <SearchFilters value="Invulnerable;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
+        <AreaArray MaxCount="1" Radius="500" Effect="TrackGenetronPowerSupplySet"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="TrackGenetronPowerSupplyUnitSA">
+        <SearchFilters value="Invulnerable;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
+        <AreaArray MaxCount="1" Radius="500" Effect="TrackGenetronPowerSupplyUnitSet"/>
+    </CEffectEnumArea>
+    <CEffectSet id="TrackGenetronPowerSupplySet">
+        <ValidatorArray value="IsGenetronPowerSupplyDummy"/>
+        <EffectArray value="TrackGenetronPowerSupplyATU"/>
+        <EffectArray value="TrackGenetronPowerSupplyEnergySwitch"/>
+    </CEffectSet>
+    <CEffectSwitch id="TrackGenetronPowerSupplySwitch">
+        <CaseArray Validator="GenetronHasNoPowerSupply" Effect="TrackGenetronPowerSupplyCU"/>
+        <CaseDefault value="TrackGenetronPowerSupplySA"/>
+    </CEffectSwitch>
+    <CEffectSwitch id="TrackGenetronPowerSupplyUnitSwitch">
+        <CaseArray Validator="GenetronHasNoPowerSupply" Effect="TrackGenetronPowerSupplyUnitCU"/>
+        <CaseDefault value="TrackGenetronPowerSupplyUnitSA"/>
+    </CEffectSwitch>
+    <CEffectSet id="GenetronTrainSet">
+        <ValidatorArray value="EnergyGTE005"/>
+        <EffectArray value="GenetronTrainEnergyData"/>
+        <EffectArray value="GenetronTrainCheckInternalEnergyData"/>
+    </CEffectSet>
+    <CEffectEnumTrackedUnits id="GenetronTrainETU">
+        <BehaviorLink value="GenetronPowerSupplyTracker"/>
+        <Effect value="GenetronTrainSwitch"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectApplyBehavior id="GenetronTrainABHalt">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="GenetronPowerOutage"/>
+    </CEffectApplyBehavior>
+    <CEffectUserData id="GenetronTrainCheckInternalEnergyData">
+        <Amount value="0">
+            <AccumulatorArray value="GenetronCheckInternalEnergy"/>
+        </Amount>
+        <Operation value="Set"/>
+        <ValidateMax value="500000"/>
+        <EffectFailure value="GenetronTrainETU"/>
+    </CEffectUserData>
+    <CEffectUserData id="DataDefaultSet1">
+        <Operation value="Set"/>
+    </CEffectUserData>
+    <CEffectUserData id="DataDefaultSet0">
+        <Amount value="0"/>
+        <Operation value="Set"/>
+    </CEffectUserData>
+
+    <CValidatorPlayerRequirement id="GenetronHasNoPowerSupply">
+        <Find value="1"/>
+        <Value value="GenetronHasNoPowerSupply"/>
+    </CValidatorPlayerRequirement>
     <CValidatorUnitCompareBehaviorCount id="GenetronPowerUser">
         <Compare value="GT"/>
         <Behavior value="GenetronPowerSupplyTracker"/>
@@ -735,118 +674,28 @@
         <Type value="Maximum"/>
         <Vital value="Energy"/>
     </CValidatorUnitCompareVital>
-    <CValidatorCombine id="MirrorGenetronPowerSupplyValidator">
-        <Type value="And"/>
-        <CombineArray value="StructureNotLockedDown"/>
-        <CombineArray value="NotUnderConstruction"/>
-        <CombineArray value="NotHidden"/>
-    </CValidatorCombine>
-    <CValidatorCombine id="GenetronCasterEnergyRegenNotSuppressed">
-        <Type value="And"/>
-        <CombineArray value="CasterNoCourierCloak"/>
-        <CombineArray value="CasterNoProcessorDetectionMode"/>
-        <CombineArray value="JupiterSpeedBuffE0"/>
-        <CombineArray value="NoPowershellCaster"/>
-    </CValidatorCombine>
-    <CValidatorUnitCompareBehaviorCount id="CasterNoPowerOutage">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="GenetronPowerOutage"/>
-    </CValidatorUnitCompareBehaviorCount>
-    <CValidatorUnitCompareVital id="CasterEnergyGTE5">
-        <ResultFailed value="NotEnoughEnergy"/>
-        <WhichUnit Value="Caster"/>
-        <Compare value="GE"/>
-        <Value value="5"/>
-        <Vital value="Energy"/>
-    </CValidatorUnitCompareVital>
-    <CValidatorCombine id="GenetronEnergyGenValidators">
-        <Type value="And"/>
-        <CombineArray value="NotDead"/>
-        <CombineArray value="CasterNotDead"/>
-        <CombineArray value="CasterIsNotHidden"/>
-        <CombineArray value="CasterNotLockedDown"/>
-        <CombineArray value="OwnedBySelf"/>
-    </CValidatorCombine>
-    <CValidatorCombine id="GenetronEnergyRegenValidators">
-        <Type value="And"/>
-        <CombineArray value="EnergyGTE005"/>
-        <CombineArray value="NotDead"/>
-        <CombineArray value="CasterNotDead"/>
-        <CombineArray value="NotHidden"/>
-        <CombineArray value="GenetronCasterEnergyRegenNotSuppressed"/>
-        <CombineArray value="OwnedBySelf"/>
-    </CValidatorCombine>
-    <CValidatorCombine id="GenetronProductionIsTraining">
-        <CombineArray value="ManufacturerIsTraining"/>
-        <CombineArray value="FabricatorIsTraining"/>
-        <CombineArray value="AssemblyArrayIsTraining"/>
-    </CValidatorCombine>
-    <CValidatorUnitCompareVital id="EnergyLT100">
-        <Compare value="LT"/>
-        <Value value="100"/>
-        <Vital value="Energy"/>
-    </CValidatorUnitCompareVital>
-    <CValidatorEffectTreeUserData id="CasterDataDefaultIs0">
-        <CheckExistence value="0"/>
-        <Key value="Default"/>
-    </CValidatorEffectTreeUserData>
-    <CValidatorUnitCompareBehaviorCount id="NotDummyUnit">
-        <Behavior value="DummyUnit"/>
-    </CValidatorUnitCompareBehaviorCount>
-    <CValidatorUnitType id="TargetUnitTypeIsNotCasterUnitType">
-        <OtherUnit Value="Caster"/>
-        <Find value="0"/>
-    </CValidatorUnitType>
-    <CValidatorCombine id="StructureNotLockedDown">
-        <Type value="And"/>
-        <CombineArray value="StructureNotLockedDownBase"/>
-        <CombineArray value="StructureNotLockedDownDuration"/>
-    </CValidatorCombine>
-    <CValidatorUnitCompareVital id="HasNoEnergy">
-        <Vital value="Energy"/>
-        <Compare value="LE"/>
-    </CValidatorUnitCompareVital>
-    <CValidatorUnitCompareVital id="EnergyGTE005">
-        <ResultFailed value="NotEnoughEnergy"/>
-        <Compare value="GE"/>
-        <Value value="5"/>
-        <Vital value="Energy"/>
-    </CValidatorUnitCompareVital>
     <CValidatorUnitCompareVital id="MaximumEnergy0">
         <ResultFailed value="NotEnoughEnergy"/>
         <Compare value="GT"/>
         <Type value="Maximum"/>
         <Vital value="Energy"/>
     </CValidatorUnitCompareVital>
-
-    <CRequirement id="GenetronPowerBalance0015">
-        <EditorCategories value="Race:Genetron,TechType:Unit"/>
-        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance015OnCompleteOnly920359573"/>
-    </CRequirement>
-    <CRequirement id="GenetronPowerBalance0020">
-        <EditorCategories value="Race:Genetron,TechType:Unit"/>
-        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance020OnCompleteOnly920359573"/>
-    </CRequirement>
-    <CRequirement id="GenetronPowerBalance0025">
-        <EditorCategories value="Race:Genetron,TechType:Unit"/>
-        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance025OnCompleteOnly920359573"/>
-    </CRequirement>
-    <CRequirement id="GenetronPowerBalance0050">
-        <EditorCategories value="Race:Genetron,TechType:Unit"/>
-        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance050OnCompleteOnly920359573"/>
-    </CRequirement>
-    <CRequirement id="GenetronPowerBalance0075">
-        <EditorCategories value="Race:Genetron,TechType:Unit"/>
-        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance075OnCompleteOnly920359573"/>
-    </CRequirement>
-    <CRequirement id="GenetronPowerBalance0100">
-        <EditorCategories value="Race:Genetron,TechType:Unit"/>
-        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance100OnCompleteOnly920359573"/>
-    </CRequirement>
-    <CRequirement id="GenetronPowerBalance0150">
-        <EditorCategories value="Race:Genetron,TechType:Unit"/>
-        <NodeArray index="Use" Link="CountBehaviorGenetronPowerBalance150OnCompleteOnly920359573"/>
-    </CRequirement>
+    <CValidatorCombine id="MirrorGenetronPowerSupplyValidator">
+        <Type value="And"/>
+        <!--Scion-->
+        <!--<CombineArray value="StructureNotLockedDown"/>-->
+        <CombineArray value="NotUnderConstruction"/>
+        <CombineArray value="NotHidden"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="GenetronEnergyGenValidators">
+        <Type value="And"/>
+        <CombineArray value="NotDead"/>
+        <CombineArray value="CasterNotDead"/>
+        <CombineArray value="CasterIsNotHidden"/>
+        <!--Scion-->
+        <!--<CombineArray value="CasterNotLockedDown"/>-->
+        <CombineArray value="OwnedBySelf"/>
+    </CValidatorCombine>
 
     <CRequirement id="GenetronHasNoPowerSupply">
         <EditorCategories value="Race:Genetron,TechType:Unit"/>
@@ -856,620 +705,54 @@
         <Flags index="TechTreeCheat" value="0"/>
         <Count Link="GenetronPowerSupplyDummy" State="QueuedOrBetter"/>
     </CRequirementCountUnit>
-    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance015OnCompleteOnly920359573">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance015On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
     <CRequirementNot id="NotCountUnitGenetronPowerSupplyDummyQueuedOrBetter">
         <OperandArray index="0" value="CountUnitGenetronPowerSupplyDummyQueuedOrBetter"/>
     </CRequirementNot>
-    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance020OnCompleteOnly920359573">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance020On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance025OnCompleteOnly920359573">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance025On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance050OnCompleteOnly920359573">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance050On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance075OnCompleteOnly920359573">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance075On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance100OnCompleteOnly920359573">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance100On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CountBehaviorGenetronPowerBalance150OnCompleteOnly920359573">
-        <Flags index="TechTreeCheat" value="0"/>
-        <Count Link="GenetronPowerBalance150On" State="CompleteOnly"/>
-    </CRequirementCountBehavior>
 
-
-    
-
-
-
-
-
+    <CEffectSet id="MirrorGenetronPowerSupplyRBSet">
+        <!--Modified-->
+        <EffectArray value="MirrorGenetronPowerSupplyRBSetUnits"/>
+        <EffectArray value="MirrorGenetronPowerSupplyStoreEnergyDataSet0"/>
+    </CEffectSet>
+    <CEffectSet id="MirrorGenetronPowerSupplySet">
+        <EffectArray value="MirrorGenetronPowerSupplyEnergyLossMU"/>
+        <!--Modified-->
+        <EffectArray value="MirrorGenetronPowerSupplySetUnits"/>
+        <EffectArray value="MirrorGenetronPowerSupplyMU"/>
+        <EffectArray value="MirrorGenetronPowerSupplyStoreEnergyData"/>
+    </CEffectSet>
     <CEffectSwitch id="TrackGenetronPowerSupplyEnergySwitch">
-        <EditorCategories value="Race:Genetron"/>
         <!-- Scion -->
-        <CaseArray Validator="CasterIsProcessingCore" Effect="TrackGenetronPowerSupplyProcessingCoreAB"/>
-        <CaseArray Validator="CasterIsRelayTower" Effect="TrackGenetronPowerSupplyRelayTowerAB"/>
-        <CaseArray Validator="CasterIsGenerator" Effect="TrackGenetronPowerSupplyGeneratorAB"/>
+        <!--        <CaseArray Validator="CasterIsProcessingCore" Effect="TrackGenetronPowerSupplyProcessingCoreAB"/>-->
+        <!--        <CaseArray Validator="CasterIsRelayTower" Effect="TrackGenetronPowerSupplyRelayTowerAB"/>-->
+        <!--        <CaseArray Validator="CasterIsGenerator" Effect="TrackGenetronPowerSupplyGeneratorAB"/>-->
         <!-- Scion End-->
         <!-- NOD -->
         <CaseArray Validator="HasCnCPowerSupply100" Effect="TrackGenetronPowerSupplyCnC100AB"/>
         <CaseArray Validator="HasCnCPowerSupply25" Effect="TrackGenetronPowerSupplyCnC25AB"/>
         <!-- NOD End -->
     </CEffectSwitch>
-    <CEffectSet id="MirrorGenetronPowerSupplyRBSet">
-        <EditorCategories value="Race:Genetron"/>
+    <CEffectSet id="MirrorGenetronPowerSupplyRBSetUnits">
         <!--Scion-->
-        <EffectArray value="MirrorGenetronPowerSupplyProcessingCoreRB"/>
-        <EffectArray value="MirrorGenetronPowerSupplyRelayTowerRB"/>
-        <EffectArray value="MirrorGenetronPowerSupplyGeneratorRB"/>
+        <!-- <EffectArray value="MirrorGenetronPowerSupplyProcessingCoreRB"/>-->
+        <!-- <EffectArray value="MirrorGenetronPowerSupplyRelayTowerRB"/>-->
+        <!-- <EffectArray value="MirrorGenetronPowerSupplyGeneratorRB"/>-->
         <!--Scion End-->
         <!--Nod-->
         <EffectArray value="MirrorGenetronPowerSupplyCnC100RB"/>
         <EffectArray value="MirrorGenetronPowerSupplyCnC25RB"/>
         <!--Nod End-->
-        <EffectArray value="MirrorGenetronPowerSupplyStoreEnergyDataSet0"/>
     </CEffectSet>
-    <CEffectSet id="MirrorGenetronPowerSupplySet">
-        <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="MirrorGenetronPowerSupplyEnergyLossMU"/>
+    <CEffectSet id="MirrorGenetronPowerSupplySetUnits">
         <!-- Scion -->
-        <EffectArray value="MirrorGenetronPowerSupplyProcessingCoreData"/>
-        <EffectArray value="MirrorGenetronPowerSupplyRelayTowerData"/>
+        <!-- <EffectArray value="MirrorGenetronPowerSupplyProcessingCoreData"/>-->
+        <!-- <EffectArray value="MirrorGenetronPowerSupplyRelayTowerData"/>-->
         <!-- Scion end -->
         <!-- Nod -->
         <EffectArray value="MirrorGenetronPowerSupplyCnC100Data"/>
         <EffectArray value="MirrorGenetronPowerSupplyCnC25Data"/>
         <!-- Nod end -->
-        <EffectArray value="MirrorGenetronPowerSupplyMU"/>
-        <EffectArray value="MirrorGenetronPowerSupplyStoreEnergyData"/>
     </CEffectSet>
 
 
-    <CEffectEnumTrackedUnits id="NodePowerETU">
-        <ValidatorArray value="CasterIsNotHidden"/>
-        <ValidatorArray value="CasterNotDead"/>
-        <ValidatorArray value="CasterNotLockedDown"/>
-        <ValidatorArray value="CasterIsNotUnderConstruction"/>
-        <ValidatorArray value="CasterDataDefaultIs0"/>
-        <EditorCategories value="Race:Genetron"/>
-        <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <Effect value="NodePowerHealer"/>
-    </CEffectEnumTrackedUnits>
-    <CEffectEnumTrackedUnits id="GeneratorPowerETU">
-        <ValidatorArray value="CasterIsNotHidden"/>
-        <ValidatorArray value="CasterNotDead"/>
-        <ValidatorArray value="CasterNotLockedDown"/>
-        <ValidatorArray value="CasterIsNotUnderConstruction"/>
-        <ValidatorArray value="CasterDataDefaultIs0"/>
-        <EditorCategories value="Race:Genetron"/>
-        <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <Effect value="GeneratorPowerHealer"/>
-    </CEffectEnumTrackedUnits>
-    <CEffectCreateHealer id="GeneratorPowerHealer">
-        <ValidatorArray value="GenetronEnergyGenValidators"/>
-        <EditorCategories value="Race:Genetron"/>
-        <Flags index="Channeled" value="0"/>
-        <Flags index="ContinueWhenFull" value="1"/>
-        <PeriodicValidator value="GenetronEnergyGenValidators"/>
-        <RechargeVital value="Energy"/>
-        <RechargeVitalRate value="2.8593"/>
-        <InitialEffect value="DataDefaultSet1"/>
-        <FinalEffect value="DataDefaultSet0"/>
-    </CEffectCreateHealer>
-    <CEffectCreateHealer id="NodePowerHealer">
-        <ValidatorArray value="GenetronEnergyGenValidators"/>
-        <EditorCategories value="Race:Genetron"/>
-        <Flags index="Channeled" value="0"/>
-        <Flags index="ContinueWhenFull" value="1"/>
-        <PeriodicValidator value="GenetronEnergyGenValidators"/>
-        <RechargeVital value="Energy"/>
-        <RechargeVitalRate value="0.7148"/>
-        <InitialEffect value="DataDefaultSet1"/>
-        <FinalEffect value="DataDefaultSet0"/>
-    </CEffectCreateHealer>
-
-    <CBehaviorBuff id="ProcessingCorePower">
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Textures\btn-tips-computerterminals.dds"/>
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="NotUnderConstruction"/>
-        <DisableValidatorArray value="StructureNotLockedDown"/>
-        <DisableValidatorArray value="CasterIsNotHidden"/>
-        <DisableValidatorArray value="CasterDataDefaultIs0"/>
-        <Period value="0.5"/>
-        <InitialEffect value="ProcessingCorePowerETU"/>
-        <PeriodicEffect value="ProcessingCorePowerETU"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GeneratorPower">
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Textures\btn-tips-computerterminals.dds"/>
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="NotUnderConstruction"/>
-        <DisableValidatorArray value="StructureNotLockedDown"/>
-        <DisableValidatorArray value="CasterIsNotHidden"/>
-        <DisableValidatorArray value="CasterDataDefaultIs0"/>
-        <Period value="0.5"/>
-        <PeriodicEffect value="GeneratorPowerETU"/>
-        <InitialEffect value="GeneratorPowerETU"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodePower">
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Textures\btn-tips-computerterminals.dds"/>
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="NotUnderConstruction"/>
-        <DisableValidatorArray value="StructureNotLockedDown"/>
-        <DisableValidatorArray value="CasterIsNotHidden"/>
-        <DisableValidatorArray value="CasterDataDefaultIs0"/>
-        <Period value="0.5"/>
-        <PeriodicEffect value="NodePowerETU"/>
-        <InitialEffect value="NodePowerETU"/>
-    </CBehaviorBuff>
-
-    <CAccumulatorBehavior id="MaximumPowerGeneratorStackCaster">
-        <Behavior value="MaximumPowerGenerator"/>
-    </CAccumulatorBehavior>
-    <CAccumulatorArithmetic id="MaximumPowerProcessingCoreArith">
-        <Parameters value="0">
-            <AccumulatorArray value="MaximumPowerProcessingCoreStackTarget"/>
-        </Parameters>
-        <Parameters value="0">
-            <AccumulatorArray value="MaximumPowerProcessingCoreStackCaster"/>
-        </Parameters>
-        <Operation value="Subtract"/>
-    </CAccumulatorArithmetic>
-    <CAccumulatorArithmetic id="MaximumPowerRelayTowerArith">
-        <Parameters value="0">
-            <AccumulatorArray value="MaximumPowerRelayTowerStackTarget"/>
-        </Parameters>
-        <Parameters value="0">
-            <AccumulatorArray value="MaximumPowerRelayTowerStackCaster"/>
-        </Parameters>
-        <Operation value="Subtract"/>
-    </CAccumulatorArithmetic>
-    <CAccumulatorBehavior id="MaximumPowerProcessingCoreStackTarget">
-        <Behavior value="MaximumPowerProcessingCore"/>
-        <UnitSource Value="Target"/>
-    </CAccumulatorBehavior>
-    <CAccumulatorBehavior id="MaximumPowerProcessingCoreStackCaster">
-        <Behavior value="MaximumPowerProcessingCore"/>
-    </CAccumulatorBehavior>
-    <CAccumulatorArithmetic id="MaximumPowerGeneratorArith">
-        <Parameters value="0">
-            <AccumulatorArray value="MaximumPowerGeneratorStackTarget"/>
-        </Parameters>
-        <Parameters value="0">
-            <AccumulatorArray value="MaximumPowerGeneratorStackCaster"/>
-        </Parameters>
-        <Operation value="Subtract"/>
-    </CAccumulatorArithmetic>
-    <CAccumulatorBehavior id="MaximumPowerRelayTowerStackTarget">
-        <Behavior value="MaximumPowerRelayTower"/>
-        <UnitSource Value="Target"/>
-    </CAccumulatorBehavior>
-    <CAccumulatorBehavior id="MaximumPowerGeneratorStackTarget">
-        <Behavior value="MaximumPowerGenerator"/>
-        <UnitSource Value="Target"/>
-    </CAccumulatorBehavior>
-    <CAccumulatorBehavior id="MaximumPowerRelayTowerStackCaster">
-        <Behavior value="MaximumPowerRelayTower"/>
-    </CAccumulatorBehavior>
-    <CBehaviorBuff id="MaximumPowerProcessingCore">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="CasterNotLockedDown"/>
-        <DisableValidatorArray value="CasterIsNotUnderConstruction"/>
-        <DisableValidatorArray value="CasterIsNotHidden"/>
-        <DisableValidatorArray value="NotHidden"/>
-        <RemoveValidatorArray value="CasterNotDead"/>
-        <RemoveValidatorArray value="GenetronUnitOwnerNotChanged"/>
-        <MaxStackCount value="0"/>
-        <Modification>
-            <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
-            <VitalMaxArray index="Energy" value="400"/>
-        </Modification>
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="MaximumPowerRelayTower">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="CasterNotLockedDown"/>
-        <DisableValidatorArray value="CasterIsNotUnderConstruction"/>
-        <DisableValidatorArray value="CasterIsNotHidden"/>
-        <DisableValidatorArray value="NotHidden"/>
-        <RemoveValidatorArray value="CasterNotDead"/>
-        <RemoveValidatorArray value="GenetronUnitOwnerNotChanged"/>
-        <MaxStackCount value="0"/>
-        <Modification>
-            <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
-            <VitalMaxArray index="Energy" value="100"/>
-        </Modification>
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="MaximumPowerGenerator">
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="CasterNotLockedDown"/>
-        <DisableValidatorArray value="CasterIsNotUnderConstruction"/>
-        <DisableValidatorArray value="CasterIsNotHidden"/>
-        <DisableValidatorArray value="NotHidden"/>
-        <RemoveValidatorArray value="CasterNotDead"/>
-        <RemoveValidatorArray value="GenetronUnitOwnerNotChanged"/>
-        <MaxStackCount value="0"/>
-        <Modification>
-            <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
-            <VitalMaxArray index="Energy" value="50"/>
-        </Modification>
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorBuff>
-
-    <CEffectApplyBehavior id="TrackGenetronPowerSupplyProcessingCoreAB">
-        <EditorCategories value="Race:Genetron"/>
-        <Behavior value="MaximumPowerProcessingCore"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="TrackGenetronPowerSupplyGeneratorAB">
-        <EditorCategories value="Race:Genetron"/>
-        <Behavior value="MaximumPowerGenerator"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="TrackGenetronPowerSupplyRelayTowerAB">
-        <EditorCategories value="Race:Genetron"/>
-        <Behavior value="MaximumPowerRelayTower"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="MirrorGenetronPowerSupplyProcessingCoreAB">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichUnit Value="Caster"/>
-        <Behavior value="MaximumPowerProcessingCore"/>
-        <Count value="0">
-            <AccumulatorArray value="DefaultDataAdd"/>
-        </Count>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="MirrorGenetronPowerSupplyGeneratorAB">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichUnit Value="Caster"/>
-        <Behavior value="MaximumPowerGenerator"/>
-        <Count value="0">
-            <AccumulatorArray value="DefaultDataAdd"/>
-        </Count>
-    </CEffectApplyBehavior>
-    <CEffectRemoveBehavior id="MirrorGenetronPowerSupplyGeneratorRB">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichUnit Value="Caster"/>
-        <BehaviorLink value="MaximumPowerGenerator"/>
-    </CEffectRemoveBehavior>
-    <CEffectSet id="MirrorGenetronPowerSupplyGeneratorRBSet">
-        <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="MirrorGenetronPowerSupplyGeneratorRB"/>
-        <EffectArray value="MirrorGenetronPowerSupplyGeneratorData"/>
-    </CEffectSet>
-    <CEffectUserData id="MirrorGenetronPowerSupplyGeneratorData">
-        <EditorCategories value="Race:Genetron"/>
-        <Amount value="0">
-            <AccumulatorArray value="MaximumPowerGeneratorArith"/>
-        </Amount>
-        <Operation value="Set"/>
-        <ValidateMax value="500000"/>
-        <EffectSuccess value="MirrorGenetronPowerSupplyGeneratorAB"/>
-        <EffectFailure value="MirrorGenetronPowerSupplyGeneratorRBSet"/>
-    </CEffectUserData>
-    <CEffectCreateHealer id="ProcessingCorePowerHealer">
-        <ValidatorArray value="GenetronEnergyGenValidators"/>
-        <EditorCategories value="Race:Genetron"/>
-        <Flags index="Channeled" value="0"/>
-        <Flags index="ContinueWhenFull" value="1"/>
-        <PeriodicValidator value="GenetronEnergyGenValidators"/>
-        <RechargeVital value="Energy"/>
-        <RechargeVitalRate value="0.7148"/>
-        <InitialEffect value="DataDefaultSet1"/>
-        <FinalEffect value="DataDefaultSet0"/>
-    </CEffectCreateHealer>
-    <CEffectEnumTrackedUnits id="ProcessingCorePowerETU">
-        <ValidatorArray value="CasterDataDefaultIs0"/>
-        <ValidatorArray value="CasterNotLockedDown"/>
-        <ValidatorArray value="CasterIsNotHidden"/>
-        <ValidatorArray value="CasterNotDead"/>
-        <ValidatorArray value="CasterIsNotUnderConstruction"/>
-        <EditorCategories value="Race:Genetron"/>
-        <BehaviorLink value="GenetronPowerSupplyTracker"/>
-        <Effect value="ProcessingCorePowerHealer"/>
-    </CEffectEnumTrackedUnits>
-    <CEffectSet id="MirrorGenetronPowerSupplyRelayTowerRBSet">
-        <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="MirrorGenetronPowerSupplyRelayTowerRB"/>
-        <EffectArray value="MirrorGenetronPowerSupplyRelayTowerData"/>
-    </CEffectSet>
-    <CEffectRemoveBehavior id="MirrorGenetronPowerSupplyRelayTowerRB">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichUnit Value="Caster"/>
-        <BehaviorLink value="MaximumPowerRelayTower"/>
-    </CEffectRemoveBehavior>
-    <CEffectApplyBehavior id="MirrorGenetronPowerSupplyRelayTowerAB">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichUnit Value="Caster"/>
-        <Behavior value="MaximumPowerRelayTower"/>
-        <Count value="0">
-            <AccumulatorArray value="DefaultDataAdd"/>
-        </Count>
-    </CEffectApplyBehavior>
-    <CEffectUserData id="MirrorGenetronPowerSupplyProcessingCoreData">
-        <EditorCategories value="Race:Genetron"/>
-        <Amount value="0">
-            <AccumulatorArray value="MaximumPowerProcessingCoreArith"/>
-        </Amount>
-        <Operation value="Set"/>
-        <ValidateMax value="500000"/>
-        <EffectSuccess value="MirrorGenetronPowerSupplyProcessingCoreAB"/>
-        <EffectFailure value="MirrorGenetronPowerSupplyProcessingCoreRBSet"/>
-    </CEffectUserData>
-    <CEffectUserData id="MirrorGenetronPowerSupplyRelayTowerData">
-        <EditorCategories value="Race:Genetron"/>
-        <Amount value="0">
-            <AccumulatorArray value="MaximumPowerRelayTowerArith"/>
-        </Amount>
-        <Operation value="Set"/>
-        <ValidateMax value="500000"/>
-        <EffectSuccess value="MirrorGenetronPowerSupplyRelayTowerAB"/>
-        <EffectFailure value="MirrorGenetronPowerSupplyRelayTowerRBSet"/>
-    </CEffectUserData>
-    <CEffectRemoveBehavior id="MirrorGenetronPowerSupplyProcessingCoreRB">
-        <EditorCategories value="Race:Genetron"/>
-        <WhichUnit Value="Caster"/>
-        <BehaviorLink value="MaximumPowerProcessingCore"/>
-    </CEffectRemoveBehavior>
-    <CEffectSet id="MirrorGenetronPowerSupplyProcessingCoreRBSet">
-        <EditorCategories value="Race:Genetron"/>
-        <EffectArray value="MirrorGenetronPowerSupplyProcessingCoreRB"/>
-        <EffectArray value="MirrorGenetronPowerSupplyProcessingCoreData"/>
-    </CEffectSet>
-
-
-    <CUnit id="GenetronPowerSupplyDummy">
-        <FlagArray index="Turnable" value="0"/>
-        <FlagArray index="Movable" value="0"/>
-        <FlagArray index="NoDraw" value="1"/>
-        <FlagArray index="KillCredit" value="0"/>
-        <FlagArray index="Invulnerable" value="1"/>
-        <FlagArray index="NoScore" value="1"/>
-        <FlagArray index="Unstoppable" value="1"/>
-        <FlagArray index="CameraFollow" value="0"/>
-        <EditorFlags index="BlockStructures" value="0"/>
-        <Mover value="Fly"/>
-        <BehaviorArray Link="DummyUnit"/>
-        <BehaviorArray Link="GenetronPowerBalance015On"/>
-        <BehaviorArray Link="GenetronPowerBalance020On"/>
-        <BehaviorArray Link="GenetronPowerBalance025On"/>
-        <BehaviorArray Link="GenetronPowerBalance050On"/>
-        <BehaviorArray Link="GenetronPowerBalance075On"/>
-        <BehaviorArray Link="GenetronPowerBalance100On"/>
-        <BehaviorArray Link="GenetronPowerBalance150On"/>
-        <EditorCategories value="ObjectType:Other,ObjectFamily:Melee"/>
-        <LeaderAlias value=""/>
-        <HotkeyAlias value=""/>
-    </CUnit>
-    <CUnit id="ProcessingCore">
-        <BehaviorArray Link="GenetronEnergyStateNotFull"/>
-        <BehaviorArray Link="GenetronPowerSupplyTracker"/>
-        <BehaviorArray Link="TrackAndMirrorGenetronPowerSupply"/>
-        <BehaviorArray Link="ProcessingCorePower"/>
-    </CUnit>
-    <CUnit id="RelayTower">
-        <BehaviorArray Link="GenetronPowerSupplyTracker"/>
-        <BehaviorArray Link="GenetronEnergyStateNotFull"/>
-        <BehaviorArray Link="TrackAndMirrorGenetronPowerSupply"/>
-        <EffectArray index="Birth" value="GenetronUpdatePowerGenerationTargetSA"/>
-    </CUnit>
-    <CUnit id="Generator">
-        <BehaviorArray Link="GenetronPowerSupplyTracker"/>
-        <BehaviorArray Link="TrackGenetronPowerSupply"/>
-        <BehaviorArray Link="GeneratorPower"/>
-    </CUnit>
-    <CUnit id="Node">
-        <BehaviorArray Link="GenetronPowerSupplyTracker"/>
-        <BehaviorArray Link="TrackGenetronPowerSupply"/>
-        <BehaviorArray Link="NodePower"/>
-    </CUnit>
-
-    <CActorUnit id="Generator"  unitName="Generator"/>
-    <CActorUnit id="ProcessingCore" unitName="ProcessingCore"/>
-    <CActorUnit id="Node" unitName="Node"/>
-    <CActorUnit id="RelayTower" unitName="RelayTower"/>
-
-    <CModel id="Node"/>
-    <CModel id="RelayTower"/>
-    <CModel id="Generator"/>
-    <CModel id="ProcessingCore"/>
-    <CValidatorUnitType id="CasterIsRelayTower">
-        <WhichUnit Value="Caster"/>
-        <Value value="RelayTower"/>
-    </CValidatorUnitType>
-    <CValidatorUnitType id="CasterIsGenerator">
-        <WhichUnit Value="Caster"/>
-        <Value value="Generator"/>
-    </CValidatorUnitType>
-    <CValidatorUnitType id="CasterIsProcessingCore">
-        <WhichUnit Value="Caster"/>
-        <Value value="ProcessingCore"/>
-    </CValidatorUnitType>
-
-
-<!--    <CValidatorEffectTreeUserData id="BreakDataIs0">-->
-<!--        <CheckExistence value="0"/>-->
-<!--        <Key value="Break"/>-->
-<!--    </CValidatorEffectTreeUserData>-->
-<!--    <CValidatorPlayerCompareFoodAvailable id="CannotAfford1Dot5Supply">-->
-<!--        <Compare value="LT"/>-->
-<!--        <Value value="1.5"/>-->
-<!--    </CValidatorPlayerCompareFoodAvailable>-->
-<!--    <CValidatorEffectTreeUserData id="CasterDataDefaultGT1">-->
-<!--        <CheckExistence value="0"/>-->
-<!--        <Compare value="GT"/>-->
-<!--        <Key value="Default"/>-->
-<!--        <Value value="1"/>-->
-<!--    </CValidatorEffectTreeUserData>-->
-<!--    <CValidatorEffectTreeUserData id="CasterDataDefaultGTDot5">-->
-<!--        <CheckExistence value="0"/>-->
-<!--        <Compare value="GT"/>-->
-<!--        <Key value="Default"/>-->
-<!--        <Value value="0.5"/>-->
-<!--    </CValidatorEffectTreeUserData>-->
-<!--    <CValidatorEffectTreeUserData id="CasterGPIEDataModeIs0">-->
-<!--        <CheckExistence value="0"/>-->
-<!--        <Key value="Mode"/>-->
-<!--        <BehaviorScope Behavior="GenetronProductionInternalEnergy"/>-->
-<!--    </CValidatorEffectTreeUserData>-->
-<!--    <CValidatorEffectTreeUserData id="CasterGPIEDataModeIs1">-->
-<!--        <CheckExistence value="0"/>-->
-<!--        <Key value="Mode"/>-->
-<!--        <Value value="1"/>-->
-<!--        <BehaviorScope Behavior="GenetronProductionInternalEnergy"/>-->
-<!--    </CValidatorEffectTreeUserData>-->
-<!--    <CValidatorEffectTreeUserData id="CasterGPIEDataModeIs2">-->
-<!--        <CheckExistence value="0"/>-->
-<!--        <Key value="Mode"/>-->
-<!--        <Value value="2"/>-->
-<!--        <BehaviorScope Behavior="GenetronProductionInternalEnergy"/>-->
-<!--    </CValidatorEffectTreeUserData>-->
-<!--    <CValidatorUnitCompareVital id="EnergyGTE010">-->
-<!--        <Compare value="GE"/>-->
-<!--        <Value value="10"/>-->
-<!--        <Vital value="Energy"/>-->
-<!--    </CValidatorUnitCompareVital>-->
-<!--    <CValidatorUnitCompareVital id="EnergyLT075">-->
-<!--        <Compare value="LT"/>-->
-<!--        <Value value="75"/>-->
-<!--        <Vital value="Energy"/>-->
-<!--    </CValidatorUnitCompareVital>-->
-<!--    <CValidatorUnitCompareVital id="EnergyLT015">-->
-<!--        <Compare value="LT"/>-->
-<!--        <Value value="15"/>-->
-<!--        <Vital value="Energy"/>-->
-<!--    </CValidatorUnitCompareVital>-->
-<!--    <CValidatorCompareTrackedUnitsCount id="GenetronPowerSupplyGE010">-->
-<!--        <ResultFailed value="NotEnoughEnergy"/>-->
-<!--        <Compare value="GT"/>-->
-<!--        <BehaviorLink value="GenetronPowerSupplyTracker"/>-->
-<!--        <TrackedUnitValidatorArray value="EnergyGTE010"/>-->
-<!--        <TrackedUnitFilters value="-;Dead"/>-->
-<!--    </CValidatorCompareTrackedUnitsCount>-->
-<!--    <CValidatorUnitType id="TargetUnitTypeIsCasterUnitType">-->
-<!--        <OtherUnit Value="Caster"/>-->
-<!--    </CValidatorUnitType>-->
-<!--    <CValidatorUnitCompareVital id="CasterEnergyLT25">-->
-<!--        <WhichUnit Value="Caster"/>-->
-<!--        <Compare value="LT"/>-->
-<!--        <Value value="25"/>-->
-<!--        <Vital value="Energy"/>-->
-<!--    </CValidatorUnitCompareVital>-->
-<!--    <CValidatorUnitCompareVital id="CasterEnergyLT75">-->
-<!--        <WhichUnit Value="Caster"/>-->
-<!--        <Compare value="LT"/>-->
-<!--        <Value value="75"/>-->
-<!--        <Vital value="Energy"/>-->
-<!--    </CValidatorUnitCompareVital>-->
-<!--    <CValidatorEffectTreeUserData id="CasterDataDefaultIs1">-->
-<!--        <CheckExistence value="0"/>-->
-<!--        <Key value="Default"/>-->
-<!--        <Value value="1"/>-->
-<!--    </CValidatorEffectTreeUserData>-->
-
-
-    <CValidatorUnitCompareBehaviorCount id="CasterNotLockedDownBase">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="LockdownMode"/>
-    </CValidatorUnitCompareBehaviorCount>
-    <CValidatorUnitCompareBehaviorCount id="CasterNotLockedDownDuration">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="LockdownModeDuration"/>
-    </CValidatorUnitCompareBehaviorCount>
-    <CBehaviorBuff id="LockdownModeDuration">
-        <InfoIcon value="Assets\Textures\btn-ability-genetron-structurelockdownmode.dds"/>
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <DisplayDuration index="Self" value="1"/>
-        <DisplayDuration index="Ally" value="1"/>
-        <BuffFlags index="Countdown" value="0"/>
-        <Duration value="10"/>
-        <Modification>
-            <ModifyFlags index="DisableAbils" value="1"/>
-            <ModifyFlags index="DisableWeapons" value="1"/>
-            <StateFlags index="SuppressDropOff" value="1"/>
-            <StateFlags index="SuppressFoodMade" value="1"/>
-            <StateFlags index="SuppressEnergyRegen" value="1"/>
-            <TurretDisableArray value="Interdictor"/>
-            <TurretDisableArray value="InterdictorMovement"/>
-            <TurretDisableArray value="RepulsorTurret"/>
-        </Modification>
-        <DamageResponse ModifyFraction="0.75">
-            <Kind index="Spell" value="0"/>
-            <Chance value="1"/>
-        </DamageResponse>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="LockdownMode">
-        <InfoIcon value="Assets\Textures\btn-ability-genetron-structurelockdownmode.dds"/>
-        <EditorCategories value="Race:Genetron,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="LifeLTOneQuarter"/>
-        <DisableValidatorArray value="NotUnderConstruction"/>
-        <Modification>
-            <ModifyFlags index="DisableAbils" value="1"/>
-            <ModifyFlags index="DisableWeapons" value="1"/>
-            <StateFlags index="SuppressDetection" value="1"/>
-            <StateFlags index="SuppressDropOff" value="1"/>
-            <StateFlags index="SuppressFoodMade" value="1"/>
-            <StateFlags index="SuppressEnergyRegen" value="1"/>
-            <BehaviorClassDisableArray index="CBehaviorResource" value="1"/>
-            <BehaviorLinkDisableArray value="LockdownModeDuration"/>
-            <TurretDisableArray value="Interdictor"/>
-            <TurretDisableArray value="InterdictorMovement"/>
-            <TurretDisableArray value="RepulsorTurret"/>
-        </Modification>
-        <DamageResponse ModifyFraction="0.75">
-            <Kind index="Spell" value="0"/>
-            <Chance value="1"/>
-        </DamageResponse>
-        <Period value="0.0625"/>
-        <PeriodicEffect value="LockdownModeApplyDuration"/>
-    </CBehaviorBuff>
-    <CValidatorCombine id="CasterNotLockedDown">
-        <Type value="And"/>
-        <CombineArray value="CasterNotLockedDownBase"/>
-        <CombineArray value="CasterNotLockedDownDuration"/>
-    </CValidatorCombine>
-    <CValidatorUnitCompareBehaviorCount id="StructureNotLockedDownBase">
-        <Behavior value="LockdownMode"/>
-    </CValidatorUnitCompareBehaviorCount>
-    <CValidatorUnitCompareBehaviorCount id="StructureNotLockedDownDuration">
-        <Behavior value="LockdownModeDuration"/>
-    </CValidatorUnitCompareBehaviorCount>
-
-
-<!--    <CValidatorUnitType id="IsRelayTower">-->
-<!--        <Value value="RelayTower"/>-->
-<!--    </CValidatorUnitType>-->
-<!--    <CValidatorUnitType id="IsProcessingCore">-->
-<!--        <Value value="ProcessingCore"/>-->
-<!--    </CValidatorUnitType>-->
-<!--    <CValidatorUnitType id="IsProcessor">-->
-<!--        <Value value="Scion_Processor"/>-->
-<!--    </CValidatorUnitType>-->
-<!--    <CValidatorUnitType id="IsNotProcessor">-->
-<!--        <ResultFailed value="Error,Error/NotProcessor"/>-->
-<!--        <Value value="Scion_Processor"/>-->
-<!--        <Find value="0"/>-->
-<!--    </CValidatorUnitType>-->
-<!--    <CValidatorUnitType id="IsNotProcessingCore">-->
-<!--        <ResultFailed value="Error,Error/NotProcessingCore"/>-->
-<!--        <Value value="ProcessingCore"/>-->
-<!--        <Find value="0"/>-->
-<!--    </CValidatorUnitType>-->
-
-    <!--    <CValidatorCombine id="RelayTowerEnergyStealValidator">-->
-<!--        <Type value="And"/>-->
-<!--        <CombineArray value="PlayerHasRelayTowerOrProcessingCoreWithGE5EnergyAndNotRecharging"/>-->
-<!--        <CombineArray value="CasterEnergyLT25"/>-->
-<!--    </CValidatorCombine>-->
 </Catalog>
