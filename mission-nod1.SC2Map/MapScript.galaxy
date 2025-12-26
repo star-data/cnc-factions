@@ -27,6 +27,7 @@ int gv_p3_NODALLY;
 bool gv_gameOver;
 bool gv_inCinematic;
 unit gv_commando;
+unit gv_nodConstructionCaster;
 bool gv_tutorialWindowclosed;
 int gv_objectiveMainPing;
 int gv_objectiveDestroyLogisticalHQ;
@@ -59,6 +60,7 @@ unitgroup gv_introUnitCargoStart;
 int gv_introUnitCargoStartDrop;
 unitgroup gv_introActorGroup;
 bool gv_introCinematicCompleted;
+bool gv_baseCompleted;
 unitgroup gv_introCinHiddenUnitGroup;
 bool gv_victoryCinematicCompleted;
 unitgroup gv_victoryHiddenUnitGroup;
@@ -98,6 +100,7 @@ trigger gt_Init07Help;
 trigger gt_StartGame;
 trigger gt_OpeningLineQ;
 trigger gt_OpeningLineQ2;
+trigger gt_Mines;
 trigger gt_VictoryTowerDestroyed;
 trigger gt_Victory;
 trigger gt_DefeatUnitsDead;
@@ -181,7 +184,7 @@ bool gt_RegeneratedTiberimFields_Func (bool testConds, bool runActions) {
     region lv_area;
 
     // Automatic Variable Declarations
-    const int auto9D4999B4_ae = 3;
+    const int auto9D4999B4_ae = 4;
     int auto9D4999B4_var;
 
     // Variable Initialization
@@ -272,7 +275,8 @@ bool gt_Init02Players_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    TriggerExecute(libTIBW_gt_PlayNod, true, false);
+    TriggerExecute(libTIBW_gt_GAMESTARTNod, true, false);
+    TriggerExecute(libTIBW_gt_EnergyCalculation, true, false);
     libNtve_gf_SetAlliance(gv_p1_NOD, gv_p2_GDI, libNtve_ge_AllianceSetting_Enemy);
     libNtve_gf_SetAlliance(gv_p1_NOD, gv_p3_NODALLY, libNtve_ge_AllianceSetting_Neutral);
     libNtve_gf_SetAlliance(gv_p2_GDI, gv_p3_NODALLY, libNtve_ge_AllianceSetting_NeutralWithSharedVision);
@@ -293,13 +297,13 @@ void gt_Init02Players_Init () {
 // Trigger: Init 03 Units
 //--------------------------------------------------------------------------------------------------
 bool gt_Init03Units_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    int lv_iNT;
-    point lv_cowLoc;
-
     // Automatic Variable Declarations
-    // Variable Initialization
+    // Actions
+    if (!runActions) {
+        return true;
+    }
 
+    gv_nodConstructionCaster = UnitFromId(751414499);
     return true;
 }
 
@@ -341,7 +345,6 @@ bool gt_Init05Environment_Func (bool testConds, bool runActions) {
 
     GameTimeOfDaySet("08:00:00");
     libLbty_gf_AutoRevealRegion(RegionFromId(2), RegionFromId(5), gv_p1_NOD);
-    RegionPlayableMapSet(RegionFromId(3));
     VisFillArea(1, RegionEntireMap(), c_fillTypeHidden, false);
     return true;
 }
@@ -387,7 +390,6 @@ bool gt_Init07Help_Func (bool testConds, bool runActions) {
 
     HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/B05C053C"), libNtve_ge_TipType_NormalTip), StringExternal("Param/Value/897A0509"), StringToText(""), "Assets\\Icons\\cnc\\btn-unit-tiberium.dds");
     HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/FEA9D1C0"), libNtve_ge_TipType_NewUnit), StringExternal("Param/Value/EA275AE0"), StringToText(""), "Assets\\Icons\\nod\\btn-nod-building-constructionyard.dds");
-    HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/2A7BC210"), libNtve_ge_TipType_NewUnit), StringExternal("Param/Value/B7AF751E"), StringToText(""), "Assets\\Icons\\nod\\btn-nod-building-tiberiumsilo.dds");
     HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/76DF4AC3"), libNtve_ge_TipType_NewUnit), StringExternal("Param/Value/2C64DCFF"), StringToText(""), "Assets\\Icons\\nod\\btn-nod-building-powerplant.dds");
     HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/98713B65"), libNtve_ge_TipType_NewUnit), StringExternal("Param/Value/5125BF81"), StringToText(""), "Assets\\Icons\\nod\\btn-nod-unit-harvester.dds");
     HelpPanelAddTip(PlayerGroupAll(), libNtve_gf_FormatTipTitle(StringExternal("Param/Value/F90B6658"), libNtve_ge_TipType_NewUnit), StringExternal("Param/Value/93EE42D2"), StringToText(""), "Assets\\Icons\\nod\\btn-nod-unit-emissary.dds");
@@ -437,14 +439,11 @@ bool gt_OpeningLineQ_Func (bool testConds, bool runActions) {
     }
 
     TriggerQueueEnter();
-    Wait(5.0, c_timeGame);
+    Wait(8.0, c_timeGame);
     libLbty_gf_PlayTransmissionCueSound(PlayerGroupAll());
     libNtve_gf_AttachActorToUnit(UnitGroupClosestToPoint(UnitGroup("NodMilitant", 1, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), PointFromId(2087483755)), "TalkIcon", "Ref_Origin");
     libNtve_gf_SendTransmissionSimple(TransmissionSource(), c_invalidPortraitId, SoundLink("MN52TheyDontKnow", 0), 0.0, c_transmissionDurationAdd, false);
     ActorScopeKill(libNtve_gf_ActorScopeLastCreated());
-    Wait(5.0, c_timeGame);
-    libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel(null), c_invalidPortraitId, SoundLink("MN52_GDIMinesAround", 0), 0.0, c_transmissionDurationAdd, true);
-    libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel(null), c_invalidPortraitId, SoundLink("MN52_GDIMinesKillTip", 0), 0.0, c_transmissionDurationAdd, true);
     TriggerQueueExit();
     return true;
 }
@@ -486,6 +485,35 @@ bool gt_OpeningLineQ2_Func (bool testConds, bool runActions) {
 void gt_OpeningLineQ2_Init () {
     gt_OpeningLineQ2 = TriggerCreate("gt_OpeningLineQ2_Func");
     TriggerAddEventUnitCreated(gt_OpeningLineQ2, null, null, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Mines
+//--------------------------------------------------------------------------------------------------
+bool gt_Mines_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetOwner(EventUnit()) == 1))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel(null), c_invalidPortraitId, SoundLink("MN52_GDIMinesAround", 0), 0.0, c_transmissionDurationAdd, true);
+    libNtve_gf_SendTransmissionSimple(TransmissionSourceFromModel(null), c_invalidPortraitId, SoundLink("MN52_GDIMinesKillTip", 0), 0.0, c_transmissionDurationAdd, true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_Mines_Init () {
+    gt_Mines = TriggerCreate("gt_Mines_Func");
+    TriggerAddEventUnitRegion(gt_Mines, null, RegionFromId(10), true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1232,7 +1260,7 @@ bool gt_IntroCinematic_Func (bool testConds, bool runActions) {
     UnitIssueOrder(gv_introDropship2, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(527451359)), c_orderQueueAddToEnd);
     UnitIssueOrder(gv_introDropship3, OrderTargetingPoint(AbilityCommand("NodCarryallTransport", 2), PointFromId(137792693)), c_orderQueueAddToEnd);
     UnitIssueOrder(gv_introDropship3, OrderTargetingPoint(AbilityCommand("move", 0), PointFromId(1820396823)), c_orderQueueAddToEnd);
-    while (!((UnitGroupCount(UnitCargoGroup(gv_introDropship), c_unitCountAlive) == 0) && (UnitGroupCount(UnitCargoGroup(gv_introDropship2), c_unitCountAlive) == 0) && (UnitGroupCount(UnitCargoGroup(gv_introDropship3), c_unitCountAlive) == 0))) {
+    while (!((gv_baseCompleted == true) && (UnitGroupCount(UnitCargoGroup(gv_introDropship), c_unitCountAlive) == 0) && (UnitGroupCount(UnitCargoGroup(gv_introDropship2), c_unitCountAlive) == 0) && (UnitGroupCount(UnitCargoGroup(gv_introDropship3), c_unitCountAlive) == 0))) {
         Wait(1.0, c_timeGame);
     }
     gv_introCinematicCompleted = true;
@@ -1429,11 +1457,6 @@ bool gt_IntroCargoUnload_Func (bool testConds, bool runActions) {
     auto527E5443_val = UnitGetType(EventUnitCargo());
     if (auto527E5443_val == "NodMCV") {
         UnitIssueOrder(EventUnitCargo(), OrderTargetingPoint(AbilityCommand("NodMCVDeploy", 0), PointFromId(2124603688)), c_orderQueueReplace);
-        libNtve_gf_CreateUnitsWithDefaultFacing(1, "NodPowerPlant", c_unitCreateIgnoreBirth, 1, PointFromId(693375976));
-        libNtve_gf_CreateUnitsWithDefaultFacing(1, "NodPowerPlant", c_unitCreateIgnoreBirth, 1, PointFromId(465405532));
-        libNtve_gf_CreateUnitsWithDefaultFacing(1, "NodTiberiumRefinery", c_unitCreateIgnoreBirth, 1, PointFromId(1284338789));
-        libNtve_gf_CreateUnitsWithDefaultFacing(1, "NodHarvester", c_unitCreateIgnoreBirth, 1, PointFromId(1652443455));
-        UnitIssueOrder(UnitLastCreated(), OrderTargetingUnit(AbilityCommand("NodHarvest", 0), UnitGroupClosestToPoint(UnitGroup("TibMineralField", c_playerAny, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), PointFromId(1652443455))), c_orderQueueReplace);
     }
     else {
     }
@@ -1478,6 +1501,19 @@ bool gt_InitialBase_Func (bool testConds, bool runActions) {
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
+    TriggerEnable(libTIBW_gt_LowPower, false);
+    UnitIssueOrder(gv_nodConstructionCaster, OrderTargetingPoint(AbilityCommand("NodConstructionCaster", 1), PointFromId(693375976)), c_orderQueueAddToEnd);
+    UnitIssueOrder(gv_nodConstructionCaster, OrderTargetingPoint(AbilityCommand("NodConstructionCaster", 1), PointFromId(465405532)), c_orderQueueAddToEnd);
+    UnitIssueOrder(gv_nodConstructionCaster, OrderTargetingPoint(AbilityCommand("NodConstructionCaster", 0), PointFromId(1284338789)), c_orderQueueAddToEnd);
+    UnitIssueOrder(gv_nodConstructionCaster, OrderTargetingPoint(AbilityCommand("NodConstructionCaster", 3), PointFromId(1853904543)), c_orderQueueAddToEnd);
+    UnitIssueOrder(gv_nodConstructionCaster, OrderTargetingPoint(AbilityCommand("NodConstructionCaster", 4), PointFromId(1429761975)), c_orderQueueAddToEnd);
+    UnitIssueOrder(gv_nodConstructionCaster, OrderTargetingPoint(AbilityCommand("NodConstructionCaster", 5), PointFromId(385187354)), c_orderQueueAddToEnd);
+    gv_baseCompleted = true;
+    Wait(2.0, c_timeGame);
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, "NodHarvester", c_unitCreateIgnoreBirth, 1, PointFromId(1652443455));
+    UnitIssueOrder(UnitLastCreated(), OrderTargetingUnit(AbilityCommand("CNCHarvest", 0), UnitGroupClosestToPoint(UnitGroup("TibMineralField", c_playerAny, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0), PointFromId(1652443455))), c_orderQueueReplace);
+    Wait(4.0, c_timeGame);
+    TriggerEnable(libTIBW_gt_LowPower, true);
     return true;
 }
 
@@ -1729,6 +1765,7 @@ void InitTriggers () {
     gt_StartGame_Init();
     gt_OpeningLineQ_Init();
     gt_OpeningLineQ2_Init();
+    gt_Mines_Init();
     gt_VictoryTowerDestroyed_Init();
     gt_Victory_Init();
     gt_DefeatUnitsDead_Init();

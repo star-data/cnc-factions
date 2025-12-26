@@ -5130,9 +5130,9 @@ void libTIBW_gt_ReckonerSiege_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Test
+// Trigger: GAME START Nod
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_GAMESTARTNod_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     playergroup autoC0198CC5_g;
     int autoC0198CC5_var;
@@ -5144,12 +5144,7 @@ bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    PlayerOptionOverride(1, "simplecommandcard", "0");
-    PlayerSetRace(2, "Terr");
-    PlayerSetDifficulty(2, 7);
     TriggerExecute(libCNCC_gt_ProductionUI, true, false);
-    GameSetSpeedValue(c_gameSpeedFaster);
-    PlayerSetRace(1, "Nod");
     TriggerExecute(libCNCC_gt_InitBeaconsButton, true, false);
     autoC0198CC5_g = PlayerGroupAll();
     autoC0198CC5_var = -1;
@@ -5159,8 +5154,6 @@ bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
         if ((PlayerRace(autoC0198CC5_var) == "Nod")) {
             TechTreeUpgradeAddLevel(autoC0198CC5_var, "NodAdvisor", 1);
             UISetFrameVisible(PlayerGroupSingle(autoC0198CC5_var), c_syncFrameTypeConsolePanel, false);
-            DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
-            DialogControlSendAnimationEvent(DialogControlLastCreated(), PlayerGroupSingle(autoC0198CC5_var), "SlimUI_On");
         }
 
     }
@@ -5180,14 +5173,13 @@ bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
         }
 
     }
-    TriggerSendEvent("GAME START Nod");
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_Test_Init () {
-    libTIBW_gt_Test = TriggerCreate("libTIBW_gt_Test_Func");
-    TriggerAddEventMapInit(libTIBW_gt_Test);
+void libTIBW_gt_GAMESTARTNod_Init () {
+    libTIBW_gt_GAMESTARTNod = TriggerCreate("libTIBW_gt_GAMESTARTNod_Func");
+    TriggerAddEventGeneric(libTIBW_gt_GAMESTARTNod, "GAME START Nod");
 }
 
 void libTIBW_InitTriggers () {
@@ -5281,7 +5273,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_MineDrop_Init();
     libTIBW_gt_SignatureGenerator_Init();
     libTIBW_gt_ReckonerSiege_Init();
-    libTIBW_gt_Test_Init();
+    libTIBW_gt_GAMESTARTNod_Init();
 }
 
 //--------------------------------------------------------------------------------------------------
