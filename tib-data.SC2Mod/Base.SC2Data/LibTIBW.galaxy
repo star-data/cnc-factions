@@ -3282,7 +3282,6 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_EnergyCalculation_Init () {
     libTIBW_gt_EnergyCalculation = TriggerCreate("libTIBW_gt_EnergyCalculation_Func");
-    TriggerAddEventGeneric(libTIBW_gt_EnergyCalculation, "GAME START Nod");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3890,34 +3889,6 @@ bool libTIBW_gt_MorphtoMCV_Func (bool testConds, bool runActions) {
 void libTIBW_gt_MorphtoMCV_Init () {
     libTIBW_gt_MorphtoMCV = TriggerCreate("libTIBW_gt_MorphtoMCV_Func");
     TriggerAddEventUnitAbility(libTIBW_gt_MorphtoMCV, null, AbilityCommand("NodConstructionYardPack", 0), c_unitAbilStageExecute, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: ConjoinedSupportModule Created
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConjoinedSupportModuleCreated_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!(libTIBW_gf_UnitIsConjoinedModule(EventUnitCreatedUnit()))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    UnitBehaviorAdd(EventUnitCreatedUnit(), "CNCConjoinedUnit", EventUnit(), 1);
-    UnitBehaviorAdd(EventUnit(), "CNCConjoinedUnit", EventUnitCreatedUnit(), 1);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConjoinedSupportModuleCreated_Init () {
-    libTIBW_gt_ConjoinedSupportModuleCreated = TriggerCreate("libTIBW_gt_ConjoinedSupportModuleCreated_Func");
-    TriggerAddEventUnitCreated(libTIBW_gt_ConjoinedSupportModuleCreated, null, null, null);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5130,6 +5101,70 @@ void libTIBW_gt_ReckonerSiege_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: GAME START Check Nod
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_GAMESTARTCheckNod_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    playergroup auto6179BB58_g;
+    int auto6179BB58_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto6179BB58_g = PlayerGroupAll();
+    auto6179BB58_var = -1;
+    while (true) {
+        auto6179BB58_var = PlayerGroupNextPlayer(auto6179BB58_g, auto6179BB58_var);
+        if (auto6179BB58_var < 0) { break; }
+        if ((PlayerRace(auto6179BB58_var) == "Nod")) {
+            TriggerExecute(libTIBW_gt_GAMESTARTNod, true, false);
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_GAMESTARTCheckNod_Init () {
+    libTIBW_gt_GAMESTARTCheckNod = TriggerCreate("libTIBW_gt_GAMESTARTCheckNod_Func");
+    TriggerAddEventMapInit(libTIBW_gt_GAMESTARTCheckNod);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Nod unit Created
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_NodunitCreated_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!((CatalogFieldValueGet(c_gameCatalogUnit, UnitGetType(EventUnitCreatedUnit()), "Race", c_playerAny) == "Nod"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerEnable(libTIBW_gt_Borrowedbombercustomreturntrajectory, true);
+    TriggerEnable(libTIBW_gt_BorrowedbombercreationbindingStarchainTest, true);
+    TriggerEnable(libTIBW_gt_LaunchairstrikeStarchainTest, true);
+    TriggerExecute(libTIBW_gt_EnergyCalculation, true, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_NodunitCreated_Init () {
+    libTIBW_gt_NodunitCreated = TriggerCreate("libTIBW_gt_NodunitCreated_Func");
+    TriggerAddEventUnitCreated(libTIBW_gt_NodunitCreated, null, null, null);
+    TriggerAddEventMapInit(libTIBW_gt_NodunitCreated);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: GAME START Nod
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_GAMESTARTNod_Func (bool testConds, bool runActions) {
@@ -5144,6 +5179,9 @@ bool libTIBW_gt_GAMESTARTNod_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    TriggerEnable(TriggerGetCurrent(), false);
+    TriggerEnable(libTIBW_gt_GAMESTARTCheckNod, false);
+    TriggerEnable(libTIBW_gt_NodunitCreated, false);
     TriggerExecute(libCNCC_gt_ProductionUI, true, false);
     TriggerExecute(libCNCC_gt_InitBeaconsButton, true, false);
     autoC0198CC5_g = PlayerGroupAll();
@@ -5160,6 +5198,7 @@ bool libTIBW_gt_GAMESTARTNod_Func (bool testConds, bool runActions) {
     TriggerEnable(libTIBW_gt_Borrowedbombercustomreturntrajectory, true);
     TriggerEnable(libTIBW_gt_BorrowedbombercreationbindingStarchainTest, true);
     TriggerEnable(libTIBW_gt_LaunchairstrikeStarchainTest, true);
+    TriggerExecute(libTIBW_gt_EnergyCalculation, true, false);
     Wait(1.0, c_timeGame);
     DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/ConsoleUIContainer");
     autoB12AAF8F_g = PlayerGroupAll();
@@ -5248,7 +5287,6 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_ConjoinedBehaviorsSupport_Init();
     libTIBW_gt_MCVusesRallyWaypoint_Init();
     libTIBW_gt_MorphtoMCV_Init();
-    libTIBW_gt_ConjoinedSupportModuleCreated_Init();
     libTIBW_gt_ChooseConjoinedSupportModule_Init();
     libTIBW_gt_CYUnitSelection_Init();
     libTIBW_gt_SupportUnitSelection_Init();
@@ -5273,6 +5311,8 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_MineDrop_Init();
     libTIBW_gt_SignatureGenerator_Init();
     libTIBW_gt_ReckonerSiege_Init();
+    libTIBW_gt_GAMESTARTCheckNod_Init();
+    libTIBW_gt_NodunitCreated_Init();
     libTIBW_gt_GAMESTARTNod_Init();
 }
 
