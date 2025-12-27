@@ -35,12 +35,14 @@
     <CUnit default="1" id="CABALAir" parent="CNCAir">
         <Race value="CABAL"/>
         <LifeArmorName value="Unit/LifeArmorName/CABALVehiclesArmor"/>
-        <GlossaryCategory value="Unit/Category/CABALUnits"/>
-        <HotkeyCategory value="Unit/Category/CABALUnits"/>
+        <GlossaryCategory value="Unit/Category/CABALUnitsAir"/>
+        <HotkeyCategory value="Unit/Category/CABALUnitsAir"/>
     </CUnit>
     <CUnit default="1" id="CABALAirPlane" parent="CNCAirPlane">
         <Race value="CABAL"/>
         <LifeArmorName value="Unit/LifeArmorName/CABALVehiclesArmor"/>
+        <GlossaryCategory value="Unit/Category/CABALUnitsAir"/>
+        <HotkeyCategory value="Unit/Category/CABALUnitsAir"/>
     </CUnit>
     <CUnit default="1" id="CABALStructure" parent="CNCStructure">
         <Race value="CABAL"/>
@@ -1362,6 +1364,7 @@
         <MinimapRadius value="0.25"/>
         <EditorCategories value="ObjectType:Unit,ObjectFamily:CNC"/>
         <TacticalAI value="SpiderMineVultureBurrowed"/>
+        <GlossaryCategory value=""/>
     </CUnit>
     <!--aircraft-->
     <CUnit parent="CABALAir" id="CABALDropShip">
@@ -1651,6 +1654,7 @@
         <Mass value="0.2"/>
         <GlossaryPriority value="180"/>
         <GlossaryAlias value="Interceptor"/>
+        <GlossaryCategory value=""/>
         <RepairTime value="3"/>
     </CUnit>
     <CUnit parent="CABALAir" id="CABALLeviathan">
@@ -2096,6 +2100,7 @@
         </CardLayouts>
         <ScoreMake value="175"/>
         <ScoreKill value="175"/>
+        <GlossaryAlias value="CABALVertigo"/>
     </CUnit>
     <CUnit parent="CABALMissile" id="CABALLeviathanRocket">
         <Mover value="VikingFighterMissile"/>
@@ -2247,54 +2252,7 @@
         <AIEvalFactor value="1.5"/>
         <GlossaryPriority value="130"/>
     </CUnit>
-    <CUnit parent="CABALGround" id="CABALReckonerUnpack">
-        <Facing value="45"/>
-        <FlagArray index="Turnable" value="0"/>
-        <Collide index="Small" value="1"/>
-        <Attributes index="Armored" value="1"/>
-        <Attributes index="Mechanical" value="1"/>
-        <LifeStart value="240"/>
-        <LifeMax value="240"/>
-        <LifeArmor value="1"/>
-        <Speed value="0"/>
-        <Sight value="11"/>
-        <Food value="-2"/>
-        <CostResource index="Minerals" value="150"/>
-        <RepairTime value="50"/>
-        <KillXP value="50"/>
-        <AbilArray Link="BunkerStop"/>
-        <AbilArray Link="BunkerAttack"/>
-        <AbilArray Link="NodReckonerPack"/>
-        <AbilArray Link="AttackRedirect"/>
-        <AbilArray Link="healRedirect"/>
-        <AbilArray Link="Rally"/>
-        <AbilArray Link="BunkerTransport"/>
-        <BehaviorArray Link="SuppressMoving"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="BunkerStop,Stop" Row="0" Column="1"/>
-            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="BunkerAttack,Execute" Row="0" Column="4"/>
-            <LayoutButtons Face="NodReckonerPack2" Type="AbilCmd" AbilCmd="NodReckonerPack,Execute" Row="2" Column="1"/>
-            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
-            <LayoutButtons Face="BunkerLoad" Type="AbilCmd" AbilCmd="BunkerTransport,Load" Row="2" Column="2"/>
-            <LayoutButtons Face="BunkerUnloadAll" Type="AbilCmd" AbilCmd="BunkerTransport,UnloadAll" Row="2" Column="3"/>
-            <LayoutButtons Face="GDIHeal" Type="AbilCmd" AbilCmd="healRedirect,Execute" Row="1" Column="0"/>
-        </CardLayouts>
-        <Radius value="1"/>
-        <SeparationRadius value="1"/>
-        <InnerRadius value="1"/>
-        <CargoSize value="4"/>
-        <Footprint value="FootprintSieged"/>
-        <ScoreMake value="150"/>
-        <ScoreKill value="150"/>
-        <SubgroupPriority value="13"/>
-        <MinimapRadius value="0.875"/>
-        <TacticalAI value="SiegeTankSieged"/>
-        <SelectAlias value="SiegeTank"/>
-        <SubgroupAlias value="SiegeTank"/>
-        <GlossaryPriority value="143"/>
-        <AIEvaluateAlias value="SiegeTankSieged"/>
-    </CUnit>
-    <CUnit parent="CABALGround" id="CABALReckonerPack">
+    <CUnit parent="CABALGround" id="CABALReckoner">
         <FlagArray index="TurnBeforeMove" value="1"/>
         <PushPriority value="15"/>
         <Collide index="Small" value="1"/>
@@ -2310,11 +2268,11 @@
         <CostResource index="Minerals" value="150"/>
         <RepairTime value="50"/>
         <KillXP value="50"/>
-        <AbilArray Link="NodReckonerUnpack"/>
+        <AbilArray Link="CABALReckonerUnpack"/>
         <AbilArray Link="BunkerTransport"/>
         <AbilArray Link="CABALDeepBurrow"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="NodReckonerUnpack" Type="AbilCmd" AbilCmd="NodReckonerUnpack,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="CABALReckonerUnpack" Type="AbilCmd" AbilCmd="CABALReckonerUnpack,Execute" Row="2" Column="0"/>
             <LayoutButtons Face="BunkerLoad" Type="AbilCmd" AbilCmd="BunkerTransport,Load" Row="2" Column="2"/>
             <LayoutButtons Face="BunkerUnloadAll" Type="AbilCmd" AbilCmd="BunkerTransport,UnloadAll" Row="2" Column="3"/>
             <LayoutButtons Face="CABALDeepBurrow" Type="AbilCmd" AbilCmd="CABALDeepBurrow,Execute" Row="1" Column="0"/>
@@ -2332,6 +2290,57 @@
         <SelectAlias value="SiegeTank"/>
         <GlossaryPriority value="142"/>
         <AIEvaluateAlias value="SiegeTank"/>
+    </CUnit>
+    <CUnit id="CABALReckonerUnpack">
+        <Facing value="45"/>
+        <FlagArray index="Turnable" value="0"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="240"/>
+        <LifeMax value="240"/>
+        <LifeArmor value="1"/>
+        <Speed value="0"/>
+        <Sight value="11"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="150"/>
+        <RepairTime value="50"/>
+        <KillXP value="50"/>
+        <AbilArray Link="BunkerStop"/>
+        <AbilArray Link="BunkerAttack"/>
+        <AbilArray Link="AttackRedirect"/>
+        <AbilArray Link="healRedirect"/>
+        <AbilArray Link="Rally"/>
+        <AbilArray Link="BunkerTransport"/>
+        <AbilArray Link="CABALReckonerPack"/>
+        <BehaviorArray Link="SuppressMoving"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="BunkerStop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="BunkerAttack,Execute" Row="0" Column="4"/>
+
+            <LayoutButtons Face="CABALReckonerPack" Type="AbilCmd" AbilCmd="CABALReckonerPack,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="GDIHeal" Type="AbilCmd" AbilCmd="healRedirect,Execute" Row="1" Column="0"/>
+
+
+            <LayoutButtons Face="SetBunkerRallyPoint" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
+            <LayoutButtons Face="BunkerLoad" Type="AbilCmd" AbilCmd="BunkerTransport,Load" Row="2" Column="2"/>
+            <LayoutButtons Face="BunkerUnloadAll" Type="AbilCmd" AbilCmd="BunkerTransport,UnloadAll" Row="2" Column="3"/>
+        </CardLayouts>
+        <Radius value="1"/>
+        <SeparationRadius value="1"/>
+        <InnerRadius value="1"/>
+        <CargoSize value="4"/>
+        <Footprint value="FootprintSieged"/>
+        <ScoreMake value="150"/>
+        <ScoreKill value="150"/>
+        <SubgroupPriority value="13"/>
+        <MinimapRadius value="0.875"/>
+        <TacticalAI value="SiegeTankSieged"/>
+        <SelectAlias value="SiegeTank"/>
+        <SubgroupAlias value="SiegeTank"/>
+        <GlossaryPriority value="143"/>
+        <AIEvaluateAlias value="SiegeTankSieged"/>
+        <GlossaryAlias value="CABALReckoner"/>
     </CUnit>
     <CUnit parent="CABALStructure" id="CABALCrawlerHangar">
         <BehaviorArray Link="CNCTabEconomy"/>

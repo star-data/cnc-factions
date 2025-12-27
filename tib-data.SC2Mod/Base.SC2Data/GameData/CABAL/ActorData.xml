@@ -124,11 +124,11 @@
         <On Terms="Upgrade.BikeSpeed.Remove" Send="AnimClear CoverA"/>
         <On Terms="Upgrade.BikeSpeed.Remove" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
     </CActorUnit>
-    <CActorUnit id="CABALReckonerUnpackMorph" parent="CABALVehicle" unitName="SiegeModeMorphModel" icon="CABALReckonerDeployed">
+    <CActorUnit id="CABALReckonerUnpackMorph" parent="CABALVehicle" unitName="SiegeModeMorphModel" icon="ReckonerDeployed">
         <On Terms="AbilMorph.*.Start; MorphTo CABALReckonerUnpack" Send="Create"/>
         <On Terms="AbilMorph.*.Start; MorphTo CABALReckonerUnpack" Send="AnimPlay Start Morph,Start"/>
         <On Terms="AbilMorph.*.Finish; MorphFrom CABALReckonerUnpack" Send="Destroy"/>
-        <On Terms="AbilMorph.*.Finish; MorphFrom CABALReckonerPack" Send="Destroy"/>
+        <On Terms="AbilMorph.*.Finish; MorphFrom CABALReckoner" Send="Destroy"/>
         <Model value="CABALReckoner"/>
         <HighlightTooltip value="Unit/Name/CABALReckoner"/>
         <SoundArray index="Ready" value="NodReckoner_Ready"/>
@@ -138,10 +138,10 @@
         <SoundArray index="Attack" value="NodReckoner_Attack"/>
         <SoundArray index="Pissed" value="NodReckoner_What"/>
     </CActorUnit>
-    <CActorUnit id="CABALReckonerPackMorph" parent="CABALVehicle" unitName="TankModeMorphModel" icon="CABALReckoner">
-        <On Terms="AbilMorph.*.Start; MorphTo CABALReckonerPack" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphTo CABALReckonerPack" Send="AnimPlay End Morph,End"/>
-        <On Terms="AbilMorph.*.Finish; MorphFrom CABALReckonerPack" Send="Destroy"/>
+    <CActorUnit id="CABALReckonerMorph" parent="CABALVehicle" unitName="TankModeMorphModel" icon="Reckoner">
+        <On Terms="AbilMorph.*.Start; MorphTo CABALReckoner" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo CABALReckoner" Send="AnimPlay End Morph,End"/>
+        <On Terms="AbilMorph.*.Finish; MorphFrom CABALReckoner" Send="Destroy"/>
         <On Terms="AbilMorph.*.Finish; MorphFrom CABALReckonerUnpack" Send="Destroy"/>
         <On Terms="ActorCreation; CreepEngulfs" Send="CreepEngulfmentStopTransition"/>
         <Model value="CABALReckoner"/>
@@ -153,7 +153,7 @@
         <SoundArray index="Attack" value="NodReckoner_Attack"/>
         <SoundArray index="Pissed" value="NodReckoner_What"/>
     </CActorUnit>
-    <CActorUnit id="CABALReckonerPack" parent="CABALVehicle" unitName="CABALReckonerPack" icon="CABALReckoner">
+    <CActorUnit id="CABALReckoner" parent="CABALVehicle" unitName="CABALReckoner" icon="Reckoner">
         <DeathArray index="Normal" ModelLink="CABALReckoner_Death" SoundLink="SiegeBreaker_Explode"/>
         <AbilSoundArray AbilCmd="CABALDeepBurrow,Execute" Sound="NodReckoner_Burrow"/>
         <NameOffset value="50"/>
@@ -169,7 +169,7 @@
         <On Terms="AbilMorph.*.Start; MorphTo ReckonerUnpack" Send="Destroy"/>
         <Scale value="0.800000"/>
     </CActorUnit>
-    <CActorUnit id="CABALReckonerUnpack" parent="CABALVehicle" unitName="CABALReckonerUnpack" icon="CABALReckoner">
+    <CActorUnit id="CABALReckonerUnpack" parent="CABALVehicle" unitName="CABALReckonerUnpack" icon="Reckoner">
         <DeathArray index="Normal" ModelLink="CABALReckonerDeployed_Death"/>
         <BarOffset value="65"/>
         <NameOffset value="50"/>
@@ -352,7 +352,7 @@
         <PlacementSound value="Terran_BuildingPlacementSmall"/>
         <!--        <PlacementActorModel value="MissileTurretSkinnablePlacementModel"/>-->
     </CActorUnit>
-    <CActorUnit id="CABALTunnel" parent="CABALBuilding">
+    <CActorUnit id="CABALTunnel" parent="CABALBuilding" icon="tunnel">
         <Aliases value="_UnitHuge"/>
         <Macros value="QueueAnim"/>
         <On Terms="Behavior.ColonyInfestation.On" Send="Create InfestationEngineeringBay"/>
@@ -361,7 +361,7 @@
         <SoundArray index="Ready" value="EngineeringBay_Ready"/>
         <SoundArray index="What" value="EngineeringBay_What"/>
     </CActorUnit>
-    <CActorUnit id="CABALHelipad" parent="CABALBuilding">
+    <CActorUnit id="CABALHelipad" parent="CABALBuilding" icon="helipad">
         <DeathArray index="Normal" ModelLink="VertigoPlatformDeath"/>
         <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Starport_Explode"/>
         <BarOffset value="155"/>
@@ -370,7 +370,7 @@
         <SoundArray index="What" value="Starport_What"/>
         <SoundArray index="Movement" value="Starport_Movement"/>
     </CActorUnit>
-    <CActorUnit id="CABALOutpost" parent="CABALBuilding">
+    <CActorUnit id="CABALOutpost" parent="CABALBuilding" icon="outpost">
         <Aliases value="_UnitLarge"/>
         <On Terms="UnitConstruction.CABALOutpost.Start" Send="Create BarracksBuild"/>
         <CreepHeightClass value="Small"/>
@@ -385,7 +385,7 @@
         <SoundArray index="What" value="SupplyDepot_What"/>
         <UnitFlags index="ShowBlobShadow" value="0"/>
     </CActorUnit>
-    <CActorUnit id="CABALControlNode" parent="CABALBuilding">
+    <CActorUnit id="CABALControlNode" parent="CABALBuilding" iocn="ControlNode">
         <Aliases value="_UnitLarge"/>
         <CreepHeightClass value="Small"/>
         <DeathArray index="Normal" SoundLink="SupplyDepot_Explode"/>
@@ -401,7 +401,7 @@
         <Model value="NodPowerPlant"/>
         <BuildModel value="NodPowerPlant"/>
     </CActorUnit>
-    <CActorUnit id="CABALCrawlerHangar" parent="CABALBuilding" unitName="CABALCrawlerHangar" icon="CABALHelipad">
+    <CActorUnit id="CABALCrawlerHangar" parent="CABALBuilding" unitName="CABALCrawlerHangar" icon="Helipad">
         <Aliases value="_UnitLarge"/>
         <CreepHeightClass value="Small"/>
         <DeathArray index="Normal" SoundLink="SupplyDepot_Explode"/>
@@ -422,7 +422,7 @@
             <Image value="Assets\icons\factions\faction-kw-markedofkane.dds"/>
         </Wireframe>
     </CActorUnit>
-    <CActorUnit id="CABALSupportConstructionYard" parent="CABALBuilding" icon="CABALSupportCrawler">
+    <CActorUnit id="CABALSupportConstructionYard" parent="CABALBuilding" icon="SupportCrawler">
         <Aliases value="_UnitHuge"/>
         <Macros value="QueueAnim"/>
         <Macros value="BuildingFlattenTerrainMacro"/>
@@ -449,7 +449,7 @@
         <SoundArray index="What" value="NodCrawler_What"/>
         <Scale value="0.850000"/>
     </CActorUnit>
-    <CActorUnit id="CABALOffenseConstructionYard" parent="CABALBuilding" icon="CABALOffenseCrawler">
+    <CActorUnit id="CABALOffenseConstructionYard" parent="CABALBuilding" icon="OffenseCrawler">
         <Aliases value="_UnitHuge"/>
         <Macros value="QueueAnim"/>
         <Macros value="BuildingFlattenTerrainMacro"/>
@@ -476,7 +476,7 @@
         <SoundArray index="What" value="NodCrawler_What"/>
         <Scale value="0.850000"/>
     </CActorUnit>
-    <CActorUnit id="CABALDefenseCrawlerDeployed" parent="CABALBuilding">
+    <CActorUnit id="CABALDefenseCrawlerDeployed" parent="CABALBuilding" icon="DefenseCrawler">
         <Aliases value="_UnitHuge"/>
         <Macros value="QueueAnim"/>
         <Macros value="BuildingFlattenTerrainMacro"/>
@@ -502,29 +502,29 @@
         <!--        <PlacementModel value="CABALDefenseCrawlerPlacement"/>-->
         <Scale value="0.850000"/>
     </CActorUnit>
-    <CActorUnit id="CABALWeaponsLaboratory" parent="CABALBuilding">
+    <CActorUnit id="CABALWeaponsLaboratory" parent="CABALBuilding" icon="weaponslaboratory">
         <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Starport_Explode"/>
         <SoundArray index="Ready" value="Starport_Ready"/>
         <SoundArray index="What" value="Starport_What"/>
     </CActorUnit>
-    <CActorUnit id="CABALGrandShrine" parent="CABALBuilding">
+    <CActorUnit id="CABALGrandShrine" parent="CABALBuilding" icon="grandshrine">
         <Model value="NodTemple"/>
         <CreepHeightClass value="Medium"/>
         <BuildModel value="NodTemple"/>
         <DeathArray index="Normal" ModelLink="NodTempleDeath"/>
         <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="EngineeringBay_Explode"/>
     </CActorUnit>
-    <CActorUnit id="CABALShrine" parent="CABALBuilding">
+    <CActorUnit id="CABALShrine" parent="CABALBuilding" icon="Shrine">
         <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Starport_Explode"/>
         <SoundArray index="Ready" value="Starport_Ready"/>
         <SoundArray index="What" value="Starport_What"/>
     </CActorUnit>
-    <CActorUnit id="CABALPyramid" parent="CABALBuilding">
+    <CActorUnit id="CABALPyramid" parent="CABALBuilding" icon="pyramid">
         <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Starport_Explode"/>
         <SoundArray index="Ready" value="Starport_Ready"/>
         <SoundArray index="What" value="Starport_What"/>
     </CActorUnit>
-    <CActorUnit id="CABALViperTurret" parent="CABALBuilding">
+    <CActorUnit id="CABALViperTurret" parent="CABALBuilding" icon="ViperTurret">
         <Aliases value="_UnitLarge"/>
         <On Terms="UnitBirth.CABALViperTurretUG" Send="Create"/>
         <On Terms="UnitBirth.CABALViperTurretUG" Send="AnimGroupApply Burrow Burrow Unburrow ClosingFull,Instant"/>
@@ -539,7 +539,7 @@
         <SoundArray index="What" value="PerditionTurret_What"/>
         <BuildModel value="CABALViperTurretPlacement"/>
     </CActorUnit>
-    <CActorUnit id="CABALViperTurret0" parent="CABALBuilding" unitName="CABALViperTurret0" icon="CABALViperTurret">
+    <CActorUnit id="CABALViperTurret0" parent="CABALBuilding" unitName="CABALViperTurret0" icon="ViperTurret">
         <Aliases value="_UnitLarge"/>
         <On Terms="UnitDeathCustomize; ValidateUnit IsBuried" Send="DeathCustomize Burrowed"/>
         <BuildModel value="CABALViperTurretPlacement"/>
@@ -562,7 +562,7 @@
         <BarWidth value="85"/>
         <SoundArray index="What" value="PerditionTurret_What"/>
     </CActorUnit>
-    <CActorUnit id="CABALSupportCrawlerUnpack" parent="CABALUnit" unitName="TankModeMorphModel" icon="CABALSupportCrawler">
+    <CActorUnit id="CABALSupportCrawlerUnpack" parent="CABALUnit" unitName="TankModeMorphModel" icon="SupportCrawler">
         <Aliases value="_UnitLarge"/>
         <Inherits index="ModelMaterials" value="1"/>
         <AcceptedTransfers index="ModelMaterials" value="1"/>
@@ -597,7 +597,7 @@
         <SoundArray index="ClickError" value="CABALDefenseCrawler_ClickError"/>
         <SoundArray index="Highlight" value="CABALDefenseCrawler_Highlight"/>
     </CActorUnit>
-    <CActorUnit id="CABALSupportCrawlerPack" parent="CABALVehicle" unitName="TankModeMorphModel" icon="CABALSupportCrawler">
+    <CActorUnit id="CABALSupportCrawlerPack" parent="CABALVehicle" unitName="TankModeMorphModel" icon="SupportCrawler">
         <Aliases value="_UnitLarge"/>
         <On Terms="AbilMorph.*.Start; MorphTo CABALSupportCrawler" Send="Create"/>
         <On Terms="AbilMorph.*.Start; MorphTo CABALSupportCrawler" Send="AnimPlay End Morph,End"/>
@@ -626,7 +626,7 @@
         <SoundArray index="ClickError" value="CABALDefenseCrawler_ClickError"/>
         <SoundArray index="Highlight" value="CABALDefenseCrawler_Highlight"/>
     </CActorUnit>
-    <CActorUnit id="CABALSupportCrawler" parent="CABALVehicle">
+    <CActorUnit id="CABALSupportCrawler" parent="CABALVehicle" icon="SupportCrawler">
         <Aliases value="_UnitLarge"/>
         <Macros value="TerrainSquibAnimations"/>
         <Macros value="PhysicsDeathsSwarmGround"/>
@@ -662,7 +662,7 @@
         <SoundArray index="Pissed" value="NodCrawler_What"/>
         <Scale value="0.850000"/>
     </CActorUnit>
-    <CActorUnit id="CABALOffenseCrawlerUnpack" parent="CABALUnit" unitName="SiegeModeMorphModel" icon="NodDefenseGroupConstructionPlantIcon">
+    <CActorUnit id="CABALOffenseCrawlerUnpack" parent="CABALUnit" unitName="SiegeModeMorphModel" icon="OffenseCrawler">
         <Aliases value="_UnitLarge"/>
         <Inherits index="ModelMaterials" value="1"/>
         <AcceptedTransfers index="ModelMaterials" value="1"/>
@@ -697,7 +697,7 @@
         <SoundArray index="ClickError" value="CABALDefenseCrawler_ClickError"/>
         <SoundArray index="Highlight" value="CABALDefenseCrawler_Highlight"/>
     </CActorUnit>
-    <CActorUnit id="CABALOffenseCrawlerPack" parent="CABALVehicle" unitName="TankModeMorphModel" icon="NodOffensiveGroupMCVIcon">
+    <CActorUnit id="CABALOffenseCrawlerPack" parent="CABALVehicle" unitName="TankModeMorphModel" icon="OffenseCrawler">
         <Aliases value="_UnitLarge"/>
         <On Terms="AbilMorph.*.Start; MorphTo CABALOffenseCrawler" Send="Create"/>
         <On Terms="AbilMorph.*.Start; MorphTo CABALOffenseCrawler" Send="AnimPlay End Morph,End"/>
@@ -726,7 +726,7 @@
         <SoundArray index="ClickError" value="CABALDefenseCrawler_ClickError"/>
         <SoundArray index="Highlight" value="CABALDefenseCrawler_Highlight"/>
     </CActorUnit>
-    <CActorUnit id="CABALOffenseCrawler" parent="CABALVehicle">
+    <CActorUnit id="CABALOffenseCrawler" parent="CABALVehicle" icon="OffenseCrawler">
         <Aliases value="_UnitLarge"/>
         <Macros value="TerrainSquibAnimations"/>
         <Macros value="PhysicsDeathsSwarmGround"/>
@@ -762,7 +762,7 @@
         <SoundArray index="Pissed" value="NodCrawler_What"/>
         <Scale value="0.850000"/>
     </CActorUnit>
-    <CActorUnit id="CABALDefenseCrawler" parent="CABALVehicle">
+    <CActorUnit id="CABALDefenseCrawler" parent="CABALVehicle" icon="DefenseCrawler">
         <Aliases value="_UnitLarge"/>
         <Macros value="TerrainSquibAnimations"/>
         <Macros value="PhysicsDeathsSwarmGround"/>
@@ -832,7 +832,7 @@
         <SoundArray index="ClickError" value="CABALDefenseCrawler_ClickError"/>
         <SoundArray index="Highlight" value="CABALDefenseCrawler_Highlight"/>
     </CActorUnit>
-    <CActorUnit id="CABALDefenseCrawlerPack" parent="CABALVehicle" unitName="TankModeMorphModel" icon="NodDefenseGroupMCVIcon">
+    <CActorUnit id="CABALDefenseCrawlerPack" parent="CABALVehicle" unitName="TankModeMorphModel" icon="DefenseCrawler">
         <Aliases value="_UnitLarge"/>
         <On Terms="AbilMorph.*.Start; MorphTo CABALDefenseCrawler" Send="Create"/>
         <On Terms="AbilMorph.*.Start; MorphTo CABALDefenseCrawler" Send="AnimPlay End Morph,End"/>
@@ -1600,7 +1600,7 @@
         <SoundArray index="Attack" value="StealthTank_Attack"/>
     </CActorUnit>
     <CActorUnit id="CABALFlameTank" icon="FlameTank" parent="CABALVehicle"/>
-    <CActorUnit id="CABALAvengerTank" icon="AvengerTank" parent="CABALVehicle">
+    <CActorUnit id="CABALAvengerTank" icon="Avenger" parent="CABALVehicle">
         <AbilSoundArray AbilCmd="stop,Stop" Sound="CABALAvengerTankMovementStop"/>
         <AbilSoundArray AbilCmd="move,Move" Sound="CABALAvengerTank_Movement"/>
         <SoundArray index="Movement" value="NodVehicleMoveLoopA"/>
