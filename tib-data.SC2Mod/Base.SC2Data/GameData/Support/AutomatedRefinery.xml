@@ -1,0 +1,99 @@
+<Catalog>
+
+    <CValidatorUnitCompareResourceContents id="AutoHarvesterFinish">
+        <Compare value="GT"/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="AutomaticHarvestableVespene"/>
+    </CValidatorUnitCompareResourceContents>
+    <CBehaviorResource id="AutomaticHarvestableVespene">
+        <InfoIcon value="Assets\Textures\icon-gas.dds"/>
+        <Capacity value="32000"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <Contents value="10000"/>
+    </CBehaviorResource>
+    <CValidatorPlayerRequirement id="DontHaveNodTiberiumRefinery">
+        <Value value="DontHaveNodTiberiumRefinery"/>
+        <WhichPlayer Value="Caster"/>
+    </CValidatorPlayerRequirement>
+    <CBehaviorBuff id="AutoHarvestVespeneNod">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+<!--        <Period value="2.1"/>-->
+        <Period value="3.15"/>
+        <PeriodicEffect value="AutoHarvestVespeneNod"/>
+        <RemoveValidatorArray value="AutoHarvesterFinish"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <DisableValidatorArray value="DontHaveNodTiberiumRefinery"/>
+<!--        <DisableValidatorArray value="GenetronPowerSupplyGE001"/>-->
+        <DisableValidatorArray value="GenetronPowerSupplyHasNoPowerShortage"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AutoHarvestVespeneNodRich">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Period value="2.1"/>
+        <PeriodicEffect value="AutoHarvestVespeneNodRich"/>
+        <RemoveValidatorArray value="AutoHarvesterFinish"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <DisableValidatorArray value="DontHaveNodTiberiumRefinery"/>
+        <DisableValidatorArray value="GenetronPowerSupplyGE05"/>
+    </CBehaviorBuff>
+    <CEffectModifyUnit id="AutoHarvestVespeneNodRich">
+        <EditorCategories value=""/>
+        <Resources value="-8"/>
+        <ResourcesHarvestedFraction value="1"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="AutoHarvestVespeneNod">
+        <EditorCategories value=""/>
+        <Resources value="-4"/>
+        <ResourcesHarvestedFraction value="1"/>
+    </CEffectModifyUnit>
+    <CActorText id="CNCAutomatedRefineryTextKicker4">
+        <Host Subject="_Unit"/>
+        <FixedSize value="28"/>
+        <HeightOffset value="3.5"/>
+        <AlignV value="Bottom"/>
+        <Text value="Button/Tooltip/CNCAutomatedRefineryTextKicker4"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.100000 StartMover"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000 Die"/>
+        <On Terms="ActorCreation" Send="SetOpacity 0.000000 2.000000"/>
+        <On Terms="TimerExpired; TimerName StartMover" Send="Create AutomatedExtractorTextMover"/>
+        <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
+    </CActorText>
+    <CActorText id="CNCAutomatedRefineryTextKicker5">
+        <Host Subject="_Unit"/>
+        <FixedSize value="28"/>
+        <HeightOffset value="3.5"/>
+        <AlignV value="Bottom"/>
+        <Text value="Button/Tooltip/CNCAutomatedRefineryTextKicker5"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.100000 StartMover"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000 Die"/>
+        <On Terms="ActorCreation" Send="SetOpacity 0.000000 2.000000"/>
+        <On Terms="TimerExpired; TimerName StartMover" Send="Create AutomatedExtractorTextMover"/>
+        <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
+    </CActorText>
+    <CActorText id="CNCAutomatedRefineryTextKicker10">
+        <Host Subject="_Unit"/>
+        <FixedSize value="28"/>
+        <HeightOffset value="3.5"/>
+        <AlignV value="Bottom"/>
+        <Text value="Button/Tooltip/CNCAutomatedRefineryTextKicker10"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.100000 StartMover"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000 Die"/>
+        <On Terms="ActorCreation" Send="SetOpacity 0.000000 2.000000"/>
+        <On Terms="TimerExpired; TimerName StartMover" Send="Create AutomatedExtractorTextMover"/>
+        <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
+    </CActorText>
+    <CActorSiteMover id="AutomatedExtractorTextMover">
+        <Terms value="Cap 1"/>
+        <Acceleration value="5"/>
+        <Deceleration value="1"/>
+        <Speed value="0.8"/>
+        <SpeedMax value="0.8"/>
+        <On Terms="ActorCreation" Target="::Creator" Send="RefSetFromMsg ::Host ::Sender"/>
+        <On Terms="ActorCreation" Send="MoverSetDestinationH 3.000000"/>
+        <On Terms="ActorCreation" Send="MoverMove"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000 Die"/>
+        <On Terms="TimerExpired; TimerName Die" Send="Destroy"/>
+    </CActorSiteMover>
+
+</Catalog>

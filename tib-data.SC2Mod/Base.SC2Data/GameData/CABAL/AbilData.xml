@@ -63,7 +63,7 @@
     <CAbilEffectTarget id="healCNCObelisk">
         <Alignment value="Positive"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Effect index="0" value="CNCHealObelisk"/>
+        <Effect index="0" value="CABALObeliskHeal"/>
         <Flags index="AllowMovement" value="1"/>
         <Flags index="AutoCast" value="1"/>
         <Flags index="AutoCastOn" value="1"/>
@@ -1056,10 +1056,10 @@
             </SectionArray>
         </InfoArray>
     </CAbilMorph>
-    <CAbilMorphPlacement id="CABALOffenseCrawlerDeploy" parent="TerranBuildingLand" unit="CABALOffenseConstructionYard">
+    <CAbilMorphPlacement id="CABALOffenseCrawlerDeploy" parent="TerranBuildingLand" unit="CABALOffenseCrawlerDeployed">
         <Name value="Abil/Name/CABALOffenseCrawlerDeploy"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="DeployD"/>
-        <InfoArray index="0" Unit="CABALOffenseConstructionYard" CollideRange="0">
+        <InfoArray index="0" Unit="CABALOffenseCrawlerDeployed" CollideRange="0">
             <SectionArray index="Actor">
                 <DurationArray index="Duration" value="3.5417"/>
             </SectionArray>
@@ -1073,10 +1073,10 @@
         </InfoArray>
         <EditorCategories value="Race:Nod,AbilityorEffectType:MorphsandBurrows"/>
     </CAbilMorphPlacement>
-    <CAbilMorphPlacement id="CABALSupportCrawlerDeploy" parent="TerranBuildingLand" unit="CABALSupportConstructionYard">
+    <CAbilMorphPlacement id="CABALSupportCrawlerDeploy" parent="TerranBuildingLand" unit="CABALSupportCrawlerDeployed">
         <Name value="Abil/Name/CABALSupportCrawlerDeploy"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="DeployD"/>
-        <InfoArray index="0" Unit="CABALSupportConstructionYard" CollideRange="0">
+        <InfoArray index="0" Unit="CABALSupportCrawlerDeployed" CollideRange="0">
             <SectionArray index="Actor">
                 <DurationArray index="Delay" value="1.7"/>
                 <DurationArray index="Duration" value="3.5417"/>
@@ -1118,7 +1118,7 @@
         <Flags index="Interruptible" value="1"/>
         <Flags index="Produce" value="1"/>
         <Flags index="ShowProgress" value="1"/>
-        <InfoArray Score="1" Unit="CABALSupportConstructionYard">
+        <InfoArray Score="1" Unit="CABALSupportCrawlerDeployed">
             <SectionArray index="Abils">
                 <DurationArray index="Delay" value="35"/>
             </SectionArray>
@@ -1141,7 +1141,7 @@
         <Flags index="Interruptible" value="1"/>
         <Flags index="Produce" value="1"/>
         <Flags index="ShowProgress" value="1"/>
-        <InfoArray Score="1" Unit="CABALOffenseConstructionYard">
+        <InfoArray Score="1" Unit="CABALOffenseCrawlerDeployed">
             <SectionArray index="Abils">
                 <DurationArray index="Delay" value="35"/>
             </SectionArray>
@@ -1608,4 +1608,73 @@
             </SectionArray>
         </InfoArray>
     </CAbilMorph>
+
+
+
+    <CAbilEffectTarget id="LaunchRocket">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <Effect index="0" value="CABALMantisRocketSet"/>
+        <Cost>
+            <Cooldown TimeUse="15"/>
+        </Cost>
+        <Range value="10"/>
+        <Arc value="9.9975"/>
+        <AutoCastFilters value="Ground,Visible;Self,Player,Ally,Neutral,Stasis,Dead,Hidden,Invulnerable"/>
+        <PrepTime value="0.1"/>
+        <UninterruptibleArray index="Prep" value="1"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <UninterruptibleArray index="Channel" value="1"/>
+        <CursorEffect value="CABALMantisRocketDamage"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="LaunchRocket" Requirements="LearnRocketRag"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <AutoCastRange value="10"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="CABALEnhancedVision">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodVisionSearchArea"/>
+        <Cost>
+            <Cooldown Location="Global" TimeUse="180"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CursorEffect value="NodVisionSearchArea"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="CABALEnhancedVision" Requirements="HaveNodOperationsCenter"/>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="CABALMedusaHealingField">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="CABALMedusaHealSearch"/>
+        <Flags index="BestUnit" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Cooldown Link="DehakaHealDehakaHeal2DehakaHealNodHealingField" Location="Unit" TimeUse="45"/>
+        </Cost>
+        <AINotifyEffect value="DehakaHeal"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Healingfield" Requirements="LearnHealCABALMedusa"/>
+    </CAbilEffectInstant>
+    <CAbilEffectTarget id="CABALDropFlameMines">
+        <Effect index="0" value="NodCreateFlameMineCP"/>
+        <Cost>
+            <Resource index="Minerals" value="100"/>
+        </Cost>
+        <!--            <Cooldown Location="Global" TimeUse="45"/>-->
+        <Range value="5"/>
+        <Arc value="360"/>
+        <CursorEffect value="randomFlameMine"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodMines"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+    <CAbilBuild id="CABALCasterBuild">
+        <Range value="999"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <InfoArray index="Build1" Unit="CABALObeliskOfLife" Time="1">
+            <Button DefaultButtonFace="CABALObeliskOfLife"/>
+        </InfoArray>
+        <InfoArray index="Build2" Unit="CABALMantis" Time="1">
+            <Button DefaultButtonFace="NodReinforcement"/>
+        </InfoArray>
+        <InfoArray index="Build3" Unit="NodRedeemer" Time="1">
+            <Button DefaultButtonFace="NodCallRedeemer"/>
+        </InfoArray>
+    </CAbilBuild>
 </Catalog>

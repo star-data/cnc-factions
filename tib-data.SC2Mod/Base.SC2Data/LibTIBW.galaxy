@@ -2848,7 +2848,7 @@ bool libTIBW_gt_MCVDeployPanelStarchainTest_Func (bool testConds, bool runAction
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
-    libNtve_gf_CreateUnitsWithDefaultFacing(1, "MCVDeployCaster", c_unitCreateIgnorePlacement, 1, Point(3.0, 3.0));
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, "CABALCrawlerDeployCaster", c_unitCreateIgnorePlacement, 1, Point(3.0, 3.0));
     libTIBW_gv_mCVCasterRoyalGuardExperienceGainingUnitGroupReturnedworkunitgroupPickedupweaponsetWeaponPickupUnitGroupStarChargeLevel = UnitLastCreated();
     DialogCreate(900, 400, c_anchorTop, 0, 0, true);
     libTIBW_gv_mCVPanel = DialogLastCreated();
@@ -2874,7 +2874,7 @@ bool libTIBW_gt_DeploymentdetectionStarchainTest_Func (bool testConds, bool runA
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
-        if (!((UnitGetType(EventUnit()) == "MCVDeployCaster"))) {
+        if (!((UnitGetType(EventUnit()) == "CABALCrawlerDeployCaster"))) {
             return false;
         }
     }
@@ -2971,13 +2971,13 @@ bool libTIBW_gt_MCVredeployStarchainTest_Func (bool testConds, bool runActions) 
         DialogSetVisible(libTIBW_gv_mCVPanel, PlayerGroupAll(), true);
     }
 
-    if ((UnitGetType(EventUnit()) == "CABALOffenseConstructionYard")) {
+    if ((UnitGetType(EventUnit()) == "CABALOffenseCrawlerDeployed")) {
         UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringExternal("Param/Value/lib_TIBW_B653B3CD"));
         Wait(0.5, c_timeGame);
         DialogSetVisible(libTIBW_gv_mCVPanel, PlayerGroupAll(), true);
     }
 
-    if ((UnitGetType(EventUnit()) == "CABALSupportConstructionYard")) {
+    if ((UnitGetType(EventUnit()) == "CABALSupportCrawlerDeployed")) {
         UIDisplayMessage(PlayerGroupAll(), c_messageAreaSubtitle, StringExternal("Param/Value/lib_TIBW_1A61AA67"));
         Wait(0.5, c_timeGame);
         DialogSetVisible(libTIBW_gv_mCVPanel, PlayerGroupAll(), true);
@@ -4327,7 +4327,7 @@ bool libTIBW_gt_HubBuild_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    libNtve_gf_UnitCreateFacingPoint(1, "TurretsHubCable", c_unitCreateIgnorePlacement, lv_player, MidPoint(lv_targetPosition, lv_casterPosition), lv_targetPosition);
+    libNtve_gf_UnitCreateFacingPoint(1, "NodTurretsHubCable", c_unitCreateIgnorePlacement, lv_player, MidPoint(lv_targetPosition, lv_casterPosition), lv_targetPosition);
     lv_cable = UnitLastCreated();
     UnitSetScale(lv_cable, 80.0, (55.0 * (lv_length / 5.0)), 80.0);
     UnitBehaviorAdd(lv_target, "NodTurretsHubSuicideWithCaster", lv_caster, 1);
@@ -4471,8 +4471,8 @@ bool libTIBW_gt_NodBeamCannonDistantAttackDelay_Func (bool testConds, bool runAc
     for (;; auto1F0C466B_u -= 1) {
         lv_beam = UnitGroupUnitFromEnd(auto1F0C466B_g, auto1F0C466B_u);
         if (lv_beam == null) { break; }
-        lv_path = UnitGetTrackedUnitGroup(lv_beam, "BeamCannonPathTracker");
-        if ((OrderGetTargetUnit(UnitOrder(lv_beam, 0)) == lv_target) && (UnitGroupCount(lv_path, c_unitCountAlive) > 0) && (UnitGroupCount(UnitGetTrackedUnitGroup(UnitGroupUnit(lv_path, UnitGroupCount(lv_path, c_unitCountAlive)), "BeamCannonCasterTracker"), c_unitCountAlive) < 10)) {
+        lv_path = UnitGetTrackedUnitGroup(lv_beam, "NodBeamCannonPathTracker");
+        if ((OrderGetTargetUnit(UnitOrder(lv_beam, 0)) == lv_target) && (UnitGroupCount(lv_path, c_unitCountAlive) > 0) && (UnitGroupCount(UnitGetTrackedUnitGroup(UnitGroupUnit(lv_path, UnitGroupCount(lv_path, c_unitCountAlive)), "NodBeamCannonCasterTracker"), c_unitCountAlive) < 10)) {
             UnitGroupAdd(lv_b, UnitGroupUnit(lv_path, UnitGroupCount(lv_path, c_unitCountAlive)));
             auto3B650F33_g = lv_path;
             auto3B650F33_u = UnitGroupCount(auto3B650F33_g, c_unitCountAll);
@@ -4556,22 +4556,22 @@ bool libTIBW_gt_NodBeamCannonDistantAttackDelay_Func (bool testConds, bool runAc
         for (;; autoDE9DBA81_u -= 1) {
             lv_venom = UnitGroupUnitFromEnd(autoDE9DBA81_g, autoDE9DBA81_u);
             if (lv_venom == null) { break; }
-            UnitCreateEffectUnit(lv_caster, "BeamCannonCasterTrackerATU", lv_venom);
-            UnitCreateEffectUnit(lv_caster, "BeamCannonPathTrackerATU", lv_venom);
+            UnitCreateEffectUnit(lv_caster, "NodBeamCannonCasterTrackerATU", lv_venom);
+            UnitCreateEffectUnit(lv_caster, "NodBeamCannonPathTrackerATU", lv_venom);
         }
-        UnitCreateEffectUnit(lv_caster, "BeamCannonReflectorTrackerATU", UnitGroupUnit(lv_path, 1));
+        UnitCreateEffectUnit(lv_caster, "NodBeamCannonReflectorTrackerATU", UnitGroupUnit(lv_path, 1));
         autoA8530F85_ae = UnitGroupCount(lv_path, c_unitCountAlive);
         autoA8530F85_var = 2;
         for ( ; autoA8530F85_var <= autoA8530F85_ae; autoA8530F85_var += 1 ) {
             lv_venom = UnitGroupUnit(lv_path, autoA8530F85_var);
-            UnitCreateEffectUnit(UnitGroupUnit(lv_path, (autoA8530F85_var - 1)), "BeamCannonReflectorTrackerATU", lv_venom);
+            UnitCreateEffectUnit(UnitGroupUnit(lv_path, (autoA8530F85_var - 1)), "NodBeamCannonReflectorTrackerATU", lv_venom);
         }
-        UnitCreateEffectUnit(lv_caster, "BeamCannonTargetTrackerATU", UnitGroupUnit(lv_path, 1));
+        UnitCreateEffectUnit(lv_caster, "NodBeamCannonTargetTrackerATU", UnitGroupUnit(lv_path, 1));
         auto8BEC13BF_ae = (UnitGroupCount(lv_path, c_unitCountAlive) - 1);
         auto8BEC13BF_var = 1;
         for ( ; auto8BEC13BF_var <= auto8BEC13BF_ae; auto8BEC13BF_var += 1 ) {
             lv_venom = UnitGroupUnit(lv_path, auto8BEC13BF_var);
-            UnitCreateEffectUnit(lv_venom, "BeamCannonTargetTrackerATU", UnitGroupUnit(lv_path, (auto8BEC13BF_var + 1)));
+            UnitCreateEffectUnit(lv_venom, "NodBeamCannonTargetTrackerATU", UnitGroupUnit(lv_path, (auto8BEC13BF_var + 1)));
             if ((UnitGroupHasUnit(lv_a, lv_venom) == false)) {
                 UnitIssueOrder(lv_venom, Order(AbilityCommand("stop", 0)), c_orderQueueAddToFront);
                 UnitIssueOrder(lv_venom, OrderTargetingUnit(AbilityCommand("NodBeamCannonDistantAttackStage2", 0), UnitGroupUnit(lv_path, (auto8BEC13BF_var + 1))), c_orderQueueAddToFront);
@@ -4634,7 +4634,7 @@ bool libTIBW_gt_NodBeamCannonWeaponDelay_Func (bool testConds, bool runActions) 
         return true;
     }
 
-    auto04F4429C_g = UnitGroup("BeamCannonFocus", lv_player, RegionCircle(UnitGetPosition(lv_target), 16.0), UnitFilter(0, 0, 0, (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto04F4429C_g = UnitGroup("NodBeamCannonFocus", lv_player, RegionCircle(UnitGetPosition(lv_target), 16.0), UnitFilter(0, 0, 0, (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
     auto04F4429C_u = UnitGroupCount(auto04F4429C_g, c_unitCountAll);
     for (;; auto04F4429C_u -= 1) {
         lv_focusIter = UnitGroupUnitFromEnd(auto04F4429C_g, auto04F4429C_u);
@@ -4649,7 +4649,7 @@ bool libTIBW_gt_NodBeamCannonWeaponDelay_Func (bool testConds, bool runActions) 
     for (;; auto557B50DF_u -= 1) {
         lv_tank = UnitGroupUnitFromEnd(auto557B50DF_g, auto557B50DF_u);
         if (lv_tank == null) { break; }
-        if ((OrderGetTargetUnit(UnitOrder(lv_tank, 0)) == lv_target) && (UnitHasBehavior2(lv_tank, "DistantAttacking") == false)) {
+        if ((OrderGetTargetUnit(UnitOrder(lv_tank, 0)) == lv_target) && (UnitHasBehavior2(lv_tank, "NodBeamCannonIsDistantAttacking") == false)) {
             UnitGroupAdd(lv_tanks, lv_tank);
         }
 
@@ -4659,7 +4659,7 @@ bool libTIBW_gt_NodBeamCannonWeaponDelay_Func (bool testConds, bool runActions) 
     }
 
     if ((lv_focus == null)) {
-        libNtve_gf_UnitCreateFacingPoint(1, "BeamCannonFocus", 0, lv_player, MidPoint(UnitGroupCenterOfGroup(lv_tanks), UnitGetPosition(lv_target)), UnitGetPosition(lv_target));
+        libNtve_gf_UnitCreateFacingPoint(1, "NodBeamCannonFocus", 0, lv_player, MidPoint(UnitGroupCenterOfGroup(lv_tanks), UnitGetPosition(lv_target)), UnitGetPosition(lv_target));
         lv_focus = UnitLastCreated();
         UnitIssueOrder(lv_focus, OrderTargetingUnit(AbilityCommand("attack", 0), lv_target), c_orderQueueReplace);
         auto3A59EBB8_g = lv_tanks;
@@ -4667,18 +4667,18 @@ bool libTIBW_gt_NodBeamCannonWeaponDelay_Func (bool testConds, bool runActions) 
         for (;; auto3A59EBB8_u -= 1) {
             lv_tank = UnitGroupUnitFromEnd(auto3A59EBB8_g, auto3A59EBB8_u);
             if (lv_tank == null) { break; }
-            UnitCreateEffectUnit(lv_tank, "BeamCannonFocusTrackerATU", lv_focus);
-            UnitCreateEffectUnit(lv_tank, "BeamCannonCasterTrackerATU", lv_focus);
+            UnitCreateEffectUnit(lv_tank, "NodBeamCannonFocusTrackerATU", lv_focus);
+            UnitCreateEffectUnit(lv_tank, "NodBeamCannonCasterTrackerATU", lv_focus);
         }
         while ((UnitIsAlive(lv_focus) == true)) {
             Wait(0.06, c_timeGame);
-            UnitSetPosition(lv_focus, MidPoint(UnitGroupCenterOfGroup(UnitGetTrackedUnitGroup(lv_focus, "BeamCannonCasterTracker")), UnitGetPosition(lv_target)), true);
+            UnitSetPosition(lv_focus, MidPoint(UnitGroupCenterOfGroup(UnitGetTrackedUnitGroup(lv_focus, "NodBeamCannonCasterTracker")), UnitGetPosition(lv_target)), true);
         }
     }
     else {
         UnitSetPosition(lv_focus, MidPoint(UnitGroupCenterOfGroup(lv_tanks), UnitGetPosition(lv_target)), false);
-        UnitCreateEffectUnit(lv_caster, "BeamCannonFocusTrackerATU", lv_focus);
-        UnitCreateEffectUnit(lv_caster, "BeamCannonCasterTrackerATU", lv_focus);
+        UnitCreateEffectUnit(lv_caster, "NodBeamCannonFocusTrackerATU", lv_focus);
+        UnitCreateEffectUnit(lv_caster, "NodBeamCannonCasterTrackerATU", lv_focus);
     }
     return true;
 }
