@@ -1,47 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
-<!--    <BehaviorArray Link="CNCMaintenanceArea"/>           -->
-<!--    <LayoutButtons Face="CNCRepairDrones" Type="AbilCmd" AbilCmd="CNCMaintenanceDrones,Ammo2" Row="0" Column="4"/>-->
-
-    <CActorRange id="CNCMaintenanceRange">
-        <Inherits index="TeamColor" value="1"/>
-        <On Terms="SelectionLocalUpdate.NodWarFactory.Start" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.NodWarFactory.StartEditorGround" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.NodWarFactory" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.NodWarFactory.Stop" Send="Destroy"/>
-        <On Terms="SelectionLocalUpdate.NodAirTower.Start" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.NodAirTower.StartEditorGround" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.NodAirTower" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.NodAirTower.Stop" Send="Destroy"/>
-        <On Terms="SelectionLocalUpdate.NodAirSupport.Start" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.NodAirSupport.StartEditorGround" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.NodAirSupport" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.NodAirSupport.Stop" Send="Destroy"/>
-        <Weapon value="CNCMaintenanceWeaponDummy"/>
-        <Icon value="Assets\Textures\radaricon2.dds"/>
-        <IconArcLength value="0.300000"/>
-    </CActorRange>
-    <CWeaponLegacy id="CNCMaintenanceWeaponDummy">
-        <Range value="4"/>
-    </CWeaponLegacy>
-    <CBehaviorBuff id="CNCMaintenanceAreaGround">
-        <InfoFlags index="Hidden" value="1"/>
-        <Period value="1"/>
-        <PeriodicEffect value="CNCMaintenanceGroundEA"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="CNCMaintenanceAreaAir">
-        <InfoFlags index="Hidden" value="1"/>
-        <Period value="1"/>
-        <PeriodicEffect value="CNCMaintenanceAirEA"/>
-    </CBehaviorBuff>
     <CEffectEnumArea id="CNCMaintenanceGroundEA">
         <ImpactLocation Value="TargetUnit"/>
-        <SearchFilters value="Mechanical,Ground;Ally,Neutral,Enemy,Biological,Structure,Stasis,Dead,Hidden"/>
+        <SearchFilters value="Ground,Mechanical;Ally,Neutral,Enemy,Biological,Structure,Stasis,Dead,Hidden"/>
         <AreaArray Radius="3" Effect="CNCMaintenanceGroundAB"/>
         <SearchFlags index="ExtendByUnitRadius" value="1"/>
     </CEffectEnumArea>
     <CEffectEnumArea id="CNCMaintenanceAirEA">
         <ImpactLocation Value="TargetUnit"/>
-        <SearchFilters value="Mechanical,Air;Ally,Neutral,Enemy,Biological,Structure,Stasis,Dead,Hidden"/>
+        <SearchFilters value="Air,Mechanical;Ally,Neutral,Enemy,Biological,Structure,Stasis,Dead,Hidden"/>
         <AreaArray Radius="3" Effect="CNCMaintenanceAirAB"/>
         <SearchFlags index="ExtendByUnitRadius" value="1"/>
     </CEffectEnumArea>
@@ -53,50 +20,39 @@
         <EditorCategories value="Race:Protoss"/>
         <Behavior value="CNCAwaitMaintenanceGround"/>
     </CEffectApplyBehavior>
-    <CBehaviorBuff id="CNCAwaitMaintenanceAir">
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Textures\btn-upgrade-swann-improvednanorepair.dds"/>
-        <Duration value="2"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="CNCAwaitMaintenanceGround">
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Textures\btn-upgrade-swann-improvednanorepair.dds"/>
-        <Duration value="2"/>
-    </CBehaviorBuff>
-    <CButton id="CNCRepairDrones">
-        <Icon value="Assets\Textures\btn-ability-protoss-carrierrepairdrones.dds"/>
-        <HotkeyAlias value="RepairDrones"/>
-    </CButton>
-    <CButton id="CNCMaintenanceDroneRepair">
-        <Icon value="Assets\Textures\btn-ability-protoss-carrierrepairdrones.dds"/>
-        <HotkeyAlias value="RepairDrones"/>
-    </CButton>
-    <CActorSound id="CNCMaintenanceSound" parent="SoundOneShot">
-        <On Terms="Effect.CNCMaintenanceDroneRepair.TargetStart" Send="Create"/>
-        <On Terms="Effect.CNCMaintenanceDroneRepair.TargetStop" Send="Destroy"/>
-        <Sound value="CNCMaintenanceSound"/>
-    </CActorSound>
-    <CSound id="CNCMaintenanceSound" parent="Gather">
+    <CEffectCreateHealer id="CNCMaintenanceDroneRepair" parent="Repair">
+        <Name value="Effect/Name/CNCMaintenanceDroneRepair"/>
+        <ValidatorArray index="0" value="noMarkers"/>
+        <ValidatorArray index="1" value="NotHidden"/>
+        <ValidatorArray index="2" value="NotWarpingIn"/>
+        <ValidatorArray index="3" value="NotThorWreckage"/>
+        <ValidatorArray value="NotOdinWreckage"/>
+        <ValidatorArray value="NotVortexd"/>
+        <ValidatorArray value="NoSOATimeFreeze"/>
+        <DrainResourceCostFactor index="Minerals" value="0"/>
+        <DrainResourceCostFactor index="Vespene" value="0"/>
+        <DrainResourceCostFactor index="Terrazine" value="0"/>
+        <DrainResourceCostFactor index="Custom" value="0"/>
+        <RechargeVitalRate value="10"/>
+        <TimeFactor value="0"/>
+        <FinalEffect value="CNCRepairDroneHeightRestore"/>
+    </CEffectCreateHealer>
+    <CEffectModifyUnit id="CNCRepairDroneHeightRestore">
         <EditorCategories value="Race:Terran"/>
-        <AssetArray File="Assets\sounds\multifunctional-repair-tank-sound-effects.ogg" FacialGroup=""/>
-        <DupeDestroyCount value="3"/>
-        <Pitch value="-2.000000,0.000000"/>
-        <Volume value="-10.000000,-7.000000"/>
-    </CSound>
-    <CActorModel id="CNCMaintenanceModel" parent="ModelAnimationStyleContinuous">
-        <On Terms="ActorCreation" Send="$Birth PlayForever,ForceLooping"/>
-        <On Terms="Effect.CNCMaintenanceDroneRepair.TargetStart" Send="Create"/>
-        <On Terms="Effect.CNCMaintenanceDroneRepair.TargetStop" Send="Destroy"/>
-        <On Terms="ActorOrphan" Send="Destroy"/>
-        <Host Subject="_Selectable"/>
-        <HostSiteOps Ops="SOpAttachOverhead"/>
-        <Model value="CNCMaintenanceModel"/>
-    </CActorModel>
-    <CModel id="CNCMaintenanceModel" parent="PersistentSpellFX">
-        <Model value="Assets\Effects\Other\PhysicsImpactSparksLight\PhysicsImpactSparksLight.m3"/>
+        <ImpactUnit Value="Caster"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="CNCMaintenanceDroneAirHeightStart">
         <EditorCategories value="Race:Terran"/>
-    </CModel>
-
+        <ImpactUnit Value="Caster"/>
+        <Height value="3.75"/>
+        <HeightTime value="2"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="CNCMaintenanceDroneGroundHeightStart">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactUnit Value="Caster"/>
+        <Height value="1.75"/>
+        <HeightTime value="1"/>
+    </CEffectModifyUnit>
     <CAbilArmMagazine id="NodMaintenanceDronesGround">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Launch value="ReleaseAtSource"/>
@@ -131,9 +87,8 @@
         </InfoArray>
         <MaxCount value="3"/>
     </CAbilArmMagazine>
-
     <CAbilArmMagazine id="CNCMaintenanceDrones">
-        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Launch value="ReleaseAtSource"/>
         <Flags index="AutoCreate" value="1"/>
         <Flags index="Retarget" value="1"/>
@@ -149,33 +104,11 @@
         </InfoArray>
         <MaxCount value="3"/>
     </CAbilArmMagazine>
-
-    <CEffectCreateHealer id="CNCMaintenanceDroneRepair" parent="Repair">
-        <Name value="Effect/Name/CNCMaintenanceDroneRepair"/>
-        <ValidatorArray index="0" value="noMarkers"/>
-        <ValidatorArray index="1" value="NotHidden"/>
-        <ValidatorArray index="2" value="NotWarpingIn"/>
-        <ValidatorArray index="3" value="NotThorWreckage"/>
-        <ValidatorArray index="4" value="NotOdinWreckage"/>
-        <ValidatorArray value="NotVortexd"/>
-        <ValidatorArray value="NoSOATimeFreeze"/>
-        <DrainResourceCostFactor index="Minerals" value="0"/>
-        <DrainResourceCostFactor index="Vespene" value="0"/>
-        <DrainResourceCostFactor index="Terrazine" value="0"/>
-        <DrainResourceCostFactor index="Custom" value="0"/>
-        <RechargeVitalRate value="10"/>
-        <TimeFactor value="0"/>
-        <FinalEffect value="CNCRepairDroneHeightRestore"/>
-    </CEffectCreateHealer>
-    <CEffectModifyUnit id="CNCRepairDroneHeightRestore">
-        <EditorCategories value="Race:Terran"/>
-        <ImpactUnit Value="Caster"/>
-    </CEffectModifyUnit>
     <CAbilEffectTarget id="CNCMaintenanceDroneRepairAir">
         <Effect index="0" value="CNCMaintenanceDroneRepair"/>
         <Alignment value="Positive"/>
         <AbilSetId value="Repair"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Flags index="AutoCast" value="1"/>
         <Flags index="AutoCastOffOwnerLeave" value="1"/>
         <Flags index="AutoCastOn" value="1"/>
@@ -203,7 +136,7 @@
         <Effect index="0" value="CNCMaintenanceDroneRepair"/>
         <Alignment value="Positive"/>
         <AbilSetId value="Repair"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Flags index="AutoCast" value="1"/>
         <Flags index="AutoCastOffOwnerLeave" value="1"/>
         <Flags index="AutoCastOn" value="1"/>
@@ -235,80 +168,46 @@
         <Value value="1"/>
         <Behavior value="CNCAwaitMaintenanceGround"/>
     </CValidatorUnitCompareBehaviorCount>
-    <CBehaviorWander id="CNCMaintenanceDroneWander">
-        <Leash value="1"/>
-        <Range value="4"/>
-        <Delay value="2"/>
-    </CBehaviorWander>
-
-    <CEffectModifyUnit id="CNCMaintenanceDroneAirHeightStart">
-        <EditorCategories value="Race:Terran"/>
-        <ImpactUnit Value="Caster"/>
-        <Height value="3.75"/>
-        <HeightTime value="2"/>
-    </CEffectModifyUnit>
-    <CEffectModifyUnit id="CNCMaintenanceDroneGroundHeightStart">
-        <EditorCategories value="Race:Terran"/>
-        <ImpactUnit Value="Caster"/>
-        <Height value="1.75"/>
-        <HeightTime value="1"/>
-    </CEffectModifyUnit>
-
-
-
-
-    <CUnit id="NodRepairBeeAir" parent="NodAir">
-        <FlagArray index="Unselectable" value="1"/>
-        <FlagArray index="Untargetable" value="1"/>
-        <FlagArray index="Invulnerable" value="1"/>
-        <FlagArray index="AISupport" value="1"/>
-        <Attributes index="Light" value="1"/>
-        <Attributes index="Mechanical" value="1"/>
-        <EnergyStart value="10"/>
-        <EnergyMax value="10"/>
-        <EnergyRegenRate value="10"/>
-        <Speed value="2.5"/>
-        <Acceleration value="2.125"/>
-        <AbilArray Link="Warpable"/>
-        <AbilArray Link="CNCMaintenanceDroneRepairAir"/>
-        <BehaviorArray Link="AbilityTargetExclusionBehavior"/>
-        <BehaviorArray Link="CNCMaintenanceDroneWander"/>
-<!--        <EffectArray index="Create" value="CNCMaintenanceDroneAirHeightStart"/>-->
-        <CardLayouts index="0">
-            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
-            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="move,AcquireMove" Row="0" Column="4"/>
-            <LayoutButtons Face="CNCMaintenanceDroneRepair" Type="AbilCmd" AbilCmd="CNCMaintenanceDroneRepairAir,Execute" Row="2" Column="0"/>
-        </CardLayouts>
-        <Radius value="0"/>
-        <SeparationRadius value="0"/>
-        <SubgroupPriority value="4"/>
-    </CUnit>
-    <CUnit id="NodRepairBeeGround" parent="NodAir">
-        <FlagArray index="Unselectable" value="1"/>
-        <FlagArray index="Untargetable" value="1"/>
-        <FlagArray index="Invulnerable" value="1"/>
-        <FlagArray index="AISupport" value="1"/>
-        <Attributes index="Light" value="1"/>
-        <Attributes index="Mechanical" value="1"/>
-        <EnergyStart value="10"/>
-        <EnergyMax value="10"/>
-        <EnergyRegenRate value="10"/>
-        <Speed value="2.5"/>
-        <Acceleration value="2.125"/>
-        <AbilArray Link="Warpable"/>
-        <AbilArray Link="CNCMaintenanceDroneRepairGround"/>
-        <BehaviorArray Link="AbilityTargetExclusionBehavior"/>
-        <BehaviorArray Link="CNCMaintenanceDroneWander"/>
-<!--        <EffectArray index="Create" value="CNCMaintenanceDroneGroundHeightStart"/>-->
-        <CardLayouts index="0">
-            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
-            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="move,AcquireMove" Row="0" Column="4"/>
-            <LayoutButtons Face="CNCMaintenanceDroneRepair" Type="AbilCmd" AbilCmd="CNCMaintenanceDroneRepairGround,Execute" Row="2" Column="0"/>
-        </CardLayouts>
-        <Radius value="0"/>
-        <SeparationRadius value="0"/>
-        <SubgroupPriority value="4"/>
-    </CUnit>
+    <CButton id="CNCRepairDrones">
+        <Icon value="Assets\Textures\btn-ability-protoss-carrierrepairdrones.dds"/>
+        <HotkeyAlias value="RepairDrones"/>
+    </CButton>
+    <CButton id="CNCMaintenanceDroneRepair">
+        <Icon value="Assets\Textures\btn-ability-protoss-carrierrepairdrones.dds"/>
+        <HotkeyAlias value="RepairDrones"/>
+    </CButton>
+    <!--    <BehaviorArray Link="CNCMaintenanceArea"/>           -->
+    <!--    <LayoutButtons Face="CNCRepairDrones" Type="AbilCmd" AbilCmd="CNCMaintenanceDrones,Ammo2" Row="0" Column="4"/>-->
+    <CActorRange id="CNCMaintenanceRange">
+        <Inherits index="TeamColor" value="1"/>
+        <On Terms="SelectionLocalUpdate.NodWarFactory.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodWarFactory.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodWarFactory" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodWarFactory.Stop" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.NodAirTower.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirTower.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirTower" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirTower.Stop" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.NodAirSupport.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirSupport.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirSupport" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.NodAirSupport.Stop" Send="Destroy"/>
+        <Weapon value="CNCMaintenanceWeaponDummy"/>
+        <Icon value="Assets\Textures\radaricon2.dds"/>
+        <IconArcLength value="0.300000"/>
+    </CActorRange>
+    <CActorSound id="CNCMaintenanceSound" parent="SoundOneShot">
+        <On Terms="Effect.CNCMaintenanceDroneRepair.TargetStart" Send="Create"/>
+        <On Terms="Effect.CNCMaintenanceDroneRepair.TargetStop" Send="Destroy"/>
+    </CActorSound>
+    <CActorModel id="CNCMaintenanceModel" parent="ModelAnimationStyleContinuous">
+        <On Terms="ActorCreation" Send="$Birth PlayForever,ForceLooping"/>
+        <On Terms="Effect.CNCMaintenanceDroneRepair.TargetStart" Send="Create"/>
+        <On Terms="Effect.CNCMaintenanceDroneRepair.TargetStop" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+    </CActorModel>
     <CActorUnit id="NodRepairBeeAir" parent="NodAir" unitName="NodRepairBeeAir">
         <!--        <On Terms="Behavior.WarpInEffect15.On" Send="ModelSwap ObserverWarpIn"/>-->
         <!--        <On Terms="Behavior.WarpInEffect15.On" Send="$Birth"/>-->
@@ -361,6 +260,10 @@
         </Wireframe>
         <Model value="NodRepairBee"/>
     </CActorUnit>
+    <CModel id="CNCMaintenanceModel" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Other\PhysicsImpactSparksLight\PhysicsImpactSparksLight.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
     <CModel id="NodRepairBee" parent="Unit" Race="Protoss">
         <Model value="Assets\Units\Nod\NodRepairDrone.m3"/>
         <Occlusion value="Show"/>
@@ -369,6 +272,91 @@
         <TechPurchaseCamera value="Star2CameraLow05"/>
         <UnitGlossaryCamera value="Star2CameraLow05"/>
     </CModel>
-
-
+    <CWeaponLegacy id="CNCMaintenanceWeaponDummy">
+        <Range value="4"/>
+    </CWeaponLegacy>
+    <CSound id="CNCMaintenanceSound" parent="Gather">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\multifunctional-repair-tank-sound-effects.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="3"/>
+        <Pitch value="-2.000000,0.000000"/>
+        <Volume value="-10.000000,-7.000000"/>
+    </CSound>
+    <CUnit id="NodRepairBeeAir" parent="NodAir">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="AISupport" value="1"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <EnergyStart value="10"/>
+        <EnergyMax value="10"/>
+        <EnergyRegenRate value="10"/>
+        <Speed value="2.5"/>
+        <Acceleration value="2.125"/>
+        <AbilArray Link="Warpable"/>
+        <AbilArray Link="CNCMaintenanceDroneRepairAir"/>
+        <BehaviorArray Link="AbilityTargetExclusionBehavior"/>
+        <BehaviorArray Link="CNCMaintenanceDroneWander"/>
+        <!--        <EffectArray index="Create" value="CNCMaintenanceDroneAirHeightStart"/>-->
+        <CardLayouts index="0">
+            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="move,AcquireMove" Row="0" Column="4"/>
+            <LayoutButtons Face="CNCMaintenanceDroneRepair" Type="AbilCmd" AbilCmd="CNCMaintenanceDroneRepairAir,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <Radius value="0"/>
+        <SeparationRadius value="0"/>
+        <SubgroupPriority value="4"/>
+    </CUnit>
+    <CUnit id="NodRepairBeeGround" parent="NodAir">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="AISupport" value="1"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <EnergyStart value="10"/>
+        <EnergyMax value="10"/>
+        <EnergyRegenRate value="10"/>
+        <Speed value="2.5"/>
+        <Acceleration value="2.125"/>
+        <AbilArray Link="Warpable"/>
+        <AbilArray Link="CNCMaintenanceDroneRepairGround"/>
+        <BehaviorArray Link="AbilityTargetExclusionBehavior"/>
+        <BehaviorArray Link="CNCMaintenanceDroneWander"/>
+        <!--        <EffectArray index="Create" value="CNCMaintenanceDroneGroundHeightStart"/>-->
+        <CardLayouts index="0">
+            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AcquireMove" Type="AbilCmd" AbilCmd="move,AcquireMove" Row="0" Column="4"/>
+            <LayoutButtons Face="CNCMaintenanceDroneRepair" Type="AbilCmd" AbilCmd="CNCMaintenanceDroneRepairGround,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <Radius value="0"/>
+        <SeparationRadius value="0"/>
+        <SubgroupPriority value="4"/>
+    </CUnit>
+    <CBehaviorBuff id="CNCMaintenanceAreaGround">
+        <InfoFlags index="Hidden" value="1"/>
+        <Period value="1"/>
+        <PeriodicEffect value="CNCMaintenanceGroundEA"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CNCMaintenanceAreaAir">
+        <InfoFlags index="Hidden" value="1"/>
+        <Period value="1"/>
+        <PeriodicEffect value="CNCMaintenanceAirEA"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CNCAwaitMaintenanceAir">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-swann-improvednanorepair.dds"/>
+        <Duration value="2"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CNCAwaitMaintenanceGround">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-swann-improvednanorepair.dds"/>
+        <Duration value="2"/>
+    </CBehaviorBuff>
+    <CBehaviorWander id="CNCMaintenanceDroneWander">
+        <Leash value="1"/>
+        <Range value="4"/>
+        <Delay value="2"/>
+    </CBehaviorWander>
 </Catalog>

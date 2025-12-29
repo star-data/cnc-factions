@@ -232,22 +232,26 @@ Warning: USER: Requirement limit reached: '%1'.
 NodHoldFire dissapears when stealth exposire is active
 
 
-Nod\ActorData.xml(1697,5) : Unable to create duplicate entry NodCommandoAttackBeam  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CActorBeamSimple
-Nod\ActorData.xml(1731,5) : Unable to create duplicate entry NodAvatarAttack  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CActorAction
-Nod\ActorData.xml(2588,5) : Unable to create duplicate entry NodRedeemerAttackBeam  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CActorBeamSimple
-Nod\ActorData.xml(2715,5) : Unable to create duplicate entry NodRedeemerAttackBeam2  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CActorBeamSimple
-Nod\ActorData.xml(2739,5) : Unable to create duplicate entry NodRedeemerAttackBeam3  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CActorBeamSimple
-Nod\EffectData.xml(1076,5) : Unable to create duplicate entry NodRaiderEMPSet  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CEffectSet
-Nod\EffectData.xml(1266,5) : Unable to create duplicate entry NodRedeemerConfusionAttack  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CEffectIssueOrder
-Nod\BehaviorData.xml(260,5) : Unable to create duplicate entry NodEMPStunned  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CBehaviorBuff
-Nod\SoundData.xml(1160,5) : Unable to create duplicate entry NodBlackHand_Attack  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CSound
-Nod\SoundData.xml(1169,5) : Unable to create duplicate entry NodBlackHand_Help  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CSound
-Nod\SoundData.xml(1176,5) : Unable to create duplicate entry NodBlackHand_Ready  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CSound
-Nod\SoundData.xml(1180,5) : Unable to create duplicate entry NodBlackHand_What  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CSound
-Nod\SoundData.xml(1187,5) : Unable to create duplicate entry NodBlackHand_Yes  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CSound
-Nod\SoundData.xml(1198,5) : Unable to create duplicate entry NodBlackHand_Death  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CSound
-Nod\SoundData.xml(1506,5) : Unable to create duplicate entry NodStealthTank_Attack  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CSound
-Nod\SoundData.xml(1514,5) : Unable to create duplicate entry NodStealthTank_Help  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CSound
-Nod\SoundData.xml(1531,5) : Unable to create duplicate entry NodStealthTank_Ready  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CSound
-Nod\SoundData.xml(1536,5) : Unable to create duplicate entry NodStealthTank_What  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CSound
-Nod\SoundData.xml(1544,5) : Unable to create duplicate entry NodStealthTank_Yes  Source: Mods/cnc-factions/tib-data.SC2Mod/  Scope: CSound
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\CABAL\FXGDI_MedicalTrainingUpgrade.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\ZOCOM\ZOCOMUpgradeAssaultJetpacks.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\ZOCOM\btn-unit-zocom-HammerHead.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\ZOCOM\btn-unit-zocom-ZoneEnforcer.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\ZOCOM\btn-unit-zocom-Striker.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\ZOCOM\btn-unit-zocom-Dozer.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\CABAL\btn-nodmine.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\CABAL\FXNod_HangarBay.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\CABAL\InfusionEngineUpgrade.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\CABAL\FXNod_FirestormIgnitionUpgrade.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\CABAL\FXNod_UA_CloakModuleUpgrade.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\CABAL\BTN_InvertWarhead.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\CABAL\BTN_EMPWarhead.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\CABAL\FXNod_TiberiumCatalystUpgrade.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\CABAL\FXNod_SP_EyesOfThePeopleUpgrade.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\GDI\btn-gdi-ability-powerplantadvancedturbines.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:35 PM] Warning: Unable to load image from 'Assets\icons\ZOCOM\GDIHeal.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:36 PM] Warning: Unable to load image from 'Assets\icons\CABAL\RangeUpgradeBTN.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:36 PM] Warning: Unable to load image from 'Assets\icons\Scrin\btn-scrin-unit-mechapedediscsegment.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:36 PM] Warning: Unable to load image from 'Assets\icons\Scrin\btn-scrin-unit-mechapededisintegratorsegment.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:36 PM] Warning: Unable to load image from 'Assets\icons\Scrin\btn-scrin-unit-mechapedeshardsegment.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:36 PM] Warning: Unable to load image from 'Assets\icons\Scrin\btn-scrin-unit-mechapedetoxinsegment.dds' (Core: a required object could not be found)
+[12/28/2025 11:24:36 PM] Warning: Unable to load image from 'Assets\icons\ZOCOM\btn-unit-zocom-ZoneTrooper.dds' (Core: a required object could not be found)

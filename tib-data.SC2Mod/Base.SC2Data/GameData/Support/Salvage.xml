@@ -1,16 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
-    <CAbilEffectInstant id="CNCStructureSalvageRefund" parent="Refund">
-        <Cost>
-            <Resource index="Minerals" value="0"/>
-        </Cost>
-    </CAbilEffectInstant>
-
     <CEffectIssueOrder id="CNCSalvage">
         <EditorCategories value="Race:Terran"/>
         <Abil value="CNCStructureSalvageRefund"/>
         <WhichUnit Value="Caster"/>
         <CmdFlags index="Preempt" value="1"/>
     </CEffectIssueOrder>
+    <CAbilEffectInstant id="CNCStructureSalvageRefund" parent="Refund">
+        <Cost/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
+    </CAbilEffectInstant>
+    <CAbilBehavior id="CNCSalvage">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
+        <CmdButtonArray index="On" DefaultButtonFace="CNCSalvage">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="BestUnit" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <BehaviorArray value="CNCSalvage"/>
+        <ValidatorArray value="HasNoCargo"/>
+    </CAbilBehavior>
     <CButton id="CNCSalvage">
         <Icon value="Assets\Textures\btn-ability-terran-salvage.dds"/>
         <AlertIcon value="Assets\Textures\btn-ability-terran-salvage.dds"/>
@@ -34,20 +43,8 @@
             <StateFlags index="SuppressRadar" value="1"/>
             <AbilLinkEnableArray value="##id##"/>
             <AbilLinkEnableArray value="CNCStructureSalvageRefund"/>
-<!--            <BehaviorLinkDisableArray value="SensorTowerRadar"/>-->
         </Modification>
+        <!--            <BehaviorLinkDisableArray value="SensorTowerRadar"/>-->
         <Name value="Behavior/Name/Salvage"/>
     </CBehaviorBuff>
-    <CAbilBehavior id="CNCSalvage">
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
-        <CmdButtonArray index="On" DefaultButtonFace="CNCSalvage">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-        <Flags index="BestUnit" value="1"/>
-        <Flags index="Transient" value="1"/>
-        <BehaviorArray value="CNCSalvage"/>
-        <ValidatorArray value="HasNoCargo"/>
-        <Name value="Abil/Name/CNCSalvage"/>
-    </CAbilBehavior>
-
 </Catalog>

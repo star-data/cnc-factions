@@ -115,7 +115,7 @@
         <ValidatorArray value="NodRepairPreviousTargetIsDead"/>
     </CEffectIssueOrder>
     <CAbilEffectTarget id="NodProductionBoost">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
         <Cost>
             <!--            <Vital index="Energy" value="25"/>-->
             <Cooldown TimeUse="5"/>
@@ -128,7 +128,7 @@
         <AINotifyEffect value="ChronoBoost"/>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="NodRepair">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
         <Cost>
             <!--            <Vital index="Energy" value="25"/>-->
             <Cooldown TimeUse="5"/>
@@ -194,6 +194,39 @@
         <Behavior value="NodRepair"/>
         <Value value="1"/>
     </CValidatorUnitCompareBehaviorCount>
+    <CValidatorCombine id="CNCRepairOutOfResources">
+        <CombineArray value="CNCRepairOutOfMinerals"/>
+        <CombineArray value="CNCRepairOutOfVespene"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="CNCRepairOutOfMinerals">
+        <Type value="And"/>
+        <CombineArray value="TargetCostsMinerals"/>
+        <CombineArray value="CNCOutOfMinerals"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="CNCRepairOutOfVespene">
+        <Type value="And"/>
+        <CombineArray value="TargetCostsVespene"/>
+        <CombineArray value="CNCOutOfVespene"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareField id="TargetCostsMinerals">
+        <Compare value="GE"/>
+        <Field value="CostResource[Minerals]"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareField>
+    <CValidatorUnitCompareField id="TargetCostsVespene">
+        <Compare value="GE"/>
+        <Field value="CostResource[Vespene]"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareField>
+    <CValidatorPlayerCompareResource id="CNCOutOfMinerals">
+        <Compare value="LT"/>
+        <Value value="1"/>
+    </CValidatorPlayerCompareResource>
+    <CValidatorPlayerCompareResource id="CNCOutOfVespene">
+        <Compare value="LT"/>
+        <Resource value="Vespene"/>
+        <Value value="1"/>
+    </CValidatorPlayerCompareResource>
     <CActorSound id="NodProductionBoostImpactSound" parent="SoundOneShot">
         <Sound value="Obelisk_TimeWarpImpact"/>
         <On Terms="BehaviorLevel.NodProductionBoost.Start; Level 1" Send="Create"/>
@@ -212,65 +245,6 @@
         <Model value="TimeWarp"/>
         <Host Subject="_Unit"/>
     </CActorModel>
-<!--    <CActorSound id="NodRepairImpactSound" parent="SoundOneShot">-->
-<!--        <Sound value="Obelisk_TimeWarpImpact"/>-->
-<!--        <On Terms="BehaviorLevel.NodRepair.Start; Level 1" Send="Create"/>-->
-<!--        <Host Subject="_Unit"/>-->
-<!--    </CActorSound>-->
-<!--    <CActorModel id="NodRepairEffect" parent="ModelAnimationStyleContinuous">-->
-<!--        <AutoScaleFactor value="0.750000"/>-->
-<!--        <Inherits index="BaseModelScale" value="1"/>-->
-<!--        <Inherits index="CloakEffect" value="1"/>-->
-<!--        <Inherits index="Scale" value="1"/>-->
-<!--        <Inherits index="Visibility" value="1"/>-->
-<!--        <On Terms="ActorCreation" Send="SetScale 0.300000"/>-->
-<!--        <On Terms="Behavior.NodRepair.On" Send="Create"/>-->
-<!--        <On Terms="Behavior.NodRepair.Off" Send="Destroy"/>-->
-<!--        <On Terms="ActorCreation" Send="SetTintColor 255,165,165"/>-->
-<!--        <Model value="TimeWarp"/>-->
-<!--        <Host Subject="_Unit"/>-->
-<!--    </CActorModel>-->
-    <CBehaviorBuff id="NodProductionBoost">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
-        <Modification TimeScale="1.5"/>
-        <TimeScaleSource Value="Global"/>
-        <BehaviorCategories index="Fast" value="1"/>
-        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodProductionBoostController">
-        <InfoFlags index="Hidden" value="1"/>
-        <InitialEffect value="NodProductionBoostControllerABTarget"/>
-        <FinalEffect value="NodProductionBoostControllerRBTarget"/>
-        <Period value="0.5"/>
-        <PeriodicEffect value="NodProductionBoostControllerIssueOrderSelf"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodRepair">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
-        <Period value="0.25"/>
-        <PeriodicEffect value="NodRepair"/>
-        <!--        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>-->
-        <RemoveValidatorArray value="TargetLifeNotFull"/>
-<!--        <RemoveValidatorArray value="CNCRepairOutOfResources"/>-->
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodRepairController">
-        <InfoFlags index="Hidden" value="1"/>
-        <InitialEffect value="NodRepairControllerABTarget"/>
-        <FinalEffect value="NodRepairControllerRBTarget"/>
-        <Period value="0.5"/>
-        <PeriodicEffect value="NodRepairControllerIssueOrderSelf"/>
-    </CBehaviorBuff>
-
-
-
-
-
-
-
-
     <CActorSimple id="SeekerMissileTint22">
         <Aliases value="_AngryTinter"/>
         <Remove Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
@@ -300,22 +274,18 @@
     <CActorModel id="CNCRepairSign" parent="ModelAnimationStyleContinuous">
         <On Terms="Behavior.NodRepair.On" Send="Create"/>
         <On Terms="Behavior.NodRepair.Off" Send="Destroy"/>
-<!--        <On Terms="Effect.Repair22.TargetStart; At Target" Send="Create"/>-->
-<!--        <On Terms="Effect.Repair22.TargetStop" Send="Destroy"/>-->
+        <!--        <On Terms="Effect.Repair22.TargetStart; At Target" Send="Create"/>-->
+        <!--        <On Terms="Effect.Repair22.TargetStop" Send="Destroy"/>-->
         <Host Subject="_Unit"/>
         <HostSiteOps Ops="SOpAttachOverhead"/>
         <Scale value="2.000000"/>
     </CActorModel>
     <CActorSound id="CNCCNCPowerLow" parent="SoundOneShot">
         <FogVisibility value="Visible"/>
-<!--        <On Terms="Behavior.CNCPowerLow22.On" Send="Create"/>-->
-<!--        <On Terms="Behavior.CNCPowerLow22.Off" Send="Destroy"/>-->
-        <Sound value="CNCCNCPowerLow"/>
     </CActorSound>
     <CActorSound id="CNCPowerRestore" parent="SoundOneShot">
         <FogVisibility value="Visible"/>
         <On Terms="Behavior.CNCPowerLow.Off" Send="Create"/>
-        <Sound value="CNCPowerRestore"/>
     </CActorSound>
     <CActorSound id="CNCCNCPowerLowOthers" parent="SoundOneShot">
         <Filter index="Ally" value="1"/>
@@ -324,7 +294,6 @@
         <FogVisibility value="Visible"/>
         <On Terms="Behavior.CNCPowerLow.On" Send="Create"/>
         <On Terms="Behavior.CNCPowerLow.Off" Send="Destroy"/>
-        <Sound value="CNCCNCPowerLowOthers"/>
     </CActorSound>
     <CModel id="CNCRepairSign">
         <Model value="Assets\Models\RepairBUFF.m3"/>
@@ -356,48 +325,55 @@
         <Mode value="3DHead"/>
         <Volume value="6.000000,6.000000"/>
     </CSound>
-
-
-
-
-    <CValidatorCombine id="CNCRepairOutOfResources">
-        <Type value="Or"/>
-        <CombineArray value="CNCRepairOutOfMinerals"/>
-        <CombineArray value="CNCRepairOutOfVespene"/>
-    </CValidatorCombine>
-    <CValidatorCombine id="CNCRepairOutOfMinerals">
-        <Type value="And"/>
-        <CombineArray value="TargetCostsMinerals"/>
-        <CombineArray value="CNCOutOfMinerals"/>
-    </CValidatorCombine>
-    <CValidatorCombine id="CNCRepairOutOfVespene">
-        <Type value="And"/>
-        <CombineArray value="TargetCostsVespene"/>
-        <CombineArray value="CNCOutOfVespene"/>
-    </CValidatorCombine>
-
-    <CValidatorUnitCompareField id="TargetCostsMinerals">
-        <WhichUnit Value="Target"/>
-        <Compare value="GE"/>
-        <Field value="CostResource[Minerals]"/>
-        <Value value="1"/>
-    </CValidatorUnitCompareField>
-    <CValidatorUnitCompareField id="TargetCostsVespene">
-        <WhichUnit Value="Target"/>
-        <Compare value="GE"/>
-        <Field value="CostResource[Vespene]"/>
-        <Value value="1"/>
-    </CValidatorUnitCompareField>
-
-    <CValidatorPlayerCompareResource id="CNCOutOfMinerals">
-        <Compare value="LT"/>
-        <Resource value="Minerals"/>
-        <Value value="1"/>
-    </CValidatorPlayerCompareResource>
-    <CValidatorPlayerCompareResource id="CNCOutOfVespene">
-        <Compare value="LT"/>
-        <Resource value="Vespene"/>
-        <Value value="1"/>
-    </CValidatorPlayerCompareResource>
-
+    <!--    <CActorSound id="NodRepairImpactSound" parent="SoundOneShot">-->
+    <!--        <Sound value="Obelisk_TimeWarpImpact"/>-->
+    <!--        <On Terms="BehaviorLevel.NodRepair.Start; Level 1" Send="Create"/>-->
+    <!--        <Host Subject="_Unit"/>-->
+    <!--    </CActorSound>-->
+    <!--    <CActorModel id="NodRepairEffect" parent="ModelAnimationStyleContinuous">-->
+    <!--        <AutoScaleFactor value="0.750000"/>-->
+    <!--        <Inherits index="BaseModelScale" value="1"/>-->
+    <!--        <Inherits index="CloakEffect" value="1"/>-->
+    <!--        <Inherits index="Scale" value="1"/>-->
+    <!--        <Inherits index="Visibility" value="1"/>-->
+    <!--        <On Terms="ActorCreation" Send="SetScale 0.300000"/>-->
+    <!--        <On Terms="Behavior.NodRepair.On" Send="Create"/>-->
+    <!--        <On Terms="Behavior.NodRepair.Off" Send="Destroy"/>-->
+    <!--        <On Terms="ActorCreation" Send="SetTintColor 255,165,165"/>-->
+    <!--        <Model value="TimeWarp"/>-->
+    <!--        <Host Subject="_Unit"/>-->
+    <!--    </CActorModel>-->
+    <CBehaviorBuff id="NodProductionBoost">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
+        <Modification TimeScale="1.5"/>
+        <TimeScaleSource Value="Global"/>
+        <BehaviorCategories index="Fast" value="1"/>
+        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodProductionBoostController">
+        <InfoFlags index="Hidden" value="1"/>
+        <InitialEffect value="NodProductionBoostControllerABTarget"/>
+        <FinalEffect value="NodProductionBoostControllerRBTarget"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="NodProductionBoostControllerIssueOrderSelf"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodRepair">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
+        <Period value="0.25"/>
+        <PeriodicEffect value="NodRepair"/>
+        <!--        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>-->
+        <RemoveValidatorArray value="TargetLifeNotFull"/>
+        <!--        <RemoveValidatorArray value="CNCRepairOutOfResources"/>-->
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodRepairController">
+        <InfoFlags index="Hidden" value="1"/>
+        <InitialEffect value="NodRepairControllerABTarget"/>
+        <FinalEffect value="NodRepairControllerRBTarget"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="NodRepairControllerIssueOrderSelf"/>
+    </CBehaviorBuff>
 </Catalog>
