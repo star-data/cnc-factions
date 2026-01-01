@@ -7,11 +7,13 @@
     <CEffectCreatePersistent id="NodProductionBoostCP">
         <WhichLocation Value="TargetUnit"/>
         <EditorCategories value="Race:Protoss"/>
-        <PeriodCount value="2"/>
+        <PeriodCount value="3"/>
         <PeriodicEffectArray value="NodProductionBoostControllerRBCaster"/>
+        <PeriodicEffectArray value="NodRepairRB"/>
         <PeriodicEffectArray value="NodProductionBoostControllerABCaster"/>
         <PeriodicPeriodArray value="0"/>
         <PeriodicPeriodArray value="0.0625"/>
+        <PeriodicPeriodArray value="0"/>
         <ValidatorArray value="NodProductionBoostTargetFilters"/>
         <ValidatorArray value="NodProductionBoostViableTargets"/>
         <!--        <ValidatorArray value="IsNotNodChronoBoosted"/>-->
@@ -72,11 +74,13 @@
     <CEffectCreatePersistent id="NodRepairCP">
         <WhichLocation Value="TargetUnit"/>
         <EditorCategories value="Race:Protoss"/>
-        <PeriodCount value="2"/>
+        <PeriodCount value="3"/>
         <PeriodicEffectArray value="NodRepairControllerRBCaster"/>
+        <PeriodicEffectArray value="NodProductionBoostRB"/>
         <PeriodicEffectArray value="NodRepairControllerABCaster"/>
         <PeriodicPeriodArray value="0"/>
         <PeriodicPeriodArray value="0.0625"/>
+        <PeriodicPeriodArray value="0"/>
         <ValidatorArray value="NodRepairTargetFilters"/>
     </CEffectCreatePersistent>
     <CEffectRemoveBehavior id="NodRepairRB">
@@ -118,7 +122,7 @@
         <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
         <Cost>
             <!--            <Vital index="Energy" value="25"/>-->
-            <Cooldown TimeUse="5"/>
+<!--            <Cooldown TimeUse="5"/>-->
         </Cost>
         <TargetFilters value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
         <Range value="500"/>
@@ -232,19 +236,29 @@
         <On Terms="BehaviorLevel.NodProductionBoost.Start; Level 1" Send="Create"/>
         <Host Subject="_Unit"/>
     </CActorSound>
-    <CActorModel id="NodProductionBoostEffect" parent="ModelAnimationStyleContinuous">
-        <AutoScaleFactor value="0.750000"/>
-        <Inherits index="BaseModelScale" value="1"/>
-        <Inherits index="CloakEffect" value="1"/>
-        <Inherits index="Scale" value="1"/>
-        <Inherits index="Visibility" value="1"/>
-        <On Terms="ActorCreation" Send="SetScale 0.300000"/>
-        <On Terms="Behavior.NodProductionBoost.On" Send="Create"/>
-        <On Terms="Behavior.NodProductionBoost.Off" Send="Destroy"/>
-        <On Terms="ActorCreation" Send="SetTintColor 255,165,165"/>
-        <Model value="TimeWarp"/>
-        <Host Subject="_Unit"/>
-    </CActorModel>
+
+
+    <CModel id="CNCPowerHighSign">
+        <Model value="assets\models\HighPowerBUFF.m3"/>
+    </CModel>
+
+<!--    -->
+<!--    <CActorModel id="NodProductionBoostEffect" parent="ModelAnimationStyleContinuous">-->
+<!--        <AutoScaleFactor value="0.750000"/>-->
+<!--        <Inherits index="BaseModelScale" value="1"/>-->
+<!--        <Inherits index="CloakEffect" value="1"/>-->
+<!--        <Inherits index="Scale" value="1"/>-->
+<!--        <Inherits index="Visibility" value="1"/>-->
+<!--        <On Terms="ActorCreation" Send="SetScale 0.300000"/>-->
+<!--        <On Terms="ActorCreation" Send="SetTintColor 255,165,165"/>-->
+<!--        <Model value="MorePowerBuff"/>-->
+
+
+<!--&lt;!&ndash;        <CBehaviorBuff id="MorePower">&ndash;&gt;-->
+<!--        -->
+<!--        -->
+<!--        <Host Subject="_Unit"/>-->
+<!--    </CActorModel>-->
     <CActorSimple id="SeekerMissileTint22">
         <Aliases value="_AngryTinter"/>
         <Remove Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
@@ -269,16 +283,37 @@
         <On Terms="Behavior.CNCPowerLow.Off" Send="Destroy"/>
         <Host Subject="_Unit"/>
         <HostSiteOps Ops="SOpAttachOverhead"/>
-        <Scale value="2.000000"/>
+        <Scale value="1"/>
+    </CActorModel>
+
+    <CActorSiteOpRotationExplicit id="SOpPointToRight">
+        <Forward value="0.000000,5,0"/>
+        <IsLocal value="1"/>
+    </CActorSiteOpRotationExplicit>
+    <CActorSiteOpRotationExplicit id="SOpPointToLeft">
+        <Forward value="0.000000,-5,0"/>
+        <IsLocal value="1"/>
+    </CActorSiteOpRotationExplicit>
+
+    <CActorModel id="CNCPowerHighSign" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.NodProductionBoost.On" Send="Create"/>
+        <On Terms="Behavior.NodProductionBoost.Off" Send="Destroy"/>
+<!--        <On Terms="Behavior.NodRepair.On" Send="HostSiteOpsSet ::Host {SOpAttachOverhead SOpPointToLeft}"/>-->
+<!--        <On Terms="Behavior.NodRepair.Off" Send="HostSiteOpsSet ::Host SOpAttachOverhead"/>-->
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+        <Scale value="1"/>
     </CActorModel>
     <CActorModel id="CNCRepairSign" parent="ModelAnimationStyleContinuous">
         <On Terms="Behavior.NodRepair.On" Send="Create"/>
         <On Terms="Behavior.NodRepair.Off" Send="Destroy"/>
+<!--        <On Terms="Behavior.NodProductionBoost.On" Send="HostSiteOpsSet ::Host {SOpAttachOverhead SOpPointToRight}"/>-->
+<!--        <On Terms="Behavior.NodProductionBoost.Off" Send="HostSiteOpsSet ::Host SOpAttachOverhead"/>-->
         <!--        <On Terms="Effect.Repair22.TargetStart; At Target" Send="Create"/>-->
         <!--        <On Terms="Effect.Repair22.TargetStop" Send="Destroy"/>-->
         <Host Subject="_Unit"/>
         <HostSiteOps Ops="SOpAttachOverhead"/>
-        <Scale value="2.000000"/>
+        <Scale value="1.000000"/>
     </CActorModel>
     <CActorSound id="CNCCNCPowerLow" parent="SoundOneShot">
         <FogVisibility value="Visible"/>
@@ -345,7 +380,7 @@
     <!--    </CActorModel>-->
     <CBehaviorBuff id="NodProductionBoost">
         <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
+        <InfoIcon value="Assets\Textures\icon-power-nobg.dds"/>
         <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
         <Modification TimeScale="1.5"/>
         <TimeScaleSource Value="Global"/>
