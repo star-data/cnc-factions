@@ -3899,32 +3899,24 @@ bool libTIBW_gt_ChooseConjoinedSupportModule_Func (bool testConds, bool runActio
     unit lv_unit;
     int lv_player;
     unit lv_conjoined;
+    unitgroup lv_currentSelection;
+    unitgroup lv_newSelection;
 
     // Automatic Variable Declarations
-    playergroup autoAC0C2885_g;
-    int autoAC0C2885_var;
-
     // Variable Initialization
     lv_unit = EventUnit();
-    lv_player = UnitGetOwner(lv_unit);
+    lv_player = EventPlayer();
     lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
+    lv_currentSelection = UnitGroupSelected(lv_player);
+    lv_newSelection = UnitGroupEmpty();
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    autoAC0C2885_g = PlayerGroupAll();
-    autoAC0C2885_var = -1;
-    while (true) {
-        autoAC0C2885_var = PlayerGroupNextPlayer(autoAC0C2885_g, autoAC0C2885_var);
-        if (autoAC0C2885_var < 0) { break; }
-        if ((UnitGroupHasUnit(UnitGroupSelected(autoAC0C2885_var), lv_unit) == true)) {
-            UnitSelect(lv_unit, autoAC0C2885_var, false);
-            UnitSelect(lv_conjoined, autoAC0C2885_var, true);
-        }
-
-    }
+    UnitSelect(lv_unit, lv_player, false);
+    UnitSelect(lv_conjoined, lv_player, true);
     return true;
 }
 
@@ -5189,7 +5181,6 @@ bool libTIBW_gt_GAMESTARTNod_Func (bool testConds, bool runActions) {
         if (autoC0198CC5_var < 0) { break; }
         if ((PlayerRace(autoC0198CC5_var) == "Nod")) {
             TechTreeUpgradeAddLevel(autoC0198CC5_var, "NodAdvisor", 1);
-            UISetFrameVisible(PlayerGroupSingle(autoC0198CC5_var), c_syncFrameTypeConsolePanel, false);
         }
 
     }

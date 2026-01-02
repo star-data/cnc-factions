@@ -2,9 +2,6 @@
 
 distortionbeacon icons/wireframes. btn-nod-unit-distortionbeacon.dds
 NodHoldFire dissapears when stealth exposire is active
-
-
-
 overhead points
 hitboxes
 

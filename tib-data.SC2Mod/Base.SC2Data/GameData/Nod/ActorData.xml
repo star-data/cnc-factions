@@ -1867,8 +1867,8 @@
         <BarWidth value="80"/>
         <HighlightTooltip value="Unit/Name/CABALOutpost"/>
         <NameOffset value="40"/>
-        <SoundArray index="Ready" value="SupplyDepot_Ready"/>
-        <SoundArray index="What" value="SupplyDepot_What"/>
+        <SoundArray index="Ready" value="NodKaneSound_Loop"/>
+        <SoundArray index="What" value="NodKaneSound_Loop"/>
         <PlacementModel value="NodEmissary"/>
         <BuildModel value="NodEmissary"/>
         <PlaceholderActorModel value="NodEmissaryDeployedPM"/>
@@ -2075,7 +2075,7 @@
         <GroupSoundArray index="Pissed" value="NodVenom_What"/>
         <SoundArray index="Pissed" value="NodVenom_What"/>
     </CActorUnit>
-    <CActorUnit id="NodHarpy" icon="Harpy" parent="NodAir">
+    <CActorUnit id="NodScorcher" icon="Harpy" parent="NodAir">
         <GroupSoundArray index="Ready" value="NodVenom_Ready"/>
         <GroupSoundArray index="Help" value="NodVenom_Help"/>
         <GroupSoundArray index="What" value="NodVenom_What"/>
@@ -3170,4 +3170,71 @@
         <HostSiteOps Ops="SOpAttachHead SOpMoveByDot15"/>
         <Scale value="0.750000"/>
     </CActorModel>
+
+
+    <CActorAction id="AvatarFlameAttack" parent="GenericAttackBase">
+        <On Terms="Effect.NodAvatarFlameThrowerSet.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.NodPurifierFlameThrowerSet.Start; At Caster" Send="Create"/>
+        <LaunchAttachQuery Methods="Weapon 2"/>
+        <LaunchAssets Model="" Sound="NodFlamethrower_AttackLaunch"/>
+        <ImpactMap index="None" Sound="NodFlamethrower_AttackImpact"/>
+        <Beam value="NodFlamethrowerAttackBeam"/>
+        <BeamScope value="Caster"/>
+    </CActorAction>
+    <CActorModel id="AvatarImpactModelFlames" parent="ModelAnimationStyleOneShot">
+        <Terms value="Cap 1"/>
+        <On Terms="Effect.AvatarFlameThrowerDamage.Start; At Target" Send="Create"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachRandomDamage"/>
+        <Model value="ImpactModelFlames2"/>
+    </CActorModel>
+    <CActorMissile id="MantisUpWeaponAttackMissile" parent="GenericAttackMissile" unitName="CABALMantisUpWeapon">
+        <Model value="NodMantisWeaponUMissile"/>
+    </CActorMissile>
+    <CActorModel id="BlackHandImpactModelFlames2" parent="ModelAnimationStyleOneShot">
+        <Terms value="Cap 1"/>
+        <On Terms="Effect.NodBlackHandFlamethrowerDamage.Start; At Target" Send="Create"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachRandomDamage"/>
+        <Model value="ImpactModelBlackHand"/>
+    </CActorModel>
+
+    <CActorAction id="FlameTankTurretAttack" parent="GenericAttackBase">
+        <On Terms="Effect.NodFlameTankFlamethrowerSet.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.NodScorcherFlamethrowerSet.Start; At Caster" Send="Create"/>
+        <LaunchAttachQuery Methods="Weapon"/>
+        <LaunchAssets Model="FlameTankAttackLaunch" Sound="CABALFlamethrower_AttackLaunch"/>
+        <ImpactMap index="None" Sound="CABALFlamethrower_AttackImpact"/>
+        <ContainerSiteOps HoldPosition="1" HoldRotation="1"/>
+        <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
+    </CActorAction>
+    <CActorModel id="FlameTankImpactModelFlames" parent="ModelAnimationStyleOneShot">
+        <Terms value="Cap 1"/>
+        <On Terms="Effect.NodFlameTankFlamethrowerDamage.Start; At Target" Send="Create"/>
+        <On Terms="Effect.NodScorcherFlamethrowerDamage.Start; At Target" Send="Create"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachRandomDamage"/>
+        <Model value="ImpactModelFlameTank"/>
+    </CActorModel>
+    <CActorModel id="FlameTankImpactModelFlamesBlue" parent="ModelAnimationStyleOneShot">
+        <Terms value="Cap 1"/>
+        <On Terms="Effect.NodFlameTankFlamethrowerUDamage.Start; At Target" Send="Create"/>
+        <On Terms="Effect.NodScorcherFlamethrowerUDamage.Start; At Target" Send="Create"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachRandomDamage"/>
+        <Model value="ImpactModelFlameTank"/>
+    </CActorModel>
+    <CActorAction id="FlameTankAttackBlue" parent="GenericAttackBase">
+        <On Terms="Effect.NodFlameTankFlamethrowerUSet.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.NodScorcherFlamethrowerUSet.Start; At Caster" Send="Create"/>
+        <LaunchAttachQuery Methods="Weapon"/>
+        <LaunchAssets Model="FlameTankAttackLaunchBlue" Sound="CABALFlamethrower_AttackLaunch"/>
+        <ImpactMap index="None" Sound="CABALFlamethrower_AttackImpact"/>
+        <ContainerSiteOps HoldPosition="1" HoldRotation="1"/>
+        <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
+    </CActorAction>
 </Catalog>
