@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CEffectSet id="NodDecoyArmyTestNullEffect">
+        <TargetLocationType value="Point"/>
+        <EffectArray value="NodDecoyArmySearchForUnits"/>
+        <!-- <EffectArray value="NodDecoyArmyCooldownStart"/> -->
+    </CEffectSet>
+    <CEffectEnumArea id="NodDecoyArmySearchForUnits">
+        <LaunchLocation Value="TargetPoint"/>
+        <ImpactLocation Value="CasterPoint"/>
+        <SearchFilters value="Ground;Ally,Neutral,Enemy,Structure,Missile,Item,Stasis,Dead,Hidden"/>
+        <AreaArray Radius="2" Effect="NodDecoyCloneSingleUnitDummy"/>
+    </CEffectEnumArea>
+    <CEffectSet id="NodDecoyCloneSingleUnitDummy"/>
+    <CEffectCreatePersistent id="NodDecoyArmyCP">
+        <InitialEffect value="NodDecoyArmySet"/>
+        <PeriodCount value="1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <RevealRadius value="3"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="NodDecoyArmySet">
+        <EffectArray value="NodDecoyArmySearchForUnits"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <!-- STEP 4: Main Targeting Ability (First Click - Select Source Units) -->
+    <CAbilEffectTarget id="NodDecoyArmyTargeting">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodDecoyArmyTestNullEffect"/>
+        <Cost>
+            <Vital index="Energy" value="75"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <Marker Link="Abil/NovaNuclearStrike"/>
+        <AlertArray index="Cast" value="CalldownLaunch"/>
+        <CursorEffect value="NodDecoyArmySearchForUnits"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmy" Requirements="NodDecoyArmyRequirement"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="NodDecoyArmyExecute">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodDecoyArmyCP"/>
+<!--        <Cost>-->
+<!--&lt;!&ndash;            <Charge Link="Abil/NovaNuclearStrike"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <Cooldown Link="NodDecoyArmyCooldown" TimeUse="30"/>&ndash;&gt;-->
+<!--        </Cost>-->
+        <Range value="13"/>
+        <Arc value="360"/>
+<!--        <Marker Link="Abil/NovaNuclearStrike"/>-->
+<!--        <AlertArray index="Cast" value="CalldownLaunch"/>-->
+        <CursorEffect value="NodDecoyArmySearchForUnits"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmyExecute" Requirements="NodDecoyArmyExecute">
+            <Flags index="ShowInGlossary" value="0"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+    </CAbilEffectTarget>
+    <CValidatorUnitCompareBehaviorCount id="IsNodHallucination">
+        <Value value="1"/>
+        <Behavior value="NodDecoyBehavior"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <!-- ========================================
+         NOD DECOY ARMY ABILITY IMPLEMENTATION
+         Based on Allied Chronosphere pattern
+         ======================================== -->
+    <CActorSimple id="NodHallucinationActor">
+        <Aliases value="_HallucinationTinter"/>
+        <On Terms="Behavior.NodDecoyBehavior.On" Send="Create"/>
+        <On Terms="Behavior.NodDecoyBehavior.On; ViewerTreatsUnitAs Detected" Send="Signal HallucinationTintOn"/>
+        <On Terms="Signal.*.HallucinationTintOn" Target="_Unit" Send="SetTintColor 255,108,108 1.000000 OneShot Hallucination"/>
+        <On Terms="Signal.*.HallucinationTintOn; !Option Shader Low" Target="_Unit" Send="SetOpacity 0.700000 1.000000 Hallucination"/>
+        <On Terms="Signal.*.HallucinationTintOff" Target="_Unit" Send="ClearTintColor 1.000000 Hallucination"/>
+        <On Terms="Signal.*.HallucinationTintOff; !Option Shader Low" Target="_Unit" Send="ClearOpacity 1.000000 Hallucination"/>
+        <On Terms="Behavior.NodDecoyBehavior.Off" Send="Destroy"/>
+    </CActorSimple>
+    <CActorModel id="NodHallucinationBirth" parent="ModelAnimationStyleOneShot">
+        <AutoScaleFactor value="1.000000"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="Behavior.NodDecoyBehavior.On; !ValidateUnit CasterIsColossus" Send="Create"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+    </CActorModel>
+    <CActorModel id="NodHallucinationColossusBirth" parent="ModelAnimationStyleOneShot">
+        <AutoScaleFactor value="1.000000"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="Behavior.NodDecoyBehavior.On; ValidateUnit CasterIsColossus" Send="Create"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+    </CActorModel>
+    <CActorSound id="NodHallucinationBirthSoundLarge" parent="SoundOneShot">
+        <Sound value="Sentry_HallucinationLaunchLarge"/>
+    </CActorSound>
+    <CActorSound id="NodHallucinationBirthSoundMedium" parent="SoundOneShot">
+        <Sound value="Sentry_HallucinationLaunchMedium"/>
+    </CActorSound>
+    <CActorSound id="NodHallucinationBirthSoundSmall" parent="SoundOneShot">
+        <Sound value="Sentry_HallucinationLaunchSmall"/>
+    </CActorSound>
+    <CActorSplat id="NodDecoyArmyTargetingSplat" parent="ProtossCursorSplat" abil="NodDecoyArmyTargeting">
+        <Model value="NodAOECursorSplat"/>
+        <Scale value="3.000000"/>
+    </CActorSplat>
+    <CActorUnit id="NodDecoyArmyMarker" parent="GenericUnitStandard" unitName="NodDecoyArmyMarker">
+        <Scale value="0.300000"/>
+        <HighlightTooltip value="Unit/Name/Bogus"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart Brith Stand"/>
+    </CActorUnit>
+    <CActorRange id="NodDecoyArmyExecuteRange" parent="RangeAbil" abil="NodDecoyArmyExecute"/>
+    <CModel id="NodHallucinationBirth" parent="OneShotSpellFX">
+        <Model value="Assets\Effects\Protoss\HallucinateBirth\HallucinateBirth.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CModel>
+    <CModel id="NodHallucinationColossusBirth" parent="OneShotSpellFX">
+        <Model value="Assets\Effects\Protoss\HallucinateColossusBirth\HallucinateColossusBirth.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CModel>
+    <CModel id="NodDecoyArmyMarker">
+        <Model value="Assets\Effects\Protoss\TimeBomb\TimeBomb.m3"/>
+        <SelectionRadius value="1.000000"/>
+        <ShadowRadius value="0.000000"/>
+    </CModel>
+    <CUnit id="NodDecoyArmyMarker">
+        <Race value="Nod"/>
+        <FlagArray index="Undetectable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="ClearRallyOnTargetLost" value="0"/>
+        <Sight value="4"/>
+        <AbilArray Link="NodDecoyArmyExecute"/>
+        <CardLayouts>
+            <LayoutButtons Face="NodDecoyArmyExecute" Type="AbilCmd" AbilCmd="NodDecoyArmyExecute,Execute" Row="0" Column="0"/>
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="NodDecoyArmyExecute,Cancel" Row="2" Column="4"/>
+        </CardLayouts>
+        <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>
+    </CUnit>
+    <CBehaviorBuff id="NodDecoyBehavior">
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <DamageResponse ModifyFraction="2">
+            <Chance value="1"/>
+        </DamageResponse>
+        <Modification LifeArmorMultiplier="0" ShieldArmorMultiplier="0" SubgroupPriority="-100">
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="EnableAttack" value="1"/>
+            <ModifyFlags index="EnableMove" value="1"/>
+            <ModifyFlags index="HideChangeUI" value="1"/>
+            <StateFlags index="Hallucination" value="1"/>
+            <StateFlags index="SuppressCombat" value="1"/>
+            <StateFlags index="SuppressDetection" value="1"/>
+            <StateFlags index="SuppressRadar" value="1"/>
+            <DamageDealtMaximum index="Spell" value="0"/>
+            <DamageDealtMaximum index="Melee" value="0"/>
+            <DamageDealtMaximum index="Ranged" value="0"/>
+            <DamageDealtMaximum index="Splash" value="0"/>
+            <AbilClassEnableArray index="CAbilMorph" value="1"/>
+            <AbilClassEnableArray index="CAbilMorphPlacement" value="1"/>
+            <AbilClassEnableArray index="CAbilStop" value="1"/>
+            <AbilLinkDisableArray value="MorphZerglingToBaneling"/>
+            <AbilLinkDisableArray value="DevourerAspect"/>
+            <AbilLinkDisableArray value="MorphToBroodLord"/>
+            <AbilLinkDisableArray value="LurkerAspect"/>
+            <AbilLinkDisableArray value="MorphToOverseer"/>
+            <AbilLinkDisableArray value="MorphQueen2"/>
+            <AbilLinkDisableArray value="MorphQueen3"/>
+            <AbilLinkDisableArray value="ThorCrippled"/>
+            <AbilLinkDisableArray value="ThorUncrippled"/>
+            <AbilLinkDisableArray value="PhasingMode"/>
+            <BehaviorLinkDisableArray value="NodConfessorAura"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodDecoyTimedLife">
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="60"/>
+        <ExpireEffect value="KillHallucination"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <DisplayDuration index="Self" value="1"/>
+        <Modification>
+            <StateFlags index="SuppressPassenger" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodDecoyArmyTargeting"/>
+</Catalog>

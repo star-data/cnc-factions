@@ -32,7 +32,7 @@
     <CUnit default="1" id="SovietMissile" parent="CNCMissile">
         <Race value="Soviet"/>
     </CUnit>
-    <CUnit id="SovietConstructionYardBase" parent="SovietStructure">
+    <CUnit id="SovietConstructionYardBase" parent="SovietStructure" default="1">
         <AbilArray index="1" Link="que2CancelToSelection"/>
         <AbilArray Link="SovietCYardBuild"/>
         <CardLayouts index="0">
@@ -53,7 +53,7 @@
                 <Column value="1"/>
             </LayoutButtons>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="SovietCYardBuild,255" Row="2" Column="4"/>
-            <LayoutButtons Face="SovietBuildingRepair" Type="AbilCmd" AbilCmd="AucryoShrinBeam22,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="SovietBuildingRepair" Type="AbilCmd" AbilCmd="SovietRepairBuildings,Execute" Row="2" Column="0"/>
         </CardLayouts>
         <CardLayouts CardId="BLD">
             <LayoutButtons Face="SovietBuildReactor" Type="AbilCmd" AbilCmd="SovietCYardBuild,Build6" Row="0" Column="0"/>
@@ -107,10 +107,10 @@
         <KillXP value="500"/>
         <AbilArray Link="SovietCYardBuild"/>
         <AbilArray Link="Ally"/>
-        <AbilArray Link="RAChooseAirForce"/>
-        <AbilArray Link="SelectShipyards"/>
-        <AbilArray Link="RASelectFactory"/>
-        <AbilArray Link="AucryoShrinBeam22"/>
+        <!--        <AbilArray Link="RAChooseAirForce"/>-->
+        <!--        <AbilArray Link="SelectShipyards"/>-->
+        <!--        <AbilArray Link="RASelectFactory"/>-->
+        <AbilArray Link="SovietRepairBuildings"/>
         <BehaviorArray Link="CommandCenterQueue"/>
         <BehaviorArray Link="VoidPylonPowerSource2"/>
         <BehaviorArray Link="RAMovementSpeedAndArmor20Percent44"/>
@@ -118,11 +118,6 @@
         <EffectArray index="Create" value="CCCreateSet"/>
         <EffectArray index="Birth" value="CCBirthSet"/>
         <EffectArray index="Death" value="DisbandDeath52"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="SovietInfantryPage" Type="AbilCmd" AbilCmd="SelectShipyards,Execute" Row="0" Column="2"/>
-            <LayoutButtons Face="SovietVehiclePage" Type="AbilCmd" AbilCmd="RASelectFactory,Execute" Row="0" Column="3"/>
-            <LayoutButtons Face="SovietAircraftPage" Type="AbilCmd" AbilCmd="RAChooseAirForce,Execute" Row="0" Column="4"/>
-        </CardLayouts>
         <Radius value="1.75"/>
         <SeparationRadius value="1.75"/>
         <Footprint value="Footprint4x4Contour"/>
@@ -131,15 +126,8 @@
         <ScoreKillCostFactor index="Vespene" value="1.25"/>
         <SubgroupPriority value="3"/>
         <MinimapRadius value="0.75"/>
-        <TacticalAI value="CommandCenter"/>
-        <TacticalAIThink value="AIThinkCommandCenter"/>
-        <TechAliasArray value="Alias_CommandCenter"/>
         <GlossaryPriority value="30"/>
-        <GlossaryAlias value="GovernmentCentre"/>
         <AIEvaluateAlias value="CommandCenter"/>
-        <TechTreeProducedUnitArray value="SCV"/>
-        <TechTreeProducedUnitArray value="PlanetaryFortress"/>
-        <TechTreeProducedUnitArray value="OrbitalCommand"/>
         <ReviveInfoBase>
             <Charge Link="CommandCenter/Revive"/>
             <Cooldown Link="CommandCenter/Revive"/>
@@ -330,6 +318,23 @@
         <KillXP value="20"/>
         <Race value="Soviet"/>
         <EditorCategories value="ObjectType:Structure,ObjectFamily:RA2"/>
+    </CUnit>
+    <CUnit id="SovietReactor" parent="SovietStructure">
+        <Facing value="29.9926"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <Food value="30"/>
+        <CostResource index="Minerals" value="150"/>
+        <RepairTime value="35"/>
+        <KillXP value="30"/>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <Footprint value="Footprint2x2Contour"/>
+        <PlacementFootprint value="Footprint2x2"/>
+        <ScoreMake value="125"/>
+        <ScoreKill value="125"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="1.75"/>
     </CUnit>
     <!--Structures-->
     <CUnit id="SovietBarracks" parent="SovietStructure">
@@ -523,7 +528,7 @@
         <SubgroupPriority value="10"/>
         <MinimapRadius value="2"/>
     </CUnit>
-    <CUnit id="SovietMagneticStormCoil" parent="SovietStructure">
+    <CUnit id="SovietTeslaCoil" parent="SovietStructure">
         <FlagArray index="Untooltipable" value="0"/>
         <FlagArray index="Destructible" value="1"/>
         <FlagArray index="CameraFollow" value="0"/>
@@ -555,24 +560,6 @@
         <Footprint value="Footprint1x1CreepNormal"/>
         <PlacementFootprint value="Footprint1x1CreepNormal"/>
         <MinimapRadius value="0"/>
-    </CUnit>
-    <CUnit id="ChinaNuclearPowerPlant_Model" parent="SovietStructure">
-        <LifeStart value="400"/>
-        <LifeMax value="400"/>
-        <Food value="10"/>
-        <CostResource index="Minerals" value="100"/>
-        <RepairTime value="35"/>
-        <KillXP value="8"/>
-        <BehaviorArray Link="PowerUserQueue"/>
-        <BehaviorArray Link="PowerSource2"/>
-        <Radius value="1.25"/>
-        <SeparationRadius value="1.25"/>
-        <Footprint value="Footprint2x2Contour"/>
-        <PlacementFootprint value="Footprint2x2"/>
-        <ScoreMake value="125"/>
-        <ScoreKill value="125"/>
-        <SubgroupPriority value="3"/>
-        <MinimapRadius value="1.75"/>
     </CUnit>
     <CUnit id="SovietSuperReactor" parent="SovietStructure">
         <LifeStart value="1500"/>
@@ -1379,6 +1366,157 @@
         <MinimapRadius value="0.375"/>
         <GlossaryPriority value="160"/>
     </CUnit>
+    <CUnit id="SovietBandByBomber3" parent="SovietAir">
+        <Subtitle value="UnitSubtitle/hangk"/>
+        <Collide index="FlyingEscorts" value="1"/>
+        <Response value="Nothing"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="150"/>
+        <LifeMax value="150"/>
+        <LifeArmor value="1"/>
+        <EnergyStart value="10"/>
+        <EnergyMax value="10"/>
+        <Speed value="3.5"/>
+        <Acceleration value="20"/>
+        <Deceleration value="10"/>
+        <LateralAcceleration value="10"/>
+        <Sight value="8"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="100"/>
+        <CostResource index="Vespene" value="100"/>
+        <RepairTime value="2"/>
+        <KillXP value="10"/>
+        <AbilArray Link="CNCReturnToTheAirport"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent122"/>
+        <BehaviorArray Link="UpgradeLevel1224"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent1222"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent362"/>
+        <WeaponArray Link="VXWeaponGround33"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="ReturnAirport" Type="AbilCmd" AbilCmd="CNCReturnToTheAirport,255" Row="1" Column="0"/>
+        </CardLayouts>
+        <ScoreMake value="200"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="13"/>
+        <MinimapRadius value="0.375"/>
+        <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>
+        <GlossaryPriority value="160"/>
+    </CUnit>
+    <CUnit id="SovietTheIlAttackAircraft" parent="SovietAir">
+        <Subtitle value="UnitSubtitle/hangk"/>
+        <Collide index="FlyingEscorts" value="1"/>
+        <Response value="Nothing"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="1600"/>
+        <LifeMax value="1600"/>
+        <LifeArmor value="1"/>
+        <Speed value="4.5"/>
+        <SpeedMaximum value="8"/>
+        <Acceleration value="25"/>
+        <Deceleration value="10"/>
+        <LateralAcceleration value="10"/>
+        <Sight value="8"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="1200"/>
+        <RepairTime value="2"/>
+        <KillXP value="2"/>
+        <AbilArray Link="CNCReturnToTheAirport"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent122"/>
+        <BehaviorArray Link="UpgradeLevel12242"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent1222"/>
+        <WeaponArray Link="VXWeaponGround32"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="ReturnAirport" Type="AbilCmd" AbilCmd="CNCReturnToTheAirport,255" Row="1" Column="0"/>
+        </CardLayouts>
+        <ScoreMake value="200"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="13"/>
+        <MinimapRadius value="0.375"/>
+        <GlossaryPriority value="160"/>
+        <GlossaryStrongArray value="SJViking"/>
+        <GlossaryWeakArray value="SJFighter1"/>
+        <EditorCategories value="ObjectType:Unit,ObjectFamily:RA2"/>
+    </CUnit>
+    <CUnit id="SovietTwinBlade" parent="SovietAir">
+        <Subtitle value="UnitSubtitle/hangk"/>
+        <Collide index="FlyingEscorts" value="1"/>
+        <Response value="Nothing"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="150"/>
+        <LifeMax value="150"/>
+        <LifeArmor value="1"/>
+        <Speed value="2.5"/>
+        <Acceleration value="15"/>
+        <Deceleration value="10"/>
+        <LateralAcceleration value="10"/>
+        <Sight value="10"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="100"/>
+        <CostResource index="Vespene" value="100"/>
+        <RepairTime value="2"/>
+        <KillXP value="4"/>
+        <BehaviorArray Link="UpgradeLevel12"/>
+        <WeaponArray Link="WraithG23"/>
+        <WeaponArray Link="BattleshipArtillery2242"/>
+        <ScoreMake value="200"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="13"/>
+        <MinimapRadius value="0.375"/>
+        <GlossaryPriority value="160"/>
+        <GlossaryStrongArray value="SJViking"/>
+        <GlossaryWeakArray value="SJFighter1"/>
+    </CUnit>
+    <CUnit id="SovietKirovAirship" parent="SovietAir">
+        <DefaultAcquireLevel value="Defensive"/>
+        <!--        <Response value="Nothing"/>-->
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <LifeArmor value="1"/>
+        <LifeRegenRate value="5"/>
+        <Mover value="Fly2"/>
+        <Speed value="0.8984"/>
+        <Acceleration value="50"/>
+        <LateralAcceleration value="46.0625"/>
+        <StationaryTurningRate value="99.8437"/>
+        <TurningRate value="99.8437"/>
+        <Sight value="11"/>
+        <Food value="-4"/>
+        <CostResource index="Minerals" value="250"/>
+        <CostResource index="Vespene" value="150"/>
+        <RepairTime value="50"/>
+        <KillXP value="25"/>
+        <AbilArray index="0" Link="stop2"/>
+        <AbilArray index="1" Link="move2"/>
+        <AbilArray Link="VolatileBurstBuilding2523"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent12"/>
+        <BehaviorArray Link="UpgradeLevel12325"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent68"/>
+        <WeaponArray Link="StrategicBomb2"/>
+        <WeaponArray Link="Twin792mm2222"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Move2" Type="AbilCmd" AbilCmd="move2,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop2" Type="AbilCmd" AbilCmd="stop2,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition2" Type="AbilCmd" AbilCmd="move2,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move2,Patrol" Row="0" Column="4"/>
+            <LayoutButtons Face="TossGrenadeTychus222222523" Type="AbilCmd" AbilCmd="VolatileBurstBuilding2523,Off" Row="1" Column="1"/>
+            <LayoutButtons Face="CloakingDrone2" Type="Passive" Row="1" Column="4"/>
+            <LayoutButtons Face="TossGrenadeTychus22222623" Type="AbilCmd" AbilCmd="VolatileBurstBuilding2523,On" Row="1" Column="2"/>
+        </CardLayouts>
+        <Radius value="1.125"/>
+        <SeparationRadius value="1"/>
+        <InnerRadius value="0.875"/>
+        <ScoreMake value="350"/>
+        <ScoreKill value="700"/>
+        <SubgroupPriority value="16"/>
+        <MinimapRadius value="0.875"/>
+    </CUnit>
     <!--Ground-->
     <CUnit id="SovietNatasha" parent="SovietGround">
         <Attributes index="Light" value="1"/>
@@ -1448,16 +1586,16 @@
         <CostResource index="Minerals" value="50"/>
         <RepairTime value="41.667"/>
         <KillXP value="1"/>
-        <AbilArray Link="SovietMotoModeSwhich2"/>
+        <AbilArray Link="SovietMolotovAKSwitch"/>
         <!--BehaviorArray Link="SovietConscriptfallsdownwhentakingDamage"/-->
         <!--BehaviorArray Link="SovietSandbagAuraB"/-->
         <BehaviorArray Link="SovietStrongwilloftheRedArmy"/>
         <BehaviorArray Link="SovietT1unitveteranbehaviorantilightarmorunitDamagebonus"/>
-        <WeaponArray Link="MosinNagant"/>
-        <WeaponArray Link="SuzzbMolotov"/>
+        <WeaponArray Link="SovietAK47"/>
+        <WeaponArray Link="SovietMolotov"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="TossGrenadeTychus22222262" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich2,Off" Row="1" Column="1"/>
-            <LayoutButtons Face="TossGrenadeTychus2222272" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich2,On" Row="1" Column="2"/>
+            <LayoutButtons Face="SovietSwitchToAssaultRifle" Type="AbilCmd" AbilCmd="SovietMolotovAKSwitch,Off" Row="2" Column="0"/>
+            <LayoutButtons Face="SovietSwitchToMolotov" Type="AbilCmd" AbilCmd="SovietMolotovAKSwitch,On" Row="2" Column="1"/>
             <LayoutButtons>
                 <Face value="zhukefuxingfenji24"/>
                 <Type value="Passive"/>
@@ -1714,7 +1852,7 @@
         <KillXP value="50"/>
         <AbilArray Link="SCVHarvest2"/>
         <AbilArray Link="VolatileBurstBuilding26"/>
-        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent63"/>
+        <BehaviorArray Link="CNCAutoHarvestMinerals"/>
         <BehaviorArray Link="nianayaLevel1"/>
         <WeaponArray Link="nianyalv1"/>
         <EffectArray index="Create" value="oreminerSearch"/>
@@ -2198,157 +2336,6 @@
             <Cooldown Link="SiegeTank/Revive"/>
         </ReviveInfoBase>
         <EditorCategories value="ObjectType:Unit,ObjectFamily:RA2"/>
-    </CUnit>
-    <CUnit id="SovietBandByBomber3" parent="SovietAir">
-        <Subtitle value="UnitSubtitle/hangk"/>
-        <Collide index="FlyingEscorts" value="1"/>
-        <Response value="Nothing"/>
-        <Attributes index="Armored" value="1"/>
-        <Attributes index="Mechanical" value="1"/>
-        <LifeStart value="150"/>
-        <LifeMax value="150"/>
-        <LifeArmor value="1"/>
-        <EnergyStart value="10"/>
-        <EnergyMax value="10"/>
-        <Speed value="3.5"/>
-        <Acceleration value="20"/>
-        <Deceleration value="10"/>
-        <LateralAcceleration value="10"/>
-        <Sight value="8"/>
-        <Food value="-2"/>
-        <CostResource index="Minerals" value="100"/>
-        <CostResource index="Vespene" value="100"/>
-        <RepairTime value="2"/>
-        <KillXP value="10"/>
-        <AbilArray Link="CNCReturnToTheAirport"/>
-        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent122"/>
-        <BehaviorArray Link="UpgradeLevel1224"/>
-        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent1222"/>
-        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent362"/>
-        <WeaponArray Link="VXWeaponGround33"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="ReturnAirport" Type="AbilCmd" AbilCmd="CNCReturnToTheAirport,255" Row="1" Column="0"/>
-        </CardLayouts>
-        <ScoreMake value="200"/>
-        <ScoreKillCostFactor index="Minerals" value="1.25"/>
-        <ScoreKillCostFactor index="Vespene" value="1.25"/>
-        <SubgroupPriority value="13"/>
-        <MinimapRadius value="0.375"/>
-        <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>
-        <GlossaryPriority value="160"/>
-    </CUnit>
-    <CUnit id="SovietTheIlAttackAircraft" parent="SovietAir">
-        <Subtitle value="UnitSubtitle/hangk"/>
-        <Collide index="FlyingEscorts" value="1"/>
-        <Response value="Nothing"/>
-        <Attributes index="Mechanical" value="1"/>
-        <LifeStart value="1600"/>
-        <LifeMax value="1600"/>
-        <LifeArmor value="1"/>
-        <Speed value="4.5"/>
-        <SpeedMaximum value="8"/>
-        <Acceleration value="25"/>
-        <Deceleration value="10"/>
-        <LateralAcceleration value="10"/>
-        <Sight value="8"/>
-        <Food value="-1"/>
-        <CostResource index="Minerals" value="1200"/>
-        <RepairTime value="2"/>
-        <KillXP value="2"/>
-        <AbilArray Link="CNCReturnToTheAirport"/>
-        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent122"/>
-        <BehaviorArray Link="UpgradeLevel12242"/>
-        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent1222"/>
-        <WeaponArray Link="VXWeaponGround32"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="ReturnAirport" Type="AbilCmd" AbilCmd="CNCReturnToTheAirport,255" Row="1" Column="0"/>
-        </CardLayouts>
-        <ScoreMake value="200"/>
-        <ScoreKillCostFactor index="Minerals" value="1.25"/>
-        <ScoreKillCostFactor index="Vespene" value="1.25"/>
-        <SubgroupPriority value="13"/>
-        <MinimapRadius value="0.375"/>
-        <GlossaryPriority value="160"/>
-        <GlossaryStrongArray value="SJViking"/>
-        <GlossaryWeakArray value="SJFighter1"/>
-        <EditorCategories value="ObjectType:Unit,ObjectFamily:RA2"/>
-    </CUnit>
-    <CUnit id="SovietTwinBlade" parent="SovietAir">
-        <Subtitle value="UnitSubtitle/hangk"/>
-        <Collide index="FlyingEscorts" value="1"/>
-        <Response value="Nothing"/>
-        <Attributes index="Mechanical" value="1"/>
-        <LifeStart value="150"/>
-        <LifeMax value="150"/>
-        <LifeArmor value="1"/>
-        <Speed value="2.5"/>
-        <Acceleration value="15"/>
-        <Deceleration value="10"/>
-        <LateralAcceleration value="10"/>
-        <Sight value="10"/>
-        <Food value="-1"/>
-        <CostResource index="Minerals" value="100"/>
-        <CostResource index="Vespene" value="100"/>
-        <RepairTime value="2"/>
-        <KillXP value="4"/>
-        <BehaviorArray Link="UpgradeLevel12"/>
-        <WeaponArray Link="WraithG23"/>
-        <WeaponArray Link="BattleshipArtillery2242"/>
-        <ScoreMake value="200"/>
-        <ScoreKillCostFactor index="Minerals" value="1.25"/>
-        <ScoreKillCostFactor index="Vespene" value="1.25"/>
-        <SubgroupPriority value="13"/>
-        <MinimapRadius value="0.375"/>
-        <GlossaryPriority value="160"/>
-        <GlossaryStrongArray value="SJViking"/>
-        <GlossaryWeakArray value="SJFighter1"/>
-    </CUnit>
-    <CUnit id="SovietKirovAirship" parent="SovietAir">
-        <DefaultAcquireLevel value="Defensive"/>
-        <!--        <Response value="Nothing"/>-->
-        <Attributes index="Armored" value="1"/>
-        <Attributes index="Mechanical" value="1"/>
-        <LifeStart value="500"/>
-        <LifeMax value="500"/>
-        <LifeArmor value="1"/>
-        <LifeRegenRate value="5"/>
-        <Mover value="Fly2"/>
-        <Speed value="0.8984"/>
-        <Acceleration value="50"/>
-        <LateralAcceleration value="46.0625"/>
-        <StationaryTurningRate value="99.8437"/>
-        <TurningRate value="99.8437"/>
-        <Sight value="11"/>
-        <Food value="-4"/>
-        <CostResource index="Minerals" value="250"/>
-        <CostResource index="Vespene" value="150"/>
-        <RepairTime value="50"/>
-        <KillXP value="25"/>
-        <AbilArray index="0" Link="stop2"/>
-        <AbilArray index="1" Link="move2"/>
-        <AbilArray Link="VolatileBurstBuilding2523"/>
-        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent12"/>
-        <BehaviorArray Link="UpgradeLevel12325"/>
-        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent68"/>
-        <WeaponArray Link="StrategicBomb2"/>
-        <WeaponArray Link="Twin792mm2222"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="Move2" Type="AbilCmd" AbilCmd="move2,Move" Row="0" Column="0"/>
-            <LayoutButtons Face="Stop2" Type="AbilCmd" AbilCmd="stop2,Stop" Row="0" Column="1"/>
-            <LayoutButtons Face="MoveHoldPosition2" Type="AbilCmd" AbilCmd="move2,HoldPos" Row="0" Column="2"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="1" Column="0"/>
-            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move2,Patrol" Row="0" Column="4"/>
-            <LayoutButtons Face="TossGrenadeTychus222222523" Type="AbilCmd" AbilCmd="VolatileBurstBuilding2523,Off" Row="1" Column="1"/>
-            <LayoutButtons Face="CloakingDrone2" Type="Passive" Row="1" Column="4"/>
-            <LayoutButtons Face="TossGrenadeTychus22222623" Type="AbilCmd" AbilCmd="VolatileBurstBuilding2523,On" Row="1" Column="2"/>
-        </CardLayouts>
-        <Radius value="1.125"/>
-        <SeparationRadius value="1"/>
-        <InnerRadius value="0.875"/>
-        <ScoreMake value="350"/>
-        <ScoreKill value="700"/>
-        <SubgroupPriority value="16"/>
-        <MinimapRadius value="0.875"/>
     </CUnit>
     <CUnit id="SovietSuperHeavyRocketLauncher" parent="SovietGround">
         <Subtitle value="UnitSubtitle/zhuangjia"/>

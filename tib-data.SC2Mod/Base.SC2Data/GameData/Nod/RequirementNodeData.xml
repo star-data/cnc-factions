@@ -12,17 +12,34 @@
     <CRequirementCountUnit parent="UC" id="UC_NodTemple" unit="NodTemple"/>
     <CRequirementCountUnit parent="UC" id="UC_NodHand" unit="NodHand"/>
     <CRequirementCountUnit parent="UC" id="UC_NodTiberiumRefinery" unit="NodTiberiumRefinery"/>
-    <CRequirementCountUnit parent="UC" id="UC_ChemicalPlant" unit="NodChemicalPlant"/>
+    <CRequirementCountUnit parent="UC" id="UC_NodChemicalPlant" unit="NodChemicalPlant"/>
     <CRequirementCountUnit parent="UC" id="UC_NodArtilleryBeacon" unit="NodArtilleryBeacon"/>
+    <CRequirementCountUnit parent="UC" id="UC_NodObelisk" unit="NodObelisk"/>
+    <CRequirementCountUnit parent="UC" id="UC_NodVenom" unit="NodVenom"/>
 
     <!--UNIT Queued -->
     <CRequirementCountUnit parent="UQ" id="UQ_NodTemple" unit="NodTemple"/>
     <CRequirementCountUnit parent="UQ" id="UQ_NodRedeemerFacility" unit="NodRedeemerFacility"/>
     <CRequirementCountUnit parent="UQ" id="UQ_NodVoiceOfKane" unit="NodVoiceOfKane"/>
-    <CRequirementCountUnit parent="UQ" id="UQ_ChemicalPlant" unit="NodChemicalPlant"/>
+    <CRequirementCountUnit parent="UQ" id="UQ_NodChemicalPlant" unit="NodChemicalPlant"/>
     <CRequirementCountUnit parent="UQ" id="UQ_NodCrane" unit="NodCrane"/>
     <CRequirementCountUnit parent="UQ" id="UQ_NodRedeemer" unit="NodRedeemer"/>
     <CRequirementCountUnit parent="UQ" id="UQ_NodCommando" unit="NodCommando"/>
+
+
+    <!--Unit COMPLETED AT UNIT-->
+    <CRequirementCountUnit parent="UCU" id="UCU_NodNuke" unit="NodNuke"/>
+
+    <!--Unit QUEUED AT UNIT-->
+    <CRequirementCountUnit parent="UQU" id="UQU_NodNuke" unit="NodNuke"/>
+
+
+
+
+
+
+    <!--Unit NOT QUEUED and NOT EXIST AT UNIT-->
+    <CRequirementEq parent="UNU" id="UNU_NodNuke" unit="NodNuke"/>
 
     <!--Unit NOT QUEUED and NOT EXIST-->
     <CRequirementEq parent="UN" id="UN_NodTemple" unit="NodTemple"/>
@@ -31,6 +48,9 @@
     <CRequirementEq parent="UN" id="UN_NodRedeemer" unit="NodRedeemer"/>
     <CRequirementEq parent="UN" id="UN_NodChemicalPlant" unit="NodChemicalPlant"/>
     <CRequirementEq parent="UN" id="UN_NodCommando" unit="NodCommando"/>
+
+    <!--Unit NOT COMPLETED-->
+    <CRequirementNot parent="UNC" id="UNC_NodTiberiumRefinery" unit="NodTiberiumRefinery"/>
 
     <!--Research Complete-->
     <CRequirementCountUpgrade parent="RC" id="RC_NodInfantryArmorsLevel1" upgrade="NodInfantryArmorsLevel1"/>
@@ -114,6 +134,19 @@
     <CRequirementNot parent="RN" id="RN_NodDozerBlades" upgrade="NodDozerBlades"/>
     <CRequirementNot parent="RN" id="RN_NodExplosiveDamage" upgrade="NodExplosiveDamage"/>
 
+
+    <CRequirementNot id="NodAvatarCommandeerTechnologyNotComplete">
+        <OperandArray index="0" value="NodAvatarCommandeerTechnologyComplete"/>
+    </CRequirementNot>
+    <CRequirementAnd id="NodAvatarCommandeerTechnologyComplete">
+        <OperandArray value="CBU_NodAvatarFlameCannon"/>
+        <OperandArray value="CBU_NodAvatarBeamCannon"/>
+        <OperandArray value="CBU_NodAvatarDetector"/>
+        <OperandArray value="CBU_NodAvatarStealthGenerator"/>
+    </CRequirementAnd>
+
+
+
     <CRequirementNot id="NoTurretHubSpecialize">
         <OperandArray index="0" value="HasTurretHubSpecialize"/>
     </CRequirementNot>
@@ -122,15 +155,6 @@
         <OperandArray value="CBU_NodLaserTurretsHub"/>
         <OperandArray value="CBU_NodMissileTurretsHub"/>
     </CRequirementOr>
-    <CRequirementCountBehavior id="CBU_NodShredderTurretsHub">
-        <Count Link="NodShredderTurretsHub" State="CompleteOnlyAtUnit"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CBU_NodLaserTurretsHub">
-        <Count Link="NodLaserTurretsHub" State="CompleteOnlyAtUnit"/>
-    </CRequirementCountBehavior>
-    <CRequirementCountBehavior id="CBU_NodMissileTurretsHub">
-        <Count Link="NodMissileTurretsHub" State="CompleteOnlyAtUnit"/>
-    </CRequirementCountBehavior>
 
     <!--Construction-->
     <CRequirementOr id="REQC_NodPower">
@@ -146,79 +170,122 @@
         <OperandArray value="UC_NodWarFactory"/>
     </CRequirementAnd>
 
+
     <!--Units-->
+    <CRequirementAnd id="BuildNodPowerPlant">
+        <OperandArray value="REQN_NodConstructionArm"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="BuildNodTiberiumRefinery">
+        <OperandArray value="REQN_NodConstructionArm"/>
+    </CRequirementAnd>
     <CRequirementAnd id="BuildNodHand">
+        <OperandArray value="REQN_NodConstructionArm"/>
         <OperandArray value="REQC_NodPower"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodWarFactory">
+        <OperandArray value="REQN_NodConstructionArm"/>
         <OperandArray value="REQC_NodPower"/>
-        <OperandArray value="UC_NodTiberiumRefinery"/>
+        <!-- <OperandArray value="UC_NodTiberiumRefinery"/> -->
+        <OperandArray value="UC_NodHand"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodOperationsCenter">
+        <OperandArray value="REQN_NodConstructionArm"/>
         <OperandArray value="REQC_NodPower"/>
-        <OperandArray value="UC_NodTiberiumRefinery"/>
+        <!-- <OperandArray value="UC_NodTiberiumRefinery"/> -->
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodAirTower">
+        <OperandArray value="REQN_NodConstructionArm"/>
         <OperandArray value="REQC_NodPower"/>
-        <OperandArray value="UC_NodOperationsCenter"/>
+        <!-- <OperandArray value="UC_NodOperationsCenter"/> -->
+        <OperandArray value="UC_NodWarFactory"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodShrine">
+        <OperandArray value="REQN_NodConstructionArm"/>
         <OperandArray value="REQC_NodPower"/>
         <OperandArray value="UC_NodHand"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodTechLab">
+        <OperandArray value="REQN_NodConstructionArm"/>
         <OperandArray value="REQC_NodPower"/>
-        <OperandArray value="UC_NodOperationsCenter"/>
+<!--        <OperandArray value="UC_NodOperationsCenter"/>-->
+        <OperandArray value="UC_NodWarFactory"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodChemicalPlant">
+        <OperandArray value="REQN_NodConstructionArm"/>
         <OperandArray value="REQC_NodPower"/>
-        <OperandArray value="UC_NodTechLab"/>
+<!--        <OperandArray value="UC_NodTechLab"/>-->
+        <OperandArray value="UC_NodAirTower"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodCrane">
+        <OperandArray value="REQN_NodConstructionArm"/>
         <OperandArray value="REQC_NodPower"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodAirSupport">
+        <OperandArray value="REQN_NodConstructionAdvancedArm"/>
         <OperandArray value="REQC_NodPower"/>
         <OperandArray value="UC_NodAirTower"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodRedeemerFacility">
+        <OperandArray value="REQN_NodConstructionAdvancedArm"/>
         <OperandArray value="REQC_NodPower"/>
         <OperandArray value="UC_NodTechLab"/>
         <OperandArray value="UN_NodRedeemerFacility"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodTemple">
+        <OperandArray value="REQN_NodConstructionAdvancedArm"/>
         <OperandArray value="REQC_NodPower"/>
         <OperandArray value="UC_NodTechLab"/>
         <OperandArray value="UN_NodTemple"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodVoiceOfKane">
+        <OperandArray value="REQN_NodConstructionAdvancedArm"/>
         <OperandArray value="REQC_NodPower"/>
         <OperandArray value="UC_NodOperationsCenter"/>
         <OperandArray value="UN_NodVoiceOfKane"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodDisruptionTower">
+        <OperandArray value="REQN_NodConstructionAdvancedArm"/>
         <OperandArray value="REQC_NodPower"/>
         <OperandArray value="UC_NodShrine"/>
     </CRequirementAnd>
-    <CRequirementAnd id="BuildNodObeliskOfLight">
+    <CRequirementAnd id="BuildNodObelisk">
+        <OperandArray value="REQN_NodConstructionAdvancedArm"/>
         <OperandArray value="REQC_NodPower"/>
         <OperandArray value="UC_NodTechLab"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodTurretsHub">
+        <OperandArray value="REQN_NodConstructionAdvancedArm"/>
         <OperandArray value="REQC_NodPower"/>
         <OperandArray value="UC_NodOperationsCenter"/>
     </CRequirementAnd>
     <CRequirementAnd id="BuildNodTiberiumSilo">
+        <OperandArray value="REQN_NodConstructionAdvancedArm"/>
         <OperandArray value="UC_NodTiberiumRefinery"/>
+        <OperandArray value="REQC_NodPower"/>
     </CRequirementAnd>
+    <CRequirementAnd id="TrainNodEmissary">
+        <OperandArray value="REQN_NodConstructionAdvancedArm"/>
+    </CRequirementAnd>
+
+
+    <CRequirementOr id="NodDiscardConstruction">
+        <OperandArray value="REQC_NodConstructionArm"/>
+        <OperandArray value="REQC_NodConstructionAdvancedArm"/>
+    </CRequirementOr>
+
+
+
     <CRequirementAnd id="TrainNodCommando">
         <OperandArray value="UC_NodShrine"/>
         <OperandArray value="UC_NodTechLab"/>
         <OperandArray value="UN_NodCommando"/>
     </CRequirementAnd>
     <CRequirementAnd id="TrainNodRedeemer">
-        <OperandArray value="UC_NodTechLab"/>
+<!--        <OperandArray value="UC_NodTechLab"/>-->
         <OperandArray value="UN_NodRedeemer"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="TrainNodVertigo">
+        <OperandArray value="UC_NodTechLab"/>
     </CRequirementAnd>
 
     <CRequirementAnd id="TrainNodBlackHand">
@@ -279,5 +346,137 @@
         <OperandArray value="RC_NodHeavyWeaponsLevel2"/>
         <OperandArray value="UC_NodTechLab"/>
     </CRequirementAnd>
+    
+    
+    <!--Unit NOT COMPLETED-->
+    <CRequirementNot id="NodDecoyArmyShowSelectNode">
+        <OperandArray index="0" value="NodDecoyArmyShowExecuteNode"/>
+    </CRequirementNot>
+    <CRequirementCountBehavior id="NodDecoyArmyShowExecuteNode">
+        <Count Link="NodDecoyArmyUnlock" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
 
+
+
+
+
+    <CRequirementAnd id="NodNukeStrike">
+<!--        <OperandArray value="UCU_NodNuke"/>-->
+    </CRequirementAnd>
+    <CRequirementAnd id="NodArmNuke">
+        <OperandArray value="UNU_NodNuke"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodInvertWarheadStrike">
+        <OperandArray value="UC_NodChemicalPlant"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodSeedTiberium">
+        <OperandArray value="UC_NodChemicalPlant"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodRedemption">
+        <OperandArray value="UC_NodTechLab"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodTiberiumVapourBomb">
+        <OperandArray value="UC_NodChemicalPlant"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodScannersOn">
+        <OperandArray value="CB_GenetronPowerBalance025On"/>
+        <OperandArray value="UC_NodOperationsCenter"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodRaiderEMP">
+        <OperandArray value="CB_GenetronPowerBalance050On"/>
+        <OperandArray value="RC_NodRaiderEMPCoils"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodPowerSignatureScan">
+        <OperandArray value="CB_GenetronPowerBalance100On"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodRadarJammingMissile">
+        <OperandArray value="CB_GenetronPowerBalance100On"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodBeamReflector">
+        <OperandArray value="UC_NodVenom"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodObeliskCharge">
+        <OperandArray value="UC_NodObelisk"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodDecoyArmyExecute">
+        <OperandArray value="CBU_NodDecoyArmyTargeting"/>
+    </CRequirementAnd>
+
+
+    <CRequirementAnd id="NodEnergyCloak">
+        <OperandArray value="CB_GenetronPowerBalance025On"/>
+        <OperandArray value="UC_NodWarFactory"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodSignatureGenerator">
+        <OperandArray value="RC_NodSignatureGenerators"/>
+        <OperandArray value="CB_GenetronPowerBalance025On"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodWeaponsFree">
+        <!--holding fire-->
+        <OperandArray value="CBU_NodHoldFireB"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodHoldFire">
+        <!--not holding fire-->
+        <OperandArray value="NBU_NodHoldFireB"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodWeaponsFreeAvatar">
+        <!--holding fire-->
+        <OperandArray value="CBU_NodHoldFireB"/>
+        <OperandArray value="CBU_NodAvatarStealthGenerator"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodHoldFireAvatar">
+        <!--not holding fire-->
+        <OperandArray value="NBU_NodHoldFireB"/>
+        <OperandArray value="CBU_NodAvatarStealthGenerator"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodWeaponsFreeVertigo">
+        <!--holding fire-->
+        <OperandArray value="CBU_NodHoldFireVertigoB"/>
+    </CRequirementAnd>
+    <CRequirementAnd id="NodHoldFireVertigo">
+        <!--not holding fire-->
+        <OperandArray value="NBU_NodHoldFireVertigoB"/>
+    </CRequirementAnd>
+
+
+
+    <CRequirementOr id="CBU_NodRedeemerConfession">
+        <!--unstable disruption device-->
+        <OperandArray value="CBU_NodRedeemerConfessionRight"/>
+        <OperandArray value="CBU_HasNodRedeemerConfessionLeft"/>
+    </CRequirementOr>
+
+    <CRequirementOr id="CBU_NodRFT">
+        <!--unstable disruption device-->
+        <OperandArray value="CBU_NodRFTRight"/>
+        <OperandArray value="CBU_NodRFTLeft"/>
+    </CRequirementOr>
+
+    <CRequirementCountBehavior parent="CB" id="CB_GenetronPowerBalance015On" behavior="GenetronPowerBalance015On"/>
+    <CRequirementCountBehavior parent="CB" id="CB_GenetronPowerBalance020On" behavior="GenetronPowerBalance020On"/>
+    <CRequirementCountBehavior parent="CB" id="CB_GenetronPowerBalance025On" behavior="GenetronPowerBalance025On"/>
+    <CRequirementCountBehavior parent="CB" id="CB_GenetronPowerBalance100On" behavior="GenetronPowerBalance100On"/>
+    <CRequirementCountBehavior parent="CB" id="CB_GenetronPowerBalance050On" behavior="GenetronPowerBalance050On"/>
+    <CRequirementCountBehavior parent="CB" id="CB_GenetronPowerBalance075On" behavior="GenetronPowerBalance075On"/>
+    <CRequirementCountBehavior parent="CB" id="CB_GenetronPowerBalance150On" behavior="GenetronPowerBalance150On"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodDecoyArmyTargeting" behavior="NodDecoyArmyTargeting"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodAvatarStealthGenerator" behavior="NodAvatarStealthGenerator"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodAvatarFlameCannon" behavior="NodAvatarFlameCannon"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodAvatarBeamCannon" behavior="NodAvatarBeamCannon"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodAvatarDetector" behavior="NodAvatarDetector"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodMissileTurretsHub" behavior="NodMissileTurretsHub"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodLaserTurretsHub" behavior="NodLaserTurretsHub"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodShredderTurretsHub" behavior="NodShredderTurretsHub"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodHoldFireB" behavior="NodHoldFireB"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodHoldFireVertigoB" behavior="NodHoldFireVertigoB"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodUnstableCloak" behavior="NodUnstableCloak"/>
+
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodRFTRight" behavior="NodRFTRight"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodRFTLeft" behavior="NodRFTLeft"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_NodRedeemerConfessionRight" behavior="NodRedeemerConfessionRight"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_HasNodRedeemerConfessionLeft" behavior="HasNodRedeemerConfessionLeft"/>
+
+
+    <CRequirementNot parent="NBU" id="NBU_NodHoldFireB" behavior="NodHoldFireB"/>
+    <CRequirementNot parent="NBU" id="NBU_NodHoldFireVertigoB" behavior="NodHoldFireVertigoB"/>
 </Catalog>

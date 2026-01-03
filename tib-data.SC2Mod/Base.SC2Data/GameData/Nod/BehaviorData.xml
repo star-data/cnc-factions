@@ -1,96 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
-    <CBehaviorBuff id="DistantAttacking">
-        <!--        <InfoFlags index="Hidden" value="1"/>-->
-        <Modification>
-            <WeaponDisableArray value="NodBeamCannonWeapon"/>
-            <WeaponDisableArray value="NodVenomParticleBeam"/>
-        </Modification>
+    <CBehaviorBuff default="1" id="NodBuff">
+        <?token id="icon" value="btn-nod-upgrade-lightweapons"?>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <InfoIcon value="Assets\icons\Nod\##icon##.dds"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="BeamCannonIsPreparing"/>
-    <CBehaviorBuff id="BeamCannonIsPreparingDistantAttack"/>
-    <CBehaviorBuff id="BeamCannonIsFocusing"/>
-    <CBehaviorUnitTracker id="BeamCannonFocusTracker">
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorUnitTracker>
-    <CBehaviorUnitTracker id="BeamCannonTargetTracker">
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorUnitTracker>
-    <CBehaviorUnitTracker id="BeamCannonCasterTracker">
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorUnitTracker>
-    <CBehaviorUnitTracker id="BeamCannonReflectorTracker">
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorUnitTracker>
-    <CBehaviorUnitTracker id="BeamCannonPathTracker">
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorUnitTracker>
-
-    <CBehaviorBuff default="1" id="RedeemerWeaponLeft">
+    <CBehaviorBuff default="1" id="NodRedeemerWeaponLeft">
         <?token id="icon" value="##id##"?>
         <InfoFlags index="Hidden" value="1"/>
         <TechAliasArray value="WZTurretPrimary"/>
         <InfoIcon value="Assets\Icons\Weapons\##icon##.dds"/>
-        <EditorCategories value="Race:WZ,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Modification>
-            <WeaponArray Link="##id##" Turret="RedeemerTurretLeft"/>
+            <WeaponArray Link="##id##" Turret="NodRedeemerTurretLeft"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff default="1" id="RedeemerWeaponRight">
+    <CBehaviorBuff default="1" id="NodRedeemerWeaponRight">
         <?token id="icon" value="##id##"?>
         <InfoFlags index="Hidden" value="1"/>
         <TechAliasArray value="WZTurretPrimary"/>
         <InfoIcon value="Assets\Icons\Weapons\##icon##.dds"/>
-        <EditorCategories value="Race:WZ,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Modification>
-            <WeaponArray Link="##id##" Turret="RedeemerTurretRight"/>
+            <WeaponArray Link="##id##" Turret="NodRedeemerTurretRight"/>
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff default="1" id="NodRedeemerConfession">
         <InfoFlags index="Hidden" value="1"/>
         <InfoIcon value="Assets\icons\Nod\NBConfessorAura.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:UPL"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
         <DisableValidatorArray value="NotHidden"/>
         <Period value="1"/>
         <PeriodicEffect value="NodRedeemerConfessionSwitch"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="NodRedeemerHeavyMachinegunLeft" parent="RedeemerWeaponLeft"/>
-    <CBehaviorBuff id="NodRedeemerRocketLauncherLeft" parent="RedeemerWeaponLeft"/>
-    <CBehaviorBuff id="NodRedeemerFlamethrowerLeft" parent="RedeemerWeaponLeft">
+    <CBehaviorBuff default="1" id="NodCarryallTurret">
+        <?token id="weapon" value="##id##"?>
+        <?token id="icon" value="##id##"?>
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Icons\Weapons\##icon##.dds"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Modification>
-            <WeaponArray Link="NodRedeemerFlamethrowerLeftU" Turret="RedeemerTurretLeft"/>
+            <WeaponArray Link="##weapon##" Turret="NodCarryallTurret"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="NodRedeemerTiberiumThrowerLeft" parent="RedeemerWeaponLeft"/>
-    <CBehaviorBuff id="NodRedeemerEMICannonLeft" parent="RedeemerWeaponLeft"/>
-    <CBehaviorBuff id="NodRedeemerRedemptionLeft" parent="RedeemerWeaponLeft"/>
-    <CBehaviorBuff id="NodRedeemerArtilleryBeaconLeft"/>
-    <CBehaviorBuff id="NodRedeemerExplosivesLeft"/>
-    <CBehaviorBuff id="NodRedeemerPropogandaBeaconLeft"/>
+    <CBehaviorBuff id="NodConfessorAura" parent="NodBuff" icon="btn-nod-behavior-confessoraura">
+        <InfoFlags index="Hidden" value="1"/>
+        <DisableValidatorArray value="NotHidden"/>
+        <Period value="1"/>
+        <PeriodicEffect value="NodConfessorAuraSearch"/>
+    </CBehaviorBuff>
+    <CBehaviorUnitTracker id="NodTurretsHubTurretsTracker">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorUnitTracker id="NodTurretsHubCasterTracker">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorBuff id="NodTurretReconstruction">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-command-cancel.dds"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
+        <BuffFlags index="RefreshStack" value="1"/>
+        <Duration value="45"/>
+        <ExpireEffect value="NodTurretUnburrowSet"/>
+        <Modification SightMinimum="3" DetectArc="0" RadarArc="0">
+            <!--            <ModifyFlags index="DisableAbils" value="1"/>-->
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <ModifyFlags index="SuppressTurning" value="1"/>
+            <StateFlags index="Invulnerable" value="1"/>
+            <StateFlags index="SuppressAttack" value="1"/>
+            <StateFlags index="SuppressCollision" value="1"/>
+            <StateFlags index="SuppressPassenger" value="1"/>
+            <StateFlags index="SuppressLifeRegen" value="1"/>
+            <StateFlags index="SuppressEnergyRegen" value="1"/>
+        </Modification>
+        <!--            <BehaviorLinkDisableArray value="HailOfLeadDummy"/>-->
+        <!--            <BehaviorLinkDisableArray value="RaynorRadarDummy"/>-->
+        <!--            <BehaviorLinkDisableArray value="OutOfCombatEnergyRegenDummy"/>-->
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodBeamCannonIsDistantAttacking">
+        <!--        <InfoFlags index="Hidden" value="1"/>-->
+        <Modification>
+            <WeaponDisableArray value="NodBeamCannonWeapon"/>
+            <WeaponDisableArray value="NodVenomWeaponU"/>
+        </Modification>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodBeamCannonIsPreparing">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodBeamCannonIsPreparingDistantAttack">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodBeamCannonIsFocusing">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CBehaviorUnitTracker id="NodBeamCannonFocusTracker">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorUnitTracker id="NodBeamCannonTargetTracker">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorUnitTracker id="NodBeamCannonCasterTracker">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorUnitTracker id="NodBeamCannonReflectorTracker">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorUnitTracker id="NodBeamCannonPathTracker">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorBuff id="NodRedeemerHeavyMachinegunLeft" parent="NodRedeemerWeaponLeft"/>
+    <CBehaviorBuff id="NodRedeemerRocketLauncherLeft" parent="NodRedeemerWeaponLeft"/>
+    <CBehaviorBuff id="NodRedeemerFlamethrowerLeft" parent="NodRedeemerWeaponLeft">
+        <Modification>
+            <WeaponArray Link="NodRedeemerFlamethrowerLeftU" Turret="NodRedeemerTurretLeft"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodRedeemerTiberiumThrowerLeft" parent="NodRedeemerWeaponLeft"/>
+    <CBehaviorBuff id="NodRedeemerEMICannonLeft" parent="NodRedeemerWeaponLeft"/>
+    <CBehaviorBuff id="NodRedeemerRedemptionLeft" parent="NodRedeemerWeaponLeft"/>
+    <CBehaviorBuff id="NodRedeemerArtilleryBeaconLeft">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodRedeemerExplosivesLeft">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodRedeemerPropogandaBeaconLeft">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
     <CBehaviorBuff id="NodRedeemerRepairDrone">
         <InfoFlags index="Hidden" value="1"/>
         <MaxStackCount value="4"/>
         <Modification>
             <VitalRegenArray index="Life" value="1"/>
         </Modification>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodRedeemerRegeneratorRight" parent="NodRedeemerRepairDrone"/>
     <CBehaviorBuff id="NodRedeemerRegeneratorLeft" parent="NodRedeemerRepairDrone"/>
     <CBehaviorBuff id="NodRedeemerConfessionRight" parent="NodRedeemerConfession"/>
     <CBehaviorBuff id="NodRedeemerConfessionLeft" parent="NodRedeemerConfession"/>
-    <CBehaviorBuff id="NodRedeemerHeavyMachinegunRight" parent="RedeemerWeaponRight"/>
-    <CBehaviorBuff id="NodRedeemerRocketLauncherRight" parent="RedeemerWeaponRight"/>
-    <CBehaviorBuff id="NodRedeemerFlamethrowerRight" parent="RedeemerWeaponRight">
+    <CBehaviorBuff id="NodRedeemerHeavyMachinegunRight" parent="NodRedeemerWeaponRight"/>
+    <CBehaviorBuff id="NodRedeemerRocketLauncherRight" parent="NodRedeemerWeaponRight"/>
+    <CBehaviorBuff id="NodRedeemerFlamethrowerRight" parent="NodRedeemerWeaponRight">
         <Modification>
-            <WeaponArray Link="NodRedeemerFlamethrowerRightU" Turret="RedeemerTurretLeft"/>
+            <WeaponArray Link="NodRedeemerFlamethrowerRightU" Turret="NodRedeemerTurretLeft"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="NodRedeemerTiberiumThrowerRight" parent="RedeemerWeaponRight"/>
-    <CBehaviorBuff id="NodRedeemerEMICannonRight" parent="RedeemerWeaponRight"/>
-    <CBehaviorBuff id="NodRedeemerRedemptionRight" parent="RedeemerWeaponRight"/>
-    <CBehaviorBuff id="NodRedeemerArtilleryBeaconRight"/>
-    <CBehaviorBuff id="NodRedeemerExplosivesRight"/>
-
+    <CBehaviorBuff id="NodRedeemerTiberiumThrowerRight" parent="NodRedeemerWeaponRight"/>
+    <CBehaviorBuff id="NodRedeemerEMICannonRight" parent="NodRedeemerWeaponRight"/>
+    <CBehaviorBuff id="NodRedeemerRedemptionRight" parent="NodRedeemerWeaponRight"/>
+    <CBehaviorBuff id="NodRedeemerArtilleryBeaconRight">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodRedeemerExplosivesRight">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
     <CBehaviorBuff id="NodTurretsHubSuicideWithCaster">
         <RemoveValidatorArray value="CasterNotDead"/>
         <FinalEffect value="Kill"/>
@@ -111,340 +180,64 @@
         <ExpireEffect value="KillCaster"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
-
-
     <CBehaviorBuff id="NodShredderTurretsHub">
         <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodLaserTurretsHub">
         <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodMissileTurretsHub">
         <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
-
     <CBehaviorBuff id="NodShredderTurretsHubQuad">
         <DisableValidatorArray value="HasNodQuadTurrets"/>
         <InfoFlags index="Hidden" value="1"/>
         <Modification>
-            <WeaponArray Link="NodShredderMachinegun" Turret="Hellion"/>
+            <WeaponArray Link="NodShredderTurretsHubWeapon" Turret="Hellion"/>
         </Modification>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodLaserTurretsHubQuad">
         <DisableValidatorArray value="HasNodQuadTurrets"/>
         <InfoFlags index="Hidden" value="1"/>
         <Modification>
-            <WeaponArray Link="NodLaserTurretWeapon" Turret="Hellion"/>
+            <WeaponArray Link="NodLaserTurretsHubWeapon" Turret="Hellion"/>
         </Modification>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodMissileTurretsHubQuad">
         <DisableValidatorArray value="HasNodQuadTurrets"/>
         <InfoFlags index="Hidden" value="1"/>
         <Modification>
-            <WeaponArray Link="NodMissileTurretWeapon" Turret="Hellion"/>
-            <WeaponArray Link="NodMissileTurretWeaponU" Turret="Hellion"/>
+            <WeaponArray Link="NodMissileTurretsHubWeapon" Turret="Hellion"/>
+            <WeaponArray Link="NodMissileTurretsHubWeaponU" Turret="Hellion"/>
         </Modification>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
-
-    <!--power source-->
-    <CBehaviorPowerSource id="CNCConstructionRadius">
-        <!--        <PowerLink value="PowerSource"/>-->
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Textures\btn-building-protoss-pylon.dds"/>
-        <EditorCategories value="Race:Neut,AbilityorEffectType:Structures"/>
-        <Radius value="14.5"/>
-        <CliffLevelFlags index="Higher" value="0"/>
-    </CBehaviorPowerSource>
-    <CBehaviorPowerSource id="CNCConstructionRadiusMedium">
-        <PowerLink value="CNCConstructionRadius"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Textures\btn-building-protoss-pylon.dds"/>
-        <EditorCategories value="Race:Neut,AbilityorEffectType:Structures"/>
-        <Radius value="10"/>
-        <CliffLevelFlags index="Higher" value="0"/>
-    </CBehaviorPowerSource>
-    <CBehaviorPowerSource id="CNCConstructionRadiusRefinery">
-        <PowerLink value="CNCConstructionRadius"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Textures\btn-building-protoss-pylon.dds"/>
-        <EditorCategories value="Race:Neut,AbilityorEffectType:Structures"/>
-        <Radius value="8"/>
-        <CliffLevelFlags index="Higher" value="0"/>
-    </CBehaviorPowerSource>
-    <CBehaviorPowerSource id="CNCConstructionRadiusSmall">
-        <PowerLink value="CNCConstructionRadius"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Textures\btn-building-protoss-pylon.dds"/>
-        <EditorCategories value="Race:Neut,AbilityorEffectType:Structures"/>
-        <Radius value="6"/>
-        <CliffLevelFlags index="Higher" value="0"/>
-    </CBehaviorPowerSource>
-
-    <!--buff-->
-
-
-    <CBehaviorBuff id="NodDozerBlades">
+    <CBehaviorBuff id="NodDozerBlades" parent="NodBuff" icon="btn-nod-upgrade-dozerblades">
         <DisableValidatorArray value="HasNodDozerBlades"/>
         <DisableValidatorArray value="CasterIsNotStationary"/>
-        <!--        <InfoFlags index="Hidden" value="1"/>-->
-        <InfoIcon value="Assets\Icons\Nod\NodDozerBlades"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <Period value="0.5"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <Period value="0.0625"/>
         <PeriodicEffect value="NodDozerBladesSet"/>
     </CBehaviorBuff>
-
-
-
-    <CBehaviorBuff id="AwakenEMPStunned">
+    <CBehaviorBuff id="NodEMPStunned">
         <BehaviorCategories index="Stun" value="1"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Duration value="8.4"/>
         <Modification>
             <ModifyFlags index="Reveal" value="1"/>
             <StateFlags index="Stun" value="1"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="CloakVenomReal">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Requirements value="NodUseVenomCloaking"/>
-        <Modification>
-            <StateFlags index="Cloak" value="1"/>
-            <BehaviorLinkDisableArray value="AttackReveal"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodAwakenBuggyCasterStunned">
-        <InfoFlags index="Hidden" value="1"/>
-        <BehaviorCategories index="Stun" value="1"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <TimeScaleSource Value="Caster"/>
-        <Duration value="0.7"/>
-        <Modification>
-            <StateFlags index="Stun" value="1"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodQueueMove">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <Period value="0.125"/>
-        <PeriodicEffect value="NodQueueMove"/>
-        <RemoveValidatorArray value="TargetHasNoOrders"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodRepair">
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <Period value="0.275"/>
-        <PeriodicEffect value="NodRepair"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="ReckonerPlacement">
-        <Duration value="0.1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <FinalEffect value="SuicideRemove"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="ReckonerPlacementRemove">
-        <Duration value="0.1"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <FinalEffect value="SuicideRemove"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="ChemicalPlantReload">
-        <InfoIcon value="Assets\Textures\icon-mineral-terran.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Neut"/>
-        <Period value="5"/>
-        <PeriodicEffect value="ModifyResources"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="CloakSpecter">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Requirements value="UseNodSpecterCloak"/>
-        <Modification>
-            <StateFlags index="Cloak" value="1"/>
-        </Modification>
-        <DisableValidatorArray value="AttackCheck"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodUnstableCloak">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-<!--        <DisableValidatorArray value="AttackCheck"/>-->
-        <DisableValidatorArray value="HasNoStealthExposure"/>
-        <DisableValidatorArray value="CasterIsNotAttacking"/>
-        <DisableValidatorArray value="HasNoNodSpecterSiege"/>
-        <DisableValidatorArray value="HasNoNodSpecterSiegeBombardment"/>
-        <DisableValidatorArray value="HasNoNodSpecterSieging"/>
-        <DisableValidatorArray value="HasNoNodSpecterUnsiege"/>
-        <Modification>
-            <StateFlags index="Cloak" value="1"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="DistortionSensors">
-        <Modification Detect="11"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodSpecterSieging">
-        <Duration value="3.5"/>
-        <FinalEffect value="NodSpecterSiege"/>
-        <Modification>
-            <ModifyFlags index="SuppressMoving" value="1"/>
-            <ModifyFlags index="SuppressTurning" value="1"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodSpecterSiege">
-<!--        <RemoveValidatorArray value="NodSpecterSiegeValidator"/>-->
-        <RemoveValidatorArray value="CasterIsAttacking"/>
-        <FinalEffect value="NodSpecterUnsiege"/>
-        <Modification>
-            <ModifyFlags index="SuppressMoving" value="1"/>
-            <ModifyFlags index="SuppressTurning" value="1"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodSpecterSiegeBombardment">
-<!--        <RemoveValidatorArray value="HasNodSpecterBombardmentOrder"/>-->
-        <FinalEffect value="NodSpecterUnsiege"/>
-        <Modification>
-            <AbilClassDisableArray index="CAbilAttack" value="1"/>
-            <ModifyFlags index="SuppressMoving" value="1"/>
-            <ModifyFlags index="SuppressTurning" value="1"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodSpecterUnsiege">
-        <Duration value="2"/>
-        <Modification>
-            <AbilClassDisableArray index="CAbilAttack" value="1"/>
-            <ModifyFlags index="SuppressMoving" value="1"/>
-            <ModifyFlags index="SuppressTurning" value="1"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodBuildingsunits">
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Icons\Nod\NodMilitant.dds"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
-        <Modification>
-            <DeathResponse Effect="CreateMillitant">
-                <!-- <Type index="Remove" value="0"/> -->
-            </DeathResponse>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="ChemicalPlantharvest">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Neut"/>
-        <Requirements value="ChemicalFactoryUp"/>
-        <Duration value="0.5"/>
-        <ExpireEffect value="ChemicalPlantAP"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="CloakVenom">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Requirements value="UseNodCloakVenom"/>
-        <Modification>
-            <DamageTakenFraction index="Spell" value="-0.5"/>
-            <DamageTakenFraction index="Splash" value="-0.5"/>
-        </Modification>
-        <!--        <Modification>-->
-        <!--            <StateFlags index="Cloak" value="1"/>-->
-        <!--        </Modification>-->
-        <!--        <DisableValidatorArray value="AttackCheck"/>-->
-    </CBehaviorBuff>
-    <CBehaviorBuff id="CloakCobra">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Requirements value="UseCABALCobraCloak"/>
-        <Modification>
-            <StateFlags index="Cloak" value="1"/>
-        </Modification>
-        <DisableValidatorArray value="AttackCheck"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="DroppodSuicide">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Neut"/>
-        <Duration value="8"/>
-        <ExpireEffect value="DroppodSuicide"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodUnderConstruction">
-        <InfoIcon value="Assets\icons\CNC3MCVConstructionFactoryIcon.dds"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <DisplayDuration index="Self" value="1"/>
-        <DisplayDuration index="Ally" value="1"/>
-        <Duration value="5"/>
-        <Modification>
-            <!--            <ModifyFlags index="DisableAbils" value="1"/>-->
-            <ModifyFlags index="DisableWeapons" value="1"/>
-            <!--            <StateFlags index="SuppressDropOff" value="1"/>-->
-            <StateFlags index="SuppressFoodMade" value="1"/>
-            <StateFlags index="SuppressEnergyRegen" value="1"/>
-            <AbilClassDisableArray index="CAbilAttack" value="1"/>
-            <AbilClassDisableArray index="CAbilBuild" value="1"/>
-            <AbilClassDisableArray index="CAbilTrain" value="1"/>
-            <AbilClassDisableArray index="CAbilWarpTrain" value="1"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorPowerUser id="Deployable">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-building-protoss-pylon.dds"/>
-        <EditorCategories value="Race:Neut,AbilityorEffectType:Units"/>
-        <PowerLink value="CNCConstructionRadius"/>
-        <PlacementMinPowerLevel value="1"/>
-        <PoweredWhileUnderConstruction value="1"/>
-        <PowerStageArray/>
-    </CBehaviorPowerUser>
-    <CBehaviorResource id="HighYieldMineralFieldMineralsChemicalFactory">
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Textures\icon-mineral.dds"/>
-        <Capacity value="1500"/>
-        <Contents value="1500"/>
-        <HarvestTime value="2.786"/>
-        <HarvestAmount value="10"/>
-        <Flags index="HideHarvesters" value="1"/>
-        <ReturnDelay value="0.5"/>
-        <ExhaustedAlert value="ResourceExhausted_HighYieldMineral"/>
-        <CarryResourceBehavior value="CarryHighYieldMineralFieldMinerals"/>
-        <IdealHarvesterCount value="3"/>
-    </CBehaviorResource>
-    <CBehaviorBuff id="MCVVReapirZone">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Neut"/>
-        <Period value="5"/>
-        <PeriodicEffect value="MCVRepairSearch"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="MCVRepairZoneFactory">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Neut"/>
-        <Requirements value="NodRepairRange"/>
-        <Period value="5"/>
-        <PeriodicEffect value="MCVRepairSearch"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="MarkOfKane">
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\icons\InfusionEngineUpgrade.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <Duration value="30"/>
-        <Modification AttackSpeedMultiplier="1.5"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="MercAirDrop2">
-        <InfoFlags index="Hidden" value="1"/>
-        <Duration value="0.1"/>
-        <ExpireEffect value="MercAirDropB"/>
-        <Modification Height="10" MoveSpeedMultiplier="0.1">
-            <StateFlags index="Invulnerable" value="1"/>
-            <StateFlags index="Unselectable" value="1"/>
-            <StateFlags index="Untargetable" value="1"/>
-            <HeightTime index="Stop" value="3"/>
-            <AbilClassDisableArray index="CAbilAttack" value="1"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodVision">
-        <InfoIcon value="Assets\Textures\btn-ability-dehaka-detector.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <Modification SightBonus="2" Detect="9"/>
-        <Duration value="20"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="SJHyperionLightningStormStun2">
+    <CBehaviorBuff id="NodRaiderEMPStunned">
         <Alignment value="Negative"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-ultrasonicpulse.dds"/>
         <BehaviorCategories index="Stun" value="1"/>
-        <EditorCategories value="Race:Neut,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Duration value="6"/>
         <Modification>
             <ModifyFlags index="DisableAbils" value="1"/>
@@ -457,127 +250,103 @@
             <StateFlags index="SuppressRadar" value="1"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="NodShield">
-        <InfoIcon value="Assets\Textures\btn-upgrade-protoss-shieldslevel1.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+    <CBehaviorBuff id="NodAwakenEMPStunned">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-ultrasonicpulse.dds"/>
+        <BehaviorCategories index="Stun" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Duration value="1"/>
         <Modification>
-            <VitalRegenArray index="Shields" value="1"/>
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <ModifyFlags index="SuppressTurning" value="1"/>
+            <StateFlags index="Stun" value="1"/>
+            <StateFlags index="SuppressAttack" value="1"/>
+            <StateFlags index="SuppressCloak" value="1"/>
+            <StateFlags index="SuppressDetection" value="1"/>
+            <StateFlags index="SuppressRadar" value="1"/>
         </Modification>
-        <Duration value="1.5"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="CloakDistortionFieldNod">
+    <CBehaviorBuff id="NodUnstableCloak">
+        <InfoFlags index="Hidden" value="1"/>
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Duration value="5"/>
-        <DamageResponse ModifyFraction="0" ModifyMinimumDamage="1">
-            <Chance value="0.2"/>
-        </DamageResponse>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="DistortAB">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Neut"/>
-        <Requirements value="StealhField"/>
-        <Period value="3"/>
-        <PeriodicEffect value="DistortSearchArea"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="EnlightenedExplosion">
-        <InfoFlags index="Hidden" value="1"/>
+        <DisableValidatorArray value="HasNoStealthExposure"/>
         <Modification>
-            <DeathResponse Chance="1" Effect="EnlightenedExplosionPersistent"/>
+            <StateFlags index="Cloak" value="1"/>
         </Modification>
-        <Requirements value="EnlightenedSuicide"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodSpawnMilitantOnDeath">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Icons\Nod\NodMilitant.dds"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GenericStun">
-        <InfoIcon value="Assets\Textures\btn-ability-terran-ultrasonicpulse.dds"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="GhostHoldFire">
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
         <Modification>
-            <WeaponDisableArray value="NodStealthTankWeapon"/>
+            <DeathResponse Chance="1" Effect="NodCreateMilitant">
+                <Type index="Remove" value="0"/>
+            </DeathResponse>
         </Modification>
-        <EditorCategories value="Race:Neut,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="GhostHoldFireB">
+    <CBehaviorBuff id="NodUnderConstruction">
+        <InfoIcon value="Assets\icons\CNC3MCVConstructionFactoryIcon.dds"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
         <Modification>
-            <WeaponDisableArray value="NodStealthTankWeapon"/>
+            <!--            <ModifyFlags index="DisableAbils" value="1"/>-->
+            <ModifyFlags index="DisableWeapons" value="1"/>
+            <!--            <StateFlags index="SuppressDropOff" value="1"/>-->
+            <StateFlags index="SuppressFoodMade" value="1"/>
+            <StateFlags index="SuppressEnergyRegen" value="1"/>
+            <AbilClassDisableArray index="CAbilAttack" value="1"/>
+            <AbilClassDisableArray index="CAbilBuild" value="1"/>
+            <AbilClassDisableArray index="CAbilTrain" value="1"/>
+            <AbilClassDisableArray index="CAbilWarpTrain" value="1"/>
+            <BehaviorClassDisableArray index="CBehaviorPowerSource" value="1"/>
+            <BehaviorLinkDisableArray value="CNCEnergyDrain5"/>
+            <BehaviorLinkDisableArray value="CNCEnergyDrain10"/>
+            <BehaviorLinkDisableArray value="CNCEnergyDrain15"/>
+            <BehaviorLinkDisableArray value="CNCPowerGeneration015"/>
         </Modification>
-        <EditorCategories value="Race:Neut,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="RedeemerConfusion">
+    <CBehaviorBuff id="NodRedeemerConfusion">
         <Alignment value="Negative"/>
         <InfoIcon value="Assets\Textures\btn-ability-protoss-confusion.dds"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Duration value="4.2"/>
         <Period value="1"/>
-        <InitialEffect value="RedeemerConfusionStopInitialSet"/>
-        <PeriodicEffect value="RedeemerConfusionAttackSearch"/>
-        <ExpireEffect value="RedeemerConfusionEndSet"/>
+        <InitialEffect value="NodRedeemerConfusionStopInitialSet"/>
+        <PeriodicEffect value="NodRedeemerConfusionAttackSearch"/>
+        <ExpireEffect value="NodRedeemerConfusionAttackSet"/>
         <Modification>
             <StateFlags index="Passive" value="1"/>
             <StateFlags index="IgnorePlayerAlliedFlags" value="1"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="RedeemerConfusionInitial">
+    <CBehaviorBuff id="NodRedeemerConfusionInitial">
         <Alignment value="Negative"/>
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Duration value="0.0625"/>
-        <FinalEffect value="RedeemerConfusionAttackSearch"/>
+        <FinalEffect value="NodRedeemerConfusionAttackSearch"/>
         <Modification>
             <StateFlags index="Passive" value="1"/>
             <AbilClassDisableArray index="CAbilAttack" value="1"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="ObeliskCharge">
+    <CBehaviorBuff id="NodObeliskCharge">
         <InfoIcon value="Assets\icons\SpiderTankIcon.dds"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
-        <MaxStackCount value="5"/>
+        <MaxStackCount value="4"/>
         <Duration value="1.3"/>
-        <Modification WeaponRange="0.5">
-            <DamageDealtUnscaled index="Spell" value="10"/>
-            <DamageDealtUnscaled index="Melee" value="10"/>
-            <DamageDealtUnscaled index="Ranged" value="10"/>
-            <DamageDealtUnscaled index="Splash" value="10"/>
-            <DamageDealtUnscaled index="NoProc" value="10"/>
-        </Modification>
+        <Modification UnifiedAttackSpeedFactor="0.1" WeaponRange="1"/>
+        <!--            <DamageDealtUnscaled index="Spell" value="10"/>-->
+        <!--            <DamageDealtUnscaled index="Melee" value="10"/>-->
+        <!--            <DamageDealtUnscaled index="Ranged" value="10"/>-->
+        <!--            <DamageDealtUnscaled index="Splash" value="10"/>-->
+        <!--            <DamageDealtUnscaled index="NoProc" value="10"/>-->
         <MaxStackCountPerCaster value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodGroundDrop">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <Duration value="1"/>
-        <Modification MoveSpeedMultiplier="0.1">
-            <StateFlags index="Invulnerable" value="1"/>
-            <StateFlags index="Unselectable" value="1"/>
-            <StateFlags index="Untargetable" value="1"/>
-            <AbilClassDisableArray index="CAbilAttack" value="1"/>
-        </Modification>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="StealthExposure">
-        <Alignment value="Negative"/>
-<!--        <InfoFlags index="Hidden" value="1"/>-->
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <Duration value="3"/>
-<!--        <Modification>-->
-<!--            <StateFlags index="SuppressCloak" value="1"/>-->
-<!--        </Modification>-->
-    </CBehaviorBuff>
-<!--    <CBehaviorBuff id="StealthExposurePersistent">-->
-<!--        <Alignment value="Negative"/>-->
-<!--&lt;!&ndash;        <InfoFlags index="Hidden" value="1"/>&ndash;&gt;-->
-<!--        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>-->
-<!--        &lt;!&ndash;        <Modification>&ndash;&gt;-->
-<!--        &lt;!&ndash;            <StateFlags index="SuppressCloak" value="1"/>&ndash;&gt;-->
-<!--        &lt;!&ndash;        </Modification>&ndash;&gt;-->
-<!--    </CBehaviorBuff>-->
-    <CBehaviorBuff id="Neutralexposure">
-        <Alignment value="Negative"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Neut"/>
-        <Modification>
-            <StateFlags index="SuppressCloak" value="1"/>
-        </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodShadowFlyIssueMorph">
         <InfoFlags index="Hidden" value="1"/>
@@ -585,6 +354,7 @@
         <Period value="0.0625"/>
         <InitialEffect value="NodShadowFlyIssueMorph"/>
         <PeriodicEffect value="NodShadowFlyIssueMorph"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodShadowLandIssueLandRetry">
         <InfoFlags index="Hidden" value="1"/>
@@ -592,6 +362,7 @@
         <Period value="0.5"/>
         <InitialEffect value="NodShadowLandCreatePrecursor"/>
         <PeriodicEffect value="NodShadowLandCreatePrecursor"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodShadowLandIssueMorph">
         <InfoFlags index="Hidden" value="1"/>
@@ -599,6 +370,7 @@
         <Period value="0.0625"/>
         <InitialEffect value="NodShadowLandIssueMorph"/>
         <PeriodicEffect value="NodShadowLandIssueMorph"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodShadowLandPrecursor">
         <InfoFlags index="Hidden" value="1"/>
@@ -615,10 +387,11 @@
             <StateFlags index="Unselectable" value="1"/>
             <StateFlags index="Untargetable" value="1"/>
         </Modification>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorJump id="NodShadowJump">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <TriggerHeightDeltaMin value="1.5"/>
         <TriggerHeightDeltaMax value="4.5"/>
         <InitiateRangeUp value="1.5"/>
@@ -644,22 +417,11 @@
             <StateFlags index="Cloak" value="1"/>
         </Modification>
     </CBehaviorBuff>
-<!--    <CBehaviorBuff id="NodC4">-->
-<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
-<!--        <Duration value="1.5"/>-->
-<!--        <ExpireEffect value="NodC4Damage"/>-->
-<!--        <InfoFlags index="Hidden" value="1"/>-->
-<!--    </CBehaviorBuff>-->
-<!--    <CBehaviorBuff id="NodCommandoC4">-->
-<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
-<!--        <Duration value="1.5"/>-->
-<!--        <ExpireEffect value="NodCommandoC4Damage"/>-->
-<!--        <InfoFlags index="Hidden" value="1"/>-->
-<!--    </CBehaviorBuff>-->
     <CBehaviorBuff id="NodShadowC4">
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Duration value="0.5"/>
+        <Duration value="1"/>
+        <MaxStackCount value="10"/>
         <FinalEffect value="NodCommandoC4Damage"/>
         <DisplayDuration index="Self" value="1"/>
         <DisplayDuration index="Ally" value="1"/>
@@ -674,15 +436,10 @@
         <DisplayDuration index="Ally" value="1"/>
         <DisplayDuration index="Enemy" value="1"/>
     </CBehaviorBuff>
-
-
-
-
-
     <CBehaviorBuff id="NodChannelSabotageCombat">
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-snipe-color.dds"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <!--        <DamageResponse Chance="1" Handled="NodChannelSabotageCombatRB"/>-->
         <!--        <FinalEffect value="NodChannelSabotageRefundSet"/>-->
         <Modification>
@@ -726,64 +483,57 @@
         </DamageResponse>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodAvatarStealthGenerator">
-        <DisableValidatorArray value="IsNotStructure"/>
-        <BehaviorFlags index="Permanent" value="1"/>
         <InfoFlags index="Hidden" value="1"/>
-        <Alignment value="Positive"/>
-        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="AttackCheck"/>
-        <Modification>
-            <StateFlags index="Cloak" value="1"/>
-        </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodAvatarDetector">
         <InfoFlags index="Hidden" value="1"/>
         <DisableValidatorArray value="IsNotStructure"/>
         <BehaviorFlags index="Permanent" value="1"/>
         <Modification Detect="11"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodAvatarFlameCannon">
         <DisableValidatorArray value="IsNotStructure"/>
         <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
+        <!--        <InfoFlags index="Hidden" value="1"/>-->
+        <!--        <Modification>-->
+        <!--            <WeaponEnableArray value="NodAvatarFlameThrower"/>-->
+        <!--        </Modification>-->
         <Modification>
-            <WeaponEnableArray value="NodAvatarFlameThrower"/>
+            <WeaponArray Link="NodAvatarFlameThrower" Turret="SiegeTank"/>
+            <WeaponArray Link="NodAvatarFlameThrowerU" Turret="SiegeTank"/>
         </Modification>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodAvatarBeamCannon">
         <DisableValidatorArray value="IsNotStructure"/>
         <BehaviorFlags index="Permanent" value="1"/>
-        <InfoFlags index="Hidden" value="1"/>
+        <!--        <InfoFlags index="Hidden" value="1"/>-->
+        <!--        <Modification>-->
+        <!--            <WeaponEnableArray value="NodAvatarBeamCannon"/>-->
+        <!--        </Modification>-->
         <Modification>
-            <WeaponEnableArray value="NodAvatarBeamCannon"/>
+            <WeaponArray Link="NodAvatarBeamCannon" Turret="SiegeTank"/>
         </Modification>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodArtilleryBeaconTimedLife" parent="TimedLife">
         <InfoIcon value="Assets\Textures\btn-ability-zerg-explode.dds"/>
-        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Duration value="40"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodConfessorAura">
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\icons\Nod\NodConfessorAura.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:UPL"/>
-        <DisableValidatorArray value="NotHidden"/>
-        <Period value="1"/>
-        <PeriodicEffect value="NodConfessorAuraSearch"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodVoiceOfKaneAura">
         <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\icons\Nod\NodVoiceOfKane.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:UPL"/>
+        <InfoIcon value="Assets\icons\Nod\btn-nod-building-voiceofkane.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
         <DisableValidatorArray value="NotHidden"/>
         <Period value="1"/>
         <PeriodicEffect value="NodVoiceOfKaneAuraSearch"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodConfessorInspired">
-        <InfoIcon value="Assets\icons\Nod\NodConfessorAura.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:UPL"/>
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\icons\Nod\btn-nod-behavior-confessoraura.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
         <MaxStackCountPerCaster value="1"/>
         <Duration value="1.1"/>
         <!--        <Modification MoveSpeedBonus="0.1992">-->
@@ -791,18 +541,19 @@
         <!--            <DamageDealtUnscaled index="Ranged" value="1"/>-->
         <!--            <DamageDealtUnscaled index="Splash" value="1"/>-->
         <!--        </Modification>-->
-        <Modification UnifiedAttackSpeedFactor="0.10">
+        <Modification UnifiedAttackSpeedFactor="0.1">
             <DamageTakenFraction index="Spell" value="-0.15"/>
             <DamageTakenFraction index="Melee" value="-0.15"/>
             <DamageTakenFraction index="Ranged" value="-0.15"/>
             <DamageTakenFraction index="Splash" value="-0.15"/>
             <DamageTakenFraction index="NoProc" value="-0.15"/>
-<!--            <LifeArmorBonus value="1"/>-->
         </Modification>
+        <!--            <LifeArmorBonus value="1"/>-->
     </CBehaviorBuff>
     <CBehaviorBuff id="NodVoiceOfKaneInspired">
-        <InfoIcon value="Assets\icons\Nod\NodVoiceOfKane.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:UPL"/>
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\icons\Nod\btn-nod-building-voiceofkane.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
         <MaxStackCountPerCaster value="1"/>
         <Duration value="1.1"/>
         <!--        <Modification MoveSpeedBonus="0.1992">-->
@@ -816,18 +567,19 @@
             <DamageTakenFraction index="Ranged" value="-0.25"/>
             <DamageTakenFraction index="Splash" value="-0.25"/>
             <DamageTakenFraction index="NoProc" value="-0.25"/>
-<!--            <LifeArmorBonus value="1"/>-->
         </Modification>
+        <!--            <LifeArmorBonus value="1"/>-->
     </CBehaviorBuff>
     <CBehaviorBuff id="NodLaserFence">
         <DisableValidatorArray value="HasNodLaserFencing"/>
         <Modification>
             <VitalMaxArray index="Shields" value="300"/>
         </Modification>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodFanaticExplode">
         <Alignment value="Positive"/>
-        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <InfoFlags index="Hidden" value="1"/>
         <Modification>
             <DeathResponse Chance="1" Effect="NodFanaticExplosion"/>
@@ -836,7 +588,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="NodFanaticExplosionBuilding">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <Modification>
             <WeaponEnableArray value="NodFanaticExplosionBuilding"/>
             <WeaponDisableArray value="NodFanaticExplosion"/>
@@ -846,293 +598,135 @@
         <InfoFlags index="Hidden" value="1"/>
         <Period value="0.0625"/>
         <PeriodicEffect value="NodAvatarPilotSearchArea"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodRedeemerPilot">
         <InfoFlags index="Hidden" value="1"/>
         <Period value="0.0625"/>
         <PeriodicEffect value="NodRedeemerPilotSearchArea"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="HasEmptyPilotSlot1">
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="HasEmptyPilotSlot2">
-        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodTiberiumInfusion">
         <DisableValidatorArray value="HasNodTiberiumInfusion"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
         <!--        <InfoFlags index="Hidden" value="1"/>-->
     </CBehaviorBuff>
-
-
-    <CBehaviorBuff id="NodDisruptionTowerCloakField">
+    <CBehaviorBuff id="NodDisruptionPodCloakField">
         <Period value="0.0625"/>
-        <PeriodicEffect value="CloakingFieldSearch"/>
+        <PeriodicEffect value="NodDisruptionPodCloakingFieldSearch"/>
         <InfoIcon value="Assets\Textures\BTN-Ability-Protoss-CloakField.dds"/>
         <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
         <Alignment value="Positive"/>
-        <InfoFlags index="Hidden" value="0"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
-    <CEffectApplyBehavior id="CloakingField">
-        <ValidatorArray index="0" value="NotMothership_NotNodDisruptionTower"/>
-    </CEffectApplyBehavior>
-
-
-    <!--Veterancy-->
-    <CBehaviorVeterancy default="1" id="NodVeterancyBase">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <ShareFilters index="Kills" value="-;Neutral,Enemy"/>
-        <VeterancyLevelArray MinVeterancyXP="100">
-            <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
-            </Modification>
-        </VeterancyLevelArray>
-        <VeterancyLevelArray MinVeterancyXP="100">
-            <Modification>
-                <DamageTotalMultiplier index="Ranged" value="0.15"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
-            </Modification>
-        </VeterancyLevelArray>
-        <VeterancyLevelArray MinVeterancyXP="100">
-            <Modification>
-                <LifeArmorBonus value="1"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>
-                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
-                <VitalRegenArray index="Life" value="0.5"/>
-            </Modification>
-        </VeterancyLevelArray>
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorVeterancy>
-
-    <CBehaviorBuff default="1" id="NodCarryallTurret">
-        <?token id="icon" value="##id##"?>
-        <?token id="weapon" value="##id##"?>
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\Icons\Weapons\##icon##.dds"/>
-        <EditorCategories value="Race:WZ,AbilityorEffectType:Units"/>
-        <Modification>
-            <WeaponArray Link="##weapon##" Turret="NodCarryallTurret"/>
-        </Modification>
+    <CBehaviorBuff id="NodDisruptionTowerCloakField">
+        <Period value="0.0625"/>
+        <PeriodicEffect value="NodDisruptionTowerCloakingFieldSearch"/>
+        <InfoIcon value="Assets\Textures\BTN-Ability-Protoss-CloakField.dds"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <Alignment value="Positive"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodCarryallDetector">
         <InfoFlags index="Hidden" value="1"/>
         <DisableValidatorArray value="IsNotStructure"/>
         <BehaviorFlags index="Permanent" value="1"/>
         <Modification Detect="11"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodCarryallFlameTank" parent="NodCarryallTurret" weapon="NodFlameTankFlamethrower"/>
     <CBehaviorBuff id="NodCarryallBeamCannon" parent="NodCarryallTurret" weapon="NodBeamCannonWeapon"/>
     <CBehaviorBuff id="NodCarryallStealthTank" parent="NodCarryallTurret" weapon="NodStealthTankWeapon"/>
-
-
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALDevoutVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="100"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="100"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="100"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALBlackHandVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="320"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="320"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="320"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodCommandoVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="520"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="520"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="520"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALAfterShockVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALCenturionVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALVertigoVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="400"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="400"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="400"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodSpecterVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALReaperVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="240"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="240"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="240"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALWidowVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="850"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="850"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="850"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodBeamCannonVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="550"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="550"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="550"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALSalamanderVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="1110"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="1110"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="1110"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALBasiliskVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="1110"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="1110"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="1110"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALMedusaVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="1000"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="1000"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="1000"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALAvengerTankVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodBlackHandVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="200"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="200"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="200"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodFlameTankVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="550"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="550"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="550"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodRedeemerVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="2000"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="2000"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="2000"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodEnlightenedVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="210"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="210"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="210"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALHighConfessorVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="1040"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="1040"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="1040"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodMantisVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodScorpionTankVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALUnderminerVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodMilitantVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="30"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="30"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="30"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodMilitantRocketVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="104"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="104"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="104"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodPurifierVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="700"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="700"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="700"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALLeviathanVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="1600"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="1600"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="1600"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodBikeVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodAttackBikeVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALAscendedVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="120"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="120"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="120"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodAvatarVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodRaiderVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALCommandoVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="520"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="520"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="520"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALSpiderVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="200"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="200"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="200"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALMarauderVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="250"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="250"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="250"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALTyrantVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="350"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="350"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="350"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodScorpionVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALVenomVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CABALStealthTankVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodStealthTankVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="NodVenomVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="230"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="230"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="230"/>
-    </CBehaviorVeterancy>
-    <CBehaviorVeterancy parent="NodVeterancyBase" id="CobraVeterancyUpgrade">
-        <VeterancyLevelArray index="0" MinVeterancyXP="400"/>
-        <VeterancyLevelArray index="1" MinVeterancyXP="400"/>
-        <VeterancyLevelArray index="2" MinVeterancyXP="400"/>
-    </CBehaviorVeterancy>
+    <CBehaviorBuff id="NodRadarJammingBehavior">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Duration value="30"/>
+        <Modification>
+            <StateFlags index="Unradarable" value="1"/>
+        </Modification>
+        <InfoIcon value="Assets\Textures\btn-nod-ability-radarjammingmissile.dds"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodCloakingFieldBuff">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Duration value="15"/>
+        <Modification>
+            <StateFlags index="Cloak" value="1"/>
+        </Modification>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodSignatureDecoyTimedLife">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Duration value="30"/>
+        <ExpireEffect value="Suicide"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorWander id="NodSignatureDecoyWander">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Range value="4"/>
+        <Leash value="1"/>
+        <Delay value="0.5"/>
+    </CBehaviorWander>
+    <CBehaviorBuff id="NodMineExplode">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <PeriodicEffect value="NodMineExplodeSearch"/>
+        <Period value="0.1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="HasEmptyPilotSlot1">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="HasEmptyPilotSlot2">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <!--    <CBehaviorBuff id="GenericStun">-->
+    <!--        <InfoIcon value="Assets\Textures\btn-ability-terran-ultrasonicpulse.dds"/>-->
+    <!--    </CBehaviorBuff>-->
+    <!--    <CBehaviorBuff id="GhostHoldFire">-->
+    <!--        <Modification>-->
+    <!--            <WeaponDisableArray value="NodStealthTankWeapon"/>-->
+    <!--        </Modification>-->
+    <!--        <EditorCategories value="Race:Neut,AbilityorEffectType:Units"/>-->
+    <!--    </CBehaviorBuff>-->
+    <!--    <CBehaviorBuff id="GhostHoldFireB">-->
+    <!--        <Modification>-->
+    <!--            <WeaponDisableArray value="NodStealthTankWeapon"/>-->
+    <!--        </Modification>-->
+    <!--        <EditorCategories value="Race:Neut,AbilityorEffectType:Units"/>-->
+    <!--    </CBehaviorBuff>-->
+    <CBehaviorBuff id="NodGroundDrop">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <Duration value="1"/>
+        <Modification MoveSpeedMultiplier="0.1">
+            <StateFlags index="Invulnerable" value="1"/>
+            <StateFlags index="Unselectable" value="1"/>
+            <StateFlags index="Untargetable" value="1"/>
+            <AbilClassDisableArray index="CAbilAttack" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodEnergyDetector11">
+        <Alignment value="Positive"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-status-detector.dds"/>
+        <Modification Detect="11"/>
+        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
+        <InitialEffect value="PowerUserDrainETU025"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="PowerUserDrainETU045"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodEnergyCloak">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Modification>
+            <StateFlags index="Cloak" value="1"/>
+        </Modification>
+        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
+        <RemoveValidatorArray value="PlayerHasNodWarFactory"/>
+        <InitialEffect value="PowerUserDrainETU025"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="PowerUserDrainETU045"/>
+    </CBehaviorBuff>
 </Catalog>

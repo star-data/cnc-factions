@@ -32,13 +32,13 @@
         <BarOffset value="110"/>
         <BarWidth value="135"/>
         <Model value="##id##"/>
-        <HeroIcon value="Assets\icons\ZOCOM\##icon##Icon.dds"/>
-        <UnitIcon value="Assets\icons\ZOCOM\##icon##Icon.dds"/>
+        <HeroIcon value="Assets\icons\zocom\btn-zocom-building-##icon##.dds"/>
+        <UnitIcon value="Assets\icons\zocom\btn-zocom-building-##icon##.dds"/>
         <GroupIcon>
-            <Image value="Assets\icons\ZOCOM\##wireframe##.dds"/>
+            <Image value="Assets\icons\zocom\wireframe-zocom-building-##icon##.dds"/>
         </GroupIcon>
         <Wireframe>
-            <Image value="Assets\icons\ZOCOM\##wireframe##.dds"/>
+            <Image value="Assets\icons\zocom\wireframe-zocom-building-##icon##.dds"/>
         </Wireframe>
     </CActorUnit>
     <CActorUnit default="1" id="ZOCOMUnitBase" parent="GenericUnitBase">
@@ -58,19 +58,19 @@
         <StandAnimTurnTime value="5"/>
         <WalkAnimMoveSpeed value="2"/>
         <UnitFlags index="StandAnimBirthVariation" value="0"/>
-        <HeroIcon value="Assets\icons\ZOCOM\##icon##Icon.dds"/>
-        <UnitIcon value="Assets\icons\ZOCOM\##icon##Icon.dds"/>
+        <HeroIcon value="Assets\icons\zocom\btn-zocom-unit-##icon##-tinted.dds"/>
+        <UnitIcon value="Assets\icons\zocom\btn-zocom-unit-##icon##-tinted.dds"/>
         <GroupIcon>
-            <Image value="Assets\icons\ZOCOM\##wireframe##.dds"/>
+            <Image value="Assets\icons\zocom\wireframe-zocom-unit-##icon##-tinted.dds"/>
         </GroupIcon>
         <Wireframe>
-            <Image value="Assets\icons\ZOCOM\##wireframe##.dds"/>
+            <Image value="Assets\icons\zocom\wireframe-zocom-unit-##icon##-tinted.dds"/>
         </Wireframe>
     </CActorUnit>
-    <CActorUnit default="1" id="ZOCOMInfantry" parent="ZOCOMUnitBase">
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
-        <On Terms="Effect.JumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
+        <CActorUnit default="1" id="ZOCOMInfantry" parent="ZOCOMUnitBase">
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
+        <On Terms="Effect.ZOCOMJumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
         <On Terms="Behavior.GDIZoneTrooperjump.Launch" Send="AnimBracketStart Jump Jump,Start Jump Jump,End"/>
         <On Terms="UnitMovementUpdate.*.Walk" Send="AnimBracketClear Jump"/>
         <LifeArmorIcon value="Assets\textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
@@ -119,8 +119,6 @@
         <SoundArray index="Movement" value="Shepherd_Movement"/>
     </CActorUnit>
     
-    
-
     <CActorUnit id="ZOCOMCrawlerDeployCaster" parent="ZOCOMBuilding" unitName="ZOCOMCrawlerDeployCaster">
         <Macros value="GlobalLoopMacro"/>
         <Macros value="QueueAnim"/>
@@ -146,7 +144,7 @@
         <GroupIcon><Image value="Assets\icons\factions\faction-tw-gdi.dds"/></GroupIcon>
         <Wireframe><Image value="Assets\icons\factions\faction-tw-gdi.dds"/></Wireframe>
     </CActorUnit>
-    <CActorUnit id="ZOCOMBunker" parent="ZOCOMBuilding" unitName="ZOCOMBunker" >
+    <CActorUnit id="ZOCOMBunker" parent="ZOCOMBuilding" unitName="ZOCOMBunker" icon="Bunker">
         <Aliases value="_UnitHuge"/>
         <Macros value="BunkerTransportAnim"/>
         <On Terms="UnitDeathCustomize; ValidateUnit BunkerIsEmpty" Send="DeathCustomize Empty"/>
@@ -195,7 +193,7 @@
         <UnitFlags index="ShowBlobShadow" value="0"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMDefenseCrawlerDeployed" parent="ZOCOMBuilding" unitName="ZOCOMDefenseCrawlerUnpack" >
+    <CActorUnit id="ZOCOMDefenseCrawlerDeployed" icon="defensecrawler-deployed" parent="ZOCOMBuilding" unitName="ZOCOMDefenseCrawlerUnpack" >
         <Aliases value="_UnitHuge"/>
         <Macros value="QueueAnim"/>
         <Macros value="BuildingFlattenTerrainMacro"/>
@@ -226,7 +224,7 @@
         <MinimapUseSelectionColor value="0"/>
         <PlacementModel value="GDIDefenseMCVPlacement"/>
     </CActorUnit>
-    <CActorUnit id="ZOCOMDefenseCrawlerUnpack" parent="ZOCOMVehicle" unitName="SiegeModeMorphModel" >
+    <CActorUnit id="ZOCOMDefenseCrawlerUnpack" icon="defensecrawlerunpacked-tinted" parent="ZOCOMVehicle" unitName="SiegeModeMorphModel" >
         <Aliases value="_UnitLarge"/>
         <Inherits index="ModelMaterials" value="1"/>
         <AcceptedTransfers index="ModelMaterials" value="1"/>
@@ -272,7 +270,7 @@
         <SoundArray index="Highlight" value="GDIdefenseMCV_Highlight"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMDefenseMCVpack" parent="GenericUnitBaseMorphTransition" unitName="TankModeMorphModel" >
+    <CActorUnit id="ZOCOMDefenseMCVpack" icon="DefenseMCVpack" parent="GenericUnitBaseMorphTransition" unitName="TankModeMorphModel" >
         <Aliases value="_UnitLarge"/>
         <Inherits index="ModelMaterials" value="1"/>
         <AcceptedTransfers index="ModelMaterials" value="1"/>
@@ -296,7 +294,7 @@
         <HighlightTooltip value="Unit/Name/CABALDefenseCrawler"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMDefenseCrawler" parent="ZOCOMVehicle" unitName="ZOCOMDefenseCrawler" >
+    <CActorUnit id="ZOCOMDefenseCrawler" icon="DefenseCrawler" parent="ZOCOMVehicle" unitName="ZOCOMDefenseCrawler" >
         <UnitFlags index="StandAnimBirthVariation" value="0"/>
         <On Terms="AbilMorph.*.Finish; MorphTo ##unitName##" Send="Create"/>
         <On Terms="AbilMorph.*.Start; MorphFrom ##unitName##" Send="Destroy"/>
@@ -381,7 +379,7 @@
         <MinimapUseSelfColor value="0"/>
         <MinimapUseSelectionColor value="0"/>
     </CActorUnit>
-    <CActorUnit id="ZOCOMMastodon" parent="ZOCOMVehicle" unitName="ZOCOMMastodon" >
+    <CActorUnit id="ZOCOMMastodon" icon="Mastodon" parent="ZOCOMVehicle" unitName="ZOCOMMastodon" >
         <Aliases value="_UnitLarge"/>
         <Macros value="UnloadDropAnim"/>
         <Macros value="TerrainSquibAnimations"/>
@@ -429,7 +427,7 @@
         <SoundArray index="Movement" value="NodVehicleMoveLoopAvatar"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMZoneEnforcer" parent="ZOCOMInfantry" unitName="ZOCOMZoneEnforcer" >
+    <CActorUnit id="ZOCOMZoneEnforcer" icon="ZoneEnforcer" parent="ZOCOMInfantry" unitName="ZOCOMZoneEnforcer" >
         <Aliases value="_UnitSmall"/>
         <Macros value="UnloadDropAnim"/>
         <On index="0" Send="Create"/>
@@ -508,9 +506,9 @@
         <On Terms="Upgrade.CombatShield.Remove" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
         <On Terms="UnitDeath.ZOCOMZoneEnforcer; AnimPlaying Cover" Target="_DeathModel" Send="AnimPlay Cover Cover PlayForever"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create Marine_Land"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
-        <On Terms="Effect.JumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
+        <On Terms="Effect.ZOCOMJumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
         <On Terms="UnitMovementUpdate.*.Walk" Send="AnimBracketClear Jump"/>
         <On Terms="Behavior.GDIZoneTrooperjump.Launch" Send="AnimBracketStart Jump Jump,Start Jump Jump,End"/>
         <On Terms="Abil.ZoneEGrenades.SourceCastStart" Send="$Spell"/>
@@ -546,9 +544,8 @@
         <SoundArray index="Click" value="MarineClick"/>
         <SoundArray index="ClickError" value="MarineClickError"/>
         <SoundArray index="Highlight" value="MarineHighlight"/>
-
     </CActorUnit>
-    <CActorUnit id="ZOCOMZoneTrooper" parent="ZOCOMInfantry" unitName="ZOCOMZoneTrooper" >
+    <CActorUnit id="ZOCOMZoneTrooper" icon="ZoneTrooper" parent="ZOCOMInfantry" unitName="ZOCOMZoneTrooper" >
         <Aliases value="_UnitSmall"/>
         <Macros value="UnloadDropAnim"/>
         <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
@@ -564,9 +561,9 @@
         <On Terms="Upgrade.CombatShield.Remove" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
         <On Terms="UnitDeath.ZOCOMZoneTrooper; AnimPlaying Cover" Target="_DeathModel" Send="AnimPlay Cover Cover PlayForever"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create Marine_Land"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
-        <On Terms="Effect.JumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
+        <On Terms="Effect.ZOCOMJumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
         <On Terms="UnitMovementUpdate.*.Walk" Send="AnimBracketClear Jump"/>
         <On Terms="Behavior.GDIZoneTrooperjump.Launch" Send="AnimBracketStart Jump Jump,Start Jump Jump,End"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
@@ -624,7 +621,7 @@
         <SoundArray index="Highlight" value="MarineHighlight"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMZoneDefender" parent="ZOCOMInfantry" unitName="ZOCOMZoneDefender" >
+    <CActorUnit id="ZOCOMZoneDefender" icon="ZoneDefender" parent="ZOCOMInfantry" unitName="ZOCOMZoneDefender" >
         <Aliases value="_UnitSmall"/>
         <Macros value="UnloadDropAnim"/>
         <On index="0" Send="Create SoundEmitter GDIZoneTrooper_Ambience"/>
@@ -641,9 +638,9 @@
         <On Terms="Upgrade.CombatShield.Remove" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
         <On Terms="UnitDeath.ZOCOMZoneDefender; AnimPlaying Cover" Target="_DeathModel" Send="AnimPlay Cover Cover PlayForever"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create Marine_Land"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
-        <On Terms="Effect.JumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
+        <On Terms="Effect.ZOCOMJumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
         <On Terms="UnitMovementUpdate.*.Walk" Send="AnimBracketClear Jump"/>
         <On Terms="Behavior.GDIZoneTrooperjump.Launch" Send="AnimBracketStart Jump Jump,Start Jump Jump,End"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
@@ -680,7 +677,7 @@
         <SoundArray index="Highlight" value="MarineHighlight"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMZoneRaider" parent="ZOCOMInfantry" unitName="ZOCOMZoneRaider" >
+    <CActorUnit id="ZOCOMZoneRaider" icon="ZoneRaider" parent="ZOCOMInfantry" unitName="ZOCOMZoneRaider" >
         <Aliases value="_UnitSmall"/>
         <Macros value="UnloadDropAnim"/>
         <On index="0" Send="Create SoundEmitter GDIZoneTrooper_Ambience"/>
@@ -697,9 +694,9 @@
         <On Terms="Upgrade.CombatShield.Remove" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
         <On Terms="UnitDeath.ZOCOMZoneRaider; AnimPlaying Cover" Target="_DeathModel" Send="AnimPlay Cover Cover PlayForever"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create Marine_Land"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
-        <On Terms="Effect.JumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
+        <On Terms="Effect.ZOCOMJumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
         <On Terms="UnitMovementUpdate.*.Walk" Send="AnimBracketClear Jump"/>
         <On Terms="Behavior.GDIZoneTrooperjump.Launch" Send="AnimBracketStart Jump Jump,Start Jump Jump,End"/>
         <On Terms="WeaponStart.ZOCOMZoneRaiderCharge.AttackStart" Send="$Spell"/>
@@ -737,7 +734,7 @@
         <SoundArray index="Highlight" value="MarineHighlight"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMZoneCommando" parent="ZOCOMInfantry" unitName="ZOCOMZoneCommando" >
+    <CActorUnit id="ZOCOMZoneCommando" icon="ZoneCommando" parent="ZOCOMInfantry" unitName="ZOCOMZoneCommando" >
         <Aliases value="_UnitSmall"/>
         <Macros value="UnloadDropAnim"/>
         <On index="0" Send="Create SoundEmitter GDIZoneTrooper_Ambience"/>
@@ -754,9 +751,9 @@
         <On Terms="Upgrade.CombatShield.Remove" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
         <On Terms="UnitDeath.ZOCOMZoneCommando; AnimPlaying Cover" Target="_DeathModel" Send="AnimPlay Cover Cover PlayForever"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create Marine_Land"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
-        <On Terms="Effect.JumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
+        <On Terms="Effect.ZOCOMJumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
         <On Terms="UnitMovementUpdate.*.Walk" Send="AnimBracketClear Jump"/>
         <On Terms="Behavior.GDIZoneTrooperjump.Launch" Send="AnimBracketStart Jump Jump,Start Jump Jump,End"/>
         <On Terms="Abil.CommandoC4.SourceCastStart" Send="$Spell"/>
@@ -803,7 +800,7 @@
         <StatusBarFlags index="Magazine" value="0"/>
         <StatusBarFlags index="Workers" value="0"/>
     </CActorUnit>
-    <CActorUnit id="ZOCOMDozer" parent="ZOCOMInfantry" unitName="ZOCOMDozer">
+    <CActorUnit id="ZOCOMDozer" icon="Dozer" parent="ZOCOMInfantry" unitName="ZOCOMDozer">
         <Aliases value="_UnitSmall"/>
         <Macros value="CarryAnim"/>
         <Macros value="UnloadDropAnim"/>
@@ -901,7 +898,7 @@
         <SoundArray index="Pissed" value="Dozer_What"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMJames" parent="ZOCOMInfantry" unitName="ZOCOMJames" >
+    <CActorUnit id="ZOCOMJames" icon="James" parent="ZOCOMInfantry" unitName="ZOCOMJames" >
         <Aliases value="_UnitSmall"/>
         <Macros value="UnloadDropAnim"/>
         <On index="0" Send="Create SoundEmitter GDIZoneTrooper_Ambience"/>
@@ -918,9 +915,9 @@
         <On Terms="Upgrade.CombatShield.Remove" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
         <On Terms="UnitDeath.ZOCOMJames; AnimPlaying Cover" Target="_DeathModel" Send="AnimPlay Cover Cover PlayForever"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create Marine_Land"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
-        <On Terms="Abil.JumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
-        <On Terms="Effect.JumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBracketStart Jump Jump,Start Jump Jump,End ClosingFull,ContentPlayOnce 1.500000 AsTimeScale"/>
+        <On Terms="Abil.ZOCOMJumpPack.SourcePrepStart" Send="AnimBlendTimeApply"/>
+        <On Terms="Effect.ZOCOMJumpPackPointSearch.Stop; At Caster" Send="AnimBlendTimeApply"/>
         <On Terms="UnitMovementUpdate.*.Walk" Send="AnimBracketClear Jump"/>
         <On Terms="Behavior.GDIZoneTrooperjump.Launch" Send="AnimBracketStart Jump Jump,Start Jump Jump,End"/>
         <On Terms="Abil.CommandoC4.SourceCastStart" Send="$Spell"/>
@@ -967,7 +964,7 @@
         <StatusBarFlags index="Workers" value="0"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMHammerHead" parent="ZOCOMUnitBase" unitName="ZOCOMHammerHead">
+    <CActorUnit id="ZOCOMHammerHead" icon="HammerHead" parent="ZOCOMUnitBase" unitName="ZOCOMHammerHead">
         <Aliases value="_UnitHuge"/>
         <Macros value="TerrainSquibAnimations"/>
         <Macros value="PhysicsDeathsSwarmAir"/>
@@ -1019,7 +1016,7 @@
         <SoundArray index="Movement" value="CABALSalamander_Movement"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMArgus" parent="ZOCOMUnitBase" unitName="ZOCOMArgus" >
+    <CActorUnit id="ZOCOMArgus" icon="Argus" parent="ZOCOMUnitBase" unitName="ZOCOMArgus" >
         <Aliases value="_UnitHuge"/>
         <Macros value="TerrainSquibAnimations"/>
         <Macros value="PhysicsDeathsSwarmAir"/>
@@ -1096,7 +1093,7 @@
         <SoundArray index="Movement" value="Battlecruiser_Movement"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMEngineer" parent="ZOCOMInfantry" unitName="ZOCOMEngineer" >
+    <CActorUnit id="ZOCOMEngineer" icon="Engineer" parent="ZOCOMInfantry" unitName="ZOCOMEngineer" >
         <Aliases value="_MissileHybrids"/>
         <Macros value="D8ChargeAnim"/>
         <Macros value="UnloadDropAnim"/>
@@ -1143,7 +1140,7 @@
         <SoundArray index="Pissed" value="Reaper_Pissed"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMTitan" parent="ZOCOMUnitBase" unitName="ZOCOMTitan">
+    <CActorUnit id="ZOCOMTitan" icon="Titan" parent="ZOCOMUnitBase" unitName="ZOCOMTitan">
         <Aliases value="_UnitLarge"/>
         <Macros value="UnloadDropAnim"/>
         <Macros value="TerrainSquibAnimations"/>
@@ -1184,19 +1181,19 @@
         <SoundArray index="Pissed" value="Goliath_Pissed"/>
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMJuggernaut" parent="ZOCOMUnitBase" unitName="ZOCOMJuggernaut">
+    <CActorUnit id="ZOCOMJuggernaut" icon="Juggernaut" parent="ZOCOMUnitBase" unitName="ZOCOMJuggernaut">
 \f
     </CActorUnit>
-    <CActorUnit id="ZOCOMStriker" parent="ZOCOMUnitBase" unitName="ZOCOMStriker" icon="ZOCOMStriker" >
+    <CActorUnit id="ZOCOMStriker" icon="Striker" parent="ZOCOMUnitBase" unitName="ZOCOMStriker" >
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMFocusBeam" parent="ZOCOMBuilding" unitName="ZOCOMFocusBeam" >
+    <CActorUnit id="ZOCOMFocusBeam" icon="FocusBeam" parent="ZOCOMBuilding" unitName="ZOCOMFocusBeam" >
 
     </CActorUnit>
-    <CActorUnit id="ZOCOMShepherd" parent="ZOCOMVehicle" unitName="ZOCOMShepherd"/>
-    <CActorUnit id="ZOCOMSpartan" parent="ZOCOMVehicle" unitName="ZOCOMSpartan"/>
-    <CActorUnit id="ZOCOMRefractor" parent="ZOCOMVehicle" unitName="ZOCOMRefractor"/>
-    <CActorUnit id="ZOCOMMammoth" parent="ZOCOMVehicle" unitName="ZOCOMMammoth">
+    <CActorUnit id="ZOCOMShepherd" icon="Shepherd" parent="ZOCOMVehicle" unitName="ZOCOMShepherd"/>
+    <CActorUnit id="ZOCOMSpartan" icon="Spartan" parent="ZOCOMVehicle" unitName="ZOCOMSpartan"/>
+    <CActorUnit id="ZOCOMRefractor" icon="Refractor" parent="ZOCOMVehicle" unitName="ZOCOMRefractor"/>
+    <CActorUnit id="ZOCOMMammoth" icon="Mammoth" parent="ZOCOMVehicle" unitName="ZOCOMMammoth">
         <On index="65" Terms="WeaponStart.ZOCOMMammoth120mmCannons.AttackStart"/>
         <DeathArray index="Normal" ModelLink="MammothDeathRagdoll"/>
         <SoundArray index="Ready" value="MammothReady"/>
@@ -1206,14 +1203,9 @@
         <SoundArray index="Attack" value="MammothAttack"/>
         <SoundArray index="Pissed" value="Mammoth_What"/>
     </CActorUnit>
-    <CActorUnit id="ZOCOMGuardianCannon" parent="ZOCOMVehicle" unitName="ZOCOMGuardianCannon" >
+    <CActorUnit id="ZOCOMGuardianCannon" icon="GuardianCannon" parent="ZOCOMBuilding" unitName="ZOCOMGuardianCannon" >
 
     </CActorUnit>
-
-
-
-
-
 
     <CActorSound id="GDIMCVpackSound" parent="SoundOneShot">
         <On Terms="AbilMorph.*.Start; MorphTo GDIConstructionYard" Send="Create"/>
@@ -1615,23 +1607,23 @@
         <Sound value="ZoneJumpLaunch"/>
     </CActorSound>
     <CActorSound id="ZoneJumpSound" parent="SoundOneShot">
-        <On Terms="Effect.JumpPackJumpOnly.Start" Send="Create"/>
+        <On Terms="Effect.ZOCOMJumpPackJumpOnly.Start" Send="Create"/>
         <On Terms="Effect.PrimalSlashJumpOnlyUnit.Start" Send="Create"/>
         <On Terms="Effect.PrimalSlashUpgradedLMWings.Start" Send="Create"/>
         <Sound value="ZoneJumpLaunch"/>
     </CActorSound>
     <CActorSound id="ZoneJumpLandSound" parent="SoundOneShot">
-        <On Terms="Effect.JumpPackSearchArea.Start" Send="Create"/>
+        <On Terms="Effect.ZOCOMJumpPackSearchArea.Start" Send="Create"/>
         <Sound value="ZonejumpImpact"/>
     </CActorSound>
-    <CActorModel id="JumpPackImpact" parent="ModelAnimationStyleOneShot">
+    <CActorModel id="ZOCOMJumpPackImpact" parent="ModelAnimationStyleOneShot">
         <Inherits index="CloakEffect" value="1"/>
         <Inherits index="Visibility" value="1"/>
-        <On Terms="Effect.JumpPackSearchArea.Start" Send="Create"/>
+        <On Terms="Effect.ZOCOMJumpPackSearchArea.Start" Send="Create"/>
         <Host Subject="_Selectable"/>
         <HostSiteOps HoldPosition="1" HoldRotation="1"/>
     </CActorModel>
-    <CActorRange id="ZoneJumpRange" parent="RangeAbil" abil="JumpPack"/>
+    <CActorRange id="ZoneJumpRange" parent="RangeAbil" abil="ZOCOMJumpPack"/>
     <CActorAction id="ZOCOMZoneTrooperAttack" parent="MarauderAttackBase" effectImpact="ATgunDamage" effectLaunch="PunisherGrenadesLM">
         <On Terms="Effect.ATGunLaunchMissile.Start; At Caster; !ValidateEffect PunisherGrenadesResearched" Send="Create"/>
         <LaunchAttachQuery Methods="Weapon 0"/>
@@ -1806,8 +1798,8 @@
         <ImpactMap index="Shield" Sound="HailstormMissileVolleyImpactShield" ModelReaction="HailstormMissileVolleyImpactReactionShield"/>
     </CActorAction>
     <CActorForceSphere id="PrimalSlashAttackForce2">
-        <On Terms="Effect.JumpPackSearchArea.Start; At Caster" Send="Create"/>
-        <On Terms="Effect.JumpPack.Start; At Target" Send="Create"/>
+        <On Terms="Effect.ZOCOMJumpPackSearchArea.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.ZOCOMJumpPack.Start; At Target" Send="Create"/>
         <On Terms="ActorCreation" Send="Create PrimalSlashAttackUpForce"/>
         <Host Subject="_ImpactGuide"/>
         <HostSiteOps Ops="SOpRandomPointInSphereDot15"/>
@@ -1816,7 +1808,16 @@
         <Radius value="1.050000,0.150000"/>
     </CActorForceSphere>
     <CActorSound id="PrimalSlashSound2" parent="SoundOneShot">
-        <On Terms="Effect.JumpPack.Start" Send="Create"/>
+        <On Terms="Effect.ZOCOMJumpPack.Start" Send="Create"/>
         <Sound value="Ultralisk_AttackLaunch2"/>
     </CActorSound>
+    <CActorAction id="ArgusChaingunAttack1" parent="GenericAttack" effectAttack="ArgusChaingun1">
+        <LaunchAttachQuery Methods="Weapon 7"/>
+        <LaunchAssets Model="GhostAttackLaunch" Sound="ArgusChaingunAttackLaunch"/>
+        <Beam value="GDILightAttackBeam"/>
+        <ImpactMap index="None" Model="TychusChaingunAttackImpact" Sound="Argus_ChaingunAttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <LaunchSiteOps HoldPosition="1" HoldRotation="1"/>
+        <ImpactSiteOps HoldPosition="1" HoldRotation="1"/>
+    </CActorAction>
 </Catalog>

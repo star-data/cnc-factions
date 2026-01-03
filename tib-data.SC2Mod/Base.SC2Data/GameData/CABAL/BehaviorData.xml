@@ -1,40 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
-
+    <!--Veterancy-->
+    <CBehaviorVeterancy default="1" id="NodVeterancyBase">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
+        <ShareFilters index="Kills" value="-;Neutral,Enemy"/>
+        <VeterancyLevelArray MinVeterancyXP="100">
+            <Modification>
+                <LifeArmorBonus value="1"/>
+                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>
+                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>
+                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
+            </Modification>
+        </VeterancyLevelArray>
+        <VeterancyLevelArray MinVeterancyXP="100">
+            <Modification>
+                <DamageTotalMultiplier index="Ranged" value="0.15"/>
+                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>
+                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>
+                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
+            </Modification>
+        </VeterancyLevelArray>
+        <VeterancyLevelArray MinVeterancyXP="100">
+            <Modification>
+                <LifeArmorBonus value="1"/>
+                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>
+                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>
+                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>
+                <VitalRegenArray index="Life" value="0.5"/>
+            </Modification>
+        </VeterancyLevelArray>
+    </CBehaviorVeterancy>
+    <CBehaviorBuff id="CABALCrawlerRepairZone">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
+        <Period value="5"/>
+        <PeriodicEffect value="CABALCrawlerRepairSearch"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CABALRepairZoneFactory">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
+        <Requirements value="NodRepairRange"/>
+        <Period value="5"/>
+        <PeriodicEffect value="CABALCrawlerRepairSearch"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="MercAirDrop2">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
+        <Duration value="0.1"/>
+        <ExpireEffect value="MercAirDropB"/>
+        <Modification Height="10" MoveSpeedMultiplier="0.1">
+            <StateFlags index="Invulnerable" value="1"/>
+            <StateFlags index="Unselectable" value="1"/>
+            <StateFlags index="Untargetable" value="1"/>
+            <HeightTime index="Stop" value="3"/>
+            <AbilClassDisableArray index="CAbilAttack" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CABALEnhancedVision">
+        <InfoIcon value="Assets\Textures\btn-ability-dehaka-detector.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
+        <Duration value="20"/>
+        <Modification SightBonus="2" Detect="9"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="DroppodSuicide">
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
+        <Duration value="8"/>
+        <ExpireEffect value="DroppodSuicide"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CABALReckonerPlacement">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
+        <Duration value="0.1"/>
+        <FinalEffect value="SuicideRemove"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CABALReckonerPlacementRemove">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
+        <Duration value="0.1"/>
+        <FinalEffect value="SuicideRemove"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CABALUnstableCloak">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
+        <Requirements value="UseNodSpecterCloak"/>
+        <DisableValidatorArray value="CasterNotFiringOrAnimatingWeapon"/>
+        <Modification>
+            <StateFlags index="Cloak" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CABALVenomCloak">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
+        <Requirements value="UseNodCloakVenom"/>
+        <Modification>
+            <DamageTakenFraction index="Spell" value="-0.5"/>
+            <DamageTakenFraction index="Splash" value="-0.5"/>
+        </Modification>
+        <!--        <Modification>-->
+        <!--            <StateFlags index="Cloak" value="1"/>-->
+        <!--        </Modification>-->
+        <!--        <DisableValidatorArray value="AttackCheck"/>-->
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CABALCobraCloak">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
+        <Requirements value="UseCABALCobraCloak"/>
+        <DisableValidatorArray value="CasterNotFiringOrAnimatingWeapon"/>
+        <Modification>
+            <StateFlags index="Cloak" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CABALProtectionShield">
+        <InfoIcon value="Assets\Textures\btn-upgrade-protoss-shieldslevel1.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
+        <Duration value="1.5"/>
+        <Modification>
+            <VitalRegenArray index="Shields" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CABALCloakDistortionField">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
+        <Duration value="5"/>
+        <DamageResponse ModifyFraction="0" ModifyMinimumDamage="1">
+            <Chance value="0.2"/>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CABALDeflectionForce">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
+        <Requirements value="StealhField"/>
+        <Period value="3"/>
+        <PeriodicEffect value="CABALDistortSearchArea"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CABALEnlightenedExplosion">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
+        <Requirements value="EnlightenedSuicide"/>
+        <Modification>
+            <DeathResponse Chance="1" Effect="EnlightenedExplosionPersistent"/>
+        </Modification>
+    </CBehaviorBuff>
     <CBehaviorBuff id="CABALShieldGenerator">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Period value="1"/>
         <InitialEffect value="CABALShieldGeneratorSearch"/>
         <PeriodicEffect value="CABALShieldGeneratorSet"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="SpiderCount2">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <DisableValidatorArray value="SpiderCountmorethan2"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="SpiderCount3">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <DisableValidatorArray value="SpiderCountmorethan3"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="SpiderCount4">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <DisableValidatorArray value="SpiderCountmorethan4"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="SpiderCount5">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <DisableValidatorArray value="SpiderCountmorethan5"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="SpiderCount6">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <DisableValidatorArray value="SpiderCountmorethan6"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="SpiderTankloaded">
         <InfoIcon value="Assets\icons\SpiderTankIcon.dds"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Structures"/>
         <MaxStackCount value="6"/>
         <Modification WeaponRange="0.5">
             <DamageDealtUnscaled index="Spell" value="10"/>
@@ -45,7 +191,7 @@
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALCenturionShield">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <DisableValidatorArray value="SourceIsStationary"/>
         <Modification>
             <DamageTakenFraction index="Spell" value="-0.5"/>
@@ -59,7 +205,7 @@
         <Alignment value="Negative"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-ultrasonicpulse.dds"/>
         <BehaviorCategories index="Stun" value="1"/>
-        <EditorCategories value="Race:Neut,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
         <Duration value="7"/>
         <Modification>
             <StateFlags index="Stun" value="1"/>
@@ -72,7 +218,7 @@
     <CBehaviorBuff id="StasisField">
         <Alignment value="Negative"/>
         <InfoIcon value="Assets\Textures\btn-ability-protoss-psistorm.dds"/>
-        <EditorCategories value="Race:Neut,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
         <Duration value="3"/>
         <Modification>
             <StateFlags index="Invulnerable" value="1"/>
@@ -89,42 +235,42 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALSalamanderMissileTarget1">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="0.7"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALLeviathanMissileTarget1">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALSalamanderMissileTarget2">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="0.7"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALLeviathanMissileTarget2">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALSalamanderMissileTarget3">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="0.7"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALLeviathanMissileTarget3">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALSalamanderMissileTarget4">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="0.7"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALSalamanderWeaponSearch">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Period value="0.5"/>
         <PeriodicEffect value="CABALSalamanderWeaponsearchSet"/>
     </CBehaviorBuff>
@@ -132,7 +278,7 @@
         <Alignment value="Positive"/>
         <InfoFlags index="Hidden" value="1"/>
         <InfoIcon value="Assets\Textures\BTN-techupgrade-terran-combatshield-color.dds"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
         <Requirements value="UseMechanicalRebirth"/>
         <DamageResponse Fatal="1" Handled="CABALWidowWreckageAbil" ModifyFraction="0">
             <Chance value="1"/>
@@ -140,7 +286,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALShieldGeneratorRecharge">
         <InfoIcon value="Assets\Textures\btn-upgrade-protoss-shieldslevel1.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="40"/>
         <Modification>
             <VitalMaxArray index="Shields" value="100"/>
@@ -148,44 +294,44 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALMissilePodBurrow">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Structures"/>
         <Period value="2"/>
         <PeriodicEffect value="MissilePodBurrowOrder"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALViperTurretBurrow">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Structures"/>
         <Period value="1"/>
         <PeriodicEffect value="CABALViperTurretBurrowOrder"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALMedusaChargeBeamCounter">
         <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
         <BuffFlags index="RefreshStack" value="1"/>
         <MaxStackCount value="30"/>
         <Duration value="5"/>
         <InitialEffect value="CABALMedusaChargeBeamCounterCheck"/>
         <RefreshEffect value="CABALMedusaChargeBeamCounterCheck"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALMedusaChargeBeamPhase2">
         <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
         <Duration value="5"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALMedusaChargeBeamPhase3">
         <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
         <Duration value="5"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="LeviathanWeaponSearch">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Period value="0.5"/>
         <PeriodicEffect value="LeviathanWeaponsearchSet"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALMedusagive">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Requirements value="CABALMedusaEffect"/>
         <Period value="2"/>
         <PeriodicEffect value="CABALMedusaEffectSearchArea"/>
@@ -193,13 +339,13 @@
     <CBehaviorBuff id="CABALMedusaEffect">
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\icons\InfusionEngineUpgrade.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="5"/>
         <Modification ShieldArmorBonus="3"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALHolyOneTauntCasterBehavior">
         <InfoIcon value="Assets\Textures\btn-tips-rubble.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="14"/>
         <Period value="0.1"/>
         <PeriodCount value="140"/>
@@ -208,7 +354,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALHolyOneTauntTargetBehavior">
         <InfoIcon value="Assets\Textures\btn-tips-rubble.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="0.2"/>
         <Modification MoveSpeedMultiplier="0.6">
             <DamageDealtFraction index="Spell" value="0.7"/>
@@ -220,13 +366,13 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALReaperGuerrillaChargeRange">
         <InfoIcon value="Assets\Textures\btn-upgrade-terran-nova-superscience.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="4.2"/>
         <Modification AttackSpeedMultiplier="1.2" WeaponRange="2" WeaponScanBonus="2"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="CABALReaperGuerrillaChargeSpeed">
         <InfoIcon value="Assets\Textures\btn-upgrade-terran-nova-superscience.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="4.2"/>
         <FinalEffect value="CABALReaperGuerrillaChargeWeaponAB"/>
         <Modification MoveSpeedMultiplier="1.3"/>
@@ -234,12 +380,12 @@
     <CBehaviorBuff id="DefenseMCVAura">
         <BehaviorFlags index="Permanent" value="1"/>
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Period value="2"/>
         <PeriodicEffect value="DefenseMCVArmorAuraSearchArea"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="NodDefensiveMCVAuraTargetBehavior">
-        <EditorCategories value="AbilityorEffectType:Units"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="3"/>
         <Modification>
             <LifeArmorBonus value="1"/>
@@ -248,7 +394,7 @@
     <CBehaviorBuff id="NodDominateMachine">
         <Alignment value="Negative"/>
         <InfoIcon value="Assets\Textures\btn-upgrade-terran-nova-dominationvisor.dds"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
         <DisplayDuration index="Self" value="1"/>
         <DisplayDuration index="Ally" value="1"/>
         <DisplayDuration index="Neutral" value="1"/>
@@ -259,17 +405,17 @@
     <CBehaviorBuff id="LiquidTibUnit">
         <Alignment value="Negative"/>
         <InfoIcon value="Assets\Textures\BTN-Ability-Protoss-TimeBomb.dds"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <BehaviorCategories index="Slow" value="1"/>
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
         <TimeScaleSource Value="Global"/>
         <Duration value="0.125"/>
         <Modification SightMaximum="0" TimeScale="0.2"/>
-        <BehaviorCategories index="Slow" value="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="AccuracyUpgradesmall">
         <Alignment value="Positive"/>
         <InfoFlags index="Hidden" value="1"/>
         <InfoIcon value="Assets\icons\InfusionEngineUpgrade.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Requirements value="AccuracyUpgradeUes"/>
         <Modification>
             <DamageDealtUnscaled index="Spell" value="1"/>
@@ -283,7 +429,7 @@
         <Alignment value="Positive"/>
         <InfoFlags index="Hidden" value="1"/>
         <InfoIcon value="Assets\icons\InfusionEngineUpgrade.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Requirements value="AccuracyUpgradeUes"/>
         <Modification>
             <DamageDealtScaled index="Spell" value="0.1"/>
@@ -296,7 +442,7 @@
     <CBehaviorBuff id="Tech2">
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\icons\NodFXTier2TechUpgrade.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Requirements value="TechIINod"/>
         <Modification>
             <DamageDealtUnscaled index="Ranged" value="2"/>
@@ -305,33 +451,33 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="BlackHandLeadergive">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Requirements value="BlackHandLeader"/>
         <Period value="2"/>
         <PeriodicEffect value="BlackHandLeaderSearchArea"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="Earthquake">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="3.2"/>
         <Modification MoveSpeedMultiplier="0.6"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="EarthquakeSearch">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Period value="3"/>
         <PeriodicEffect value="EarthquakeSearch"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="GiveTib">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
         <TimeScaleSource Value="Caster"/>
-        <PeriodicEffect value="PickupTib"/>
         <Period value="2.5"/>
+        <PeriodicEffect value="PickupTib"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="BlackHandLeader">
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\icons\InfusionEngineUpgrade.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="5"/>
         <Modification>
             <DamageDealtUnscaled index="Spell" value="2"/>
@@ -344,15 +490,19 @@
     <CBehaviorBuff id="SpecterTib">
         <Alignment value="Negative"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-irradiate.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Duration value="15"/>
         <Period value="0.5"/>
         <PeriodicEffect value="SpecterTibDamage"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="FactorySpeed">
         <Alignment value="Positive"/>
+        <InfoFlags index="Hidden" value="1"/>
         <InfoIcon value="Assets\Textures\btn-ability-protoss-chronoboost.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <BehaviorCategories index="Fast" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
+        <Requirements value="FactorySpeed"/>
+        <TimeScaleSource Value="Global"/>
         <Modification TimeScale="1.3" MoveSpeedMultiplier="1.225">
             <RateMultiplierArray index="Charge" value="1.225"/>
             <RateMultiplierArray index="Cooldown" value="1.225"/>
@@ -361,15 +511,11 @@
             <RateMultiplierArray index="Spawn" value="1.225"/>
             <RateMultiplierArray index="Creep" value="1.225"/>
         </Modification>
-        <TimeScaleSource Value="Global"/>
-        <BehaviorCategories index="Fast" value="1"/>
-        <Requirements value="FactorySpeed"/>
-        <InfoFlags index="Hidden" value="1"/>
     </CBehaviorBuff>
     <CBehaviorBuff id="Tech3">
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\icons\NodFXTier2TechUpgrade.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Requirements value="TechIIINod"/>
         <Modification>
             <DamageDealtUnscaled index="Ranged" value="3"/>
@@ -377,7 +523,212 @@
         </Modification>
     </CBehaviorBuff>
     <CBehaviorBuff id="abletoharvest">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Neut"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:CABAL"/>
         <Requirements value="ChemicalFactoryUp"/>
     </CBehaviorBuff>
+    <CBehaviorBuff id="DistortionSensors">
+        <EditorCategories value="Race:CABAL,AbilityorEffectType:Units"/>
+        <Modification Detect="11"/>
+    </CBehaviorBuff>
+    <CBehaviorVeterancy id="CABALAfterShockVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALAscendedVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="120"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="120"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="120"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALAvengerTankVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALBasiliskVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="1110"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="1110"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="1110"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALBlackHandVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="320"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="320"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="320"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALCenturionVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALCommandoVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="520"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="520"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="520"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALDevoutVeterancyUpgrade" parent="NodVeterancyBase"/>
+    <CBehaviorVeterancy id="CABALHighConfessorVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="1040"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="1040"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="1040"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALLeviathanVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="1600"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="1600"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="1600"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALMarauderVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="250"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="250"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="250"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALMedusaVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="1000"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="1000"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="1000"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALReaperVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="240"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="240"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="240"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALSalamanderVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="1110"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="1110"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="1110"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALSpiderVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="200"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="200"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="200"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALStealthTankVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALTyrantVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="350"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="350"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="350"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALUnderminerVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALVenomVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALVertigoVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="400"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="400"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="400"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CABALWidowVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="850"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="850"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="850"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="CobraVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="400"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="400"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="400"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodAttackBikeVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodAvatarVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodBeamCannonVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="550"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="550"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="550"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodBikeVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodBlackHandVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="200"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="200"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="200"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodCommandoVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="520"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="520"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="520"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodEnlightenedVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="210"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="210"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="210"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodFlameTankVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="550"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="550"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="550"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodMantisVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodMilitantRocketVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="104"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="104"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="104"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodMilitantVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="30"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="30"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="30"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodPurifierVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="700"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="700"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="700"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodRaiderVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="150"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="150"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="150"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodRedeemerVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="2000"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="2000"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="2000"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodScorpionTankVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodScorpionVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodSpecterVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="650"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="650"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="650"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodStealthTankVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="450"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="450"/>
+    </CBehaviorVeterancy>
+    <CBehaviorVeterancy id="NodVenomVeterancyUpgrade" parent="NodVeterancyBase">
+        <VeterancyLevelArray index="0" MinVeterancyXP="230"/>
+        <VeterancyLevelArray index="1" MinVeterancyXP="230"/>
+        <VeterancyLevelArray index="2" MinVeterancyXP="230"/>
+    </CBehaviorVeterancy>
 </Catalog>

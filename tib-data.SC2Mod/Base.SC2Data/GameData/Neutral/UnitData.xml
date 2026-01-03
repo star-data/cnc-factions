@@ -1,10 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
 <Catalog>
-
+    <CActorModel id="CarryTiberiumFieldMinerals" parent="ModelAnimationStyleContinuousUNIT">
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <Inherits index="WarpGroup" value="1"/>
+        <On Terms="Behavior.CarryTiberiumFieldMinerals.On" Send="Create"/>
+        <On Terms="Behavior.CarryTiberiumFieldMinerals.Off" Send="AnimBracketStop BSD"/>
+        <HostSiteOps Ops="SOpAttachHardPoint"/>
+    </CActorModel>
+    <CActorModel id="CarryBlueTiberiumFieldMinerals" parent="ModelAnimationStyleContinuousUNIT">
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <Inherits index="WarpGroup" value="1"/>
+        <On Terms="Behavior.CarryBlueTiberiumFieldMinerals.On" Send="Create"/>
+        <On Terms="Behavior.CarryBlueTiberiumFieldMinerals.Off" Send="AnimBracketStop BSD"/>
+        <HostSiteOps Ops="SOpAttachHardPoint"/>
+    </CActorModel>
+    <CModel id="CarryTiberiumFieldMinerals" parent="FX">
+        <Model value="Assets\Buildings\Resources\HighYieldCrystal\HighYieldCrystal.m3"/>
+        <EditorCategories value="Race:Neutral"/>
+    </CModel>
+    <CModel id="CarryBlueTiberiumFieldMinerals" parent="FX">
+        <Model value="Assets\Buildings\Resources\Crystal\Crystal.m3"/>
+        <EditorCategories value="Race:Neutral"/>
+    </CModel>
+    <CUnit id="TibSpike">
+        <LifeArmorName value="Unit/LifeArmorName/NodBuildingArmor"/>
+        <ShieldRegenRate value="2"/>
+        <ShieldArmorName value="Unit/ShieldArmorName/NodLaserFencing"/>
+        <!--        <BehaviorArray Link="FireSuppressionSystem"/>-->
+        <BehaviorArray Link="GenetronPowerSupplyTracker"/>
+        <BehaviorArray Link="TrackGenetronPowerSupply"/>
+        <EffectArray index="Birth" value="NodStructureSpawnSet"/>
+        <EditorCategories value="ObjectType:Unit,ObjectFamily:CNC"/>
+    </CUnit>
     <!--Neutral-->
     <CUnit id="TibMineralField" parent="MineralFieldDefault">
+        <FlagArray index="Invulnerable" value="0"/>
         <Name value="Unit/Name/TIBMineralField"/>
         <Description value="Button/Tooltip/MineralFieldsmall"/>
-        <BehaviorArray index="0" Link="TiberiumMineralField50"/>
+        <BehaviorArray index="0" Link="TiberiumMineralField40"/>
         <BehaviorArray Link="TiberiumIrradiated"/>
         <BehaviorArray Link="TiberiumGrow"/>
         <Collide index="Ground" value="0"/>
@@ -14,7 +49,22 @@
         <LifeStart value="50"/>
         <LifeMax value="50"/>
         <EditorCategories value="ObjectType:Resource,ObjectFamily:CNC"/>
+    </CUnit>
+    <!--Neutral-->
+    <CUnit id="BlueTibMineralField" parent="MineralFieldDefault">
         <FlagArray index="Invulnerable" value="0"/>
+        <Name value="Unit/Name/TIBMineralField"/>
+        <Description value="Button/Tooltip/MineralFieldsmall"/>
+        <BehaviorArray index="0" Link="BlueTiberiumMineralField80"/>
+        <BehaviorArray Link="TiberiumIrradiated"/>
+        <BehaviorArray Link="TiberiumGrow"/>
+        <Collide index="Ground" value="0"/>
+        <Collide index="Small" value="0"/>
+        <Footprint value="Footprint1x2TibField"/>
+        <PlacementFootprint value="Footprint1x2TibField"/>
+        <LifeStart value="50"/>
+        <LifeMax value="50"/>
+        <EditorCategories value="ObjectType:Resource,ObjectFamily:CNC"/>
     </CUnit>
     <CUnit id="Visceroid">
         <EditorCategories value="ObjectType:Unit,ObjectFamily:CNC"/>
@@ -74,7 +124,13 @@
             <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
         </CardLayouts>
         <GlossaryPriority value="200"/>
-<!--        <GlossaryCategory value="Unit/Category/ForgottenUnits"/>-->
-<!--        <HotkeyCategory value="Unit/Category/ForgottenUnits"/>-->
+        <!--        <GlossaryCategory value="Unit/Category/ForgottenUnits"/>-->
+        <!--        <HotkeyCategory value="Unit/Category/ForgottenUnits"/>-->
     </CUnit>
+    <CBehaviorBuff id="CarryTiberiumFieldMinerals">
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="CarryBlueTiberiumFieldMinerals">
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
 </Catalog>

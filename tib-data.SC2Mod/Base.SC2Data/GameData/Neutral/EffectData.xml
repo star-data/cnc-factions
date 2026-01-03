@@ -14,14 +14,14 @@
         <CreateFlags index="Placement" value="0"/>
         <SpawnOwner Value="Hostile"/>
         <SpawnUnit value="Visceroid"/>
-        <DebugTrace value="1"/>
+<!--        <DebugTrace value="1"/>-->
         <!--SpawnEffect value="VisceroidWander"/-->
     </CEffectCreateUnit>
     <CEffectCreatePersistent id="SpawnVisceroidDelay">
         <EditorCategories value="Race:Nod"/>
         <ExpireDelay value="0.5"/>
         <FinalEffect value="SpawnVisceroid"/>
-        <DebugTrace value="1"/>
+<!--        <DebugTrace value="1"/>-->
     </CEffectCreatePersistent>
 
     <CEffectCreateUnit id="TiberiumSpawn">
@@ -49,14 +49,29 @@
         <AINotifyFlags index="MinorDanger" value="1"/>
         <ExcludeArray Value="Outer"/>
         <IncludeArray Value="Target"/>
-        <SearchFilters value="Ground,Biological;Self,Structure,RawResource,HarvestableResource,Stasis,Dead,Hidden,Invulnerable"/>
+        <SearchFilters value="Ground,Biological;Self,RawResource,HarvestableResource,Stasis,Dead,Hidden,Invulnerable"/>
         <AreaArray Radius="1" Effect="TiberiumIrradiateDamagePeriodicSet"/>
     </CEffectEnumArea>
     <CEffectSet id="TiberiumIrradiateDamagePeriodicSet">
         <EffectArray value="TiberiumIrradiateDamagePeriodic"/>
-        <EffectArray value="NodInvertWarheadAttackAB"/>
+        <EffectArray value="TiberiumIrradiateDamagePeriodicCreepTumor"/>
+<!--        disable spawn visceroids for now-->
+<!--        <EffectArray value="NodInvertWarheadAttackAB"/>-->
         <EditorCategories value="Race:Nod"/>
     </CEffectSet>
+    <CEffectApplyBehavior id="NodInvertWarheadAttackAB">
+        <ValidatorArray value="TiberiumRadiationDamageValidator"/>
+        <Behavior value="TiberiumInfest"/>
+        <EditorCategories value="Race:Nod"/>
+    </CEffectApplyBehavior>
+    <CEffectDamage id="TiberiumIrradiateDamagePeriodicCreepTumor">
+        <ValidatorArray value="IsCreepTumor"/>
+        <EditorCategories value="Race:Nod"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <ImpactLocation Value="TargetUnit"/>
+        <Amount value="3"/>
+        <Death value="Disintegrate"/>
+    </CEffectDamage>
     <CEffectDamage id="TiberiumIrradiateDamagePeriodic">
         <ValidatorArray value="TiberiumRadiationDamageValidator"/>
         <EditorCategories value="Race:Nod"/>

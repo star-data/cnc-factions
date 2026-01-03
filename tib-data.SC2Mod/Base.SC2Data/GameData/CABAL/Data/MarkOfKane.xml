@@ -1,0 +1,67 @@
+<Catalog>
+
+    <!-- ================ -->
+
+    <CEffectEnumArea id="MarkOfKaneSearchArea">
+        <EditorCategories value="Race:Nod"/>
+        <SearchFilters value="-;Neutral,Enemy,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="10" Effect="MarkOfKane"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="MarkOfKane"/>
+    <CAbilEffectTarget id="MarkOfKane">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="MarkOfKaneset"/>
+        <Cost>
+            <Resource index="Minerals" value="150"/>
+            <Cooldown Location="Global" TimeUse="180"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CursorEffect value="MarkOfKaneSearchArea"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="MarkOfKane" Requirements="HaveNodTechPlant"/>
+    </CAbilEffectTarget>
+    <CModel id="MarkOfKane" parent="Glaze">
+        <Model value="Assets\Effects\Glaze\Glaze_Purifier_Zealot_Resurrection_Alarm\Glaze_Purifier_Zealot_Resurrection_Alarm.m3"/>
+        <Priority value="32"/>
+        <EditorCategories value="Race:Nod"/>
+    </CModel>
+    <CEffectApplyBehavior id="MarkOfKaneSPAB">
+        <ValidatorArray index="0" removed="1"/>
+        <Behavior value="MarkOfKaneSP"/>
+        <EditorCategories value="Race:Nod"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumArea id="MarkOfKaneSPSearch">
+        <EditorCategories value="Race:Nod"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <SearchFilters value="-;Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="10" Effect="MarkOfKaneSPAB"/>
+    </CEffectEnumArea>
+    <CEffectSet id="MarkOfKaneset">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="MarkOfKaneSPSearch"/>
+        <EffectArray value="MarkOfKaneSearchArea"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CBehaviorBuff id="MarkOfKane">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\icons\InfusionEngineUpgrade.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <Duration value="30"/>
+        <Modification AttackSpeedMultiplier="1.5"/>
+    </CBehaviorBuff>
+    <CActorSound id="MarkOfKaneSound" parent="SoundOneShot">
+        <On Terms="Effect.MarkOfKaneSearchArea.Start" Send="Create"/>
+        <Sound value="CNCElectricSparksSounds"/>
+    </CActorSound>
+    <CActorSplat id="MarkOfKaneCursorSplat" parent="ProtossCursorSplat" abil="PsiStorm">
+        <On index="0" Terms="Abil.MarkOfKane.Cursor" Send="Create"/>
+        <Model value="NodAOECursorSplat"/>
+    </CActorSplat>
+    <CActorModelMaterial id="MarkOfKane" parent="GlazeParent">
+        <On Terms="Behavior.MarkOfKane.On" Send="Create"/>
+        <On Terms="Behavior.MarkOfKane.Off" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Main"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModelMaterial>
+    <CButton id="MarkOfKane" parent="CABAL" icon="InfusionEngineUpgrade"/>
+</Catalog>

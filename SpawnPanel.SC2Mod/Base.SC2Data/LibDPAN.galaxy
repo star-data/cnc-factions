@@ -305,7 +305,7 @@ void libDPAN_gf_SetupUnitTesterData () {
     auto310DDEE5_i = 1;
     for ( ; auto310DDEE5_i <= CatalogEntryCount(c_gameCatalogUnit) ; auto310DDEE5_i += 1 ) {
         lv_unitEntry = CatalogEntryGet(auto310DDEE5_catalog, auto310DDEE5_i);
-        if (((CatalogFieldValueGet(c_gameCatalogUnit, lv_unitEntry, "FlagArray[" + IntToString(c_unitFlagUnselectable) + "]", c_playerAny) == "1"))) {
+        if (((libDPAN_gv_showAll == false) && ((CatalogFieldValueGet(c_gameCatalogUnit, lv_unitEntry, "FlagArray[" + IntToString(c_unitFlagUnselectable) + "]", c_playerAny) == "1") || (CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_unitEntry, "GlossaryPriority", c_playerAny) == 0) || ((CatalogFieldValueGet(c_gameCatalogUnit, lv_unitEntry, "GlossaryAlias", c_playerAny) != "") && (CatalogFieldValueGet(c_gameCatalogUnit, lv_unitEntry, "GlossaryAlias", c_playerAny) != (lv_unitEntry)))))) {
             continue;
         }
         else {
@@ -984,11 +984,32 @@ void libDPAN_gt_CardButtonCliked_Init () {
     TriggerAddEventDialogControl(libDPAN_gt_CardButtonCliked, c_playerAny, c_invalidDialogControlId, c_triggerControlEventTypeClick);
 }
 
+//--------------------------------------------------------------------------------------------------
+// Trigger: ShowAll
+//--------------------------------------------------------------------------------------------------
+bool libDPAN_gt_ShowAll_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libDPAN_gv_showAll = true;
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libDPAN_gt_ShowAll_Init () {
+    libDPAN_gt_ShowAll = TriggerCreate("libDPAN_gt_ShowAll_Func");
+    TriggerAddEventChatMessage(libDPAN_gt_ShowAll, c_playerAny, "showall", true);
+}
+
 void libDPAN_InitTriggers () {
     libDPAN_gt_MapInit_Init();
     libDPAN_gt_ToggleVisibility_Init();
     libDPAN_gt_ChangeSpawnedUnitOwner_Init();
     libDPAN_gt_CardButtonCliked_Init();
+    libDPAN_gt_ShowAll_Init();
 }
 
 //--------------------------------------------------------------------------------------------------

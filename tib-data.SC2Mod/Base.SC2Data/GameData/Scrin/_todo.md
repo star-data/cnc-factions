@@ -1,13 +1,18 @@
 # SCRIN
 ### Buzzers.
+Can attack ground units. Effective against light units. 
 - Combine with Vehicle. Attaches this Buzzer swarm to any Scrin ground vehicle (except Explorers, Harvesters, Mechapedes, and Eradicator Hexapods). They then move and attack alongside the vehicle until they are manually detached or the vehicle is destroyed.
 - Uncombine with Buzzers.Detaches the Buzzer swarm from this unit.
 ### Disintegrators.
+Can attack ground units. Effective against armored units. 
 ### Assimilator.
-- stealth(idle)
+Can capture structures. similar to NodSaboteur.
+- stealth while idle
 ### Shock Troopers.
+Can attack ground units. Effective against light units. Can attack air units after upgrade.
 - Blink(Teleports the Shock Trooper squad to a selected location within range)
 ### Ravagers.
+Can attack ground units. Effective against light units
 - Tiberium Agitation.Deals any Tiberium-based object considerable amounts of damage. Empty Harvesters, Refineries get 50% of that damage.
 ### Mastermind.
 - Teleport Units.Teleports any adjacent friendly unit to another location within range.
@@ -17,26 +22,34 @@
 
 
 ### Gun Walker/Shard Walker.
+Main-line Scrin forces often include gun walkers, which appear to be manufactured in spite of their organic, buglike appearance. These legged vehicles are armed with rapid-firing plasma weapons capable of tearing through infantry as well as fast-moving aircraft, although these "plasma spitters" are ineffective against heavier tank armor
 ### Seeker.
+The Scrin often revealed themselves to human settlements with waves of forces spearheaded by small, agile hovercraft known as the Seeker. Apparently designed for scouting and light skirmishing, the Seeker is equipped with advanced scanners that can expose optical camouflage, as well as plasma disc launchers whose ionized, superheated target-seeking warheads prove effective against armor and aircraft
 - detector
 ### Harvester.
-  - repair while collecting minerals
+Scrin Harvesters, like many of their vehicles, are bio-mechanical constructs that hover and are able to absorb Tiberium through a 'mouth', with the aid of 'claws' to bring the crystal closer. In addition, they appear to self-repair wherever Tiberium is present.
 ### Devourer Tank.
+Unlike other Scrin armor, the Devourer appears designed after human heavy tanks, albeit seemingly without a turret, yet features superior maneuverability and firepower thanks to its omnidirectional movement (in essence, making the whole vehicle itself a turret) and long-range proton cannon. The "Devourer" name refers to how these alien war machines have been observed soaking up Tiberium in order to supercharge their weaponry
   - Conversion Beam.Increases the Devourer Tank’s attack damage by converting Tiberium from Tiberium fields.10 shots (~10 minerals)
 ### Corrupter.
   - heal friendly units
   - visceroid spawn 
 ### Mechapede.
+The Mechapede closely resembles a Terran millipede or centipede, though it is exponentially larger. Its speed is faster than even a Seeker, and can fire in any direction. 
+It can spawn segments of different types. these segments will follow each other and move as a single unit. each segment has different capabilities. 
   - detector
   - Spawn Shard Segment.
   - Spawn Toxin Segment.
   - Spawn Disintegrator Segment.
   - Spawn Disc Segment.
+  The loss of a Mechapede's body segment will not destroy the unit, as it can then rebuild more segments. However, it will destroy all the segments that come "after" the one that was destroyed, so the loss of a segment close to the head can prove to be rather costly. The only way to totally destroy the unit is by targeting the head segment. It is impossible to gain infinite segments on the Mechapede.
+
+
 ### Annihilator Tripod/Reaper Tripod.
   - Husk
   - Conversion Beam(reaper)
 ### Eradicator Hexapod.
-  - harrioned Mastermind: Teleport.Teleports the Eradicator Hexapod over great distances.
+  - harriosned Mastermind: Teleport.Teleports the Eradicator Hexapod over great distances.
 ###  Explorer.
   - Unpack into Outpost.Orders the Explorer to unpack into an Outpost in its current location. This order is irreversible.
 ###  Stormrider.
@@ -97,6 +110,7 @@
 ### Rift Generator.
 - Rift.Creates a massive rift over a target area, causing considerable damage and sucking what it can into deep space.
 ### Lightning Spike.
+- Electricity Cannon 
 ### Tiberium Hive.
 ### Outpost.
 

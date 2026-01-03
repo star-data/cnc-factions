@@ -1,5 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <!--    <CActorModel id="GenericStun" parent="ModelAnimationStyleContinuous">-->
+    <!--        <On Terms="Behavior.GenericStun.On" Send="Create"/>-->
+    <!--        <On Terms="Behavior.GenericStun.Off" Send="AnimBracketStop BSD"/>-->
+    <!--        <Host Subject="_Selectable"/>-->
+    <!--        <HostSiteOps Ops="SOpAttachOverhead"/>-->
+    <!--        <ModelFlags index="AllowHitTest" value="0"/>-->
+    <!--        <ModelFlags index="AutomateGlobalLoops" value="1"/>-->
+    <!--    </CActorModel>-->
+    <!--    <CActorProgress id="TerranConstruction">-->
+    <!--        <On Terms="Abil.GDIBuild.BuiltStart" Send="Create"/>-->
+    <!--    </CActorProgress>-->
+    <!--    <CModel id="GenericStun" parent="PersistentSpellFX">-->
+    <!--        <Model value="Assets\Effects\Neutral\Stun_Void\Stun_Void.m3"/>-->
+    <!--        <EditorCategories value="Race:Neutral"/>-->
+    <!--    </CModel>-->
+    <!--    <CModel id="CarryHighYieldMineralFieldMinerals">-->
+    <!--        <Model value="Assets\Buildings\Resources\Crystal\Crystal.m3"/>-->
+    <!--    </CModel>-->
+    <!--    <CModel id="CarryHighYieldMineralFieldMineralsDeath">-->
+    <!--        <Model value="Assets\Units\Neutral\Crystal_Death\Crystal_Death.m3"/>-->
+    <!--    </CModel>-->
+    <CActorSound id="CNCElectricSparksSounds" parent="SoundOneShot">
+        <On Terms="Effect.NodEMPAttackSearch.Start" Send="Create"/>
+        <On Terms="Effect.NodVisionSearchArea.Start" Send="Create"/>
+    </CActorSound>
+    <CActorSiteOpBanker id="CnCBankerAir" parent="SOpBanker">
+        <RollAngleMax value="75.000000"/>
+        <RollInRate value="23.450001"/>
+        <RollOutRate value="18.799999"/>
+    </CActorSiteOpBanker>
+    <CActorUnit id="DockDummy" icon="AirTower" parent="GenericUnitStandard" wireframe="NodAirTowerWireframe" unitName="DockDummy">
+        <Model value="Invisible"/>
+    </CActorUnit>
+    <CActorSiteOpLocalOffset id="SOpHigher005">
+        <LocalOffset value="0.000000,0.000000,0.050000"/>
+    </CActorSiteOpLocalOffset>
+    <CActorSiteOpForward id="SOpForwardWeapon1">
+        <Forward value="0.000000,-1.500000,0.000000"/>
+        <HostForward Subject="_Unit" Scope="Caster"/>
+        <HostForwardSiteOps Ops="SOpAttachWeapon"/>
+    </CActorSiteOpForward>
+    <CActorEventMacro id="PhysicsDeathsVoidGround">
+        <On Terms="UnitDeathCustomize; KilledByEffect NodMilitantRocketWeaponDamage" Send="DeathCustomize RagdollSiegeTank"/>
+        <On Terms="UnitDeathCustomize; KilledByEffect NodMilitantRocketWeaponDamageUp" Send="DeathCustomize RagdollSiegeTank"/>
+    </CActorEventMacro>
+    <CActorSound id="CYMorphSound" parent="SoundOneShot">
+        <On Terms="AbilMorph.*.Start; MorphTo ZOCOMDefenseCrawler" Send="Create"/>
+        <On Terms="UnitDeath.ZOCOMDefenseCrawler" Send="Destroy"/>
+        <On Terms="AbilMorph.*.Start; MorphTo CABALDefenseCrawler" Send="Create"/>
+        <Sound value="Crawler_Morph"/>
+    </CActorSound>
+    <CActorSound id="MCVMorphSound" parent="SoundOneShot">
+        <On Terms="AbilMorph.*.Start; MorphTo ZOCOMDefenseCrawlerUnpack" Send="Create"/>
+        <On Terms="UnitDeath.ZOCOMDefenseCrawlerUnpack" Send="Destroy"/>
+        <On Terms="AbilMorph.*.Start; MorphTo CABALDefenseCrawlerDeployed" Send="Create"/>
+        <Sound value="Crawler_Morph"/>
+    </CActorSound>
+    <CActorSound id="Ghost_CloakOn" parent="SoundOneShot">
+        <Terms value="ValidateUnit NotCloaked"/>
+        <On Terms="Behavior.GhostCloak.On" Send="Create"/>
+        <On Terms="Behavior.NodHarvesterCloak.On" Send="Create"/>
+    </CActorSound>
+    <CActorSound id="Ghost_CloakOff" parent="SoundOneShot">
+        <Terms value="ValidateUnit NotCloakedAndNotDead"/>
+        <On Terms="Behavior.GhostCloak.Off" Send="Create"/>
+        <On Terms="Behavior.NodHarvesterCloak.Off" Send="Create"/>
+    </CActorSound>
+    <CActorEventMacro id="CNCUnpoweredAnim">
+        <On Terms="Behavior.NodEnergyProduction.On" Send="SetTintColor 150,150,200 1.000000"/>
+        <On Terms="Behavior.NodEnergyProduction.On" Send="SetTintColor 150,150,200 "/>
+        <On Terms="Behavior.NodEnergyProduction.Off" Send="SetTintColor 255,255,255 1.000000"/>
+        <On Terms="Behavior.NodEnergyProduction.Off" Send="SetTintColor 255,255,255"/>
+        <On Terms="Behavior.NodEnergyProductionDefense.On" Send="SetTintColor 75,75,125 1.000000"/>
+        <On Terms="Behavior.NodEnergyProductionDefense.On" Send="SetTintColor 75,75,125 "/>
+        <On Terms="Behavior.NodEnergyProductionDefense.Off" Send="SetTintColor 255,255,255 1.000000"/>
+        <On Terms="Behavior.NodEnergyProductionDefense.Off" Send="SetTintColor 255,255,255"/>
+
+        <!--        <On Terms="Behavior.NodProductionBoost.On" Send="SetTintColor 150,150,150 1.000000"/>-->
+        <!--        <On Terms="Behavior.NodProductionBoost.Off" Send="SetTintColor 255,255,255 1.000000"/>-->
+    </CActorEventMacro>
+
     <CActorModel id="FactoryRepair">
         <AcceptedTransfers index="Position" value="0"/>
         <AcceptedTransfers index="Rotation" value="0"/>
@@ -10,8 +91,8 @@
         <On Terms="ActorCreation" Send="SetOpacity"/>
         <On Terms="ActorCreation" Send="SetOpacity 0.500000 1.000000"/>
         <On Terms="ActorCreation" Send="SetTintColor 255,0,0"/>
-        <On Terms="Behavior.MCVRepairZoneFactory.On" Send="Create"/>
-        <On Terms="Behavior.MCVRepairZoneFactory.Off" Send="AnimBracketStop BSD"/>
+        <On Terms="Behavior.CABALRepairZoneFactory.On" Send="Create"/>
+        <On Terms="Behavior.CABALRepairZoneFactory.Off" Send="AnimBracketStop BSD"/>
         <AddToProximitySystem value="0"/>
         <Host Subject="_Selectable"/>
         <HostSiteOps Ops="SOpShadow"/>
@@ -24,16 +105,5 @@
     </CActorModel>
     <CActorText id="PickupTibText" parent="PickupTextDefault"/>
 
-    <CActorModel id="GenericStun" parent="ModelAnimationStyleContinuous">
-        <On Terms="Behavior.GenericStun.On" Send="Create"/>
-        <On Terms="Behavior.GenericStun.Off" Send="AnimBracketStop BSD"/>
-        <Host Subject="_Selectable"/>
-        <HostSiteOps Ops="SOpAttachOverhead"/>
-        <ModelFlags index="AllowHitTest" value="0"/>
-        <ModelFlags index="AutomateGlobalLoops" value="1"/>
-    </CActorModel>
-    <CActorProgress id="TerranConstruction">
-        <On Terms="Abil.GDIBuild.BuiltStart" Send="Create"/>
-    </CActorProgress>
 
 </Catalog>
