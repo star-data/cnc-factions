@@ -1,4 +1,6 @@
-
+beam cannos do not count kills
+power signature scan is broken
+power shortage do not work with no powerplant (NodEnergyProduction with PlayerHasNoPowerPlant requirement)
 
 distortionbeacon icons/wireframes. btn-nod-unit-distortionbeacon.dds
 NodHoldFire dissapears when stealth exposire is active

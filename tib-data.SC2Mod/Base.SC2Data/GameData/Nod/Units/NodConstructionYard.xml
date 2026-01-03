@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+<!--    <CBehaviorBuff id="TimeWarpProductionSupport" parent="TimeWarpProduction"/>-->
+<!--    <CBehaviorBuff id="ChronoBoostEnergyCostSupport" parent="ChronoBoostEnergyCost"/>-->
+<!--    <CBehaviorBuff id="ContaminatedSupport" parent="Contaminated">-->
+<!--        <DisplayDuration index="Self" value="0"/>-->
+<!--        <DisplayDuration index="Ally" value="0"/>-->
+<!--        <DisplayDuration index="Enemy" value="0"/>-->
+<!--    </CBehaviorBuff>-->
+<!--    <CBehaviorBuff id="NodProductionBoostSupport" parent="NodProductionBoost"/>-->
+<!--    <CBehaviorBuff id="NodRepairSupport" parent="NodRepair">-->
+<!--        <Period value="0.5"/>-->
+<!--    </CBehaviorBuff>-->
+<!--    <CBehaviorConjoined id="CNCConjoinedUnit">-->
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <ConjoinedFlags index="ShareShields" value="1"/>-->
+<!--        <ConjoinedFlags index="ShareEnergy" value="1"/>-->
+<!--    </CBehaviorConjoined>-->
+
+    <CBehaviorBuff id="ConstructionYardSupportModuleQueue">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
+        <Modification QueueCount="1" QueueSize="-3"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+<!--    <CRequirementAnd id="NodConstruction2Queues">-->
+<!--        <OperandArray value="REQC_NodConstructionArm"/>-->
+<!--        <OperandArray value="REQC_NodConstructionAdvancedArm"/>-->
+<!--    </CRequirementAnd>-->
+
+
     <CEffectModifyPlayer default="1" id="NodVestConstructionRefund">
         <EditorCategories value="Race:Nod"/>
         <WhichPlayer Value="Caster"/>
@@ -432,26 +460,32 @@
     <CEffectModifyUnit id="NodTurretsHubDischarge">
         <Cost Abil="NodConstructionSupport,Build1" ChargeCountUse="1"/>
     </CEffectModifyUnit>
-    <CEffectSwitch id="NodConstructonDischarge">
+
+    <CEffectSwitch id="NodConstructonDischargePrimary">
         <CaseArray Validator="NodCraneVestArmed" Effect="NodCraneDischargeSet"/>
-        <CaseArray Validator="NodTiberiumSiloVestArmed" Effect="NodTiberiumSiloDischargeSet"/>
+        <CaseArray Validator="NodChemicalPlantVestArmed" Effect="NodChemicalPlantDischargeSet"/>
+        <CaseArray Validator="NodShrineVestArmed" Effect="NodShrineDischargeSet"/>
+        <CaseArray Validator="NodTechLabVestArmed" Effect="NodTechLabDischargeSet"/>
         <CaseArray Validator="NodPowerPlantVestArmed" Effect="NodPowerPlantDischargeSet"/>
         <CaseArray Validator="NodTiberiumRefineryVestArmed" Effect="NodTiberiumRefineryDischargeSet"/>
         <CaseArray Validator="NodHandVestArmed" Effect="NodHandDischargeSet"/>
         <CaseArray Validator="NodWarFactoryVestArmed" Effect="NodWarFactoryDischargeSet"/>
-        <CaseArray Validator="NodRedeemerFacilityVestArmed" Effect="NodRedeemerFacilityDischargeSet"/>
         <CaseArray Validator="NodAirTowerVestArmed" Effect="NodAirTowerDischargeSet"/>
-        <CaseArray Validator="NodAirSupportVestArmed" Effect="NodAirSupportDischargeSet"/>
-        <CaseArray Validator="NodChemicalPlantVestArmed" Effect="NodChemicalPlantDischargeSet"/>
-        <CaseArray Validator="NodTempleVestArmed" Effect="NodTempleDischargeSet"/>
-        <CaseArray Validator="NodShrineVestArmed" Effect="NodShrineDischargeSet"/>
-        <CaseArray Validator="NodTechLabVestArmed" Effect="NodTechLabDischargeSet"/>
         <CaseArray Validator="NodOperationsCenterVestArmed" Effect="NodOperationsCenterDischargeSet"/>
+    </CEffectSwitch>
+    <CEffectSwitch id="NodConstructonDischargeSupport">
+        <CaseArray Validator="NodTiberiumSiloVestArmed" Effect="NodTiberiumSiloDischargeSet"/>
+        <CaseArray Validator="NodRedeemerFacilityVestArmed" Effect="NodRedeemerFacilityDischargeSet"/>
+        <CaseArray Validator="NodAirSupportVestArmed" Effect="NodAirSupportDischargeSet"/>
         <CaseArray Validator="NodVoiceOfKaneVestArmed" Effect="NodVoiceOfKaneDischargeSet"/>
         <CaseArray Validator="NodDisruptionTowerVestArmed" Effect="NodDisruptionTowerDischargeSet"/>
         <CaseArray Validator="NodObeliskVestArmed" Effect="NodObeliskDischargeSet"/>
         <CaseArray Validator="NodTurretsHubVestArmed" Effect="NodTurretsHubDischargeSet"/>
+        <CaseArray Validator="NodTempleVestArmed" Effect="NodTempleDischargeSet"/>
     </CEffectSwitch>
+
+
+
     <CEffectSwitch id="NodConstructonDischargeNoRefund">
         <CaseArray Validator="NodCraneVestArmed" Effect="NodCraneDischargeSetNoRefund"/>
         <CaseArray Validator="NodTiberiumSiloVestArmed" Effect="NodTiberiumSiloDischargeSetNoRefund"/>
@@ -572,12 +606,26 @@
         <WhichUnit Value="Caster"/>
         <BehaviorLink value="NodTurretsHubVestArmed"/>
     </CEffectRemoveBehavior>
-    <CEffectSet id="NodConstructionDiscard">
-        <EffectArray value="NodConstructonDischarge"/>
-        <EffectArray value="NodConstructionReset"/>
-        <EffectArray value="NodConstructionSupportReset"/>
+
+
+
+    <CEffectSet id="NodConstructionDiscardPrimary">
+        <EffectArray value="NodConstructonDischargePrimary"/>
+        <EffectArray value="NodConstructionResetPrimary"/>
         <TargetLocationType value="Unknown"/>
     </CEffectSet>
+    <CEffectSet id="NodConstructionDiscardSupport">
+        <EffectArray value="NodConstructonDischargeSupport"/>
+        <EffectArray value="NodConstructionResetSupport"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+
+<!--    <CEffectSet id="NodConstructionDiscard">-->
+<!--        <EffectArray value="NodConstructonDischarge"/>-->
+<!--        <EffectArray value="NodConstructionResetPrimary"/>-->
+<!--        <EffectArray value="NodConstructionResetSupport"/>-->
+<!--        <TargetLocationType value="Unknown"/>-->
+<!--    </CEffectSet>-->
     <CEffectDamage id="NodRemoveVest">
         <Flags index="Kill" value="1"/>
         <Death value="Salvage"/>
@@ -586,11 +634,11 @@
     </CEffectDamage>
     <CEffectSet id="NodConstructionFinishSet">
         <EffectArray value="NodConstructonDischargeNoRefund"/>
-        <EffectArray value="NodConstructionReset"/>
+        <EffectArray value="NodConstructionResetPrimary"/>
         <EffectArray value="NodUnderConstructionRB"/>
         <TargetLocationType value="Unknown"/>
     </CEffectSet>
-    <CEffectUseMagazine id="NodConstructionReset">
+    <CEffectUseMagazine id="NodConstructionResetPrimary">
         <EditorCategories value="Race:Terran"/>
         <AmmoEffect value="NodRemoveVest"/>
         <TargetLocation Value="CasterUnit"/>
@@ -598,11 +646,11 @@
     </CEffectUseMagazine>
     <CEffectSet id="NodConstructionSupportFinishSet">
         <EffectArray value="NodConstructonDischargeNoRefund"/>
-        <EffectArray value="NodConstructionSupportReset"/>
+        <EffectArray value="NodConstructionResetSupport"/>
         <EffectArray value="NodUnderConstructionRB"/>
         <TargetLocationType value="Unknown"/>
     </CEffectSet>
-    <CEffectUseMagazine id="NodConstructionSupportReset">
+    <CEffectUseMagazine id="NodConstructionResetSupport">
         <EditorCategories value="Race:Nod"/>
         <AmmoEffect value="NodRemoveVest"/>
         <TargetLocation Value="CasterUnit"/>
@@ -618,26 +666,26 @@
         <TargetLocation Value="CasterUnit"/>
         <MagazineAbil value="NodConstructionSupportTrainArm"/>
     </CEffectUseMagazine>
-    <CEffectSet id="ChooseConjoinedSupportModule"/>
-    <CEffectSet id="ChooseConjoinedConstructionModule"/>
-    <CEffectCreateUnit id="NodCraneSupportModuleCU">
-        <EditorCategories value="Race:Nod"/>
-        <WhichLocation Value="CasterPoint"/>
-        <SpawnUnit value="NodCraneSupportModule"/>
-        <CreateFlags index="Placement" value="0"/>
-        <CreateFlags index="ProvideFood" value="0"/>
-        <CreateFlags index="SetFacing" value="1"/>
-        <CreateFlags index="UseFood" value="0"/>
-    </CEffectCreateUnit>
-    <CEffectCreateUnit id="NodConstructionYardSupportModuleCU">
-        <EditorCategories value="Race:Nod"/>
-        <WhichLocation Value="CasterPoint"/>
-        <SpawnUnit value="NodConstructionYardSupportModule"/>
-        <CreateFlags index="Placement" value="0"/>
-        <CreateFlags index="ProvideFood" value="0"/>
-        <CreateFlags index="SetFacing" value="1"/>
-        <CreateFlags index="UseFood" value="0"/>
-    </CEffectCreateUnit>
+<!--    <CEffectSet id="ChooseConjoinedSupportModule"/>-->
+<!--    <CEffectSet id="ChooseConjoinedConstructionModule"/>-->
+<!--    <CEffectCreateUnit id="NodCraneSupportModuleCU">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <WhichLocation Value="CasterPoint"/>-->
+<!--        <SpawnUnit value="NodCraneSupportModule"/>-->
+<!--        <CreateFlags index="Placement" value="0"/>-->
+<!--        <CreateFlags index="ProvideFood" value="0"/>-->
+<!--        <CreateFlags index="SetFacing" value="1"/>-->
+<!--        <CreateFlags index="UseFood" value="0"/>-->
+<!--    </CEffectCreateUnit>-->
+<!--    <CEffectCreateUnit id="NodConstructionYardSupportModuleCU">-->
+<!--        <EditorCategories value="Race:Nod"/>-->
+<!--        <WhichLocation Value="CasterPoint"/>-->
+<!--        <SpawnUnit value="NodConstructionYardSupportModule"/>-->
+<!--        <CreateFlags index="Placement" value="0"/>-->
+<!--        <CreateFlags index="ProvideFood" value="0"/>-->
+<!--        <CreateFlags index="SetFacing" value="1"/>-->
+<!--        <CreateFlags index="UseFood" value="0"/>-->
+<!--    </CEffectCreateUnit>-->
     <CAbilMorph id="NodConstructionYardPack">
         <AbilSetId value="Unsieged"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
@@ -804,10 +852,20 @@
             <Button DefaultButtonFace="NodRedeemerFacility" State="Restricted" Requirements="PlaceNodRedeemerFacility"/>
         </InfoArray>
     </CAbilBuild>
-    <CAbilEffectInstant id="NodConstructionDiscard">
+<!--    <CAbilEffectInstant id="NodConstructionDiscard">-->
+<!--        <Flags index="BestUnit" value="1"/>-->
+<!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>-->
+<!--        <CmdButtonArray index="Execute" DefaultButtonFace="Cancel" Requirements="NodDiscardConstruction"/>-->
+<!--    </CAbilEffectInstant>-->
+    <CAbilEffectInstant id="NodConstructionDiscardPrimary">
         <Flags index="BestUnit" value="1"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Cancel" Requirements="NodDiscardConstruction"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Cancel" Requirements="NodDiscardConstructionPrimary"/>
+    </CAbilEffectInstant>
+    <CAbilEffectInstant id="NodConstructionDiscardSupport">
+        <Flags index="BestUnit" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Cancel" Requirements="NodDiscardConstructionSupport"/>
     </CAbilEffectInstant>
     <CAbilArmMagazine id="NodConstructionArm">
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
@@ -882,12 +940,12 @@
         </InfoArray>
         <MaxCount value="1"/>
     </CAbilArmMagazine>
-    <CAbilEffectInstant id="ChooseConjoinedSupportModule">
-        <CmdButtonArray index="Execute" DefaultButtonFace="TerranBuildAdvanced"/>
-    </CAbilEffectInstant>
-    <CAbilEffectInstant id="ChooseConjoinedConstructionModule">
-        <CmdButtonArray index="Execute" DefaultButtonFace="TerranBuildAdvanced"/>
-    </CAbilEffectInstant>
+<!--    <CAbilEffectInstant id="ChooseConjoinedSupportModule">-->
+<!--        <CmdButtonArray index="Execute" DefaultButtonFace="TerranBuildAdvanced"/>-->
+<!--    </CAbilEffectInstant>-->
+<!--    <CAbilEffectInstant id="ChooseConjoinedConstructionModule">-->
+<!--        <CmdButtonArray index="Execute" DefaultButtonFace="TerranBuildAdvanced"/>-->
+<!--    </CAbilEffectInstant>-->
     <CValidatorUnitCompareBehaviorCount default="1" id="UBC">
         <Value value="1"/>
         <Behavior value="##id##"/>
@@ -935,7 +993,7 @@
     <CRequirementCountUnit id="UCU_NodVoiceOfKaneVest" parent="UCU" unit="NodVoiceOfKaneVest"/>
     <CRequirementCountUnit id="UCU_NodDisruptionTowerVest" parent="UCU" unit="NodDisruptionTowerVest"/>
     <CRequirementCountUnit id="UCU_NodObeliskVest" parent="UCU" unit="NodObeliskVest"/>
-    <CRequirementCountUnit id="UCU_NodEmissaryVest" parent="UCU" unit="NodEmissaryVest"/>
+    <CRequirementCountUnit id="UCU_NodEmissary" parent="UCU" unit="NodEmissary"/>
     <CRequirementCountUnit id="UQU_NodTiberiumRefineryVest" parent="UQU" unit="NodTiberiumRefineryVest"/>
     <CRequirementCountUnit id="UQU_NodHandVest" parent="UQU" unit="NodHandVest"/>
     <CRequirementCountUnit id="UQU_NodWarFactoryVest" parent="UQU" unit="NodWarFactoryVest"/>
@@ -954,7 +1012,7 @@
     <CRequirementCountUnit id="UQU_NodVoiceOfKaneVest" parent="UQU" unit="NodVoiceOfKaneVest"/>
     <CRequirementCountUnit id="UQU_NodDisruptionTowerVest" parent="UQU" unit="NodDisruptionTowerVest"/>
     <CRequirementCountUnit id="UQU_NodObeliskVest" parent="UQU" unit="NodObeliskVest"/>
-    <CRequirementCountUnit id="UQU_NodEmissaryVest" parent="UQU" unit="NodEmissaryVest"/>
+    <CRequirementCountUnit id="UQU_NodEmissary" parent="UQU" unit="NodEmissary"/>
     <CRequirementEq id="UNU_NodTiberiumRefineryVest" parent="UNU" unit="NodTiberiumRefineryVest"/>
     <CRequirementEq id="UNU_NodHandVest" parent="UNU" unit="NodHandVest"/>
     <CRequirementEq id="UNU_NodWarFactoryVest" parent="UNU" unit="NodWarFactoryVest"/>
@@ -973,7 +1031,7 @@
     <CRequirementEq id="UNU_NodVoiceOfKaneVest" parent="UNU" unit="NodVoiceOfKaneVest"/>
     <CRequirementEq id="UNU_NodDisruptionTowerVest" parent="UNU" unit="NodDisruptionTowerVest"/>
     <CRequirementEq id="UNU_NodObeliskVest" parent="UNU" unit="NodObeliskVest"/>
-    <CRequirementEq id="UNU_NodEmissaryVest" parent="UNU" unit="NodEmissaryVest"/>
+    <CRequirementEq id="UNU_NodEmissary" parent="UNU" unit="NodEmissary"/>
     <CRequirementGTE id="PlaceNodTiberiumRefinery" parent="PlaceNod"/>
     <CRequirementGTE id="PlaceNodHand" parent="PlaceNod"/>
     <CRequirementGTE id="PlaceNodWarFactory" parent="PlaceNod"/>
@@ -1006,6 +1064,7 @@
         <OperandArray value="UNU_NodOperationsCenterVest"/>
     </CRequirementAnd>
     <CRequirementAnd id="REQN_NodConstructionAdvancedArm">
+        <OperandArray value="UNU_NodEmissary"/>
         <OperandArray value="UNU_NodTiberiumSiloVest"/>
         <OperandArray value="UNU_NodAirSupportVest"/>
         <OperandArray value="UNU_NodTurretsHubVest"/>
@@ -1057,77 +1116,98 @@
     <CRequirementCountAbil id="AC_NodConstructionArm">
         <Count Link="NodConstructionArm" State="InProgressOnly"/>
     </CRequirementCountAbil>
-    <CUnit id="NodConstructionYard" parent="NodStructure">
+
+    <CUnit id="NodConstructionBase" parent="NodStructure">
+        <BehaviorArray Link="CNCTabConstruction"/>
+        <BehaviorArray Link="ConstructionYardSupportModuleQueue"/>
+        <AbilArray Link="NodConstruction"/>
+        <AbilArray Link="NodConstructionArm"/>
+        <AbilArray Link="NodConstructionDiscardSupport"/>
+        <AbilArray Link="NodConstructionDiscardPrimary"/>
+        <AbilArray Link="NodConstructionSupport"/>
+        <AbilArray Link="NodConstructionSupportArm"/>
+        <AbilArray Link="NodConstructionYardTrain"/>
+        <AbilArray Link="NodRepair"/>
+        <!--        <AbilArray Link="NodConstructionDiscard"/>-->
+        <!--        <AbilArray Link="ChooseConjoinedSupportModule"/>-->
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodBuildingPage" Type="Submenu"  SubmenuCardId="TBl1"  SubmenuIsSticky="1"  Row="2"  Column="0"/>
+            <LayoutButtons Face="NodSupportPage"  Type="Submenu"  SubmenuCardId="TBl2"  SubmenuIsSticky="1"  Row="2"  Column="1"/>
+<!--            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>-->
+            <LayoutButtons Face="NodRepair" Type="AbilCmd" AbilCmd="NodRepair,Execute" Row="0" Column="0"/>
+        </CardLayouts>
+        <CardLayouts CardId="TBl1">
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstruction,Build1" Row="0" Column="0" Face="NodTiberiumRefinery" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstruction,Build2" Row="0" Column="1" Face="NodPowerPlant" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstruction,Build11" Row="0" Column="2" Face="NodCrane" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstruction,Build4" Row="0" Column="3" Face="NodHand" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstruction,Build6" Row="0" Column="4" Face="NodOperationsCenter" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstruction,Build5" Row="1" Column="0" Face="NodWarFactory" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstruction,Build7" Row="1" Column="1" Face="NodAirTower" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstruction,Build8" Row="1" Column="2" Face="NodShrine" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstruction,Build9" Row="1" Column="3" Face="NodTechLab" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstruction,Build10" Row="1" Column="4" Face="NodChemicalPlant" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo1" Row="0" Column="0" Face="NodTiberiumRefinery" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo2" Row="0" Column="1" Face="NodPowerPlant" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo11" Row="0" Column="2" Face="NodCrane" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo4" Row="0" Column="3" Face="NodHand" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo6" Row="0" Column="4" Face="NodOperationsCenter" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo5" Row="1" Column="0" Face="NodWarFactory" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo7" Row="1" Column="1" Face="NodAirTower" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo8" Row="1" Column="2" Face="NodShrine" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo9" Row="1" Column="3" Face="NodTechLab" />
+            <LayoutButtons Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo10" Row="1" Column="4" Face="NodChemicalPlant" />
+
+            <LayoutButtons Face="CNCHaltPrimary" Type="AbilCmd" AbilCmd="NodConstructionDiscardPrimary,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+            <!--            <LayoutButtons Face="NodSupportPage" Type="AbilCmd" AbilCmd="ChooseConjoinedSupportModule,Execute" Row="2" Column="0"/>-->
+        </CardLayouts>
+        <CardLayouts CardId="TBl2">
+            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build7" Row="0" Column="1"/>
+            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build6" Row="0" Column="2"/>
+            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build3" Row="1" Column="0"/>
+            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build4" Row="1" Column="1"/>
+
+            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo7" Row="0" Column="1"/>
+            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo6" Row="0" Column="2"/>
+            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo3" Row="1" Column="0"/>
+            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo4" Row="1" Column="1"/>
+            <!--            <LayoutButtons Face="NodBuildingPage" Type="AbilCmd" AbilCmd="ChooseConjoinedConstructionModule,Execute" Row="2" Column="0"/>-->
+            <!--            <LayoutButtons Face="CNCSalvage" Type="AbilCmd" AbilCmd="CNCSalvage,On" Row="2" Column="3"/>-->
+            <LayoutButtons Face="CNCHaltSupport" Type="AbilCmd" AbilCmd="NodConstructionDiscardSupport,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+    </CUnit>
+
+    <CUnit id="NodConstructionYard" parent="NodConstructionBase">
         <Food value="8"/>
         <BehaviorArray Link="NodSpawnMilitantOnDeath"/>
         <BehaviorArray Link="NodLaserFence"/>
-        <BehaviorArray Link="CNCTabConstruction"/>
-        <BehaviorArray Link="CNCConstructionRadius"/>
-        <BehaviorArray Link="NodConstructionYardSupportModuleCreate"/>
+<!--        <BehaviorArray Link="CNCConstructionRadius"/>-->
+        <BehaviorArray Link="CNCConstructionRadiusMedium"/>
+<!--        <BehaviorArray Link="NodConstructionYardSupportModuleCreate"/>-->
         <!--        <BehaviorArray Link="CNCConjoinedUnit"/>-->
         <SubgroupPriority value="100"/>
-        <AbilArray Link="NodConstruction"/>
-        <AbilArray Link="NodConstructionArm"/>
         <AbilArray Link="NodConstructionYardPack"/>
-        <AbilArray Link="NodConstructionDiscard"/>
-        <AbilArray Link="ChooseConjoinedSupportModule"/>
-        <AbilArray Link="NodRepair"/>
         <AbilArray Link="Rally"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="NodTiberiumRefinery" Type="AbilCmd" AbilCmd="NodConstruction,Build1" Row="0" Column="0"/>
-            <LayoutButtons Face="NodPowerPlant" Type="AbilCmd" AbilCmd="NodConstruction,Build2" Row="0" Column="1"/>
-            <LayoutButtons Face="NodCrane" Type="AbilCmd" AbilCmd="NodConstruction,Build11" Row="0" Column="2"/>
-            <LayoutButtons Face="NodHand" Type="AbilCmd" AbilCmd="NodConstruction,Build4" Row="0" Column="3"/>
-            <LayoutButtons Face="NodOperationsCenter" Type="AbilCmd" AbilCmd="NodConstruction,Build6" Row="0" Column="4"/>
-            <LayoutButtons Face="NodWarFactory" Type="AbilCmd" AbilCmd="NodConstruction,Build5" Row="1" Column="0"/>
-            <LayoutButtons Face="NodAirTower" Type="AbilCmd" AbilCmd="NodConstruction,Build7" Row="1" Column="1"/>
-            <LayoutButtons Face="NodShrine" Type="AbilCmd" AbilCmd="NodConstruction,Build8" Row="1" Column="2"/>
-            <LayoutButtons Face="NodTechLab" Type="AbilCmd" AbilCmd="NodConstruction,Build9" Row="1" Column="3"/>
-            <LayoutButtons Face="NodChemicalPlant" Type="AbilCmd" AbilCmd="NodConstruction,Build10" Row="1" Column="4"/>
-            <LayoutButtons Face="NodTiberiumRefinery" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo1" Row="0" Column="0"/>
-            <LayoutButtons Face="NodPowerPlant" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo2" Row="0" Column="1"/>
-            <LayoutButtons Face="NodCrane" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo11" Row="0" Column="2"/>
-            <LayoutButtons Face="NodHand" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo4" Row="0" Column="3"/>
-            <LayoutButtons Face="NodOperationsCenter" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo6" Row="0" Column="4"/>
-            <LayoutButtons Face="NodWarFactory" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo5" Row="1" Column="0"/>
-            <LayoutButtons Face="NodAirTower" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo7" Row="1" Column="1"/>
-            <LayoutButtons Face="NodShrine" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo8" Row="1" Column="2"/>
-            <LayoutButtons Face="NodTechLab" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo9" Row="1" Column="3"/>
-            <LayoutButtons Face="NodChemicalPlant" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo10" Row="1" Column="4"/>
-            <LayoutButtons Face="NodSupportPage" Type="AbilCmd" AbilCmd="ChooseConjoinedSupportModule,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="NodRepair" Type="AbilCmd" AbilCmd="NodRepair,Execute" Row="2" Column="1"/>
-            <LayoutButtons Face="NodMCVPack" Type="AbilCmd" AbilCmd="NodConstructionYardPack,Execute" Row="2" Column="2"/>
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
-            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>
-            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="NodConstructionDiscard,Execute" Row="2" Column="4"/>
+            <LayoutButtons Face="NodMCVPack" Type="AbilCmd" AbilCmd="NodConstructionYardPack,Execute" Row="2" Column="2"/>
         </CardLayouts>
-        <!--        <CardLayouts CardId="TBl1">-->
-        <!--            <LayoutButtons Face="NodEmissary" Type="AbilCmd" AbilCmd="NodConstructionYardTrain,Train1" Row="0" Column="0"/>-->
-        <!--            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build7" Row="0" Column="1"/>-->
-        <!--            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build6" Row="0" Column="2"/>-->
-        <!--            <LayoutButtons Face="NodTurretsHub" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build1" Row="0" Column="3"/>-->
-        <!--            <LayoutButtons Face="NodObelisk" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build2" Row="0" Column="4"/>-->
-        <!--            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build3" Row="1" Column="0"/>-->
-        <!--            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build4" Row="1" Column="1"/>-->
-        <!--            <LayoutButtons Face="NodTemple" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build5" Row="1" Column="2"/>-->
-        <!--            <LayoutButtons Face="NodRedeemerFacility" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build14" Row="1" Column="3"/>-->
-        <!--            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo7" Row="0" Column="1"/>-->
-        <!--            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo6" Row="0" Column="2"/>-->
-        <!--            <LayoutButtons Face="NodTurretsHub" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo1" Row="0" Column="3"/>-->
-        <!--            <LayoutButtons Face="NodObelisk" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo2" Row="0" Column="4"/>-->
-        <!--            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo3" Row="1" Column="0"/>-->
-        <!--            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo4" Row="1" Column="1"/>-->
-        <!--            <LayoutButtons Face="NodTemple" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo5" Row="1" Column="2"/>-->
-        <!--            <LayoutButtons Face="NodRedeemerFacility" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo14" Row="1" Column="3"/>-->
-        <!--            <LayoutButtons Face="NodBuildingPage" Type="AbilCmd" AbilCmd="ChooseConjoinedConstructionModule,Execute" Row="2" Column="0"/>-->
-        <!--            <LayoutButtons Face="NodRepair" Type="AbilCmd" AbilCmd="NodRepair,Execute" Row="2" Column="1"/>-->
-        <!--            <LayoutButtons Face="NodMCVPack" Type="AbilCmd" AbilCmd="NodConstructionYardPack,Execute" Row="2" Column="2"/>-->
-        <!--            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>-->
-        <!--            <LayoutButtons Face="CNCSalvage" Type="AbilCmd" AbilCmd="CNCSalvage,On" Row="2" Column="3"/>-->
-        <!--            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>-->
-        <!--            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="NodConstructionDiscard,Execute" Row="2" Column="4"/>-->
-        <!--        </CardLayouts>-->
-        <!-- <Description value="Button/Tooltip/NodConstructionYard"/> -->
+        <CardLayouts index="2">
+             <LayoutButtons Face="NodEmissary" Type="AbilCmd" AbilCmd="NodConstructionYardTrain,Train1" Row="0" Column="0"/>
+            <LayoutButtons Face="NodTurretsHub" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build1" Row="0" Column="3"/>
+            <LayoutButtons Face="NodObelisk" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build2" Row="0" Column="4"/>
+            <LayoutButtons Face="NodTemple" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build5" Row="1" Column="2"/>
+            <LayoutButtons Face="NodRedeemerFacility" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build14" Row="1" Column="3"/>
+
+            <LayoutButtons Face="NodTurretsHub" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo1" Row="0" Column="3"/>
+            <LayoutButtons Face="NodObelisk" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo2" Row="0" Column="4"/>
+            <LayoutButtons Face="NodTemple" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo5" Row="1" Column="2"/>
+            <LayoutButtons Face="NodRedeemerFacility" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo14" Row="1" Column="3"/>
+        </CardLayouts>
+        <Name value="Unit/Name/NodConstructionYard"/>
+         <Description value="Button/Tooltip/NodConstructionYard"/>
         <CostResource index="Minerals" value="400"/>
         <AttackTargetPriority value="20"/>
         <ScoreMake value="700"/>
@@ -1147,117 +1227,88 @@
         <!--        <TacticalAIThink value="AIThinkCommandCenter"/>-->
         <AIEvalFactor value="0.7"/>
         <GlossaryPriority value="1"/>
+        <SubgroupAlias value="NodConstructionYard"/>
     </CUnit>
-    <CUnit id="NodConstructionYardSupportModule" parent="NodStructure">
-        <BehaviorArray index="0" Link=""/>
-        <BehaviorArray index="1" Link=""/>
-        <BehaviorArray Link="CNCConstructionRadius"/>
-        <BehaviorArray Link="NodEnergyProduction"/>
-        <BehaviorArray Link="NodLaserFence"/>
-        <FlagArray index="Untargetable" value="1"/>
-        <FlagArray index="PreventReveal" value="1"/>
-        <FlagArray index="Undetectable" value="1"/>
-        <FlagArray index="Unradarable" value="1"/>
-        <!--        <BehaviorArray Link="CNCConjoinedUnit"/>-->
-        <!-- <Description value="Button/Tooltip/NodConstructionYard"/> -->
-        <FlagArray index="Invulnerable" value="1"/>
-        <FlagArray index="TownCamera" value="1"/>
-        <LifeStart value="1500"/>
-        <LifeMax value="1500"/>
-        <LifeArmor value="3"/>
-        <Sight value="11"/>
-        <CostResource index="Minerals" value="400"/>
-        <RepairTime value="150"/>
-        <AttackTargetPriority value="20"/>
-        <AbilArray Link="ChooseConjoinedConstructionModule"/>
-        <AbilArray Link="NodConstructionSupport"/>
-        <AbilArray Link="NodConstructionYardTrain"/>
-        <AbilArray Link="NodConstructionSupportArm"/>
-        <AbilArray Link="NodConstructionYardPack"/>
-        <AbilArray Link="NodConstructionDiscard"/>
-        <AbilArray Link="NodRepair"/>
-        <AbilArray Link="Rally"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="NodEmissary" Type="AbilCmd" AbilCmd="NodConstructionYardTrain,Train1" Row="0" Column="0"/>
-            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build7" Row="0" Column="1"/>
-            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build6" Row="0" Column="2"/>
-            <LayoutButtons Face="NodTurretsHub" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build1" Row="0" Column="3"/>
-            <LayoutButtons Face="NodObelisk" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build2" Row="0" Column="4"/>
-            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build3" Row="1" Column="0"/>
-            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build4" Row="1" Column="1"/>
-            <LayoutButtons Face="NodTemple" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build5" Row="1" Column="2"/>
-            <LayoutButtons Face="NodRedeemerFacility" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build14" Row="1" Column="3"/>
-            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo7" Row="0" Column="1"/>
-            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo6" Row="0" Column="2"/>
-            <LayoutButtons Face="NodTurretsHub" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo1" Row="0" Column="3"/>
-            <LayoutButtons Face="NodObelisk" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo2" Row="0" Column="4"/>
-            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo3" Row="1" Column="0"/>
-            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo4" Row="1" Column="1"/>
-            <LayoutButtons Face="NodTemple" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo5" Row="1" Column="2"/>
-            <LayoutButtons Face="NodRedeemerFacility" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo14" Row="1" Column="3"/>
-            <LayoutButtons Face="NodBuildingPage" Type="AbilCmd" AbilCmd="ChooseConjoinedConstructionModule,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="NodRepair" Type="AbilCmd" AbilCmd="NodRepair,Execute" Row="2" Column="1"/>
-            <LayoutButtons Face="NodMCVPack" Type="AbilCmd" AbilCmd="NodConstructionYardPack,Execute" Row="2" Column="2"/>
-            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
-            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>
-            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="NodConstructionDiscard,Execute" Row="2" Column="4"/>
-        </CardLayouts>
-        <ScoreMake value="700"/>
-        <ScoreKill value="700"/>
-        <MinimapRadius value="2.5"/>
-        <!--        <TacticalAIThink value="AIThinkCommandCenter"/>-->
-        <AIEvalFactor value="0.7"/>
-        <PlaneArray index="Ground" value="0"/>
-        <Collide index="Ground" value="0"/>
-        <Radius value="0"/>
-        <SeparationRadius value="0"/>
-        <Footprint value=""/>
-        <PlacementFootprint value=""/>
-        <GlossaryAlias value="NodConstructionYard"/>
-        <HotkeyAlias value="NodConstructionYard"/>
-        <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>
-        <SubgroupPriority value="100"/>
-    </CUnit>
-    <CUnit id="NodCrane" parent="NodStructure">
+<!--    <CUnit id="NodConstructionYardSupportModule" parent="NodStructure">-->
+<!--        <BehaviorArray index="0" Link=""/>-->
+<!--        <BehaviorArray index="1" Link=""/>-->
+<!--        <BehaviorArray Link="CNCConstructionRadius"/>-->
+<!--        <BehaviorArray Link="NodEnergyProduction"/>-->
+<!--        <BehaviorArray Link="NodLaserFence"/>-->
+<!--        <FlagArray index="Untargetable" value="1"/>-->
+<!--        <FlagArray index="PreventReveal" value="1"/>-->
+<!--        <FlagArray index="Undetectable" value="1"/>-->
+<!--        <FlagArray index="Unradarable" value="1"/>-->
+<!--        &lt;!&ndash;        <BehaviorArray Link="CNCConjoinedUnit"/>&ndash;&gt;-->
+<!--        &lt;!&ndash; <Description value="Button/Tooltip/NodConstructionYard"/> &ndash;&gt;-->
+<!--        <FlagArray index="Invulnerable" value="1"/>-->
+<!--        <FlagArray index="TownCamera" value="1"/>-->
+<!--        <LifeStart value="1500"/>-->
+<!--        <LifeMax value="1500"/>-->
+<!--        <LifeArmor value="3"/>-->
+<!--        <Sight value="11"/>-->
+<!--        <CostResource index="Minerals" value="400"/>-->
+<!--        <RepairTime value="150"/>-->
+<!--        <AttackTargetPriority value="20"/>-->
+<!--        <AbilArray Link="ChooseConjoinedConstructionModule"/>-->
+<!--        <AbilArray Link="NodConstructionSupport"/>-->
+<!--        <AbilArray Link="NodConstructionYardTrain"/>-->
+<!--        <AbilArray Link="NodConstructionSupportArm"/>-->
+<!--        <AbilArray Link="NodConstructionYardPack"/>-->
+<!--        <AbilArray Link="NodConstructionDiscard"/>-->
+<!--        <AbilArray Link="NodRepair"/>-->
+<!--        <AbilArray Link="Rally"/>-->
+<!--        <CardLayouts index="0">-->
+<!--            <LayoutButtons Face="NodEmissary" Type="AbilCmd" AbilCmd="NodConstructionYardTrain,Train1" Row="0" Column="0"/>-->
+<!--            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build7" Row="0" Column="1"/>-->
+<!--            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build6" Row="0" Column="2"/>-->
+<!--            <LayoutButtons Face="NodTurretsHub" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build1" Row="0" Column="3"/>-->
+<!--            <LayoutButtons Face="NodObelisk" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build2" Row="0" Column="4"/>-->
+<!--            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build3" Row="1" Column="0"/>-->
+<!--            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build4" Row="1" Column="1"/>-->
+<!--            <LayoutButtons Face="NodTemple" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build5" Row="1" Column="2"/>-->
+<!--            <LayoutButtons Face="NodRedeemerFacility" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build14" Row="1" Column="3"/>-->
+<!--            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo7" Row="0" Column="1"/>-->
+<!--            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo6" Row="0" Column="2"/>-->
+<!--            <LayoutButtons Face="NodTurretsHub" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo1" Row="0" Column="3"/>-->
+<!--            <LayoutButtons Face="NodObelisk" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo2" Row="0" Column="4"/>-->
+<!--            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo3" Row="1" Column="0"/>-->
+<!--            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo4" Row="1" Column="1"/>-->
+<!--            <LayoutButtons Face="NodTemple" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo5" Row="1" Column="2"/>-->
+<!--            <LayoutButtons Face="NodRedeemerFacility" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo14" Row="1" Column="3"/>-->
+<!--            <LayoutButtons Face="NodBuildingPage" Type="AbilCmd" AbilCmd="ChooseConjoinedConstructionModule,Execute" Row="2" Column="0"/>-->
+<!--            <LayoutButtons Face="NodRepair" Type="AbilCmd" AbilCmd="NodRepair,Execute" Row="2" Column="1"/>-->
+<!--            <LayoutButtons Face="NodMCVPack" Type="AbilCmd" AbilCmd="NodConstructionYardPack,Execute" Row="2" Column="2"/>-->
+<!--            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>-->
+<!--            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>-->
+<!--            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="NodConstructionDiscard,Execute" Row="2" Column="4"/>-->
+<!--        </CardLayouts>-->
+<!--        <ScoreMake value="700"/>-->
+<!--        <ScoreKill value="700"/>-->
+<!--        <MinimapRadius value="2.5"/>-->
+<!--        &lt;!&ndash;        <TacticalAIThink value="AIThinkCommandCenter"/>&ndash;&gt;-->
+<!--        <AIEvalFactor value="0.7"/>-->
+<!--        <PlaneArray index="Ground" value="0"/>-->
+<!--        <Collide index="Ground" value="0"/>-->
+<!--        <Radius value="0"/>-->
+<!--        <SeparationRadius value="0"/>-->
+<!--        <Footprint value=""/>-->
+<!--        <PlacementFootprint value=""/>-->
+<!--        <GlossaryAlias value="NodConstructionYard"/>-->
+<!--        <HotkeyAlias value="NodConstructionYard"/>-->
+<!--        <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>-->
+<!--        <SubgroupPriority value="100"/>-->
+<!--    </CUnit>-->
+    <CUnit id="NodCrane" parent="NodConstructionBase">
         <Food value="8"/>
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCDeployable"/>
-        <BehaviorArray Link="CNCTabConstruction"/>
         <BehaviorArray Link="CNCConstructionRadiusMedium"/>
-        <BehaviorArray Link="NodCraneSupportModuleCreate"/>
+<!--        <BehaviorArray Link="NodCraneSupportModuleCreate"/>-->
         <BehaviorArray Link="NodEnergyProduction"/>
         <BehaviorArray Link="CNCEnergyDrain5"/>
         <BehaviorArray Link="NodSpawnMilitantOnDeath"/>
         <SubgroupPriority value="100"/>
-        <AbilArray Link="NodConstruction"/>
-        <AbilArray Link="NodConstructionArm"/>
-        <AbilArray Link="ChooseConjoinedSupportModule"/>
-        <AbilArray Link="NodConstructionDiscard"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="NodSupportPage" Type="AbilCmd" AbilCmd="ChooseConjoinedSupportModule,Execute" Row="2" Column="2"/>
-            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="NodConstructionDiscard,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>
-            <LayoutButtons Face="NodTiberiumRefinery" Type="AbilCmd" AbilCmd="NodConstruction,Build1" Row="0" Column="0"/>
-            <LayoutButtons Face="NodPowerPlant" Type="AbilCmd" AbilCmd="NodConstruction,Build2" Row="0" Column="1"/>
-            <LayoutButtons Face="NodCrane" Type="AbilCmd" AbilCmd="NodConstruction,Build11" Row="0" Column="2"/>
-            <LayoutButtons Face="NodHand" Type="AbilCmd" AbilCmd="NodConstruction,Build4" Row="0" Column="3"/>
-            <LayoutButtons Face="NodOperationsCenter" Type="AbilCmd" AbilCmd="NodConstruction,Build6" Row="0" Column="4"/>
-            <LayoutButtons Face="NodWarFactory" Type="AbilCmd" AbilCmd="NodConstruction,Build5" Row="1" Column="0"/>
-            <LayoutButtons Face="NodAirTower" Type="AbilCmd" AbilCmd="NodConstruction,Build7" Row="1" Column="1"/>
-            <LayoutButtons Face="NodShrine" Type="AbilCmd" AbilCmd="NodConstruction,Build8" Row="1" Column="2"/>
-            <LayoutButtons Face="NodTechLab" Type="AbilCmd" AbilCmd="NodConstruction,Build9" Row="1" Column="3"/>
-            <LayoutButtons Face="NodChemicalPlant" Type="AbilCmd" AbilCmd="NodConstruction,Build10" Row="1" Column="4"/>
-            <LayoutButtons Face="NodTiberiumRefinery" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo1" Row="0" Column="0"/>
-            <LayoutButtons Face="NodPowerPlant" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo2" Row="0" Column="1"/>
-            <LayoutButtons Face="NodCrane" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo11" Row="0" Column="2"/>
-            <LayoutButtons Face="NodHand" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo4" Row="0" Column="3"/>
-            <LayoutButtons Face="NodOperationsCenter" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo6" Row="0" Column="4"/>
-            <LayoutButtons Face="NodWarFactory" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo5" Row="1" Column="0"/>
-            <LayoutButtons Face="NodAirTower" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo7" Row="1" Column="1"/>
-            <LayoutButtons Face="NodShrine" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo8" Row="1" Column="2"/>
-            <LayoutButtons Face="NodTechLab" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo9" Row="1" Column="3"/>
-            <LayoutButtons Face="NodChemicalPlant" Type="AbilCmd" AbilCmd="NodConstructionArm,Ammo10" Row="1" Column="4"/>
-        </CardLayouts>
         <LifeStart value="800"/>
         <LifeMax value="800"/>
         <StationaryTurningRate value="719.4726"/>
@@ -1271,57 +1322,59 @@
         <MinimapRadius value="1.75"/>
         <GlossaryPriority value="2"/>
         <SubgroupAlias value="NodConstructionYard"/>
+        <Name value="Unit/Name/NodCrane"/>
+        <Description value="Button/Tooltip/NodCrane"/>
     </CUnit>
-    <CUnit id="NodCraneSupportModule" parent="NodStructure">
-        <Footprint value=""/>
-        <PlacementFootprint value=""/>
-        <!-- <Description value="Unit/Description/NodCrane"/> -->
-        <FlagArray index="Untargetable" value="1"/>
-        <FlagArray index="PreventReveal" value="1"/>
-        <FlagArray index="Undetectable" value="1"/>
-        <FlagArray index="Unradarable" value="1"/>
-        <FlagArray index="TownCamera" value="1"/>
-        <PlaneArray index="Ground" value="0"/>
-        <Collide index="Ground" value="0"/>
-        <LifeStart value="800"/>
-        <LifeMax value="800"/>
-        <StationaryTurningRate value="719.4726"/>
-        <TurningRate value="719.4726"/>
-        <CostResource index="Minerals" value="150"/>
-        <RepairTime value="65"/>
-        <AbilArray Link="NodConstructionSupport"/>
-        <AbilArray Link="NodConstructionSupportArm"/>
-        <AbilArray Link="ChooseConjoinedConstructionModule"/>
-        <AbilArray Link="NodConstructionDiscard"/>
-        <BehaviorArray index="0" Link=""/>
-        <BehaviorArray index="1" Link=""/>
-        <BehaviorArray Link="CNCConstructionRadiusMedium"/>
-        <BehaviorArray Link="NodEnergyProduction"/>
-        <BehaviorArray Link="NodLaserFence"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="NodBuildingPage" Type="AbilCmd" AbilCmd="ChooseConjoinedConstructionModule,Execute" Row="2" Column="2"/>
-            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="NodConstructionDiscard,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>
-            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build7" Row="0" Column="1"/>
-            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build6" Row="0" Column="2"/>
-            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo7" Row="0" Column="1"/>
-            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo6" Row="0" Column="2"/>
-            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build3" Row="1" Column="0"/>
-            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build4" Row="1" Column="1"/>
-            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo3" Row="1" Column="0"/>
-            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo4" Row="1" Column="1"/>
-        </CardLayouts>
-        <Radius value="0"/>
-        <SeparationRadius value="0"/>
-        <ScoreMake value="150"/>
-        <ScoreKill value="150"/>
-        <SubgroupPriority value="100"/>
-        <MinimapRadius value="1.75"/>
-        <GlossaryAlias value="NodCrane"/>
-        <HotkeyAlias value="NodCrane"/>
-        <SubgroupAlias value="NodConstructionYardSupportModule"/>
-        <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>
-    </CUnit>
+<!--    <CUnit id="NodCraneSupportModule" parent="NodStructure">-->
+<!--        <Footprint value=""/>-->
+<!--        <PlacementFootprint value=""/>-->
+<!--        &lt;!&ndash; <Description value="Unit/Description/NodCrane"/> &ndash;&gt;-->
+<!--        <FlagArray index="Untargetable" value="1"/>-->
+<!--        <FlagArray index="PreventReveal" value="1"/>-->
+<!--        <FlagArray index="Undetectable" value="1"/>-->
+<!--        <FlagArray index="Unradarable" value="1"/>-->
+<!--        <FlagArray index="TownCamera" value="1"/>-->
+<!--        <PlaneArray index="Ground" value="0"/>-->
+<!--        <Collide index="Ground" value="0"/>-->
+<!--        <LifeStart value="800"/>-->
+<!--        <LifeMax value="800"/>-->
+<!--        <StationaryTurningRate value="719.4726"/>-->
+<!--        <TurningRate value="719.4726"/>-->
+<!--        <CostResource index="Minerals" value="150"/>-->
+<!--        <RepairTime value="65"/>-->
+<!--        <AbilArray Link="NodConstructionSupport"/>-->
+<!--        <AbilArray Link="NodConstructionSupportArm"/>-->
+<!--        <AbilArray Link="ChooseConjoinedConstructionModule"/>-->
+<!--        <AbilArray Link="NodConstructionDiscard"/>-->
+<!--        <BehaviorArray index="0" Link=""/>-->
+<!--        <BehaviorArray index="1" Link=""/>-->
+<!--        <BehaviorArray Link="CNCConstructionRadiusMedium"/>-->
+<!--        <BehaviorArray Link="NodEnergyProduction"/>-->
+<!--        <BehaviorArray Link="NodLaserFence"/>-->
+<!--        <CardLayouts index="0">-->
+<!--            <LayoutButtons Face="NodBuildingPage" Type="AbilCmd" AbilCmd="ChooseConjoinedConstructionModule,Execute" Row="2" Column="2"/>-->
+<!--            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="NodConstructionDiscard,Execute" Row="2" Column="4"/>-->
+<!--            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>-->
+<!--            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build7" Row="0" Column="1"/>-->
+<!--            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build6" Row="0" Column="2"/>-->
+<!--            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo7" Row="0" Column="1"/>-->
+<!--            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo6" Row="0" Column="2"/>-->
+<!--            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build3" Row="1" Column="0"/>-->
+<!--            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build4" Row="1" Column="1"/>-->
+<!--            <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo3" Row="1" Column="0"/>-->
+<!--            <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo4" Row="1" Column="1"/>-->
+<!--        </CardLayouts>-->
+<!--        <Radius value="0"/>-->
+<!--        <SeparationRadius value="0"/>-->
+<!--        <ScoreMake value="150"/>-->
+<!--        <ScoreKill value="150"/>-->
+<!--        <SubgroupPriority value="100"/>-->
+<!--        <MinimapRadius value="1.75"/>-->
+<!--        <GlossaryAlias value="NodCrane"/>-->
+<!--        <HotkeyAlias value="NodCrane"/>-->
+<!--        <SubgroupAlias value="NodConstructionYardSupportModule"/>-->
+<!--        <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>-->
+<!--    </CUnit>-->
     <!--Vest-->
     <CUnit id="NodChemicalPlantVest" parent="NodChemicalPlant">
         <Food value="0"/>
@@ -1799,6 +1852,14 @@
             <AbilLinkDisableArray value="CNCSalvage"/>
         </Modification>
     </CBehaviorBuff>
+    <!--    <CBehaviorBuff id="NodConstructionYardSupportModuleCreate">-->
+    <!--        <Duration value="0.5"/>-->
+    <!--        <ExpireEffect value="NodConstructionYardSupportModuleCU"/>-->
+    <!--    </CBehaviorBuff>-->
+    <!--    <CBehaviorBuff id="NodCraneSupportModuleCreate">-->
+    <!--        <Duration value="0.5"/>-->
+    <!--        <ExpireEffect value="NodCraneSupportModuleCU"/>-->
+    <!--    </CBehaviorBuff>-->
     <CBehaviorBuff id="NodCraneVestArmed" parent="NodVestArmed"/>
     <CBehaviorBuff id="NodPowerPlantVestArmed" parent="NodVestArmed"/>
     <CBehaviorBuff id="NodTiberiumRefineryVestArmed" parent="NodVestArmed"/>
@@ -1817,12 +1878,4 @@
     <CBehaviorBuff id="NodDisruptionTowerVestArmed" parent="NodVestSupportArmed"/>
     <CBehaviorBuff id="NodObeliskVestArmed" parent="NodVestSupportArmed"/>
     <CBehaviorBuff id="NodTurretsHubVestArmed" parent="NodVestSupportArmed"/>
-    <CBehaviorBuff id="NodConstructionYardSupportModuleCreate">
-        <Duration value="0.5"/>
-        <ExpireEffect value="NodConstructionYardSupportModuleCU"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="NodCraneSupportModuleCreate">
-        <Duration value="0.5"/>
-        <ExpireEffect value="NodCraneSupportModuleCU"/>
-    </CBehaviorBuff>
 </Catalog>

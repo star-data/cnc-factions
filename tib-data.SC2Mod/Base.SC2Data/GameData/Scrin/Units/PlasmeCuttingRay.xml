@@ -1,0 +1,68 @@
+<Catalog>
+    <CWeaponLegacy id="ScrineGaussRifle2">
+        <EditorCategories value="Race:Protoss"/>
+        <Icon value="ScrinTB\btn-upgrade-protoss-extendedthermallance-talon1.dds"/>
+        <DisplayEffect value="ScrinMarineplasma"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Period value="2"/>
+        <DamagePoint value="0.25"/>
+        <Backswing value="0.75"/>
+        <Effect value="ScrinMarineplasma"/>
+        <Range value="4"/>
+    </CWeaponLegacy>
+    <CActorBeamSimple id="ScrinBeam2" parent="GenericAttackBeam">
+        <On Terms="ActorCreation; ValidateEffect DiamondbackCharged" Send="ModelSwap DiamondbackAttackBeamCharged"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Model value="ScrinkBeam2"/>
+    </CActorBeamSimple>
+    <CActorAction id="ScrinMarineAttack5" parent="GenericAttack" effectAttack="ScrinMarineplasma">
+        <LaunchAssets Model="" Sound="Diamondback_AttackImpact"/>
+        <Beam value="ScrinBeam2"/>
+        <ImpactMap index="None" Model="" Sound="Diamondback_AttackImpact"/>
+    </CActorAction>
+    <CEffectDamage id="ScrinMarineplasma" parent="DU_WEAP">
+        <EditorCategories value="Race:Terran"/>
+        <AttributeBonus index="Armored" value="12"/>
+        <Kind value="Ranged"/>
+        <Amount value="8"/>
+    </CEffectDamage>
+    <CModel id="ScrinkBeam2" parent="PersistentSpellFX">
+        <Model value="ScrinEFM\Vaporizer_RailgunBeamStraight.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+
+
+
+
+
+    <CWeaponStrafe id="SelendisInterceptorBeam2">
+        <EditorCategories value="Race:Protoss"/>
+        <Icon value="ScrinTB\btn-upgrade-protoss-airweaponslevel3-talon.dds"/>
+        <DisplayEffect value="SelendisInterceptorU2"/>
+        <DisplayAttackCount value="2"/>
+        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="2"/>
+        <Arc value="21.9946"/>
+        <Period value="2.75"/>
+        <Effect value="SelendisInterceptorU2"/>
+    </CWeaponStrafe>
+    <CActorAction id="ScrinorAttack2" parent="GenericAttackBase">
+        <On Terms="Effect.SelendisInterceptorU2; At Caster" Send="Create"/>
+        <On Terms="Effect.SelendisInterceptorU2.Start; At Caster; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+        <LaunchAssets Sound="Interceptor_AttackLaunch"/>
+        <Beam value="ScrinBeam2"/>
+        <BeamScope value="Caster"/>
+        <ImpactMap index="None" Model="PhoenixAirAttackImpact_Upgrade" Sound="Interceptor_AttackImpact"/>
+    </CActorAction>
+    <CEffectDamage id="SelendisInterceptorU2" parent="DU_WEAP">
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <Amount value="10"/>
+    </CEffectDamage>
+    <CModel id="PhoenixAirAttackImpact_Upgrade" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\PhoenixMissileImpact_Upgrade\PhoenixMissileImpact_Upgrade.m3"/>
+        <ScaleMax value="1.200000,1.200000,1.200000"/>
+        <ScaleMin value="1.200000,1.200000,1.200000"/>
+    </CModel>
+</Catalog>

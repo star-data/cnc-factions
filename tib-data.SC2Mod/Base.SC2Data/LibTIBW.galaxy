@@ -1231,60 +1231,6 @@ void libTIBW_gf_CreateDropPod (int lp_race, point lp_location, unitgroup lp_unit
     }
 }
 
-bool libTIBW_gf_UnitHasConjoinedModule (unit lp_unit) {
-    // Automatic Variable Declarations
-    // Implementation
-    if (((UnitGetType(lp_unit) == "NodConstructionYard") || (UnitGetType(lp_unit) == "NodCrane"))) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-bool libTIBW_gf_UnitIsConjoinedModule (unit lp_unit) {
-    // Automatic Variable Declarations
-    // Implementation
-    if (((UnitGetType(lp_unit) == "NodConstructionYardSupportModule") || (UnitGetType(lp_unit) == "NodCraneSupportModule"))) {
-        return true;
-    }
-    else {
-        return false;
-    }
-}
-
-unit libTIBW_gf_Getconjoinedunit (unit lp_unit) {
-    // Variable Declarations
-    unit lv_unit;
-    string lv_conjoinednitType;
-    unit lv_conjoined;
-
-    // Automatic Variable Declarations
-    string autoAEAB880B_val;
-
-    // Variable Initialization
-    lv_unit = lp_unit;
-
-    // Implementation
-    autoAEAB880B_val = UnitGetType(lv_unit);
-    if (autoAEAB880B_val == "NodConstructionYard") {
-        lv_conjoinednitType = "NodConstructionYardSupportModule";
-    }
-    else if (autoAEAB880B_val == "NodCrane") {
-        lv_conjoinednitType = "NodCraneSupportModule";
-    }
-    else if (autoAEAB880B_val == "NodConstructionYardSupportModule") {
-        lv_conjoinednitType = "NodConstructionYard";
-    }
-    else if (autoAEAB880B_val == "NodCraneSupportModule") {
-        lv_conjoinednitType = "NodCrane";
-    }
-    else {
-    }
-    lv_conjoined = UnitGroupUnit(UnitGroup(lv_conjoinednitType, UnitGetOwner(lv_unit), RegionCircle(UnitGetPosition(lv_unit), 1.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 1), 1);
-    return lv_conjoined;
-}
-
 int libTIBW_gf_GetunitHarvestingStage (unit lp_unit) {
     // Variable Declarations
     int lv_stage;
@@ -3239,15 +3185,15 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
                 }
 
                 lv_unitDrain = 0.0;
-                if ((UnitHasBehavior(lv_u, "CNCEnergyDrain5") == true)) {
+                if ((UnitHasBehavior(lv_u, "CNCEnergyDrain5") == true) && (libTIBW_gv_pASSIVE_ENERGY_CONSUMPTION_ENABLED == true)) {
                     lv_unitDrain = 0.045;
                     lv_energyDrain = (lv_energyDrain + lv_unitDrain);
                 }
-                else if ((UnitHasBehavior(lv_u, "CNCEnergyDrain10") == true)) {
+                else if ((UnitHasBehavior(lv_u, "CNCEnergyDrain10") == true) && (libTIBW_gv_pASSIVE_ENERGY_CONSUMPTION_ENABLED == true)) {
                     lv_unitDrain = 0.09;
                     lv_energyDrain = (lv_energyDrain + lv_unitDrain);
                 }
-                else if ((UnitHasBehavior(lv_u, "CNCEnergyDrain15") == true)) {
+                else if ((UnitHasBehavior(lv_u, "CNCEnergyDrain15") == true) && (libTIBW_gv_pASSIVE_ENERGY_CONSUMPTION_ENABLED == true)) {
                     lv_unitDrain = 0.135;
                     lv_energyDrain = (lv_energyDrain + lv_unitDrain);
                 }
@@ -3496,7 +3442,6 @@ void libTIBW_gt_UntitledTrigger001_Init () {
     TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 3), c_unitAbilStageExecute, false);
     TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 8), c_unitAbilStageExecute, false);
     TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 7), c_unitAbilStageExecute, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger001, null, AbilityCommand("NodConstructionArm", 13), c_unitAbilStageExecute, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3633,371 +3578,6 @@ void libTIBW_gt_VestCreated_Init () {
     libTIBW_gt_VestCreated = TriggerCreate("libTIBW_gt_VestCreated_Func");
     TriggerAddEventUnitCreated(libTIBW_gt_VestCreated, null, "NodConstructionArm", null);
     TriggerAddEventUnitCreated(libTIBW_gt_VestCreated, null, "NodConstructionSupportArm", null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: CY Owner Changed
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_CYOwnerChanged_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_unit;
-    unit lv_conjoined;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_unit = EventUnit();
-    lv_conjoined = EventUnitCreatedUnit();
-
-    // Conditions
-    if (testConds) {
-        if (!(libTIBW_gf_UnitHasConjoinedModule(lv_unit))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
-    UnitSetOwner(lv_conjoined, EventUnitOwnerNew(), true);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_CYOwnerChanged_Init () {
-    libTIBW_gt_CYOwnerChanged = TriggerCreate("libTIBW_gt_CYOwnerChanged_Func");
-    TriggerAddEventUnitChangeOwner(libTIBW_gt_CYOwnerChanged, null);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Conjoined Behaviors Main
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConjoinedBehaviorsMain_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_unit;
-    unit lv_conjoined;
-    string lv_behavior;
-
-    // Automatic Variable Declarations
-    string auto7C2D447B_val;
-    int auto011687CA_val;
-
-    // Variable Initialization
-    lv_unit = EventUnit();
-
-    // Conditions
-    if (testConds) {
-        if (!(libTIBW_gf_UnitHasConjoinedModule(lv_unit))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
-    auto7C2D447B_val = EventUnitBehavior();
-    if (auto7C2D447B_val == "NodVestConstruction") {
-        lv_behavior = "NodVestConstruction";
-    }
-    else if (auto7C2D447B_val == "NodVestArmed") {
-        lv_behavior = "NodVestArmed";
-    }
-    else if (auto7C2D447B_val == "ChronoBoostEnergyCost") {
-        lv_behavior = "ChronoBoostEnergyCostSupport";
-    }
-    else if (auto7C2D447B_val == "Contaminated") {
-        lv_behavior = "ContaminatedSupport";
-    }
-    else if (auto7C2D447B_val == "Contaminated") {
-        lv_behavior = "ContaminatedSupport";
-    }
-    else if (auto7C2D447B_val == "NodProductionBoost") {
-        lv_behavior = "NodProductionBoostSupport";
-    }
-    else {
-        return true;
-    }
-    if ((lv_behavior != null)) {
-        auto011687CA_val = EventUnitBehaviorChange();
-        if (auto011687CA_val == c_unitBehaviorChangeCreate) {
-            UnitBehaviorAdd(lv_conjoined, lv_behavior, lv_unit, 1);
-        }
-        else if (auto011687CA_val == c_unitBehaviorChangeDestroy) {
-            UnitBehaviorRemove(lv_conjoined, lv_behavior, 1);
-        }
-        else {
-        }
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConjoinedBehaviorsMain_Init () {
-    libTIBW_gt_ConjoinedBehaviorsMain = TriggerCreate("libTIBW_gt_ConjoinedBehaviorsMain_Func");
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_ConjoinedBehaviorsMain, null, null, c_unitBehaviorChangeAny);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Conjoined Behaviors Support
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConjoinedBehaviorsSupport_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_unit;
-    unit lv_conjoined;
-    string lv_behavior;
-
-    // Automatic Variable Declarations
-    string autoF3162313_val;
-    int autoDC3329E5_val;
-
-    // Variable Initialization
-    lv_unit = EventUnit();
-
-    // Conditions
-    if (testConds) {
-        if (!(libTIBW_gf_UnitIsConjoinedModule(lv_unit))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
-    autoF3162313_val = EventUnitBehavior();
-    if (autoF3162313_val == "NodVestSupportArmed") {
-        lv_behavior = "NodVestSupportArmed";
-    }
-    else if (autoF3162313_val == "NodSupportVestConstruction") {
-        lv_behavior = "NodSupportVestConstruction";
-    }
-    else {
-        return true;
-    }
-    if ((lv_behavior != null)) {
-        autoDC3329E5_val = EventUnitBehaviorChange();
-        if (autoDC3329E5_val == c_unitBehaviorChangeCreate) {
-            UnitBehaviorAdd(lv_conjoined, lv_behavior, lv_unit, 1);
-        }
-        else if (autoDC3329E5_val == c_unitBehaviorChangeDestroy) {
-            UnitBehaviorRemove(lv_conjoined, lv_behavior, 1);
-        }
-        else {
-        }
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConjoinedBehaviorsSupport_Init () {
-    libTIBW_gt_ConjoinedBehaviorsSupport = TriggerCreate("libTIBW_gt_ConjoinedBehaviorsSupport_Func");
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_ConjoinedBehaviorsSupport, null, null, c_unitBehaviorChangeAny);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: MCV uses Rally Waypoint
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_MCVusesRallyWaypoint_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    point lv_targetPoint;
-    unit lv_targetUnit;
-    unit lv_unit;
-    unit lv_conjoined;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_targetPoint = EventUnitTargetPoint();
-    lv_targetUnit = EventUnitTargetUnit();
-    lv_unit = EventUnit();
-    lv_conjoined = EventUnit();
-
-    // Conditions
-    if (testConds) {
-        if (!((libTIBW_gf_UnitIsConjoinedModule(lv_unit) || libTIBW_gf_UnitHasConjoinedModule(lv_unit)))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
-    TriggerEnable(TriggerGetCurrent(), false);
-    if ((lv_targetUnit != null)) {
-        UnitIssueOrder(lv_conjoined, OrderTargetingUnit(AbilityCommand("Rally", 0), lv_targetUnit), c_orderQueueAddToFront);
-    }
-    else {
-        UnitIssueOrder(lv_conjoined, OrderTargetingPoint(AbilityCommand("Rally", 0), lv_targetPoint), c_orderQueueAddToFront);
-    }
-    Wait(0.625, c_timeGame);
-    TriggerEnable(TriggerGetCurrent(), true);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_MCVusesRallyWaypoint_Init () {
-    libTIBW_gt_MCVusesRallyWaypoint = TriggerCreate("libTIBW_gt_MCVusesRallyWaypoint_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_MCVusesRallyWaypoint, null, AbilityCommand("Rally", 0), c_abilRallyStagePlace, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Morph to MCV
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_MorphtoMCV_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_cY;
-    unit lv_support;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_cY = EventUnit();
-    lv_support = EventUnit();
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((UnitGetType(lv_cY) == "NodConstructionYard")) {
-        lv_support = libTIBW_gf_Getconjoinedunit(lv_cY);
-    }
-    else {
-        lv_cY = libTIBW_gf_Getconjoinedunit(lv_support);
-        UnitSelect(lv_cY, UnitGetOwner(EventUnit()), true);
-        UnitSelect(lv_support, UnitGetOwner(EventUnit()), false);
-        UnitIssueOrder(lv_cY, Order(AbilityCommand("NodConstructionYardPack", 0)), c_orderQueueReplace);
-    }
-    UnitIssueOrder(lv_cY, Order(AbilityCommand("NodConstructionDiscard", 0)), c_orderQueueAddToFront);
-    UnitIssueOrder(lv_support, Order(AbilityCommand("NodConstructionDiscard", 0)), c_orderQueueAddToFront);
-    UnitBehaviorRemove(lv_cY, "CNCConjoinedUnit", 1);
-    UnitRemove(lv_support);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_MorphtoMCV_Init () {
-    libTIBW_gt_MorphtoMCV = TriggerCreate("libTIBW_gt_MorphtoMCV_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_MorphtoMCV, null, AbilityCommand("NodConstructionYardPack", 0), c_unitAbilStageExecute, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: ChooseConjoinedSupportModule
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ChooseConjoinedSupportModule_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_unit;
-    int lv_player;
-    unit lv_conjoined;
-    unitgroup lv_currentSelection;
-    unitgroup lv_newSelection;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_unit = EventUnit();
-    lv_player = EventPlayer();
-    lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
-    lv_currentSelection = UnitGroupSelected(lv_player);
-    lv_newSelection = UnitGroupEmpty();
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    UnitSelect(lv_unit, lv_player, false);
-    UnitSelect(lv_conjoined, lv_player, true);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ChooseConjoinedSupportModule_Init () {
-    libTIBW_gt_ChooseConjoinedSupportModule = TriggerCreate("libTIBW_gt_ChooseConjoinedSupportModule_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_ChooseConjoinedSupportModule, null, AbilityCommand("ChooseConjoinedSupportModule", 0), c_unitAbilStageExecute, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_ChooseConjoinedSupportModule, null, AbilityCommand("ChooseConjoinedConstructionModule", 0), c_unitAbilStageExecute, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: CY Unit Selection
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_CYUnitSelection_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_unit;
-    unit lv_conjoined;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_unit = EventUnit();
-
-    // Conditions
-    if (testConds) {
-        if (!(libTIBW_gf_UnitHasConjoinedModule(lv_unit))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
-    UnitSelect(lv_conjoined, EventPlayer(), false);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_CYUnitSelection_Init () {
-    libTIBW_gt_CYUnitSelection = TriggerCreate("libTIBW_gt_CYUnitSelection_Func");
-    TriggerAddEventUnitSelected(libTIBW_gt_CYUnitSelection, null, c_playerAny, true);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Support Unit Selection
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_SupportUnitSelection_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_unit;
-    unit lv_conjoined;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_unit = EventUnit();
-    lv_conjoined = libTIBW_gf_Getconjoinedunit(lv_unit);
-
-    // Conditions
-    if (testConds) {
-        if (!(libTIBW_gf_UnitIsConjoinedModule(lv_unit))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((UnitGroupHasUnit(UnitGroupSelected(EventPlayer()), lv_conjoined) == true)) {
-        UnitSelect(lv_unit, EventPlayer(), false);
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_SupportUnitSelection_Init () {
-    libTIBW_gt_SupportUnitSelection = TriggerCreate("libTIBW_gt_SupportUnitSelection_Func");
-    TriggerAddEventUnitSelected(libTIBW_gt_SupportUnitSelection, null, c_playerAny, true);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -4416,6 +3996,7 @@ bool libTIBW_gt_NodBeamCannonDistantAttackDelay_Func (bool testConds, bool runAc
     unitgroup lv_venomsAll;
     unitgroup lv_beamsAttackingTarget;
     unitgroup lv_path;
+    bool lv_found;
 
     // Automatic Variable Declarations
     unitgroup auto1F0C466B_g;
@@ -4541,8 +4122,12 @@ bool libTIBW_gt_NodBeamCannonDistantAttackDelay_Func (bool testConds, bool runAc
             UnitGroupAdd(lv_path, lv_reflector);
             UnitGroupRemove(lv_venomsAll, lv_reflector);
         }
+        if ((DistanceBetweenPoints(lv_targetPosition, lv_reflectorPosition) <= 11.0)) {
+            lv_found = true;
+        }
+
     }while ((DistanceBetweenPoints(lv_targetPosition, lv_reflectorPosition) > 11.0));
-    if ((UnitGroupCount(lv_path, c_unitCountAlive) > 0)) {
+    if ((lv_found == true) && (UnitGroupCount(lv_path, c_unitCountAlive) > 0)) {
         autoDE9DBA81_g = lv_path;
         autoDE9DBA81_u = UnitGroupCount(autoDE9DBA81_g, c_unitCountAll);
         for (;; autoDE9DBA81_u -= 1) {
@@ -5270,14 +4855,6 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_UntitledTrigger002_Init();
     libTIBW_gt_UntitledTrigger004_Init();
     libTIBW_gt_VestCreated_Init();
-    libTIBW_gt_CYOwnerChanged_Init();
-    libTIBW_gt_ConjoinedBehaviorsMain_Init();
-    libTIBW_gt_ConjoinedBehaviorsSupport_Init();
-    libTIBW_gt_MCVusesRallyWaypoint_Init();
-    libTIBW_gt_MorphtoMCV_Init();
-    libTIBW_gt_ChooseConjoinedSupportModule_Init();
-    libTIBW_gt_CYUnitSelection_Init();
-    libTIBW_gt_SupportUnitSelection_Init();
     libTIBW_gt_CarryMinerals_Init();
     libTIBW_gt_CarryHYMinerals_Init();
     libTIBW_gt_CarryTiberiumMinerals_Init();

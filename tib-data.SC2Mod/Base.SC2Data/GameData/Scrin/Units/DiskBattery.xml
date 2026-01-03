@@ -1,0 +1,81 @@
+<Catalog>
+
+    <CWeaponLegacy id="ScrinPhotonCanno">
+        <EditorCategories value="Race:Protoss"/>
+        <Icon value="ScrinTB\btn-upgrade-protoss-extendedthermallance-talon1.dds"/>
+        <DisplayEffect value="ScrinPhotonCannonU2"/>
+        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="6"/>
+        <RangeSlop value="0"/>
+        <Period value="1.25"/>
+        <Effect value="ScrinsCannonLM2"/>
+    </CWeaponLegacy>
+
+
+
+
+
+
+
+
+
+
+    <CWeaponLegacy id="ScrinPhotonCanno2">
+        <EditorCategories value="Race:Protoss"/>
+        <Icon value="ScrinTB\btn-upgrade-protoss-extendedthermallance-talon1.dds"/>
+        <DisplayEffect value="ScrinPhotonCannonU2"/>
+        <DisplayAttackCount value="9"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="9"/>
+        <RangeSlop value="0"/>
+        <Period value="3.25"/>
+        <Effect value="ScrinUnknownEffect2"/>
+    </CWeaponLegacy>
+    <CEffectEnumArea id="ScrinUnknownEffect2">
+        <EditorCategories value=""/>
+        <ImpactLocation Value="TargetUnit"/>
+        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray MaxCount="3" Radius="4" Effect="scrin1ockets2"/>
+        <RecycleCount value="3"/>
+    </CEffectEnumArea>
+    <CEffectCreatePersistent id="scrin1ockets2">
+        <EditorCategories value="Race:Terran"/>
+        <WhichLocation Value="TargetUnit"/>
+        <ExpireDelay value="0.8"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="ScrinsCannonLM2"/>
+        <PeriodicPeriodArray value="0.15"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="ScrinPhotonCannonU2" parent="DU_WEAP">
+        <EditorCategories value="Race:Protoss"/>
+        <AttributeBonus index="Armored" value="8"/>
+        <Kind value="Ranged"/>
+        <Amount value="20"/>
+    </CEffectDamage>
+    <CActorMissile id="ScrinttackMissile2" parent="GenericAttackMissile" unitName="ScrinPhotonplasma">
+        <On Terms="UnitBirth" Send="AnimSetTimeScaleAbsolute Lifetime 1.000000"/>
+        <Model value="ScrinhotonC"/>
+    </CActorMissile>
+    <CActorAction id="ScrinplasamAttack2" parent="GenericAttack" effectImpact="ScrinPhotonCannonU2" effectLaunch="ScrinsCannonLM2">
+        <LaunchAttachQuery Methods="Weapon 10" Fallback="Weapon"/>
+        <LaunchAssets Sound="PhotonCannon_AttackLaunch"/>
+        <Missile value="ScrinttackMissile2"/>
+        <ImpactMap index="None" Model="PhoenixAirAttackImpact_Upgrade" Sound="PhotonCannon_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="PhotonCannonImpact" MatchKeys="Basic" Physics="PhotonCannonAttackDeathForce"/>
+    </CActorAction>
+    <CEffectLaunchMissile id="ScrinsCannonLM2">
+        <ValidatorArray index="0" value="PhotonCannonTargetFilters"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ImpactEffect value="ScrinPhotonCannonU2"/>
+        <AmmoUnit value="ScrinPhotonplasma"/>
+    </CEffectLaunchMissile>
+    <CUnit id="ScrinPhotonplasma" parent="MISSILE">
+        <Race value="Scrin"/>
+        <Mover value="TossBottle"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CMoverMissile id="TossBottle">
+        <MotionPhases Driver="Ballistic" Gravity="12" FlightTime="0.875"/>
+    </CMoverMissile>
+</Catalog>
