@@ -4,6 +4,14 @@ include "TriggerLibs/natives"
 // Library: Tiberium Wars
 //--------------------------------------------------------------------------------------------------
 // Preset Declarations
+const int libTIBW_ge__UnitDataType_Actor = 0;
+const int libTIBW_ge__UnitDataType_Integer = 1;
+const int libTIBW_ge__UnitDataType_Ping = 2;
+const int libTIBW_ge__UnitDataType_Point = 3;
+const int libTIBW_ge__UnitDataType_Region = 4;
+const int libTIBW_ge__UnitDataType_TextTag = 5;
+const int libTIBW_ge__UnitDataType_Unit = 6;
+const int libTIBW_ge__UnitDataType_UnitGroup = 7;
 const int libTIBW_ge_NEVA_NEVA_YouHaveLost = 0;
 const int libTIBW_ge_NEVA_NEVA_missionFailed = 1;
 const int libTIBW_ge_NEVA_NEVA_BattleControlTerminated = 2;
@@ -104,6 +112,9 @@ unitgroup[16] libTIBW_gv_markTarget;
 unitgroup[16] libTIBW_gv_decoyCaster;
 
 // Function Declarations
+string libTIBW_gf__UnitDataName (int lp_type, unit lp_unit, int lp_index);
+void libTIBW_gf_StorePingForUnit (unit lp_unit, int lp_index, int lp_ping);
+int libTIBW_gf_PingStoredForUnit (unit lp_unit, int lp_index);
 void libTIBW_gf_TiberiumSpawn (point lp_point, int lp_amount);
 void libTIBW_gf_AttachUnitModelToUnit (unit lp_attachmentUnit, unit lp_targetUnit, string lp_attachPont2, fixed lp_xOffset, fixed lp_yOffset, fixed lp_zOffset, string lp_facingAdjustment);
 void libTIBW_gf_Theplanetakesoff (unit lp_airplane);
@@ -136,6 +147,9 @@ void libTIBW_gf__NodDropPod (point lp_location, unitgroup lp_units, int lp_playe
 void libTIBW_gf__GDIDropPod (point lp_location, unitgroup lp_units, int lp_player);
 void libTIBW_gf_CreateDropPod (int lp_race, point lp_location, unitgroup lp_units, bool lp_waitDontWait, int lp_playerinteger);
 int libTIBW_gf_GetunitHarvestingStage (unit lp_unit);
+void libTIBW_gf_ResetUnitHarvestingState (unit lp_unit);
+void libTIBW_gf_ResetUnitCarriedVespene (unit lp_unit);
+void libTIBW_gf_ResetUnitCarriedMinerals (unit lp_unit);
 
 // Trigger Declarations
 trigger libTIBW_gt_AIRSUPPORTCREATED;
@@ -198,6 +212,9 @@ trigger libTIBW_gt_UntitledTrigger003;
 trigger libTIBW_gt_UntitledTrigger002;
 trigger libTIBW_gt_UntitledTrigger004;
 trigger libTIBW_gt_VestCreated;
+trigger libTIBW_gt_CarryVespene;
+trigger libTIBW_gt_HarvestVespeneRich;
+trigger libTIBW_gt_CarryVespeneRich;
 trigger libTIBW_gt_CarryMinerals;
 trigger libTIBW_gt_CarryHYMinerals;
 trigger libTIBW_gt_CarryTiberiumMinerals;
@@ -219,6 +236,7 @@ trigger libTIBW_gt_SalvageRefund;
 trigger libTIBW_gt_MineDrop;
 trigger libTIBW_gt_SignatureGenerator;
 trigger libTIBW_gt_ReckonerSiege;
+trigger libTIBW_gt_Test;
 trigger libTIBW_gt_GAMESTARTCheckNod;
 trigger libTIBW_gt_NodunitCreated;
 trigger libTIBW_gt_GAMESTARTNod;

@@ -308,6 +308,56 @@
     </CActorUnit>
     <CActorUnit id="NodTiberiumSilo" icon="TiberiumSilo" parent="NodBuilding">
         <Macros value="ExtractAnim"/>
+        <Model value="NodTiberiumSilo"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="SetTintColor 255,170,170"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="AnimGroupRemove D"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="SetTintColor 255,255,255"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="AnimGroupApply D"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit NoVespene" Send="DeathCustomize Empty"/>
+        <On Terms="UnitBirth.NodTiberiumSilo" Send="TimerSet 0.100000 HideGeyser"/>
+        <On Terms="TimerExpired; TimerName HideGeyser" Send="Create GeyserBuildFinishCovered"/>
+        <On Terms="ActorDestruction" Send="Create GeyserUncovered"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Extract" Send="AnimPlay Work Work 0 -1.000000 -1.000000 1.981000 AsDuration"/>
+        <BarOffset value="150"/>
+        <BarWidth value="120"/>
+        <NameOffset value="140"/>
+
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Refinery_Explode"/>
+        <DeathCustoms ModelLink="RefineryEmptyDeath" Name="Empty"/>
+        <DeathCustoms ModelLink="RefineryDeathLow" SoundLink="Terran_ExplosionMedium" Name="Low"/>
+        <BarOffset value="160"/>
+        <BarWidth value="120"/>
+        <SoundArray index="Ready" value="Refinery_Ready"/>
+        <SoundArray index="What" value="Refinery_What"/>
+        <StatusHarvesterData Text="UI/HarvesterCountVespeneCNC"/>
+    </CActorUnit>
+    <CActorUnit id="NodTiberiumSiloRich"  parent="NodBuilding" wireframe="NodTiberiumSilo" icon="TiberiumSilo">
+        <Macros value="ExtractAnim"/>
+        <Model value="NodTiberiumSilo"/>
+        <On index="35" Send="AnimPlay Birth Stand 0 0.000000"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="SetTintColor 255,170,170"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="AnimGroupRemove D"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="SetTintColor 255,255,255"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="AnimGroupApply D"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit NoVespene" Send="DeathCustomize Empty"/>
+        <On Terms="UnitBirth.NodTiberiumSiloRich" Send="TimerSet 0.100000 HideGeyser"/>
+        <CreepHeightClass value="Medium"/>
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Refinery_Explode"/>
+        <DeathCustoms ModelLink="RefineryEmptyDeath" Name="Empty"/>
+        <DeathCustoms ModelLink="RefineryDeathLow" SoundLink="Terran_ExplosionMedium" Name="Low"/>
+        <BarOffset value="160"/>
+        <BarWidth value="120"/>
+        <SoundArray index="Ready" value="Refinery_Ready"/>
+        <SoundArray index="What" value="Refinery_What"/>
+        <StatusHarvesterData Text="UI/HarvesterCountVespeneCNC"/>
+    </CActorUnit>
+    <CActorUnit id="NodAutomatedTiberiumSilo" icon="TiberiumSilo" parent="NodBuilding">
+        <Macros value="ExtractAnim"/>
+        <Model value="NodTiberiumSilo"/>
         <On index="35" Send="AnimPlay Birth Stand 0 0.000000"/>
         <On Terms="ActorCreation" Send="StatusSet Mining 0"/>
         <On Terms="Effect.AutoHarvestVespeneNod.Start" Send="TimerKill Stopped"/>
@@ -353,7 +403,7 @@
         <SoundArray index="What" value="Refinery_What"/>
 <!--        <StatusHarvesterData Text="UI/HarvesterCountVespene"/>-->
     </CActorUnit>
-    <CActorUnit id="NodTiberiumSiloRich"  parent="NodBuilding" wireframe="NodTiberiumSilo" icon="TiberiumSilo">
+    <CActorUnit id="NodAutomatedTiberiumSiloRich"  parent="NodBuilding" wireframe="NodTiberiumSilo" icon="TiberiumSilo">
         <Macros value="ExtractAnim"/>
         <Model value="NodTiberiumSilo"/>
         <On index="35" Send="AnimPlay Birth Stand 0 0.000000"/>
@@ -387,7 +437,7 @@
         <BarWidth value="120"/>
         <SoundArray index="Ready" value="Refinery_Ready"/>
         <SoundArray index="What" value="Refinery_What"/>
-        <StatusHarvesterData Text="UI/HarvesterCountVespene"/>
+<!--        <StatusHarvesterData Text="UI/HarvesterCountVespene"/>-->
     </CActorUnit>
     <CActorUnit id="NodChemicalPlant"  icon="ChemicalPlant"  parent="NodBuilding" wireframe="NodChemicalPlantWireframe">
         <Aliases value="_UnitHuge"/>

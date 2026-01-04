@@ -1,16 +1,8 @@
+
 beam cannos do not count kills
-power signature scan is broken
-power shortage do not work with no powerplant (NodEnergyProduction with PlayerHasNoPowerPlant requirement)
 
-distortionbeacon icons/wireframes. btn-nod-unit-distortionbeacon.dds
-NodHoldFire dissapears when stealth exposire is active
-overhead points
-hitboxes
 
-1) enlarge the selection hitbox of Militants, it is hard to click on them sometimes, can be annoying (especially on their legs);
-   same with Militant Rocketeers and BlackHands but a tiny amount; other infantry seems fine;
 
-allow to boost multiple structures with same power plant
 
 i am thinking to modify tiberium spawn ability. it will not costs money, tiberium will not "grow". but it will costs "tiberium waste". when nod player spend money some small amount will be collected as a "waste" in chemical plant. it can be a trade with tiberium vapour bomb and redemption which might require this waste too. redemption creates more advanced infantry which is also weird ability. currently it creates temporary "Awakened" but i can make them permenent if this ability will costs resources. choice of player will be - spawn tiberium and collect it, or use it to turn militants into awakened or use it as "tiberium vapour bomb" some kind of a storm. is this too difficult? or maybe it is just a bad idea?
 
@@ -38,7 +30,16 @@ Blades? rockets copter
 Banshee? laser aircraft
 btn-nod-ability-boobytrap model
 
+fixed:
+power signature scan is broken
+distortionbeacon icons/wireframes. btn-nod-unit-distortionbeacon.dds
+NodHoldFire dissapears when stealth exposire is active
+overhead points
+hitboxes
+1) enlarge the selection hitbox of Militants, it is hard to click on them sometimes, can be annoying (especially on their legs);
+   same with Militant Rocketeers and BlackHands but a tiny amount; other infantry seems fine;
 
+allow to boost multiple structures with same power plant
 
 
 ### BUGS

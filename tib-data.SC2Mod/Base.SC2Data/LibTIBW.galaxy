@@ -56,6 +56,60 @@ void libTIBW_InitVariables () {
 
 // Presets
 // Functions
+string libTIBW_gf__UnitDataName (int lp_type, unit lp_unit, int lp_index) {
+    // Variable Declarations
+    string lv_name;
+
+    // Automatic Variable Declarations
+    int autoCD8CFFFE_val;
+
+    // Variable Initialization
+    lv_name = "";
+
+    // Implementation
+    autoCD8CFFFE_val = lp_type;
+    if (autoCD8CFFFE_val == libTIBW_ge__UnitDataType_Actor) {
+        lv_name = "UDACTOR_";
+    }
+    else if (autoCD8CFFFE_val == libTIBW_ge__UnitDataType_Integer) {
+        lv_name = "UDINTEGER_";
+    }
+    else if (autoCD8CFFFE_val == libTIBW_ge__UnitDataType_Ping) {
+        lv_name = "UDPING_";
+    }
+    else if (autoCD8CFFFE_val == libTIBW_ge__UnitDataType_Point) {
+        lv_name = "UDPOINT_";
+    }
+    else if (autoCD8CFFFE_val == libTIBW_ge__UnitDataType_Region) {
+        lv_name = "UDREGION_";
+    }
+    else if (autoCD8CFFFE_val == libTIBW_ge__UnitDataType_TextTag) {
+        lv_name = "UDTEXTTAG_";
+    }
+    else if (autoCD8CFFFE_val == libTIBW_ge__UnitDataType_Unit) {
+        lv_name = "UDUNIT_";
+    }
+    else if (autoCD8CFFFE_val == libTIBW_ge__UnitDataType_UnitGroup) {
+        lv_name = "UDUNITGROUP_";
+    }
+    else {
+    }
+    lv_name = (lv_name + IntToString(UnitGetTag(lp_unit)) + "_" + IntToString(lp_index));
+    return lv_name;
+}
+
+void libTIBW_gf_StorePingForUnit (unit lp_unit, int lp_index, int lp_ping) {
+    // Automatic Variable Declarations
+    // Implementation
+    DataTableSetPing(true, libTIBW_gf__UnitDataName(libTIBW_ge__UnitDataType_Ping, lp_unit, lp_index), lp_ping);
+}
+
+int libTIBW_gf_PingStoredForUnit (unit lp_unit, int lp_index) {
+    // Automatic Variable Declarations
+    // Implementation
+    return DataTableGetPing(true, libTIBW_gf__UnitDataName(libTIBW_ge__UnitDataType_Ping, lp_unit, lp_index));
+}
+
 void libTIBW_gf_TiberiumSpawn (point lp_point, int lp_amount) {
     // Variable Declarations
     int lv_x;
@@ -1239,23 +1293,87 @@ int libTIBW_gf_GetunitHarvestingStage (unit lp_unit) {
     // Variable Initialization
 
     // Implementation
-    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals1") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals1") == true) || (UnitHasBehavior2(lp_unit, "CarryTiberium1") == true))) {
+    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals1") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals1") == true) || (UnitHasBehavior2(lp_unit, "CarryTiberium1") == true) || (UnitHasBehavior2(lp_unit, "CarryVespene1") == true) || (UnitHasBehavior2(lp_unit, "CarryTerrazine1") == true))) {
         lv_stage = (lv_stage + 1);
     }
 
-    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals2") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals2") == true) || (UnitHasBehavior2(lp_unit, "CarryTiberium2") == true))) {
+    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals2") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals2") == true) || (UnitHasBehavior2(lp_unit, "CarryTiberium2") == true) || (UnitHasBehavior2(lp_unit, "CarryVespene2") == true) || (UnitHasBehavior2(lp_unit, "CarryTerrazine2") == true))) {
         lv_stage = (lv_stage + 1);
     }
 
-    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals3") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals3") == true) || (UnitHasBehavior2(lp_unit, "CarryTiberium3") == true))) {
+    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals3") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals3") == true) || (UnitHasBehavior2(lp_unit, "CarryTiberium3") == true) || (UnitHasBehavior2(lp_unit, "CarryVespene3") == true) || (UnitHasBehavior2(lp_unit, "CarryTerrazine3") == true))) {
         lv_stage = (lv_stage + 1);
     }
 
-    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals4") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals4") == true) || (UnitHasBehavior2(lp_unit, "CarryTiberium4") == true))) {
+    if (((UnitHasBehavior2(lp_unit, "CarryHighYieldMinerals4") == true) || (UnitHasBehavior2(lp_unit, "CarryMinerals4") == true) || (UnitHasBehavior2(lp_unit, "CarryTiberium4") == true) || (UnitHasBehavior2(lp_unit, "CarryVespene4") == true) || (UnitHasBehavior2(lp_unit, "CarryTerrazine4") == true))) {
         lv_stage = (lv_stage + 1);
     }
 
     return lv_stage;
+}
+
+void libTIBW_gf_ResetUnitHarvestingState (unit lp_unit) {
+    // Variable Declarations
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    const int auto6B299F46_ae = 30;
+    int auto6B299F46_var;
+
+    // Variable Initialization
+    lv_unit = lp_unit;
+
+    // Implementation
+    auto6B299F46_var = 3;
+    for ( ; auto6B299F46_var <= auto6B299F46_ae; auto6B299F46_var += 1 ) {
+        UnitAbilityChangeLink(lv_unit, "CNCHarvest", (("CNCHarvest" + IntToString(UnitGetPropertyInt(lv_unit, c_unitPropCarriedMinerals, c_unitPropCurrent)))));
+        if ((UnitAbilityExists(lv_unit, (("CNCHarvest" + IntToString(auto6B299F46_var)))) == true)) {
+            UnitAbilityChangeLink(lv_unit, (("CNCHarvest" + IntToString(auto6B299F46_var))), "CNCHarvest");
+        }
+
+    }
+}
+
+void libTIBW_gf_ResetUnitCarriedVespene (unit lp_unit) {
+    // Variable Declarations
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_unit = lp_unit;
+
+    // Implementation
+    UnitBehaviorRemove(lv_unit, "CarryVespene1", 1);
+    UnitBehaviorRemove(lv_unit, "CarryVespene2", 1);
+    UnitBehaviorRemove(lv_unit, "CarryVespene3", 1);
+    UnitBehaviorRemove(lv_unit, "CarryVespene4", 1);
+    UnitBehaviorRemove(lv_unit, "CarryTerrazine1", 1);
+    UnitBehaviorRemove(lv_unit, "CarryTerrazine2", 1);
+    UnitBehaviorRemove(lv_unit, "CarryTerrazine3", 1);
+    UnitBehaviorRemove(lv_unit, "CarryTerrazine4", 1);
+}
+
+void libTIBW_gf_ResetUnitCarriedMinerals (unit lp_unit) {
+    // Variable Declarations
+    unit lv_unit;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_unit = lp_unit;
+
+    // Implementation
+    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals1", 1);
+    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals2", 1);
+    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals3", 1);
+    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals4", 1);
+    UnitBehaviorRemove(lv_unit, "CarryMinerals1", 1);
+    UnitBehaviorRemove(lv_unit, "CarryMinerals2", 1);
+    UnitBehaviorRemove(lv_unit, "CarryMinerals3", 1);
+    UnitBehaviorRemove(lv_unit, "CarryMinerals4", 1);
+    UnitBehaviorRemove(lv_unit, "CarryTiberium1", 1);
+    UnitBehaviorRemove(lv_unit, "CarryTiberium2", 1);
+    UnitBehaviorRemove(lv_unit, "CarryTiberium3", 1);
+    UnitBehaviorRemove(lv_unit, "CarryTiberium4", 1);
 }
 
 // Triggers
@@ -3007,11 +3125,9 @@ bool libTIBW_gt_PowerUsersManagement_Func (bool testConds, bool runActions) {
 void libTIBW_gt_PowerUsersManagement_Init () {
     libTIBW_gt_PowerUsersManagement = TriggerCreate("libTIBW_gt_PowerUsersManagement_Func");
     TriggerEnable(libTIBW_gt_PowerUsersManagement, false);
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain5", c_unitBehaviorChangeAny);
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain10", c_unitBehaviorChangeAny);
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain15", c_unitBehaviorChangeAny);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCPowerGeneration015", c_unitBehaviorChangeAny);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCPowerGeneration045", c_unitBehaviorChangeAny);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "NodProductionBoost", c_unitBehaviorChangeAny);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3088,7 +3204,6 @@ bool libTIBW_gt_PowerDummyInitScion_Func (bool testConds, bool runActions) {
             auto0990109D_var = PlayerGroupNextPlayer(auto0990109D_g, auto0990109D_var);
             if (auto0990109D_var < 0) { break; }
             if ((UnitGetPropertyFixed(libTIBW_gv_sCION_POWERDUMMIES[auto0990109D_var], c_unitPropEnergyMax, c_unitPropCurrent) > 0.0)) {
-                libNtve_gf_SetDialogItemTooltip(lv_genetron_energy_label_ui, (StringExternal("Param/Value/lib_TIBW_A12B8163") + (IntToText(TechTreeUnitCount(auto0990109D_var, "ProcessingCore", c_techCountCompleteOnly)) + ((StringExternal("Param/Value/lib_TIBW_95EAA164") + (StringExternal("Param/Value/lib_TIBW_C755FD04") + IntToText(TechTreeUnitCount(auto0990109D_var, "Node", c_techCountCompleteOnly)))) + (StringExternal("Param/Value/lib_TIBW_3484E0F3") + (StringExternal("Param/Value/lib_TIBW_D9EAEFC7") + IntToText(TechTreeUnitCount(auto0990109D_var, "Generator", c_techCountCompleteOnly))))))), PlayerGroupAll());
                 DialogControlSetVisible(lv_genetron_energy_panel_ui, PlayerGroupSingle(auto0990109D_var), true);
             }
             else {
@@ -3131,6 +3246,11 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
     fixed lv_unitDrain;
     fixed lv_energyGeneration;
     int lv_p;
+    text lv_tooltip;
+    int lv_genetron_energy_panel_ui;
+    int lv_genetron_energy_current_ui;
+    int lv_genetron_energy_max_ui;
+    int lv_genetron_energy_label_ui;
 
     // Automatic Variable Declarations
     playergroup auto03848070_g;
@@ -3140,12 +3260,24 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
     // Variable Initialization
     lv_players = PlayerGroupAll();
     lv_units = UnitGroup(null, c_playerAny, RegionEntireMap(), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    lv_genetron_energy_panel_ui = c_invalidDialogControlId;
+    lv_genetron_energy_current_ui = c_invalidDialogControlId;
+    lv_genetron_energy_max_ui = c_invalidDialogControlId;
+    lv_genetron_energy_label_ui = c_invalidDialogControlId;
 
     // Actions
     if (!runActions) {
         return true;
     }
 
+    DialogControlHookupStandard(c_triggerControlTypePanel, "UIContainer/FullscreenUpperContainer/GenetronEnergyPanel");
+    lv_genetron_energy_panel_ui = DialogControlLastCreated();
+    DialogControlHookupStandard(c_triggerControlTypeCountdownLabel, "UIContainer/FullscreenUpperContainer/GenetronEnergyPanel/EnergyCurrent");
+    lv_genetron_energy_current_ui = DialogControlLastCreated();
+    DialogControlHookupStandard(c_triggerControlTypeCountdownLabel, "UIContainer/FullscreenUpperContainer/GenetronEnergyPanel/EnergyMax");
+    lv_genetron_energy_max_ui = DialogControlLastCreated();
+    DialogControlHookupStandard(c_triggerControlTypeCountdownLabel, "UIContainer/FullscreenUpperContainer/GenetronEnergyPanel/EnergyLabel");
+    lv_genetron_energy_label_ui = DialogControlLastCreated();
     TriggerExecute(libTIBW_gt_PowerDummyInitScion, true, false);
     TriggerEnable(libTIBW_gt_PowerUsersManagement, true);
     Wait(1.0, c_timeGame);
@@ -3214,6 +3346,7 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
             lv_balanceUpdate = (lv_energyGeneration - lv_energyDrain);
             lv_newBalance = (lv_oldBalance + lv_balanceUpdate);
             UnitSetPropertyFixed(lv_powerDummy, c_unitPropEnergy, lv_newBalance);
+            libNtve_gf_SetDialogItemTooltip(lv_genetron_energy_label_ui, (StringExternal("Param/Value/lib_TIBW_C19FCF87") + (FixedToText((lv_energyGeneration * 4.0), 1) + (StringExternal("Param/Value/lib_TIBW_7EB49AF3") + FixedToText((lv_energyDrain * 4.0), 1)))), PlayerGroupSingle(lv_p));
             if ((lv_newBalance < 0.0) && (UnitHasBehavior2(lv_powerDummy, "PowerShortage") == false)) {
                 UnitBehaviorAdd(lv_powerDummy, "PowerShortage", lv_powerDummy, 1);
             }
@@ -3581,19 +3714,15 @@ void libTIBW_gt_VestCreated_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Carry Minerals
+// Trigger: Carry Vespene
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_CarryMinerals_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_CarryVespene_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit lv_unit;
-    int lv_stage;
 
     // Automatic Variable Declarations
-    int autoC66A8F65_val;
-
     // Variable Initialization
     lv_unit = EventUnit();
-    lv_stage = libTIBW_gf_GetunitHarvestingStage(lv_unit);
 
     // Conditions
     if (testConds) {
@@ -3607,6 +3736,140 @@ bool libTIBW_gt_CarryMinerals_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    libTIBW_gf_ResetUnitCarriedMinerals(lv_unit);
+    UnitBehaviorAdd(lv_unit, "CarryVespene1", lv_unit, 1);
+    UnitBehaviorAdd(lv_unit, "CarryVespene2", lv_unit, 1);
+    UnitBehaviorAdd(lv_unit, "CarryVespene3", lv_unit, 1);
+    UnitBehaviorAdd(lv_unit, "CarryVespene4", lv_unit, 1);
+    UnitBehaviorRemove(lv_unit, "CarryHarvestableVespeneGeyserGas", 1);
+    UnitBehaviorRemove(lv_unit, "CarryHarvestableVespeneGeyserGasProtoss", 1);
+    UnitBehaviorRemove(lv_unit, "CarryHarvestableVespeneGeyserGasZerg", 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_CarryVespene_Init () {
+    libTIBW_gt_CarryVespene = TriggerCreate("libTIBW_gt_CarryVespene_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_CarryVespene, null, "CarryHarvestableVespeneGeyserGas", c_unitBehaviorChangeCreate);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_CarryVespene, null, "CarryHarvestableVespeneGeyserGasProtoss", c_unitBehaviorChangeCreate);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_CarryVespene, null, "CarryHarvestableVespeneGeyserGasZerg", c_unitBehaviorChangeCreate);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Harvest Vespene Rich
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_HarvestVespeneRich_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+    unit lv_vespene;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_unit = EventUnit();
+    lv_vespene = EventUnitTargetUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(lv_unit) == "NodHarvester"))) {
+            return false;
+        }
+
+        if (!(((UnitHasBehavior2(lv_vespene, "HarvestableRichVespeneGeyserGas") == true) || (UnitHasBehavior2(lv_vespene, "HarvestableRichVespeneGeyserGasProtoss") == true) || (UnitHasBehavior2(lv_vespene, "HarvestableRichVespeneGeyserGasZerg") == true)))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    DataTableSetUnit(true, libTIBW_gf__UnitDataName(libTIBW_ge__UnitDataType_Unit, lv_unit, 1), lv_vespene);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_HarvestVespeneRich_Init () {
+    libTIBW_gt_HarvestVespeneRich = TriggerCreate("libTIBW_gt_HarvestVespeneRich_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_HarvestVespeneRich, null, null, c_abilHarvestStageHarvest, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Carry Vespene Rich
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_CarryVespeneRich_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+    unit lv_vespene;
+    fixed lv_addition;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_unit = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(lv_unit) == "NodHarvester"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    lv_vespene = DataTableGetUnit(true, libTIBW_gf__UnitDataName(libTIBW_ge__UnitDataType_Unit, lv_unit, 1));
+    lv_addition = MinF(UnitGetPropertyFixed(lv_vespene, c_unitPropResources, c_unitPropCurrent), 20.0);
+    UnitSetPropertyFixed(lv_unit, c_unitPropCarriedVespene, (UnitGetPropertyFixed(lv_unit, c_unitPropCarriedVespene, c_unitPropCurrent) + lv_addition));
+    UnitSetPropertyFixed(lv_vespene, c_unitPropResources, (UnitGetPropertyFixed(lv_vespene, c_unitPropResources, c_unitPropCurrent) - lv_addition));
+    libTIBW_gf_ResetUnitCarriedMinerals(lv_unit);
+    UnitBehaviorAdd(lv_unit, "CarryTerrazine1", lv_unit, 1);
+    UnitBehaviorAdd(lv_unit, "CarryTerrazine2", lv_unit, 1);
+    UnitBehaviorAdd(lv_unit, "CarryTerrazine3", lv_unit, 1);
+    UnitBehaviorAdd(lv_unit, "CarryTerrazine4", lv_unit, 1);
+    UnitBehaviorRemove(lv_unit, "CarryHarvestableRichVespeneGeyserGas", 1);
+    UnitBehaviorRemove(lv_unit, "CarryHarvestableRichVespeneGeyserGasProtoss", 1);
+    UnitBehaviorRemove(lv_unit, "CarryHarvestableRichVespeneGeyserGasZerg", 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_CarryVespeneRich_Init () {
+    libTIBW_gt_CarryVespeneRich = TriggerCreate("libTIBW_gt_CarryVespeneRich_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_CarryVespeneRich, null, "CarryHarvestableRichVespeneGeyserGas", c_unitBehaviorChangeCreate);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_CarryVespeneRich, null, "CarryHarvestableRichVespeneGeyserGasProtoss", c_unitBehaviorChangeCreate);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_CarryVespeneRich, null, "CarryHarvestableRichVespeneGeyserGasZerg", c_unitBehaviorChangeCreate);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Carry Minerals
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_CarryMinerals_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+    int lv_stage;
+
+    // Automatic Variable Declarations
+    int autoC66A8F65_val;
+
+    // Variable Initialization
+    lv_unit = EventUnit();
+
+    // Conditions
+    if (testConds) {
+        if (!((UnitGetType(lv_unit) == "NodHarvester"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_ResetUnitCarriedVespene(lv_unit);
+    lv_stage = libTIBW_gf_GetunitHarvestingStage(lv_unit);
     autoC66A8F65_val = lv_stage;
     if (autoC66A8F65_val == 0) {
         UnitBehaviorAdd(lv_unit, "CarryMinerals1", lv_unit, 1);
@@ -3646,7 +3909,6 @@ bool libTIBW_gt_CarryHYMinerals_Func (bool testConds, bool runActions) {
 
     // Variable Initialization
     lv_unit = EventUnit();
-    lv_stage = libTIBW_gf_GetunitHarvestingStage(lv_unit);
 
     // Conditions
     if (testConds) {
@@ -3660,6 +3922,8 @@ bool libTIBW_gt_CarryHYMinerals_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    libTIBW_gf_ResetUnitCarriedVespene(lv_unit);
+    lv_stage = libTIBW_gf_GetunitHarvestingStage(lv_unit);
     auto9739B9B5_val = lv_stage;
     if (auto9739B9B5_val == 0) {
         UnitBehaviorAdd(lv_unit, "CarryHighYieldMinerals1", lv_unit, 1);
@@ -3699,7 +3963,6 @@ bool libTIBW_gt_CarryTiberiumMinerals_Func (bool testConds, bool runActions) {
 
     // Variable Initialization
     lv_unit = EventUnit();
-    lv_stage = libTIBW_gf_GetunitHarvestingStage(lv_unit);
 
     // Conditions
     if (testConds) {
@@ -3713,6 +3976,8 @@ bool libTIBW_gt_CarryTiberiumMinerals_Func (bool testConds, bool runActions) {
         return true;
     }
 
+    libTIBW_gf_ResetUnitCarriedVespene(lv_unit);
+    lv_stage = libTIBW_gf_GetunitHarvestingStage(lv_unit);
     auto215C0020_val = lv_stage;
     if (auto215C0020_val == 0) {
         UnitBehaviorAdd(lv_unit, "CarryTiberium1", lv_unit, 1);
@@ -3747,9 +4012,6 @@ bool libTIBW_gt_Dropoff_Func (bool testConds, bool runActions) {
     unit lv_unit;
 
     // Automatic Variable Declarations
-    const int auto74CE2359_ae = 30;
-    int auto74CE2359_var;
-
     // Variable Initialization
     lv_unit = EventUnit();
 
@@ -3765,26 +4027,9 @@ bool libTIBW_gt_Dropoff_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals1", 1);
-    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals2", 1);
-    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals3", 1);
-    UnitBehaviorRemove(lv_unit, "CarryHighYieldMinerals4", 1);
-    UnitBehaviorRemove(lv_unit, "CarryMinerals1", 1);
-    UnitBehaviorRemove(lv_unit, "CarryMinerals2", 1);
-    UnitBehaviorRemove(lv_unit, "CarryMinerals3", 1);
-    UnitBehaviorRemove(lv_unit, "CarryMinerals4", 1);
-    UnitBehaviorRemove(lv_unit, "CarryTiberium1", 1);
-    UnitBehaviorRemove(lv_unit, "CarryTiberium2", 1);
-    UnitBehaviorRemove(lv_unit, "CarryTiberium3", 1);
-    UnitBehaviorRemove(lv_unit, "CarryTiberium4", 1);
-    auto74CE2359_var = 3;
-    for ( ; auto74CE2359_var <= auto74CE2359_ae; auto74CE2359_var += 1 ) {
-        UnitAbilityChangeLink(lv_unit, "CNCHarvest", (("CNCHarvest" + IntToString(UnitGetPropertyInt(lv_unit, c_unitPropCarriedMinerals, c_unitPropCurrent)))));
-        if ((UnitAbilityExists(lv_unit, (("CNCHarvest" + IntToString(auto74CE2359_var)))) == true)) {
-            UnitAbilityChangeLink(lv_unit, (("CNCHarvest" + IntToString(auto74CE2359_var))), "CNCHarvest");
-        }
-
-    }
+    libTIBW_gf_ResetUnitCarriedMinerals(lv_unit);
+    libTIBW_gf_ResetUnitCarriedVespene(lv_unit);
+    libTIBW_gf_ResetUnitHarvestingState(lv_unit);
     return true;
 }
 
@@ -4685,6 +4930,30 @@ void libTIBW_gt_ReckonerSiege_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Test
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    PlayerSetRace(2, "Terr");
+    PlayerSetDifficulty(2, 7);
+    GameSetSpeedValue(c_gameSpeedFaster);
+    PlayerSetRace(1, "Nod");
+    TriggerSendEvent("GAME START Nod");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_Test_Init () {
+    libTIBW_gt_Test = TriggerCreate("libTIBW_gt_Test_Func");
+    TriggerAddEventMapInit(libTIBW_gt_Test);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: GAME START Check Nod
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_GAMESTARTCheckNod_Func (bool testConds, bool runActions) {
@@ -4713,6 +4982,7 @@ bool libTIBW_gt_GAMESTARTCheckNod_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_GAMESTARTCheckNod_Init () {
     libTIBW_gt_GAMESTARTCheckNod = TriggerCreate("libTIBW_gt_GAMESTARTCheckNod_Func");
+    TriggerEnable(libTIBW_gt_GAMESTARTCheckNod, false);
     TriggerAddEventMapInit(libTIBW_gt_GAMESTARTCheckNod);
 }
 
@@ -4744,6 +5014,7 @@ bool libTIBW_gt_NodunitCreated_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_NodunitCreated_Init () {
     libTIBW_gt_NodunitCreated = TriggerCreate("libTIBW_gt_NodunitCreated_Func");
+    TriggerEnable(libTIBW_gt_NodunitCreated, false);
     TriggerAddEventUnitCreated(libTIBW_gt_NodunitCreated, null, null, null);
 }
 
@@ -4863,6 +5134,9 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_UntitledTrigger002_Init();
     libTIBW_gt_UntitledTrigger004_Init();
     libTIBW_gt_VestCreated_Init();
+    libTIBW_gt_CarryVespene_Init();
+    libTIBW_gt_HarvestVespeneRich_Init();
+    libTIBW_gt_CarryVespeneRich_Init();
     libTIBW_gt_CarryMinerals_Init();
     libTIBW_gt_CarryHYMinerals_Init();
     libTIBW_gt_CarryTiberiumMinerals_Init();
@@ -4884,6 +5158,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_MineDrop_Init();
     libTIBW_gt_SignatureGenerator_Init();
     libTIBW_gt_ReckonerSiege_Init();
+    libTIBW_gt_Test_Init();
     libTIBW_gt_GAMESTARTCheckNod_Init();
     libTIBW_gt_NodunitCreated_Init();
     libTIBW_gt_GAMESTARTNod_Init();
