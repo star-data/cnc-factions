@@ -121,6 +121,11 @@
         <EffectArray value="NodTiberiumSiloVestArmed"/>
         <EffectArray value="NodVestSupportArmed"/>
     </CEffectSet>
+    <CEffectSet id="NodVespeneRefineryChargeSet">
+        <EffectArray value="NodVespeneRefineryCharge"/>
+        <EffectArray value="NodVespeneRefineryVestArmed"/>
+        <EffectArray value="NodVestSupportArmed"/>
+    </CEffectSet>
     <CEffectSet id="NodAirSupportChargeSet">
         <EffectArray value="NodAirSupportCharge"/>
         <EffectArray value="NodAirSupportVestArmed"/>
@@ -162,6 +167,9 @@
     <CEffectModifyUnit id="NodTiberiumSiloCharge">
         <Cost Abil="NodConstructionSupport,Build7" ChargeCountUse="-1"/>
     </CEffectModifyUnit>
+    <CEffectModifyUnit id="NodVespeneRefineryCharge">
+        <Cost Abil="NodConstructionSupport,Build8" ChargeCountUse="-1"/>
+    </CEffectModifyUnit>
     <CEffectModifyUnit id="NodAirSupportCharge">
         <Cost Abil="NodConstructionSupport,Build6" ChargeCountUse="-1"/>
     </CEffectModifyUnit>
@@ -187,6 +195,10 @@
     <CEffectSet id="NodTiberiumSiloDischargeSet">
         <EffectArray value="NodTiberiumSiloDischargeSetNoRefund"/>
         <EffectArray value="NodTiberiumSiloRefund"/>
+    </CEffectSet>
+    <CEffectSet id="NodVespeneRefineryDischargeSet">
+        <EffectArray value="NodVespeneRefineryDischargeSetNoRefund"/>
+        <EffectArray value="NodVespeneRefineryRefund"/>
     </CEffectSet>
     <CEffectSet id="NodPowerPlantDischargeSet">
         <EffectArray value="NodPowerPlantDischargeSetNoRefund"/>
@@ -332,6 +344,11 @@
         <EffectArray value="NodTiberiumSiloDischarge"/>
         <EffectArray value="NodVestSupportArmedRB"/>
     </CEffectSet>
+    <CEffectSet id="NodVespeneRefineryDischargeSetNoRefund">
+        <EffectArray value="NodVespeneRefineryVestArmedRB"/>
+        <EffectArray value="NodVespeneRefineryDischarge"/>
+        <EffectArray value="NodVestSupportArmedRB"/>
+    </CEffectSet>
     <CEffectSet id="NodAirSupportDischargeSetNoRefund">
         <EffectArray value="NodAirSupportVestArmedRB"/>
         <EffectArray value="NodAirSupportDischarge"/>
@@ -346,6 +363,9 @@
         <Resources index="Minerals" value="150"/>
     </CEffectModifyPlayer>
     <CEffectModifyPlayer id="NodTiberiumSiloRefund" parent="NodVestConstructionRefund">
+        <Resources index="Minerals" value="150"/>
+    </CEffectModifyPlayer>
+    <CEffectModifyPlayer id="NodVespeneRefineryRefund" parent="NodVestConstructionRefund">
         <Resources index="Minerals" value="75"/>
     </CEffectModifyPlayer>
     <CEffectModifyPlayer id="NodPowerPlantRefund" parent="NodVestConstructionRefund">
@@ -442,6 +462,9 @@
     <CEffectModifyUnit id="NodTiberiumSiloDischarge">
         <Cost Abil="NodConstructionSupport,Build7" ChargeCountUse="1"/>
     </CEffectModifyUnit>
+    <CEffectModifyUnit id="NodVespeneRefineryDischarge">
+        <Cost Abil="NodConstructionSupport,Build8" ChargeCountUse="1"/>
+    </CEffectModifyUnit>
     <CEffectModifyUnit id="NodAirSupportDischarge">
         <Cost Abil="NodConstructionSupport,Build6" ChargeCountUse="1"/>
     </CEffectModifyUnit>
@@ -461,7 +484,7 @@
         <Cost Abil="NodConstructionSupport,Build1" ChargeCountUse="1"/>
     </CEffectModifyUnit>
 
-    <CEffectSwitch id="NodConstructonDischargePrimary">
+    <CEffectSwitch id="NodConstructionDischargePrimary">
         <CaseArray Validator="NodCraneVestArmed" Effect="NodCraneDischargeSet"/>
         <CaseArray Validator="NodChemicalPlantVestArmed" Effect="NodChemicalPlantDischargeSet"/>
         <CaseArray Validator="NodShrineVestArmed" Effect="NodShrineDischargeSet"/>
@@ -473,7 +496,8 @@
         <CaseArray Validator="NodAirTowerVestArmed" Effect="NodAirTowerDischargeSet"/>
         <CaseArray Validator="NodOperationsCenterVestArmed" Effect="NodOperationsCenterDischargeSet"/>
     </CEffectSwitch>
-    <CEffectSwitch id="NodConstructonDischargeSupport">
+    <CEffectSwitch id="NodConstructionDischargeSupport">
+        <CaseArray Validator="NodVespeneRefineryVestArmed" Effect="NodVespeneRefineryDischargeSet"/>
         <CaseArray Validator="NodTiberiumSiloVestArmed" Effect="NodTiberiumSiloDischargeSet"/>
         <CaseArray Validator="NodRedeemerFacilityVestArmed" Effect="NodRedeemerFacilityDischargeSet"/>
         <CaseArray Validator="NodAirSupportVestArmed" Effect="NodAirSupportDischargeSet"/>
@@ -486,8 +510,9 @@
 
 
 
-    <CEffectSwitch id="NodConstructonDischargeNoRefund">
+    <CEffectSwitch id="NodConstructionDischargeNoRefund">
         <CaseArray Validator="NodCraneVestArmed" Effect="NodCraneDischargeSetNoRefund"/>
+        <CaseArray Validator="NodVespeneRefineryVestArmed" Effect="NodVespeneRefineryDischargeSetNoRefund"/>
         <CaseArray Validator="NodTiberiumSiloVestArmed" Effect="NodTiberiumSiloDischargeSetNoRefund"/>
         <CaseArray Validator="NodPowerPlantVestArmed" Effect="NodPowerPlantDischargeSetNoRefund"/>
         <CaseArray Validator="NodTiberiumRefineryVestArmed" Effect="NodTiberiumRefineryDischargeSetNoRefund"/>
@@ -509,6 +534,7 @@
     <CEffectApplyBehavior id="NodVestArmed"/>
     <CEffectApplyBehavior id="NodVestSupportArmed"/>
     <CEffectApplyBehavior id="NodCraneVestArmed"/>
+    <CEffectApplyBehavior id="NodVespeneRefineryVestArmed"/>
     <CEffectApplyBehavior id="NodTiberiumSiloVestArmed"/>
     <CEffectApplyBehavior id="NodPowerPlantVestArmed"/>
     <CEffectApplyBehavior id="NodTiberiumRefineryVestArmed"/>
@@ -582,6 +608,10 @@
         <WhichUnit Value="Caster"/>
         <BehaviorLink value="NodTiberiumSiloVestArmed"/>
     </CEffectRemoveBehavior>
+    <CEffectRemoveBehavior id="NodVespeneRefineryVestArmedRB">
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="NodVespeneRefineryVestArmed"/>
+    </CEffectRemoveBehavior>
     <CEffectRemoveBehavior id="NodAirSupportVestArmedRB">
         <WhichUnit Value="Caster"/>
         <BehaviorLink value="NodAirSupportVestArmed"/>
@@ -610,18 +640,18 @@
 
 
     <CEffectSet id="NodConstructionDiscardPrimary">
-        <EffectArray value="NodConstructonDischargePrimary"/>
+        <EffectArray value="NodConstructionDischargePrimary"/>
         <EffectArray value="NodConstructionResetPrimary"/>
         <TargetLocationType value="Unknown"/>
     </CEffectSet>
     <CEffectSet id="NodConstructionDiscardSupport">
-        <EffectArray value="NodConstructonDischargeSupport"/>
+        <EffectArray value="NodConstructionDischargeSupport"/>
         <EffectArray value="NodConstructionResetSupport"/>
         <TargetLocationType value="Unknown"/>
     </CEffectSet>
 
 <!--    <CEffectSet id="NodConstructionDiscard">-->
-<!--        <EffectArray value="NodConstructonDischarge"/>-->
+<!--        <EffectArray value="NodConstructionDischarge"/>-->
 <!--        <EffectArray value="NodConstructionResetPrimary"/>-->
 <!--        <EffectArray value="NodConstructionResetSupport"/>-->
 <!--        <TargetLocationType value="Unknown"/>-->
@@ -633,7 +663,7 @@
         <ArmorReduction value="0.5"/>
     </CEffectDamage>
     <CEffectSet id="NodConstructionFinishSet">
-        <EffectArray value="NodConstructonDischargeNoRefund"/>
+        <EffectArray value="NodConstructionDischargeNoRefund"/>
         <EffectArray value="NodConstructionResetPrimary"/>
         <EffectArray value="NodUnderConstructionRB"/>
         <TargetLocationType value="Unknown"/>
@@ -645,7 +675,7 @@
         <MagazineAbil value="NodConstructionArm"/>
     </CEffectUseMagazine>
     <CEffectSet id="NodConstructionSupportFinishSet">
-        <EffectArray value="NodConstructonDischargeNoRefund"/>
+        <EffectArray value="NodConstructionDischargeNoRefund"/>
         <EffectArray value="NodConstructionResetSupport"/>
         <EffectArray value="NodUnderConstructionRB"/>
         <TargetLocationType value="Unknown"/>
@@ -845,6 +875,11 @@
             <!--            <Resource index="Minerals" value="-200"/>-->
             <Button DefaultButtonFace="NodTiberiumSilo" Requirements="PlaceNodTiberiumSilo"/>
         </InfoArray>
+        <InfoArray index="Build8" Unit="NodVespeneRefinery" Time="1.95">
+            <Charge CountMax="1" CountUse="1" Location="Unit"/>
+            <!--            <Resource index="Minerals" value="-200"/>-->
+            <Button DefaultButtonFace="NodVespeneRefinery" Requirements="PlaceNodVespeneRefinery"/>
+        </InfoArray>
         <InfoArray index="Build14" Unit="NodRedeemerFacility" Time="1.95">
             <Charge CountMax="1" CountUse="1" Location="Unit"/>
             <!--           <Resource index="Minerals" value="-300"/>-->
@@ -873,34 +908,34 @@
         <Launch value="ReleaseAtSource"/>
         <Flags index="BestUnit" value="1"/>
         <Flags index="ShowStatus" value="0"/>
-        <InfoArray index="Ammo1" Time="100" Alert="NodConstructionCompleted" Unit="NodTiberiumRefineryVest">
+        <InfoArray index="Ammo1" Time="75" Alert="NodConstructionCompleted" Unit="NodTiberiumRefineryVest">
             <Button DefaultButtonFace="NodTiberiumRefinery" Requirements="BuildNodTiberiumRefinery"/>
         </InfoArray>
-        <InfoArray index="Ammo2" Time="30" Alert="NodConstructionCompleted" Unit="NodPowerPlantVest">
+        <InfoArray index="Ammo2" Time="20" Alert="NodConstructionCompleted" Unit="NodPowerPlantVest">
             <Button DefaultButtonFace="NodPowerPlant" Requirements="BuildNodPowerPlant"/>
         </InfoArray>
-        <InfoArray index="Ammo4" Time="45" Alert="NodConstructionCompleted" Unit="NodHandVest">
+        <InfoArray index="Ammo4" Time="35" Alert="NodConstructionCompleted" Unit="NodHandVest">
             <Button DefaultButtonFace="NodHand" Requirements="BuildNodHand"/>
         </InfoArray>
-        <InfoArray index="Ammo5" Time="50" Alert="NodConstructionCompleted" Unit="NodWarFactoryVest">
+        <InfoArray index="Ammo5" Time="40" Alert="NodConstructionCompleted" Unit="NodWarFactoryVest">
             <Button DefaultButtonFace="NodWarFactory" Requirements="BuildNodWarFactory"/>
         </InfoArray>
-        <InfoArray index="Ammo6" Time="45" Alert="NodConstructionCompleted" Unit="NodOperationsCenterVest">
+        <InfoArray index="Ammo6" Time="30" Alert="NodConstructionCompleted" Unit="NodOperationsCenterVest">
             <Button DefaultButtonFace="NodOperationsCenter" Requirements="BuildNodOperationsCenter"/>
         </InfoArray>
-        <InfoArray index="Ammo7" Time="55" Alert="NodConstructionCompleted" Unit="NodAirTowerVest">
+        <InfoArray index="Ammo7" Time="40" Alert="NodConstructionCompleted" Unit="NodAirTowerVest">
             <Button DefaultButtonFace="NodAirTower" Requirements="BuildNodAirTower"/>
         </InfoArray>
-        <InfoArray index="Ammo8" Time="45" Alert="NodConstructionCompleted" Unit="NodShrineVest">
+        <InfoArray index="Ammo8" Time="30" Alert="NodConstructionCompleted" Unit="NodShrineVest">
             <Button DefaultButtonFace="NodShrine" Requirements="BuildNodShrine"/>
         </InfoArray>
-        <InfoArray index="Ammo9" Time="50" Alert="NodConstructionCompleted" Unit="NodTechLabVest">
+        <InfoArray index="Ammo9" Time="45" Alert="NodConstructionCompleted" Unit="NodTechLabVest">
             <Button DefaultButtonFace="NodTechLab" Requirements="BuildNodTechLab"/>
         </InfoArray>
-        <InfoArray index="Ammo10" Time="55" Alert="NodConstructionCompleted" Unit="NodChemicalPlantVest">
+        <InfoArray index="Ammo10" Time="45" Alert="NodConstructionCompleted" Unit="NodChemicalPlantVest">
             <Button DefaultButtonFace="NodChemicalPlant" Requirements="BuildNodChemicalPlant"/>
         </InfoArray>
-        <InfoArray index="Ammo11" Time="45" Alert="NodConstructionCompleted" Unit="NodCraneVest">
+        <InfoArray index="Ammo11" Time="30" Alert="NodConstructionCompleted" Unit="NodCraneVest">
             <Button DefaultButtonFace="NodCrane" Requirements="BuildNodCrane"/>
         </InfoArray>
         <!-- <InfoArray index="Ammo13" Time="45" Alert="NodConstructionCompleted" Unit="NodChemicalPlantVest" >
@@ -914,26 +949,29 @@
         <Launch value="ReleaseAtSource"/>
         <Flags index="BestUnit" value="1"/>
         <Flags index="ShowStatus" value="0"/>
-        <InfoArray index="Ammo1" Time="40" Alert="NodConstructionCompleted" Unit="NodTurretsHubVest">
+        <InfoArray index="Ammo1" Time="25" Alert="NodConstructionCompleted" Unit="NodTurretsHubVest">
             <Button DefaultButtonFace="NodTurretsHub" Requirements="BuildNodTurretsHub"/>
         </InfoArray>
-        <InfoArray index="Ammo2" Time="40" Alert="NodConstructionCompleted" Unit="NodObeliskVest">
+        <InfoArray index="Ammo2" Time="30" Alert="NodConstructionCompleted" Unit="NodObeliskVest">
             <Button DefaultButtonFace="NodObelisk" Requirements="BuildNodObelisk"/>
         </InfoArray>
-        <InfoArray index="Ammo3" Time="35" Alert="NodConstructionCompleted" Unit="NodDisruptionTowerVest">
+        <InfoArray index="Ammo3" Time="30" Alert="NodConstructionCompleted" Unit="NodDisruptionTowerVest">
             <Button DefaultButtonFace="NodDisruptionTower" Requirements="BuildNodDisruptionTower"/>
         </InfoArray>
-        <InfoArray index="Ammo4" Time="40" Alert="NodConstructionCompleted" Unit="NodVoiceOfKaneVest">
+        <InfoArray index="Ammo4" Time="30" Alert="NodConstructionCompleted" Unit="NodVoiceOfKaneVest">
             <Button DefaultButtonFace="NodVoiceOfKane" Requirements="BuildNodVoiceOfKane"/>
         </InfoArray>
         <InfoArray index="Ammo5" Time="60" Alert="NodConstructionCompleted" Unit="NodTempleVest">
             <Button DefaultButtonFace="NodTemple" Requirements="BuildNodTemple"/>
         </InfoArray>
-        <InfoArray index="Ammo6" Time="30" Alert="NodConstructionCompleted" Unit="NodAirSupportVest">
+        <InfoArray index="Ammo6" Time="25" Alert="NodConstructionCompleted" Unit="NodAirSupportVest">
             <Button DefaultButtonFace="NodAirSupport" Requirements="BuildNodAirSupport"/>
         </InfoArray>
-        <InfoArray index="Ammo7" Time="30" Alert="NodConstructionCompleted" Unit="NodTiberiumSiloVest">
+        <InfoArray index="Ammo7" Time="20" Alert="NodConstructionCompleted" Unit="NodTiberiumSiloVest">
             <Button DefaultButtonFace="NodTiberiumSilo" Requirements="BuildNodTiberiumSilo"/>
+        </InfoArray>
+        <InfoArray index="Ammo8" Time="20" Alert="NodConstructionCompleted" Unit="NodVespeneRefineryVest">
+            <Button DefaultButtonFace="NodVespeneRefinery" Requirements="BuildNodVespeneRefinery"/>
         </InfoArray>
         <InfoArray index="Ammo14" Time="60" Alert="NodConstructionCompleted" Unit="NodRedeemerFacilityVest">
             <Button DefaultButtonFace="NodRedeemerFacility" Requirements="BuildNodRedeemerFacility"/>
@@ -954,6 +992,7 @@
     <CValidatorUnitCompareBehaviorCount id="NodVestArmed" parent="UBC"/>
     <CValidatorUnitCompareBehaviorCount id="NodCraneVestArmed" parent="UBC"/>
     <CValidatorUnitCompareBehaviorCount id="NodTiberiumSiloVestArmed" parent="UBC"/>
+    <CValidatorUnitCompareBehaviorCount id="NodVespeneRefineryVestArmed" parent="UBC"/>
     <CValidatorUnitCompareBehaviorCount id="NodPowerPlantVestArmed" parent="UBC"/>
     <CValidatorUnitCompareBehaviorCount id="NodTiberiumRefineryVestArmed" parent="UBC"/>
     <CValidatorUnitCompareBehaviorCount id="NodHandVestArmed" parent="UBC"/>
@@ -981,6 +1020,7 @@
     <CRequirementCountUnit id="UCU_NodPowerPlantVest" parent="UCU" unit="NodPowerPlantVest"/>
     <CRequirementCountUnit id="UCU_NodCraneVest" parent="UCU" unit="NodCraneVest"/>
     <CRequirementCountUnit id="UCU_NodTiberiumSiloVest" parent="UCU" unit="NodTiberiumSiloVest"/>
+    <CRequirementCountUnit id="UCU_NodVespeneRefineryVest" parent="UCU" unit="NodVespeneRefineryVest"/>
     <CRequirementCountUnit id="UCU_NodRedeemerFacilityVest" parent="UCU" unit="NodRedeemerFacilityVest"/>
     <CRequirementCountUnit id="UCU_NodAirTowerVest" parent="UCU" unit="NodAirTowerVest"/>
     <CRequirementCountUnit id="UCU_NodAirSupportVest" parent="UCU" unit="NodAirSupportVest"/>
@@ -1000,6 +1040,7 @@
     <CRequirementCountUnit id="UQU_NodPowerPlantVest" parent="UQU" unit="NodPowerPlantVest"/>
     <CRequirementCountUnit id="UQU_NodCraneVest" parent="UQU" unit="NodCraneVest"/>
     <CRequirementCountUnit id="UQU_NodTiberiumSiloVest" parent="UQU" unit="NodTiberiumSiloVest"/>
+    <CRequirementCountUnit id="UQU_NodVespeneRefineryVest" parent="UQU" unit="NodVespeneRefineryVest"/>
     <CRequirementCountUnit id="UQU_NodRedeemerFacilityVest" parent="UQU" unit="NodRedeemerFacilityVest"/>
     <CRequirementCountUnit id="UQU_NodAirTowerVest" parent="UQU" unit="NodAirTowerVest"/>
     <CRequirementCountUnit id="UQU_NodAirSupportVest" parent="UQU" unit="NodAirSupportVest"/>
@@ -1019,6 +1060,7 @@
     <CRequirementEq id="UNU_NodPowerPlantVest" parent="UNU" unit="NodPowerPlantVest"/>
     <CRequirementEq id="UNU_NodCraneVest" parent="UNU" unit="NodCraneVest"/>
     <CRequirementEq id="UNU_NodTiberiumSiloVest" parent="UNU" unit="NodTiberiumSiloVest"/>
+    <CRequirementEq id="UNU_NodVespeneRefineryVest" parent="UNU" unit="NodVespeneRefineryVest"/>
     <CRequirementEq id="UNU_NodRedeemerFacilityVest" parent="UNU" unit="NodRedeemerFacilityVest"/>
     <CRequirementEq id="UNU_NodAirTowerVest" parent="UNU" unit="NodAirTowerVest"/>
     <CRequirementEq id="UNU_NodAirSupportVest" parent="UNU" unit="NodAirSupportVest"/>
@@ -1038,6 +1080,7 @@
     <CRequirementGTE id="PlaceNodPowerPlant" parent="PlaceNod"/>
     <CRequirementGTE id="PlaceNodCrane" parent="PlaceNod"/>
     <CRequirementGTE id="PlaceNodTiberiumSilo" parent="PlaceNod"/>
+    <CRequirementGTE id="PlaceNodVespeneRefinery" parent="PlaceNod"/>
     <CRequirementGTE id="PlaceNodRedeemerFacility" parent="PlaceNod"/>
     <CRequirementGTE id="PlaceNodAirTower" parent="PlaceNod"/>
     <CRequirementGTE id="PlaceNodAirSupport" parent="PlaceNod"/>
@@ -1066,6 +1109,7 @@
     <CRequirementAnd id="REQN_NodConstructionAdvancedArm">
         <OperandArray value="UNU_NodEmissary"/>
         <OperandArray value="UNU_NodTiberiumSiloVest"/>
+        <OperandArray value="UNU_NodVespeneRefineryVest"/>
         <OperandArray value="UNU_NodAirSupportVest"/>
         <OperandArray value="UNU_NodTurretsHubVest"/>
         <OperandArray value="UNU_NodVoiceOfKaneVest"/>
@@ -1088,6 +1132,7 @@
     </CRequirementOr>
     <CRequirementOr id="REQC_NodConstructionAdvancedArm">
         <OperandArray value="UCU_NodTiberiumSiloVest"/>
+        <OperandArray value="UCU_NodVespeneRefineryVest"/>
         <OperandArray value="UCU_NodAirSupportVest"/>
         <OperandArray value="UCU_NodTurretsHubVest"/>
         <OperandArray value="UCU_NodVoiceOfKaneVest"/>
@@ -1117,7 +1162,7 @@
         <Count Link="NodConstructionArm" State="InProgressOnly"/>
     </CRequirementCountAbil>
 
-    <CUnit id="NodConstructionBase" parent="NodStructure">
+    <CUnit id="NodConstructionBase" parent="NodStructure" default="1">
         <BehaviorArray Link="CNCTabConstruction"/>
         <BehaviorArray Link="ConstructionYardSupportModuleQueue"/>
         <AbilArray Link="NodConstruction"/>
@@ -1163,11 +1208,13 @@
             <!--            <LayoutButtons Face="NodSupportPage" Type="AbilCmd" AbilCmd="ChooseConjoinedSupportModule,Execute" Row="2" Column="0"/>-->
         </CardLayouts>
         <CardLayouts CardId="TBl2">
+            <LayoutButtons Face="NodVespeneRefinery" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build8" Row="0" Column="0"/>
             <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build7" Row="0" Column="1"/>
             <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build6" Row="0" Column="2"/>
             <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build3" Row="1" Column="0"/>
             <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build4" Row="1" Column="1"/>
 
+            <LayoutButtons Face="NodVespeneRefinery" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo8" Row="0" Column="0"/>
             <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo7" Row="0" Column="1"/>
             <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo6" Row="0" Column="2"/>
             <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo3" Row="1" Column="0"/>
@@ -1180,7 +1227,7 @@
     </CUnit>
 
     <CUnit id="NodConstructionYard" parent="NodConstructionBase">
-        <Food value="8"/>
+<!--        <Food value="8"/>-->
         <BehaviorArray Link="NodSpawnMilitantOnDeath"/>
         <BehaviorArray Link="NodLaserFence"/>
 <!--        <BehaviorArray Link="CNCConstructionRadius"/>-->
@@ -1195,7 +1242,7 @@
             <LayoutButtons Face="NodMCVPack" Type="AbilCmd" AbilCmd="NodConstructionYardPack,Execute" Row="2" Column="2"/>
         </CardLayouts>
         <CardLayouts index="2">
-             <LayoutButtons Face="NodEmissary" Type="AbilCmd" AbilCmd="NodConstructionYardTrain,Train1" Row="0" Column="0"/>
+             <LayoutButtons Face="NodEmissary" Type="AbilCmd" AbilCmd="NodConstructionYardTrain,Train1" Row="2" Column="4"/>
             <LayoutButtons Face="NodTurretsHub" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build1" Row="0" Column="3"/>
             <LayoutButtons Face="NodObelisk" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build2" Row="0" Column="4"/>
             <LayoutButtons Face="NodTemple" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build5" Row="1" Column="2"/>
@@ -1227,7 +1274,7 @@
         <!--        <TacticalAIThink value="AIThinkCommandCenter"/>-->
         <AIEvalFactor value="0.7"/>
         <GlossaryPriority value="1"/>
-        <SubgroupAlias value="NodConstructionYard"/>
+<!--        <SubgroupAlias value="NodConstructionYard"/>-->
     </CUnit>
 <!--    <CUnit id="NodConstructionYardSupportModule" parent="NodStructure">-->
 <!--        <BehaviorArray index="0" Link=""/>-->
@@ -1300,7 +1347,7 @@
 <!--        <SubgroupPriority value="100"/>-->
 <!--    </CUnit>-->
     <CUnit id="NodCrane" parent="NodConstructionBase">
-        <Food value="8"/>
+<!--        <Food value="8"/>-->
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCDeployable"/>
         <BehaviorArray Link="CNCConstructionRadiusMedium"/>
@@ -1394,7 +1441,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodCraneVest" parent="NodCrane">
         <Food value="0"/>
@@ -1414,7 +1460,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodTiberiumRefineryVest" parent="NodTiberiumRefinery">
         <Food value="0"/>
@@ -1434,7 +1479,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodHandVest" parent="NodHand">
         <Food value="0"/>
@@ -1454,7 +1498,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodWarFactoryVest" parent="NodWarFactory">
         <Food value="0"/>
@@ -1474,7 +1517,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodPowerPlantVest" parent="NodPowerPlant">
         <Food value="0"/>
@@ -1496,6 +1538,26 @@
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
     </CUnit>
     <CUnit id="NodTiberiumSiloVest" parent="NodTiberiumSilo">
+        <Food value="0"/>
+        <BehaviorArray index="0" Link=""/>
+        <BehaviorArray index="1" Link=""/>
+        <BehaviorArray index="2" Link=""/>
+        <BehaviorArray index="3" Link=""/>
+        <BehaviorArray index="4" Link=""/>
+        <BehaviorArray index="5" Link=""/>
+        <BehaviorArray index="6" Link=""/>
+        <BehaviorArray/>
+        <BehaviorArray/>
+        <BehaviorArray/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Uncursorable" value="1"/>
+        <FlagArray index="Undetectable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
+    </CUnit>
+    <CUnit id="NodVespeneRefineryVest" parent="NodVespeneRefinery">
+        <Food value="0"/>
         <BehaviorArray index="0" Link=""/>
         <BehaviorArray index="1" Link=""/>
         <BehaviorArray index="2" Link=""/>
@@ -1531,7 +1593,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodAirTowerVest" parent="NodAirTower">
         <Food value="0"/>
@@ -1551,7 +1612,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodAirSupportVest" parent="NodAirSupport">
         <BehaviorArray index="0" Link=""/>
@@ -1570,8 +1630,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="15"/>
-        <SubgroupAlias value="NodAirSupport"/>
     </CUnit>
     <CUnit id="NodTempleVest" parent="NodTemple">
         <BehaviorArray index="0" Link=""/>
@@ -1590,7 +1648,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodShrineVest" parent="NodShrine">
         <Food value="0"/>
@@ -1610,7 +1667,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodTechLabVest" parent="NodTechLab">
         <Food value="0"/>
@@ -1630,7 +1686,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodOperationsCenterVest" parent="NodOperationsCenter">
         <Food value="0"/>
@@ -1650,7 +1705,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodTurretsHubVest" parent="NodTurretsHub">
         <BehaviorArray index="0" Link=""/>
@@ -1669,7 +1723,6 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
     <CUnit id="NodVoiceOfKaneVest" parent="NodVoiceOfKane">
         <BehaviorArray index="0" Link=""/>
@@ -1724,106 +1777,7 @@
         <FlagArray index="Undetectable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Other"/>
-        <SubgroupPriority value="3"/>
     </CUnit>
-    <!--    <CAbilBuild id="NodDefenseBuild">-->
-    <!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>-->
-    <!--        <InfoArray index="Build6" Unit="NodAirSupport" Time="3">-->
-    <!--            <Charge>-->
-    <!--                <CountMax value="1"/>-->
-    <!--                <CountUse value="1"/>-->
-    <!--                <Location value="Unit"/>-->
-    <!--                <TimeStart value="40"/>-->
-    <!--                <TimeUse value="40"/>-->
-    <!--                <Flags index="EnableChargeTimeQueuing" value="1"/>-->
-    <!--            </Charge>-->
-    <!--            <Cooldown Location="Unit"/>-->
-    <!--            <Button DefaultButtonFace="NodAirSupport" State="Restricted" Requirements="BuildNodAirSupport"/>-->
-    <!--        </InfoArray>-->
-    <!--        <InfoArray index="Build7" Unit="NodTiberiumSilo" Time="3">-->
-    <!--            <Charge>-->
-    <!--                <CountMax value="1"/>-->
-    <!--                <CountUse value="1"/>-->
-    <!--                <Location value="Unit"/>-->
-    <!--                <TimeStart value="40"/>-->
-    <!--                <TimeUse value="40"/>-->
-    <!--                <Flags index="EnableChargeTimeQueuing" value="1"/>-->
-    <!--            </Charge>-->
-    <!--            <Cooldown Location="Unit"/>-->
-    <!--            <Button DefaultButtonFace="NodChemicalPlant" Requirements="BuildNodTiberiumSilo"/>-->
-    <!--            <ValidatorArray value="HasVespene"/>-->
-    <!--        </InfoArray>-->
-    <!--        <Range value="999"/>-->
-    <!--    </CAbilBuild>-->
-    <!--    <CAbilBuild id="NodDefenseBuildAdvanced">-->
-    <!--        <EditorCategories value="Race:Nod,AbilityorEffectType:Structures"/>-->
-    <!--        <InfoArray index="Build1" Unit="NodTurretsHub" Time="3">-->
-    <!--            <Charge>-->
-    <!--                <CountMax value="1"/>-->
-    <!--                <CountUse value="1"/>-->
-    <!--                <Link value="Abil/NodDefenseBuild"/>-->
-    <!--                <Location value="Unit"/>-->
-    <!--                <TimeStart value="40"/>-->
-    <!--                <TimeUse value="40"/>-->
-    <!--                <Flags index="EnableChargeTimeQueuing" value="1"/>-->
-    <!--            </Charge>-->
-    <!--            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>-->
-    <!--            <Button DefaultButtonFace="NodTurretsHub" Requirements="BuildNodTurretsHub"/>-->
-    <!--        </InfoArray>-->
-    <!--        <InfoArray index="Build2" Unit="NodObelisk" Time="3">-->
-    <!--            <Charge>-->
-    <!--                <CountMax value="1"/>-->
-    <!--                <CountUse value="1"/>-->
-    <!--                <Link value="Abil/NodDefenseBuild"/>-->
-    <!--                <Location value="Unit"/>-->
-    <!--                <TimeStart value="40"/>-->
-    <!--                <TimeUse value="40"/>-->
-    <!--                <Flags index="EnableChargeTimeQueuing" value="1"/>-->
-    <!--            </Charge>-->
-    <!--            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>-->
-    <!--            <Button DefaultButtonFace="NodObelisk" Requirements="BuildNodObeliskOfLight"/>-->
-    <!--        </InfoArray>-->
-    <!--        <InfoArray index="Build3" Unit="NodDisruptionTower" Time="3">-->
-    <!--            <Charge>-->
-    <!--                <CountMax value="1"/>-->
-    <!--                <CountUse value="1"/>-->
-    <!--                <Link value="Abil/NodDefenseBuild"/>-->
-    <!--                <Location value="Unit"/>-->
-    <!--                <TimeStart value="40"/>-->
-    <!--                <TimeUse value="40"/>-->
-    <!--                <Flags index="EnableChargeTimeQueuing" value="1"/>-->
-    <!--            </Charge>-->
-    <!--            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>-->
-    <!--            <Button DefaultButtonFace="NodDisruptionTower" Requirements="BuildNodDisruptionTower"/>-->
-    <!--        </InfoArray>-->
-    <!--        <InfoArray index="Build4" Unit="NodVoiceOfKane" Time="3">-->
-    <!--            <Charge>-->
-    <!--                <CountMax value="1"/>-->
-    <!--                <CountUse value="1"/>-->
-    <!--                <Link value="Abil/NodDefenseBuild"/>-->
-    <!--                <Location value="Unit"/>-->
-    <!--                <TimeStart value="40"/>-->
-    <!--                <TimeUse value="40"/>-->
-    <!--                <Flags index="EnableChargeTimeQueuing" value="1"/>-->
-    <!--            </Charge>-->
-    <!--            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>-->
-    <!--            <Button DefaultButtonFace="NodVoiceOfKane" Requirements="BuildNodVoiceOfKane"/>-->
-    <!--        </InfoArray>-->
-    <!--        <InfoArray index="Build5" Unit="NodTemple" Time="3">-->
-    <!--            <Charge>-->
-    <!--                <CountMax value="1"/>-->
-    <!--                <CountUse value="1"/>-->
-    <!--                <Link value="Abil/NodDefenseBuild"/>-->
-    <!--                <Location value="Unit"/>-->
-    <!--                <TimeStart value="40"/>-->
-    <!--                <TimeUse value="40"/>-->
-    <!--                <Flags index="EnableChargeTimeQueuing" value="1"/>-->
-    <!--            </Charge>-->
-    <!--            <Cooldown Link="Abil/NodDefenseBuild" Location="Unit"/>-->
-    <!--            <Button DefaultButtonFace="NodTemple" State="Restricted" Requirements="BuildNodTemple"/>-->
-    <!--        </InfoArray>-->
-    <!--        <Range value="999"/>-->
-    <!--    </CAbilBuild>-->
     <CBehaviorBuff id="NodSupportVestConstruction">
         <Modification>
             <!--            <AbilLinkDisableArray value="NodConstructionArm"/>-->
@@ -1873,6 +1827,7 @@
     <CBehaviorBuff id="NodOperationsCenterVestArmed" parent="NodVestArmed"/>
     <CBehaviorBuff id="NodTempleVestArmed" parent="NodVestSupportArmed"/>
     <CBehaviorBuff id="NodTiberiumSiloVestArmed" parent="NodVestSupportArmed"/>
+    <CBehaviorBuff id="NodVespeneRefineryVestArmed" parent="NodVestSupportArmed"/>
     <CBehaviorBuff id="NodAirSupportVestArmed" parent="NodVestSupportArmed"/>
     <CBehaviorBuff id="NodVoiceOfKaneVestArmed" parent="NodVestSupportArmed"/>
     <CBehaviorBuff id="NodDisruptionTowerVestArmed" parent="NodVestSupportArmed"/>

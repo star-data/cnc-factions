@@ -43,6 +43,7 @@ void libTIBW_InitVariables () {
     libTIBW_gv_decoration = c_invalidDialogControlId;
     libTIBW_gv_mCVPanel = c_invalidDialogId;
     libTIBW_gv_cNC_TP_DropPod_Units = UnitGroupEmpty();
+    libTIBW_gv_pASSIVE_ENERGY_CONSUMPTION_ENABLED = true;
     for (init_i = 0; init_i <= 15; init_i += 1) {
         libTIBW_gv_powerUsers[init_i] = UnitGroupEmpty();
     }
@@ -1378,6 +1379,58 @@ void libTIBW_gf_ResetUnitCarriedMinerals (unit lp_unit) {
 
 // Triggers
 //--------------------------------------------------------------------------------------------------
+// Trigger: Mechapede Segments Spawn
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_MechapedeSegmentsSpawn_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_caster;
+    unit lv_target;
+    int lv_player;
+    unitgroup lv_segments;
+    unit lv_lastSegment;
+    int lv_segmentsCount;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_caster = EventUnit();
+    lv_target = EventUnitCreatedUnit();
+    lv_player = UnitGetOwner(lv_caster);
+    lv_segments = UnitGetTrackedUnitGroup(lv_caster, "ScrinMechapedeSegmentsTracker");
+    lv_segmentsCount = UnitGroupCount(lv_segments, c_unitCountAlive);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    if ((lv_segmentsCount > 0)) {
+        lv_lastSegment = UnitGroupUnit(lv_segments, lv_segmentsCount);
+    }
+    else {
+        lv_lastSegment = lv_caster;
+    }
+    UnitSetPosition(lv_target, PointWithOffsetPolar(UnitGetPosition(lv_lastSegment), -0.75, UnitGetFacing(lv_lastSegment)), false);
+    UnitSetFacing(lv_target, UnitGetFacing(lv_lastSegment), 0.0);
+    UnitBehaviorAdd(lv_target, "ScrinMechapedeSegmentSuicideWithCaster", lv_caster, 1);
+    UnitBehaviorAdd(lv_target, "KillsToCaster", lv_caster, 1);
+    UnitBehaviorAdd(lv_target, "SuicideWithCaster", lv_lastSegment, 1);
+    UnitCreateEffectUnit(lv_caster, "ScrinMechapedeSegmentsTrackerATU", lv_target);
+    UnitCreateEffectUnit(lv_caster, "ScrinMechapedeHeadTrackerATU", lv_target);
+    Wait(0.0625, c_timeGame);
+    while ((UnitIsAlive(lv_lastSegment) == true) && (UnitIsAlive(lv_target) == true)) {
+        UnitIssueOrder(lv_target, OrderTargetingUnit(AbilityCommand("move", 0), lv_lastSegment), c_orderQueueReplace);
+        Wait(0.0625, c_timeGame);
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_MechapedeSegmentsSpawn_Init () {
+    libTIBW_gt_MechapedeSegmentsSpawn = TriggerCreate("libTIBW_gt_MechapedeSegmentsSpawn_Func");
+    TriggerAddEventUnitCreated(libTIBW_gt_MechapedeSegmentsSpawn, null, "ScrinMechapedeSegmentTrain", null);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: AIRSUPPORT CREATED
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_AIRSUPPORTCREATED_Func (bool testConds, bool runActions) {
@@ -1870,34 +1923,6 @@ void libTIBW_gt_TAKEOFFATTACK_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: NO AMMO - RETURN ( No energy)
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_NOAMMORETURNNoenergy_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_airplane;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_airplane = EventPlayerEffectUsedUnit(c_effectUnitCaster);
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((UnitGetCustomValue(lv_airplane, 11) == 0.0)) {
-        libTIBW_gf_SearchForAirportandLockit(lv_airplane, null, 0, false);
-    }
-
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_NOAMMORETURNNoenergy_Init () {
-    libTIBW_gt_NOAMMORETURNNoenergy = TriggerCreate("libTIBW_gt_NOAMMORETURNNoenergy_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: NO AMMO - RETURN
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_NOAMMORETURN_Func (bool testConds, bool runActions) {
@@ -1923,7 +1948,8 @@ bool libTIBW_gt_NOAMMORETURN_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_NOAMMORETURN_Init () {
     libTIBW_gt_NOAMMORETURN = TriggerCreate("libTIBW_gt_NOAMMORETURN_Func");
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_NOAMMORETURN, null, "CNCAirPlaneLackOfAmmo", c_unitBehaviorChangeActivate);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_NOAMMORETURN, null, "NodVertigoLackOfAmmo", c_unitBehaviorChangeActivate);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_NOAMMORETURN, null, "NodBansheeLackOfAmmo", c_unitBehaviorChangeActivate);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3125,6 +3151,9 @@ bool libTIBW_gt_PowerUsersManagement_Func (bool testConds, bool runActions) {
 void libTIBW_gt_PowerUsersManagement_Init () {
     libTIBW_gt_PowerUsersManagement = TriggerCreate("libTIBW_gt_PowerUsersManagement_Func");
     TriggerEnable(libTIBW_gt_PowerUsersManagement, false);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain5", c_unitBehaviorChangeAny);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain10", c_unitBehaviorChangeAny);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCEnergyDrain15", c_unitBehaviorChangeAny);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCPowerGeneration015", c_unitBehaviorChangeAny);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "CNCPowerGeneration045", c_unitBehaviorChangeAny);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerUsersManagement, null, "NodProductionBoost", c_unitBehaviorChangeAny);
@@ -3347,12 +3376,15 @@ bool libTIBW_gt_EnergyCalculation_Func (bool testConds, bool runActions) {
             lv_newBalance = (lv_oldBalance + lv_balanceUpdate);
             UnitSetPropertyFixed(lv_powerDummy, c_unitPropEnergy, lv_newBalance);
             libNtve_gf_SetDialogItemTooltip(lv_genetron_energy_label_ui, (StringExternal("Param/Value/lib_TIBW_C19FCF87") + (FixedToText((lv_energyGeneration * 4.0), 1) + (StringExternal("Param/Value/lib_TIBW_7EB49AF3") + FixedToText((lv_energyDrain * 4.0), 1)))), PlayerGroupSingle(lv_p));
-            if ((lv_newBalance < 0.0) && (UnitHasBehavior2(lv_powerDummy, "PowerShortage") == false)) {
-                UnitBehaviorAdd(lv_powerDummy, "PowerShortage", lv_powerDummy, 1);
+            if ((libTIBW_gv_lOW_POWER_DEBUFF == true)) {
+                if ((lv_newBalance < 0.0) && (UnitHasBehavior2(lv_powerDummy, "PowerShortage") == false)) {
+                    UnitBehaviorAdd(lv_powerDummy, "PowerShortage", lv_powerDummy, 1);
+                }
+                else if ((lv_newBalance >= 0.0) && (UnitHasBehavior2(lv_powerDummy, "PowerShortage") == true)) {
+                    UnitBehaviorRemove(lv_powerDummy, "PowerShortage", 1);
+                }
             }
-            else if ((lv_newBalance >= 0.0) && (UnitHasBehavior2(lv_powerDummy, "PowerShortage") == true)) {
-                UnitBehaviorRemove(lv_powerDummy, "PowerShortage", 1);
-            }
+
         }
     }
     return true;
@@ -3602,80 +3634,6 @@ void libTIBW_gt_UntitledTrigger003_Init () {
     TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger003, null, AbilityCommand("NodConstructionSupportArm", 1), c_unitAbilStageExecute, false);
     TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger003, null, AbilityCommand("NodConstructionSupportArm", 6), c_unitAbilStageExecute, false);
     TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger003, null, AbilityCommand("NodConstructionYardTrain", 0), c_unitAbilStageExecute, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Construction Ends
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_UntitledTrigger002_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    UnitBehaviorRemove(EventUnit(), "NodVestConstruction", 1);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_UntitledTrigger002_Init () {
-    libTIBW_gt_UntitledTrigger002 = TriggerCreate("libTIBW_gt_UntitledTrigger002_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 1), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 1), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 6), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 6), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 10), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 10), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 5), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 5), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 4), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 4), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 0), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 0), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 9), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 9), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 3), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 3), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 8), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 8), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 7), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 7), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 13), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 13), c_unitAbilStageCancel, false);
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Construction Support  Ends
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_UntitledTrigger004_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    UnitBehaviorRemove(EventUnit(), "NodSupportVestConstruction", 1);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_UntitledTrigger004_Init () {
-    libTIBW_gt_UntitledTrigger004 = TriggerCreate("libTIBW_gt_UntitledTrigger004_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 5), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 5), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 2), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 2), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 4), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 4), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 0), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 0), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 3), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 3), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 6), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 6), c_unitAbilStageCancel, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionYardTrain", 0), c_unitAbilStageComplete, false);
-    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionYardTrain", 0), c_unitAbilStageCancel, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5074,6 +5032,7 @@ void libTIBW_gt_GAMESTARTNod_Init () {
 }
 
 void libTIBW_InitTriggers () {
+    libTIBW_gt_MechapedeSegmentsSpawn_Init();
     libTIBW_gt_AIRSUPPORTCREATED_Init();
     libTIBW_gt_AIRPODCREATED_Init();
     libTIBW_gt_AIRPORTSMapINIT_Init();
@@ -5083,7 +5042,6 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_Aircraftrestorationslot_Init();
     libTIBW_gt_TAKEOFFTheeffectoftheplaneaftertakeoff_Init();
     libTIBW_gt_TAKEOFFATTACK_Init();
-    libTIBW_gt_NOAMMORETURNNoenergy_Init();
     libTIBW_gt_NOAMMORETURN_Init();
     libTIBW_gt_ENABLEAUTORETURN_Init();
     libTIBW_gt_DISABLEAUTORETURN_Init();
@@ -5131,8 +5089,6 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_NodDecoyArmyExecuteCancel_Init();
     libTIBW_gt_UntitledTrigger001_Init();
     libTIBW_gt_UntitledTrigger003_Init();
-    libTIBW_gt_UntitledTrigger002_Init();
-    libTIBW_gt_UntitledTrigger004_Init();
     libTIBW_gt_VestCreated_Init();
     libTIBW_gt_CarryVespene_Init();
     libTIBW_gt_HarvestVespeneRich_Init();

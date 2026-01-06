@@ -1,73 +1,60 @@
 <Catalog>
-
-    <CWeaponLegacy id="ScrinPhotonCanno">
+    <CWeaponLegacy id="ScrinPlasmaDiscs">
         <EditorCategories value="Race:Protoss"/>
         <Icon value="ScrinTB\btn-upgrade-protoss-extendedthermallance-talon1.dds"/>
-        <DisplayEffect value="ScrinPhotonCannonU2"/>
+        <DisplayEffect value="ScrinPlasmaDiscsDamage"/>
         <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
         <Range value="6"/>
         <RangeSlop value="0"/>
         <Period value="1.25"/>
-        <Effect value="ScrinsCannonLM2"/>
+        <Effect value="ScrinPlasmaDiscsLM"/>
     </CWeaponLegacy>
-
-
-
-
-
-
-
-
-
-
-    <CWeaponLegacy id="ScrinPhotonCanno2">
+    <CWeaponLegacy id="ScrinPlasmaDiscs3">
         <EditorCategories value="Race:Protoss"/>
         <Icon value="ScrinTB\btn-upgrade-protoss-extendedthermallance-talon1.dds"/>
-        <DisplayEffect value="ScrinPhotonCannonU2"/>
-        <DisplayAttackCount value="9"/>
+        <DisplayEffect value="ScrinPlasmaDiscsDamage"/>
+        <DisplayAttackCount value="3"/>
         <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
         <Range value="9"/>
         <RangeSlop value="0"/>
         <Period value="3.25"/>
-        <Effect value="ScrinUnknownEffect2"/>
+        <Effect value="ScrinPlasmaDiscsCP3"/>
     </CWeaponLegacy>
-    <CEffectEnumArea id="ScrinUnknownEffect2">
-        <EditorCategories value=""/>
-        <ImpactLocation Value="TargetUnit"/>
-        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray MaxCount="3" Radius="4" Effect="scrin1ockets2"/>
-        <RecycleCount value="3"/>
-    </CEffectEnumArea>
-    <CEffectCreatePersistent id="scrin1ockets2">
+    <CEffectCreatePersistent id="ScrinPlasmaDiscsCP3">
         <EditorCategories value="Race:Terran"/>
         <WhichLocation Value="TargetUnit"/>
         <ExpireDelay value="0.8"/>
         <PeriodCount value="3"/>
-        <PeriodicEffectArray value="ScrinsCannonLM2"/>
+        <PeriodicEffectArray value="ScrinPlasmaDiscsLM"/>
         <PeriodicPeriodArray value="0.15"/>
     </CEffectCreatePersistent>
-    <CEffectDamage id="ScrinPhotonCannonU2" parent="DU_WEAP">
+    <CEffectDamage id="ScrinPlasmaDiscsDamage" parent="DU_WEAP">
         <EditorCategories value="Race:Protoss"/>
-        <AttributeBonus index="Armored" value="8"/>
+        <AttributeBonus index="Armored" value="2"/>
         <Kind value="Ranged"/>
-        <Amount value="20"/>
+        <Amount value="2"/>
     </CEffectDamage>
     <CActorMissile id="ScrinttackMissile2" parent="GenericAttackMissile" unitName="ScrinPhotonplasma">
         <On Terms="UnitBirth" Send="AnimSetTimeScaleAbsolute Lifetime 1.000000"/>
         <Model value="ScrinhotonC"/>
     </CActorMissile>
-    <CActorAction id="ScrinplasamAttack2" parent="GenericAttack" effectImpact="ScrinPhotonCannonU2" effectLaunch="ScrinsCannonLM2">
+    <CModel id="ScrinhotonC" parent="MissileFX">
+        <Model value="Assets\Effects\Scrin\Adept_BoltWeaponUpgraded.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CModel>
+    <CActorAction id="ScrinplasamAttack2" parent="GenericAttack" effectImpact="ScrinPlasmaDiscsDamage" effectLaunch="ScrinPlasmaDiscsLM">
         <LaunchAttachQuery Methods="Weapon 10" Fallback="Weapon"/>
-        <LaunchAssets Sound="PhotonCannon_AttackLaunch"/>
+<!--        <LaunchAssets Sound="PhotonCannon_AttackLaunch"/>-->
+        <LaunchAssets Sound="AUJavel_rocketFire"/>
         <Missile value="ScrinttackMissile2"/>
-        <ImpactMap index="None" Model="PhoenixAirAttackImpact_Upgrade" Sound="PhotonCannon_AttackImpact"/>
+        <ImpactMap index="None" Model="PhoenixAirAttackImpact_Upgrade" Sound="ScrinSeekerWeapon_AttackImpact"/>
         <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
         <ImpactPhysics Name="PhotonCannonImpact" MatchKeys="Basic" Physics="PhotonCannonAttackDeathForce"/>
     </CActorAction>
-    <CEffectLaunchMissile id="ScrinsCannonLM2">
+    <CEffectLaunchMissile id="ScrinPlasmaDiscsLM">
         <ValidatorArray index="0" value="PhotonCannonTargetFilters"/>
         <EditorCategories value="Race:Protoss"/>
-        <ImpactEffect value="ScrinPhotonCannonU2"/>
+        <ImpactEffect value="ScrinPlasmaDiscsDamage"/>
         <AmmoUnit value="ScrinPhotonplasma"/>
     </CEffectLaunchMissile>
     <CUnit id="ScrinPhotonplasma" parent="MISSILE">

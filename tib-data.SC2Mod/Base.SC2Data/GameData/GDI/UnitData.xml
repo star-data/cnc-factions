@@ -153,6 +153,17 @@
         <AbilArray index="0" Link=""/>
     </CUnit>
     <CUnit id="GDISilo" parent="GDIStructure">
+        <BehaviorArray Link="CNCDeployable"/>
+        <BehaviorArray Link="UnderConstruction"/>
+        <LifeStart value="400"/>
+        <LifeMax value="400"/>
+        <Food value="12"/>
+        <Footprint value="Footprint2x2Contour"/>
+        <PlacementFootprint value="Footprint2x2"/>
+        <SubgroupPriority value="2"/>
+        <GlossaryPriority value="255"/>
+    </CUnit>
+    <CUnit id="GDIVespeneRefinery" parent="GDIStructure">
         <Facing value="315"/>
         <ResourceState value="Harvestable"/>
         <ResourceType value="Vespene"/>
@@ -176,13 +187,13 @@
         <BuiltOn value="ProtossVespeneGeyser"/>
         <BuiltOn value="PurifierVespeneGeyser"/>
         <BuiltOn value="ShakurasVespeneGeyser"/>
-        <BuildOnAs value="GDISiloRich"/>
+        <BuildOnAs value="GDIVespeneRefineryRich"/>
         <ScoreMake value="75"/>
         <ScoreKill value="75"/>
         <SubgroupPriority value="1"/>
         <GlossaryPriority value="244"/>
     </CUnit>
-    <CUnit id="GDISiloRich" parent="GDIStructure">
+    <CUnit id="GDIVespeneRefineryRich" parent="GDIStructure">
         <Facing value="315"/>
         <ResourceState value="Harvestable"/>
         <ResourceType value="Vespene"/>
@@ -204,9 +215,9 @@
         <ScoreMake value="75"/>
         <ScoreKill value="75"/>
         <SubgroupPriority value="1"/>
-        <GlossaryAlias value="GDISilo"/>
-        <SubgroupAlias value="GDISilo"/>
-        <HotkeyAlias value="GDISilo"/>
+        <SubgroupAlias value="GDIVespeneRefinery"/>
+        <HotkeyCategory value=""/>
+        <GlossaryCategory value=""/>
     </CUnit>
     <CUnit id="GDIBarracks" parent="GDIStructure">
         <Facing value="315"/>
@@ -610,6 +621,7 @@
         </CardLayouts>
         <CardLayouts CardId="TBl2">
             <LayoutButtons Face="GDISilo" Type="AbilCmd" AbilCmd="GDIBuildDefense,Build1" Row="0" Column="0"/>
+            <LayoutButtons Face="GDIVespeneRefinery" Type="AbilCmd" AbilCmd="GDIBuildDefense,Build3" Row="0" Column="0"/>
             <LayoutButtons Face="GDICombatSupportAirfield" Type="AbilCmd" AbilCmd="GDIBuildDefense,Build2" Row="0" Column="1"/>
             <LayoutButtons Face="CancelBuilding" Type="CancelSubmenu" Row="2" Column="4"/>
         </CardLayouts>
@@ -882,29 +894,13 @@
         <WeaponArray Link="GDIMissileTrooperWeapon"/>
         <GlossaryPriority value="35"/>
     </CUnit>
-    <CUnit id="GDIEngineer" parent="GDIInfantry">
-        <SubgroupPriority value="45"/>
-        <LifeStart value="25"/>
-        <LifeMax value="25"/>
-        <Speed value="1.6484"/>
-        <Food value="1"/>
-        <CostResource index="Minerals" value="75"/>
-        <CostResource index="Vespene" value="75"/>
-        <GlossaryPriority value="75"/>
-        <AbilArray Link="NodSabotage"/>
-        <WeaponArray Link="GDICombatEngineerWeapon"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="NodSabotage" Type="AbilCmd" AbilCmd="NodSabotage,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="NodSabotage,Cancel" Row="2" Column="4"/>
-        </CardLayouts>
-    </CUnit>
     <CUnit id="GDIGrenadier" parent="GDIInfantry">
         <LifeStart value="30"/>
         <LifeMax value="30"/>
         <Food value="1"/>
         <CostResource index="Minerals" value="50"/>
         <WeaponArray Link="GDIGrenadierWeapon"/>
-        <GlossaryPriority value="35"/>
+        <GlossaryPriority value="40"/>
         <AbilArray Link="GDIEMPGrenade"/>
         <CardLayouts index="0">
             <LayoutButtons Face="GDIEMPGrenade" Type="AbilCmd" AbilCmd="GDIEMPGrenade,Execute" Row="2" Column="0"/>
@@ -918,7 +914,7 @@
         <BehaviorArray Link="RACamouflage"/>
         <CostResource index="Minerals" value="50"/>
         <WeaponArray Link="GDISniperWeapon"/>
-        <GlossaryPriority value="35"/>
+        <GlossaryPriority value="45"/>
         <AbilArray Link="GDISpotLocation"/>
         <CardLayouts index="0">
             <LayoutButtons Face="GDISpotLocation" Type="AbilCmd" AbilCmd="GDISpotLocation,Execute" Row="2" Column="0"/>
@@ -935,7 +931,7 @@
         <CostResource index="Minerals" value="100"/>
         <CostResource index="Vespene" value="75"/>
         <WeaponArray Link="GDIZoneTrooperRail"/>
-        <GlossaryPriority value="55"/>
+        <GlossaryPriority value="50"/>
         <AbilArray Link="GDIJetpack"/>
         <CardLayouts index="0">
             <LayoutButtons Face="GDIJetpack" Type="AbilCmd" AbilCmd="GDIJetpack,Execute" Row="2" Column="0"/>
@@ -981,7 +977,23 @@
         <ScoreMake value="200"/>
         <ScoreKill value="400"/>
         <SubgroupPriority value="75"/>
-        <GlossaryPriority value="80"/>
+        <GlossaryPriority value="60"/>
+    </CUnit>
+    <CUnit id="GDIEngineer" parent="GDIInfantry">
+        <SubgroupPriority value="45"/>
+        <LifeStart value="25"/>
+        <LifeMax value="25"/>
+        <Speed value="1.6484"/>
+        <Food value="1"/>
+        <CostResource index="Minerals" value="75"/>
+        <CostResource index="Vespene" value="75"/>
+        <GlossaryPriority value="65"/>
+        <AbilArray Link="NodSabotage"/>
+        <WeaponArray Link="GDICombatEngineerWeapon"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodSabotage" Type="AbilCmd" AbilCmd="NodSabotage,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="NodSabotage,Cancel" Row="2" Column="4"/>
+        </CardLayouts>
     </CUnit>
     <!--vehicles-->
     <CUnit id="GDIMCV" parent="GDIVehicle">
@@ -1017,11 +1029,11 @@
         <SubgroupPriority value="13"/>
         <MinimapRadius value="2.5"/>
         <AIEvalFactor value="1.5"/>
-        <GlossaryPriority value="130"/>
+        <GlossaryPriority value="1"/>
         <AlliedPushPriority value="50"/>
     </CUnit>
     <CUnit id="GDISurveyor" parent="GDIVehicle">
-        <GlossaryPriority value="5"/>
+        <GlossaryPriority value="100"/>
         <SubgroupPriority value="6"/>
         <FlagArray index="Worker" value="1"/>
         <FlagArray index="ArmySelect" value="0"/>
@@ -1050,112 +1062,6 @@
         <CardLayouts index="0">
             <LayoutButtons Face="GDISurveyorDeploy" Type="AbilCmd" AbilCmd="GDISurveyorDeploy,Execute" Row="2" Column="0"/>
         </CardLayouts>
-    </CUnit>
-    <CUnit id="GDIRig" parent="GDIVehicle">
-        <GlossaryPriority value="5"/>
-        <SubgroupPriority value="6"/>
-        <DefaultAcquireLevel value="Defensive"/>
-        <Response value="Flee"/>
-        <LifeStart value="200"/>
-        <LifeMax value="200"/>
-        <Acceleration value="2.5"/>
-        <LateralAcceleration value="46"/>
-        <StationaryTurningRate value="999.8437"/>
-        <TurningRate value="999.8437"/>
-        <Sight value="8"/>
-        <CostCategory value="Economy"/>
-        <CostResource index="Minerals" value="200"/>
-        <CostResource index="Vespene" value="100"/>
-        <AIOverideTargetPriority value="10"/>
-        <KillXP value="10"/>
-        <Radius value="0.375"/>
-        <SeparationRadius value="0.375"/>
-        <InnerRadius value="0.375"/>
-        <ScoreMake value="50"/>
-        <ScoreKill value="50"/>
-        <MinimapRadius value="0.375"/>
-        <TacticalAIThink value="AIThinkSiegeTank"/>
-        <AbilArray Link="GDIRigDeploy"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="GDIRigDeploy" Type="AbilCmd" AbilCmd="GDIRigDeploy,Execute" Row="2" Column="0"/>
-        </CardLayouts>
-    </CUnit>
-    <CUnit id="GDIPitBull" parent="GDIVehicle">
-        <PushPriority value="12"/>
-        <LifeStart value="80"/>
-        <LifeMax value="80"/>
-        <Speed value="3.6015"/>
-        <Acceleration value="4.25"/>
-        <LateralAcceleration value="46"/>
-        <StationaryTurningRate value="1499.9414"/>
-        <Sight value="10"/>
-        <Food value="-2"/>
-        <CostResource index="Minerals" value="125"/>
-        <CostResource index="Vespene" value="25"/>
-        <RepairTime value="10"/>
-        <KillXP value="30"/>
-        <WeaponArray Link="GDIPitBullWeapon" Turret="Hellion"/>
-        <WeaponArray Link="GDIPitBullMortar"/>
-        <Radius value="0.625"/>
-        <SeparationRadius value="0.625"/>
-        <InnerRadius value="0.625"/>
-        <ScoreMake value="100"/>
-        <ScoreKill value="100"/>
-        <SubgroupPriority value="8"/>
-        <MinimapRadius value="0.625"/>
-        <GlossaryPriority value="95"/>
-    </CUnit>
-    <CUnit id="GDIAPC" parent="GDIVehicle">
-        <LifeStart value="160"/>
-        <LifeMax value="160"/>
-        <LifeArmor value="1"/>
-        <Speed value="3"/>
-        <LateralAcceleration value="46.0625"/>
-        <Sight value="11"/>
-        <Food value="-2"/>
-        <CostResource index="Minerals" value="150"/>
-        <AbilArray Link="BunkerTransport"/>
-        <WeaponArray Link="GDIAPCWeapon"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="BunkerLoad" Type="AbilCmd" AbilCmd="BunkerTransport,Load" Row="2" Column="2"/>
-            <LayoutButtons Face="BunkerUnloadAll" Type="AbilCmd" AbilCmd="BunkerTransport,UnloadAll" Row="2" Column="3"/>
-        </CardLayouts>
-        <Radius value="1"/>
-        <SeparationRadius value="1"/>
-        <InnerRadius value="0.875"/>
-        <CargoSize value="4"/>
-        <ScoreMake value="200"/>
-        <ScoreKill value="200"/>
-        <SubgroupPriority value="13"/>
-        <MinimapRadius value="0.875"/>
-        <TacticalAI value="SiegeTank"/>
-        <LeaderAlias value="SiegeTank"/>
-        <SelectAlias value="SiegeTank"/>
-        <GlossaryPriority value="142"/>
-        <AIEvaluateAlias value="SiegeTank"/>
-    </CUnit>
-    <CUnit id="GDIPredator" parent="GDIVehicle">
-        <LifeStart value="225"/>
-        <LifeMax value="225"/>
-        <LifeArmor value="1"/>
-        <Speed value="2.6875"/>
-        <LateralAcceleration value="115.1875"/>
-        <StationaryTurningRate value="999.8437"/>
-        <TurningRate value="999.8437"/>
-        <Food value="-3"/>
-        <CostResource index="Minerals" value="150"/>
-        <CostResource index="Vespene" value="125"/>
-        <RepairTime value="33.3332"/>
-        <KillXP value="325"/>
-        <WeaponArray Link="GDIPredatorCannon" Turret="SiegeTank"/>
-        <WeaponArray Link="GDIPredatorRailgun" Turret="SiegeTank"/>
-        <Radius value="0.6875"/>
-        <SeparationRadius value="0.65"/>
-        <ScoreMake value="200"/>
-        <ScoreKill value="400"/>
-        <SubgroupPriority value="1"/>
-        <MinimapRadius value="0.65"/>
-        <GlossaryPriority value="100"/>
     </CUnit>
     <CUnit id="GDIHarvester" parent="GDIVehicle">
         <SubgroupPriority value="6"/>
@@ -1190,7 +1096,7 @@
         <ScoreKill value="50"/>
         <MinimapRadius value="0.375"/>
         <TacticalAIThink value="AIThinkSCV"/>
-        <GlossaryPriority value="10"/>
+        <GlossaryPriority value="105"/>
         <Acceleration value="2.5"/>
         <LateralAcceleration value="46"/>
     </CUnit>
@@ -1229,6 +1135,8 @@
         <TacticalAIThink value="AIThinkSCV"/>
         <Acceleration value="2.5"/>
         <LateralAcceleration value="46"/>
+        <GlossaryPriority value="106"/>
+        <GlossaryCategory value=""/>
     </CUnit>
     <CUnit id="GDIHarvesterHeavy" parent="GDIVehicle">
         <SubgroupPriority value="6"/>
@@ -1265,6 +1173,85 @@
         <TacticalAIThink value="AIThinkSCV"/>
         <Acceleration value="2.5"/>
         <LateralAcceleration value="46"/>
+        <GlossaryCategory value=""/>
+        <GlossaryPriority value="107"/>
+    </CUnit>
+    <CUnit id="GDIAPC" parent="GDIVehicle">
+        <LifeStart value="160"/>
+        <LifeMax value="160"/>
+        <LifeArmor value="1"/>
+        <Speed value="3"/>
+        <LateralAcceleration value="46.0625"/>
+        <Sight value="11"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="150"/>
+        <AbilArray Link="BunkerTransport"/>
+        <WeaponArray Link="GDIAPCWeapon"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="BunkerLoad" Type="AbilCmd" AbilCmd="BunkerTransport,Load" Row="2" Column="2"/>
+            <LayoutButtons Face="BunkerUnloadAll" Type="AbilCmd" AbilCmd="BunkerTransport,UnloadAll" Row="2" Column="3"/>
+        </CardLayouts>
+        <Radius value="1"/>
+        <SeparationRadius value="1"/>
+        <InnerRadius value="0.875"/>
+        <CargoSize value="4"/>
+        <ScoreMake value="200"/>
+        <ScoreKill value="200"/>
+        <SubgroupPriority value="13"/>
+        <MinimapRadius value="0.875"/>
+        <TacticalAI value="SiegeTank"/>
+        <LeaderAlias value="SiegeTank"/>
+        <SelectAlias value="SiegeTank"/>
+        <GlossaryPriority value="110"/>
+        <AIEvaluateAlias value="SiegeTank"/>
+    </CUnit>
+    <CUnit id="GDIPitBull" parent="GDIVehicle">
+        <PushPriority value="12"/>
+        <LifeStart value="80"/>
+        <LifeMax value="80"/>
+        <Speed value="3.6015"/>
+        <Acceleration value="4.25"/>
+        <LateralAcceleration value="46"/>
+        <StationaryTurningRate value="1499.9414"/>
+        <Sight value="10"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="125"/>
+        <CostResource index="Vespene" value="25"/>
+        <RepairTime value="10"/>
+        <KillXP value="30"/>
+        <WeaponArray Link="GDIPitBullWeapon" Turret="Hellion"/>
+        <WeaponArray Link="GDIPitBullMortar"/>
+        <Radius value="0.625"/>
+        <SeparationRadius value="0.625"/>
+        <InnerRadius value="0.625"/>
+        <ScoreMake value="100"/>
+        <ScoreKill value="100"/>
+        <SubgroupPriority value="8"/>
+        <MinimapRadius value="0.625"/>
+        <GlossaryPriority value="115"/>
+    </CUnit>
+    <CUnit id="GDIPredator" parent="GDIVehicle">
+        <LifeStart value="225"/>
+        <LifeMax value="225"/>
+        <LifeArmor value="1"/>
+        <Speed value="2.6875"/>
+        <LateralAcceleration value="115.1875"/>
+        <StationaryTurningRate value="999.8437"/>
+        <TurningRate value="999.8437"/>
+        <Food value="-3"/>
+        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Vespene" value="125"/>
+        <RepairTime value="33.3332"/>
+        <KillXP value="325"/>
+        <WeaponArray Link="GDIPredatorCannon" Turret="SiegeTank"/>
+        <WeaponArray Link="GDIPredatorRailgun" Turret="SiegeTank"/>
+        <Radius value="0.6875"/>
+        <SeparationRadius value="0.65"/>
+        <ScoreMake value="200"/>
+        <ScoreKill value="400"/>
+        <SubgroupPriority value="1"/>
+        <MinimapRadius value="0.65"/>
+        <GlossaryPriority value="120"/>
     </CUnit>
     <CUnit id="GDISlingshot" parent="GDIVehicle">
         <PushPriority value="12"/>
@@ -1294,7 +1281,92 @@
         <ScoreKill value="100"/>
         <SubgroupPriority value="8"/>
         <MinimapRadius value="0.625"/>
-        <GlossaryPriority value="95"/>
+        <GlossaryPriority value="121"/>
+    </CUnit>
+    <CUnit id="GDIShatterer" parent="GDIVehicle">
+        <PushPriority value="12"/>
+        <LifeStart value="175"/>
+        <LifeMax value="175"/>
+        <Speed value="3.6015"/>
+        <Acceleration value="4.25"/>
+        <LateralAcceleration value="46"/>
+        <StationaryTurningRate value="1499.9414"/>
+        <Sight value="10"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="125"/>
+        <CostResource index="Vespene" value="25"/>
+        <RepairTime value="10"/>
+        <KillXP value="30"/>
+        <WeaponArray Link="GDIShattererWeapon"/>
+        <Radius value="0.625"/>
+        <SeparationRadius value="0.625"/>
+        <InnerRadius value="0.625"/>
+        <ScoreMake value="100"/>
+        <ScoreKill value="100"/>
+        <SubgroupPriority value="8"/>
+        <MinimapRadius value="0.625"/>
+        <GlossaryPriority value="122"/>
+        <AbilArray Link="GDIShattererOverloadBeam"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="GDIShattererOverloadBeam" Type="AbilCmd" AbilCmd="GDIShattererOverloadBeam,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="GDIRig" parent="GDIVehicle">
+        <GlossaryPriority value="123"/>
+        <SubgroupPriority value="6"/>
+        <DefaultAcquireLevel value="Defensive"/>
+        <Response value="Flee"/>
+        <LifeStart value="200"/>
+        <LifeMax value="200"/>
+        <Acceleration value="2.5"/>
+        <LateralAcceleration value="46"/>
+        <StationaryTurningRate value="999.8437"/>
+        <TurningRate value="999.8437"/>
+        <Sight value="8"/>
+        <CostCategory value="Economy"/>
+        <CostResource index="Minerals" value="200"/>
+        <CostResource index="Vespene" value="100"/>
+        <AIOverideTargetPriority value="10"/>
+        <KillXP value="10"/>
+        <Radius value="0.375"/>
+        <SeparationRadius value="0.375"/>
+        <InnerRadius value="0.375"/>
+        <ScoreMake value="50"/>
+        <ScoreKill value="50"/>
+        <MinimapRadius value="0.375"/>
+        <TacticalAIThink value="AIThinkSiegeTank"/>
+        <AbilArray Link="GDIRigDeploy"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="GDIRigDeploy" Type="AbilCmd" AbilCmd="GDIRigDeploy,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="GDIMammoth" parent="GDIVehicle">
+        <LifeStart value="225"/>
+        <LifeMax value="225"/>
+        <LifeArmor value="1"/>
+        <Speed value="2.6875"/>
+        <LateralAcceleration value="115.1875"/>
+        <StationaryTurningRate value="999.8437"/>
+        <TurningRate value="999.8437"/>
+        <Food value="-3"/>
+        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Vespene" value="125"/>
+        <RepairTime value="33.3332"/>
+        <KillXP value="325"/>
+        <Radius value="0.6875"/>
+        <SeparationRadius value="0.65"/>
+        <ScoreMake value="200"/>
+        <ScoreKill value="400"/>
+        <SubgroupPriority value="1"/>
+        <MinimapRadius value="0.65"/>
+        <GlossaryPriority value="124"/>
+        <AbilArray Link="GDIAdaptiveArmor"/>
+        <WeaponArray Link="GDIMammothCannon" Turret="SiegeTank"/>
+        <WeaponArray Link="GDIMammothRailgun" Turret="SiegeTank"/>
+        <WeaponArray Link="GDIMammothRockets"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="GDIAdaptiveArmor" Type="AbilCmd" AbilCmd="GDIAdaptiveArmor,Execute" Row="2" Column="0"/>
+        </CardLayouts>
     </CUnit>
     <CUnit id="GDIWolverine" parent="GDIVehicle">
         <LifeStart value="125"/>
@@ -1314,7 +1386,7 @@
         <ScoreKill value="200"/>
         <SubgroupPriority value="13"/>
         <MinimapRadius value="0.875"/>
-        <GlossaryPriority value="142"/>
+        <GlossaryPriority value="125"/>
     </CUnit>
     <CUnit id="GDITitan" parent="GDIVehicle">
         <LifeStart value="225"/>
@@ -1335,7 +1407,7 @@
         <ScoreKill value="400"/>
         <SubgroupPriority value="1"/>
         <MinimapRadius value="0.65"/>
-        <GlossaryPriority value="100"/>
+        <GlossaryPriority value="130"/>
         <AbilArray Link="GDIAdaptiveArmor"/>
         <WeaponArray Link="GDITitanCannon" Turret="SiegeTank"/>
         <WeaponArray Link="GDITitanRailgun" Turret="SiegeTank"/>
@@ -1373,67 +1445,11 @@
         <MinimapRadius value="1"/>
         <TacticalAI value="SiegeTank"/>
         <AIEvalFactor value="1.5"/>
-        <GlossaryPriority value="145"/>
+        <GlossaryPriority value="135"/>
         <PushPriority value="20"/>
         <BehaviorArray Link="Tech3"/>
         <CardLayouts index="0">
             <LayoutButtons Face="GDIBombardArea" Type="AbilCmd" AbilCmd="GDIJuggernautBombardment,Execute" Row="2" Column="0"/>
-        </CardLayouts>
-    </CUnit>
-    <CUnit id="GDIShatterer" parent="GDIVehicle">
-        <PushPriority value="12"/>
-        <LifeStart value="175"/>
-        <LifeMax value="175"/>
-        <Speed value="3.6015"/>
-        <Acceleration value="4.25"/>
-        <LateralAcceleration value="46"/>
-        <StationaryTurningRate value="1499.9414"/>
-        <Sight value="10"/>
-        <Food value="-2"/>
-        <CostResource index="Minerals" value="125"/>
-        <CostResource index="Vespene" value="25"/>
-        <RepairTime value="10"/>
-        <KillXP value="30"/>
-        <WeaponArray Link="GDIShattererWeapon"/>
-        <Radius value="0.625"/>
-        <SeparationRadius value="0.625"/>
-        <InnerRadius value="0.625"/>
-        <ScoreMake value="100"/>
-        <ScoreKill value="100"/>
-        <SubgroupPriority value="8"/>
-        <MinimapRadius value="0.625"/>
-        <GlossaryPriority value="95"/>
-        <AbilArray Link="GDIShattererOverloadBeam"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="GDIShattererOverloadBeam" Type="AbilCmd" AbilCmd="GDIShattererOverloadBeam,Execute" Row="2" Column="0"/>
-        </CardLayouts>
-    </CUnit>
-    <CUnit id="GDIMammoth" parent="GDIVehicle">
-        <LifeStart value="225"/>
-        <LifeMax value="225"/>
-        <LifeArmor value="1"/>
-        <Speed value="2.6875"/>
-        <LateralAcceleration value="115.1875"/>
-        <StationaryTurningRate value="999.8437"/>
-        <TurningRate value="999.8437"/>
-        <Food value="-3"/>
-        <CostResource index="Minerals" value="150"/>
-        <CostResource index="Vespene" value="125"/>
-        <RepairTime value="33.3332"/>
-        <KillXP value="325"/>
-        <Radius value="0.6875"/>
-        <SeparationRadius value="0.65"/>
-        <ScoreMake value="200"/>
-        <ScoreKill value="400"/>
-        <SubgroupPriority value="1"/>
-        <MinimapRadius value="0.65"/>
-        <GlossaryPriority value="100"/>
-        <AbilArray Link="GDIAdaptiveArmor"/>
-        <WeaponArray Link="GDIMammothCannon" Turret="SiegeTank"/>
-        <WeaponArray Link="GDIMammothRailgun" Turret="SiegeTank"/>
-        <WeaponArray Link="GDIMammothRockets"/>
-        <CardLayouts index="0">
-            <LayoutButtons Face="GDIAdaptiveArmor" Type="AbilCmd" AbilCmd="GDIAdaptiveArmor,Execute" Row="2" Column="0"/>
         </CardLayouts>
     </CUnit>
     <CUnit id="GDIMARV" parent="GDIVehicle">
@@ -1475,7 +1491,7 @@
         <ScoreKill value="275"/>
         <MinimapRadius value="1"/>
         <AIEvalFactor value="1.5"/>
-        <GlossaryPriority value="200"/>
+        <GlossaryPriority value="140"/>
     </CUnit>
     <CUnit id="GDIHover" parent="GDIVehicle">
         <PushPriority value="12"/>
@@ -1613,7 +1629,7 @@
         <ScoreKill value="125"/>
         <SubgroupPriority value="14"/>
         <MinimapRadius value="0.625"/>
-        <GlossaryPriority value="160"/>
+        <GlossaryPriority value="164"/>
     </CUnit>
     <CUnit id="GDIOrcaStrikeCraft" parent="GDIAir">
         <Attributes index="Armored" value="1"/>
@@ -1637,8 +1653,8 @@
         <ScoreKill value="125"/>
         <SubgroupPriority value="14"/>
         <MinimapRadius value="0.625"/>
-        <GlossaryPriority value="13"/>
-        <GlossaryCategory value=""/>
+        <GlossaryPriority value="165"/>
+<!--        <GlossaryCategory value=""/>-->
     </CUnit>
     <CUnit id="GDIHammerHead" parent="GDIAir">
         <Attributes index="Armored" value="1"/>
@@ -1679,7 +1695,7 @@
         <ScoreKill value="175"/>
         <SubgroupPriority value="14"/>
         <MinimapRadius value="0.625"/>
-        <GlossaryPriority value="160"/>
+        <GlossaryPriority value="170"/>
         <Speed value="4.4492"/>
         <Acceleration value="15"/>
         <VisionHeight value="15"/>
@@ -1712,7 +1728,7 @@
         <WeaponArray Link="GDIFirehawkRocketsAG"/>
         <!--        <WeaponArray Link="LanzerTorpedoes"/>-->
         <LifeArmor value="1"/>
-        <GlossaryPriority value="13"/>
+        <GlossaryPriority value="175"/>
         <GlossaryCategory value=""/>
     </CUnit>
     <CUnit id="GDIOx" parent="GDIAir">
@@ -1741,6 +1757,7 @@
         <SubgroupPriority value="10"/>
         <MinimapRadius value="0.75"/>
         <LeaderAlias value=""/>
+        <GlossaryPriority value="180"/>
     </CUnit>
     <CUnit id="GDIRepairDrone" parent="GDIAir"/>
     <!--other-->

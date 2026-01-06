@@ -359,6 +359,10 @@
         <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
         <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
         <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+
+        <On Terms="UnitMovementUpdate.##id##.Walk" Send="Create ##id##_MoveLoopSound"/>
+        <On Terms="UnitMovementUpdate.##id##.Stand" Target="##id##_MoveLoopSound" Send="Destroy"/>
+
         <ModelFlags index="OutlineEmitter" value="1"/>
         <StandAnimTurnTime value="5"/>
         <WalkAnimMoveSpeed value="2"/>
@@ -371,6 +375,37 @@
         <Wireframe>
             <Image value="Assets\icons\Scrin\wireframe-Scrin-unit-##icon##.dds"/>
         </Wireframe>
+        <DeathArray index="Normal" SoundLink="##unitName##_Death"/>
+        <DeathArray index="Blast" SoundLink="##unitName##_Death"/>
+        <DeathArray index="Disintegrate" SoundLink="##unitName##_Death"/>
+        <DeathArray index="Eat" AnimProps="Stand" SoundLink="##unitName##_Death"/>
+        <DeathArray index="Eviscerate" AnimProps="Death" SoundLink="##unitName##_Death"/>
+        <DeathArray index="Fire" AnimProps="Death" SoundLink="##unitName##_Death"/>
+        <DeathArray index="Silentkill" SoundLink="##unitName##_Death"/>
+        <DeathArray index="Squish" SoundLink="##unitName##_Death"/>
+        <DeathArray index="Normal" SoundLink="##unitName##_Death"/>
+        <SoundArray index="Ready" value="##unitName##_Ready"/>
+        <SoundArray index="Help" value="##unitName##_Help"/>
+        <SoundArray index="What" value="##unitName##_What"/>
+        <SoundArray index="Yes" value="##unitName##_Yes"/>
+        <SoundArray index="Attack" value="##unitName##_Attack"/>
+        <SoundArray index="Pissed" value="##unitName##_What"/>
+        <SoundArray index="Birth" value="##unitName##_Ready"/>
+        <SoundArray index="Movement" value="##unitName##_Movement"/>
+        <SoundArray index="Turning" value="MarineTurning"/>
+        <SoundArray index="Board" value="MarineBoard"/>
+        <SoundArray index="Click" value="MarineClick"/>
+        <SoundArray index="ClickError" value="MarineClickError"/>
+        <SoundArray index="Highlight" value="MarineHighlight"/>
+        <GroupSoundArray index="What" value="##unitName##_What"/>
+        <GroupSoundArray index="Yes" value="##unitName##_Yes"/>
+        <GroupSoundArray index="Attack" value="##unitName##_Attack"/>
+        <GroupSoundArray index="Board" value="MarineGroupBoard"/>
+        <ErrorArray Error="CantSeeBuildLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantSeeLandLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantBuildLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantLandLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CouldntReachTarget" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
     </CActorUnit>
     <CActorUnit default="1" id="ScrinInfantry" parent="ScrinUnitBase">
         <Aliases value="_UnitSmall"/>
@@ -380,27 +415,6 @@
         <LifeArmorIcon value="Assets\icons\Scrin\ScrinInfantryArmors.dds"/>
         <BarOffset value="40"/>
         <BarWidth value="36"/>
-        <!--        <DeathArray index="Normal" ModelLink="" SoundLink="Marine_DeathFXBloodSpray" VoiceLink="##unitName##_Death"/>-->
-        <DeathArray index="Normal" ModelLink="" SoundLink="Marine_DeathFXBloodSpray" VoiceLink="ScrinMilitant_Death"/>
-        <DeathArray index="Blast" SoundLink="Marine_DeathFXBlast"/>
-        <DeathArray index="Disintegrate" SoundLink="Marine_DeathFXFire"/>
-        <DeathArray index="Eat" AnimProps="Stand" SoundLink="Marine_DeathFXEat"/>
-        <DeathArray index="Eviscerate" AnimProps="Death" SoundLink="Marine_DeathFXEviscerate"/>
-        <DeathArray index="Fire" AnimProps="Death" SoundLink="Marine_DeathFXFire"/>
-        <DeathArray index="Silentkill" SoundLink="Marine_DeathFXSilentKill"/>
-        <DeathArray index="Squish" SoundLink="Marine_DeathFXBloodSpray"/>
-        <GroupSoundArray index="What" value="MarineGroupWhat"/>
-        <GroupSoundArray index="Yes" value="MarineGroupYes"/>
-        <GroupSoundArray index="Attack" value="MarineGroupAttack"/>
-        <GroupSoundArray index="Board" value="MarineGroupBoard"/>
-        <SoundArray index="Birth" value="MarineBirth"/>
-        <SoundArray index="Pissed" value="##unitName##_What"/>
-        <SoundArray index="Movement" value="MarineMovement"/>
-        <SoundArray index="Turning" value="MarineTurning"/>
-        <SoundArray index="Board" value="MarineBoard"/>
-        <SoundArray index="Click" value="MarineClick"/>
-        <SoundArray index="ClickError" value="MarineClickError"/>
-        <SoundArray index="Highlight" value="MarineHighlight"/>
     </CActorUnit>
     <CActorUnit default="1" id="ScrinWalker" parent="ScrinUnitBase">
         <Aliases value="_UnitMedium"/>
@@ -437,23 +451,6 @@
         <WalkAnimMoveSpeed value="1"/>
         <BarOffset value="80"/>
         <BarWidth value="102"/>
-        <ErrorArray Error="CantSeeBuildLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
-        <ErrorArray Error="CantSeeLandLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
-        <ErrorArray Error="CantBuildLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
-        <ErrorArray Error="CantLandLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
-        <ErrorArray Error="CouldntReachTarget" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
-        <SoundArray index="Birth" value="SiegeTankBirth"/>
-        <SoundArray index="Pissed" value="ScrinScorpionTank_What"/>
-        <SoundArray index="Movement" value="CABALAvengerTank_Movement"/>
-        <SoundArray index="Turning" value="SiegeTankTurning"/>
-        <SoundArray index="Board" value="SiegeTankBoard"/>
-        <SoundArray index="Click" value="SiegeTankClick"/>
-        <SoundArray index="ClickError" value="SiegeTankClickError"/>
-        <SoundArray index="Highlight" value="SiegeTankHighlight"/>
-        <GroupSoundArray index="What" value="SiegeTankGroupWhat"/>
-        <GroupSoundArray index="Yes" value="SiegeTankGroupYes"/>
-        <GroupSoundArray index="Attack" value="SiegeTankGroupAttack"/>
-        <GroupSoundArray index="Board" value="SiegeTankGroupBoard"/>
     </CActorUnit>
     <CActorUnit default="1" id="ScrinAir" parent="ScrinUnitBase">
         <Aliases value="_UnitLarge"/>
@@ -479,10 +476,10 @@
     <CActorUnit parent="ScrinBuilding" id="ScrinWarpChasm" icon="WarpChasm"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinFoundry" icon="Foundry"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinBuzzerHive" icon="BuzzerHive"/>
-    <CActorUnit parent="ScrinBuilding" id="ScrinPhotonCannon" icon="PhotonCannon"/>
+    <CActorUnit parent="ScrinBuilding" id="ScrinPlasmaDiscs" icon="PhotonCannon"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinPlasmaMissileBattery" icon="PlasmaMissileBattery"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinStormColumn" icon="StormColumn"/>
-    <CActorUnit parent="ScrinBuilding" id="ScrinGrowthAccelerator" icon="GrowthStimulator"/>
+    <CActorUnit parent="ScrinBuilding" id="ScrinGrowthAccelerator" icon="GrowthAccelerator"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinRiftGenerator" icon="RiftGenerator"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinLightningSpike" icon="LightningSpike"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinTiberiumHive" icon="TiberiumHive"/>
@@ -496,10 +493,18 @@
     <CActorUnit parent="ScrinInfantry" id="ScrinMastermind" icon="Mastermind"/>
     <CActorUnit parent="ScrinInfantry" id="ScrinCultist" icon="Cultist"/>
 
-    <CActorUnit parent="ScrinWalker" id="ScrinGunWalker" icon="GunWalker"/>
-    <CActorUnit parent="ScrinVehicle" id="ScrinSeeker" icon="Seeker"/>
+    <CActorUnit parent="ScrinWalker" id="ScrinGunWalker" icon="GunWalker">
+        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+    </CActorUnit>
+    <CActorSound id="ScrinGunWalker_MoveLoopSound" parent="SoundContinuous">
+        <Sound value="ScrinGunWalker_MoveLoop"/>
+        <HostForProps Subject="_Unit"/>
+    </CActorSound>
+    <CActorUnit parent="ScrinVehicle" id="ScrinSeeker" icon="Seeker">
+        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+    </CActorUnit>
     <CActorUnit parent="ScrinVehicle" id="ScrinHarvester" icon="Harvester"/>
-    <CActorUnit parent="ScrinWalker" id="ScrinDevourer" icon="Devourer"/>
+    <CActorUnit parent="ScrinVehicle" id="ScrinDevourer" icon="Devourer"/>
     <CActorUnit parent="ScrinWalker" id="ScrinCorrupter" icon="Corrupter"/>
     <CActorUnit id="ScrinMechapede" parent="ScrinWalker" icon="mechapede">
         <Model value="ScrinMechapedeHead"/>
@@ -528,11 +533,30 @@
         <On Terms="ActorCreation" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
         <On Terms="ActorCreation" Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
     </CActorUnit>
-    <CActorUnit id="ScrinEradicator" parent="ScrinWalker" icon="Eradicator"/>
-    <CActorUnit id="ScrinAnnihilator" parent="ScrinWalker" icon="Annihilator"/>
+    <CActorUnit id="ScrinEradicator" parent="ScrinWalker" icon="Eradicator">
+        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+    </CActorUnit>
+    <CActorUnit id="ScrinAnnihilator" parent="ScrinWalker" icon="Annihilator">
+        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <DeathArray index="Normal" ModelLink="ScrinAnnihilator_Death" SoundLink="ScrinAnnihilator_Death"/>
+        <WalkAnimMoveSpeed value="1"/>
+    </CActorUnit>
+    <CActorSound id="ScrinAnnihilator_MoveLoopSound" parent="SoundContinuous">
+        <Sound value="ScrinAnnihilator_MoveLoop"/>
+        <HostForProps Subject="_Unit"/>
+    </CActorSound>
     <CActorUnit id="ScrinDevastator" parent="ScrinAir" icon="Devastator"/>
     <CActorUnit id="ScrinInvader" parent="ScrinAir" icon="Invader"/>
-    <CActorUnit id="ScrinCarrier" parent="ScrinAir" icon="Carrier"/>
+    <CActorUnit id="ScrinCarrier" parent="ScrinAir" icon="Carrier">
+        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverE Cover,E PlayForever 0.000000"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverF Cover,F PlayForever 0.000000"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverG Cover,G PlayForever 0.000000"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverH Cover,H PlayForever 0.000000"/>
+    </CActorUnit>
     <CActorUnit id="ScrinStormrider" parent="ScrinAir" icon="Stormrider"/>
     <CActorUnit id="ScrinMothership" parent="ScrinAir" icon="Mothership"/>
     <CActorUnit id="ScrinDroneShip" parent="ScrinAir" icon="DroneShip">
@@ -543,10 +567,12 @@
         <HeroIcon value="Assets\icons\scrin\btn-scrin-unit-##icon##.dds"/>
         <UnitIcon value="Assets\icons\scrin\btn-scrin-unit-##icon##.dds"/>
     </CActorUnit>
-
-
     <CActorUnit id="ScrinEradicatorDisintegrator" parent="ScrinBuilding" icon="Eradicator"/>
     <CActorUnit id="ScrinEradicatorPlasmaDiscLauncher" parent="ScrinBuilding" icon="Eradicator"/>
     <CActorUnit id="ScrinEradicatorTiberiumShardLauncher" parent="ScrinBuilding" icon="Eradicator"/>
 
+    <CActorAction id="ScrinBuzzersWeapon_Attack" parent="GenericAttack" effectAttack="ScrinBuzzersWeapon">
+        <LaunchAssets Sound="ScrinBuzzersWeapon_AttackLaunch"/>
+        <ImpactMap index="None" Sound="ScrinBuzzersWeapon_AttackImpact"/>
+    </CActorAction>
 </Catalog>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
-    <CEffectDamage id="ScrinDamage" default="1">
+    <CEffectDamage id="ScrinDamage" default="1" PARENT="DU_WEAP">
         <EditorCategories value="Race:Scrin"/>
         <ResponseFlags index="Acquire" value="1"/>
         <ResponseFlags index="Flee" value="1"/>
@@ -13,11 +13,11 @@
         <Amount value="4"/>
     </CEffectDamage>
 
-    <CEffectDamage parent="ScrinDamage" id="ScrinPhotonCannonWeapon">
+    <CEffectDamage parent="ScrinDamage" id="ScrinPlasmaDiscsWeapon">
         <Amount value="4"/>
     </CEffectDamage>
 
-    <CEffectDamage parent="ScrinDamage" id="ScrinPhotonCannonWeaponU">
+    <CEffectDamage parent="ScrinDamage" id="ScrinPlasmaDiscsWeaponU">
         <Amount value="4"/>
     </CEffectDamage>
 
@@ -33,12 +33,12 @@
         <Amount value="4"/>
     </CEffectDamage>
 
-    <CEffectDamage parent="ScrinDamage" id="ScrinLightningSpikeWeapon">
-        <Amount value="4"/>
-    </CEffectDamage>
-
     <CEffectDamage parent="ScrinDamage" id="ScrinBuzzersWeapon">
-        <Amount value="4"/>
+        <AttributeBonus index="Light" value="15"/>
+        <Flags index="Notification" value="1"/>
+        <Kind value="Melee"/>
+        <Amount value="1"/>
+        <SearchFlags index="OffsetByUnitRadius" value="1"/>
     </CEffectDamage>
 
     <CEffectDamage parent="ScrinDamage" id="ScrinDisintegratorWeapon">
@@ -147,103 +147,6 @@
 
     <CEffectDamage parent="ScrinDamage" id="ScrinEradicatorTiberiumShardLauncher">
         <Amount value="4"/>
-    </CEffectDamage>
-
-    <!-- Mechapede Segment Spawn Effects -->
-    <CEffectSet id="ScrinMechapedeSpawnShardSegmentSet">
-        <EffectArray value="ScrinMechapedeSpawnShardSegmentCreate"/>
-        <EffectArray value="ScrinMechapedeApplySegmentTracker"/>
-    </CEffectSet>
-    <CEffectCreateUnit id="ScrinMechapedeSpawnShardSegmentCreate">
-        <WhichLocation Value="CasterUnit"/>
-        <SpawnUnit value="ScrinMechapedeShardSegment"/>
-        <SpawnOwner Value="Caster"/>
-        <SpawnOffset value="0,-1,0"/>
-        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
-        <SpawnEffect value="ScrinMechapedeSegmentApplyBehaviors"/>
-    </CEffectCreateUnit>
-
-    <CEffectSet id="ScrinMechapedeSpawnToxinSegmentSet">
-        <EffectArray value="ScrinMechapedeSpawnToxinSegmentCreate"/>
-        <EffectArray value="ScrinMechapedeApplySegmentTracker"/>
-    </CEffectSet>
-    <CEffectCreateUnit id="ScrinMechapedeSpawnToxinSegmentCreate">
-        <WhichLocation Value="CasterUnit"/>
-        <SpawnUnit value="ScrinMechapedeToxinSegment"/>
-        <SpawnOwner Value="Caster"/>
-        <SpawnOffset value="0,-1,0"/>
-        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
-        <SpawnEffect value="ScrinMechapedeSegmentApplyBehaviors"/>
-    </CEffectCreateUnit>
-
-    <CEffectSet id="ScrinMechapedeSpawnDisintegratorSegmentSet">
-        <EffectArray value="ScrinMechapedeSpawnDisintegratorSegmentCreate"/>
-        <EffectArray value="ScrinMechapedeApplySegmentTracker"/>
-    </CEffectSet>
-    <CEffectCreateUnit id="ScrinMechapedeSpawnDisintegratorSegmentCreate">
-        <WhichLocation Value="CasterUnit"/>
-        <SpawnUnit value="ScrinMechapedeDisintegratorSegment"/>
-        <SpawnOwner Value="Caster"/>
-        <SpawnOffset value="0,-1,0"/>
-        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
-        <SpawnEffect value="ScrinMechapedeSegmentApplyBehaviors"/>
-    </CEffectCreateUnit>
-
-    <CEffectSet id="ScrinMechapedeSpawnDiscSegmentSet">
-        <EffectArray value="ScrinMechapedeSpawnDiscSegmentCreate"/>
-        <EffectArray value="ScrinMechapedeApplySegmentTracker"/>
-    </CEffectSet>
-    <CEffectCreateUnit id="ScrinMechapedeSpawnDiscSegmentCreate">
-        <WhichLocation Value="CasterUnit"/>
-        <SpawnUnit value="ScrinMechapedeDiscSegment"/>
-        <SpawnOwner Value="Caster"/>
-        <SpawnOffset value="0,-1,0"/>
-        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
-        <SpawnEffect value="ScrinMechapedeSegmentApplyBehaviors"/>
-    </CEffectCreateUnit>
-
-    <!-- Apply both link and follow behaviors to spawned segments -->
-    <CEffectSet id="ScrinMechapedeSegmentApplyBehaviors">
-        <EffectArray value="ScrinMechapedeSegmentLinkToHead"/>
-        <EffectArray value="ScrinMechapedeSegmentApplyFollow"/>
-    </CEffectSet>
-
-    <CEffectApplyBehavior id="ScrinMechapedeSegmentApplyFollow">
-        <WhichUnit Value="Source"/>
-        <Behavior value="ScrinMechapedeSegmentFollow"/>
-    </CEffectApplyBehavior>
-
-    <!-- Segment tracking effects -->
-    <CEffectApplyBehavior id="ScrinMechapedeApplySegmentTracker">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="ScrinMechapedeSegmentTracker"/>
-    </CEffectApplyBehavior>
-
-    <CEffectApplyBehavior id="ScrinMechapedeSegmentLinkToHead">
-        <WhichUnit Value="Source"/>
-        <Behavior value="ScrinMechapedeSegmentLinked"/>
-    </CEffectApplyBehavior>
-
-
-    <!-- Segment following effects - searches for head unit and follows it -->
-    <CEffectEnumArea id="ScrinMechapedeSegmentFollowSearch">
-        <SearchFilters value="Player,Ally,Neutral;Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="50" Effect="ScrinMechapedeSegmentFollowOrder"/>
-        <MaxCount value="1"/>
-    </CEffectEnumArea>
-
-    <CEffectIssueOrder id="ScrinMechapedeSegmentFollowOrder">
-        <Abil value="move"/>
-        <Target Effect="ScrinMechapedeSegmentFollowOrder" Value="TargetUnit"/>
-        <WhichUnit Effect="ScrinMechapedeSegmentFollowSearch"/>
-        <ValidatorArray value="ScrinMechapedeIsHeadUnit"/>
-    </CEffectIssueOrder>
-
-
-    <!-- Orphaned segment death effect -->
-    <CEffectDamage id="ScrinMechapedeSegmentOrphanedDeath">
-        <Amount value="9999"/>
-        <Kind value="Spell"/>
     </CEffectDamage>
 
 </Catalog>

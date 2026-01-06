@@ -1,43 +1,219 @@
 <Catalog>
-    <CWeaponLegacy id="ScrineGaussRifle2">
-        <EditorCategories value="Race:Protoss"/>
-        <Icon value="ScrinTB\btn-upgrade-protoss-extendedthermallance-talon1.dds"/>
-        <DisplayEffect value="ScrinMarineplasma"/>
+
+
+    <CWeaponLegacy parent="ScrinWeapon" id="ScrinGunWalkerWeapon">
+        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Effect value="ScrinGunWalkerWeaponDamage"/>
+        <Range value="7"/>
+        <DamagePoint value="0.25"/>
+        <Period value="1"/>
+    </CWeaponLegacy>
+    <CEffectDamage id="ScrinGunWalkerWeaponDamage" parent="DU_WEAP">
+        <AttributeBonus index="Light" value="5"/>
+        <Kind value="Ranged"/>
+        <Amount value="5"/>
+    </CEffectDamage>
+
+    <CModel id="ScrinSnipeGunBeam" parent="PersistentSpellFX">
+        <Model value="Assets\Models\blueSnipeBeam.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CActorBeamSimple id="ScrinSnipeGunBeam" parent="GenericAttackBeam">
+        <Model value="ScrinSnipeGunBeam"/>
+    </CActorBeamSimple>
+    <CActorAction id="ScrinSnipeGunAttack" parent="GenericAttack" effectAttack="ScrinGunWalkerWeaponDamage">
+        <LaunchAttachQuery Methods="Weapon 1"/>
+        <LaunchAssets Model="ScoutGroundAttackLaunch" Sound="ScrinGunWalker_AttackLaunch"/>
+        <Beam value="ScrinSnipeGunBeam"/>
+        <ImpactMap index="None" Model="ScoutGroundAttackImpact" Sound="Raven_AutoTurretAttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+    </CActorAction>
+
+    <CActorTurret id="ScrinAnnihilator1">
+        <On Terms="TurretEnable.ScrinAnnihilator1" Send="Create"/>
+        <YawQuery Methods="Haven"/>
+    </CActorTurret>
+    <CActorTurret id="ScrinAnnihilator2">
+        <On Terms="TurretEnable.ScrinAnnihilator2" Send="Create"/>
+        <YawQuery Methods="Char"/>
+    </CActorTurret>
+    <CActorTurret id="ScrinAnnihilator3">
+        <On Terms="TurretEnable.ScrinAnnihilator3" Send="Create"/>
+    </CActorTurret>
+    <CTurret id="ScrinAnnihilator1" parent="FreeRotate">
+    </CTurret>
+    <CTurret id="ScrinAnnihilator2" parent="FreeRotate">
+    </CTurret>
+    <CTurret id="ScrinAnnihilator3" parent="FreeRotate">
+    </CTurret>
+    <CWeaponLegacy default="1" id="ScrinAnnihilatorWeapon">
         <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <Period value="2"/>
+        <Period value="4"/>
         <DamagePoint value="0.25"/>
         <Backswing value="0.75"/>
-        <Effect value="ScrinMarineplasma"/>
-        <Range value="4"/>
+        <Effect value="ScrinAnnihilatorWeaponDamage"/>
+        <Range value="8"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
     </CWeaponLegacy>
-    <CActorBeamSimple id="ScrinBeam2" parent="GenericAttackBeam">
-        <On Terms="ActorCreation; ValidateEffect DiamondbackCharged" Send="ModelSwap DiamondbackAttackBeamCharged"/>
-        <On Terms="ActorOrphan" Send="Destroy"/>
-        <Model value="ScrinkBeam2"/>
-    </CActorBeamSimple>
-    <CActorAction id="ScrinMarineAttack5" parent="GenericAttack" effectAttack="ScrinMarineplasma">
-        <LaunchAssets Model="" Sound="Diamondback_AttackImpact"/>
-        <Beam value="ScrinBeam2"/>
-        <ImpactMap index="None" Model="" Sound="Diamondback_AttackImpact"/>
-    </CActorAction>
-    <CEffectDamage id="ScrinMarineplasma" parent="DU_WEAP">
-        <EditorCategories value="Race:Terran"/>
-        <AttributeBonus index="Armored" value="12"/>
+    <CWeaponLegacy id="ScrinAnnihilatorWeapon1" parent="ScrinAnnihilatorWeapon">
+        <Effect value="ScrinAnnihilatorWeaponDamage1"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ScrinAnnihilatorWeapon2" parent="ScrinAnnihilatorWeapon">
+        <Effect value="ScrinAnnihilatorWeaponDamage2"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ScrinAnnihilatorWeapon3" parent="ScrinAnnihilatorWeapon">
+        <Effect value="ScrinAnnihilatorWeaponDamage3"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy default="1" id="ScrinAnnihilatorWeaponCharged" parent="ScrinAnnihilatorWeapon">
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ScrinAnnihilatorWeaponCharged1" parent="ScrinAnnihilatorWeaponCharged">
+        <Effect value="ScrinAnnihilatorWeaponChargedDamage1"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ScrinAnnihilatorWeaponCharged2" parent="ScrinAnnihilatorWeaponCharged">
+        <Effect value="ScrinAnnihilatorWeaponChargedDamage2"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ScrinAnnihilatorWeaponCharged3" parent="ScrinAnnihilatorWeaponCharged">
+        <Effect value="ScrinAnnihilatorWeaponChargedDamage3"/>
+    </CWeaponLegacy>
+    <CEffectDamage id="ScrinAnnihilatorWeaponDamage" parent="DU_WEAP">
+        <AttributeBonus index="Armored" value="25"/>
         <Kind value="Ranged"/>
-        <Amount value="8"/>
+        <Amount value="25"/>
     </CEffectDamage>
-    <CModel id="ScrinkBeam2" parent="PersistentSpellFX">
-        <Model value="ScrinEFM\Vaporizer_RailgunBeamStraight.m3"/>
-        <EditorCategories value="Race:Terran"/>
+    <CEffectDamage id="ScrinAnnihilatorWeaponDamage1" parent="ScrinAnnihilatorWeaponDamage"/>
+    <CEffectDamage id="ScrinAnnihilatorWeaponDamage2" parent="ScrinAnnihilatorWeaponDamage"/>
+    <CEffectDamage id="ScrinAnnihilatorWeaponDamage3" parent="ScrinAnnihilatorWeaponDamage"/>
+    <CActorAction id="ScrinAnnihilatorWeaponAttack1" parent="GenericAttack" effectAttack="ScrinAnnihilatorWeaponDamage1">
+        <LaunchAssets Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+        <Beam value="AnnihilatorAttackBeam"/>
+        <ImpactMap index="None" Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+        <LaunchAttachQuery Methods="AMFilterWeapon01"/>
+    </CActorAction>
+    <CActorAction id="ScrinAnnihilatorWeaponAttack2" parent="GenericAttack" effectAttack="ScrinAnnihilatorWeaponDamage2">
+        <LaunchAssets Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+        <Beam value="AnnihilatorAttackBeam"/>
+        <ImpactMap index="None" Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+        <LaunchAttachQuery Methods="AMFilterWeapon02"/>
+    </CActorAction>
+    <CActorAction id="ScrinAnnihilatorWeaponAttack3" parent="GenericAttack" effectAttack="ScrinAnnihilatorWeaponDamage3">
+        <LaunchAssets Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+        <Beam value="AnnihilatorAttackBeam"/>
+        <ImpactMap index="None" Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+        <LaunchAttachQuery Methods="AMFilterWeapon03"/>
+    </CActorAction>
+    <CEffectDamage id="ScrinAnnihilatorWeaponChargedDamage" parent="DU_WEAP">
+        <AttributeBonus index="Armored" value="35"/>
+        <Kind value="Ranged"/>
+        <Amount value="35"/>
+    </CEffectDamage>
+    <CEffectDamage id="ScrinAnnihilatorWeaponChargedDamage1" parent="ScrinAnnihilatorWeaponChargedDamage"/>
+    <CEffectDamage id="ScrinAnnihilatorWeaponChargedDamage2" parent="ScrinAnnihilatorWeaponChargedDamage"/>
+    <CEffectDamage id="ScrinAnnihilatorWeaponChargedDamage3" parent="ScrinAnnihilatorWeaponChargedDamage"/>
+    <CActorAction id="ScrinAnnihilatorWeaponChargedAttack1" parent="GenericAttack" effectAttack="ScrinAnnihilatorWeaponChargedDamage1">
+        <LaunchAttachQuery Methods="AMFilterWeapon01"/>
+        <LaunchAssets Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+        <Beam value="BeamWeaponGreen"/>
+        <ImpactMap index="None" Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+    </CActorAction>
+    <CActorAction id="ScrinAnnihilatorWeaponChargedAttack2" parent="GenericAttack" effectAttack="ScrinAnnihilatorWeaponChargedDamage2">
+        <LaunchAttachQuery Methods="AMFilterWeapon02"/>
+        <LaunchAssets Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+        <Beam value="BeamWeaponGreen"/>
+        <ImpactMap index="None" Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+    </CActorAction>
+    <CActorAction id="ScrinAnnihilatorWeaponChargedAttack3" parent="GenericAttack" effectAttack="ScrinAnnihilatorWeaponChargedDamage3">
+        <LaunchAttachQuery Methods="AMFilterWeapon03"/>
+        <LaunchAssets Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+        <Beam value="BeamWeaponGreen"/>
+        <ImpactMap index="None" Model="" Sound="ScrinAnnihilator_AttackLaunch"/>
+    </CActorAction>
+    <CActorBeamSimple id="AnnihilatorAttackBeam" parent="GenericAttackBeam">
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.5 Stopped"/>
+        <On Terms="TimerExpired; TimerName Stopped" Send="AnimBracketStop BSD"/>
+        <Model value="AnnihilatorAttackBeam"/>
+    </CActorBeamSimple>
+    <CModel id="AnnihilatorAttackBeam" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Protoss\NullifierBeam\NullifierBeam.m3"/>
+        <RadiusLoose value="1.000000"/>
     </CModel>
 
 
 
 
+    <CWeaponLegacy id="ScrinLightningSpikeWeapon">
+        <Icon value="assets\textures\Soviet\magnetic-storm-infantry-weapon-icon.dds"/>
+        <TargetFilters value="Ground,Visible;Enemy,Missile,Dead,Hidden,Invulnerable"/>
+        <Period value="1.5"/>
+        <Effect value="ScrinLightningSpikeWeaponDamage"/>
+        <Range value="8"/>
+    </CWeaponLegacy>
+    <CEffectDamage id="ScrinLightningSpikeWeaponDamage" parent="DU_WEAP">
+        <AttributeBonus index="Light" value="12"/>
+        <Kind value="Ranged"/>
+        <Amount value="12"/>
+    </CEffectDamage>
+    <CActorAction id="ScrinLightningSpikeWeaponAttack" parent="GenericAttack" effectAttack="ScrinLightningSpikeWeaponDamage">
+        <LaunchSiteOps Ops="SOpAttachWeapon01"/>
+        <Beam value="ProbeAttackBeam"/>
+        <ImpactMap index="None" Model="" Sound="ScrinLightningSpike_AttackLaunch"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+
+
+
+
+    <CWeaponLegacy id="ScrinDisintegratorWeapon">
+        <Icon value="ScrinTB\btn-upgrade-protoss-extendedthermallance-talon1.dds"/>
+        <DisplayEffect value="ScrinDisintegratorWeaponDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Period value="2"/>
+        <DamagePoint value="0.25"/>
+        <Backswing value="0.75"/>
+        <Effect value="ScrinDisintegratorWeaponDamage"/>
+        <Range value="4"/>
+    </CWeaponLegacy>
+    <CEffectDamage id="ScrinDisintegratorWeaponDamage" parent="DU_WEAP">
+        <EditorCategories value="Race:Terran"/>
+        <AttributeBonus index="Armored" value="12"/>
+        <Kind value="Ranged"/>
+        <Amount value="8"/>
+    </CEffectDamage>
+    <CActorAction id="ScrinDisintegratorWeaponAttack" parent="GenericAttack" effectAttack="ScrinDisintegratorWeaponDamage">
+        <LaunchAssets Model="" Sound="Diamondback_AttackImpact"/>
+        <Beam value="ScrinDisintegratorWeaponBeam"/>
+        <ImpactMap index="None" Model="" Sound="Diamondback_AttackImpact"/>
+    </CActorAction>
+    <CActorBeamSimple id="ScrinDisintegratorWeaponBeam" parent="GenericAttackBeam">
+        <On Terms="ActorCreation; ValidateEffect DiamondbackCharged" Send="ModelSwap DiamondbackAttackBeamCharged"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Model value="ScrinDisintegratorWeaponBeam"/>
+    </CActorBeamSimple>
+    <CModel id="ScrinDisintegratorWeaponBeam" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Scrin\Vaporizer_RailgunBeamStraight.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+
+    <CActorBeamSimple id="BeamWeaponGreen" parent="GenericAttackBeam">
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Model value="BeamWeaponGreen"/>
+    </CActorBeamSimple>
+    <CModel id="BeamWeaponGreen" parent="PersistentSpellFX">
+        <Model value="Assets\Models\BeamWeaponGreen.m3"/>
+    </CModel>
+    <CActorBeamSimple id="BeamWeaponPurple" parent="GenericAttackBeam">
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Model value="BeamWeaponPurple"/>
+    </CActorBeamSimple>
+    <CModel id="BeamWeaponPurple" parent="PersistentSpellFX">
+        <Model value="Assets\Models\BeamWeaponPurple.m3"/>
+    </CModel>
+
 
     <CWeaponStrafe id="SelendisInterceptorBeam2">
         <EditorCategories value="Race:Protoss"/>
-        <Icon value="ScrinTB\btn-upgrade-protoss-airweaponslevel3-talon.dds"/>
         <DisplayEffect value="SelendisInterceptorU2"/>
         <DisplayAttackCount value="2"/>
         <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
@@ -51,7 +227,7 @@
         <On Terms="Effect.SelendisInterceptorU2.Start; At Caster; FromEffectTreeDescendant" Send="ActionDamage"/>
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
         <LaunchAssets Sound="Interceptor_AttackLaunch"/>
-        <Beam value="ScrinBeam2"/>
+        <Beam value="ScrinDisintegratorWeaponBeam"/>
         <BeamScope value="Caster"/>
         <ImpactMap index="None" Model="PhoenixAirAttackImpact_Upgrade" Sound="Interceptor_AttackImpact"/>
     </CActorAction>

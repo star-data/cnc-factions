@@ -1,0 +1,155 @@
+<Catalog>
+    <CWeaponLegacy id="NodTiberiumGun">
+        <EditorCategories value="Race:Zerg"/>
+        <!--        <Options index="Disabled" value="1"/>-->
+        <Icon value="assets\textures\Soviet\chemical-troops-switch-to-sputter-mode.dds"/>
+        <DisplayEffect value="NodTiberiumGunDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Hidden,Invulnerable"/>
+        <Range value="11"/>
+        <Period value="2"/>
+        <Effect value="NodTiberiumGunLM"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+    <CEffectDamage id="NodTiberiumGunDamage" parent="DU_WEAP_MISSILE">
+        <EditorCategories value="Race:Zerg"/>
+        <AttributeFactor index="Structure" value="-0.9"/>
+        <Visibility value="Visible"/>
+        <Amount value="30"/>
+        <Death value="Disintegrate"/>
+        <AreaArray Radius="1" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="NodTiberiumGunLM">
+        <EditorCategories value="Race:Zerg"/>
+        <ImpactEffect value="NodTiberiumGunDamageSet"/>
+        <AmmoUnit value="SovietChemicalTroopersSputterCannonProjectile"/>
+    </CEffectLaunchMissile>
+    <CEffectSet id="NodTiberiumGunDamageSet">
+        <EffectArray value="NodTiberiumGunDamage"/>
+        <EffectArray value="NodTiberiumGunChemicalunitpoisoningcontinuestosearcharea"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="NodTiberiumGunChemicalForceSputterModeApplicationBehavior">
+        <Behavior value="NodTiberiumGunContinuousPoisoning"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="NodTiberiumGunChemicalForceSputterModeMaximumDamageAppBehavior">
+        <WhichUnit Value="Source"/>
+        <Behavior value="NodTiberiumGunMaximumDamageinsplashmode"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumArea id="NodTiberiumGunChemicalunitpoisoningcontinuestosearcharea">
+        <SearchFilters value="Ground;Player,Ally,Neutral,Air,Invulnerable"/>
+        <AreaArray Radius="2" Effect="NodTiberiumGunChemicalForceSputterModeApplicationBehavior"/>
+    </CEffectEnumArea>
+    <CBehaviorBuff id="NodTiberiumGunContinuousPoisoning">
+        <InfoIcon value="Assets\Textures\war3_btnorbofvenom.dds"/>
+        <BuffFlags index="RefreshStack" value="1"/>
+        <MaxStackCount value="5"/>
+        <MaxStackCountPerCaster value="1"/>
+        <Duration value="5"/>
+        <Period value="0.25"/>
+        <InitialEffect value="NodTiberiumGunDamage"/>
+        <PeriodicEffect value="NodTiberiumGunDamage"/>
+        <Modification>
+            <ModifyFlags index="Detected" value="1"/>
+            <ModifyFlags index="ShareSight" value="1"/>
+        </Modification>
+        <DamageResponse Handled="NodTiberiumGunChemicalForceSputterModeMaximumDamageAppBehavior">
+            <RequireEffectArray value="NodTiberiumTrooperDeathSprayDamage"/>
+            <Chance value="1"/>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodTiberiumGunMaximumDamageinsplashmode">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\war3_btnorbofvenom.dds"/>
+        <BuffFlags index="RefreshStack" value="1"/>
+        <Duration value="10"/>
+        <Modification MoveSpeedMultiplier="0.65"/>
+        <DamageResponse ModifyFraction="13">
+            <RequireEffectArray value="NodTiberiumGunDamage"/>
+            <Chance value="1"/>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CActorSimple id="SeekerMissileTint2222">
+        <Aliases value="_AngryTinter"/>
+        <Remove Terms="Effect.RACallBombingActorResponse.Start; At Target" Send="Create"/>
+        <Remove Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <Remove Terms="Effect.RAGuardianTankLaserTargetingContinuousEffect.Start; At Target" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor {0,255,0 0.500000} 0.200000 OneShot SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="SetTintColor {0,255,0 0.500000} 0.200000 OneShot SeekerTarget"/>
+        <On Terms="Behavior.NodTiberiumGunContinuousPoisoning.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.NodTiberiumGunContinuousPoisoning.Off" Send="Destroy"/>
+        <On Terms="Behavior.NodTiberiumGunContinuousPoisoning.On" Send="Create"/>
+        <On Terms="Behavior.NodTiberiumGunMaximumDamageinsplashmode.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.NodTiberiumGunMaximumDamageinsplashmode.On" Send="Create"/>
+        <On Terms="Behavior.NodTiberiumGunMaximumDamageinsplashmode.Off" Send="Destroy"/>
+    </CActorSimple>
+    <CActorModel id="ChemicalTroopSplashPoisoningEffect" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.NodTiberiumGunContinuousPoisoning.On" Send="Create"/>
+        <On Terms="Behavior.NodTiberiumGunContinuousPoisoning.Off" Send="AnimBracketStop BSD"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachOrigin"/>
+        <Model value="MolotovCocktailBurning42"/>
+    </CActorModel>
+    <CMoverMissile id="SovietChemicalTrooperMissileMover">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="3200"/>
+            <MaxSpeed value="18"/>
+            <ClearanceAcceleration value="75"/>
+            <Outro value="-1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+        <MotionPhases YawPitchRoll="MAX"/>
+    </CMoverMissile>
+    <CUnit id="SovietChemicalTroopersSputterCannonProjectile" parent="MISSILE">
+        <Mover value="SovietChemicalTrooperMissileMover"/>
+        <EditorCategories value="ObjectFamily:Melee,ObjectType:Projectile"/>
+    </CUnit>
+    <CModel id="SovietChemicalTroopersSputterCannonProjectile" parent="Unit" Race="Zerg">
+        <Model value="Assets\Effects\Zerg\BileLauncherMissile\BileLauncherMissile.m3"/>
+        <Occlusion value="Show"/>
+        <Radius value="0.250000"/>
+        <SelectionRadius value="0.250000"/>
+        <ShadowRadius value="0.250000"/>
+        <SquibTypeDefault value="Flesh"/>
+    </CModel>
+    <CActorAction id="GuardianMPAttack2" parent="GenericAttack" effectImpact="NodTiberiumGunDamage" effectLaunch="NodTiberiumGunLM">
+        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+        <LaunchAssets Sound="GuardianMP_AttackLaunch2"/>
+        <Missile value="SovietChemicalTroopersSputterCannonProjectile"/>
+        <ImpactMap index="None" Model="GuardianMPWeaponImpact2" Sound="GuardianMP_AttackImpact2"/>
+    </CActorAction>
+    <CModel id="GuardianMPWeaponImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Zerg\RoachMissileImpact\RoachMissileImpact.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+        <ScaleMax value="1.500000,1.500000,1.500000"/>
+        <ScaleMin value="1.500000,1.500000,1.500000"/>
+    </CModel>
+    <CActorMissile id="SovietChemicalTroopersSputterCannonProjectile" parent="GenericAttackMissile" unitName="SovietChemicalTroopersSputterCannonProjectile">
+        <Model value="SovietChemicalTroopersSputterCannonProjectile"/>
+        <Scale value="0.200000"/>
+    </CActorMissile>
+    <CSound id="GuardianMP_AttackLaunch2" parent="Combat">
+        <EditorCategories value="Race:Zerg"/>
+        <AssetArray File="Assets\Sounds\Zerg\SporeCrawler\SporeCrawler_AttackLaunch0.wav"/>
+        <AssetArray File="Assets\Sounds\Zerg\SporeCrawler\SporeCrawler_AttackLaunch1.wav"/>
+        <AssetArray File="Assets\Sounds\Zerg\SporeCrawler\SporeCrawler_AttackLaunch2.wav"/>
+        <AssetArray File="Assets\Sounds\Zerg\SporeCrawler\SporeCrawler_AttackLaunch3.wav"/>
+        <AssetArray File="Assets\Sounds\Zerg\SporeCrawler\SporeCrawler_AttackLaunch4.wav"/>
+        <DupeMaximumMethod value="Replace"/>
+        <DupeMuteCount value="2"/>
+        <Pitch value="-4.000000,-3.000000"/>
+        <Volume value="-2.000000,-2.000000"/>
+    </CSound>
+</Catalog>

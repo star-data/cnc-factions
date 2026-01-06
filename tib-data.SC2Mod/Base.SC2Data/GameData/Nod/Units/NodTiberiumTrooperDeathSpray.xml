@@ -1,0 +1,327 @@
+<Catalog>
+    <!--Death Spray-->
+    <CWeaponLegacy id="NodTiberiumTrooperDeathSpray">
+        <EditorCategories value="Race:Zerg"/>
+        <Icon value="assets\textures\Soviet\chemical-troops-switch-to-death-spray-mode.dds"/>
+        <DisplayEffect value="NodTiberiumTrooperDeathSprayDamage"/>
+        <TargetFilters value="Ground;Self,Dead,Invulnerable"/>
+        <Range value="7"/>
+        <Period value="0.5"/>
+        <Effect value="NodTiberiumTrooperDeathSprayEffectCollection"/>
+    </CWeaponLegacy>
+    <CEffectSet id="NodTiberiumTrooperDeathSprayEffectCollection">
+        <EditorCategories value=""/>
+        <EffectArray value="NodTiberiumTrooperDeathSprayCreation"/>
+<!--        <EffectArray value="NodTiberiumTrooperDeathSpraypersistenteffectcreated"/>-->
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="NodTiberiumTrooperDeathSpraypersistenteffectcreated">
+        <ValidatorArray value="HasVision"/>
+        <EditorCategories value="Race:Terran"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+        <WhichLocation Value="CasterPoint"/>
+        <OffsetVectorStartLocation Value="CasterPoint"/>
+        <PeriodCount value="8"/>
+        <PeriodicEffectArray value="NodTiberiumTrooperDeathSprayleftbehindtocreateeffects"/>
+        <PeriodicOffsetArray value="0,-1,0"/>
+        <PeriodicOffsetArray value="0,-3,0"/>
+        <PeriodicOffsetArray value="0,-5,0"/>
+        <PeriodicOffsetArray value="0,-7,0"/>
+        <PeriodicOffsetArray value="0,-9,0"/>
+        <PeriodicOffsetArray value="0,-11,0"/>
+        <PeriodicOffsetArray value="0,-13,0"/>
+        <PeriodicOffsetArray value="0,-15,0"/>
+        <PeriodicPeriodArray value="0.2"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="NodTiberiumTrooperDeathSprayleftbehindtocreateeffects">
+        <EditorCategories value=""/>
+        <PeriodCount value="5"/>
+        <PeriodicEffectArray value="NodTiberiumTrooperDeathSprayVirtualBombardment"/>
+        <PeriodicPeriodArray value="0.1"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="NodTiberiumTrooperDeathSprayVirtualBombardment">
+        <EditorCategories value="Race:Zerg"/>
+        <SearchFilters value="Ground;Player,Ally,Neutral,Dead,Invulnerable"/>
+        <AreaArray Radius="0.5" Effect="NodTiberiumTrooperDeathSprayDamageswitch"/>
+    </CEffectEnumArea>
+    <CEffectCreatePersistent id="NodTiberiumTrooperDeathSprayCreation">
+        <EditorCategories value="Race:Zerg"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <Flags index="Channeled" value="1"/>
+        <InitialEffect value="NodTiberiumTrooperDeathSprayCreatesAcidPiles"/>
+        <PeriodCount value="1"/>
+        <PeriodicValidator value="CasterNotDead"/>
+        <PeriodicEffectArray value="NodTiberiumTrooperDeathSprayLauncher"/>
+        <PeriodicPeriodArray value="0.1"/>
+    </CEffectCreatePersistent>
+    <CEffectSwitch id="NodTiberiumTrooperDeathSprayDamageswitch">
+        <EditorCategories value=""/>
+        <CaseDefault value="NodTiberiumTrooperDeathSprayDamage"/>
+    </CEffectSwitch>
+    <CEffectDamage id="NodTiberiumTrooperDeathSprayDamage">
+        <ValidatorArray value="WeaponInRange"/>
+        <EditorCategories value=""/>
+        <ArmorReduction value="1"/>
+        <AttributeBonus index="Biological" value="4"/>
+        <Amount value="4"/>
+        <Death value="Disintegrate"/>
+        <SearchFilters value="-;Self,Missile,Dead,Invulnerable"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="NodTiberiumTrooperDeathSprayLauncher">
+        <EditorCategories value="Race:Zerg"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <ImpactEffect value="NodTiberiumTrooperDeathSprayVirtualBombardment"/>
+        <Flags index="Channeled" value="1"/>
+        <AmmoUnit value="NodTiberiumTrooperDeathSprayMissile"/>
+    </CEffectLaunchMissile>
+    <CEffectEnumArea id="NodTiberiumTrooperDeathSprayImpactDummy"/>
+    <CEffectCreateUnit id="NodTiberiumTrooperDeathSprayCreatesAcidPiles">
+        <!--ValidatorArray value="CasterIsNovaVirophageOrBlightbriger"/-->
+        <EditorCategories value="Race:Zerg"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <CreateFlags index="DropOff" value="0"/>
+        <CreateFlags index="ProvideFood" value="0"/>
+        <CreateFlags index="TechComplete" value="0"/>
+        <CreateFlags index="UseFood" value="0"/>
+        <SpawnUnit value="NodTiberiumAcidPuddle"/>
+        <CreateFlags index="OffsetByRadius" value="0"/>
+        <CreateFlags index="Placement" value="0"/>
+        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
+        <CreateFlags index="PlacementIgnoreCliffTest" value="1"/>
+        <CreateFlags index="NormalizeSpawnOffset" value="0"/>
+        <SpawnRange value="4"/>
+    </CEffectCreateUnit>
+    <CActorAction id="NodTiberiumTrooperDeathSprayImpact" parent="GenericAttack" effectImpact="NodTiberiumTrooperDeathSprayImpact" effectLaunch="NodTiberiumTrooperDeathSprayLauncher">
+        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+        <LaunchAssets Model="NodTiberiumTrooperDeathSprayLaunch" Sound=""/>
+        <Missile value="NodTiberiumTrooperDeathSprayMissile"/>
+        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeStandard SOpForwardLaunchGuide"/>
+        <ImpactMap index="None" Model="NodTiberiumTrooperDeathSprayImpact"/>
+        <AccuracyHalfArc value="10.000000"/>
+        <On Terms="Effect.NodTiberiumTrooperDeathSprayDamage.Start; At Effect" Send="Create"/>
+    </CActorAction>
+    <CActorModel id="NodTiberiumTrooperDeathSprayImpactDummy" parent="ModelAnimationStyleOneShot">
+        <On Terms="Effect.NodTiberiumTrooperDeathSprayImpactDummy.Start" Send="Create"/>
+    </CActorModel>
+    <CActorModel id="NodTiberiumTrooperDeathSprayLaunch" parent="ModelAnimationStyleOneShot">
+        <On Terms="Effect.NodTiberiumTrooperDeathSprayLauncher.Start" Send="Create"/>
+    </CActorModel>
+    <CActorMissile id="NodTiberiumTrooperDeathSprayMissile" parent="GenericAttackMissile" unitName="NodTiberiumTrooperDeathSprayMissile"/>
+    <CActorSound id="NodTiberiumTrooperDeathSprayLaunchSound" parent="SoundOneShot">
+        <On Terms="WeaponStart.NodTiberiumTrooperDeathSpray.AttackStart" Send="Create"/>
+        <On Terms="WeaponStop.NodTiberiumTrooperDeathSpray.AttackStop" Send="Create"/>
+        <On Terms="WeaponStart.NodTiberiumTrooperDeathSpray.AttackStart" Send="Create VileStreamLoopSound"/>
+        <On Terms="WeaponStop.NodTiberiumTrooperDeathSpray.AttackStop" Target="VileStreamLoopSound" Send="Destroy"/>
+        <Sound value="NodTiberiumTrooper_Weapon"/>
+        <Sound value="NodTiberiumTrooperDeathSprayLaunch"/>
+        <Layers Sound="NodTiberiumTrooperDeathSprayLaunchSound">
+            <Chance value="0"/>
+            <Pitch value="0.000000,0.000000"/>
+            <PlayDelay value="0,0"/>
+            <Volume value="0.000000,0.000000"/>
+        </Layers>
+    </CActorSound>
+    <CActorSound id="NodTiberiumTrooperDeathSprayLoopSound" parent="SoundContinuous"/>
+    <CModel id="NodTiberiumTrooperDeathSprayMissile" parent="MissileFX">
+        <Model value="Assets\Effects\Zerg\InfestorInfestationMissile\InfestorInfestationMissile.m3"/>
+        <ScaleMax value="1.100000,1.100000,1.000000"/>
+        <ScaleMin value="1.100000,1.100000,1.000000"/>
+        <SelectionRadius value="0.454300"/>
+        <ShadowRadius value="0.454300"/>
+    </CModel>
+    <CModel id="NodTiberiumTrooperDeathSprayImpact" parent="ImpactFX">
+        <!--        <Model value="Assets\Effects\Zerg\InfestorInfestationMissileImpact\InfestorInfestationMissileImpact.m3"/>-->
+        <Model value="Assets\Effects\Zerg\CorrosiveBileImpact\CorrosiveBileImpact.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+        <ScaleMax value="1.100000,1.100000,1.100000"/>
+        <ScaleMin value="1.100000,1.100000,1.100000"/>
+        <SelectionRadius value="0.454300"/>
+        <ShadowRadius value="0.454300"/>
+    </CModel>
+    <CSound id="NodTiberiumTrooperDeathSprayLaunch" parent="Combat">
+        <EditorCategories value="Race:Zerg"/>
+        <AssetArray File="Assets\Sounds\Zerg\Virophage\Virophage_Spell0.wav"/>
+        <AssetArray File="Assets\Sounds\Zerg\Virophage\Virophage_Spell1.wav"/>
+        <AssetArray File="Assets\Sounds\Zerg\Virophage\Virophage_Spell2.wav"/>
+        <DupeDestroyCount value="2"/>
+        <Pitch value="-2.000000,2.000000"/>
+    </CSound>
+    <CSound id="NodTiberiumTrooperDeathSprayLoopSound" parent="Spell">
+        <AssetArray File="Assets\Sounds\Zerg\SharedEffects\Effects\Zerg_ColonyInfestationLoop0.wav" FacialGroup=""/>
+        <LoopCount value="-1"/>
+        <Pitch value="-5.000000,-5.000000"/>
+        <VolumeRolloffBlend value="Linear"/>
+        <VolumeRolloffPoints Distance="8.356546"/>
+        <VolumeRolloffPoints Distance="24.791086" Volume="-96.000000"/>
+        <DupeDestroyCount value="4"/>
+        <DupeMuteCount value="6"/>
+    </CSound>
+    <CMoverMissile id="NodTiberiumTrooperDeathSprayMissile">
+        <MotionPhases>
+            <Driver value="Ballistic"/>
+            <Gravity value="4"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <FlightTime value="0.5"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CUnit id="NodTiberiumTrooperDeathSprayMissile" parent="MISSILE">
+        <Race value="Soviet"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:CNC"/>
+        <TacticalAI value=""/>
+        <AIEvaluateAlias value=""/>
+    </CUnit>
+
+    <!--Acid Puddle-->
+    <CUnit id="NodTiberiumAcidPuddle">
+        <Race value="Soviet"/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Untargetable" value="1"/>
+        <FlagArray index="KillCredit" value="0"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FogVisibility value="Dimmed"/>
+        <Response value="Nothing"/>
+        <LifeStart value="10"/>
+        <LifeMax value="10"/>
+        <StationaryTurningRate value="0"/>
+        <TurningRate value="0"/>
+        <Height value="-0.2"/>
+        <EffectArray index="Birth" value="NodTiberiumAcidPuddleSearchCP"/>
+        <MinimapRadius value="0"/>
+        <EditorCategories value="ObjectType:Other,ObjectFamily:CNC"/>
+        <Fidget DelayMax="0" DelayMin="0"/>
+    </CUnit>
+    <CSound id="NodTiberiumAcidPuddle" parent="Uni_DeathFXAcid">
+        <EditorCategories value="Race:Zerg"/>
+        <Pitch value="-2.000000,1.000000"/>
+        <Volume value="-4.000000,-2.000000"/>
+    </CSound>
+    <CSound id="NodTiberiumAcidPuddleImpact" parent="Combat">
+        <EditorCategories value="Race:Zerg"/>
+        <AssetArray File="Assets\Sounds\Zerg\Infestor\Infestor_AcidSporesImpact0.wav"/>
+        <AssetArray File="Assets\Sounds\Zerg\Infestor\Infestor_AcidSporesImpact1.wav"/>
+        <AssetArray File="Assets\Sounds\Zerg\Infestor\Infestor_AcidSporesImpact2.wav"/>
+        <Pitch value="-1.000000,1.000000"/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+    <CModel id="NodTiberiumAcidPuddle" parent="Unit" Race="Zerg">
+        <ScaleMax value="0.3,0.3,0.5"/>
+        <ScaleMin value="0.3,0.3,0.5"/>
+
+        <Model value="Assets\Effects\Zerg\SlivanAcidPuddle\SlivanAcidPuddle.m3"/>
+        <Lighting value="PukePuddle"/>
+        <Occlusion value="Show"/>
+        <Events>
+            <Anim value="Birth,00"/>
+            <Name value="AcidPuddleImpact"/>
+            <Type value="Sound"/>
+            <Time value="0.020000"/>
+            <Payload value="NodTiberiumAcidPuddleImpact"/>
+        </Events>
+        <Events>
+            <Anim value="Birth,00"/>
+            <Name value="NodTiberiumAcidPuddle"/>
+            <Type value="Sound"/>
+            <Time value="0.008000"/>
+            <Payload value="NodTiberiumAcidPuddle"/>
+        </Events>
+    </CModel>
+    <CModel id="NodTiberiumAcidPuddlePortrait" parent="StaticPortrait"/>
+    <CEffectEnumArea id="NodTiberiumAcidPuddleSearchA">
+        <EditorCategories value="Race:Zerg"/>
+        <SearchFilters value="Ground;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="0.75" Effect="NodTiberiumAcidPuddleSearchImpactSet"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="NodTiberiumAcidPuddleSearchB">
+        <EditorCategories value="Race:Zerg"/>
+        <SearchFilters value="Ground;Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="0.5" Effect="NodTiberiumAcidPuddleSearchImpactSet"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="NodTiberiumAcidPuddleSearchC">
+        <EditorCategories value="Race:Zerg"/>
+        <SearchFilters value="Ground;Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="0.75" Effect="NodTiberiumAcidPuddleSearchImpactSet"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="NodTiberiumAcidPuddleSearchD">
+        <EditorCategories value="Race:Zerg"/>
+        <SearchFilters value="Ground;Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="1" Effect="NodTiberiumAcidPuddleSearchImpactSet"/>
+    </CEffectEnumArea>
+    <CEffectCreatePersistent id="NodTiberiumAcidPuddleSearchCP">
+        <EditorCategories value="Race:Zerg"/>
+        <PeriodCount value="6"/>
+        <PeriodicValidator value="CasterNotDead"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchA"/>
+        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchB"/>
+        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchC"/>
+<!--        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchD"/>-->
+<!--        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchD"/>-->
+<!--        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchD"/>-->
+<!--        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchD"/>-->
+<!--        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchD"/>-->
+<!--        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchD"/>-->
+<!--        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchD"/>-->
+<!--        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchD"/>-->
+<!--        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchD"/>-->
+        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchC"/>
+        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchB"/>
+        <PeriodicEffectArray value="NodTiberiumAcidPuddleSearchA"/>
+<!--        <InitialDelay value="0.5"/>-->
+        <ExpireDelay value="0.5"/>
+        <ExpireEffect value="Suicide"/>
+    </CEffectCreatePersistent>
+    <CEffectApplyBehavior id="NodTiberiumAcidPuddleSearchImpactSet">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="NodTiberiumAcidPuddleSlow"/>
+    </CEffectApplyBehavior>
+    <CEffectDamage id="NodTiberiumAcidPuddleSlowDamage">
+        <EditorCategories value="Race:Zerg"/>
+        <AttributeBonus index="Biological" value="1"/>
+        <Amount value="1"/>
+        <Kind value="Spell"/>
+        <Death value="Disintegrate"/>
+    </CEffectDamage>
+    <CBehaviorBuff id="NodTiberiumAcidPuddleSlow">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-zerg-banelingspooge.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Zerg"/>
+        <Duration value="0.75"/>
+        <Period value="0.5"/>
+        <InitialEffect value="NodTiberiumAcidPuddleSlowDamage"/>
+        <PeriodicEffect value="NodTiberiumAcidPuddleSlowDamage"/>
+        <Modification MoveSpeedMultiplier="0.5"/>
+    </CBehaviorBuff>
+    <CActorUnit id="NodTiberiumAcidPuddle">
+        <On Terms="ActorCreation" Send="TimerSet 1.500000 PukeSound"/>
+        <On Terms="TimerExpired; TimerName PukeSound" Send="Create NodTiberiumAcidBurnImpact_AS"/>
+        <On Terms="AnimDone; AnimName Birth" Send="$Stand PlayForever"/>
+        <On Terms="ActorCreation" Send="TimerSet 8.000000 Death"/>
+        <On Terms="TimerExpired; TimerName Death" Send="AnimClear Stand"/>
+        <On Terms="AnimDone; AnimName Stand" Send="$Death 0 -1.000000 -1.000000 2.000000 AsDuration"/>
+        <On Terms="UnitDeath" Send="Destroy"/>
+        <On Terms="UnitBirth.NodTiberiumAcidPuddle" Send="Create"/>
+        <On Terms="TimerExpired; TimerName PukeSound" Send="$Birth 0 -1.000000 -1.000000 2.000000 AsDuration"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorUnit>
+    <CSound id="NodTiberiumAcidBurnImpact" parent="Spell">
+        <EditorCategories value="Race:Zerg"/>
+        <AssetArray File="Assets\Sounds\Uni\Deaths\Uni_DeathFXAcid0.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Uni\Deaths\Uni_DeathFXAcid1.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Uni\Deaths\Uni_DeathFXAcid2.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Uni\Deaths\Uni_DeathFXAcid3.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Uni\Deaths\Uni_DeathFXAcid4.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Uni\Deaths\Uni_DeathFXAcid5.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Uni\Deaths\Uni_DeathFXAcid6.wav" FacialGroup=""/>
+        <Pitch value="-3.000000,-1.000000"/>
+        <Volume value="-8.000000,-6.000000"/>
+    </CSound>
+    <CActorSound id="NodTiberiumAcidBurnImpact_AS" parent="SoundOneShot">
+        <EditorCategories value=""/>
+        <Sound value="NodTiberiumAcidBurnImpact"/>
+    </CActorSound>
+_
+</Catalog>

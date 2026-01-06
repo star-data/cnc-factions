@@ -1,0 +1,126 @@
+<Catalog>
+
+
+
+
+    <!--    <CWeaponLegacy id="NodBansheeWeapon" parent="NodWeapon" icon="btn-nod-upgrade-lightweapons">-->
+    <!--        <DisplayEffect value="NodBansheeWeaponWeaponDamage"/>-->
+    <!--        <DisplayAttackCount value="2"/>-->
+    <!--        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+    <!--        <Range value="9"/>-->
+    <!--        <Arc value="1.9995"/>-->
+    <!--        <Period value="0.2"/>-->
+    <!--        <Effect value="NodBansheeWeapon@CP"/>-->
+    <!--        <MinScanRange value="7"/>-->
+    <!--    </CWeaponLegacy>-->
+    <!--    <CActorAction id="NodBansheeWeapon@Action" parent="GenericAttack" effectImpact="NodBansheeWeaponDamage" effectLaunch="NodBansheeWeapon@LM1">-->
+    <!--        <LaunchAttachQuery Methods="Weapon0102"/>-->
+    <!--        <LaunchAssets  Sound="CABALBikeWeaponAttackLaunch"/>-->
+    <!--        <Missile value="NodBansheeWeaponMissile"/>-->
+    <!--        <ImpactMap index="None" Model="HailstormMissileVolleyImpact" Sound="CABALBikeWeaponAttackImpact" ModelReaction="HailstormMissileVolleyImpactReaction"/>-->
+    <!--        <ImpactMap index="Shield" Sound="HailstormMissileVolleyImpactShield" ModelReaction="HailstormMissileVolleyImpactReactionShield"/>-->
+    <!--    </CActorAction>-->
+    <!--    <CActorMissile id="NodBansheeWeaponMissile" parent="GenericAttackMissile" unitName="NodBansheeWeaponMissile">-->
+    <!--        <On Terms="ActorDestruction" Send="Create NodMissileDeath"/>-->
+    <!--        <Model value="NodBansheeWeaponMissile"/>-->
+    <!--    </CActorMissile>-->
+    <!--    <CEffectDamage id="NodBansheeWeaponDamage" parent="NodDamage">-->
+    <!--        <AttributeBonus index="Armored" value="25"/>-->
+    <!--        <Amount value="25"/>-->
+    <!--        <ExcludeArray Value="Outer"/>-->
+    <!--        <ExcludeArray Value="Target"/>-->
+    <!--        <SearchFilters value="Visible;Player,Ally,Neutral,Missile,Stasis,Dead,Invulnerable,Benign,Passive"/>-->
+    <!--    </CEffectDamage>-->
+    <!--    <CEffectCreatePersistent id="NodBansheeWeapon@CP">-->
+    <!--        <EditorCategories value="Race:Nod"/>-->
+    <!--        <WhichLocation Value="TargetUnit"/>-->
+    <!--        <PeriodCount value="2"/>-->
+    <!--        <PeriodicEffectArray value="NodBansheeWeapon@LM1"/>-->
+    <!--        <PeriodicPeriodArray value="0.0625"/>-->
+    <!--    </CEffectCreatePersistent>-->
+    <!--    <CEffectLaunchMissile id="NodBansheeWeapon@LM1">-->
+    <!--        <EditorCategories value="Race:Nod"/>-->
+    <!--        <ImpactEffect value="NodBansheeWeaponDamage"/>-->
+    <!--        <AmmoUnit value="NodBansheeWeaponMissile"/>-->
+    <!--    </CEffectLaunchMissile>-->
+    <!--    <CModel id="NodBansheeWeaponMissile" parent="MissileFX">-->
+    <!--        <Model value="Assets\Models\Nod Tib Missile.m3"/>-->
+    <!--        <EditorCategories value="Race:Nod"/>-->
+    <!--        <ScaleMax value="0.800000,0.800000,0.800000"/>-->
+    <!--        <ScaleMin value="0.800000,0.800000,0.800000"/>-->
+    <!--    </CModel>-->
+
+
+    <CValidatorUnitCompareVital id="CasterHasNoEnergy">
+        <WhichUnit Value="Caster"/>
+        <Compare value="Eq"/>
+        <Value value="0"/>
+        <Vital value="Energy"/>
+    </CValidatorUnitCompareVital>
+
+    <CBehaviorBuff id="NodBansheeLackOfAmmo">
+        <InfoIcon value="Assets\Textures\btn-command-cancel.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="CasterHasNoEnergy"/>
+<!--         <InitialEffect value="CNCLackOfAmmoInitial"/>-->
+        <!--        <PeriodicEffect value="Fighterslackammunitionandsearchforairfields"/>-->
+        <Modification>
+            <!-- <ModifyFlags index="DisableWeapons" value="1"/> -->
+            <WeaponDisableArray value="NodBansheeWeapon"/>
+        </Modification>
+        <!--            <BehaviorLinkDisableArray value="ThePioneerarmedcombataircraftkeepscirclingwhenstopped"/>-->
+        <!--            <BehaviorLinkDisableArray value="VanguardIsCircling"/>-->
+    </CBehaviorBuff>
+
+    <CWeaponLegacy id="NodBansheeWeapon" parent="NodWeapon" icon="btn-nod-upgrade-lightweapons">
+        <EditorCategories value="Race:Terran"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-vehicleweaponslevel0.dds"/>
+        <DisplayEffect value="PlasmaAttackYellow"/>
+        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="6"/>
+        <Period value="0.75"/>
+        <Effect value="PlasmaAttackYellowSet"/>
+    </CWeaponLegacy>
+
+    <CEffectSet id="PlasmaAttackYellowSet" >
+        <EffectArray value="Use5Energy"/>
+        <EffectArray value="PlasmaAttackYellow"/>
+        <ValidatorArray value="CasterHasEnergy"/>
+    </CEffectSet>
+
+    <CEffectModifyUnit id="Use5Energy">
+        <ImpactUnit Value="Caster"/>
+        <VitalArray index="Energy">
+            <Change value="-5"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectDamage id="PlasmaAttackYellow" parent="DU_WEAP_MISSILE">
+        <EditorCategories value="Race:Terran"/>
+        <Amount value="25"/>
+    </CEffectDamage>
+    <CModel id="PlasmaAttackYellow" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Terran\ArchAngel_Xanthos_Experimentation_Railgun\ArchAngel_Xanthos_Experimentation_Railgun.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CActorBeamSimple id="PlasmaAttackYellowBeam" parent="GenericAttackBeam">
+        <Model value="PlasmaAttackYellow"/>
+    </CActorBeamSimple>
+    <CActorAction id="AutoTurreSXGDIYellow" parent="GenericAttack" effectAttack="PlasmaAttackYellow">
+        <LaunchAssets Model="" Sound="Phoenix_AirAttackLaunch"/>
+        <Beam value="PlasmaAttackYellowBeam"/>
+        <ImpactMap index="None" Model="GoliathAirAttackImpact" Sound="Phoenix_AirAttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+    </CActorAction>
+
+
+
+    <CBehaviorBuff id="NodBansheeReloadWhileLanded">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-land.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="IsAirportLanded"/>
+        <Modification>
+            <VitalRegenArray index="Energy" value="0.5625"/>
+        </Modification>
+    </CBehaviorBuff>
+</Catalog>
