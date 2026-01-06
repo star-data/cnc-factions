@@ -1379,6 +1379,57 @@ void libTIBW_gf_ResetUnitCarriedMinerals (unit lp_unit) {
 
 // Triggers
 //--------------------------------------------------------------------------------------------------
+// Trigger: Attach Disruption Pods 2
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_AttachDisruptionPods2_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_pod;
+    string lv_behavior;
+    unit lv_target;
+
+    // Automatic Variable Declarations
+    unitgroup auto7BFC4157_g;
+    int auto7BFC4157_u;
+    unit auto7BFC4157_var;
+
+    // Variable Initialization
+    lv_behavior = EventUnitBehavior();
+    lv_target = EventUnit();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto7BFC4157_g = UnitGroup("NodDisruptionPod", c_playerAny, RegionCircle(UnitGetPosition(lv_target), 5.0), UnitFilter(0, 0, (1 << c_targetFilterMissile), (1 << (c_targetFilterDead - 32)) | (1 << (c_targetFilterHidden - 32))), 0);
+    auto7BFC4157_u = UnitGroupCount(auto7BFC4157_g, c_unitCountAll);
+    for (;; auto7BFC4157_u -= 1) {
+        auto7BFC4157_var = UnitGroupUnitFromEnd(auto7BFC4157_g, auto7BFC4157_u);
+        if (auto7BFC4157_var == null) { break; }
+        lv_pod = auto7BFC4157_var;
+        if ((UnitHasBehavior2(lv_pod, "NodDisruptionPodAttached") == true)) {
+            continue;
+        }
+
+        libTIBW_gf_AttachUnitModelToUnit(lv_pod, lv_target, "Ref_Overhead", 0.0, 0.0, 0.0, "");
+        break;
+    }
+    while ((UnitHasBehavior2(lv_target, lv_behavior) == true) && (UnitIsAlive(lv_target) == true)) {
+        UnitBehaviorAdd(lv_pod, "NodDisruptionPodAttached", lv_pod, 1);
+        UnitSetPosition(lv_pod, UnitGetPosition(lv_target), false);
+        Wait(0.0625, c_timeGame);
+    }
+    UnitKill(lv_pod);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_AttachDisruptionPods2_Init () {
+    libTIBW_gt_AttachDisruptionPods2 = TriggerCreate("libTIBW_gt_AttachDisruptionPods2_Func");
+    TriggerAddEventUnitCreated(libTIBW_gt_AttachDisruptionPods2, null, null, null);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Mechapede Segments Spawn
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_MechapedeSegmentsSpawn_Func (bool testConds, bool runActions) {
@@ -1388,9 +1439,13 @@ bool libTIBW_gt_MechapedeSegmentsSpawn_Func (bool testConds, bool runActions) {
     int lv_player;
     unitgroup lv_segments;
     unit lv_lastSegment;
+    unit lv_turretUnit;
+    string lv_turretType;
     int lv_segmentsCount;
 
     // Automatic Variable Declarations
+    string auto2FF3A59B_val;
+
     // Variable Initialization
     lv_caster = EventUnit();
     lv_target = EventUnitCreatedUnit();
@@ -1416,9 +1471,30 @@ bool libTIBW_gt_MechapedeSegmentsSpawn_Func (bool testConds, bool runActions) {
     UnitBehaviorAdd(lv_target, "SuicideWithCaster", lv_lastSegment, 1);
     UnitCreateEffectUnit(lv_caster, "ScrinMechapedeSegmentsTrackerATU", lv_target);
     UnitCreateEffectUnit(lv_caster, "ScrinMechapedeHeadTrackerATU", lv_target);
+    auto2FF3A59B_val = UnitGetType(lv_target);
+    if (auto2FF3A59B_val == "ScrinMechapedeDiscSegment") {
+        lv_turretType = "ScrinMechapedeDiscSegmentTurret";
+    }
+    else if (auto2FF3A59B_val == "ScrinMechapedeDisintegratorSegment") {
+        lv_turretType = "ScrinMechapedeDisintegratorSegmentTurret";
+    }
+    else if (auto2FF3A59B_val == "ScrinMechapedeShardSegment") {
+        lv_turretType = "ScrinMechapedeShardSegmentTurret";
+    }
+    else if (auto2FF3A59B_val == "ScrinMechapedeToxinSegment") {
+        lv_turretType = "ScrinMechapedeToxinSegmentTurret";
+    }
+    else {
+    }
+    UnitCreate(1, lv_turretType, 0, lv_player, UnitGetPosition(lv_target), 0.0);
+    lv_turretUnit = UnitLastCreated();
+    UnitBehaviorAdd(lv_turretUnit, "KillsToCaster", lv_caster, 1);
+    UnitBehaviorAdd(lv_turretUnit, "SuicideWithCaster", lv_target, 1);
+    libTIBW_gf_AttachUnitModelToUnit(lv_turretUnit, lv_target, "Ref_Attacher", 0.0, 0.0, 0.0, "");
     Wait(0.0625, c_timeGame);
+    UnitIssueOrder(lv_target, OrderTargetingUnit(AbilityCommand("ScrinMehapedeSegmentMove", 0), lv_lastSegment), c_orderQueueReplace);
     while ((UnitIsAlive(lv_lastSegment) == true) && (UnitIsAlive(lv_target) == true)) {
-        UnitIssueOrder(lv_target, OrderTargetingUnit(AbilityCommand("move", 0), lv_lastSegment), c_orderQueueReplace);
+        UnitSetPosition(lv_turretUnit, UnitGetPosition(lv_target), false);
         Wait(0.0625, c_timeGame);
     }
     return true;
@@ -5032,6 +5108,7 @@ void libTIBW_gt_GAMESTARTNod_Init () {
 }
 
 void libTIBW_InitTriggers () {
+    libTIBW_gt_AttachDisruptionPods2_Init();
     libTIBW_gt_MechapedeSegmentsSpawn_Init();
     libTIBW_gt_AIRSUPPORTCREATED_Init();
     libTIBW_gt_AIRPODCREATED_Init();
