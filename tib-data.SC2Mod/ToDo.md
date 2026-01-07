@@ -125,3 +125,7 @@ Warning: USER: Requirement limit reached: '%1'.
 [1/7/2026 6:20:58 PM] Warning: Unable to load image from 'Assets\icons\ZOCOM\btn-unit-zocom-ZoneEnforcer.dds' (Core: a required object could not be found)
 [1/7/2026 6:20:58 PM] Warning: Unable to load image from 'Assets\icons\ZOCOM\btn-unit-zocom-Striker.dds' (Core: a required object could not be found)
 [1/7/2026 6:20:58 PM] Warning: Unable to load image from 'Assets\icons\ZOCOM\btn-unit-zocom-Dozer.dds' (Core: a required object could not be found)
+
+
+check scrin scrinbuzzers file. it contains a unit scrinbuzzers which can "fuse" with mechanical units and unfuse with it. it works. but now i require a speical behavior. when unitfused with mechanical unit it is invulnerable, but it will search for nearby (8 range) light units and will attack them. while attacking it is vulnerable. when it killed the target if there are no other light targets around the vehicle it is fused with it will return back to the vehicle and will become invulerable again and will continue to follow it. if vehicle is killed scrinbuzzers will become unfused automatically and will become selectable unit again. if buzzers killed while attacking target the vehicle it was fused with will become 'unfused" automatically.
+
