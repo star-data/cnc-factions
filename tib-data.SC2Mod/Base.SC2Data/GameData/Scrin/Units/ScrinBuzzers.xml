@@ -1,0 +1,435 @@
+<Catalog>
+
+
+    <CRequirement id="ScrinUncombineWithBuzzers">
+        <NodeArray index="Show" Link="CB_ScrinBuzzerFused"/>
+    </CRequirement>
+    <CRequirementCountBehavior parent="CB" id="CB_ScrinBuzzerFused" behavior="ScrinBuzzerFused"/>
+
+    <CAbilEffectTarget id="ScrinBuzzersCombineWithVehicle">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Keiron"/>
+        <Range value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinBuzzersCombineWithVehicle"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="5"/>
+        </Cost>
+        <TargetFilters value="-;Self,Ally,Neutral,Enemy,Structure,Missile,Stasis,Dead,Hidden"/>
+        <AINotifyEffect value="FuseFusionAB"/>
+        <Arc value="360"/>
+    </CAbilEffectTarget>
+    <CValidatorUnitAbil id="CanBeFused">
+        <ResultFailed value="Error,ErrorText/CanBeFused"/>
+        <Find value="1"/>
+        <AbilLink value="ScrinUncombineWithBuzzers"/>
+    </CValidatorUnitAbil>
+
+    <CAbilEffectInstant id="ScrinUncombineWithBuzzers">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Keiron"/>
+        <Flags index="Transient" value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinUncombineWithBuzzers" Requirements="ScrinUncombineWithBuzzers">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <TargetFilters value="-;Ally,Neutral,Enemy,Structure,Stasis,Dead,Hidden"/>
+        <AINotifyEffect value="FuseUnfuseRB"/>
+    </CAbilEffectInstant>
+
+    <CEffectRemoveBehavior id="FuseUnfuseRB">
+        <EditorCategories value="Race:Keiron"/>
+        <BehaviorLink value="ScrinBuzzerFused"/>
+    </CEffectRemoveBehavior>
+    <CEffectRemoveBehavior id="ScrinUncombineWithBuzzers">
+        <EditorCategories value="Race:Keiron"/>
+        <BehaviorLink value="FuseFusedData"/>
+    </CEffectRemoveBehavior>
+    <CEffectRemoveBehavior id="FuseUnfuseRBCaster">
+        <EditorCategories value="Race:Keiron"/>
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="ScrinBuzzerFusedCaster"/>
+    </CEffectRemoveBehavior>
+    
+<!--    <CEffectUserData id="FuseUnfuseData">-->
+<!--        <EditorCategories value="Race:Keiron"/>-->
+<!--        <Amount value="0">-->
+<!--            <AccumulatorArray value="FuseUnfuseSwitch"/>-->
+<!--        </Amount>-->
+<!--        <Operation value="Set"/>-->
+<!--        <EffectSuccess value="FuseUnfuseSet"/>-->
+<!--        <EffectFailure value="FuseUnfuseSet"/>-->
+<!--    </CEffectUserData>-->
+<!--    <CAccumulatorSwitch id="FuseUnfuseSwitch">-->
+<!--        <CaseArray Validator="noShields" Accumulator="MultiplyBy0"/>-->
+<!--        <CaseDefault value="ShieldsFractionTarget"/>-->
+<!--    </CAccumulatorSwitch>-->
+<!--    <CAccumulatorArithmetic id="ShieldsFractionTarget">-->
+<!--        <Parameters value="0">-->
+<!--            <AccumulatorArray value="ShieldsCurrentTarget"/>-->
+<!--        </Parameters>-->
+<!--        <Parameters value="0">-->
+<!--            <AccumulatorArray value="ShieldsMaxTarget"/>-->
+<!--        </Parameters>-->
+<!--        <Operation value="Divide"/>-->
+<!--    </CAccumulatorArithmetic>-->
+    
+    
+    
+    <CEffectRemoveKinetic id="FuseUnfuseRK">
+        <EditorCategories value="Race:Keiron"/>
+        <KineticLink value="FollowTargetPosition"/>
+        <ImpactUnit Value="Caster"/>
+    </CEffectRemoveKinetic>
+    <CEffectModifyUnit id="FuseUnfuseSelectionCooldown">
+        <EditorCategories value="Race:Keiron"/>
+        <ImpactUnit Value="Caster"/>
+        <Cost Abil="ScrinUncombineWithBuzzers,Execute" CooldownOperation="Set" CooldownTimeUse="5"/>
+        <SelectTransferUnit Value="Target"/>
+    </CEffectModifyUnit>
+    <CEffectCreatePersistent id="FuseUnfuseSet">
+        <WhichLocation Value="TargetUnit"/>
+        <FinalEffect value="FuseUnfuseSelectionCooldown"/>
+        <PeriodCount value="8"/>
+        <PeriodicEffectArray value="FuseUnfuseRB"/>
+        <PeriodicEffectArray value="FuseUnfuseRK"/>
+        <PeriodicEffectArray value="FuseUnfuseRBCaster"/>
+<!--        <PeriodicEffectArray value="FuseUnfuseShieldSwitch"/>-->
+        <PeriodicEffectArray value="FuseUnfuseCargoSuicide"/>
+<!--        <PeriodicEffectArray value="KeironShellRestorationDelayABCaster"/>-->
+        <PeriodicEffectArray value="FuseUnfuseApplyDamageReduction"/>
+        <PeriodicEffectArray value="FuseUnfuseShow"/>
+        <ExpireDelay value="0.5"/>
+    </CEffectCreatePersistent>
+    <CEffectApplyBehavior id="FuseUnfuseApplyDamageReduction">
+        <EditorCategories value="Race:Keiron"/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="UnfuseDamageReduction"/>
+    </CEffectApplyBehavior>
+    <CBehaviorBuff id="UnfuseDamageReduction">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Keiron,AbilityorEffectType:Units"/>
+        <Duration value="1.4"/>
+        <DamageResponse ModifyFraction="0.25">
+            <Chance value="1"/>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CEffectDamage id="FuseUnfuseCargoSuicide">
+        <ValidatorArray value="IsHidden"/>
+        <ImpactLocation Value="CasterUnit"/>
+        <Flags index="Kill" value="1"/>
+    </CEffectDamage>
+    <CEffectModifyUnit id="FuseUnfuseShieldMUCaster">
+        <EditorCategories value="Race:Keiron"/>
+        <ImpactUnit Value="Caster"/>
+        <VitalArray index="Shields">
+            <ChangeFraction value="0.001">
+                <AccumulatorArray value="DefaultDataAdd"/>
+            </ChangeFraction>
+        </VitalArray>
+        <ModifyFlags index="SetVitals" value="1"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="FuseUnfuseShieldMUTarget">
+        <EditorCategories value="Race:Keiron"/>
+        <VitalArray index="Shields">
+            <ChangeFraction value="0.001">
+                <AccumulatorArray value="DefaultDataAdd"/>
+            </ChangeFraction>
+        </VitalArray>
+        <ModifyFlags index="SetVitals" value="1"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="FuseUnfuseShow">
+        <EditorCategories value="Race:Keiron"/>
+        <ModifyFlags index="Show" value="1"/>
+        <ImpactUnit Value="Caster"/>
+    </CEffectModifyUnit>
+
+
+
+    <CEffectTeleport id="FuseFusionTP">
+        <WhichUnit Value="Caster"/>
+        <MinDistance value="0"/>
+        <TargetLocation Value="TargetUnit"/>
+        <TeleportFlags index="TestFog" value="0"/>
+    </CEffectTeleport>
+
+
+    <CBehaviorBuff id="ScrinBuzzerFusedCaster">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Keiron"/>
+        <Modification>
+<!--            <ModifyFlags index="DisableAbils" value="1"/>-->
+<!--            <ModifyFlags index="SuppressMoving" value="1"/>-->
+            <StateFlags index="Invulnerable" value="1"/>
+            <StateFlags index="Uncommandable" value="1"/>
+            <StateFlags index="Unselectable" value="1"/>
+            <StateFlags index="Untargetable" value="1"/>
+        </Modification>
+        <DamageResponse Fatal="1" ModifyFraction="0" ModifyMinimumDamage="1">
+            <Chance value="1"/>
+        </DamageResponse>
+<!--        <FinalEffect value="DisableShieldRegen4s"/>-->
+        <MaxStackCount value="0"/>
+    </CBehaviorBuff>
+
+    <CEffectCreatePersistent id="ScrinBuzzersCombineWithVehicle">
+        <ValidatorArray value="CanBeFused"/>
+        <WhichLocation Value="TargetUnit"/>
+        <ExpireDelay value="0.0625"/>
+        <ExpireEffect value="FuseFusionCooldown"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="FuseFusionAB"/>
+        <PeriodicEffectArray value="FuseFusionSelection"/>
+<!--        <InitialEffect value="FuseFusionABRegen"/>-->
+    </CEffectCreatePersistent>
+    <CEffectApplyBehavior id="FuseFusionABCaster">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="ScrinBuzzerFusedCaster"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyKinetic id="FuseFusionAK">
+        <EditorCategories value="Race:Keiron"/>
+        <ImpactUnit Value="Caster"/>
+        <Kinetic value="FollowTargetPosition"/>
+    </CEffectApplyKinetic>
+    <CKineticFollow id="FollowTargetPosition">
+        <Where Value="TargetUnit"/>
+        <Follow value="Position"/>
+    </CKineticFollow>
+<!--    <CEffectAddTrackedUnit id="FuseFusionATU">-->
+<!--        <EditorCategories value="Race:Keiron"/>-->
+<!--        <BehaviorLink value="FuseTracker"/>-->
+<!--        <TrackerUnit Value="Target"/>-->
+<!--    </CEffectAddTrackedUnit>-->
+    <CEffectModifyUnit id="FuseFusionHide">
+        <EditorCategories value="Race:Keiron"/>
+        <ModifyFlags index="Hide" value="1"/>
+        <ImpactUnit Value="Caster"/>
+    </CEffectModifyUnit>
+    <CEffectSet id="FuseFusionSet">
+<!--        <EffectArray value="FuseFusionHide"/>-->
+        <EffectArray value="FuseFusionAK"/>
+        <EffectArray value="FuseFusionTP"/>
+<!--        <EffectArray value="FuseFusionATU"/>-->
+        <EffectArray value="FuseFusionABCaster"/>
+        <EffectArray value="FuseFusionABData"/>
+    </CEffectSet>
+<!--    <CEffectModifyUnit id="FuseFusionHealShieldMU">-->
+<!--        <EditorCategories value="Race:Keiron"/>-->
+<!--        <VitalArray index="Shields">-->
+<!--            <Change value="0">-->
+<!--                <AccumulatorArray value="ShieldsCurrentCaster"/>-->
+<!--            </Change>-->
+<!--        </VitalArray>-->
+<!--    </CEffectModifyUnit>-->
+    <CEffectModifyUnit id="FuseFusionSelection">
+        <EditorCategories value="Race:Keiron"/>
+        <Cost/>
+        <SelectTransferUnit Value="Caster"/>
+        <SelectTransferFlags index="DeselectSource" value="1"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="FuseFusionCooldown">
+        <EditorCategories value="Race:Keiron"/>
+        <Cost Abil="ScrinUncombineWithBuzzers,Execute" CooldownOperation="Set" CooldownTimeUse="0.0625"/>
+        <SelectTransferUnit Value="Caster"/>
+        <SelectTransferFlags index="DeselectSource" value="1"/>
+    </CEffectModifyUnit>
+    <CEffectApplyBehavior id="FuseFusionAB">
+        <Behavior value="ScrinBuzzerFused"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="FuseFusionABData">
+        <Behavior value="FuseFusedData"/>
+    </CEffectApplyBehavior>
+<!--    <CEffectApplyBehavior id="FuseFusionHealWardABFused" parent="ScionApplyBehavior">-->
+<!--        <EditorCategories value="Race:Keiron"/>-->
+<!--        <Behavior value="ShellDomeFused"/>-->
+<!--    </CEffectApplyBehavior>-->
+<!--    <CEffectApplyBehavior id="FuseFusionABRegen">-->
+<!--        <ValidatorArray index="0" value="CasterHasShellRestorationOrMaxShields"/>-->
+<!--        <EditorCategories value="Race:Keiron"/>-->
+<!--        <Behavior value="KeironShellRestoration"/>-->
+<!--    </CEffectApplyBehavior>-->
+<!--    <CEffectSet id="FuseFusionHealWardSet">-->
+<!--        <EditorCategories value="Race:Keiron"/>-->
+<!--        <EffectArray value="FuseFusionHealWardABFused"/>-->
+<!--        <EffectArray value="FuseFusionHealShieldMU"/>-->
+<!--    </CEffectSet>-->
+
+    <CBehaviorBuff id="ScrinBuzzerFused">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Keiron"/>
+        <InitialEffect value="FuseFusionSet"/>
+        <Modification>
+<!--            <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>-->
+<!--            <VitalMaxArray index="Shields" value="125"/>-->
+<!--            <VitalRegenArray index="Shields" value="0">-->
+<!--                <AccumulatorArray value="FuseFusionShieldRegenerationBonusSwitch"/>-->
+<!--            </VitalRegenArray>-->
+        </Modification>
+        <InfoIcon value="Assets\Textures\btn-ability-zerg-dehaka-essencecollector.dds"/>
+        <MaxStackCount value="0"/>
+        <RefreshEffect value="FuseFusionSet"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="FuseFusedData">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Scrin"/>
+<!--        <FinalEffect value="FuseUnfuseData"/>-->
+        <FinalEffect value="FuseUnfuseSet"/>
+        <MaxStackCount value="0"/>
+    </CBehaviorBuff>
+
+
+
+    <CUnit id="ScrinBuzzers" parent="ScrinGround">
+<!--        <Collide index="Ground" value="0"/>-->
+<!--        <Collide index="ForceField" value="0"/>-->
+<!--        <Collide index="Locust" value="0"/>-->
+<!--        <Collide index="Phased" value="1"/>-->
+<!--        <Collide index="Structure" value="0"/>-->
+        <LifeStart value="50"/>
+        <LifeMax value="50"/>
+        <Food value="1"/>
+        <Speed value="3.25"/>
+        <CostResource index="Minerals" value="50"/>
+        <WeaponArray Link="ScrinBuzzersWeapon"/>
+        <GlossaryPriority value="35"/>
+        <AbilArray Link="ScrinBuzzersCombineWithVehicle"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="ScrinBuzzersCombineWithVehicle" Type="AbilCmd" AbilCmd="ScrinBuzzersCombineWithVehicle,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <LifeRegenDelay value="4"/>
+        <LifeRegenRate value="2"/>
+    </CUnit>
+
+    <CUnit id="ScrinBuzzersSummoned" parent="ScrinBuzzers">
+        <FlagArray index="Unselectable" value="1"/>
+<!--        <FlagArray index="Untargetable" value="1"/>-->
+        <FlagArray index="AILifetime" value="1"/>
+        <FlagArray index="ArmySelect" value="1"/>
+        <AIEvalFactor value="0"/>
+        <EditorFlags index="NoPlacement" value="1"/>
+        <CostResource index="Minerals" value="0"/>
+        <ScoreMake value="0"/>
+        <ScoreKill value="0"/>
+        <GlossaryCategory value=""/>
+        <HotkeyCategory value=""/>
+        <LifeRegenDelay value="4"/>
+        <LifeRegenRate value="5"/>
+    </CUnit>
+
+    <CWeaponLegacy parent="ScrinWeapon" id="ScrinBuzzersWeapon" icon="wireframe-scrin-unit-buzzers">
+        <TargetFilters value="Visible,Ground;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="0.1"/>
+        <Period value="1"/>
+        <Effect value="ScrinBuzzersWeaponDamage"/>
+        <DamagePoint value="0.2666"/>
+    </CWeaponLegacy>
+    <CEffectDamage parent="ScrinDamage" id="ScrinBuzzersWeaponDamage">
+        <AttributeBonus index="Light" value="55"/>
+        <Flags index="Notification" value="1"/>
+        <Kind value="Melee"/>
+        <Amount value="5"/>
+        <SearchFlags index="OffsetByUnitRadius" value="1"/>
+    </CEffectDamage>
+
+
+    <CAbilQueue id="HangarQueue3">
+        <EditorCategories value="Race:Neutral,AbilityorEffectType:Structures"/>
+        <QueueSize value="3"/>
+        <Flags index="Passive" value="1"/>
+    </CAbilQueue>
+    <CUnit id="ScrinBuzzerHive" parent="ScrinStructure">
+        <BehaviorArray Link="CNCEnergyDrain5"/>
+        <BehaviorArray Link="CNCDeployable"/>
+        <FlagArray index="AIDefense" value="1"/>
+        <LifeStart value="300"/>
+        <LifeMax value="300"/>
+        <Sight value="11"/>
+        <CostResource index="Minerals" value="150"/>
+        <RepairTime value="25"/>
+        <AttackTargetPriority value="19"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="ScrinBuzzerHiveHangar"/>
+        <AbilArray Link="HangarQueue3"/>
+        <EquipmentArray Weapon="ScrinBuzzerHiveDummy"/>
+        <WeaponArray Link="ScrinBuzzerLaunch"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="ScrinBuzzers" Type="AbilCmd" AbilCmd="ScrinBuzzerHiveHangar,Ammo1" Row="2" Column="0"/>
+        </CardLayouts>
+        <Radius value="0.75"/>
+        <SeparationRadius value="0.75"/>
+        <Footprint value="Footprint2x2Contour"/>
+        <PlacementFootprint value="Footprint2x2"/>
+        <ScoreMake value="100"/>
+        <ScoreKill value="100"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="0.75"/>
+        <GlossaryPriority value="300"/>
+    </CUnit>
+    <CWeaponLegacy parent="ScrinWeapon" id="ScrinBuzzerHiveDummy" icon="wireframe-scrin-unit-buzzers">
+        <DisplayEffect value="ScrinBuzzersWeaponDamage"/>
+        <TargetFilters value="Ground,Visible;Player,Ally,Neutral,Enemy"/>
+        <DisplayAttackCount value="1"/>
+        <Range value="8"/>
+        <Arc value="360"/>
+        <Period value="3"/>
+        <Effect value="ScrinBuzzerHiveUM"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy parent="ScrinWeapon" id="ScrinBuzzerLaunch" icon="wireframe-scrin-unit-buzzers">
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="8"/>
+        <Arc value="360"/>
+        <Period value="0.5"/>
+        <Options index="Hidden" value="1"/>
+        <Effect value="ScrinBuzzerLaunchPersistent"/>
+        <DamagePoint value="0"/>
+        <Backswing value="0"/>
+        <DisplayEffect value="Carrier"/>
+    </CWeaponLegacy>
+    <CEffectCreatePersistent id="ScrinBuzzerLaunchPersistent">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichLocation Value="TargetUnit"/>
+        <TimeScaleSource Value="Caster"/>
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="8"/>
+        <PeriodicValidator value="CasterNotDead"/>
+        <PeriodicEffectArray value="ScrinBuzzerHiveUM"/>
+        <PeriodicPeriodArray value="0.375"/>
+    </CEffectCreatePersistent>
+
+
+    <CEffectUseMagazine id="ScrinBuzzerHiveUM">
+        <EditorCategories value="Race:Protoss"/>
+    </CEffectUseMagazine>
+    <CRequirement id="ArmScrinBuzzer">
+        <NodeArray index="Use" Link="UQU_ScrinBuzzers_LT8"/>
+    </CRequirement>
+    <CRequirementCountUnit parent="UQU" id="UQU_ScrinBuzzersSummoned">
+        <Count Link="ScrinBuzzersSummoned" State="QueuedOrBetterAtUnit"/>
+        <Flags index="TechTreeCheat" value="0"/>
+    </CRequirementCountUnit>
+    <CRequirementLT id="UQU_ScrinBuzzersSummoned_LT8">
+        <OperandArray index="0" value="UQU_ScrinBuzzersSummoned"/>
+        <OperandArray index="1" value="8"/>
+        <Tooltip value="RequirementNode/Tooltip/UQU_ScrinBuzzersSummoned_LT8"/>
+    </CRequirementLT>
+    <CAbilArmMagazine id="ScrinBuzzerHiveHangar">
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <AbilSetId value="CarrierHanger"/>
+        <Leash value="12"/>
+        <Flags index="Retarget" value="1"/>
+        <EffectArray index="Death" value="InterceptorFate"/>
+        <InfoArray index="Ammo1" Time="10" CountStart="1" Manage="Recall" Unit="ScrinBuzzersSummoned">
+            <Charge Link="ScrinBuzzersSummoned" Location="Unit"/>
+            <Button DefaultButtonFace="ScrinBuzzers" Requirements="ArmScrinBuzzer">
+                <Flags index="ToSelection" value="1"/>
+            </Button>
+            <Flags index="AutoBuild" value="1"/>
+            <Flags index="LeashRetarget" value="1"/>
+            <Flags index="AutoBuildOn" value="1"/>
+            <Cooldown Link="ScrinTrainBuzzersSummoned" TimeUse="0.01"/>
+        </InfoArray>
+        <Alert value="TrainComplete"/>
+        <MaxCount value="3"/>
+    </CAbilArmMagazine>
+
+</Catalog>

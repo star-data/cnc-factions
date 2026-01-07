@@ -332,7 +332,9 @@
         <Macros value="SnowVisualUnitMacroMP"/>
         <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
         <PortraitModel value="ScrinPortrait"/>
-        <SoundArray index="Construction" value="Terran_ConstructionWhat"/>
+        <SoundArray index="Construction" value="##unitName##_What"/>
+        <SoundArray index="Ready" value="##unitName##_What"/>
+        <SoundArray index="What" value="##unitName##_What"/>
         <NameOffset value="110"/>
         <BarOffset value="110"/>
         <BarWidth value="135"/>
@@ -375,7 +377,7 @@
         <Wireframe>
             <Image value="Assets\icons\Scrin\wireframe-Scrin-unit-##icon##.dds"/>
         </Wireframe>
-        <DeathArray index="Normal" SoundLink="##unitName##_Death"/>
+        <DeathArray index="Normal" SoundLink="Hellion_Explode" VoiceLink="##unitName##_Death"/>
         <DeathArray index="Blast" SoundLink="##unitName##_Death"/>
         <DeathArray index="Disintegrate" SoundLink="##unitName##_Death"/>
         <DeathArray index="Eat" AnimProps="Stand" SoundLink="##unitName##_Death"/>
@@ -383,10 +385,9 @@
         <DeathArray index="Fire" AnimProps="Death" SoundLink="##unitName##_Death"/>
         <DeathArray index="Silentkill" SoundLink="##unitName##_Death"/>
         <DeathArray index="Squish" SoundLink="##unitName##_Death"/>
-        <DeathArray index="Normal" SoundLink="##unitName##_Death"/>
         <SoundArray index="Ready" value="##unitName##_Ready"/>
-        <SoundArray index="Help" value="##unitName##_Help"/>
         <SoundArray index="What" value="##unitName##_What"/>
+        <SoundArray index="Help" value="##unitName##_Help"/>
         <SoundArray index="Yes" value="##unitName##_Yes"/>
         <SoundArray index="Attack" value="##unitName##_Attack"/>
         <SoundArray index="Pissed" value="##unitName##_What"/>
@@ -412,7 +413,7 @@
         <WalkAnimMoveSpeed value="2.25"/>
         <On Terms="Behavior.MercGroundDrop.Create" Send="Create WarPigDropModel"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create Marine_Land"/>
-        <LifeArmorIcon value="Assets\icons\Scrin\ScrinInfantryArmors.dds"/>
+        <LifeArmorIcon value="Assets\icons\Scrin\btn-scrin-upgrade-groundarmors.dds"/>
         <BarOffset value="40"/>
         <BarWidth value="36"/>
     </CActorUnit>
@@ -421,10 +422,8 @@
         <CreepHeightClass value="Tiny"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create Hellion_Land"/>
         <On Terms="Behavior.MercGroundDrop.Create" Send="Create MercHellionDropModel"/>
-        <LifeArmorIcon value="Assets\icons\Scrin\ScrinVehiclesArmors.dds"/>
-        <DeathArray index="Normal" ModelLink="CABALRaider_Death" SoundLink="Hellion_Explode"/>
+        <LifeArmorIcon value="Assets\icons\Scrin\btn-scrin-upgrade-groundarmors.dds"/>
         <BarOffset value="50"/>
-        <SoundArray index="Movement" value="ScrinVehicleMoveLoopBike"/>
     </CActorUnit>
     <CActorUnit default="1" id="ScrinVehicle" parent="ScrinUnitBase">
         <Aliases value="_UnitLarge"/>
@@ -433,10 +432,9 @@
         <Macros value="PhysicsDeathsVoidGround"/>
         <Inherits index="ModelMaterials" value="1"/>
         <AcceptedTransfers index="ModelMaterials" value="1"/>
-        <LifeArmorIcon value="Assets\icons\Scrin\ScrinVehiclesArmors.dds"/>
+        <LifeArmorIcon value="Assets\icons\Scrin\btn-scrin-upgrade-groundarmors.dds"/>
         <On Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
         <CreepHeightClass value="Tiny"/>
-        <DeathArray index="Normal" ModelLink="CABALAvengerTank_Death" SoundLink="SiegeTank_Explode"/>
         <DeathCustomData Name="RagdollBasic"/>
         <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
         <StandAnimTurnTime value="3.33"/>
@@ -456,11 +454,9 @@
         <Aliases value="_UnitLarge"/>
         <HostSiteOps Ops="CnCBankerAir"/>
         <AnimBlendTime value="0.300000"/>
-        <LifeArmorIcon value="Assets\icons\Scrin\ScrinVehiclesArmors.dds"/>
-        <DeathArray index="Normal" ModelLink="CABALVenom_Death" SoundLink="Wraith_Explode"/>
+        <LifeArmorIcon value="Assets\icons\Scrin\btn-scrin-upgrade-airarmors.dds"/>
         <BarOffset value="55"/>
         <BarWidth value="66"/>
-        <SoundArray index="Movement" value="Venom_Movement"/>
     </CActorUnit>
     
     <CActorUnit parent="ScrinBuilding" id="ScrinDronePlatform" icon="DronePlatform"/>
@@ -476,7 +472,7 @@
     <CActorUnit parent="ScrinBuilding" id="ScrinWarpChasm" icon="WarpChasm"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinFoundry" icon="Foundry"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinBuzzerHive" icon="BuzzerHive"/>
-    <CActorUnit parent="ScrinBuilding" id="ScrinPlasmaDiscs" icon="PhotonCannon"/>
+    <CActorUnit parent="ScrinBuilding" id="ScrinPhotonCannon" icon="PhotonCannon"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinPlasmaMissileBattery" icon="PlasmaMissileBattery"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinStormColumn" icon="StormColumn"/>
     <CActorUnit parent="ScrinBuilding" id="ScrinGrowthAccelerator" icon="GrowthAccelerator"/>
@@ -486,6 +482,9 @@
     <CActorUnit parent="ScrinBuilding" id="ScrinOutpost" icon="Outpost"/>
 
     <CActorUnit parent="ScrinInfantry" id="ScrinBuzzers" icon="Buzzers"/>
+    <CActorUnit parent="ScrinInfantry" id="ScrinBuzzersSummoned" icon="Buzzers">
+        <Model value="ScrinBuzzers"/>
+    </CActorUnit>
     <CActorUnit parent="ScrinInfantry" id="ScrinDisintegrator" icon="Disintegrator"/>
     <CActorUnit parent="ScrinInfantry" id="ScrinAssimilator" icon="Assimilator"/>
     <CActorUnit parent="ScrinInfantry" id="ScrinShockTrooper" icon="ShockTrooper"/>
