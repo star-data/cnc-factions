@@ -40,6 +40,12 @@ void libTIBW_InitVariables () {
     for (init_i = 0; init_i <= 15; init_i += 1) {
         libTIBW_gv_decoyCaster[init_i] = UnitGroupEmpty();
     }
+    for (init_i = 0; init_i <= 15; init_i += 1) {
+        libTIBW_gv_masterMindTeleportMarkTarget[init_i] = UnitGroupEmpty();
+    }
+    for (init_i = 0; init_i <= 15; init_i += 1) {
+        libTIBW_gv_masterMindTeleportCaster[init_i] = UnitGroupEmpty();
+    }
     for (init_i = 0; init_i <= libTIBW_gv_platformMaxCountRoyalGuardExperienceGainingUnitGroupReturnedworkunitgroupPickedupweaponsetWeaponPickupUnitGroupStarChargeLevel; init_i += 1) {
         libTIBW_gv_bomberPFUnitsGroupRoyalGuardExperienceGainingUnitGroupReturnedworkunitgroupPickedupweaponsetWeaponPickupUnitGroupStarChargeLevel[init_i] = UnitGroupEmpty();
     }
@@ -4586,6 +4592,103 @@ void libTIBW_gt_ReckonerSiege_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: ScrinProdigyTeleportUnits Execute
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ScrinProdigyTeleportUnitsExecute_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+    unitgroup lv_units;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_player = UnitGetOwner(EventUnit());
+    lv_units = UnitGroupEmpty();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitBehaviorAdd(EventUnit(), "ScrinProdigyTeleportUnitsTargeting", EventUnit(), 1);
+    libTIBW_gv_masterMindTeleportMarkPoints[EventPlayer()] = EventUnitTargetPoint();
+    UnitGroupAdd(libTIBW_gv_masterMindTeleportCaster[EventPlayer()], EventUnit());
+    UISetTargetingOrder(PlayerGroupSingle(EventPlayer()), libTIBW_gv_masterMindTeleportCaster[EventPlayer()], OrderTargetingPoint(AbilityCommand("ScrinProdigyTeleportUnitsTargeting", 0), EventUnitTargetPoint()), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ScrinProdigyTeleportUnitsExecute_Init () {
+    libTIBW_gt_ScrinProdigyTeleportUnitsExecute = TriggerCreate("libTIBW_gt_ScrinProdigyTeleportUnitsExecute_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_ScrinProdigyTeleportUnitsExecute, null, AbilityCommand("ScrinProdigyTeleportUnits", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ScrinProdigyTeleportUnitsTargeting Execute
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ScrinProdigyTeleportUnitsTargetingExecute_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+    unit lv_mark;
+    unit lv_caster;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_player = UnitGetOwner(EventUnit());
+    lv_mark = UnitGroupUnit(libTIBW_gv_masterMindTeleportMarkTarget[EventPlayer()], 1);
+    lv_caster = UnitGroupUnit(libTIBW_gv_masterMindTeleportCaster[EventPlayer()], 1);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libNtve_gf_CreateUnitsWithDefaultFacing(1, "ScrinProdigyTeleportUnitsCoverUnit", 0, UnitGetOwner(EventUnit()), libTIBW_gv_masterMindTeleportMarkPoints[EventPlayer()]);
+    lv_mark = UnitLastCreated();
+    UnitIssueOrder(lv_mark, OrderTargetingPoint(AbilityCommand("ScrinProdigyTeleportUnitsExecute", 0), EventUnitTargetPoint()), c_orderQueueReplace);
+    UnitBehaviorRemove(lv_caster, "ScrinProdigyTeleportUnitsTargeting", 1);
+    UnitGroupRemove(libTIBW_gv_masterMindTeleportCaster[EventPlayer()], lv_caster);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ScrinProdigyTeleportUnitsTargetingExecute_Init () {
+    libTIBW_gt_ScrinProdigyTeleportUnitsTargetingExecute = TriggerCreate("libTIBW_gt_ScrinProdigyTeleportUnitsTargetingExecute_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_ScrinProdigyTeleportUnitsTargetingExecute, null, AbilityCommand("ScrinProdigyTeleportUnitsTargeting", 0), c_unitAbilStageComplete, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: ScrinProdigyTeleportUnitsTargeting Cancel
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ScrinProdigyTeleportUnitsTargetingCancel_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_mark;
+    unit lv_caster;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_mark = UnitGroupUnit(libTIBW_gv_masterMindTeleportMarkTarget[EventPlayer()], 1);
+    lv_caster = UnitGroupUnit(libTIBW_gv_masterMindTeleportCaster[EventPlayer()], 1);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitRemove(lv_mark);
+    UnitBehaviorRemove(lv_caster, "ScrinProdigyTeleportUnitsTargeting", 1);
+    UnitGroupRemove(libTIBW_gv_masterMindTeleportMarkTarget[EventPlayer()], lv_mark);
+    UnitGroupRemove(libTIBW_gv_masterMindTeleportCaster[EventPlayer()], lv_caster);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ScrinProdigyTeleportUnitsTargetingCancel_Init () {
+    libTIBW_gt_ScrinProdigyTeleportUnitsTargetingCancel = TriggerCreate("libTIBW_gt_ScrinProdigyTeleportUnitsTargetingCancel_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_ScrinProdigyTeleportUnitsTargetingCancel, null, AbilityCommand("ScrinProdigyTeleportUnitsTargeting", 0), c_unitAbilStageComplete, false);
+    TriggerAddEventTargetModeUpdate(libTIBW_gt_ScrinProdigyTeleportUnitsTargetingCancel, c_playerAny, AbilityCommand("ScrinProdigyTeleportUnitsTargeting", 0), c_targetModeStateOff);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Mechapede Segments Spawn
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_MechapedeSegmentsSpawn_Func (bool testConds, bool runActions) {
@@ -5136,6 +5239,9 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_MineDrop_Init();
     libTIBW_gt_SignatureGenerator_Init();
     libTIBW_gt_ReckonerSiege_Init();
+    libTIBW_gt_ScrinProdigyTeleportUnitsExecute_Init();
+    libTIBW_gt_ScrinProdigyTeleportUnitsTargetingExecute_Init();
+    libTIBW_gt_ScrinProdigyTeleportUnitsTargetingCancel_Init();
     libTIBW_gt_MechapedeSegmentsSpawn_Init();
     libTIBW_gt_Borrowedbombercustomreturntrajectory_Init();
     libTIBW_gt_BorrowedbombercreationbindingStarchainTest_Init();

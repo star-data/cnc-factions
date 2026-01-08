@@ -1,0 +1,60 @@
+<Catalog>
+
+    <CActorSimple id="CombatVisibilityClearer">
+        <On Terms="Effect.ScrinShockTrooperBlink.Start; At Caster" Send="Create"/>
+    </CActorSimple>
+    <CActorModel id="ScrinShockTrooperBlinkOriginModel" parent="ModelAnimationStyleOneShot">
+        <InheritType value="OneShot"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <On Terms="Effect.ScrinShockTrooperBlink.Start; At Source" Send="Create"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOriginStationary"/>
+        <ModelFlags index="AllowHitTest" value="0"/>
+    </CActorModel>
+    <CModel id="ScrinShockTrooperBlinkOriginModel" parent="StalkerBlinkOutBase">
+        <Model value="Assets\Effects\Protoss\BlinkOut\BlinkOut.m3"/>
+    </CModel>
+    <CActorModel id="ScrinShockTrooperBlinkStopModel" parent="ModelAnimationStyleOneShot">
+        <InheritType value="OneShot"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <On Terms="Effect.ScrinShockTrooperBlink.Stop; At Source" Send="Create"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOrigin"/>
+    </CActorModel>
+    <CModel id="ScrinShockTrooperBlinkStopModel" parent="OneShotSpellFX">
+        <Model value="Assets\Effects\Scrin\Scrin_BlinkIn.m3"/>
+    </CModel>
+    <CActorSound id="ScrinShockTrooperBlinkStopSound" parent="SoundOneShot">
+        <Sound value="ScrinShockTrooper_sounTeleStart"/>
+        <On Terms="Effect.ScrinShockTrooperBlink.Stop; At Source" Send="Create"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOrigin"/>
+    </CActorSound>
+    <CEffectTeleport id="ScrinShockTrooperBlink">
+        <EditorCategories value="Race:Protoss"/>
+        <ClearQueuedOrders value="0"/>
+        <PlacementAround Value="CasterUnit"/>
+        <PlacementRange value="8"/>
+        <Range value="8"/>
+        <WhichUnit Value="Caster"/>
+        <TargetLocation Value="TargetPoint"/>
+        <TeleportFlags index="TestCliff" value="1"/>
+        <ValidatorArray value="CasterNotFungalGrowthed"/>
+    </CEffectTeleport>
+    <CAbilEffectTarget id="ScrinShockTrooperBlink">
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <Flags index="BestUnit" value="0"/>
+        <Flags index="RequireTargetVision" value="0"/>
+        <Cost>
+            <Cooldown Link="ScrinShockTrooperBlink" TimeUse="10"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinShockTrooperBlink">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <AbilSetId value="Blnk"/>
+    </CAbilEffectTarget>
+</Catalog>
