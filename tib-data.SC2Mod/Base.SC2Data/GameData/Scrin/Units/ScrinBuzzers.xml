@@ -1,29 +1,29 @@
 <Catalog>
-    <CRequirement id="CBU_ScrinVehicleHasLinkedBuzzers">
-        <NodeArray index="Show" Link="CBU_ScrinVehicleHasLinkedBuzzers"/>
+    <CRequirement id="CBU_ScrinHostCombined">
+        <NodeArray index="Show" Link="CBU_ScrinHostCombined"/>
     </CRequirement>
-    <CRequirement id="NBU_ScrinBuzzersLinkedWithVehicleAndAttacking">
-        <NodeArray index="Show" Link="NBU_ScrinBuzzersLinkedWithVehicleAndAttacking"/>
+    <CRequirement id="NBU_ScrinMinionLinked">
+        <NodeArray index="Show" Link="NBU_ScrinMinionLinked"/>
     </CRequirement>
-    <CRequirement id="CBU_ScrinBuzzersLinkedWithVehicleAndAttacking">
-        <NodeArray index="Show" Link="CBU_ScrinBuzzersLinkedWithVehicleAndAttacking"/>
+    <CRequirement id="CBU_ScrinMinionLinked">
+        <NodeArray index="Show" Link="CBU_ScrinMinionLinked"/>
     </CRequirement>
     <CRequirement id="CBU_ScrinVehicleHasLinkedAttackingBuzzers">
         <NodeArray index="Show" Link="CBU_ScrinVehicleHasLinkedAttackingBuzzers"/>
     </CRequirement>
-    <CRequirementCountBehavior parent="CBU" id="CBU_ScrinVehicleHasLinkedBuzzers" behavior="ScrinVehicleHasLinkedBuzzers"/>
-    <CRequirementCountBehavior parent="CBU" id="CBU_ScrinBuzzersLinkedWithVehicleAndAttacking" behavior="ScrinBuzzersLinkedWithVehicleAndAttacking"/>
-    <CRequirementCountBehavior parent="CBU" id="CBU_ScrinVehicleHasLinkedAttackingBuzzers" behavior="ScrinVehicleHasLinkedAttackingBuzzers"/>
-    <CRequirementNot parent="NBU" id="NBU_ScrinBuzzersLinkedWithVehicleAndAttacking" behavior="ScrinBuzzersLinkedWithVehicleAndAttacking"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_ScrinHostCombined" behavior="ScrinHostCombined"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_ScrinMinionLinked" behavior="ScrinMinionLinked"/>
+    <CRequirementCountBehavior parent="CBU" id="CBU_ScrinVehicleHasLinkedAttackingBuzzers" behavior="ScrinHostLinked"/>
+    <CRequirementNot parent="NBU" id="NBU_ScrinMinionLinked" behavior="ScrinMinionLinked"/>
 
     <CValidatorUnitCompareBehaviorCount id="HasScrinVehicleHasLinkedHostedBuzzers">
         <WhichUnit Value="Caster"/>
-        <Behavior value="ScrinVehicleHasLinkedHostedBuzzers"/>
+        <Behavior value="ScrinHostFused"/>
         <Compare value="NE"/>
     </CValidatorUnitCompareBehaviorCount>
     <CValidatorCompareTrackedUnitsCount id="HasIdleBuzzers">
         <Compare value="NE"/>
-        <BehaviorLink value="ScrinBuzzerFusionBuzzers"/>
+        <BehaviorLink value="ScrinCombineMinionTracker"/>
         <TrackedUnitValidatorArray value="TargetIsNotMovingOrAttacking"/>
     </CValidatorCompareTrackedUnitsCount>
     <CValidatorCombine id="TargetIsNotMovingOrAttacking">
@@ -58,44 +58,65 @@
     </CValidatorUnitOrderQueue>
 
     <!--Buzzers: Tracks Linked Vehicle for Buzzers-->
-    <CBehaviorUnitTracker id="ScrinBuzzerFusionVehicle">
+    <CBehaviorUnitTracker id="ScrinCombineHostTracker">
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-seeker.dds"/>
     </CBehaviorUnitTracker>
+    <CEffectAddTrackedUnit id="ScrinCombineHostTracker@ATU">
+        <BehaviorLink value="ScrinCombineHostTracker"/>
+        <TrackerUnit Value="Caster"/>
+        <TrackedUnit Value="Target"/>
+    </CEffectAddTrackedUnit>
+    <CEffectRemoveTrackedUnit id="ScrinCombineHostTracker@RTU">
+        <BehaviorLink value="ScrinCombineHostTracker"/>
+        <TrackedUnit Value="Target"/>
+    </CEffectRemoveTrackedUnit>
 
     <!--Vehicle: Tracks Linked Buzzers for Vehicle -->
-    <CBehaviorUnitTracker id="ScrinBuzzerFusionBuzzers">
+    <CBehaviorUnitTracker id="ScrinCombineMinionTracker">
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-buzzers.dds"/>
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
     </CBehaviorUnitTracker>
-
+    <CEffectAddTrackedUnit id="ScrinCombineMinionTracker@ATU">
+        <BehaviorLink value="ScrinCombineMinionTracker"/>
+        <TrackerUnit Value="Target"/>
+    </CEffectAddTrackedUnit>
+    <CEffectRemoveTrackedUnit id="ScrinCombineMinionTracker@RTU">
+        <BehaviorLink value="ScrinCombineMinionTracker"/>
+        <TrackerUnit Value="Target"/>
+    </CEffectRemoveTrackedUnit>
+    
     <!--Buzzers: Indicates that Buzzers are linked with Vehicle and currently in attack order. -->
-    <CBehaviorBuff id="ScrinBuzzersLinkedWithVehicleAndAttacking">
+    <CBehaviorBuff id="ScrinMinionLinked">
         <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-seeker.dds"/>
         <Period value="0.0625"/>
-        <PeriodicEffect value="ScrinFuseWithLinkedVehicleETU"/>
+        <PeriodicEffect value="ScrinMinionLinked@ETU"/>
     </CBehaviorBuff>
     <!-- Periodically try to return to linked vehicle if Buzzers has no orders-->
-    <CEffectEnumTrackedUnits id="ScrinFuseWithLinkedVehicleETU">
+    <CEffectEnumTrackedUnits id="ScrinMinionLinked@ETU">
         <ValidatorArray value="CasterHasNoOrders"/>
-        <BehaviorLink value="ScrinBuzzerFusionVehicle"/>
-        <Effect value="ScrinBuzzersMoveToLinkedVehicleIO"/>
+        <BehaviorLink value="ScrinCombineHostTracker"/>
+        <Effect value="ScrinMinionLinked@IO"/>
     </CEffectEnumTrackedUnits>
-    <CEffectIssueOrder id="ScrinBuzzersMoveToLinkedVehicleIO">
+    <CEffectIssueOrder id="ScrinMinionLinked@IO">
         <Abil value="move"/>
         <WhichUnit Value="Caster"/>
-        <Target Effect="ScrinBuzzersMoveToLinkedVehicleIO" Value="TargetUnit"/>
+        <Target Effect="ScrinMinionLinked@IO" Value="TargetUnit"/>
     </CEffectIssueOrder>
-    <CValidatorUnitCompareBehaviorCount id="HasScrinBuzzersLinkedWithVehicleAndAttacking">
+    <CValidatorUnitCompareBehaviorCount id="IsScrinMinionLinked">
         <WhichUnit Value="Caster"/>
-        <Behavior value="ScrinBuzzersLinkedWithVehicleAndAttacking"/>
+        <Behavior value="ScrinMinionLinked"/>
         <Compare value="NE"/>
     </CValidatorUnitCompareBehaviorCount>
+    <CEffectRemoveBehavior id="ScrinMinionLinked@RB">
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="ScrinMinionLinked"/>
+    </CEffectRemoveBehavior>
 
     <!--Buzzers: Indicates that Buzzers are linked with Vehicle and Hosted with it. Hosted Buzzers only follow linked vehicle. -->
-    <CBehaviorBuff id="ScrinBuzzersLinkedWithVehicleAndFused">
+    <CBehaviorBuff id="ScrinMinionFused">
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-seeker.dds"/>
         <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units,Race:Keiron"/>
         <Modification>
             <ModifyFlags index="DisableAbils" value="1"/>
             <ModifyFlags index="SuppressMoving" value="1"/>
@@ -106,152 +127,189 @@
             <StateFlags index="Untargetable" value="1"/>
         </Modification>
     </CBehaviorBuff>
-    <CValidatorUnitCompareBehaviorCount id="HasScrinBuzzersLinkedWithVehicleAndFused">
+    <CValidatorUnitCompareBehaviorCount id="IsScrinMinionFused">
         <WhichUnit Value="Caster"/>
-        <Behavior value="ScrinBuzzersLinkedWithVehicleAndFused"/>
+        <Behavior value="ScrinMinionFused"/>
         <Compare value="NE"/>
     </CValidatorUnitCompareBehaviorCount>
+    <CEffectRemoveBehavior id="ScrinMinionFused@RB">
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="ScrinMinionFused"/>
+    </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="ScrinMinionFused@AB">
+        <WhichUnit Value="Target"/>
+        <Behavior value="ScrinMinionFused"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="ScrinMinionFused@ABCaster">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="ScrinMinionFused"/>
+    </CEffectApplyBehavior>
 
     <!--Vehicle: Indicates that vehicle has linked Buzzers-->
-    <CBehaviorBuff id="ScrinVehicleHasLinkedBuzzers">
-        <InitialEffect value="ScrinCV@IE"/>
+    <CBehaviorBuff id="ScrinHostCombined">
+        <InitialEffect value="ScrinHostCombined@IE"/>
         <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-buzzers.dds"/>
         <MaxStackCount value="0"/>
-        <RemoveValidatorArray value="ScrinBuzzersLinkedWithVehicle"/>
-        <RefreshEffect value="ScrinCV@IE"/>
-        <FinalEffect value="ScrinCV@FE"/>
+        <RemoveValidatorArray value="IsScrinMinionCombined"/>
+        <RefreshEffect value="ScrinHostCombined@IE"/>
+        <FinalEffect value="ScrinHostCombined@FE"/>
     </CBehaviorBuff>
-    <CEffectSet id="ScrinCV@IE">
+    <CEffectSet id="ScrinHostCombined@IE">
         <EffectArray value="ScrinCV@AK"/>
         <EffectArray value="ScrinCV@TP"/>
-        <EffectArray value="ScrinVehicleHasLinkedHostedBuzzersAB"/>
+        <EffectArray value="ScrinHostFused@AB"/>
     </CEffectSet>
-    <CEffectCreatePersistent id="ScrinCV@FE">
+    <CEffectCreatePersistent id="ScrinHostCombined@FE">
         <WhichLocation Value="TargetUnit"/>
         <PeriodCount value="8"/>
         <PeriodicEffectArray value="ScrinCV@RK"/>
-        <PeriodicEffectArray value="ScrinBuzzersLinkedWithVehicleAndFusedRB"/>
-        <PeriodicEffectArray value="ScrinBuzzersLinkedWithVehicleAndAttackingRB"/>
-        <PeriodicEffectArray value="ScrinVehicleHasLinkedHostedBuzzersRB"/>
-        <PeriodicEffectArray value="ScrinVehicleHasLinkedAttackingBuzzersRB"/>
-        <PeriodicEffectArray value="ScrinBuzzerFusionVehicleRTU"/>
-        <PeriodicEffectArray value="ScrinBuzzerFusionBuzzersRTU"/>
+        <PeriodicEffectArray value="ScrinMinionFused@RB"/>
+        <PeriodicEffectArray value="ScrinMinionLinked@RB"/>
+        <PeriodicEffectArray value="ScrinHostFused@RB"/>
+        <PeriodicEffectArray value="ScrinHostLinked@RB"/>
+        <PeriodicEffectArray value="ScrinCombineHostTracker@RTU"/>
+        <PeriodicEffectArray value="ScrinCombineMinionTracker@RTU"/>
         <PeriodicEffectArray value="FuseUnfuseCargoSuicide"/>
-        <FinalEffect value="FuseUnfuseSelectionCooldown"/>
+        <FinalEffect value="ScrinCombine@SetCooldown"/>
         <ExpireDelay value="0.5"/>
     </CEffectCreatePersistent>
-    <!--check if unit still linked-->
-    <CValidatorCombine id="ScrinBuzzersLinkedWithVehicle">
-        <Type value="Or"/>
-        <CombineArray value="HasScrinBuzzersLinkedWithVehicleAndFused"/>
-        <CombineArray value="HasScrinBuzzersLinkedWithVehicleAndAttacking"/>
-    </CValidatorCombine>
-
-    <!--Vehicle: Indicates that vehicle has linked buzzers which are currently Fused with the Host-->
-    <CBehaviorBuff id="ScrinVehicleHasLinkedHostedBuzzers">
-        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-buzzers.dds"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <MaxStackCount value="0"/>
-    </CBehaviorBuff>
-    <!--Model attachment. Original unit model will be hidden while hosted-->
-    <CActorSiteOpLocalOffset id="ScrinCV@SO">
-        <LocalOffset value="0.000000,0.000000,-0.5"/>
-    </CActorSiteOpLocalOffset>
-    <CActorModel id="ScrinCV@MA" parent="ModelAddition">
-        <Inherits index="BaseModelScale" value="0"/>
-        <Inherits index="Scale" value="0"/>
-        <Inherits index="TintColor" value="0"/>
-        <On Terms="Behavior.ScrinVehicleHasLinkedHostedBuzzers.On" Send="Create"/>
-        <On Terms="Behavior.ScrinVehicleHasLinkedHostedBuzzers.Off" Send="AnimBracketStop BSD"/>
-        <HostSiteOps Ops="SOpAttachCenter ScrinCV@SO"/>
-        <AutoScaleFactor value="1"/>
-        <Model value="ScrinBuzzers"/>
-    </CActorModel>
-
-    <!--Vehicle: Indicates that vehicle has linked buzzers which are currently in attacking order -->
-    <CBehaviorBuff id="ScrinVehicleHasLinkedAttackingBuzzers">
-        <InfoFlags index="Hidden" value="1"/>
-        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-buzzers.dds"/>
-        <MaxStackCount value="0"/>
-    </CBehaviorBuff>
-
-    <!--Buzzers: Fuse Buzzers with Vehicle-->
-    <CAbilEffectTarget id="ScrinBuzzersCombineWithVehicle">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Keiron"/>
-        <Range value="1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinBuzzersCombineWithVehicle" Requirements="NBU_ScrinBuzzersLinkedWithVehicleAndAttacking"/>
-        <Flags index="AllowMovement" value="1"/>
-        <Flags index="NoDeceleration" value="1"/>
-        <Cost>
-            <Cooldown TimeUse="5"/>
-        </Cost>
-        <TargetFilters value="-;Self,Ally,Neutral,Enemy,Structure,Missile,Stasis,Dead,Hidden"/>
-        <AINotifyEffect value="ScrinVehicleHasLinkedBuzzersAB"/>
-        <Arc value="360"/>
-    </CAbilEffectTarget>
-    <CEffectSet id="ScrinBuzzersCombineWithVehicle">
-        <TargetLocationType value="Unit"/>
-        <ValidatorArray value="ScrinCanCombineWithBuzzers"/>
-        <ValidatorArray value="ScrinVehicleHasLinkedBuzzersLT2"/>
-        <EffectArray value="ScrinBuzzersLinkedWithVehicleAndFusedABCaster"/>
-        <EffectArray value="ScrinVehicleHasLinkedBuzzersAB"/>
-        <EffectArray value="ScrinCV@DeselectBuzzers"/>
-        <EffectArray value="ScrinBuzzerFusionVehicleATU"/>
-        <EffectArray value="ScrinBuzzerFusionBuzzersATU"/>
-    </CEffectSet>
-    <!--Validate that target unit can combine with Buzzers-->
-    <CValidatorUnitAbil id="ScrinCanCombineWithBuzzers">
-        <ResultFailed value="Error,ErrorText/ScrinCanCombineWithBuzzers"/>
-        <Find value="1"/>
-        <AbilLink value="ScrinUncombineWithBuzzers"/>
-    </CValidatorUnitAbil>
-    <!--Set Limits For Linked Buzzers -->
-    <CValidatorUnitCompareBehaviorCount id="ScrinVehicleHasLinkedBuzzersLT2">
-        <ResultFailed value="Error,ErrorText/ScrinVehicleCanOnlyHave2LinkedBuzzers"/>
-        <WhichUnit Value="Target"/>
-        <Behavior value="ScrinVehicleHasLinkedBuzzers"/>
-        <Compare value="LT"/>
-        <Value value="1"/>
-    </CValidatorUnitCompareBehaviorCount>
-
-    <!--Buzzers: Unfuse Buzzers from the Vehicle-->
-    <CAbilEffectInstant id="ScrinUncombineBuzzersFromVehicle">
-        <Flags index="Transient" value="1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinUncombineBuzzersFromVehicle" Requirements="CBU_ScrinBuzzersLinkedWithVehicleAndAttacking">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-        <TargetFilters value="-;Ally,Neutral,Enemy,Structure,Stasis,Dead,Hidden"/>
-        <AINotifyEffect value="ScrinBuzzersLinkedWithVehicleAndAttackingRB"/>
-    </CAbilEffectInstant>
-    <CEffectSet id="ScrinUncombineBuzzersFromVehicle">
-        <EffectArray value="ScrinBuzzersLinkedWithVehicleAndAttackingRB"/>
-    </CEffectSet>
-
-    <!--Vehicle: Unfuse Buzzers from the Vehicle-->
-    <CAbilEffectInstant id="ScrinUncombineWithBuzzers">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Keiron"/>
-        <Flags index="Transient" value="1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinUncombineWithBuzzers" Requirements="CBU_ScrinVehicleHasLinkedBuzzers">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-        <TargetFilters value="-;Ally,Neutral,Enemy,Structure,Stasis,Dead,Hidden"/>
-        <AINotifyEffect value="ScrinVehicleHasLinkedBuzzersRB"/>
-    </CAbilEffectInstant>
-    <CEffectSet id="ScrinUncombineWithBuzzers">
-        <EffectArray value="ScrinVehicleHasLinkedBuzzersRB"/>
-    </CEffectSet>
     <!--Kill buzzers if host was killed inside transport-->
     <CEffectDamage id="FuseUnfuseCargoSuicide">
         <ValidatorArray value="IsHidden"/>
         <ImpactLocation Value="CasterUnit"/>
         <Flags index="Kill" value="1"/>
     </CEffectDamage>
+    <!--check if unit still linked-->
+    <CValidatorCombine id="IsScrinMinionCombined">
+        <Type value="Or"/>
+        <CombineArray value="IsScrinMinionFused"/>
+        <CombineArray value="IsScrinMinionLinked"/>
+    </CValidatorCombine>
+    <CEffectApplyBehavior id="ScrinHostCombined@AB">
+        <Behavior value="ScrinHostCombined"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="ScrinHostCombined@RB">
+        <BehaviorLink value="ScrinHostCombined"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+
+    <!--Vehicle: Indicates that vehicle has linked buzzers which are currently Fused with the Host-->
+    <CBehaviorBuff id="ScrinHostFused">
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-buzzers.dds"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <MaxStackCount value="0"/>
+    </CBehaviorBuff>
+    <!--Model attachment. Original unit model will be hidden while hosted-->
+    <CActorSiteOpLocalOffset id="ScrinHostFused@SOpLO">
+        <LocalOffset value="0.000000,0.000000,-0.5"/>
+    </CActorSiteOpLocalOffset>
+    <CActorModel id="ScrinHostFused@MA" parent="ModelAddition">
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="TintColor" value="0"/>
+        <On Terms="Behavior.ScrinHostFused.On" Send="Create"/>
+        <On Terms="Behavior.ScrinHostFused.Off" Send="AnimBracketStop BSD"/>
+        <HostSiteOps Ops="SOpAttachCenter ScrinHostFused@SOpLO"/>
+        <AutoScaleFactor value="1"/>
+        <Model value="ScrinBuzzers"/>
+    </CActorModel>
+    <CEffectRemoveBehavior id="ScrinHostFused@RB">
+        <BehaviorLink value="ScrinHostFused"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="ScrinHostFused@AB">
+        <WhichUnit Value="Target"/>
+        <Behavior value="ScrinHostFused"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="ScrinHostFused@RBCaster">
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="ScrinHostFused"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+
+    <!--Vehicle: Indicates that vehicle has linked buzzers which are currently in attacking order -->
+    <CBehaviorBuff id="ScrinHostLinked">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-buzzers.dds"/>
+        <MaxStackCount value="0"/>
+    </CBehaviorBuff>
+    <CEffectRemoveBehavior id="ScrinHostLinked@RB">
+        <BehaviorLink value="ScrinHostLinked"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="ScrinHostLinked@ABCaster">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="ScrinHostLinked"/>
+    </CEffectApplyBehavior>
+
+    <!--Buzzers: Fuse Buzzers with Vehicle-->
+    <CAbilEffectTarget id="ScrinCombine">
+        <Range value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinCombine" Requirements="NBU_ScrinMinionLinked"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="5"/>
+        </Cost>
+        <TargetFilters value="-;Self,Ally,Neutral,Enemy,Structure,Missile,Stasis,Dead,Hidden"/>
+        <AINotifyEffect value="ScrinHostCombined@AB"/>
+        <Arc value="360"/>
+    </CAbilEffectTarget>
+    <CEffectSet id="ScrinCombine">
+        <TargetLocationType value="Unit"/>
+        <ValidatorArray value="ScrinCombine@HasScrinUncombine"/>
+        <ValidatorArray value="ScrinCombine@CombineLimit"/>
+        <EffectArray value="ScrinMinionFused@ABCaster"/>
+        <EffectArray value="ScrinHostCombined@AB"/>
+        <EffectArray value="ScrinCV@DeselectBuzzers"/>
+        <EffectArray value="ScrinCombineHostTracker@ATU"/>
+        <EffectArray value="ScrinCombineMinionTracker@ATU"/>
+    </CEffectSet>
+    <!--Validate that target unit can combine with Buzzers-->
+    <CValidatorUnitAbil id="ScrinCombine@HasScrinUncombine">
+        <ResultFailed value="Error,ErrorText/ScrinCombine@WrongTarget"/>
+        <Find value="1"/>
+        <AbilLink value="ScrinHostUncombine"/>
+    </CValidatorUnitAbil>
+    <!--Set Limits For Linked Buzzers -->
+    <CValidatorUnitCompareBehaviorCount id="ScrinCombine@CombineLimit">
+        <ResultFailed value="Error,ErrorText/ScrinCombine@CombineLimit"/>
+        <WhichUnit Value="Target"/>
+        <Behavior value="ScrinHostCombined"/>
+        <Compare value="LT"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareBehaviorCount>
+
+    <!--Buzzers: Unfuse Buzzers from the Vehicle-->
+    <CAbilEffectInstant id="ScrinMinionUncombine">
+        <Flags index="Transient" value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinMinionUncombine" Requirements="CBU_ScrinMinionLinked">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <TargetFilters value="-;Ally,Neutral,Enemy,Structure,Stasis,Dead,Hidden"/>
+        <AINotifyEffect value="ScrinMinionLinked@RB"/>
+    </CAbilEffectInstant>
+    <CEffectSet id="ScrinMinionUncombine">
+        <EffectArray value="ScrinMinionLinked@RB"/>
+    </CEffectSet>
+
+    <!--Vehicle: Unfuse Buzzers from the Vehicle-->
+    <CAbilEffectInstant id="ScrinHostUncombine">
+        <Flags index="Transient" value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinHostUncombine" Requirements="CBU_ScrinHostCombined">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <TargetFilters value="-;Ally,Neutral,Enemy,Structure,Stasis,Dead,Hidden"/>
+        <AINotifyEffect value="ScrinHostCombined@RB"/>
+    </CAbilEffectInstant>
+    <CEffectSet id="ScrinHostUncombine">
+        <EffectArray value="ScrinHostCombined@RB"/>
+    </CEffectSet>
 
     <!---Vehicle: Set Linked Buzzers into Attack Order-->
-    <CAbilEffectTarget id="ScrinUseFusedBuzzers">
-        <Flags index="Transient" value="1"/>
-        <Range value="8"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinBuzzers" Requirements="CBU_ScrinVehicleHasLinkedBuzzers"/>
+    <CAbilEffectTarget id="ScrinSendMinions">
+        <Range value="15"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinBuzzers" Requirements="CBU_ScrinHostCombined"/>
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
@@ -262,70 +320,82 @@
         <AutoCastRange value="8"/>
         <AutoCastValidatorArray value="HasIdleBuzzers"/>
     </CAbilEffectTarget>
-    <CEffectSet id="ScrinUseFusedBuzzers">
-        <EffectArray value="ScrinUseFusedBuzzers@ETU"/>
+    <CEffectSet id="ScrinSendMinions">
+        <EffectArray value="ScrinSendMinions@ETU"/>
         <TargetLocationType value="UnitOrPoint"/>
     </CEffectSet>
-    <CEffectEnumTrackedUnits id="ScrinUseFusedBuzzers@ETU">
-        <BehaviorLink value="ScrinBuzzerFusionBuzzers"/>
-        <Effect value="ScrinUseFusedBuzzers@Set"/>
+    <CEffectEnumTrackedUnits id="ScrinSendMinions@ETU">
+        <BehaviorLink value="ScrinCombineMinionTracker"/>
+        <Effect value="ScrinSendMinions@Switch"/>
     </CEffectEnumTrackedUnits>
-    <CEffectSet id="ScrinUseFusedBuzzers@Set">
+    <CEffectSwitch id="ScrinSendMinions@Switch">
+        <CaseArray Validator="ScrinSendMinions@IsScrinMinionLinked" Effect="ScrinSendMinions@SetLinked"/>
+        <CaseDefault value="ScrinSendMinions@SetFused"/>
+    </CEffectSwitch>
+    <CValidatorUnitCompareBehaviorCount id="ScrinSendMinions@IsScrinMinionLinked">
+        <WhichUnit Effect="ScrinSendMinions@Set"/>
+        <Behavior value="ScrinMinionLinked"/>
+        <Compare value="NE"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CEffectSet id="ScrinSendMinions@SetFused">
         <TargetLocationType value="UnitOrPoint"/>
-        <EffectArray value="ScrinVehicleHasLinkedAttackingBuzzersABCaster"/>
-        <EffectArray value="ScrinVehicleHasLinkedHostedBuzzersRBCaster"/>
-        <EffectArray value="ScrinUseFusedBuzzersRK"/>
-        <EffectArray value="ScrinUseFusedBuzzersRB"/>
-        <EffectArray value="ScrinUseFusedBuzzersAB"/>
-        <EffectArray value="ScrinUseFusedBuzzersIO"/>
+        <EffectArray value="ScrinHostLinked@ABCaster"/>
+        <EffectArray value="ScrinHostFused@RBCaster"/>
+        <EffectArray value="ScrinSendMinionsRK"/>
+        <EffectArray value="ScrinSendMinionsRB"/>
+        <EffectArray value="ScrinSendMinionsAB"/>
+        <EffectArray value="ScrinSendMinionsIO"/>
     </CEffectSet>
-    <CEffectRemoveBehavior id="ScrinVehicleHasLinkedHostedBuzzersRBCaster">
-        <WhichUnit Value="Caster"/>
-        <BehaviorLink value="ScrinVehicleHasLinkedHostedBuzzers"/>
-        <Count value="1"/>
+    <CEffectSet id="ScrinSendMinions@SetLinked">
+        <TargetLocationType value="UnitOrPoint"/>
+        <EffectArray value="ScrinSendMinionsIO"/>
+    </CEffectSet>
+    <CEffectRemoveKinetic id="ScrinSendMinionsRK">
+        <KineticLink value="FollowTargetPosition"/>
+        <ImpactUnit Effect="ScrinSendMinions@Set"/>
+    </CEffectRemoveKinetic>
+    <CEffectRemoveBehavior id="ScrinSendMinionsRB">
+        <WhichUnit Effect="ScrinSendMinions@Set"/>
+        <BehaviorLink value="ScrinMinionFused"/>
     </CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="ScrinUseFusedBuzzersRB">
-        <WhichUnit Effect="ScrinUseFusedBuzzersAttackCP"/>
-        <BehaviorLink value="ScrinBuzzersLinkedWithVehicleAndFused"/>
-    </CEffectRemoveBehavior>
-    <CEffectApplyBehavior id="ScrinUseFusedBuzzersAB">
-        <WhichUnit Effect="ScrinUseFusedBuzzersAttackCP"/>
-        <Behavior value="ScrinBuzzersLinkedWithVehicleAndAttacking"/>
+    <CEffectApplyBehavior id="ScrinSendMinionsAB">
+        <WhichUnit Effect="ScrinSendMinions@Set"/>
+        <Behavior value="ScrinMinionLinked"/>
     </CEffectApplyBehavior>
-    <CEffectIssueOrder id="ScrinUseFusedBuzzersIO">
+    <CEffectIssueOrder id="ScrinSendMinionsIO">
         <Abil value="attack"/>
-        <WhichUnit Effect="ScrinUseFusedBuzzersAttackCP"/>
-        <Target Effect="ScrinUseFusedBuzzers" Value="TargetUnitOrPoint"/>
+        <WhichUnit Effect="ScrinSendMinions@Set"/>
+        <Target Effect="ScrinSendMinions" Value="TargetUnitOrPoint"/>
     </CEffectIssueOrder>
 
     <!---Vehicle: Call back Linked attacking Buzzers -->
-    <CAbilEffectInstant id="ScrinCallbackFusedBuzzers">
+    <CAbilEffectInstant id="ScrinHostRecallMinions">
         <Flags index="Transient" value="1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinCallbackFusedBuzzers" Requirements="CBU_ScrinVehicleHasLinkedAttackingBuzzers"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinHostRecallMinions" Requirements="CBU_ScrinVehicleHasLinkedAttackingBuzzers"/>
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <Arc value="360"/>
     </CAbilEffectInstant>
-    <CEffectSet id="ScrinCallbackFusedBuzzers">
-        <EffectArray value="ScrinCallbackFusedBuzzers@ETU"/>
+    <CEffectSet id="ScrinHostRecallMinions">
+        <EffectArray value="ScrinHostRecallMinions@ETU"/>
         <TargetLocationType value="UnitOrPoint"/>
     </CEffectSet>
-    <CEffectEnumTrackedUnits id="ScrinCallbackFusedBuzzers@ETU">
-        <BehaviorLink value="ScrinBuzzerFusionBuzzers"/>
-        <Effect value="ScrinCallbackFusedBuzzers@Set"/>
+    <CEffectEnumTrackedUnits id="ScrinHostRecallMinions@ETU">
+        <BehaviorLink value="ScrinCombineMinionTracker"/>
+        <Effect value="ScrinHostRecallMinions@Set"/>
     </CEffectEnumTrackedUnits>
-    <CEffectSet id="ScrinCallbackFusedBuzzers@Set">
-        <EffectArray value="ScrinCallbackFusedBuzzers@IO"/>
+    <CEffectSet id="ScrinHostRecallMinions@Set">
+        <EffectArray value="ScrinHostRecallMinions@IO"/>
     </CEffectSet>
-    <CEffectIssueOrder id="ScrinCallbackFusedBuzzers@IO">
-        <Abil value="ScrinBuzzersFuseBack"/>
-        <WhichUnit Effect="ScrinCallbackFusedBuzzers@Set"/>
+    <CEffectIssueOrder id="ScrinHostRecallMinions@IO">
+        <Abil value="ScrinMinionRecallTargeted"/>
+        <WhichUnit Effect="ScrinHostRecallMinions@Set"/>
     </CEffectIssueOrder>
 
     <!--Buzzers: Fuse Buzzers with its linked Vehicle -->
-    <CAbilEffectInstant id="ScrinBuzzersFuseBackEI">
+    <CAbilEffectInstant id="ScrinMinionRecall">
         <Flags index="Transient" value="1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinBuzzers" Requirements="CBU_ScrinBuzzersLinkedWithVehicleAndAttacking"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinBuzzers" Requirements="CBU_ScrinMinionLinked"/>
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <Arc value="360"/>
@@ -334,35 +404,34 @@
         <AutoCastFilters value="-;Self,Player,Ally,Neutral,Structure,Missile,Stasis,Dead,Hidden"/>
         <AutoCastRange value="1"/>
         <AutoCastValidatorArray value="CasterIsNotMovingOrAttacking"/>
-        <AutoCastValidatorArray value="HasScrinBuzzersLinkedWithVehicleAndAttacking"/>
+        <AutoCastValidatorArray value="IsScrinMinionLinked"/>
     </CAbilEffectInstant>
-    <CEffectEnumTrackedUnits id="ScrinBuzzersFuseBackEI">
-        <BehaviorLink value="ScrinBuzzerFusionVehicle"/>
-        <Effect value="ScrinBuzzersFuseBackIO"/>
+    <CEffectEnumTrackedUnits id="ScrinMinionRecall">
+        <BehaviorLink value="ScrinCombineHostTracker"/>
+        <Effect value="ScrinMinionRecall@IO"/>
     </CEffectEnumTrackedUnits>
-    <CEffectIssueOrder id="ScrinBuzzersFuseBackIO">
-        <Abil value="ScrinBuzzersFuseBack"/>
+    <CEffectIssueOrder id="ScrinMinionRecall@IO">
+        <Abil value="ScrinMinionRecallTargeted"/>
         <WhichUnit Value="Caster"/>
-        <Target Effect="ScrinBuzzersFuseBackIO" Value="TargetUnit"/>
+        <Target Effect="ScrinMinionRecall@IO" Value="TargetUnit"/>
     </CEffectIssueOrder>
-
-    <!--Buzzers: Fuse Buzzers with their Linked Vehicle (not clickable, only used with ScrinBuzzersFuseBackEI)-->
-    <CAbilEffectTarget id="ScrinBuzzersFuseBack">
+    <!--Buzzers: Fuse Buzzers with their Linked Vehicle (not clickable, only used with ScrinMinionRecall)-->
+    <CAbilEffectTarget id="ScrinMinionRecallTargeted">
         <Range value="0.1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinBuzzersFuseBack" Requirements="CBU_ScrinBuzzersLinkedWithVehicleAndAttacking"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinMinionRecallTargeted" Requirements="CBU_ScrinMinionLinked"/>
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <TargetFilters value="Ground,Visible;Self,Ally,Neutral,Enemy,Structure,Missile,Stasis,Dead,Hidden"/>
         <Arc value="360"/>
     </CAbilEffectTarget>
-    <CEffectSet id="ScrinBuzzersFuseBack">
+    <CEffectSet id="ScrinMinionRecallTargeted">
         <TargetLocationType value="Unit"/>
-        <EffectArray value="ScrinBuzzersLinkedWithVehicleAndAttackingRB"/>
-        <EffectArray value="ScrinVehicleHasLinkedAttackingBuzzersRB"/>
-        <EffectArray value="ScrinVehicleHasLinkedHostedBuzzersAB"/>
+        <EffectArray value="ScrinMinionLinked@RB"/>
+        <EffectArray value="ScrinHostLinked@RB"/>
+        <EffectArray value="ScrinHostFused@AB"/>
         <EffectArray value="ScrinCV@AK"/>
         <EffectArray value="ScrinCV@TP"/>
-        <EffectArray value="ScrinBuzzersLinkedWithVehicleAndFusedABCaster"/>
+        <EffectArray value="ScrinMinionFused@ABCaster"/>
         <EffectArray value="ScrinCV@DeselectBuzzers"/>
     </CEffectSet>
 
@@ -372,13 +441,8 @@
         <Kinetic value="FollowTargetPosition"/>
     </CEffectApplyKinetic>
     <CEffectRemoveKinetic id="ScrinCV@RK">
-        <EditorCategories value="Race:Keiron"/>
         <KineticLink value="FollowTargetPosition"/>
         <ImpactUnit Value="Caster"/>
-    </CEffectRemoveKinetic>
-    <CEffectRemoveKinetic id="ScrinUseFusedBuzzersRK">
-        <KineticLink value="FollowTargetPosition"/>
-        <ImpactUnit Effect="ScrinUseFusedBuzzersAttackCP"/>
     </CEffectRemoveKinetic>
     <CKineticFollow id="FollowTargetPosition">
         <Where Value="TargetUnit"/>
@@ -392,80 +456,13 @@
         <TeleportFlags index="TestFog" value="0"/>
     </CEffectTeleport>
 
-    <CEffectRemoveBehavior id="ScrinVehicleHasLinkedHostedBuzzersRB">
-        <BehaviorLink value="ScrinVehicleHasLinkedHostedBuzzers"/>
-        <Count value="1"/>
-    </CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="ScrinVehicleHasLinkedAttackingBuzzersRB">
-        <BehaviorLink value="ScrinVehicleHasLinkedAttackingBuzzers"/>
-        <Count value="1"/>
-    </CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="ScrinVehicleHasLinkedBuzzersRB">
-        <EditorCategories value="Race:Keiron"/>
-        <BehaviorLink value="ScrinVehicleHasLinkedBuzzers"/>
-        <Count value="1"/>
-    </CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="ScrinBuzzersLinkedWithVehicleAndFusedRB">
-        <WhichUnit Value="Caster"/>
-        <BehaviorLink value="ScrinBuzzersLinkedWithVehicleAndFused"/>
-    </CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="ScrinBuzzersLinkedWithVehicleAndAttackingRB">
-        <WhichUnit Value="Caster"/>
-        <BehaviorLink value="ScrinBuzzersLinkedWithVehicleAndAttacking"/>
-    </CEffectRemoveBehavior>
 
-    <CEffectApplyBehavior id="ScrinVehicleHasLinkedBuzzersAB">
-        <Behavior value="ScrinVehicleHasLinkedBuzzers"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="ScrinVehicleHasLinkedAttackingBuzzersABCaster">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="ScrinVehicleHasLinkedAttackingBuzzers"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="ScrinVehicleHasLinkedHostedBuzzersAB">
-        <WhichUnit Value="Target"/>
-        <Behavior value="ScrinVehicleHasLinkedHostedBuzzers"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="ScrinBuzzersLinkedWithVehicleAndFusedAB">
-        <WhichUnit Value="Target"/>
-        <Behavior value="ScrinBuzzersLinkedWithVehicleAndFused"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="ScrinBuzzersLinkedWithVehicleAndFusedABCaster">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="ScrinBuzzersLinkedWithVehicleAndFused"/>
-    </CEffectApplyBehavior>
-
-    <CEffectAddTrackedUnit id="ScrinBuzzerFusionVehicleATU">
-        <BehaviorLink value="ScrinBuzzerFusionVehicle"/>
-        <TrackerUnit Value="Caster"/>
-        <TrackedUnit Value="Target"/>
-    </CEffectAddTrackedUnit>
-    <CEffectAddTrackedUnit id="ScrinBuzzerFusionBuzzersATU">
-        <BehaviorLink value="ScrinBuzzerFusionBuzzers"/>
-        <TrackerUnit Value="Target"/>
-    </CEffectAddTrackedUnit>
-
-    <CEffectRemoveTrackedUnit id="ScrinBuzzerFusionVehicleRTU">
-        <BehaviorLink value="ScrinBuzzerFusionVehicle"/>
-        <TrackedUnit Value="Target"/>
-    </CEffectRemoveTrackedUnit>
-    <CEffectRemoveTrackedUnit id="ScrinBuzzerFusionBuzzersRTU">
-        <BehaviorLink value="ScrinBuzzerFusionBuzzers"/>
-        <TrackerUnit Value="Target"/>
-    </CEffectRemoveTrackedUnit>
-
-    <CEffectModifyUnit id="FuseUnfuseSelectionCooldown">
-        <EditorCategories value="Race:Keiron"/>
+    <CEffectModifyUnit id="ScrinCombine@SetCooldown">
         <ImpactUnit Value="Caster"/>
-        <Cost Abil="ScrinUncombineWithBuzzers,Execute" CooldownOperation="Set" CooldownTimeUse="5"/>
+        <Cost Abil="ScrinCombine,Execute" CooldownOperation="Set" CooldownTimeUse="5"/>
         <SelectTransferUnit Value="Target"/>
     </CEffectModifyUnit>
     <CEffectModifyUnit id="ScrinCV@DeselectBuzzers">
-        <SelectTransferUnit Value="Caster"/>
-        <SelectTransferFlags index="DeselectSource" value="1"/>
-    </CEffectModifyUnit>
-    <CEffectModifyUnit id="FuseFusionCooldown">
-        <EditorCategories value="Race:Keiron"/>
-        <Cost Abil="ScrinUncombineWithBuzzers,Execute" CooldownOperation="Set" CooldownTimeUse="0.0625"/>
         <SelectTransferUnit Value="Caster"/>
         <SelectTransferFlags index="DeselectSource" value="1"/>
     </CEffectModifyUnit>
@@ -487,15 +484,15 @@
         <CostResource index="Minerals" value="50"/>
         <WeaponArray Link="ScrinBuzzersWeapon"/>
         <GlossaryPriority value="35"/>
-        <BehaviorArray Link="ScrinBuzzerFusionVehicle"/>
-        <AbilArray Link="ScrinBuzzersCombineWithVehicle"/>
-        <AbilArray Link="ScrinBuzzersFuseBack"/>
-        <AbilArray Link="ScrinBuzzersFuseBackEI"/>
-        <AbilArray Link="ScrinUncombineBuzzersFromVehicle"/>
+        <BehaviorArray Link="ScrinCombineHostTracker"/>
+        <AbilArray Link="ScrinCombine"/>
+        <AbilArray Link="ScrinMinionRecallTargeted"/>
+        <AbilArray Link="ScrinMinionRecall"/>
+        <AbilArray Link="ScrinMinionUncombine"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="ScrinBuzzersCombineWithVehicle" Type="AbilCmd" AbilCmd="ScrinBuzzersCombineWithVehicle,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="ScrinBuzzersFuseBack" Type="AbilCmd" AbilCmd="ScrinBuzzersFuseBackEI,Execute" Row="2" Column="4"/>
-            <LayoutButtons Face="ScrinUncombineBuzzersFromVehicle" Type="AbilCmd" AbilCmd="ScrinUncombineBuzzersFromVehicle,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="ScrinCombine" Type="AbilCmd" AbilCmd="ScrinCombine,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="ScrinMinionRecallTargeted" Type="AbilCmd" AbilCmd="ScrinMinionRecall,Execute" Row="2" Column="4"/>
+            <LayoutButtons Face="ScrinMinionUncombine" Type="AbilCmd" AbilCmd="ScrinMinionUncombine,Execute" Row="1" Column="0"/>
         </CardLayouts>
         <LifeRegenDelay value="4"/>
         <LifeRegenRate value="2"/>
@@ -531,7 +528,6 @@
         <LifeRegenRate value="5"/>
     </CUnit>
     <CAbilQueue id="ScrinBuzzerHiveQueue">
-        <EditorCategories value="Race:Neutral,AbilityorEffectType:Structures"/>
         <QueueSize value="3"/>
         <Flags index="Passive" value="1"/>
     </CAbilQueue>
@@ -587,7 +583,6 @@
         <DisplayEffect value="Carrier"/>
     </CWeaponLegacy>
     <CEffectCreatePersistent id="ScrinBuzzerLaunchPersistent">
-        <EditorCategories value="Race:Protoss"/>
         <WhichLocation Value="TargetUnit"/>
         <TimeScaleSource Value="Caster"/>
         <Flags index="Channeled" value="1"/>
@@ -597,7 +592,6 @@
         <PeriodicPeriodArray value="0.375"/>
     </CEffectCreatePersistent>
     <CEffectUseMagazine id="ScrinBuzzerHiveUM">
-        <EditorCategories value="Race:Protoss"/>
     </CEffectUseMagazine>
     <CRequirement id="ScrinBuzzerHiveArm">
         <NodeArray index="Use" Link="UQU_ScrinBuzzersSummoned_LT3"/>
@@ -612,7 +606,6 @@
         <Tooltip value="RequirementNode/Tooltip/UQU_ScrinBuzzersSummoned_LT3"/>
     </CRequirementLT>
     <CAbilArmMagazine id="ScrinBuzzerHiveHangar">
-        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <AbilSetId value="CarrierHanger"/>
         <Leash value="12"/>
         <Flags index="Retarget" value="1"/>
