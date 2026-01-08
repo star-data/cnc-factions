@@ -339,7 +339,7 @@
     <CValidatorCompareTrackedUnitsCount id="HasIdleBuzzers">
         <Compare value="NE"/>
         <BehaviorLink value="ScrinBuzzerFusionBuzzers"/>
-        <TrackedUnitValidatorArray value="TargetHasNoOrders"/>
+        <TrackedUnitValidatorArray value="TargetIsNotMovingOrAttacking"/>
     </CValidatorCompareTrackedUnitsCount>
 
     <CValidatorUnitCompareOrderCount id="TargetHasOrders" parent="CasterHasNoOrders">
@@ -347,6 +347,22 @@
         <Compare value="GT"/>
     </CValidatorUnitCompareOrderCount>
 
+    <CValidatorCombine id="TargetIsNotMovingOrAttacking">
+        <Type value="And"/>
+        <CombineArray value="TargetIsNotAttacking"/>
+        <CombineArray value="TargetIsNotMoving"/>
+    </CValidatorCombine>
+
+    <CValidatorUnitOrderQueue id="TargetIsNotAttacking">
+        <WhichUnit Value="Target"/>
+        <AbilLink value="attack"/>
+        <Find value="0"/>
+    </CValidatorUnitOrderQueue>
+    <CValidatorUnitOrderQueue id="TargetIsNotMoving">
+        <WhichUnit Value="Target"/>
+        <AbilLink value="move"/>
+        <Find value="0"/>
+    </CValidatorUnitOrderQueue>
 
 
 

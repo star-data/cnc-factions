@@ -1,13 +1,13 @@
 <Catalog>
 <!--    <CUnit id="Nova">-->
 <!--        <AbilArray Link="Domination"/>-->
-<!--        <AbilArray Link="ReleaseMinion"/>-->
+<!--        <AbilArray Link="ScrinProdigyReleaseMinion"/>-->
 <!--        <CardLayouts>-->
 <!--            <LayoutButtons Face="Domination" Type="AbilCmd" AbilCmd="Domination,Execute" Row="2" Column="1"/>-->
-<!--            <LayoutButtons Face="ReleaseMinion" Type="AbilCmd" AbilCmd="ReleaseMinion,Execute" Row="2" Column="2"/>-->
+<!--            <LayoutButtons Face="ScrinProdigyReleaseMinion" Type="AbilCmd" AbilCmd="ScrinProdigyReleaseMinion,Execute" Row="2" Column="2"/>-->
 <!--        </CardLayouts>-->
 <!--    </CUnit>-->
-    <CAbilEffectTarget id="Domination">
+    <CAbilEffectTarget id="ScrinProdigyMindControl">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Effect index="0" value="DominationPersistent"/>
         <Flags index="AbortOnAllianceChange" value="0"/>
@@ -16,19 +16,27 @@
         </Cost>
         <TargetFilters value="Visible;Player,Ally,Neutral,Robotic,Structure,Missile,Stasis,Dead,Invulnerable"/>
         <Range value="7"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Domination" Requirements="UseDomination"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinProdigyMindControl" Requirements="UseDomination"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
         <RangeSlop value="100"/>
         <AINotifyEffect value="DominationApplySet"/>
     </CAbilEffectTarget>
-    <CAbilEffectInstant id="ReleaseMinion">
+    <CAbilEffectTarget id="ScrinCultistMindControl" parent="ScrinProdigyMindControl">
+        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="ScrinProdigyAreaMindControl">
+        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>
+    </CAbilEffectInstant>
+
+
+    <CAbilEffectInstant id="ScrinProdigyReleaseMinion">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
         <Flags index="RequireTargetVision" value="0"/>
         <Flags index="Transient" value="1"/>
         <AINotifyEffect value=""/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="ReleaseMinion" Requirements="UseReleaseMinion"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinProdigyReleaseMinion" Requirements="UseScrinProdigyReleaseMinion"/>
     </CAbilEffectInstant>
 
     <!-- Domination                                                                              -->
@@ -70,28 +78,59 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Player Value="Caster"/>
         <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Enemy" value="1"/>
+<!--        <AcquirePlayer Effect="DominationAB" Value="Target"/>-->
+<!--        <AcquirePlayer  Value="Caster"/>-->
+        <Modification>
+            <StateFlags index="RevealProgress" value="1"/>
+            <StateFlags index="SuppressPassenger" value="1"/>
+            <AbilClassDisableArray index="CAbilSpecialize" value="1"/>
+            <AbilClassDisableArray index="CAbilTransport" value="1"/>
+            <AbilLinkDisableArray value="ArchonWarp"/>
+            <AbilLinkDisableArray value="SprayProtoss"/>
+            <AbilLinkDisableArray value="SprayTerran"/>
+            <AbilLinkDisableArray value="SprayZerg"/>
+            <AbilLinkDisableArray value="Clone"/>
+        </Modification>
+<!--        <BuffFlags index="Channeled" value="1"/>-->
+        <RemoveValidatorArray value="NotHidden"/>
+        <RemoveValidatorArray value="NotFrenzied"/>
+        <RemoveValidatorArray value="NotVortexd"/>
+<!--        <RemoveValidatorArray value="NotOracleStasisTrapped"/>-->
+        <FinalEffect value="DominationExpireSet"/>
+        <InitialEffect value="ApplyDominationAcquireToAllChildren"/>
+    </CBehaviorBuff>
+    <CEffectSet id="DominationExpireSet">
+        <EffectArray value="AlreadyDominatingRBCaster"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="DominationChildren">
+        <EditorCategories value="Race:Zerg"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumMagazine id="ApplyDominationAcquireToAllChildren">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectInternal value="DominationChildren"/>
+        <EffectExternal value="DominationChildren"/>
+    </CEffectEnumMagazine>
+    <CBehaviorBuff id="DominationChildren" parent="Radar">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\BTN-Ability-Zerg-NeuralParasite.dds"/>
+<!--        <AcquirePlayer Effect="DominationAB" Value="Target"/>-->
+        <AcquirePlayer  Value="Caster"/>
+        <BuffFlags index="Channeling" value="1"/>
+        <Modification>
+            <StateFlags index="Benign" value="1"/>
+        </Modification>
     </CBehaviorBuff>
 
-    <CButton id="Domination">
-        <Icon value="Assets\Textures\BTN-Ability-terran-domination.dds"/>
-        <EditorCategories value="Race:Terran"/>
-        <TintRacially value="1"/>
-    </CButton>
-    <CButton id="ReleaseMinion">
-        <Icon value="Assets\Textures\btn-command-cancel.dds"/>
-        <EditorCategories value="Race:Terran"/>
-    </CButton>
 
-    <CEffectDestroyPersistent id="ReleaseMinion">
+    <CEffectDestroyPersistent id="ScrinProdigyReleaseMinion">
         <EditorCategories value="Race:Terran"/>
         <Effect value="DominationPersistent"/>
         <Count value="4294967295"/>
         <Radius value="500"/>
     </CEffectDestroyPersistent>
 
-
     <CEffectApplyBehavior id="DominationAB">
-        <EditorCategories value="Race:Terran"/>
         <Behavior value="Domination"/>
     </CEffectApplyBehavior>
     <CEffectEnumArea id="DominationDummy">
@@ -106,7 +145,8 @@
         <ValidatorArray index="0" removed="1"/>
     </CEffectLaunchMissile>
     <CEffectCreatePersistent id="DominationPersistent">
-        <EditorCategories value="Race:Terran"/>
+<!--        <ValidatorArray index="0" value="IsNotWarpingIn"/>-->
+<!--        <ValidatorArray value="IsNotPhaseShifted"/>-->
         <WhichLocation Value="TargetUnit"/>
         <InitialEffect value="DominationApplySet"/>
         <FinalEffect value="DominationRemoveSet"/>
@@ -114,6 +154,11 @@
         <PeriodicValidator value="Domination"/>
         <PeriodicPeriodArray value="0.2"/>
     </CEffectCreatePersistent>
+    <CValidatorCombine id="Domination">
+        <Type value="And"/>
+        <CombineArray value="NotDead"/>
+        <CombineArray value="CasterNotDead"/>
+    </CValidatorCombine>
     <CEffectRemoveBehavior id="DominationRB">
         <EditorCategories value="Race:Terran"/>
         <BehaviorLink value="Domination"/>
@@ -133,6 +178,11 @@
     <CEffectRemoveBehavior id="DominationRemoveNova">
         <EditorCategories value="Race:Terran"/>
         <WhichUnit Value="Source"/>
+        <BehaviorLink value="AlreadyDominating"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+    <CEffectRemoveBehavior id="AlreadyDominatingRBCaster">
+        <WhichUnit Value="Caster"/>
         <BehaviorLink value="AlreadyDominating"/>
         <Count value="1"/>
     </CEffectRemoveBehavior>
@@ -156,7 +206,7 @@
         <NodeArray index="Use" Link="NotCountBehaviorAlreadyDominatingInProgressOrBetter"/>
         <NodeArray index="Show" Link="NotCountBehaviorAlreadyDominatingInProgressOrBetter"/>
     </CRequirement>
-    <CRequirement id="UseReleaseMinion">
+    <CRequirement id="UseScrinProdigyReleaseMinion">
         <EditorCategories value="Race:Terran,TechType:Ability"/>
         <NodeArray index="Show" Link="CountBehaviorAlreadyDominatingInProgressOrBetter"/>
     </CRequirement>
