@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CAbilEffectTarget id="NodDecoyArmyTargeting">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodDecoyArmyTestNullEffect"/>
+        <Cost>
+            <Vital index="Energy" value="75"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CursorEffect value="NodDecoyArmySearchForUnits"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmy" Requirements="NodDecoyArmyRequirement"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="NodDecoyArmyExecute">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Effect index="0" value="NodDecoyArmyCP"/>
+        <!--        <Cost>-->
+        <!--&lt;!&ndash;            <Charge Link="Abil/NovaNuclearStrike"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;            <Cooldown Link="NodDecoyArmyCooldown" TimeUse="30"/>&ndash;&gt;-->
+        <!--        </Cost>-->
+        <Range value="13"/>
+        <Arc value="360"/>
+        <!--        <Marker Link="Abil/NovaNuclearStrike"/>-->
+        <!--        <AlertArray index="Cast" value="CalldownLaunch"/>-->
+        <CursorEffect value="NodDecoyArmySearchForUnits"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmyExecute" Requirements="NodDecoyArmyExecute">
+            <Flags index="ShowInGlossary" value="0"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+    </CAbilEffectTarget>
     <CEffectSet id="NodDecoyArmyTestNullEffect">
         <TargetLocationType value="Point"/>
         <EffectArray value="NodDecoyArmySearchForUnits"/>
@@ -23,46 +52,10 @@
         <EffectArray value="NodDecoyArmySearchForUnits"/>
         <TargetLocationType value="Unknown"/>
     </CEffectSet>
-    <!-- STEP 4: Main Targeting Ability (First Click - Select Source Units) -->
-    <CAbilEffectTarget id="NodDecoyArmyTargeting">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Effect index="0" value="NodDecoyArmyTestNullEffect"/>
-        <Cost>
-            <Vital index="Energy" value="75"/>
-        </Cost>
-        <Range value="500"/>
-        <Arc value="360"/>
-        <Marker Link="Abil/NovaNuclearStrike"/>
-        <AlertArray index="Cast" value="CalldownLaunch"/>
-        <CursorEffect value="NodDecoyArmySearchForUnits"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmy" Requirements="NodDecoyArmyRequirement"/>
-        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
-    </CAbilEffectTarget>
-    <CAbilEffectTarget id="NodDecoyArmyExecute">
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <Effect index="0" value="NodDecoyArmyCP"/>
-<!--        <Cost>-->
-<!--&lt;!&ndash;            <Charge Link="Abil/NovaNuclearStrike"/>&ndash;&gt;-->
-<!--&lt;!&ndash;            <Cooldown Link="NodDecoyArmyCooldown" TimeUse="30"/>&ndash;&gt;-->
-<!--        </Cost>-->
-        <Range value="13"/>
-        <Arc value="360"/>
-<!--        <Marker Link="Abil/NovaNuclearStrike"/>-->
-<!--        <AlertArray index="Cast" value="CalldownLaunch"/>-->
-        <CursorEffect value="NodDecoyArmySearchForUnits"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="NodDecoyArmyExecute" Requirements="NodDecoyArmyExecute">
-            <Flags index="ShowInGlossary" value="0"/>
-        </CmdButtonArray>
-        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
-    </CAbilEffectTarget>
     <CValidatorUnitCompareBehaviorCount id="IsNodHallucination">
         <Value value="1"/>
         <Behavior value="NodDecoyBehavior"/>
     </CValidatorUnitCompareBehaviorCount>
-    <!-- ========================================
-         NOD DECOY ARMY ABILITY IMPLEMENTATION
-         Based on Allied Chronosphere pattern
-         ======================================== -->
     <CActorSimple id="NodHallucinationActor">
         <Aliases value="_HallucinationTinter"/>
         <On Terms="Behavior.NodDecoyBehavior.On" Send="Create"/>

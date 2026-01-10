@@ -1,34 +1,118 @@
 <Catalog>
-<!--    <CUnit id="Nova">-->
-<!--        <AbilArray Link="Domination"/>-->
-<!--        <AbilArray Link="ScrinProdigyReleaseMinion"/>-->
-<!--        <CardLayouts>-->
-<!--            <LayoutButtons Face="Domination" Type="AbilCmd" AbilCmd="Domination,Execute" Row="2" Column="1"/>-->
-<!--            <LayoutButtons Face="ScrinProdigyReleaseMinion" Type="AbilCmd" AbilCmd="ScrinProdigyReleaseMinion,Execute" Row="2" Column="2"/>-->
-<!--        </CardLayouts>-->
-<!--    </CUnit>-->
-    <CAbilEffectTarget id="ScrinProdigyMindControl">
+    <CAbilEffectTarget id="ScrinProdigyAreaMindControl">
+        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>
+        <Effect index="0" value="ScrinProdigyAreaMindControl"/>
+        <Flags index="AbortOnAllianceChange" value="0"/>
+        <Cost>
+            <Vital index="Energy" value="150"/>
+        </Cost>
+<!--        <CursorEffect value="ScrinProdigyAreaMindControlDummy"/>-->
+        <CursorEffect value="ScrinProdigyAreaMindControl"/>
+        <TargetFilters value="Ground,Visible;Player,Ally,Neutral,Robotic,Structure,Missile,Stasis,Dead,Invulnerable"/>
+        <Range value="7"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinCultistMindControl" Requirements="UseMindControl"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+        <RangeSlop value="100"/>
+    </CAbilEffectTarget>
+    <CEffectEnumArea id="ScrinProdigyAreaMindControl">
+        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Robotic,Structure,Missile,Stasis,Dead,Invulnerable"/>
+        <AreaArray Radius="1.5" Effect="ScrinProdigyAreaMindControlAB"/>
+    </CEffectEnumArea>
+<!--    <CEffectDamage id="ScrinProdigyAreaMindControlDummy">-->
+<!--        <ImpactLocation Value="TargetPoint"/>-->
+<!--        <Amount value="0"/>-->
+<!--        <AreaArray Radius="1.5" Fraction="1"/>-->
+<!--    <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Robotic,Structure,Missile,Stasis,Dead,Invulnerable"/>-->
+<!--    </CEffectDamage>-->
+    <CActorSplat id="ScrinProdigyAreaMindControlSplat" parent="ProtossCursorSplat" abil="ScrinProdigyAreaMindControl">
+        <Model value="NodAOECursorSplat"/>
+        <Scale value="3.000000"/>
+    </CActorSplat>
+
+    <CEffectApplyBehavior id="ScrinProdigyAreaMindControlAB">
+        <Behavior value="ScrinProdigyAreaMindControl"/>
+        <WhichUnit Value="Target"/>
+    </CEffectApplyBehavior>
+    <CBehaviorBuff id="ScrinProdigyAreaMindControl">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-Ability-ScrinProdigyAreaMindControl.dds"/>
+        <Duration value="7"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <Effect index="0" value="DominationPersistent"/>
+        <Player Value="Caster"/>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
+        <DisplayDuration index="Enemy" value="1"/>
+        <!--        <AcquirePlayer Effect="DominationAB" Value="Target"/>-->
+        <!--        <AcquirePlayer  Value="Caster"/>-->
+        <Modification>
+            <StateFlags index="RevealProgress" value="1"/>
+            <StateFlags index="SuppressPassenger" value="1"/>
+            <AbilClassDisableArray index="CAbilSpecialize" value="1"/>
+            <AbilClassDisableArray index="CAbilTransport" value="1"/>
+            <AbilLinkDisableArray value="ArchonWarp"/>
+            <AbilLinkDisableArray value="SprayProtoss"/>
+            <AbilLinkDisableArray value="SprayTerran"/>
+            <AbilLinkDisableArray value="SprayZerg"/>
+            <AbilLinkDisableArray value="Clone"/>
+        </Modification>
+        <RemoveValidatorArray value="CasterIsAlive"/>
+        <!--        <BuffFlags index="Channeled" value="1"/>-->
+        <RemoveValidatorArray value="NotHidden"/>
+        <RemoveValidatorArray value="NotFrenzied"/>
+        <RemoveValidatorArray value="NotVortexd"/>
+        <!--        <RemoveValidatorArray value="NotOracleStasisTrapped"/>-->
+<!--        <FinalEffect value="ScrinMindControlExpireSet"/>-->
+        <InitialEffect value="ApplyScrinProdigyAreaMindControlAcquireToAllChildren"/>
+    </CBehaviorBuff>
+    <CEffectEnumMagazine id="ApplyScrinProdigyAreaMindControlAcquireToAllChildren">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectInternal value="ScrinProdigyAreaMindControlChildren"/>
+        <EffectExternal value="ScrinProdigyAreaMindControlChildren"/>
+    </CEffectEnumMagazine>
+    <CEffectApplyBehavior id="ScrinProdigyAreaMindControlChildren">
+        <EditorCategories value="Race:Zerg"/>
+    </CEffectApplyBehavior>
+    <CBehaviorBuff id="ScrinProdigyAreaMindControlChildren">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-Ability-ScrinProdigyAreaMindControl.dds"/>
+        <!--        <AcquirePlayer Effect="ScrinMindControlAB" Value="Target"/>-->
+        <AcquirePlayer  Value="Caster"/>
+        <BuffFlags index="Channeling" value="1"/>
+        <Modification>
+            <StateFlags index="Benign" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+
+
+
+    <CAbilEffectTarget id="ScrinCultistMindControl">
+        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>
+        <Effect index="0" value="ScrinMindControl@CP"/>
         <Flags index="AbortOnAllianceChange" value="0"/>
         <Cost>
             <Vital index="Energy" value="75"/>
         </Cost>
         <TargetFilters value="Visible;Player,Ally,Neutral,Robotic,Structure,Missile,Stasis,Dead,Invulnerable"/>
         <Range value="7"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinProdigyMindControl" Requirements="UseDomination"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinCultistMindControl" Requirements="UseMindControl"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
         <RangeSlop value="100"/>
-        <AINotifyEffect value="DominationApplySet"/>
+        <AINotifyEffect value="ScrinMindControl@Set"/>
     </CAbilEffectTarget>
-    <CAbilEffectTarget id="ScrinCultistMindControl" parent="ScrinProdigyMindControl">
+    <CAbilEffectTarget id="ScrinProdigyMindControl">
         <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>
+        <Effect index="0" value="ScrinMindControl@CP"/>
+        <Flags index="AbortOnAllianceChange" value="0"/>
+        <Cost>
+            <Vital index="Energy" value="75"/>
+        </Cost>
+        <TargetFilters value="Visible;Player,Ally,Neutral,Robotic,Structure,Missile,Stasis,Dead,Invulnerable"/>
+        <Range value="7"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinProdigyMindControl" Requirements="UseMindControl"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+        <RangeSlop value="100"/>
+        <AINotifyEffect value="ScrinMindControl@Set"/>
     </CAbilEffectTarget>
-    <CAbilEffectInstant id="ScrinProdigyAreaMindControl">
-        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>
-    </CAbilEffectInstant>
-
-
     <CAbilEffectInstant id="ScrinProdigyReleaseMinion">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Flags index="AllowMovement" value="1"/>
@@ -39,42 +123,13 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="ScrinProdigyReleaseMinion" Requirements="UseScrinProdigyReleaseMinion"/>
     </CAbilEffectInstant>
 
-    <!-- Domination                                                                              -->
-    <CActorRange id="DominationRange" parent="RangeAbil" abil="Domination"/>
-    <CActorBeamSimple id="DominationBeam" parent="BeamSimpleAnimationStyleContinuous">
-        <HostLaunch Subject="_Unit" Scope="Caster" Actor="Find"/>
-        <HostLaunchSiteOps Ops="SOpAttachHead"/>
-        <HostImpact Subject="_Unit" Scope="Target" Actor="Find"/>
-        <HostImpactSiteOps Ops="SOpAttachHead"/>
-        <AutoScaleFactor value="0.600000"/>
-        <On Terms="Effect.DominationPersistent.Start" Send="Create"/>
-        <On Terms="Effect.DominationPersistent.Stop" Send="Destroy"/>
-    </CActorBeamSimple>
-    <CActorModel id="DominationImpact" parent="ModelAnimationStyleContinuous">
-        <AutoScaleFactor value="0.600000"/>
-        <Host Subject="_Unit"/>
-        <HostSiteOps Ops="SOpAttachCenter"/>
-        <On Terms="Behavior.Domination.On" Send="Create"/>
-        <On Terms="Behavior.Domination.Off" Send="Destroy"/>
-    </CActorModel>
-    <CActorSound id="NovaDominationSound" parent="SoundOneShot">
-        <On Terms="Effect.DominationPersistent.Start" Send="Create"/>
-    </CActorSound>
-    <CActorSound id="Nova_DominationLoop" parent="SoundContinuous">
-        <On Terms="Effect.DominationPersistent.Start" Send="Create"/>
-        <On Terms="Effect.DominationPersistent.Stop" Send="Destroy"/>
-    </CActorSound>
-    <CActorSound id="Nova_DominationEnd" parent="SoundOneShot">
-        <On Terms="Effect.DominationPersistent.Stop" Send="Create"/>
-    </CActorSound>
-
-    <CBehaviorBuff id="AlreadyDominating">
+    <CBehaviorBuff id="ScrinAlreadyMindControlling">
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="Domination">
+    <CBehaviorBuff id="ScrinMindControl">
         <Alignment value="Negative"/>
-        <InfoIcon value="Assets\Textures\BTN-Ability-terran-domination.dds"/>
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-Ability-ScrinProdigyMindControl.dds"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Player Value="Caster"/>
         <DisplayDuration index="Self" value="1"/>
@@ -92,29 +147,30 @@
             <AbilLinkDisableArray value="SprayZerg"/>
             <AbilLinkDisableArray value="Clone"/>
         </Modification>
+        <RemoveValidatorArray value="CasterIsAlive"/>
 <!--        <BuffFlags index="Channeled" value="1"/>-->
         <RemoveValidatorArray value="NotHidden"/>
         <RemoveValidatorArray value="NotFrenzied"/>
         <RemoveValidatorArray value="NotVortexd"/>
 <!--        <RemoveValidatorArray value="NotOracleStasisTrapped"/>-->
-        <FinalEffect value="DominationExpireSet"/>
-        <InitialEffect value="ApplyDominationAcquireToAllChildren"/>
+        <FinalEffect value="ScrinMindControlExpireSet"/>
+        <InitialEffect value="ApplyScrinMindControlAcquireToAllChildren"/>
     </CBehaviorBuff>
-    <CEffectSet id="DominationExpireSet">
-        <EffectArray value="AlreadyDominatingRBCaster"/>
+    <CEffectSet id="ScrinMindControlExpireSet">
+        <EffectArray value="ScrinAlreadyMindControllingRBCaster"/>
     </CEffectSet>
-    <CEffectApplyBehavior id="DominationChildren">
+    <CEffectApplyBehavior id="ScrinMindControlChildren">
         <EditorCategories value="Race:Zerg"/>
     </CEffectApplyBehavior>
-    <CEffectEnumMagazine id="ApplyDominationAcquireToAllChildren">
+    <CEffectEnumMagazine id="ApplyScrinMindControlAcquireToAllChildren">
         <EditorCategories value="Race:Zerg"/>
-        <EffectInternal value="DominationChildren"/>
-        <EffectExternal value="DominationChildren"/>
+        <EffectInternal value="ScrinMindControlChildren"/>
+        <EffectExternal value="ScrinMindControlChildren"/>
     </CEffectEnumMagazine>
-    <CBehaviorBuff id="DominationChildren" parent="Radar">
+    <CBehaviorBuff id="ScrinMindControlChildren">
         <Alignment value="Negative"/>
-        <InfoIcon value="Assets\Textures\BTN-Ability-Zerg-NeuralParasite.dds"/>
-<!--        <AcquirePlayer Effect="DominationAB" Value="Target"/>-->
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-Ability-ScrinProdigyMindControl.dds"/>
+<!--        <AcquirePlayer Effect="ScrinMindControlAB" Value="Target"/>-->
         <AcquirePlayer  Value="Caster"/>
         <BuffFlags index="Channeling" value="1"/>
         <Modification>
@@ -122,115 +178,140 @@
         </Modification>
     </CBehaviorBuff>
 
-
     <CEffectDestroyPersistent id="ScrinProdigyReleaseMinion">
         <EditorCategories value="Race:Terran"/>
-        <Effect value="DominationPersistent"/>
+        <Effect value="ScrinMindControl@CP"/>
         <Count value="4294967295"/>
         <Radius value="500"/>
     </CEffectDestroyPersistent>
 
-    <CEffectApplyBehavior id="DominationAB">
-        <Behavior value="Domination"/>
+    <CEffectApplyBehavior id="ScrinMindControlAB">
+        <Behavior value="ScrinMindControl"/>
     </CEffectApplyBehavior>
-    <CEffectEnumArea id="DominationDummy">
+    <CEffectEnumArea id="ScrinMindControlDummy">
         <EditorCategories value="Race:Terran"/>
         <AreaArray/>
     </CEffectEnumArea>
-    <CEffectLaunchMissile id="DominationLM">
+    <CEffectLaunchMissile id="ScrinMindControlLM">
         <EditorCategories value="Race:Terran"/>
         <LaunchLocation Value="CasterUnit"/>
-        <AmmoUnit value="DominationWeapon"/>
-        <ImpactEffect value="DominationDummy"/>
+        <AmmoUnit value="ScrinMindControlWeapon"/>
+        <ImpactEffect value="ScrinMindControlDummy"/>
         <ValidatorArray index="0" removed="1"/>
     </CEffectLaunchMissile>
-    <CEffectCreatePersistent id="DominationPersistent">
+    <CEffectCreatePersistent id="ScrinMindControl@CP">
 <!--        <ValidatorArray index="0" value="IsNotWarpingIn"/>-->
 <!--        <ValidatorArray value="IsNotPhaseShifted"/>-->
         <WhichLocation Value="TargetUnit"/>
-        <InitialEffect value="DominationApplySet"/>
-        <FinalEffect value="DominationRemoveSet"/>
+        <InitialEffect value="ScrinMindControl@Set"/>
+        <FinalEffect value="ScrinMindControlRemoveSet"/>
         <Flags index="PersistUntilDestroyed" value="1"/>
-        <PeriodicValidator value="Domination"/>
+        <PeriodicValidator value="ScrinMindControl"/>
         <PeriodicPeriodArray value="0.2"/>
     </CEffectCreatePersistent>
-    <CValidatorCombine id="Domination">
+    <CValidatorCombine id="ScrinMindControl">
         <Type value="And"/>
         <CombineArray value="NotDead"/>
         <CombineArray value="CasterNotDead"/>
     </CValidatorCombine>
-    <CEffectRemoveBehavior id="DominationRB">
+    <CEffectRemoveBehavior id="ScrinMindControlRB">
         <EditorCategories value="Race:Terran"/>
-        <BehaviorLink value="Domination"/>
+        <BehaviorLink value="ScrinMindControl"/>
     </CEffectRemoveBehavior>
-    <CEffectSet id="DominationApplySet">
+    <CEffectSet id="ScrinMindControl@Set">
         <ValidatorArray value=""/>
         <EditorCategories value="Race:Terran"/>
-        <EffectArray value="DominationAB"/>
-        <EffectArray value="DominationApplyNova"/>
+        <EffectArray value="ScrinMindControlAB"/>
+        <EffectArray value="ScrinMindControlApplyNova"/>
     </CEffectSet>
-    <CEffectApplyBehavior id="DominationApplyNova">
+    <CEffectApplyBehavior id="ScrinMindControlApplyNova">
         <ValidatorArray index="0" value=""/>
         <EditorCategories value="Race:Terran"/>
         <WhichUnit Value="Caster"/>
-        <Behavior value="AlreadyDominating"/>
+        <Behavior value="ScrinAlreadyMindControlling"/>
     </CEffectApplyBehavior>
-    <CEffectRemoveBehavior id="DominationRemoveNova">
+    <CEffectRemoveBehavior id="ScrinMindControlRemoveNova">
         <EditorCategories value="Race:Terran"/>
         <WhichUnit Value="Source"/>
-        <BehaviorLink value="AlreadyDominating"/>
+        <BehaviorLink value="ScrinAlreadyMindControlling"/>
         <Count value="1"/>
     </CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="AlreadyDominatingRBCaster">
+    <CEffectRemoveBehavior id="ScrinAlreadyMindControllingRBCaster">
         <WhichUnit Value="Caster"/>
-        <BehaviorLink value="AlreadyDominating"/>
+        <BehaviorLink value="ScrinAlreadyMindControlling"/>
         <Count value="1"/>
     </CEffectRemoveBehavior>
-    <CEffectSet id="DominationRemoveSet">
+    <CEffectSet id="ScrinMindControlRemoveSet">
         <EditorCategories value="Race:Terran"/>
-        <EffectArray value="DominationRemoveNova"/>
-        <EffectArray value="DominationRB"/>
+        <EffectArray value="ScrinMindControlRemoveNova"/>
+        <EffectArray value="ScrinMindControlRB"/>
     </CEffectSet>
 
-    <CModel id="DominationBeam" parent="PersistentSpellFX">
-        <Model value="Assets\Effects\Terran\DominationBeam\DominationBeam.m3"/>
-        <EditorCategories value="Race:Terran"/>
-    </CModel>
-    <CModel id="DominationImpact" parent="PersistentSpellFX">
-        <Model value="Assets\Effects\Terran\DominationImpact\DominationImpact.m3"/>
-        <EditorCategories value="Race:Terran"/>
-    </CModel>
-
-    <CRequirement id="UseDomination">
+    <CRequirement id="UseMindControl">
         <EditorCategories value="Race:Terran,TechType:Ability"/>
-        <NodeArray index="Use" Link="NotCountBehaviorAlreadyDominatingInProgressOrBetter"/>
-        <NodeArray index="Show" Link="NotCountBehaviorAlreadyDominatingInProgressOrBetter"/>
+        <NodeArray index="Use" Link="NotCountBehaviorScrinAlreadyMindControllingInProgressOrBetter"/>
+        <NodeArray index="Show" Link="NotCountBehaviorScrinAlreadyMindControllingInProgressOrBetter"/>
     </CRequirement>
     <CRequirement id="UseScrinProdigyReleaseMinion">
         <EditorCategories value="Race:Terran,TechType:Ability"/>
-        <NodeArray index="Show" Link="CountBehaviorAlreadyDominatingInProgressOrBetter"/>
+        <NodeArray index="Show" Link="CountBehaviorScrinAlreadyMindControllingInProgressOrBetter"/>
     </CRequirement>
-    <CRequirementCountBehavior id="CountBehaviorAlreadyDominatingInProgressOrBetter">
-        <Count Link="AlreadyDominating" State="InProgressOrBetter"/>
+    <CRequirementCountBehavior id="CountBehaviorScrinAlreadyMindControllingInProgressOrBetter">
+        <Count Link="ScrinAlreadyMindControlling" State="InProgressOrBetter"/>
         <Flags index="TechTreeCheat" value="0"/>
     </CRequirementCountBehavior>
-    <CRequirementNot id="NotCountBehaviorAlreadyDominatingInProgressOrBetter">
-        <OperandArray index="0" value="CountBehaviorAlreadyDominatingInProgressOrBetter"/>
+    <CRequirementNot id="NotCountBehaviorScrinAlreadyMindControllingInProgressOrBetter">
+        <OperandArray index="0" value="CountBehaviorScrinAlreadyMindControllingInProgressOrBetter"/>
     </CRequirementNot>
 
-
-    <CSound id="Nova_DominationEnd">
+    <CActorRange id="ScrinProdigyMindControlRange" parent="RangeAbil" abil="ScrinProdigyMindControl"/>
+    <CActorRange id="ScrinCultistMindControlRange" parent="RangeAbil" abil="ScrinCultistMindControl"/>
+    <CActorBeamSimple id="ScrinMindControlBeam" parent="BeamSimpleAnimationStyleContinuous">
+        <HostLaunch Subject="_Unit" Scope="Caster" Actor="Find"/>
+        <HostLaunchSiteOps Ops="SOpAttachHead"/>
+        <HostImpact Subject="_Unit" Scope="Target" Actor="Find"/>
+        <HostImpactSiteOps Ops="SOpAttachHead"/>
+        <AutoScaleFactor value="0.600000"/>
+        <On Terms="Effect.ScrinMindControl@CP.Start" Send="Create"/>
+        <On Terms="Effect.ScrinMindControl@CP.Stop" Send="Destroy"/>
+    </CActorBeamSimple>
+    <CActorModel id="ScrinMindControlImpact" parent="ModelAnimationStyleContinuous">
+        <AutoScaleFactor value="0.600000"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+        <On Terms="Behavior.ScrinMindControl.On" Send="Create"/>
+        <On Terms="Behavior.ScrinMindControl.Off" Send="Destroy"/>
+    </CActorModel>
+    <CActorSound id="ScrinMindControl@Start" parent="SoundOneShot">
+        <On Terms="Effect.ScrinMindControl@CP.Start" Send="Create"/>
+    </CActorSound>
+    <CActorSound id="ScrinMindControl@Loop" parent="SoundContinuous">
+        <On Terms="Effect.ScrinMindControl@CP.Start" Send="Create"/>
+        <On Terms="Effect.ScrinMindControl@CP.Stop" Send="Destroy"/>
+    </CActorSound>
+    <CModel id="ScrinMindControlBeam" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Terran\DominationBeam\DominationBeam.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="ScrinMindControlImpact" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Terran\DominationImpact\DominationImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CSound id="ScrinMindControl@Start">
         <Pitch value="-5.000000,0.000000"/>
-        <Volume value="-7.000000,-7.000000"/>
+        <Volume value="-9.000000,-9.000000"/>
     </CSound>
-    <CSound id="Nova_DominationLoop">
+    <CActorSound id="ScrinMindControl@End" parent="SoundOneShot">
+        <On Terms="Effect.ScrinMindControl@CP.Stop" Send="Create"/>
+    </CActorSound>
+    <CSound id="ScrinMindControl@Loop">
         <Pitch value="-4.000000,-2.000000"/>
         <Volume value="-21.000000,-21.000000"/>
         <VolumeRolloffPoints Distance="15.000000"/>
         <VolumeRolloffPoints Distance="20.000000" Volume="-96.000000"/>
     </CSound>
-    <CSound id="NovaDominationSound">
+    <CSound id="ScrinMindControl@End">
         <Pitch value="-5.000000,0.000000"/>
-        <Volume value="-9.000000,-9.000000"/>
+        <Volume value="-7.000000,-7.000000"/>
     </CSound>
 </Catalog>

@@ -1,7 +1,5 @@
 <Catalog>
-
     <CBehaviorBuff id="ScrinProdigyTeleportUnitsTargeting"/>
-
     <CRequirement id="NBU_ScrinProdigyTeleportUnitsTargeting">
         <NodeArray index="Show" Link="NBU_ScrinProdigyTeleportUnitsTargeting"/>
     </CRequirement>
@@ -10,116 +8,69 @@
     </CRequirement>
     <CRequirementCountBehavior parent="CBU" id="CBU_ScrinProdigyTeleportUnitsTargeting" behavior="ScrinProdigyTeleportUnitsTargeting"/>
     <CRequirementNot parent="NBU" id="NBU_ScrinProdigyTeleportUnitsTargeting" behavior="ScrinProdigyTeleportUnitsTargeting"/>
-    
-    
+
     <CAbilEffectTarget id="ScrinProdigyTeleportUnits">
         <Cost>
-            <Charge Link="Abil/NovaNuclearStrike"/>
-            <Cooldown Link="chaoshikong" TimeStart="5" TimeUse="5"/>
+            <Vital index="Energy" value="75"/>
         </Cost>
         <Range value="500"/>
         <Arc value="360"/>
-        <Marker Link="Abil/NovaNuclearStrike"/>
-        <AlertArray index="Cast" value="CalldownLaunch"/>
-        <CursorEffect value="RATeleportToSearchForOwnUnits"/>
+        <CursorEffect value="ScrinProdigyTeleportUnitsDummy"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="ScrinProdigyTeleportUnits" Requirements="NBU_ScrinProdigyTeleportUnitsTargeting"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="ScrinProdigyTeleportUnitsTargeting">
-        <Cost>
-            <Charge Link="Abil/NovaNuclearStrike"/>
-            <Cooldown Link="chaoshikong" TimeStart="5" TimeUse="5"/>
-        </Cost>
-        <Range value="500"/>
+        <Range value="9"/>
         <Arc value="360"/>
         <Marker Link="Abil/NovaNuclearStrike"/>
         <AlertArray index="Cast" value="CalldownLaunch"/>
-        <CursorEffect value="RATeleportToSearchForOwnUnits"/>
+        <CursorEffect value="ScrinProdigyTeleportUnitsExecuteEA"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="ScrinProdigyTeleportUnitsTargeting" Requirements="CBU_ScrinProdigyTeleportUnitsTargeting"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
     </CAbilEffectTarget>
     <CAbilEffectTarget id="ScrinProdigyTeleportUnitsExecute">
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <Effect index="0" value="ScrinProdigyTeleportUnitsExecute"/>
-        <Cost>
-            <Charge Link="Abil/NovaNuclearStrike"/>
-            <Cooldown Link="chaoshikong" TimeUse="5"/>
-        </Cost>
         <Range value="500"/>
         <Arc value="360"/>
-        <Marker Link="Abil/NovaNuclearStrike"/>
-        <AlertArray index="Cast" value="CalldownLaunch"/>
-        <CursorEffect value="RATeleportToSearchForOwnUnits"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="ScrinProdigyTeleportUnitsExecute" />
-        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel32"/>
     </CAbilEffectTarget>
-    <CEffectEnumArea id="RATimeTeleportationSearchForZombieUnitsInTheWholeMapIsStill">
-        <LaunchLocation Value="CasterPoint"/>
-        <ImpactLocation Value="CasterPoint"/>
-        <SearchFilters value="-;Self,Player,Ally,Neutral,Dead"/>
-        <AreaArray Radius="500" Effect="herrschertenpotAB22"/>
-        <Chance value="0"/>
-    </CEffectEnumArea>
-    <CEffectApplyBehavior id="herrschertenpotAB22">
-        <Behavior value="herrschertenpotlocked22"/>
-        <Chance value="0"/>
-    </CEffectApplyBehavior>
-    <CBehaviorBuff id="herrschertenpotlocked22">
-        <InfoIcon value="Assets\Textures\btn-ability-protoss-hardenedshields-color.dds"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <TimeScaleSource Value="Global"/>
-        <Duration value="3"/>
-        <Modification TimeScale="0.01">
-            <ModifyFlags index="DisableAbils" value="1"/>
-            <ModifyFlags index="DisableWeapons" value="1"/>
-            <ModifyFlags index="Reveal" value="1"/>
-            <ModifyFlags index="Detected" value="1"/>
-            <ModifyFlags index="SuppressMoving" value="1"/>
-            <ModifyFlags index="SuppressTurning" value="1"/>
-            <StateFlags index="Silence" value="1"/>
-            <StateFlags index="SuppressAttack" value="1"/>
-        </Modification>
-    </CBehaviorBuff>
 
+
+    <CEffectDamage id="ScrinProdigyTeleportUnitsDummy">
+        <ImpactLocation Value="TargetPoint"/>
+        <Amount value="0"/>
+        <AreaArray Radius="2" Fraction="1"/>
+        <SearchFilters value="Ground;Structure,Missile,Item,Stasis,Dead,Hidden"/>
+    </CEffectDamage>
     <CEffectCreatePersistent id="ScrinProdigyTeleportUnitsExecute">
-        <InitialEffect value="RATimeAndSpaceTeleportationSearchRangeEffectCollection"/>
+        <InitialEffect value="ScrinProdigyTeleportUnitsExecuteSet"/>
         <PeriodCount value="1"/>
         <PeriodicPeriodArray value="0.1"/>
         <RevealRadius value="6"/>
         <RevealFlags index="Unfog" value="1"/>
     </CEffectCreatePersistent>
-    <CEffectSet id="RATimeAndSpaceTeleportationSearchRangeEffectCollection">
-        <EffectArray value="ChronoSprer"/>
-        <EffectArray value="RATeleportToSearchForOwnUnits"/>
-<!--        <EffectArray value="RATeleportToSearchForZombieUnits"/>-->
-        <EffectArray value="RATimeTeleportationSearchForZombieUnitsInTheWholeMapIsStill"/>
-        <TargetLocationType value="Unknown"/>
+    <CEffectSet id="ScrinProdigyTeleportUnitsExecuteSet">
+        <EffectArray value="ScrinProdigyTeleportUnitsCoverUnitCU"/>
+        <EffectArray value="ScrinProdigyTeleportUnitsExecuteEA"/>
+        <TargetLocationType value="Point"/>
     </CEffectSet>
-    <CEffectSet id="ChronoSprer">
-        <EditorCategories value="Race:Terran"/>
-        <TargetLocationType value="Unknown"/>
-        <EffectArray value="Auchrono2"/>
-    </CEffectSet>
-    <CEffectCreateUnit id="Auchrono2">
+    <CEffectCreateUnit id="ScrinProdigyTeleportUnitsCoverUnitCU">
         <WhichLocation Value="TargetPoint"/>
         <SpawnUnit value="ScrinProdigyTeleportUnitsCoverUnit"/>
     </CEffectCreateUnit>
 
-
-    <CEffectEnumArea id="RATeleportToSearchForOwnUnits">
+    <CEffectEnumArea id="ScrinProdigyTeleportUnitsExecuteEA">
         <LaunchLocation Value="TargetPoint"/>
         <ImpactLocation Value="CasterPoint"/>
-        <SearchFilters value="Ground;Neutral,Air,Structure"/>
-        <AreaArray Radius="2" Effect="AlliedChronoSTemp"/>
+        <SearchFilters value="Ground;Structure,Missile,Item,Stasis,Dead,Hidden"/>
+        <AreaArray Radius="2" Effect="ScrinProdigyTeleportUnitsExecuteTP"/>
     </CEffectEnumArea>
-    <CEffectTeleport id="AlliedChronoSTemp">
-        <PlacementAround Effect="RATeleportToSearchForOwnUnits"/>
-        <TargetLocation Effect="RATeleportToSearchForOwnUnits" Value="TargetPoint"/>
+    <CEffectTeleport id="ScrinProdigyTeleportUnitsExecuteTP">
+        <PlacementAround Effect="ScrinProdigyTeleportUnitsExecuteEA"/>
+        <TargetLocation Effect="ScrinProdigyTeleportUnitsExecuteEA" Value="TargetPoint"/>
         <PlacementRange value="2"/>
-        <SourceLocation Effect="RATeleportToSearchForOwnUnits" Value="CasterPoint"/>
+        <SourceLocation Effect="ScrinProdigyTeleportUnitsExecuteEA" Value="CasterPoint"/>
         <TeleportFlags index="TestFog" value="0"/>
     </CEffectTeleport>
-
 
     <CUnit id="ScrinProdigyTeleportUnitsCoverUnit">
         <Race value="Allied"/>
@@ -150,7 +101,11 @@
     <CBehaviorBuff id="ScrinProdigyTeleportUnitsCoverUnitTimedLife" parent="TimedLife">
         <InfoIcon value="Assets\Textures\btn-ability-zerg-explode.dds"/>
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
-        <Duration value="1.5"/>
+        <Duration value="0.4"/>
+        <DisplayDuration index="Self" value="0"/>
+        <DisplayDuration index="Ally" value="0"/>
+        <DisplayDuration index="Neutral" value="0"/>
+        <DisplayDuration index="Enemy" value="0"/>
     </CBehaviorBuff>
 
     <CEffectSet id="ScrinProdigyTeleportUnits">
@@ -159,6 +114,14 @@
     <CEffectSet id="ScrinProdigyTeleportUnitsTargeting">
         <TargetLocationType value="Point"/>
     </CEffectSet>
-
+    <CActorSplat id="ScrinProdigyTeleportSplat" parent="ProtossCursorSplat" abil="ScrinProdigyTeleportUnits">
+        <Model value="NodAOECursorSplat"/>
+        <Scale value="3.000000"/>
+    </CActorSplat>
+    <CActorSplat id="ScrinProdigyTeleportUnitsTargetingSplat" parent="ProtossCursorSplat" abil="ScrinProdigyTeleportUnitsTargeting">
+        <Model value="NodAOECursorSplat"/>
+        <Scale value="3.000000"/>
+    </CActorSplat>
+    <CActorRange id="ScrinProdigyTeleportUnitsTargetingRange" parent="RangeAbil" abil="ScrinProdigyTeleportUnitsTargeting"/>
 
 </Catalog>

@@ -1,0 +1,208 @@
+<CAtalog>
+    <CAbilEffectTarget id="ScrinConversionBeam">
+        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>
+        <Effect index="0" value="ScrinConversionBeam@LaunchMissile"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="DeferCooldown" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="1"/>
+        </Cost>
+        <TargetFilters value="Structure;Player,Ally,Enemy,Missile,Stasis,UnderConstruction,Dead,Hidden"/>
+        <Range value="7"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="ViperConsume"/>
+        <Alignment value="Positive"/>
+    </CAbilEffectTarget>
+
+    <CBehaviorBuff id="ScrinConversionBeam">
+        <Alignment value="Negative"/>
+        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>
+        <InfoIcon value="Assets\Icons\Scrin\btn-scrin-ability-conversionbeam.dds"/>
+        <MaxStackCount value="0"/>
+    </CBehaviorBuff>
+
+    <CValidatorUnitCompareVital id="CasterHas5Energy">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GE"/>
+        <Value value="5"/>
+        <Vital value="Energy"/>
+    </CValidatorUnitCompareVital>
+    <CValidatorUnitCompareBehaviorCount id="ScrinDevourerCharged">
+        <WhichUnit Value="Caster"/>
+        <Compare value="GT"/>
+        <Behavior value="ScrinDevourerCharged"/>
+    </CValidatorUnitCompareBehaviorCount>
+
+    <CBehaviorBuff id="ScrinDevourerCharged">
+        <Alignment value="Positive"/>
+        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>
+        <InfoIcon value="Assets\Icons\Scrin\btn-scrin-ability-conversionbeam.dds"/>
+        <Modification>
+            <DamageDealtFraction index="Spell" value="1"/>
+            <DamageDealtFraction index="Melee" value="1"/>
+            <DamageDealtFraction index="Ranged" value="1"/>
+            <DamageDealtFraction index="Splash" value="1"/>
+        </Modification>
+        <DisableValidatorArray value="CasterHas5Energy"/>
+        <DisableValidatorArray value="CanSpendEnergy"/>
+    </CBehaviorBuff>
+
+    <CEffectLaunchMissile id="ScrinConversionBeam@LaunchMissile">
+        <EditorCategories value="Race:Scrin"/>
+        <AmmoUnit value="ScrinConversionBeam@Missile"/>
+        <ImpactEffect value="ScrinConversionBeam@CreatePersistent"/>
+        <Flags index="Channeled" value="1"/>
+        <ValidatorArray value="EnergyNotFullCaster"/>
+        <ValidatorArray value="Minerals"/>
+    </CEffectLaunchMissile>
+    <CEffectCreatePersistent id="ScrinConversionBeam@CreatePersistent">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichLocation Value="TargetUnit"/>
+        <InitialEffect value="ScrinConversionBeam@ApplyBehavior"/>
+        <FinalEffect value="ScrinConversionBeam@RemoveBehavior"/>
+        <PeriodicEffectArray value="ScrinConversionBeam@PeriodicSet"/>
+        <PeriodicValidator value="TargetNotDeadAndCasterNotDeadAndEnergyNotFullCaster"/>
+        <PeriodicPeriodArray value="2"/>
+        <PeriodCount value="20"/>
+        <Flags index="Channeled" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectApplyBehavior id="ScrinConversionBeam@ApplyBehavior">
+        <EditorCategories value="Race:Scrin"/>
+        <Behavior value="ScrinConversionBeam"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="ScrinConversionBeam@RemoveBehavior">
+        <EditorCategories value="Race:Scrin"/>
+        <BehaviorLink value="ScrinConversionBeam"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+    <CEffectSet id="ScrinConversionBeam@PeriodicSet">
+        <EditorCategories value="Race:Scrin"/>
+        <EffectArray value="ScrinConversionBeam@ModifyTarget"/>
+        <EffectArray value="ScrinConversionBeam@ModifyCasterCP"/>
+    </CEffectSet>
+    <CEffectModifyUnit id="ScrinConversionBeam@ModifyTarget">
+        <EditorCategories value="Race:Scrin"/>
+        <Resources value="-1"/>
+    </CEffectModifyUnit>
+    <CEffectCreatePersistent id="ScrinConversionBeam@ModifyCasterCP">
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodicEffectArray value="ScrinConversionBeam@ModifyCaster"/>
+        <PeriodicValidator value="TargetNotDeadAndCasterNotDeadAndEnergyNotFullCaster"/>
+        <PeriodicPeriodArray value="0.125"/>
+        <PeriodCount value="16"/>
+        <Flags index="Channeled" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectModifyUnit id="ScrinConversionBeam@ModifyCaster">
+        <EditorCategories value="Race:Scrin"/>
+        <VitalArray index="Energy">
+            <Change value="1"/>
+        </VitalArray>
+        <ImpactUnit Value="Caster"/>
+    </CEffectModifyUnit>
+
+<!--    <CActorSound id="ScrinConversionBeam@CastSound" parent="SoundOneShot">-->
+<!--        <Sound value="Spell_Consume_Launch"/>-->
+<!--        <On Terms="Abil.ScrinConversionBeam.SourceCastStart" Send="Create"/>-->
+<!--    </CActorSound>-->
+<!--    <CActorSound id="ScrinConversionBeam@Loop" parent="SoundContinuous">-->
+<!--        <Sound value="LairViper_Consume_LP"/>-->
+<!--        <On Terms="Behavior.ScrinConversionBeam.On" Send="Create"/>-->
+<!--        <On Terms="Behavior.ScrinConversionBeam.Off" Send="Destroy"/>-->
+<!--    </CActorSound>-->
+<!--    <CActorSound id="ScrinConversionBeam@StartSound" parent="SoundOneShot">-->
+<!--        <Sound value="LairViper_Consume_Start"/>-->
+<!--        <On Terms="Behavior.ScrinConversionBeam.On" Send="Create"/>-->
+<!--    </CActorSound>-->
+    <CActorSite id="ScrinConversionBeam@TentacleImpactHoldingSite">
+        <Host Subject="_ImpactGuide" Scope="Target"/>
+        <HostSiteOps Ops="SOpUpDefault SOpForwardCasterCenter SOp180"/>
+    </CActorSite>
+    <CActorModel id="ScrinConversionBeam@Tentacle">
+        <Host Subject="_Selectable"/>
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <HostSiteOps Ops="SOpAttachWeapon01Soft"/>
+        <HostedAttaches Name="TentacleAttack">
+            <AttachQuery Methods="Hardpoint"/>
+        </HostedAttaches>
+        <On Terms="Effect.ScrinConversionBeam@LaunchMissile.Start; At Caster" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
+        <On Terms="ActorCreation" Send="RefSet ::scope.Tentacle ::Self"/>
+        <On Terms="ActorCreation" Send="SetOpacity"/>
+        <On Terms="TimerExpired; TimerName OpacityTimer" Send="SetOpacity 1.000000 0.500000"/>
+        <On Terms="Effect.ScrinConversionBeam@CreatePersistent.Start" Send="Create ScrinConversionBeam@TentacleImpactHoldingSite"/>
+        <On Terms="Effect.ScrinConversionBeam@CreatePersistent.Start" Send="Create ScrinConversionBeam@DamageImpactModel"/>
+        <On Terms="Effect.ScrinConversionBeam@CreatePersistent.Start" Send="RefSetFromRequest TentacleAttack ScrinConversionBeam@TentacleImpactHoldingSite"/>
+        <On Terms="Abil.ScrinConversionBeam.SourceChannelStop" Send="AnimBracketStop BSD"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Target="_Selectable" Send="CombatRevealComplete ScrinConversionBeam"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.125000 OpacityTimer"/>
+        <Macros value="GlobalLoopMacro"/>
+    </CActorModel>
+    <CModel id="ScrinConversionBeam@Tentacle" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Zerg\ViperCorruptionTentacle\ViperCorruptionTentacle.m3"/>
+        <EditorCategories value="Race:Zerg"/>
+    </CModel>
+    <CActorSite id="ScrinConversionBeam@TentacleLaunchSite">
+        <Host Subject="::scope.Tentacle"/>
+    </CActorSite>
+    <CActorMissile id="ScrinConversionBeam@Missile" parent="GenericAttackMissile" unitName="ScrinConversionBeam@Missile">
+        <Model value="Invisible"/>
+        <Supporter>
+            <Subject value="ScrinConversionBeam@Tentacle"/>
+            <Scope value="Caster"/>
+            <Actor value="Find"/>
+            <Effect value="ScrinConversionBeam@LaunchMissile"/>
+        </Supporter>
+        <On Terms="MotionPhaseStart; MotionPhase" Target="::Supporter" Send="RefSet TentacleAttack ::Self"/>
+        <On Terms="MotionPhaseStart; MotionPhase" Target="::Supporter" Send="RefSetFromRequest ::scope.ScrinConversionBeam@Target _Unit Target Find"/>
+    </CActorMissile>
+    <CUnit id="ScrinConversionBeam@Missile" parent="MISSILE_INVULNERABLE">
+        <Race value="Zerg"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CMoverMissile id="ScrinConversionBeam@Missile" parent="MissileDefault">
+        <MotionPhases index="0">
+            <Driver value="Guidance"/>
+            <Acceleration value="3200"/>
+            <MaxSpeed value="18.75"/>
+            <ClearanceAcceleration value="75"/>
+            <Outro value="-1"/>
+            <RotationLaunchActorType value="LaunchToTarget"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+    </CMoverMissile>
+
+
+    <CActorAction id="ScrinConversionBeam" parent="GenericAttack" effectImpact="ScrinConversionBeam@Persistent" effectLaunch="ScrinConversionBeam@LaunchMissile">
+        <LaunchSite value="ScrinConversionBeam@TentacleLaunchSite"/>
+        <LaunchAttachQuery Methods="Weapon"/>
+        <LaunchSiteOps Ops="SOpAttachWeapon"/>
+        <LaunchAssets Sound="ScrinDevourer_ConversionBeam"/>
+        <ShieldFlashType value="None"/>
+        <ActionFlags index="IgnoresShields" value="1"/>
+        <ActionFlags index="VictimRevealsAttacker" value="1"/>
+        <CombatRevealDurationType value="ByVictim"/>
+    </CActorAction>
+    <CActorRange id="ScrinConversionBeam@Range" parent="RangeAbil" abil="ScrinConversionBeam">
+        <Icon value="Assets\Textures\RadarIcon2.dds"/>
+        <IconArcLength value="3.250000"/>
+    </CActorRange>
+    <CActorModel id="ScrinConversionBeam@DamageImpactModel" parent="ModelAnimationStyleContinuous">
+        <Model value="Invisible"/>
+        <On Terms="Effect.ScrinConversionBeam@CreatePersistent.Stop" Send="AnimBracketStop BSD"/>
+        <Host Subject="ScrinConversionBeam@TentacleImpactHoldingSite"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+    </CActorModel>
+    <CActorModel id="ScrinConversionBeam@HealImpactModel" parent="ModelAnimationStyleContinuous">
+        <Model value="ConsumptionImpact"/>
+        <On Terms="Effect.ScrinConversionBeam@CreatePersistent.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.ScrinConversionBeam@CreatePersistent.Stop; At Caster" Send="AnimBracketStop BSD"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+    </CActorModel>
+
+</CAtalog>

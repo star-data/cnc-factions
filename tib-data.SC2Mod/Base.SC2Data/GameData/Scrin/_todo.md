@@ -43,7 +43,7 @@ It can spawn segments of different types. these segments will follow each other 
   - Spawn Disintegrator Segment.
   - Spawn Disc Segment.
   The loss of a Mechapede's body segment will not destroy the unit, as it can then rebuild more segments. However, it will destroy all the segments that come "after" the one that was destroyed, so the loss of a segment close to the head can prove to be rather costly. The only way to totally destroy the unit is by targeting the head segment. It is impossible to gain infinite segments on the Mechapede.
-
+ - Limit 8 
 
 ### Annihilator Tripod/Reaper Tripod.
   - Husk

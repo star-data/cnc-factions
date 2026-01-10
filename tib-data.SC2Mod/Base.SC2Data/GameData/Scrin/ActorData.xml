@@ -362,8 +362,8 @@
         <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
         <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
 
-        <On Terms="UnitMovementUpdate.##id##.Walk" Send="Create ##id##_MoveLoopSound"/>
-        <On Terms="UnitMovementUpdate.##id##.Stand" Target="##id##_MoveLoopSound" Send="Destroy"/>
+        <On Terms="UnitMovementUpdate.##id##.Walk" Send="Create ##id##_MoveLoop"/>
+        <On Terms="UnitMovementUpdate.##id##.Stand" Target="##id##_MoveLoop" Send="Destroy"/>
 
         <ModelFlags index="OutlineEmitter" value="1"/>
         <StandAnimTurnTime value="5"/>
@@ -492,18 +492,30 @@
     <CActorUnit parent="ScrinInfantry" id="ScrinMastermind" icon="Mastermind"/>
     <CActorUnit parent="ScrinInfantry" id="ScrinCultist" icon="Cultist"/>
 
+    <CActorSound id="ScrinMoveLoop" parent="SoundContinuous" default="1">
+        <Sound value="##id##"/>
+        <HostForProps Subject="_Unit"/>
+    </CActorSound>
+    <CActorSound id="ScrinGunWalker_MoveLoop" parent="ScrinMoveLoop"/>
+    <CActorSound id="ScrinDevourer_MoveLoop" parent="ScrinMoveLoop"/>
+    <CActorSound id="ScrinDevastator_MoveLoop" parent="ScrinMoveLoop"/>
+    <CActorSound id="ScrinAnnihilator_MoveLoop" parent="ScrinMoveLoop"/>
+    <CActorSound id="ScrinDroneShip_moveLoop" parent="ScrinMoveLoop"/>
+    <CActorSound id="ScrinCarrier_MoveLoop" parent="ScrinMoveLoop"/>
+    <CActorSound id="ScrinStormrider_moveLoop" parent="ScrinMoveLoop"/>
+
     <CActorUnit parent="ScrinWalker" id="ScrinGunWalker" icon="GunWalker">
         <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
     </CActorUnit>
-    <CActorSound id="ScrinGunWalker_MoveLoopSound" parent="SoundContinuous">
-        <Sound value="ScrinGunWalker_MoveLoop"/>
-        <HostForProps Subject="_Unit"/>
-    </CActorSound>
     <CActorUnit parent="ScrinVehicle" id="ScrinSeeker" icon="Seeker">
         <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
     </CActorUnit>
     <CActorUnit parent="ScrinVehicle" id="ScrinHarvester" icon="Harvester"/>
-    <CActorUnit parent="ScrinVehicle" id="ScrinDevourer" icon="Devourer"/>
+    <CActorUnit parent="ScrinVehicle" id="ScrinDevourer" icon="Devourer">
+        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Send="TimerSet 0.0625 KillBeam"/>
+        <On Terms="TimerExpired; TimerName KillBeam" Target="ScrinDevourerWeapon@Beam" Send="Destroy"/>
+    </CActorUnit>
     <CActorUnit parent="ScrinWalker" id="ScrinCorrupter" icon="Corrupter"/>
     <CActorUnit id="ScrinEradicator" parent="ScrinWalker" icon="Eradicator">
         <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
@@ -513,10 +525,6 @@
         <DeathArray index="Normal" ModelLink="ScrinAnnihilator_Death" SoundLink="ScrinAnnihilator_Death"/>
         <WalkAnimMoveSpeed value="1"/>
     </CActorUnit>
-    <CActorSound id="ScrinAnnihilator_MoveLoopSound" parent="SoundContinuous">
-        <Sound value="ScrinAnnihilator_MoveLoop"/>
-        <HostForProps Subject="_Unit"/>
-    </CActorSound>
     <CActorUnit id="ScrinDevastator" parent="ScrinAir" icon="Devastator"/>
     <CActorUnit id="ScrinInvader" parent="ScrinAir" icon="Invader"/>
     <CActorUnit id="ScrinCarrier" parent="ScrinAir" icon="Carrier">

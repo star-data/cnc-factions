@@ -28,6 +28,7 @@
     <CUnit default="1" id="ScrinVehicle" parent="ScrinGround">
         <Collide index="Small" value="1"/>
         <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Armored" value="1"/>
         <LifeArmorName value="Unit/LifeArmorName/ScrinVehiclesArmor"/>
         <RepairTime value="8"/>
         <AbilArray Link="ScrinHostUncombine"/>
@@ -789,8 +790,8 @@
         <Food value="1"/>
         <CostResource index="Minerals" value="50"/>
         <WeaponArray Link="ScrinPlasmaDiscs"/>
-<!--        <WeaponArray Link="ScrinShockTrooperWeapon"/>-->
-<!--        <WeaponArray Link="ScrinShockTrooperWeaponU"/>-->
+        <WeaponArray Link="ScrinShockTrooperWeapon"/>
+        <WeaponArray Link="ScrinShockTrooperWeaponU"/>
         <GlossaryPriority value="45"/>
         <AbilArray Link="ScrinShockTrooperBlink"/>
         <CardLayouts index="0">
@@ -802,9 +803,8 @@
         <LifeMax value="30"/>
         <Food value="1"/>
         <CostResource index="Minerals" value="50"/>
-        <WeaponArray Link="NodTiberiumGun"/>
-        <!--        <WeaponArray Link="ScrinRavagerShards"/>-->
-        <!--        <WeaponArray Link="ScrinRavagerShardsU"/>-->
+        <WeaponArray Link="ScrinRavagerShards"/>
+        <WeaponArray Link="ScrinRavagerShardsU"/>
         <GlossaryPriority value="50"/>
         <AbilArray Link="ScrinRavagerTiberiumAgitation"/>
         <CardLayouts index="0">
@@ -833,6 +833,7 @@
         <CostResource index="Minerals" value="125"/>
         <CostResource index="Vespene" value="125"/>
         <GlossaryPriority value="65"/>
+        <AbilArray Link="ScrinProdigyBlink"/>
         <AbilArray Link="ScrinProdigyAreaMindControl"/>
         <AbilArray Link="ScrinProdigyTeleportUnits"/>
         <AbilArray Link="ScrinProdigyTeleportUnitsTargeting"/>
@@ -841,17 +842,15 @@
         <EnergyMax value="150"/>
         <EnergyStart value="75"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="ScrinProdigyReleaseMinion" Type="AbilCmd" AbilCmd="ScrinProdigyReleaseMinion,Execute" Row="1" Column="2"/>
-            <LayoutButtons Face="ScrinProdigyMindControl" Type="AbilCmd" AbilCmd="ScrinProdigyMindControl,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="ScrinProdigyAreaMindControl" Type="AbilCmd" AbilCmd="ScrinProdigyAreaMindControl,Execute" Row="2" Column="1"/>
-            <LayoutButtons Face="ScrinProdigyTeleportUnits" Type="AbilCmd" AbilCmd="ScrinProdigyTeleportUnits,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="ScrinProdigyBlink" Type="AbilCmd" AbilCmd="ScrinProdigyBlink,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="ScrinProdigyTeleportUnits" Type="AbilCmd" AbilCmd="ScrinProdigyTeleportUnits,Execute" Row="2" Column="1"/>
             <LayoutButtons Face="ScrinProdigyTeleportUnitsTargeting" Type="AbilCmd" AbilCmd="ScrinProdigyTeleportUnitsTargeting,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="ScrinProdigyMindControl" Type="AbilCmd" AbilCmd="ScrinProdigyMindControl,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="ScrinProdigyAreaMindControl" Type="AbilCmd" AbilCmd="ScrinProdigyAreaMindControl,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="ScrinProdigyReleaseMinion" Type="AbilCmd" AbilCmd="ScrinProdigyReleaseMinion,Execute" Row="2" Column="4"/>
         </CardLayouts>
     </CUnit>
     <!--Vehicles-->
-
-
-
 
 
     <CUnit id="ScrinGroundBuzzersCombined" parent="ScrinVehicle" default="1">
@@ -865,8 +864,6 @@
             <LayoutButtons Face="ScrinHostRecallMinions" Type="AbilCmd" AbilCmd="ScrinHostRecallMinions,Execute" Row="2" Column="4"/>
         </CardLayouts>
     </CUnit>
-
-
     <CUnit id="ScrinHarvester" parent="ScrinGround">
         <SubgroupPriority value="6"/>
         <Speed value="2.1484"/>
@@ -893,6 +890,7 @@
         <KillXP value="10"/>
         <AbilArray Link="CNCHarvest"/>
         <AbilArray Link="NodEnergyCloak"/>
+        <BehaviorArray Link="ScrinHarvesterHeal"/>
 
         <CardLayouts index="0">
             <LayoutButtons Face="GatherTerr" Type="AbilCmd" AbilCmd="CNCHarvest30,Gather" ShowInGlossary="0" Row="1" Column="0"/>
@@ -969,45 +967,49 @@
         <LifeStart value="150"/>
         <LifeMax value="150"/>
         <Food value="3"/>
-        <CostResource index="Minerals" value="50"/>
+        <CostResource index="Minerals" value="100"/>
         <WeaponArray Link="ScrinGunWalkerWeapon"/>
 <!--        <WeaponArray Link="ScrinGunWalkerShards"/>-->
-<!--        <WeaponArray Link="ScrinGunWalker ShardsU"/>-->
+<!--        <WeaponArray Link="ScrinGunWalkerBlueShards"/>-->
         <GlossaryPriority value="105"/>
     </CUnit>
     <CUnit id="ScrinSeeker" parent="ScrinGroundBuzzersCombined">
         <LifeStart value="120"/>
         <LifeMax value="120"/>
-        <CostResource index="Minerals" value="100"/>
+        <CostResource index="Minerals" value="75"/>
         <CostResource index="Vespene" value="25"/>
         <Speed value="3.8"/>
         <Food value="3"/>
-        <WeaponArray Link="ScrinPlasmaDiscs3" Turret="SiegeTank"/>
-<!--        <WeaponArray Link="ScrinSeekerWeapon"/>-->
-<!--        <WeaponArray Link="ScrinSeekerShards"/>-->
+        <BehaviorArray Link="Detector11"/>
+        <WeaponArray Link="ScrinSeekerWeapon" Turret="SiegeTank"/>
+<!--        <WeaponArray Link="ScrinSeekerShards" Turret="SiegeTank"/>-->
         <GlossaryPriority value="110"/>
     </CUnit>
     <CUnit id="ScrinDevourer" parent="ScrinGroundBuzzersCombined">
-        <LifeStart value="150"/>
-        <LifeMax value="150"/>
-        <Food value="3"/>
-        <CostResource index="Minerals" value="50"/>
-        <WeaponArray Link="ScrinDisintegratorWeapon"/>
-<!--        <WeaponArray Link="ScrinDevourerWeapon"/>-->
-<!--        <WeaponArray Link="ScrinDevourerWeaponCharged"/>-->
+        <LifeStart value="175"/>
+        <LifeMax value="175"/>
+        <LifeArmor value="1"/>
+        <EnergyStart value="0"/>
+        <EnergyMax value="50"/>
+        <Food value="2"/>
+        <CostResource index="Minerals" value="125"/>
+        <CostResource index="Vespene" value="50"/>
+        <WeaponArray Link="ScrinDevourerWeapon"/>
+        <BehaviorArray Link="ScrinDevourerCharged"/>
         <GlossaryPriority value="115"/>
-        <AbilArray Link="ScrinDevourerConversionBeam"/>
+        <AbilArray Link="ScrinConversionBeam"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="ScrinDevourerConversionBeam" Type="AbilCmd" AbilCmd="ScrinDevourerConversionBeam,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="ScrinConversionBeam" Type="AbilCmd" AbilCmd="ScrinConversionBeam,Execute" Row="2" Column="0"/>
         </CardLayouts>
     </CUnit>
     <CUnit id="ScrinCorrupter" parent="ScrinGroundBuzzersCombined">
         <LifeStart value="150"/>
         <LifeMax value="150"/>
         <Food value="3"/>
-        <CostResource index="Minerals" value="50"/>
-<!--        <WeaponArray Link="ScrinCorrupterWeapon"/>-->
-        <WeaponArray Link="NodTiberiumTrooperDeathSpray"/>
+        <CostResource index="Minerals" value="100"/>
+        <CostResource index="Vespene" value="75"/>
+        <WeaponArray Link="ScrinCorrupterWeapon"/>
+<!--        <WeaponArray Link="NodTiberiumTrooperDeathSpray"/>-->
         <GlossaryPriority value="120"/>
         <AbilArray Link="ScrinCorruptorTiberiumHeal"/>
         <CardLayouts index="0">
@@ -1042,7 +1044,7 @@
         <CostResource index="Vespene" value="1000"/>
         <RepairTime value="45"/>
         <KillXP value="1000"/>
-        <AbilArray Link="ScrinEradicatorTeleport"/>
+        <AbilArray Link="ScrinEradicatorBlink"/>
         <BehaviorArray Link="HasEmptyPilotSlot1"/>
         <BehaviorArray Link="HasEmptyPilotSlot2"/>
         <BehaviorArray Link="HasEmptyPilotSlot3"/>
@@ -1051,7 +1053,7 @@
         <WeaponArray Link="FakeWeaponDummy" Turret="ScrinEradicatorTurretLeft"/>
         <WeaponArray Link="FakeWeaponDummy" Turret="ScrinEradicatorTurretMiddle"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="ScrinEradicatorTeleport" Type="AbilCmd" AbilCmd="ScrinEradicatorTeleport,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="ScrinEradicatorBlink" Type="AbilCmd" AbilCmd="ScrinEradicatorBlink,Execute" Row="2" Column="0"/>
             <LayoutButtons Face="ScrinEradicatorKillBonus" Type="Passive" Row="1" Column="0"/>
         </CardLayouts>
         <Radius value="0.875"/>
