@@ -24,6 +24,7 @@
         <LifeStart value="125"/>
         <LifeMax value="125"/>
         <Speed value="3.65"/>
+        <CostResource index="Minerals" value="15"/>
 <!--        <FlagArray index="Uncommandable" value="1"/>-->
 <!--        <BehaviorArray Link="ScrinMechapedeSegmentFollow"/>-->
         <BehaviorArray Link="Frenzy"/>
@@ -58,8 +59,7 @@
 
     <CBehaviorBuff id="ScrinMechapedeEquippedWithShardSegment">
         <RemoveValidatorArray value="CasterNotDead"/>
-<!--        <InfoFlags index="Hidden" value="1"/>-->
-<!--        <BuffFlags index="Channeling" value="1"/>-->
+        <InfoFlags index="Hidden" value="1"/>
         <MaxStackCount value="0"/>
         <Modification>
 <!--            <WeaponArray Link="ScrinMechapedeShardSegmentDummy"/>-->
@@ -69,8 +69,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="ScrinMechapedeEquippedWithToxinSegment">
         <RemoveValidatorArray value="CasterNotDead"/>
-<!--        <InfoFlags index="Hidden" value="1"/>-->
-<!--        <BuffFlags index="Channeling" value="1"/>-->
+        <InfoFlags index="Hidden" value="1"/>
         <MaxStackCount value="0"/>
         <Modification>
 <!--            <WeaponArray Link="ScrinMechapedeToxinSegmentDummy"/>-->
@@ -80,8 +79,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="ScrinMechapedeEquippedWithDiscSegment">
         <RemoveValidatorArray value="CasterNotDead"/>
-<!--        <InfoFlags index="Hidden" value="1"/>-->
-<!--        <BuffFlags index="Channeling" value="1"/>-->
+        <InfoFlags index="Hidden" value="1"/>
         <MaxStackCount value="0"/>
         <Modification>
 <!--            <WeaponArray Link="ScrinMechapedeDiscSegmentDummy"/>-->
@@ -92,8 +90,7 @@
     </CBehaviorBuff>
     <CBehaviorBuff id="ScrinMechapedeEquippedWithDisintegratorSegment">
         <RemoveValidatorArray value="CasterNotDead"/>
-<!--        <InfoFlags index="Hidden" value="1"/>-->
-<!--        <BuffFlags index="Channeling" value="1"/>-->
+        <InfoFlags index="Hidden" value="1"/>
         <MaxStackCount value="0"/>
         <Modification>
 <!--            <WeaponArray Link="ScrinMechapedeDisintegratorSegmentDummy"/>-->
@@ -109,8 +106,8 @@
         <Icon value="Assets\Textures\btn-upgrade-terran-vehicleweaponslevel0.dds"/>
         <DisplayEffect value="CycloneWeaponDamage"/>
         <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <MinScanRange value="2"/>
-        <Range value="2"/>
+        <MinScanRange value="8"/>
+        <Range value="8"/>
         <Period value="1"/>
         <Effect value="ScrinMechapedeFakeWeaponDamage"/>
     </CWeaponLegacy>
@@ -121,8 +118,8 @@
         <Icon value="Assets\Textures\btn-upgrade-terran-vehicleweaponslevel0.dds"/>
         <DisplayEffect value="CycloneWeaponDamage"/>
         <TargetFilters value="Air,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <MinScanRange value="2"/>
-        <Range value="2"/>
+        <MinScanRange value="8"/>
+        <Range value="8"/>
         <Period value="1"/>
         <Effect value="ScrinMechapedeFakeWeaponDamage"/>
     </CWeaponLegacy>
@@ -132,9 +129,10 @@
 
     <CUnit id="ScrinMechapede" parent="ScrinVehicle">
         <SubgroupPriority value="10"/>
-        <LifeStart value="200"/>
-        <LifeMax value="200"/>
+        <LifeStart value="250"/>
+        <LifeMax value="250"/>
         <LifeArmor value="1"/>
+        <Speed value="3.65"/>
         <Speed value="3.65"/>
         <Food value="4"/>
         <CostResource index="Minerals" value="125"/>
@@ -209,24 +207,28 @@
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
 <!--        <EffectArray index="Create" value="ScrinMechapedeDisintegratorSegment@CreateTurret"/>-->
-        <EquipmentArray Weapon="ScrinMechapedeDisintegratorSegmentDummy"/>
+<!--        <EquipmentArray Weapon="ScrinMechapedeDisintegratorSegmentDummy"/>-->
+        <WeaponArray Link="ScrinMechapedeDisintegratorSegmentDummy"/>
     </CUnit>
     <CUnit id="ScrinMechapedeShardSegment" parent="ScrinMechapedeSegment">
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
-        <EquipmentArray Weapon="ScrinMechapedeShardSegmentDummy"/>
+        <WeaponArray Link="ScrinMechapedeShardSegmentDummy"/>
+<!--        <EquipmentArray Weapon="ScrinMechapedeShardSegmentDummy"/>-->
 <!--        <EffectArray index="Create" value="ScrinMechapedeShardSegment@CreateTurret"/>-->
     </CUnit>
     <CUnit id="ScrinMechapedeToxinSegment" parent="ScrinMechapedeSegment">
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
+        <WeaponArray Link="ScrinMechapedeToxinSegmentDummy"/>
 <!--        <EffectArray index="Create" value="ScrinMechapedeToxinSegment@CreateTurret"/>-->
-        <EquipmentArray Weapon="ScrinMechapedeToxinSegmentDummy"/>
+<!--        <EquipmentArray Weapon="ScrinMechapedeToxinSegmentDummy"/>-->
     </CUnit>
     <CUnit id="ScrinMechapedeDiscSegment" parent="ScrinMechapedeSegment">
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
-        <EquipmentArray Weapon="ScrinMechapedeDiscSegmentDummy"/>
+<!--        <EquipmentArray Weapon="ScrinMechapedeDiscSegmentDummy"/>-->
+            <WeaponArray Link="ScrinMechapedeDiscSegmentDummy"/>
 <!--        <EffectArray index="Create" value="ScrinMechapedeDiscSegment@CreateTurret"/>-->
     </CUnit>
 
@@ -264,6 +266,27 @@
     </CKineticFollow>
 
 
+
+    <CRequirement id="ArmMechapedeSegment">
+        <NodeArray index="Use" Link="UQU_ScrinMechapedeSegment_LT8"/>
+    </CRequirement>
+    <CRequirementLT id="UQU_ScrinMechapedeSegment_LT8">
+        <OperandArray index="0" value="UQU_ScrinMechapedeSegment"/>
+        <OperandArray index="1" value="8"/>
+        <Tooltip value="RequirementNode/Tooltip/UQU_ScrinMechapedeSegment_LT8"/>
+    </CRequirementLT>
+    <CRequirementSum id="UQU_ScrinMechapedeSegment">
+        <OperandArray value="UQU_ScrinMechapedeDisintegratorSegment"/>
+        <OperandArray value="UQU_ScrinMechapedeDiscSegment"/>
+        <OperandArray value="UQU_ScrinMechapedeShardSegment"/>
+        <OperandArray value="UQU_ScrinMechapedeToxinSegment"/>
+    </CRequirementSum>
+    <CRequirementCountUnit id="UQU_ScrinMechapedeDisintegratorSegment" parent="UQU" unit="ScrinMechapedeDisintegratorSegment"/>
+    <CRequirementCountUnit id="UQU_ScrinMechapedeDiscSegment" parent="UQU" unit="ScrinMechapedeDiscSegment"/>
+    <CRequirementCountUnit id="UQU_ScrinMechapedeShardSegment" parent="UQU" unit="ScrinMechapedeShardSegment"/>
+    <CRequirementCountUnit id="UQU_ScrinMechapedeToxinSegment" parent="UQU" unit="ScrinMechapedeToxinSegment"/>
+
+
     <CAbilArmMagazine id="ScrinMechapedeHangar">
         <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
         <Flags index="AutoCreate" value="1"/>
@@ -271,7 +294,7 @@
         <Leash value="8"/>
         <InfoArray index="Ammo1" Time="5" CountStart="0" Manage="Recall" Unit="ScrinMechapedeDisintegratorSegment">
             <Charge HideCount="1" Link="ScrinMechapedeDisintegratorSegment" Location="Unit"/>
-            <Button DefaultButtonFace="ScrinMechapedeDisintegratorSegment">
+            <Button DefaultButtonFace="ScrinMechapedeDisintegratorSegment" Requirements="ArmMechapedeSegment">
                 <Flags index="ToSelection" value="1"/>
             </Button>
             <Flags index="AutoBuild" value="1"/>
@@ -279,7 +302,7 @@
         </InfoArray>
         <InfoArray index="Ammo2" Time="5" CountStart="0" Manage="Recall" Unit="ScrinMechapedeDiscSegment">
             <Charge HideCount="1" Link="ScrinMechapedeDiscSegment" Location="Unit"/>
-            <Button DefaultButtonFace="ScrinMechapedeDiscSegment">
+            <Button DefaultButtonFace="ScrinMechapedeDiscSegment" Requirements="ArmMechapedeSegment">
                 <Flags index="ToSelection" value="1"/>
             </Button>
             <Flags index="AutoBuild" value="1"/>
@@ -287,7 +310,7 @@
         </InfoArray>
         <InfoArray index="Ammo3" Time="5" CountStart="0" Manage="Recall" Unit="ScrinMechapedeShardSegment">
             <Charge HideCount="1" Link="ScrinMechapedeShardSegment" Location="Unit"/>
-            <Button DefaultButtonFace="ScrinMechapedeShardSegment">
+            <Button DefaultButtonFace="ScrinMechapedeShardSegment" Requirements="ArmMechapedeSegment">
                 <Flags index="ToSelection" value="1"/>
             </Button>
             <Flags index="AutoBuild" value="1"/>
@@ -295,7 +318,7 @@
         </InfoArray>
         <InfoArray index="Ammo4" Time="5" CountStart="0" Manage="Recall" Unit="ScrinMechapedeToxinSegment">
             <Charge HideCount="1" Link="ScrinMechapedeToxinSegment" Location="Unit"/>
-            <Button DefaultButtonFace="ScrinMechapedeToxinSegment">
+            <Button DefaultButtonFace="ScrinMechapedeToxinSegment" Requirements="ArmMechapedeSegment">
                 <Flags index="ToSelection" value="1"/>
             </Button>
             <Flags index="AutoBuild" value="1"/>
@@ -463,7 +486,7 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="Attack"/>
         <Flags index="AllowMovement" value="1"/>
         <Flags index="NoDeceleration" value="1"/>
-        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <TargetFilters value="Visible;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
         <Arc value="360"/>
     </CAbilEffectTarget>
     <CEffectSet id="ScrinMechapedeSegmentTurretAttack">
