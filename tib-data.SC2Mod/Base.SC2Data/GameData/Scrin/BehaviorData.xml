@@ -4,11 +4,33 @@
         <Alignment value="Positive"/>
         <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
         <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="CasterIsNotMoving"/>
+<!--        <DisableValidatorArray value="CasterIsNotMoving"/>-->
+        <DisableValidatorArray value="HasNoScrinUnstableCloakPrevention"/>
         <Modification>
             <StateFlags index="Cloak" value="1"/>
         </Modification>
     </CBehaviorBuff>
+    <CBehaviorBuff id="ScrinUnstableCloakMoveCheck">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="CasterIsMoving"/>
+        <Period value="0.25"/>
+        <PeriodicEffect value="ScrinUnstableCloakPrevention"/>
+    </CBehaviorBuff>
+    <CEffectApplyBehavior id="ScrinUnstableCloakPrevention"/>
+    <CBehaviorBuff id="ScrinUnstableCloakPrevention">
+        <InfoFlags index="Hidden" value="1"/>
+        <MaxStackCount value="1"/>
+        <Duration value="2"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-cloak.dds"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CValidatorUnitCompareBehaviorCount id="HasNoScrinUnstableCloakPrevention">
+        <Behavior value="ScrinUnstableCloakPrevention"/>
+        <Value value="0"/>
+    </CValidatorUnitCompareBehaviorCount>
+
 
 
 
