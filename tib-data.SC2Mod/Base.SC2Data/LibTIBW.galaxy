@@ -4733,31 +4733,36 @@ bool libTIBW_gt_MechapedeSegmentsSpawn_Func (bool testConds, bool runActions) {
     auto2FF3A59B_val = UnitGetType(lv_target);
     if (auto2FF3A59B_val == "ScrinMechapedeDiscSegment") {
         lv_turretType = "ScrinMechapedeDiscSegmentTurret";
+        UnitBehaviorAdd(lv_caster, "ScrinMechapedeEquippedWithDiscSegment", lv_target, 1);
     }
     else if (auto2FF3A59B_val == "ScrinMechapedeDisintegratorSegment") {
         lv_turretType = "ScrinMechapedeDisintegratorSegmentTurret";
+        UnitBehaviorAdd(lv_caster, "ScrinMechapedeEquippedWithDisintegratorSegment", lv_target, 1);
     }
     else if (auto2FF3A59B_val == "ScrinMechapedeShardSegment") {
         lv_turretType = "ScrinMechapedeShardSegmentTurret";
+        UnitBehaviorAdd(lv_caster, "ScrinMechapedeEquippedWithShardSegment", lv_target, 1);
     }
     else if (auto2FF3A59B_val == "ScrinMechapedeToxinSegment") {
         lv_turretType = "ScrinMechapedeToxinSegmentTurret";
+        UnitBehaviorAdd(lv_caster, "ScrinMechapedeEquippedWithToxinSegment", lv_target, 1);
     }
     else {
     }
     UnitCreate(1, lv_turretType, 0, lv_player, UnitGetPosition(lv_target), 0.0);
     lv_turretUnit = UnitLastCreated();
+    UnitCreateEffectUnit(lv_turretUnit, "ScrinMechapedeSegmentTurretTrackerATU", lv_target);
     UnitBehaviorAdd(lv_turretUnit, "KillsToCaster", lv_caster, 1);
     UnitBehaviorAdd(lv_turretUnit, "SuicideWithCaster", lv_target, 1);
     libTIBW_gf_AttachUnitModelToUnit(lv_turretUnit, lv_target, "Ref_Attacher", 0.0, 0.0, 0.0, "");
-    Wait(0.0625, c_timeGame);
-    UnitIssueOrder(lv_target, OrderTargetingUnit(AbilityCommand("ScrinMehapedeSegmentMove", 0), lv_lastSegment), c_orderQueueReplace);
     while ((UnitIsAlive(lv_lastSegment) == true) && (UnitIsAlive(lv_target) == true)) {
         if ((DistanceBetweenPoints(UnitGetPosition(lv_target), UnitGetPosition(lv_lastSegment)) > 1)) {
             UnitSetPosition(lv_target, PointWithOffsetPolar(UnitGetPosition(lv_lastSegment), -0.75, UnitGetFacing(lv_lastSegment)), false);
         }
 
         UnitSetPosition(lv_turretUnit, UnitGetPosition(lv_target), false);
+        UnitSetFacing(lv_turretUnit, UnitGetFacing(lv_target), 0.0);
+        UnitIssueOrder(lv_target, OrderTargetingUnit(AbilityCommand("ScrinMehapedeSegmentMove", 0), lv_lastSegment), c_orderQueueReplace);
         Wait(0.0625, c_timeGame);
     }
     return true;
@@ -4766,7 +4771,7 @@ bool libTIBW_gt_MechapedeSegmentsSpawn_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_MechapedeSegmentsSpawn_Init () {
     libTIBW_gt_MechapedeSegmentsSpawn = TriggerCreate("libTIBW_gt_MechapedeSegmentsSpawn_Func");
-    TriggerAddEventUnitCreated(libTIBW_gt_MechapedeSegmentsSpawn, null, "ScrinMechapedeSegmentTrain", null);
+    TriggerAddEventUnitCreated(libTIBW_gt_MechapedeSegmentsSpawn, null, "ScrinMechapedeHangar", null);
 }
 
 //--------------------------------------------------------------------------------------------------

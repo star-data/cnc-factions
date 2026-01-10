@@ -4,118 +4,133 @@
         <EditorCategories value="AbilityorEffectType:Units"/>
         <FollowRangeSlop value="0.01"/>
         <FollowAcquireRange value="500"/>
+        <CmdButtonArray index="Move">
+            <Flags index="IgnoreUser" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Patrol">
+            <Flags index="IgnoreUser" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="HoldPos">
+            <Flags index="IgnoreUser" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="AcquireMove">
+            <Flags index="IgnoreUser" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Turn">
+            <Flags index="IgnoreUser" value="1"/>
+        </CmdButtonArray>
     </CAbilMove>
-    <CUnit default="1" id="ScrinMechapedeSegment">
+    <CUnit default="1" id="ScrinMechapedeSegment" parent="ScrinVehicle">
         <LifeStart value="125"/>
         <LifeMax value="125"/>
         <Speed value="3.65"/>
-        <FlagArray index="Turnable" value="1"/>
-        <FlagArray index="Movable" value="1"/>
-        <FlagArray index="Unclickable" value="1"/>
-        <FlagArray index="Uncommandable" value="1"/>
-        <FlagArray index="Unhighlightable" value="1"/>
-        <FlagArray index="Untooltipable" value="1"/>
-        <FlagArray index="PreventDestroy" value="1"/>
-        <FlagArray index="UseLineOfSight" value="1"/>
-        <FlagArray index="KillCredit" value="1"/>
-        <FlagArray index="ShowResources" value="1"/>
-        <FlagArray index="ClearRallyOnTargetLost" value="1"/>
-        <FlagArray index="ArmySelect" value="1"/>
-        <FlagArray index="PlayerRevivable" value="1"/>
-        <FlagArray index="CameraFollow" value="1"/>
-        <BehaviorArray Link="ScrinMechapedeSegmentFollow"/>
+<!--        <FlagArray index="Uncommandable" value="1"/>-->
+<!--        <BehaviorArray Link="ScrinMechapedeSegmentFollow"/>-->
         <BehaviorArray Link="Frenzy"/>
-        <Name value="Unit/Name/##id##"/>
-        <Description value="Button/Tooltip/##id##"/>
-        <DeathRevealFilters value="Visible;Player,Ally,Neutral,Missile,Dead,Hidden"/>
-        <DeathRevealRadius value="3"/>
-        <DeathRevealDuration value="4"/>
-        <DeathRevealType value="Snapshot"/>
-        <ReviveType value="##id##"/>
-        <Race value="Scrin"/>
-        <Mob value="Multiplayer"/>
-        <ResourceState value="Unknown"/>
-        <ResourceType value="Unknown"/>
-        <EditorFlags index="BlockStructures" value="1"/>
-        <PlaneArray index="Ground" value="1"/>
-        <PushPriority value="10"/>
-        <Collide index="Ground" value="1"/>
-        <Collide index="ForceField" value="1"/>
-        <Collide index="Locust" value="1"/>
-        <Collide index="Small" value="1"/>
-        <DefaultAcquireLevel value="Offensive"/>
-        <Response value="Acquire"/>
-        <Attributes index="Mechanical" value="1"/>
-        <ArmorType value="Unknown"/>
-        <LifeArmorName value="Unit/LifeArmorName/ScrinVehiclesArmor"/>
-        <Mover value="Ground"/>
-        <Acceleration value="1000"/>
-        <Deceleration value="1000"/>
-        <StationaryTurningRate value="990"/>
-        <TurningRate value="990"/>
-        <Sight value="9"/>
-        <OccludeHeight value="0.75"/>
-        <CostCategory value="Army"/>
-        <PawnItemReduction value="1"/>
-        <RepairTime value="8"/>
-        <AttackTargetPriority value="20"/>
-        <DamageDealtXP value="1"/>
-        <DamageTakenXP value="1"/>
-        <AbilArray Link="ScrinMehapedeSegmentMove"/>
-        <AbilArray Link="stop"/>
-        <AbilArray Link="attack"/>
+        <AbilArray index="0" Link="ScrinMehapedeSegmentMove"/>
         <BehaviorArray Link="ScrinMechapedeHeadTracker"/>
-        <CardLayouts>
-            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="ScrinMehapedeSegmentMove,Move" Row="0" Column="0"/>
-            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
-<!--            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>-->
-<!--            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>-->
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+        <BehaviorArray Link="ScrinMechapedeSegmentTurretTracker"/>
+        <AbilArray index="0" Link="ScrinMehapedeSegmentMove"/>
+        <AbilArray index="1" Link="ScrinHostUncombine"/>
+        <AbilArray index="2" Link="ScrinMechapedeSegmentTurretAttack"/>
+        <AbilArray index="3" Link="ScrinMechapedeSegmentTurretStop"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="0" Face="Stop" AbilCmd="ScrinMechapedeSegmentTurretStop,Execute" Column="1"/>
+            <LayoutButtons index="1" Face="Attack" AbilCmd="ScrinMechapedeSegmentTurretAttack,Execute" Column="4"/>
+            <LayoutButtons index="2" Face="ScrinHostUncombine" AbilCmd="ScrinHostUncombine,Execute" Row="1" Column="0"/>
+            <LayoutButtons index="3" removed="1"/>
+            <LayoutButtons index="4" removed="1"/>
+            <LayoutButtons index="5" removed="1"/>
         </CardLayouts>
         <Radius value="0.35"/>
         <SeparationRadius value="0.35"/>
         <InnerRadius value="0.35"/>
-        <InnerRadiusSafetyMultiplier value="1"/>
-        <CargoSize value="1"/>
-        <ScoreMakeCostFactor index="Minerals" value="1"/>
-        <ScoreMakeCostFactor index="Vespene" value="1"/>
-        <ScoreKillCostFactor index="Minerals" value="1"/>
-        <ScoreKillCostFactor index="Vespene" value="1"/>
-        <ScoreResult value="BuildOrder"/>
-        <SubgroupPriority value="15"/>
-        <MinimapRadius value="0.5"/>
-        <EditorCategories value="ObjectType:Unit,ObjectFamily:CNC"/>
-        <TacticalAI value="##id##"/>
-        <TacticalAIFilters value="-;Player,Ally,Neutral"/>
-        <AIEvalFactor value="1"/>
-        <Mass value="0.4"/>
-        <LeaderAlias value="##id##"/>
-        <HotkeyAlias value="##id##"/>
-        <SelectAlias value="##id##"/>
-        <SubgroupAlias value="##id##"/>
-        <GlossaryCategory value="Unit/Category/ScrinUnits"/>
-        <GlossaryAlias value="##id##"/>
-        <HotkeyCategory value="Unit/Category/ScrinUnits"/>
-        <AIEvaluateAlias value="##id##"/>
-        <Fidget>
-            <DelayMax value="30"/>
-            <DelayMin value="10"/>
-            <DistanceMax value="4"/>
-            <DistanceMin value="1"/>
-            <TurnAngle value="90"/>
-            <TurningRate value="90"/>
-            <ChanceArray index="Anim" value="33"/>
-            <ChanceArray index="Idle" value="33"/>
-            <ChanceArray index="Turn" value="33"/>
-        </Fidget>
-        <ReviveInfoBase>
-            <Charge Link="##id##/Revive" Location="Unit"/>
-            <Cooldown Link="##id##/Revive" Location="Unit"/>
-        </ReviveInfoBase>
-<!--        <PushPriority value="9999"/>-->
+        <CargoSize value="0"/>
     </CUnit>
 
-    <CUnit id="ScrinMechapede" parent="ScrinGround">
+    <CAbilQueue id="ScrinMechapedeHangarQueue8">
+        <EditorCategories value="Race:Neutral,AbilityorEffectType:Structures"/>
+        <QueueSize value="8"/>
+        <Flags index="Passive" value="1"/>
+    </CAbilQueue>
+
+
+
+    <CBehaviorBuff id="ScrinMechapedeEquippedWithShardSegment">
+        <RemoveValidatorArray value="CasterNotDead"/>
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <BuffFlags index="Channeling" value="1"/>-->
+        <MaxStackCount value="0"/>
+        <Modification>
+<!--            <WeaponArray Link="ScrinMechapedeShardSegmentDummy"/>-->
+<!--            <WeaponEnableArray value="ScrinMechapedeShardSegmentDummy"/>-->
+            <WeaponEnableArray value="ScrinMechapedeFakeAGWeapon"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="ScrinMechapedeEquippedWithToxinSegment">
+        <RemoveValidatorArray value="CasterNotDead"/>
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <BuffFlags index="Channeling" value="1"/>-->
+        <MaxStackCount value="0"/>
+        <Modification>
+<!--            <WeaponArray Link="ScrinMechapedeToxinSegmentDummy"/>-->
+<!--            <WeaponEnableArray value="ScrinMechapedeToxinSegmentDummy"/>-->
+            <WeaponEnableArray value="ScrinMechapedeFakeAGWeapon"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="ScrinMechapedeEquippedWithDiscSegment">
+        <RemoveValidatorArray value="CasterNotDead"/>
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <BuffFlags index="Channeling" value="1"/>-->
+        <MaxStackCount value="0"/>
+        <Modification>
+<!--            <WeaponArray Link="ScrinMechapedeDiscSegmentDummy"/>-->
+<!--            <WeaponEnableArray value="ScrinMechapedeDiscSegmentDummy"/>-->
+            <WeaponEnableArray value="ScrinMechapedeFakeAGWeapon"/>
+            <WeaponEnableArray value="ScrinMechapedeFakeAAWeapon"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="ScrinMechapedeEquippedWithDisintegratorSegment">
+        <RemoveValidatorArray value="CasterNotDead"/>
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <BuffFlags index="Channeling" value="1"/>-->
+        <MaxStackCount value="0"/>
+        <Modification>
+<!--            <WeaponArray Link="ScrinMechapedeDisintegratorSegmentDummy"/>-->
+<!--            <WeaponEnableArray value="ScrinMechapedeDisintegratorSegmentDummy"/>-->
+            <WeaponEnableArray value="ScrinMechapedeFakeAGWeapon"/>
+        </Modification>
+    </CBehaviorBuff>
+
+    <CWeaponLegacy id="ScrinMechapedeFakeAGWeapon">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-vehicleweaponslevel0.dds"/>
+        <DisplayEffect value="CycloneWeaponDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="2"/>
+        <Range value="2"/>
+        <Period value="1"/>
+        <Effect value="ScrinMechapedeFakeWeaponDamage"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ScrinMechapedeFakeAAWeapon">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-vehicleweaponslevel0.dds"/>
+        <DisplayEffect value="CycloneWeaponDamage"/>
+        <TargetFilters value="Air,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="2"/>
+        <Range value="2"/>
+        <Period value="1"/>
+        <Effect value="ScrinMechapedeFakeWeaponDamage"/>
+    </CWeaponLegacy>
+    <CEffectDamage id="ScrinMechapedeFakeWeaponDamage">
+        <EditorCategories value="Race:Terran"/>
+    </CEffectDamage>
+
+    <CUnit id="ScrinMechapede" parent="ScrinVehicle">
         <SubgroupPriority value="10"/>
         <LifeStart value="200"/>
         <LifeMax value="200"/>
@@ -125,48 +140,206 @@
         <CostResource index="Minerals" value="125"/>
         <CostResource index="Vespene" value="50"/>
         <BehaviorArray Link="Detector"/>
-        <AbilArray Link="ScrinMechapedeSegmentTrain"/>
-        <AbilArray Link="que5PassiveCancelToSelection"/>
+        <AbilArray Link="ScrinMechapedeHangar"/>
+        <AbilArray Link="ScrinMechapedeHangarQueue8"/>
+        <AbilArray Link="ScrinMechapedeAttack"/>
+        <AbilArray Link="ScrinMechapedeStop"/>
+
+        <WeaponArray Link="ScrinMechapedeFakeAGWeapon"/>
+        <WeaponArray Link="ScrinMechapedeFakeAAWeapon"/>
         <GlossaryPriority value="125"/>
         <BehaviorArray Link="ScrinMechapedeSegmentsTracker"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="ScrinMechapedeShardSegment" Type="AbilCmd" AbilCmd="ScrinMechapedeSegmentTrain,Train1" Row="2" Column="0"/>
-            <LayoutButtons Face="ScrinMechapedeToxinSegment" Type="AbilCmd" AbilCmd="ScrinMechapedeSegmentTrain,Train2" Row="2" Column="1"/>
-            <LayoutButtons Face="ScrinMechapedeDisintegratorSegment" Type="AbilCmd" AbilCmd="ScrinMechapedeSegmentTrain,Train3" Row="2" Column="2"/>
-            <LayoutButtons Face="ScrinMechapedeDiscSegment" Type="AbilCmd" AbilCmd="ScrinMechapedeSegmentTrain,Train4" Row="2" Column="3"/>
-            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>
+            <LayoutButtons Face="ScrinMechapedeDisintegratorSegment" Type="AbilCmd" AbilCmd="ScrinMechapedeHangar,Ammo1" Row="2" Column="0"/>
+            <LayoutButtons Face="ScrinMechapedeDiscSegment" Type="AbilCmd" AbilCmd="ScrinMechapedeHangar,Ammo2" Row="2" Column="1"/>
+            <LayoutButtons Face="ScrinMechapedeShardSegment" Type="AbilCmd" AbilCmd="ScrinMechapedeHangar,Ammo3" Row="2" Column="2"/>
+            <LayoutButtons Face="ScrinMechapedeToxinSegment" Type="AbilCmd" AbilCmd="ScrinMechapedeHangar,Ammo4" Row="2" Column="3"/>
+
+            <LayoutButtons index="1" Type="Undefined"/>
+            <LayoutButtons index="4" Type="Undefined"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="ScrinMechapedeAttack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="ScrinMechapedeStop,Execute" Row="0" Column="1"/>
         </CardLayouts>
-        <Attributes index="Mechanical" value="1"/>
         <Sight value="9"/>
         <Radius value="0.3"/>
         <SeparationRadius value="0.3"/>
         <InnerRadius value="0.3"/>
         <CargoSize value="2"/>
+        <Fidget>
+            <DelayMax value="30"/>
+            <DelayMin value="10"/>
+            <DistanceMax value="4"/>
+            <DistanceMin value="1"/>
+            <TurnAngle value="0"/>
+            <TurningRate value="0"/>
+            <ChanceArray index="Anim" value="33"/>
+            <ChanceArray index="Idle" value="33"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+<!--        <EquipmentArray Weapon="ScrinMechapedeToxinSegmentDummy"/>-->
+<!--        <EquipmentArray Weapon="ScrinMechapedeDisintegratorSegmentDummy"/>-->
+<!--        <EquipmentArray Weapon="ScrinMechapedeDiscSegmentDummy"/>-->
+<!--        <EquipmentArray Weapon="ScrinMechapedeShardSegmentDummy"/>-->
     </CUnit>
+    <CEffectDamage id="ScrinMechapedeSegmentDummy@Damage"/>
+    <CWeaponLegacy id="ScrinMechapedeToxinSegmentDummy" parent="ScrinMechapedeToxinSegmentWeapon">
+        <Effect value="ScrinMechapedeSegmentDummy@Damage"/>
+<!--        <Options index="Disabled" value="1"/>-->
+<!--        <Options index="Hidden" value="1"/>-->
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ScrinMechapedeDisintegratorSegmentDummy" parent="ScrinMechapedeDisintegratorSegmentWeapon">
+        <Effect value="ScrinMechapedeSegmentDummy@Damage"/>
+<!--        <Options index="Disabled" value="1"/>-->
+<!--        <Options index="Hidden" value="1"/>-->
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ScrinMechapedeDiscSegmentDummy" parent="ScrinMechapedeDiscSegmentWeapon">
+        <Effect value="ScrinMechapedeSegmentDummy@Damage"/>
+<!--        <Options index="Disabled" value="1"/>-->
+<!--        <Options index="Hidden" value="1"/>-->
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ScrinMechapedeShardSegmentDummy" parent="ScrinMechapedeShardSegmentWeapon">
+        <Effect value="ScrinMechapedeSegmentDummy@Damage"/>
+<!--        <Options index="Disabled" value="1"/>-->
+<!--        <Options index="Hidden" value="1"/>-->
+    </CWeaponLegacy>
+
+
+
     <CUnit id="ScrinMechapedeDisintegratorSegment" parent="ScrinMechapedeSegment">
-<!--        <WeaponArray Link="ScrinMechapedeDisentegrator" Turret="SiegeTank"/>-->
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
+<!--        <EffectArray index="Create" value="ScrinMechapedeDisintegratorSegment@CreateTurret"/>-->
+        <EquipmentArray Weapon="ScrinMechapedeDisintegratorSegmentDummy"/>
     </CUnit>
     <CUnit id="ScrinMechapedeShardSegment" parent="ScrinMechapedeSegment">
-<!--        <WeaponArray Link="ScrinMechapedeShards" Turret="SiegeTank"/>-->
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
+        <EquipmentArray Weapon="ScrinMechapedeShardSegmentDummy"/>
+<!--        <EffectArray index="Create" value="ScrinMechapedeShardSegment@CreateTurret"/>-->
     </CUnit>
     <CUnit id="ScrinMechapedeToxinSegment" parent="ScrinMechapedeSegment">
-<!--        <WeaponArray Link="ScrinMechapedeToxins" Turret="SiegeTank"/>-->
-<!--        <WeaponArray Link="NodTiberiumTrooperDeathSpray"/>-->
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
+<!--        <EffectArray index="Create" value="ScrinMechapedeToxinSegment@CreateTurret"/>-->
+        <EquipmentArray Weapon="ScrinMechapedeToxinSegmentDummy"/>
     </CUnit>
     <CUnit id="ScrinMechapedeDiscSegment" parent="ScrinMechapedeSegment">
-<!--        <WeaponArray Link="ScrinMechapedeDiscs" Turret="SiegeTank"/>-->
-<!--        <WeaponArray Link="ScrinPlasmaDiscs3"/>-->
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
+        <EquipmentArray Weapon="ScrinMechapedeDiscSegmentDummy"/>
+<!--        <EffectArray index="Create" value="ScrinMechapedeDiscSegment@CreateTurret"/>-->
     </CUnit>
 
+    <CEffectCreateUnit id="ScrinMechapedeDisintegratorSegment@CreateTurret">
+        <Origin Value="CasterPoint"/>
+        <SpawnOwner Value="Caster"/>
+        <SpawnUnit value="ScrinMechapedeShardSegmentTurret"/>
+        <SpawnEffect value="ScrinMechapedeDisintegratorSegment@SpawnSet"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="ScrinMechapedeDisintegratorSegment@SpawnSet">
+        <EffectArray value="CopyFacing"/>
+        <EffectArray value="FollowCasterPositionAK"/>
+        <EffectArray value="KillsToCasterAB"/>
+        <EffectArray value="SuicideWithCasterAB"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="KillsToCasterAB">
+        <WhichUnit Value="Target"/>
+        <Behavior value="KillsToCaster"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="SuicideWithCasterAB">
+        <WhichUnit Value="Target"/>
+        <Behavior value="SuicideWithCaster"/>
+    </CEffectApplyBehavior>
+    <CEffectModifyUnit id="CopyFacing">
+        <EditorCategories value="Race:Protoss"/>
+        <FacingLocation Value="CasterUnit"/>
+    </CEffectModifyUnit>
+    <CEffectApplyKinetic id="FollowCasterPositionAK">
+        <ImpactUnit Value="Target"/>
+        <Kinetic value="FollowCasterPosition"/>
+    </CEffectApplyKinetic>
+    <CKineticFollow id="FollowCasterPosition">
+        <Where Value="CasterUnit"/>
+        <Follow value="Position"/>
+    </CKineticFollow>
 
+
+    <CAbilArmMagazine id="ScrinMechapedeHangar">
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Flags index="AutoCreate" value="1"/>
+        <Flags index="Retarget" value="1"/>
+        <Leash value="8"/>
+        <InfoArray index="Ammo1" Time="5" CountStart="0" Manage="Recall" Unit="ScrinMechapedeDisintegratorSegment">
+            <Charge HideCount="1" Link="ScrinMechapedeDisintegratorSegment" Location="Unit"/>
+            <Button DefaultButtonFace="ScrinMechapedeDisintegratorSegment">
+                <Flags index="ToSelection" value="1"/>
+            </Button>
+            <Flags index="AutoBuild" value="1"/>
+            <Flags index="External" value="1"/>
+        </InfoArray>
+        <InfoArray index="Ammo2" Time="5" CountStart="0" Manage="Recall" Unit="ScrinMechapedeDiscSegment">
+            <Charge HideCount="1" Link="ScrinMechapedeDiscSegment" Location="Unit"/>
+            <Button DefaultButtonFace="ScrinMechapedeDiscSegment">
+                <Flags index="ToSelection" value="1"/>
+            </Button>
+            <Flags index="AutoBuild" value="1"/>
+            <Flags index="External" value="1"/>
+        </InfoArray>
+        <InfoArray index="Ammo3" Time="5" CountStart="0" Manage="Recall" Unit="ScrinMechapedeShardSegment">
+            <Charge HideCount="1" Link="ScrinMechapedeShardSegment" Location="Unit"/>
+            <Button DefaultButtonFace="ScrinMechapedeShardSegment">
+                <Flags index="ToSelection" value="1"/>
+            </Button>
+            <Flags index="AutoBuild" value="1"/>
+            <Flags index="External" value="1"/>
+        </InfoArray>
+        <InfoArray index="Ammo4" Time="5" CountStart="0" Manage="Recall" Unit="ScrinMechapedeToxinSegment">
+            <Charge HideCount="1" Link="ScrinMechapedeToxinSegment" Location="Unit"/>
+            <Button DefaultButtonFace="ScrinMechapedeToxinSegment">
+                <Flags index="ToSelection" value="1"/>
+            </Button>
+            <Flags index="AutoBuild" value="1"/>
+            <Flags index="External" value="1"/>
+        </InfoArray>
+        <ExternalAngle value="180"/>
+        <MaxCount value="8"/>
+        <Launch value="ReleaseAtSource"/>
+<!--        <EffectArray index="Create" value="ScrinMechapedeSegmentBuildSet"/>-->
+    </CAbilArmMagazine>
+    <CEffectSet id="ScrinMechapedeSegmentBuildSet">
+        <EffectArray value="ScrinMechapedeSegmentSuicideWithCaster"/>
+        <EffectArray value="KillsToCaster"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="ScrinMechapedeSegmentSuicideWithCaster">
+        <ValidatorArray index="0" value=""/>
+        <EditorCategories value="Race:Nod"/>
+    </CEffectApplyBehavior>
+    <CBehaviorBuff id="ScrinMechapedeSegmentSuicideWithCaster">
+        <RemoveValidatorArray value="CasterNotDead"/>
+        <FinalEffect value="Kill"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+<!--    <CEffectApplyBehavior id="CarrierRepairDroneRecall">-->
+<!--        <EditorCategories value=""/>-->
+<!--    </CEffectApplyBehavior>-->
+<!--    <CBehaviorBuff id="CarrierRepairDroneRecall">-->
+<!--        <BehaviorFlags index="Permanent" value="1"/>-->
+<!--        <EditorCategories value="AbilityorEffectType:Units"/>-->
+<!--        <Period value="0.25"/>-->
+<!--        <PeriodicEffect value="CarrierRepairDroneRecallTeleport"/>-->
+<!--    </CBehaviorBuff>-->
+<!--    <CEffectTeleport id="CarrierRepairDroneRecallTeleport">-->
+<!--        <ValidatorArray value="CasterisGreaterThan5"/>-->
+<!--        <EditorCategories value=""/>-->
+<!--        <PlacementAround Value="CasterUnit"/>-->
+<!--        <SourceLocation Value="TargetUnit"/>-->
+<!--    </CEffectTeleport>-->
+<!--    <CValidatorLocationCompareRange id="CasterisGreaterThan5">-->
+<!--        <WhichLocation Value="TargetUnit"/>-->
+<!--        <Compare value="GT"/>-->
+<!--        <Range value="7"/>-->
+<!--    </CValidatorLocationCompareRange>-->
 
 
 
@@ -188,39 +361,43 @@
         <Model value="ScrinMechapedeHead"/>
         <WalkAnimMoveSpeed value="4"/>
     </CActorUnit>
-    <CActorUnit id="ScrinMechapedeSegment" parent="ScrinWalker" icon="mechapede" default="1">
+    <CActorUnit id="ScrinMechapedeDisintegratorSegment"  parent="ScrinWalker" icon="mechapede" >
         <WalkAnimMoveSpeed value="4"/>
         <Model value="ScrinMechapedeBody"/>
-<!--        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>-->
-<!--        <On Terms="ActorCreation" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>-->
-<!--        <On Terms="ActorCreation" Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>-->
-<!--        <On Terms="ActorCreation" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>-->
         <On Terms="ActorCreation" Send="AnimPlay CoverE Cover,E PlayForever 0.000000"/>
     </CActorUnit>
-    <CActorUnit id="ScrinMechapedeDisintegratorSegment" parent="ScrinMechapedeSegment"/>
-    <CActorUnit id="ScrinMechapedeDiscSegment" parent="ScrinMechapedeSegment"/>
-    <CActorUnit id="ScrinMechapedeShardSegment" parent="ScrinMechapedeSegment"/>
-    <CActorUnit id="ScrinMechapedeToxinSegment" parent="ScrinMechapedeSegment"/>
-
+    <CActorUnit id="ScrinMechapedeDiscSegment"  parent="ScrinWalker" icon="mechapede" >
+        <WalkAnimMoveSpeed value="4"/>
+        <Model value="ScrinMechapedeBody"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverE Cover,E PlayForever 0.000000"/>
+    </CActorUnit>
+    <CActorUnit id="ScrinMechapedeShardSegment"  parent="ScrinWalker" icon="mechapede" >
+        <WalkAnimMoveSpeed value="4"/>
+        <Model value="ScrinMechapedeBody"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverE Cover,E PlayForever 0.000000"/>
+    </CActorUnit>
+    <CActorUnit id="ScrinMechapedeToxinSegment"  parent="ScrinWalker" icon="mechapede" >
+        <WalkAnimMoveSpeed value="4"/>
+        <Model value="ScrinMechapedeBody"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverE Cover,E PlayForever 0.000000"/>
+    </CActorUnit>
 
     <CActorUnit id="ScrinMechapedeDisintegratorSegmentTurret" parent="ScrinWalker" icon="mechapede"/>
     <CActorUnit id="ScrinMechapedeDiscSegmentTurret" parent="ScrinWalker" icon="mechapede"/>
     <CActorUnit id="ScrinMechapedeShardSegmentTurret" parent="ScrinWalker" icon="mechapede"/>
     <CActorUnit id="ScrinMechapedeToxinSegmentTurret" parent="ScrinWalker" icon="mechapede"/>
 
-
-
     <CUnit id="ScrinMechapedeSegmentTurret" default="1">
         <FlagArray index="Turnable" value="1"/>
         <FlagArray index="Movable" value="1"/>
         <FlagArray index="Unclickable" value="1"/>
-        <FlagArray index="Uncommandable" value="1"/>
         <FlagArray index="Unhighlightable" value="1"/>
         <FlagArray index="Untooltipable" value="1"/>
         <FlagArray index="Invulnerable" value="1"/>
-        <FlagArray index="Unselectable" value="1"/>
         <FlagArray index="PreventDestroy" value="0"/>
         <FlagArray index="UseLineOfSight" value="0"/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
         <AbilArray Link="stop"/>
         <AbilArray Link="attack"/>
         <CardLayouts>
@@ -229,83 +406,28 @@
         </CardLayouts>
     </CUnit>
     <CUnit id="ScrinMechapedeDisintegratorSegmentTurret" parent="ScrinMechapedeSegmentTurret">
-        <WeaponArray Link="ScrinMechapedeDisentegrator" Turret="SiegeTank"/>
+        <WeaponArray Link="ScrinMechapedeDisintegratorSegmentWeapon" Turret="SiegeTank"/>
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
     </CUnit>
     <CUnit id="ScrinMechapedeShardSegmentTurret" parent="ScrinMechapedeSegmentTurret">
-        <WeaponArray Link="ScrinMechapedeShards" Turret="SiegeTank"/>
+        <WeaponArray Link="ScrinMechapedeShardSegmentWeapon" Turret="SiegeTank"/>
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
     </CUnit>
     <CUnit id="ScrinMechapedeToxinSegmentTurret" parent="ScrinMechapedeSegmentTurret">
-        <WeaponArray Link="ScrinMechapedeToxins" Turret="SiegeTank"/>
+        <WeaponArray Link="ScrinMechapedeToxinSegmentWeapon" Turret="SiegeTank"/>
         <!--        <WeaponArray Link="NodTiberiumTrooperDeathSpray"/>-->
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
     </CUnit>
     <CUnit id="ScrinMechapedeDiscSegmentTurret" parent="ScrinMechapedeSegmentTurret">
-        <WeaponArray Link="ScrinMechapedeDiscs" Turret="SiegeTank"/>
+        <WeaponArray Link="ScrinMechapedeDiscSegmentWeapon" Turret="SiegeTank"/>
         <!--        <WeaponArray Link="ScrinPlasmaDiscs3"/>-->
         <GlossaryCategory value=""/>
         <HotkeyCategory value=""/>
     </CUnit>
 
-
-
-
-
-
-
-
-
-    <CAbilTrain id="ScrinMechapedeSegmentTrain">
-        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>
-        <Range value="5"/>
-        <Activity value="UI/Training"/>
-        <InfoArray index="Train1" Time="3">
-            <Button DefaultButtonFace="ScrinMechapedeShardSegment" Requirements="ScrinMechapedeSpawnSegment"/>
-            <Unit value="ScrinMechapedeShardSegment"/>
-        </InfoArray>
-        <InfoArray index="Train2" Time="3">
-            <Button DefaultButtonFace="ScrinMechapedeToxinSegment" Requirements="ScrinMechapedeSpawnSegment"/>
-            <Unit value="ScrinMechapedeToxinSegment"/>
-        </InfoArray>
-        <InfoArray index="Train3" Time="3">
-            <Button DefaultButtonFace="ScrinMechapedeDisintegratorSegment" Requirements="ScrinMechapedeSpawnSegment"/>
-            <Unit value="ScrinMechapedeDisintegratorSegment"/>
-        </InfoArray>
-        <InfoArray index="Train4" Time="3">
-            <Button DefaultButtonFace="ScrinMechapedeDiscSegment" Requirements="ScrinMechapedeSpawnSegment"/>
-            <Unit value="ScrinMechapedeDiscSegment"/>
-        </InfoArray>
-<!--        <EffectArray index="Start" value="ScrinMechapedeSegmentBuildSet"/>-->
-    </CAbilTrain>
-
-    <CEffectSet id="ScrinMechapedeSegmentBuildSet">
-        <EffectArray value="ScrinMechapedeSegmentSuicideWithCaster"/>
-        <EffectArray value="KillsToCaster"/>
-        <!--        <EffectArray value="MakePrecursor"/>-->
-        <!--        <EffectArray value="NodTurretsHubBuildLaunchMissile"/>-->
-        <EditorCategories value="Race:Nod"/>
-    </CEffectSet>
-    <CEffectApplyBehavior id="ScrinMechapedeSegmentSuicideWithCaster">
-        <ValidatorArray index="0" value=""/>
-        <EditorCategories value="Race:Nod"/>
-    </CEffectApplyBehavior>
-    <CBehaviorBuff id="ScrinMechapedeSegmentSuicideWithCaster">
-        <RemoveValidatorArray value="CasterNotDead"/>
-        <FinalEffect value="Kill"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-    </CBehaviorBuff>
-
-    <CBehaviorUnitTracker id="ScrinMechapedeSegmentsTracker">
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorUnitTracker>
-    <CBehaviorUnitTracker id="ScrinMechapedeHeadTracker">
-        <InfoFlags index="Hidden" value="1"/>
-    </CBehaviorUnitTracker>
     <CEffectAddTrackedUnit id="ScrinMechapedeSegmentsTrackerATU">
         <BehaviorLink value="ScrinMechapedeSegmentsTracker"/>
         <TrackedUnit Value="Target"/>
@@ -314,176 +436,172 @@
         <BehaviorLink value="ScrinMechapedeHeadTracker"/>
         <TrackerUnit Value="Target"/>
     </CEffectAddTrackedUnit>
+    <CEffectAddTrackedUnit id="ScrinMechapedeSegmentTurretTrackerATU">
+        <BehaviorLink value="ScrinMechapedeSegmentTurretTracker"/>
+        <TrackerUnit Value="Target"/>
+    </CEffectAddTrackedUnit>
 
-
-
-    <!-- Mechapede Segment Spawn Abilities -->
-<!--    <CAbilEffectInstant id="ScrinMechapedeSpawnShardSegment">-->
-<!--        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>-->
-<!--        <Effect index="0" value="ScrinMechapedeSpawnShardSegmentSet"/>-->
-<!--        &lt;!&ndash; <ValidatorArray value="ScrinMechapedeSegmentLimitNotReached"/> &ndash;&gt;-->
-<!--        <Cost>-->
-<!--            <Resource index="Minerals" value="25"/>-->
-<!--        </Cost>-->
-<!--        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinMechapedeShardSegment"/>-->
-<!--    </CAbilEffectInstant>-->
-<!--    <CAbilEffectInstant id="ScrinMechapedeSpawnToxinSegment">-->
-<!--        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>-->
-<!--        <Effect index="0" value="ScrinMechapedeSpawnToxinSegmentSet"/>-->
-<!--        &lt;!&ndash; <ValidatorArray value="ScrinMechapedeSegmentLimitNotReached"/> &ndash;&gt;-->
-<!--        <Cost>-->
-<!--            <Resource index="Minerals" value="25"/>-->
-<!--        </Cost>-->
-<!--        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinMechapedeToxinSegment"/>-->
-<!--    </CAbilEffectInstant>-->
-<!--    <CAbilEffectInstant id="ScrinMechapedeSpawnDisintegratorSegment">-->
-<!--        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>-->
-<!--        <Effect index="0" value="ScrinMechapedeSpawnDisintegratorSegmentSet"/>-->
-<!--        &lt;!&ndash; <ValidatorArray value="ScrinMechapedeSegmentLimitNotReached"/> &ndash;&gt;-->
-<!--        <Cost>-->
-<!--            <Resource index="Minerals" value="25"/>-->
-<!--        </Cost>-->
-<!--        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinMechapedeDisintegratorSegment"/>-->
-<!--    </CAbilEffectInstant>-->
-<!--    <CAbilEffectInstant id="ScrinMechapedeSpawnDiscSegment">-->
-<!--        <EditorCategories value="Race:Scrin,AbilityorEffectType:Units"/>-->
-<!--        <Effect index="0" value="ScrinMechapedeSpawnDiscSegmentSet"/>-->
-<!--        &lt;!&ndash; <ValidatorArray value="ScrinMechapedeSegmentLimitNotReached"/> &ndash;&gt;-->
-<!--        <Cost>-->
-<!--            <Resource index="Minerals" value="25"/>-->
-<!--        </Cost>-->
-<!--        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinMechapedeDiscSegment"/>-->
-<!--    </CAbilEffectInstant>-->
-<!--    -->
-
-    <!-- Mechapede Segment Spawn Effects -->
-    <CEffectSet id="ScrinMechapedeSpawnShardSegmentSet">
-        <EffectArray value="ScrinMechapedeSpawnShardSegmentCreate"/>
-        <EffectArray value="ScrinMechapedeApplySegmentTracker"/>
+    <CAbilEffectInstant id="ScrinMechapedeSegmentTurretStop">
+        <CmdButtonArray index="Execute" DefaultButtonFace="Stop"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+    </CAbilEffectInstant>
+    <CEffectSet id="ScrinMechapedeSegmentTurretStop">
+        <EffectArray value="ScrinMechapedeSegmentTurretStop@ETU"/>
+        <TargetLocationType value="Unit"/>
     </CEffectSet>
-    <CEffectCreateUnit id="ScrinMechapedeSpawnShardSegmentCreate">
-        <WhichLocation Value="CasterUnit"/>
-        <SpawnUnit value="ScrinMechapedeShardSegment"/>
-        <SpawnOwner Value="Caster"/>
-        <SpawnOffset value="0,-1,0"/>
-        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
-        <SpawnEffect value="ScrinMechapedeSegmentApplyBehaviors"/>
-    </CEffectCreateUnit>
+    <CEffectEnumTrackedUnits id="ScrinMechapedeSegmentTurretStop@ETU">
+        <BehaviorLink value="ScrinMechapedeSegmentTurretTracker"/>
+        <Effect value="ScrinMechapedeSegmentTurretStopIO"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectIssueOrder id="ScrinMechapedeSegmentTurretStopIO">
+        <Abil value="stop"/>
+    </CEffectIssueOrder>
 
-    <CEffectSet id="ScrinMechapedeSpawnToxinSegmentSet">
-        <EffectArray value="ScrinMechapedeSpawnToxinSegmentCreate"/>
-        <EffectArray value="ScrinMechapedeApplySegmentTracker"/>
+    <CAbilEffectTarget id="ScrinMechapedeSegmentTurretAttack">
+        <Range value="8"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Attack"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Arc value="360"/>
+    </CAbilEffectTarget>
+    <CEffectSet id="ScrinMechapedeSegmentTurretAttack">
+        <EffectArray value="ScrinMechapedeSegmentTurretAttack@ETU"/>
+        <TargetLocationType value="Unit"/>
     </CEffectSet>
-    <CEffectCreateUnit id="ScrinMechapedeSpawnToxinSegmentCreate">
-        <WhichLocation Value="CasterUnit"/>
-        <SpawnUnit value="ScrinMechapedeToxinSegment"/>
-        <SpawnOwner Value="Caster"/>
-        <SpawnOffset value="0,-1,0"/>
-        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
-        <SpawnEffect value="ScrinMechapedeSegmentApplyBehaviors"/>
-    </CEffectCreateUnit>
-
-    <CEffectSet id="ScrinMechapedeSpawnDisintegratorSegmentSet">
-        <EffectArray value="ScrinMechapedeSpawnDisintegratorSegmentCreate"/>
-        <EffectArray value="ScrinMechapedeApplySegmentTracker"/>
-    </CEffectSet>
-    <CEffectCreateUnit id="ScrinMechapedeSpawnDisintegratorSegmentCreate">
-        <WhichLocation Value="CasterUnit"/>
-        <SpawnUnit value="ScrinMechapedeDisintegratorSegment"/>
-        <SpawnOwner Value="Caster"/>
-        <SpawnOffset value="0,-1,0"/>
-        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
-        <SpawnEffect value="ScrinMechapedeSegmentApplyBehaviors"/>
-    </CEffectCreateUnit>
-
-    <CEffectSet id="ScrinMechapedeSpawnDiscSegmentSet">
-        <EffectArray value="ScrinMechapedeSpawnDiscSegmentCreate"/>
-        <EffectArray value="ScrinMechapedeApplySegmentTracker"/>
-    </CEffectSet>
-    <CEffectCreateUnit id="ScrinMechapedeSpawnDiscSegmentCreate">
-        <WhichLocation Value="CasterUnit"/>
-        <SpawnUnit value="ScrinMechapedeDiscSegment"/>
-        <SpawnOwner Value="Caster"/>
-        <SpawnOffset value="0,-1,0"/>
-        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
-        <SpawnEffect value="ScrinMechapedeSegmentApplyBehaviors"/>
-    </CEffectCreateUnit>
-
-    <!-- Apply both link and follow behaviors to spawned segments -->
-    <CEffectSet id="ScrinMechapedeSegmentApplyBehaviors">
-        <EffectArray value="ScrinMechapedeSegmentLinkToHead"/>
-        <EffectArray value="ScrinMechapedeSegmentApplyFollow"/>
-    </CEffectSet>
-
-    <CEffectApplyBehavior id="ScrinMechapedeSegmentApplyFollow">
-        <WhichUnit Value="Source"/>
-        <Behavior value="ScrinMechapedeSegmentFollow"/>
-    </CEffectApplyBehavior>
-
-    <!-- Segment tracking effects -->
-    <CEffectApplyBehavior id="ScrinMechapedeApplySegmentTracker">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="ScrinMechapedeSegmentTracker"/>
-    </CEffectApplyBehavior>
-
-    <CEffectApplyBehavior id="ScrinMechapedeSegmentLinkToHead">
-        <WhichUnit Value="Source"/>
-        <Behavior value="ScrinMechapedeSegmentLinked"/>
-    </CEffectApplyBehavior>
-
-
-    <!-- Segment following effects - searches for head unit and follows it -->
-    <CEffectEnumArea id="ScrinMechapedeSegmentFollowSearch">
-        <SearchFilters value="Player,Ally,Neutral;Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="50" Effect="ScrinMechapedeSegmentFollowOrder"/>
-        <MaxCount value="1"/>
-    </CEffectEnumArea>
-
-    <CEffectIssueOrder id="ScrinMechapedeSegmentFollowOrder">
-        <Abil value="move"/>
-        <Target Effect="ScrinMechapedeSegmentFollowOrder" Value="TargetUnit"/>
-        <WhichUnit Effect="ScrinMechapedeSegmentFollowSearch"/>
-        <ValidatorArray value="ScrinMechapedeIsHeadUnit"/>
+    <CEffectEnumTrackedUnits id="ScrinMechapedeSegmentTurretAttack@ETU">
+        <BehaviorLink value="ScrinMechapedeSegmentTurretTracker"/>
+        <Effect value="ScrinMechapedeSegmentTurretAttackIO"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectIssueOrder id="ScrinMechapedeSegmentTurretAttackIO">
+        <Abil value="attack"/>
+        <Target Effect="ScrinMechapedeSegmentTurretAttack" Value="TargetUnit"/>
     </CEffectIssueOrder>
 
 
-    <!-- Orphaned segment death effect -->
-    <CEffectDamage id="ScrinMechapedeSegmentOrphanedDeath">
-        <Amount value="9999"/>
-        <Kind value="Spell"/>
-    </CEffectDamage>
+    <CAbilEffectInstant id="ScrinMechapedeStop">
+        <CmdButtonArray index="Execute" DefaultButtonFace="Stop"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+    </CAbilEffectInstant>
+    <CEffectSet id="ScrinMechapedeStop">
+        <EffectArray value="ScrinMechapedeStopIO"/>
+        <EffectArray value="ScrinMechapedeStop@ETU"/>
+        <TargetLocationType value="Unit"/>
+    </CEffectSet>
+    <CEffectIssueOrder id="ScrinMechapedeStopIO">
+        <WhichUnit Value="Caster"/>
+        <Abil value="stop"/>
+    </CEffectIssueOrder>
+    <CEffectEnumTrackedUnits id="ScrinMechapedeStop@ETU">
+        <BehaviorLink value="ScrinMechapedeSegmentsTracker"/>
+        <Effect value="ScrinMechapedeStopSegmentIO"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectIssueOrder id="ScrinMechapedeStopSegmentIO">
+        <Abil value="ScrinMechapedeSegmentTurretStop"/>
+    </CEffectIssueOrder>
 
+    <CAbilEffectTarget id="ScrinMechapedeAttack">
+        <Range value="8"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Attack"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Arc value="360"/>
+    </CAbilEffectTarget>
+    <CEffectSet id="ScrinMechapedeAttack">
+        <EffectArray value="ScrinMechapedeAttackIO"/>
+        <EffectArray value="ScrinMechapedeAttack@ETU"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSet>
+    <CEffectIssueOrder id="ScrinMechapedeAttackIO">
+        <WhichUnit Value="Caster"/>
+        <Abil value="attack"/>
+        <Target Effect="ScrinMechapedeAttack" Value="TargetUnitOrPoint"/>
+    </CEffectIssueOrder>
+    <CEffectEnumTrackedUnits id="ScrinMechapedeAttack@ETU">
+        <BehaviorLink value="ScrinMechapedeSegmentsTracker"/>
+        <Effect value="ScrinMechapedeAttackSegmentIO"/>
+    </CEffectEnumTrackedUnits>
+    <CEffectIssueOrder id="ScrinMechapedeAttackSegmentIO">
+        <Abil value="ScrinMechapedeSegmentTurretAttack"/>
+        <Target Effect="ScrinMechapedeAttack" Value="TargetUnitOrPoint"/>
+    </CEffectIssueOrder>
 
+    <!-- Apply both link and follow behaviors to spawned segments -->
+<!--    <CEffectSet id="ScrinMechapedeSegmentApplyBehaviors">-->
+<!--        <EffectArray value="ScrinMechapedeSegmentLinkToHead"/>-->
+<!--        <EffectArray value="ScrinMechapedeSegmentApplyFollow"/>-->
+<!--    </CEffectSet>-->
 
-    <!-- Mechapede Segment Tracking Behaviors -->
+<!--    <CEffectApplyBehavior id="ScrinMechapedeSegmentApplyFollow">-->
+<!--        <WhichUnit Value="Source"/>-->
+<!--        <Behavior value="ScrinMechapedeSegmentFollow"/>-->
+<!--    </CEffectApplyBehavior>-->
 
-    <!-- This behavior tracks segments attached to the head (max 8) -->
-    <CBehaviorBuff id="ScrinMechapedeSegmentTracker">
-        <EditorCategories value="Race:Scrin"/>
-        <MaxStackCount value="8"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <Duration value="-1"/>
-    </CBehaviorBuff>
+    <!-- Segment tracking effects -->
+<!--    <CEffectApplyBehavior id="ScrinMechapedeApplySegmentTracker">-->
+<!--        <WhichUnit Value="Caster"/>-->
+<!--        <Behavior value="ScrinMechapedeSegmentTracker"/>-->
+<!--    </CEffectApplyBehavior>-->
 
-    <!-- This behavior is applied to segments to link them to the head -->
-    <CBehaviorBuff id="ScrinMechapedeSegmentLinked">
-        <EditorCategories value="Race:Scrin"/>
-        <InfoFlags index="Hidden" value="1"/>
-        <Duration value="-1"/>
-    </CBehaviorBuff>
+<!--    <CEffectApplyBehavior id="ScrinMechapedeSegmentLinkToHead">-->
+<!--        <WhichUnit Value="Source"/>-->
+<!--        <Behavior value="ScrinMechapedeSegmentLinked"/>-->
+<!--    </CEffectApplyBehavior>-->
 
 
     <!-- Periodic behavior that makes segments follow the head unit -->
-    <CBehaviorBuff id="ScrinMechapedeSegmentFollow">
-        <EditorCategories value="Race:Scrin"/>
+
+    <CBehaviorUnitTracker id="ScrinMechapedeSegmentTurretTracker">
         <InfoFlags index="Hidden" value="1"/>
-        <Period value="0.5"/>
-        <PeriodicEffect value="ScrinMechapedeSegmentFollowSearch"/>
-        <Duration value="-1"/>
-        <Alignment value="Positive"/>
-    </CBehaviorBuff>
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-mechapede.dds"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorUnitTracker id="ScrinMechapedeTailTracker">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-mechapede.dds"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorUnitTracker id="ScrinMechapedeSegmentsTracker">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-mechapede.dds"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorUnitTracker id="ScrinMechapedeHeadTracker">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-mechapede.dds"/>
+    </CBehaviorUnitTracker>
+    <CBehaviorUnitTracker id="ScrinMechapedeLinkTracker">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\icons\scrin\btn-scrin-unit-mechapede.dds"/>
+    </CBehaviorUnitTracker>
+
+<!--    <CBehaviorBuff id="ScrinMechapedeSegmentFollow">-->
+<!--        <EditorCategories value="Race:Scrin"/>-->
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <Period value="0.0625"/>-->
+<!--        <PeriodicEffect value="ScrinMechapedeSegmentFollow@IO"/>-->
+<!--        <Duration value="-1"/>-->
+<!--        <Alignment value="Positive"/>-->
+<!--    </CBehaviorBuff>-->
+<!--    <CEffectEnumTrackedUnits id="ScrinMechapedeSegmentFollow@ETU">-->
+<!--        <BehaviorLink value="ScrinMechapedeLinkTracker"/>-->
+<!--        <Effect value="ScrinMechapedeSegmentFollow@IO"/>-->
+<!--    </CEffectEnumTrackedUnits>-->
+<!--    <CEffectIssueOrder id="ScrinMechapedeSegmentFollow@IO">-->
+<!--        <Abil value="move"/>-->
+<!--        <Target Effect="ScrinMechapedeSegmentFollow@IO" Value="TargetUnit"/>-->
+<!--        <WhichUnit Value="Caster"/>-->
+<!--    </CEffectIssueOrder>-->
+
+    <!-- Segment following effects - searches for head unit and follows it -->
+<!--    <CEffectEnumArea id="ScrinMechapedeSegmentFollowSearch">-->
+<!--        <SearchFilters value="Player,Ally,Neutral;Missile,Stasis,Dead,Hidden,Invulnerable"/>-->
+<!--        <AreaArray Radius="50" Effect="ScrinMechapedeSegmentFollowOrder"/>-->
+<!--        <MaxCount value="1"/>-->
+<!--    </CEffectEnumArea>-->
 
 
+    <!-- Orphaned segment death effect -->
     <!-- Timed life for orphaned segments (when previous segment dies) -->
     <CBehaviorBuff id="ScrinMechapedeSegmentOrphaned">
         <EditorCategories value="Race:Scrin"/>
@@ -493,6 +611,14 @@
             <StateFlags index="Uncommandable" value="0"/>
         </Modification>
     </CBehaviorBuff>
+    <CBehaviorWander id="ScrinMechapedeSegmentOrphanedWander">
+        <Range value="2.5"/>
+        <Delay value="3.5"/>
+    </CBehaviorWander>
+    <CEffectDamage id="ScrinMechapedeSegmentOrphanedDeath">
+        <Amount value="9999"/>
+        <Kind value="Spell"/>
+    </CEffectDamage>
 
 
 
