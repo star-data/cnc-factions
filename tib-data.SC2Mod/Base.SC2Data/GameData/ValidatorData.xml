@@ -1,5 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+
+
+
+    <!--    <CValidatorUnitWeaponAnimating id="CasterIsAnimatingWeapon">-->
+    <!--        <WhichUnit Value="Caster"/>-->
+    <!--    </CValidatorUnitWeaponAnimating>-->
+    <!--    <CValidatorUnitWeaponFiring id="CasterIsFiringWeapon">-->
+    <!--        <WhichUnit Value="Caster"/>-->
+    <!--    </CValidatorUnitWeaponFiring>-->
+
+    <!--    workers-->
+    <CValidatorCombine id="isWorker">
+        <CombineArray value="isCNCWorker"/>
+    </CValidatorCombine>
+    <CValidatorUnitFilters id="IsNotWorker">
+        <Filters value="-;Worker"/>
+    </CValidatorUnitFilters>
+    <CValidatorUnitFilters id="Isbio">
+        <Filters value="Ground,Biological;Stasis,Dead,Hidden,Invulnerable"/>
+    </CValidatorUnitFilters>
+    <CValidatorUnitCompareSpeed id="IsStationary">
+        <WhichUnit Value="Caster"/>
+    </CValidatorUnitCompareSpeed>
+    <CValidatorUnitCompareOrderCount id="IsAttacking">
+        <WhichUnit Value="Target"/>
+        <AbilLink value="attack"/>
+    </CValidatorUnitCompareOrderCount>
+    <!--    <CValidatorCombine id="AttackCheck">-->
+    <!--        <CombineArray value="CasterIsFiringWeapon"/>-->
+    <!--        <CombineArray value="CasterIsAnimatingWeapon"/>-->
+    <!--        <Negate value="1"/>-->
+    <!--    </CValidatorCombine>-->
+    <CValidatorUnitFilters id="TargetIsStunned">
+        <Filters value="Stunned;-"/>
+    </CValidatorUnitFilters>
+    <CValidatorUnitFilters id="GroundUnitFilter">
+        <Filters value="Ground;Stasis,Dead,Hidden,Invulnerable"/>
+    </CValidatorUnitFilters>
+    <CValidatorCombine id="HasActiveDeathPrevent">
+        <CombineArray value="OnDeathAlarakTheStrongestSurvive"/>
+        <CombineArray value="OnDeathArtanisGuardianShell"/>
+        <CombineArray value="TorrasqueReviveCombine"/>
+        <CombineArray value="DehakaMutaliskReviveCombine"/>
+        <CombineArray value="OnDeathZeratulDarkTemplarRetreat"/>
+        <CombineArray value="OnDeathVorazunRecallOnDeath"/>
+        <CombineArray value="OnDeathSwannImmortalityProtocol"/>
+        <CombineArray value="OnDeathKaraxReconstruction"/>
+        <CombineArray value="OnDeathHyperionDeath"/>
+        <CombineArray value="OnDeathAbathurCocoonRevive"/>
+        <CombineArray value="HHWidowMineCombine"/>
+        <CombineArray value="HHReaperCombine"/>
+        <CombineArray value="HHHellionDeathStim"/>
+        <CombineArray value="HHHellionDeathFear"/>
+        <!--CombineArray value="IsFenixSuitCombine"/-->
+        <CombineArray value="TychusWarhoundExplosion"/>
+        <CombineArray value="OnDeathTychusHercGrappleArmorPassive"/>
+    </CValidatorCombine>
+    <CValidatorLocationCompareRange id="DistanceLessThan1Dot8">
+        <Compare value="LT"/>
+        <Range value="1.8"/>
+    </CValidatorLocationCompareRange>
+    <CValidatorLocationCompareRange id="DistanceLessThan1Dot5">
+        <Compare value="LT"/>
+        <Range value="1.5"/>
+    </CValidatorLocationCompareRange>
+    <CValidatorUnitCompareField id="TargetRadiusGE1Dot0">
+        <Compare value="GE"/>
+        <Field value="Radius"/>
+        <Value value="1.0"/>
+    </CValidatorUnitCompareField>
+    <CValidatorUnitCompareField id="TargetRadiusLE1Dot0">
+        <Compare value="LT"/>
+        <Field value="Radius"/>
+        <Value value="1.0"/>
+    </CValidatorUnitCompareField>
+
+
+    <CValidatorUnitType id="IsGhost"><Value value="Ghost"/></CValidatorUnitType>
+    <CValidatorUnitType id="IsReaper"><Value value="Reaper"/></CValidatorUnitType>
+    <CValidatorUnitType id="IsAdept"><Value value="Adept"/></CValidatorUnitType>
+
+
+
+    <CValidatorUnitCompareBehaviorCount id="Airporttarget">
+        <Value value="1"/>
+        <Behavior value="AircraftAirportParkingAircraftTracking"/>
+    </CValidatorUnitCompareBehaviorCount>
+
+    <CValidatorUnitCompareVital id="CasterHasEnergy22">
+        <WhichUnit Value="Caster"/>
+        <Compare value="LE"/>
+        <Value value="9"/>
+        <Vital value="Energy"/>
+    </CValidatorUnitCompareVital>
+
+    
     <CValidatorCombine id="TargetIsNotMovingOrAttacking">
         <Type value="And"/>
         <CombineArray value="TargetIsNotAttacking"/>

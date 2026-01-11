@@ -1,5 +1,225 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+    <CActorModel id="CNCRumble" parent="ModelAddition">
+        <Model value="NydusRumble"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="UnitConstruction.*.Finish" Send="Destroy"/>
+    </CActorModel>
+    <CActorRange default="1" id="CNCRange" parent="RangeAbil">
+        <Icon value="Assets\Textures\RadarIcon2.dds"/>
+        <IconArcLength value="3.250000"/>
+    </CActorRange>
+    <CActorForceCylinder id="CNCRailgunAttackDeathForce">
+        <Receiver Subject="::Main"/>
+        <Host Subject="_ImpactGuide"/>
+        <HostSiteOps Ops="SOpForwardCasterPoint SOpMoveBy1" HoldPosition="1" HoldRotation="1"/>
+        <HostEnd Subject="_ImpactGuide"/>
+        <HostEndSiteOps Ops="SOpForwardCasterPointInverted SOpMoveBy1" HoldPosition="1" HoldRotation="1"/>
+        <Radius value="1.000000"/>
+        <Magnitude value="33.000000,7.000000"/>
+        <Duration value="0.150000"/>
+    </CActorForceCylinder>
+
+
+
+    <CActorSiteOpLocalOffset id="SOpHigher01">
+        <LocalOffset value="0.000000,0.000000,0.100000"/>
+        <AcceptedHostedPropTransfers index="BaseModelScale" value="0"/>
+    </CActorSiteOpLocalOffset>
+    <CActorSiteOpLocalOffset id="SOpHigher02">
+        <LocalOffset value="0.000000,0.000000,0.300000"/>
+        <AcceptedHostedPropTransfers index="BaseModelScale" value="0"/>
+    </CActorSiteOpLocalOffset>
+    <CActorSiteOpLocalOffset id="SOpHigher03">
+        <LocalOffset value="0.000000,0.000000,0.500000"/>
+        <AcceptedHostedPropTransfers index="BaseModelScale" value="0"/>
+    </CActorSiteOpLocalOffset>
+    <CActorSiteOpAttach id="SOpAttach1">
+        <AttachQuery Methods="Attacher 1"/>
+    </CActorSiteOpAttach>
+    <CActorSiteOpAttach id="SOpAttach2">
+        <AttachQuery Methods="Attacher 2"/>
+    </CActorSiteOpAttach>
+    <CActorSiteOpAttach id="SOpAttach3">
+        <AttachQuery Methods="Attacher 3"/>
+    </CActorSiteOpAttach>
+    <CActorSiteOpAttach id="SOpAttach4">
+        <AttachQuery Methods="Attacher 4"/>
+    </CActorSiteOpAttach>
+    <CActorSiteOpAttach id="SOpAttach5">
+        <AttachQuery Methods="Attacher 5"/>
+    </CActorSiteOpAttach>
+    <CActorSiteOpAttach id="SOpAttach6">
+        <AttachQuery Methods="Attacher 6"/>
+    </CActorSiteOpAttach>
+    <CActorSiteOpAttach id="SOpAttach7">
+        <AttachQuery Methods="Attacher 7"/>
+    </CActorSiteOpAttach>
+    <CActorSiteOpAttach id="SOpAttach8">
+        <AttachQuery Methods="Attacher 8"/>
+    </CActorSiteOpAttach>
+    <CActorSiteOpAttach id="SOpAttach9">
+        <AttachQuery Methods="Attacher 9"/>
+    </CActorSiteOpAttach>
+    <CActorSiteOpAttach id="SOpAttach10">
+        <AttachQuery Methods="Attacher 10"/>
+    </CActorSiteOpAttach>
+    <CActorSiteOpAttach id="SOpAttach11">
+        <AttachQuery Methods="Attacher 11"/>
+    </CActorSiteOpAttach>
+    <CActorSiteOpAttach id="SOpAttach12">
+        <AttachQuery Methods="Attacher 12"/>
+    </CActorSiteOpAttach>
+
+    <!--    <CActorRange id="PlaceLunaMinesRange" parent="CNCRange" abil="TorrentLunaMines"/>-->
+    <CActorPower id="CNCPower">
+        <On Terms="Behavior.CNCConstructionRadius.Create" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadius.Destroy" Send="Destroy"/>
+        <PowerSource value="CNCConstructionRadius"/>
+        <VisualArray value="CNCDeployZoneVisual"/>
+        <VisualArray value="CNCDeployZone"/>
+    </CActorPower>
+    <CActorPower id="CNCPowerMedium">
+        <On Terms="Behavior.CNCConstructionRadiusMedium.Create" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadiusMedium.Destroy" Send="Destroy"/>
+        <PowerSource value="CNCConstructionRadius"/>
+        <VisualArray value=""/>
+        <!--        <VisualArray value="CNCDeployZoneVisual"/>-->
+        <!--        <VisualArray value="CNCDeployZoneMedium"/>-->
+        <VisualArray value="CNCDeployZoneMedium"/>
+    </CActorPower>
+    <CActorPower id="CNCPowerRefinery">
+        <On Terms="Behavior.CNCConstructionRadiusRefinery.Create" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadiusRefinery.Destroy" Send="Destroy"/>
+        <PowerSource value="CNCConstructionRadius"/>
+        <VisualArray value="CNCDeployZoneVisual"/>
+        <VisualArray value="CNCDeployZoneRefinery"/>
+    </CActorPower>
+    <CActorPower id="CNCPoweSmall">
+        <On Terms="Behavior.CNCConstructionRadiusSmall.Create" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadiusSmall.Destroy" Send="Destroy"/>
+        <PowerSource value="CNCConstructionRadius"/>
+        <VisualArray value="CNCDeployZoneVisual"/>
+        <VisualArray value="CNCDeployZoneSmall"/>
+    </CActorPower>
+    <CActorBlob id="CNCDeployZone">
+        <EditorCategories value=""/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SplatEmitterAddBlob"/>
+        <On Terms="ActorCreation" Target="::Scene" Send="SplatEmitterUpdateTint 255,181,0,0"/>
+        <On Terms="Behavior.CNCConstructionRadius.Create; ValidateUnit CasterNotDead;ValidatePlayer IsPlayer" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadius.Destroy" Send="Destroy"/>
+        <On Terms="Behavior.CNCConstructionRadius.Enable;ValidatePlayer IsPlayer" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadius.Disable" Send="Destroy"/>
+        <!--        <On Terms="Behavior.CNCConstructionRadius.Create; ValidateUnit CasterNotDead" Send="Create"/>-->
+        <MaxScale value="0.225,0.225"/>
+        <ScaleDeltaTime value="0.015000,0.015000"/>
+    </CActorBlob>
+
+
+    <CActorBlob id="CNCDeployZone15">
+        <EditorCategories value=""/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SplatEmitterAddBlob"/>
+        <On Terms="ActorCreation" Target="::Scene" Send="SplatEmitterUpdateTint 255,181,0,0"/>
+        <On Terms="Behavior.CNCConstructionRadius.Create; ValidateUnit CasterNotDead;ValidatePlayer IsPlayer" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadius.Destroy" Send="Destroy"/>
+        <On Terms="Behavior.CNCConstructionRadius.Enable;ValidatePlayer IsPlayer" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadius.Disable" Send="Destroy"/>
+        <!--        <On Terms="Behavior.CNCConstructionRadius.Create; ValidateUnit CasterNotDead" Send="Create"/>-->
+        <MaxScale value="0.250000,0.250000"/>
+        <ScaleDeltaTime value="0.015000,0.015000"/>
+    </CActorBlob>
+
+
+
+
+    <CActorUnit id="CNCVest" default="1" parent="GenericUnitStandard">
+        <Model value="CNCVest"/>
+        <HighlightTooltip value="Unit/Name/Bogus"/>
+    </CActorUnit>
+
+    <CActorBlob id="CNCDeployZoneMedium">
+        <EditorCategories value=""/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SplatEmitterAddBlob"/>
+        <On Terms="ActorCreation" Target="::Scene" Send="SplatEmitterUpdateTint 255,181,0,0"/>
+        <On Terms="Behavior.CNCConstructionRadiusMedium.Create; ValidateUnit CasterNotDead; ValidatePlayer IsPlayer" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadiusMedium.Destroy" Send="Destroy"/>
+        <On Terms="Behavior.CNCConstructionRadiusMedium.Enable; ValidatePlayer IsPlayer" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadiusMedium.Disable" Send="Destroy"/>
+        <MaxScale value="0.1724137931,0.1724137931"/>
+        <ScaleDeltaTime value="0.015000,0.015000"/>
+    </CActorBlob>
+    <CActorBlob id="CNCDeployZoneRefinery">
+        <EditorCategories value=""/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SplatEmitterAddBlob"/>
+        <On Terms="ActorCreation" Target="::Scene" Send="SplatEmitterUpdateTint 255,181,0,0"/>
+        <On Terms="Behavior.CNCConstructionRadiusRefinery.Create; ValidateUnit CasterNotDead; ValidatePlayer IsPlayer" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadiusRefinery.Destroy" Send="Destroy"/>
+        <On Terms="Behavior.CNCConstructionRadiusRefinery.Enable; ValidatePlayer IsPlayer" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadiusRefinery.Disable" Send="Destroy"/>
+        <MaxScale value="0.1379310345,0.1379310345"/>
+        <ScaleDeltaTime value="0.015000,0.015000"/>
+    </CActorBlob>
+    <CActorBlob id="CNCDeployZoneSmall">
+        <EditorCategories value=""/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SplatEmitterAddBlob"/>
+        <On Terms="ActorCreation" Target="::Scene" Send="SplatEmitterUpdateTint 255,181,0,0"/>
+        <On Terms="Behavior.CNCConstructionRadiusMedium.Create; ValidateUnit CasterNotDead; ValidatePlayer IsPlayer" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadiusMedium.Destroy" Send="Destroy"/>
+        <On Terms="Behavior.CNCConstructionRadiusMedium.Enable; ValidatePlayer IsPlayer" Send="Create"/>
+        <On Terms="Behavior.CNCConstructionRadiusMedium.Disable" Send="Destroy"/>
+        <MaxScale value="0.1034482759,0.1034482759"/>
+        <ScaleDeltaTime value="0.015000,0.015000"/>
+    </CActorBlob>
+    <CActorSplat id="CNCDeployZoneVisual">
+        <FogVisibility value="Visible"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpShadow"/>
+        <FadeIn value="0.000000"/>
+        <FadeOut value="0.000000"/>
+        <HoldTime value="-1.000000"/>
+        <Layer value="PowerLayer"/>
+    </CActorSplat>
+
+    <CActorGlobalConfig id="SYSTEM_ActorConfig">
+        <SplatEmitterInit>
+            <TextureResolution value="512,512"/>
+            <ProjectorModel value="CNCDeployZone"/>
+            <MaskBlobPath value="Assets\Textures\stetmannpowerfieldmask.dds"/>
+            <ScaleDeltaTime value="0.010000,0.010000"/>
+            <ScaleUpdateTime value="30"/>
+            <MaxBlobScale value="0.110000,0.110000"/>
+            <Tint value="255,255,255,255"/>
+            <TerrainUVTiling value="1.000000,1.000000,0.001000,-0.001000"/>
+            <MinHeightValue value="-1.000000"/>
+            <MaterialInfo>
+                <ReplacementLayers index="AlphaMask" value="1"/>
+            </MaterialInfo>
+            <MaterialInfo MaterialId="1">
+                <ReplacementLayers index="AlphaMask" value="1"/>
+                <ReplacementLayers index="AlphaMask2" value="1"/>
+            </MaterialInfo>
+        </SplatEmitterInit>
+    </CActorGlobalConfig>
+    <CActorText id="PickupTibText" parent="PickupTextDefault"/>
+
+    <CActorModel id="GenericStun" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.GenericStun.On" Send="Create"/>
+        <On Terms="Behavior.GenericStun.Off" Send="AnimBracketStop BSD"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+        <ModelFlags index="AllowHitTest" value="0"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModel>
+    <CActorProgress id="TerranConstruction">
+        <On Terms="Abil.GDIBuild.BuiltStart" Send="Create"/>
+    </CActorProgress>
+
+
     <!--    <CActorModel id="GenericStun" parent="ModelAnimationStyleContinuous">-->
     <!--        <On Terms="Behavior.GenericStun.On" Send="Create"/>-->
     <!--        <On Terms="Behavior.GenericStun.Off" Send="AnimBracketStop BSD"/>-->
@@ -103,7 +323,6 @@
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
         <ProximityPosition value="CenterActor"/>
     </CActorModel>
-    <CActorText id="PickupTibText" parent="PickupTextDefault"/>
 
 
 </Catalog>

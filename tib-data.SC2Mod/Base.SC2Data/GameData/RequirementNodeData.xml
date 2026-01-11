@@ -1,5 +1,80 @@
 <Catalog>
 
+    <!--UNIT Complete-->
+    <CRequirementCountUnit default="1" id="UC">
+        <?token id="unit" type="CUnitLink"?>
+        <Count Link="##unit##" State="CompleteOnly"/>
+    </CRequirementCountUnit>
+    <!--UNIT Queued-->
+    <CRequirementCountUnit default="1" id="UQ">
+        <?token id="unit" type="CUnitLink" value="CBaseNod"?>
+        <Count Link="##unit##" State="QueuedOrBetter"/>
+    </CRequirementCountUnit>
+    <!--Unit NOT QUEUED and NOT EXIST-->
+    <CRequirementEq default="1" id="UN">
+        <?token id="unit" type="CUnitLink" value="CBaseNod"?>
+        <OperandArray index="0" value="UQ_##unit##"/>
+        <OperandArray index="1" value="0"/>
+    </CRequirementEq>
+    <!--Unit NOT COMPLETED-->
+    <CRequirementNot default="1" id="UNC">
+        <?token id="unit" type="CUnitLink" value="CBaseNod"?>
+        <OperandArray index="0" value="UC_##unit##"/>
+    </CRequirementNot>
+
+
+    <!--Behavior CompleteOnly-->
+
+    <CRequirementCountBehavior id="CB" default="1" >
+        <Flags index="TechTreeCheat" value="0"/>
+        <?token id="behavior" type="CBehaviorLink" value="##id##"?>
+        <Count Link="##behavior##" State="CompleteOnly"/>
+    </CRequirementCountBehavior>
+    <CRequirementCountBehavior id="CBU" default="1" >
+        <Flags index="TechTreeCheat" value="0"/>
+        <?token id="behavior" type="CBehaviorLink" value="##id##"?>
+        <Count Link="##behavior##" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountBehavior>
+
+    <CRequirementNot id="NBU" default="1" >
+        <?token id="behavior" type="CBehaviorLink" value="##id##"?>
+        <OperandArray index="0" value="CBU_##behavior##"/>
+    </CRequirementNot>
+
+    <!--UNIT CompleteOnlyAtUnit-->
+    <CRequirementCountUnit default="1" id="UCU">
+        <?token id="unit" type="CUnitLink" value="CBaseNod"?>
+        <Count Link="##unit##" State="CompleteOnlyAtUnit"/>
+    </CRequirementCountUnit>
+    <CRequirementCountUnit default="1" id="UQU">
+        <?token id="unit" type="CUnitLink" value="CBaseNod"?>
+        <Count Link="##unit##" State="QueuedOrBetterAtUnit"/>
+    </CRequirementCountUnit>
+    <CRequirementEq default="1" id="UNU">
+        <?token id="unit" type="CUnitLink" value="CBaseNod"?>
+        <OperandArray index="0" value="UQU_##unit##"/>
+        <OperandArray index="1" value="0"/>
+    </CRequirementEq>
+
+    <!--Research Complete-->
+    <CRequirementCountUpgrade default="1" id="RC">
+        <?token id="upgrade" type="CUpgradeLink"?>
+        <Count Link="##upgrade##" State="CompleteOnly"/>
+    </CRequirementCountUpgrade>
+    <!--Research Queued-->
+    <CRequirementCountUpgrade default="1" id="RQ">
+        <?token id="upgrade" type="CUpgradeLink" value="CABALUpgradesCache"?>
+        <Count Link="##upgrade##" State="QueuedOrBetter"/>
+    </CRequirementCountUpgrade>
+    <!--Research NOT QUEUED and NOT EXIST-->
+    <CRequirementNot default="1" id="RN">
+        <?token id="unit" type="CUpgradeLink" value="CABALUpgradesCache"?>
+        <OperandArray index="0" value="RQ_##upgrade##"/>
+    </CRequirementNot>
+
+
+
+
     <CRequirementNot id="REQN_PowerPlant">
         <!--no power plant-->
         <OperandArray index="0" value="REQC_PowerPlant"/>
