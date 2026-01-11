@@ -959,7 +959,7 @@ bool auto_libTIBW_gf_OnecruisewhilestationaryAlliedfighteraircraft_TriggerFunc (
 
     // Implementation
     UnitBehaviorAdd(lp_attackingunit, "VanguardIsCircling", lp_attackingunit, 1);
-    lv_movetargetpoint = libTIBW_gf_HoveringAcquisitionPointPeacekeeperBomber(lp_attackingunit, lp_centerpoint);
+    lv_movetargetpoint = libTIBW_gf_SurroundAttackAcquisitionPoint(lp_attackingunit, lp_centerpoint, 3.0);
     libTIBW_gf_Continuemovingtotargetpoint(lp_attackingunit, lv_movetargetpoint, 0.2);
     return true;
 }
@@ -991,7 +991,7 @@ bool auto_libTIBW_gf_Cruiseoncewhilestopped_TriggerFunc (bool testConds, bool ru
 
     // Implementation
     UnitBehaviorAdd(lp_attackingunit, "VanguardIsCircling", lp_attackingunit, 1);
-    lv_movetargetpoint = libTIBW_gf_SurroundAttackAcquisitionPoint(lp_attackingunit, lp_centerpoint);
+    lv_movetargetpoint = libTIBW_gf_SurroundAttackAcquisitionPoint(lp_attackingunit, lp_centerpoint, 10.0);
     libTIBW_gf_Continuemovingtotargetpoint(lp_attackingunit, lv_movetargetpoint, 0.2);
     return true;
 }
@@ -1023,12 +1023,12 @@ bool auto_libTIBW_gf_Cruiseoncewhendestroyingatarget_TriggerFunc (bool testConds
 
     // Implementation
     UnitBehaviorAdd(lp_attackingunit, "VanguardIsCircling", lp_attackingunit, 1);
-    lv_movetargetpoint = libTIBW_gf_SurroundAttackAcquisitionPoint(lp_attackingunit, lp_centerpoint);
+    lv_movetargetpoint = libTIBW_gf_SurroundAttackAcquisitionPoint(lp_attackingunit, lp_centerpoint, 10.0);
     libTIBW_gf_Continuemovingtotargetpoint(lp_attackingunit, lv_movetargetpoint, 0.2);
     return true;
 }
 
-point libTIBW_gf_SurroundAttackAcquisitionPoint (unit lp_attackingunit, point lp_locationoftheattackedunit) {
+point libTIBW_gf_SurroundAttackAcquisitionPoint (unit lp_attackingunit, point lp_locationoftheattackedunit, fixed lp_radius) {
     // Variable Declarations
     point[37] lv_circlePoint;
     int lv_a;
@@ -1051,115 +1051,7 @@ point libTIBW_gf_SurroundAttackAcquisitionPoint (unit lp_attackingunit, point lp
     else {
         lv_theproperangle = (lv_anglefromcentertonearestpoint - 30.0);
     }
-    lv_finalpoint = PointWithOffsetPolar(lp_locationoftheattackedunit, 10.0, lv_theproperangle);
-    return lv_finalpoint;
-}
-
-point libTIBW_gf_SurroundAttackAcquisitionPointLargeBomber (unit lp_attackingunit, point lp_locationoftheattackedunit) {
-    // Variable Declarations
-    point[37] lv_circlepoint;
-    int lv_a;
-    int lv_b;
-    fixed lv_distance;
-    point lv_closestpoint;
-    fixed lv_anglefromcentertonearestpoint;
-    fixed lv_theproperangle;
-    point lv_finalpoint;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_distance = 200.0;
-
-    // Implementation
-    lv_anglefromcentertonearestpoint = AngleBetweenPoints(lp_locationoftheattackedunit, UnitGetPosition(lp_attackingunit));
-    if (((TechTreeUnitCount(1, "Nexus", c_techCountCompleteOnly) == 1) && (lv_anglefromcentertonearestpoint < -150.0) && (lv_anglefromcentertonearestpoint > -180.0))) {
-        lv_theproperangle = (180.0 - (lv_anglefromcentertonearestpoint - -180.0));
-    }
-    else {
-        lv_theproperangle = (lv_anglefromcentertonearestpoint - 30.0);
-    }
-    lv_finalpoint = PointWithOffsetPolar(lp_locationoftheattackedunit, 10.0, lv_theproperangle);
-    return lv_finalpoint;
-}
-
-point libTIBW_gf_OrbitalAttackAcquisitionPointPeacekeeperBomber (unit lp_attackingunit, point lp_locationoftheattackedunit) {
-    // Variable Declarations
-    point[37] lv_circlepoint;
-    int lv_a;
-    int lv_b;
-    fixed lv_distance;
-    point lv_closestpoint;
-    fixed lv_anglefromcentertonearestpoint;
-    fixed lv_theproperangle;
-    point lv_finalpoint;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_distance = 200.0;
-
-    // Implementation
-    lv_anglefromcentertonearestpoint = AngleBetweenPoints(lp_locationoftheattackedunit, UnitGetPosition(lp_attackingunit));
-    if (((TechTreeUnitCount(1, "Nexus", c_techCountCompleteOnly) == 1) && (lv_anglefromcentertonearestpoint < -150.0) && (lv_anglefromcentertonearestpoint > -180.0))) {
-        lv_theproperangle = (180.0 - (lv_anglefromcentertonearestpoint - -180.0));
-    }
-    else {
-        lv_theproperangle = (lv_anglefromcentertonearestpoint - 30.0);
-    }
-    lv_finalpoint = PointWithOffsetPolar(UnitGetPosition(lp_attackingunit), 1.0, lv_theproperangle);
-    return lv_finalpoint;
-}
-
-point libTIBW_gf_HoveringAcquisitionPointPeacekeeperBomber (unit lp_attackingunit, point lp_locationoftheattackedunit) {
-    // Variable Declarations
-    point[37] lv_circlePoint;
-    int lv_a;
-    int lv_b;
-    fixed lv_distance;
-    point lv_closestpoint;
-    fixed lv_anglefromcentertonearestpoint;
-    fixed lv_theproperangle;
-    point lv_finalpoint;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_distance = 200.0;
-
-    // Implementation
-    lv_anglefromcentertonearestpoint = AngleBetweenPoints(lp_locationoftheattackedunit, UnitGetPosition(lp_attackingunit));
-    if (((TechTreeUnitCount(1, "Nexus", c_techCountCompleteOnly) == 1) && (lv_anglefromcentertonearestpoint < -150.0) && (lv_anglefromcentertonearestpoint > -180.0))) {
-        lv_theproperangle = (180.0 - (lv_anglefromcentertonearestpoint - -180.0));
-    }
-    else {
-        lv_theproperangle = (lv_anglefromcentertonearestpoint - 30.0);
-    }
-    lv_finalpoint = PointWithOffsetPolar(lp_locationoftheattackedunit, 3.0, lv_theproperangle);
-    return lv_finalpoint;
-}
-
-point libTIBW_gf_Circleacquisitionpointotherlargebombers (unit lp_attackingunit, point lp_locationoftheattackedunit) {
-    // Variable Declarations
-    point[37] lv_circlepoint;
-    int lv_a;
-    int lv_b;
-    fixed lv_distance;
-    point lv_closestpoint;
-    fixed lv_anglefromcentertonearestpoint;
-    fixed lv_theproperangle;
-    point lv_finalpoint;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_distance = 200.0;
-
-    // Implementation
-    lv_anglefromcentertonearestpoint = AngleBetweenPoints(lp_locationoftheattackedunit, UnitGetPosition(lp_attackingunit));
-    if (((TechTreeUnitCount(1, "Nexus", c_techCountCompleteOnly) == 1) && (lv_anglefromcentertonearestpoint < -150.0) && (lv_anglefromcentertonearestpoint > -180.0))) {
-        lv_theproperangle = (180.0 - (lv_anglefromcentertonearestpoint - -180.0));
-    }
-    else {
-        lv_theproperangle = (lv_anglefromcentertonearestpoint - 30.0);
-    }
-    lv_finalpoint = PointWithOffsetPolar(lp_locationoftheattackedunit, 10.0, lv_theproperangle);
+    lv_finalpoint = PointWithOffsetPolar(lp_locationoftheattackedunit, lp_radius, lv_theproperangle);
     return lv_finalpoint;
 }
 
@@ -3422,7 +3314,7 @@ bool libTIBW_gt_VanguardAttackSurround_Func (bool testConds, bool runActions) {
             lv_angle = AngleBetweenPoints(UnitGetPosition(lv_attackingunit), UnitGetPosition(lv_attackedunit));
             UnitBehaviorAdd(lv_attackingunit, "PioneerDisablesStoppingAutoCirclingA", lv_attackingunit, 1);
             UnitBehaviorSetDuration(lv_attackingunit, "PioneerDisablesStoppingAutoCirclingA", 0.125);
-            lv_movetargetpoint = libTIBW_gf_SurroundAttackAcquisitionPoint(lv_attackingunit, UnitGetPosition(lv_attackedunit));
+            lv_movetargetpoint = libTIBW_gf_SurroundAttackAcquisitionPoint(lv_attackingunit, UnitGetPosition(lv_attackedunit), 5.0);
             libTIBW_gf_Continuemovingtotargetpoint(lv_attackingunit, lv_movetargetpoint, 0.2);
             Wait(0.0625, c_timeGame);
         }
