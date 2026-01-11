@@ -19,6 +19,8 @@ Can attack ground units. Effective against light units
 - Mind Control.Controls the mind of an enemy ground unit or structure, giving control over it to the Mastermind’s owning player. This link is broken if either the controlled unit or the Mastermind dies, or if the Mastermind is ordered to control a different target. Heroic units and base defences are immune.
 - Prodigy. The Prodigy is a specially mutated version of the Scrin Mastermind, capable of teleportation and improved types of mind control than its standard counterpart. It appears at the centre of enemy forces and takes control of vehicles, buildings and infantry
 - Area of Effect Mind Control.Controls the minds of a group of enemy units around the Prodigy, giving control over it to the Prodigy’s owning player for 20 seconds. This link is broken if either the controlled units or the Prodigy die. Objects not eligible for this ability are air units, base defences, superweapons, and other Commandos.
+###  Cultists.
+- Mind Control.Controls the mind of an enemy ground unit, giving control over it to the Cultists’ owning player. This link is broken if either the controlled unit or the entire Cultist Squad dies, or if the Cultists ordered to control a different target
 
 
 ### Gun Walker/Shard Walker.
@@ -33,7 +35,10 @@ Unlike other Scrin armor, the Devourer appears designed after human heavy tanks,
   - Conversion Beam.Increases the Devourer Tank’s attack damage by converting Tiberium from Tiberium fields.10 shots (~10 minerals)
 ### Corrupter.
   - heal friendly units
-  - visceroid spawn 
+  - visceroid spawn
+### Annihilator Tripod/Reaper Tripod.
+- Husk
+- Conversion Beam(reaper)
 ### Mechapede.
 The Mechapede closely resembles a Terran millipede or centipede, though it is exponentially larger. Its speed is faster than even a Seeker, and can fire in any direction. 
 It can spawn segments of different types. these segments will follow each other and move as a single unit. each segment has different capabilities. 
@@ -44,26 +49,20 @@ It can spawn segments of different types. these segments will follow each other 
   - Spawn Disc Segment.
   The loss of a Mechapede's body segment will not destroy the unit, as it can then rebuild more segments. However, it will destroy all the segments that come "after" the one that was destroyed, so the loss of a segment close to the head can prove to be rather costly. The only way to totally destroy the unit is by targeting the head segment. It is impossible to gain infinite segments on the Mechapede.
  - Limit 8 
-
-### Annihilator Tripod/Reaper Tripod.
-  - Husk
-  - Conversion Beam(reaper)
 ### Eradicator Hexapod.
   - harriosned Mastermind: Teleport.Teleports the Eradicator Hexapod over great distances.
-###  Explorer.
-  - Unpack into Outpost.Orders the Explorer to unpack into an Outpost in its current location. This order is irreversible.
 ###  Stormrider.
 ###  Devastator Warship.
 ###  Planetary Assault Carrier.
   - Ion Storm. Creates an ion storm around the Planetary Assault Carrier. Ion storms increase Scrin aircraft’s attack damage by 25%, reduces incoming damage by 25%, repairs them by 5% of maximum hit points per second and fires lightning bolts which damage enemy units in a short radius, dealing splash damage (hostile Scrin units take only 20% of this damage). This ability is canceled if the Planetary Assault Carrier moves.
 ###  Invader Fighter.
-###  Drone Ship.
-  - Unpack into Drone Platform.Orders the Drone Ship to unpack into a Drone Platform in its current location. This order is reversible.
 ###  Mothership.
-###  Cultists.
-  - Mind Control.Controls the mind of an enemy ground unit, giving control over it to the Cultists’ owning player. This link is broken if either the controlled unit or the entire Cultist Squad dies, or if the Cultists ordered to control a different target
 
 
+###  Explorer.
+- Unpack into Outpost.Orders the Explorer to unpack into an Outpost in its current location. This order is irreversible.
+###  Drone Ship.
+- Unpack into Drone Platform.Orders the Drone Ship to unpack into a Drone Platform in its current location. This order is reversible.
 ### Drone Platform.
 - Pack into Drone Ship.Orders the Drone Platform to pack into a Drone Ship. This order is reversible.
 ### Reactor.

@@ -1,0 +1,109 @@
+<Catalog>
+
+    <CUnit id="ZOCOMVespeneRefinery" parent="ZOCOMStructure">
+        <Facing value="315"/>
+        <ResourceState value="Harvestable"/>
+        <ResourceType value="Vespene"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <StationaryTurningRate value="719.4726"/>
+        <TurningRate value="719.4726"/>
+        <CostCategory value="Economy"/>
+        <CostResource index="Minerals" value="75"/>
+        <RepairTime value="14"/>
+        <BehaviorArray Link="HarvestableVespeneGeyserGas"/>
+        <EffectArray index="Create" value="RefineryRichSearch"/>
+        <Radius value="1.5"/>
+        <SeparationRadius value="1.5"/>
+        <Footprint value="FootprintGeyserRoundedBuilt"/>
+        <PlacementFootprint value="Footprint3x3CappedGeyser"/>
+        <BuiltOn value="VespeneGeyser"/>
+        <BuiltOn value="SpacePlatformGeyser"/>
+        <BuiltOn value="RichVespeneGeyser"/>
+        <BuiltOn value="ProtossVespeneGeyser"/>
+        <BuiltOn value="PurifierVespeneGeyser"/>
+        <BuiltOn value="ShakurasVespeneGeyser"/>
+        <BuildOnAs value="ZOCOMVespeneRefineryRich"/>
+        <ScoreMake value="75"/>
+        <ScoreKill value="75"/>
+        <SubgroupPriority value="222"/>
+        <GlossaryPriority value="244"/>
+    </CUnit>
+    <CUnit id="ZOCOMVespeneRefineryRich" parent="ZOCOMStructure">
+        <Facing value="315"/>
+        <ResourceState value="Harvestable"/>
+        <ResourceType value="Vespene"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <StationaryTurningRate value="719.4726"/>
+        <TurningRate value="719.4726"/>
+        <CostCategory value="Economy"/>
+        <CostResource index="Minerals" value="75"/>
+        <RepairTime value="14"/>
+        <BehaviorArray Link="CNCDeployable"/>
+        <BehaviorArray Link="HarvestableRichVespeneGeyserGas"/>
+        <EffectArray index="Create" value="RefineryRichSearch"/>
+        <Radius value="1.5"/>
+        <SeparationRadius value="1.5"/>
+        <Footprint value="FootprintGeyserRoundedBuilt"/>
+        <PlacementFootprint value="Footprint3x3CappedGeyser"/>
+        <BuiltOn value="RichVespeneGeyser"/>
+        <ScoreMake value="75"/>
+        <ScoreKill value="75"/>
+        <SubgroupPriority value="222"/>
+        <GlossaryPriority value="244"/>
+        <SubgroupAlias value="ZOCOMVespeneRefinery"/>
+        <HotkeyCategory value=""/>
+        <GlossaryCategory value=""/>
+    </CUnit>
+
+    <CActorUnit parent="ZOCOMBuilding" id="ZOCOMVespeneRefinery" unitName="ZOCOMVespeneRefinery" icon="VespeneRefinery">
+        <Macros value="ExtractAnim"/>
+        <On index="35" Send="AnimPlay Birth Stand 0 0.000000"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="SetTintColor 255,170,170"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="AnimGroupRemove D"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="SetTintColor 255,255,255"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="AnimGroupApply D"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit NoVespene" Send="DeathCustomize Empty"/>
+        <On Terms="UnitBirth.ZOCOMVespeneRefinery" Send="TimerSet 0.100000 HideGeyser"/>
+        <On Terms="Behavior.NodGroundDrop.On" Send="AnimPlay Attack Birth,B NonLooping 0.000000 0.000000"/>
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Refinery_Explode"/>
+        <DeathCustoms ModelLink="RefineryEmptyDeath" Name="Empty"/>
+        <DeathCustoms ModelLink="RefineryDeathLow" SoundLink="Terran_ExplosionMedium" Name="Low"/>
+        <BarOffset value="160"/>
+        <BarWidth value="120"/>
+        <NameOffset value="110"/>
+        <SoundArray index="Ready" value="Refinery_Ready"/>
+        <SoundArray index="What" value="Refinery_What"/>
+        <StatusHarvesterData Text="UI/HarvesterCountVespene"/>
+    </CActorUnit>
+    <CActorUnit parent="ZOCOMBuilding" id="ZOCOMVespeneRefineryRich" unitName="ZOCOMVespeneRefineryRich" icon="VespeneRefinery" >
+        <Macros value="ExtractAnim"/>
+        <Model value="ZOCOMVespeneRefinery"/>
+        <On index="35" Send="AnimPlay Birth Stand 0 0.000000"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="SetTintColor 255,170,170"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="AnimGroupRemove D"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="SetTintColor 255,255,255"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="AnimGroupApply D"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit NoVespene" Send="DeathCustomize Empty"/>
+        <On Terms="UnitBirth.RefineryRich" Send="TimerSet 0.100000 HideGeyser"/>
+        <CreepHeightClass value="Medium"/>
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Refinery_Explode"/>
+        <DeathCustoms ModelLink="RefineryEmptyDeath" Name="Empty"/>
+        <DeathCustoms ModelLink="RefineryDeathLow" SoundLink="Terran_ExplosionMedium" Name="Low"/>
+        <BarOffset value="160"/>
+        <BarWidth value="120"/>
+        <SoundArray index="Ready" value="Refinery_Ready"/>
+        <SoundArray index="What" value="Refinery_What"/>
+        <StatusHarvesterData Text="UI/HarvesterCountVespene"/>
+    </CActorUnit>
+
+    <CModel parent="ZOCOMBuilding" id="ZOCOMVespeneRefinery">
+<!--        <ScaleMin value="0.7,0.7,0.7"/>-->
+<!--        <ScaleMax value="0.7,0.7,0.7"/>-->
+    </CModel>
+</Catalog>

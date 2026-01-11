@@ -430,43 +430,6 @@
     <!-- CBU - count behavior at unit EQ 0 -->
     <CRequirementNot parent="NBU" id="NBU_ScrinMinionLinked" behavior="ScrinMinionLinked"/>
 
-    <!--utility kinetic. used to follow linked host unit-->
-    <CKineticFollow id="FollowTargetPosition">
-        <Where Value="TargetUnit"/>
-        <Follow value="Position"/>
-    </CKineticFollow>
-    <!--utility validators-->
-    <CValidatorCombine id="TargetIsNotMovingOrAttacking">
-        <Type value="And"/>
-        <CombineArray value="TargetIsNotAttacking"/>
-        <CombineArray value="TargetIsNotMoving"/>
-    </CValidatorCombine>
-    <CValidatorUnitOrderQueue id="TargetIsNotAttacking">
-        <WhichUnit Value="Target"/>
-        <AbilLink value="attack"/>
-        <Find value="0"/>
-    </CValidatorUnitOrderQueue>
-    <CValidatorUnitOrderQueue id="TargetIsNotMoving">
-        <WhichUnit Value="Target"/>
-        <AbilLink value="move"/>
-        <Find value="0"/>
-    </CValidatorUnitOrderQueue>
-    <CValidatorCombine id="CasterIsNotMovingOrAttacking">
-        <Type value="And"/>
-        <CombineArray value="CasterIsNotAttacking"/>
-        <CombineArray value="CasterIsNotMoving"/>
-    </CValidatorCombine>
-    <CValidatorUnitOrderQueue id="CasterIsNotAttacking">
-        <WhichUnit Value="Caster"/>
-        <AbilLink value="attack"/>
-        <Find value="0"/>
-    </CValidatorUnitOrderQueue>
-    <CValidatorUnitOrderQueue id="CasterIsNotMoving">
-        <WhichUnit Value="Caster"/>
-        <AbilLink value="move"/>
-        <Find value="0"/>
-    </CValidatorUnitOrderQueue>
-
     <!--Units and Weapons-->
     <CUnit id="ScrinBuzzers" parent="ScrinInfantry">
         <LifeStart value="80"/>
@@ -511,24 +474,6 @@
     </CEffectDamage>
 
     <!--Buzzer Hive-->
-    <CUnit id="ScrinBuzzersSummoned" parent="ScrinBuzzers">
-        <FlagArray index="Unselectable" value="1"/>
-        <FlagArray index="AILifetime" value="1"/>
-        <FlagArray index="ArmySelect" value="1"/>
-        <AIEvalFactor value="0"/>
-        <EditorFlags index="NoPlacement" value="1"/>
-        <CostResource index="Minerals" value="0"/>
-        <ScoreMake value="0"/>
-        <ScoreKill value="0"/>
-        <GlossaryCategory value=""/>
-        <HotkeyCategory value=""/>
-        <LifeRegenDelay value="4"/>
-        <LifeRegenRate value="5"/>
-    </CUnit>
-    <CAbilQueue id="ScrinBuzzerHiveQueue">
-        <QueueSize value="3"/>
-        <Flags index="Passive" value="1"/>
-    </CAbilQueue>
     <CUnit id="ScrinBuzzerHive" parent="ScrinStructure">
         <BehaviorArray Link="CNCEnergyDrain5"/>
         <BehaviorArray Link="CNCDeployable"/>
@@ -560,6 +505,24 @@
         <MinimapRadius value="0.75"/>
         <GlossaryPriority value="300"/>
     </CUnit>
+    <CUnit id="ScrinBuzzersSummoned" parent="ScrinBuzzers">
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="AILifetime" value="1"/>
+        <FlagArray index="ArmySelect" value="1"/>
+        <AIEvalFactor value="0"/>
+        <EditorFlags index="NoPlacement" value="1"/>
+        <CostResource index="Minerals" value="0"/>
+        <ScoreMake value="0"/>
+        <ScoreKill value="0"/>
+        <GlossaryCategory value=""/>
+        <HotkeyCategory value=""/>
+        <LifeRegenDelay value="4"/>
+        <LifeRegenRate value="5"/>
+    </CUnit>
+    <CAbilQueue id="ScrinBuzzerHiveQueue">
+        <QueueSize value="3"/>
+        <Flags index="Passive" value="1"/>
+    </CAbilQueue>
     <CWeaponLegacy parent="ScrinWeapon" id="ScrinBuzzerHiveDummy" icon="wireframe-scrin-unit-buzzers">
         <DisplayEffect value="ScrinBuzzersWeaponDamage"/>
         <TargetFilters value="Ground,Visible;Player,Ally,Neutral,Enemy"/>
