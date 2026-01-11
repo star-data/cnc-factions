@@ -1,0 +1,838 @@
+<Catalog>
+    <!--    <CBehaviorVeterancy id="T4unitveteranbehaviorVanguardarmedcombataircraft">-->
+    <!--        <InfoFlags index="Hidden" value="1"/>-->
+    <!--        <InfoIcon value="Assets\Textures\ui_glues_icons_ladder_tier0_star.dds"/>-->
+    <!--        <EditorCategories value="AbilityorEffectType:Units"/>-->
+    <!--        <XPFraction index="Kills" value="0"/>-->
+    <!--        <SharedXPMaxCount index="DamageDealt" value="0"/>-->
+    <!--        <SharedXPMaxCount index="DamageTaken" value="0"/>-->
+    <!--        <SharedXPMaxCount index="Kills" value="0"/>-->
+    <!--        <VeterancyLevelArray/>-->
+    <!--        <VeterancyLevelArray MinVeterancyXP="50" LevelGainEffect="UnitLevelAB1">-->
+    <!--            <Modification>-->
+    <!--                <DamageTakenFraction index="Spell" value="-0.25"/>-->
+    <!--                <DamageTakenFraction index="Melee" value="-0.25"/>-->
+    <!--                <DamageTakenFraction index="Ranged" value="-0.25"/>-->
+    <!--                <DamageTakenFraction index="Splash" value="-0.25"/>-->
+    <!--                <DamageTakenFraction index="NoProc" value="-0.25"/>-->
+    <!--                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>-->
+    <!--                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>-->
+    <!--                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>-->
+    <!--            </Modification>-->
+    <!--        </VeterancyLevelArray>-->
+    <!--        <VeterancyLevelArray MinVeterancyXP="75" LevelGainEffect="UnitLevelAB122">-->
+    <!--            <Modification>-->
+    <!--                <DamageDealtFraction index="Spell" value="0.2"/>-->
+    <!--                <DamageDealtFraction index="Melee" value="0.2"/>-->
+    <!--                <DamageDealtFraction index="Ranged" value="0.2"/>-->
+    <!--                <DamageDealtFraction index="Splash" value="0.2"/>-->
+    <!--                <DamageDealtFraction index="NoProc" value="0.2"/>-->
+    <!--                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>-->
+    <!--                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>-->
+    <!--                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>-->
+    <!--            </Modification>-->
+    <!--        </VeterancyLevelArray>-->
+    <!--        <VeterancyLevelArray MinVeterancyXP="100" LevelGainEffect="UnitLevelAB12">-->
+    <!--            <Modification>-->
+    <!--                <SightBonus value="3"/>-->
+    <!--                <AttackSpeedMultiplier value="1.4"/>-->
+    <!--                <WeaponRange value="1"/>-->
+    <!--                <XPMultiplier value="0"/>-->
+    <!--                <VitalMaxIncreaseAffectsCurrentArray index="Life" value="0"/>-->
+    <!--                <VitalMaxIncreaseAffectsCurrentArray index="Shields" value="0"/>-->
+    <!--                <VitalMaxIncreaseAffectsCurrentArray index="Energy" value="0"/>-->
+    <!--                <VitalRegenArray index="Life" value="2"/>-->
+    <!--            </Modification>-->
+    <!--        </VeterancyLevelArray>-->
+    <!--        <Levels value="4"/>-->
+    <!--    </CBehaviorVeterancy>-->
+    <!--    <CValidatorUnitCompareVeterancyLevel id="RAStarPioneerGunshipEffectVerification">-->
+    <!--        <WhichUnit Value="Caster"/>-->
+    <!--        <Compare value="GE"/>-->
+    <!--        <Value value="5"/>-->
+    <!--        <Behavior value="T4unitveteranbehaviorVanguardarmedcombataircraft"/>-->
+    <!--    </CValidatorUnitCompareVeterancyLevel>-->
+    <CValidatorUnitCompareBehaviorCount id="RAStarPioneerGunshipEffectVerification">
+        <WhichUnit Value="Caster"/>
+                <Value value="1"/>
+        <Behavior value="VeterancyFake"/>
+    </CValidatorUnitCompareBehaviorCount>
+
+
+    <CUnit id="AlliedHarbingerGunship" parent="ScrinAirPlane">
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <LifeArmor value="1"/>
+        <LifeRegenRate value="1"/>
+        <Speed value="3"/>
+        <Acceleration value="3"/>
+        <Deceleration value="3"/>
+        <LateralAcceleration value="3"/>
+        <StationaryTurningRate value="119.8828"/>
+        <TurningRate value="119.8828"/>
+        <Sight value="17"/>
+        <Food value="-6"/>
+        <CostResource index="Minerals" value="200"/>
+        <RepairTime value="2"/>
+        <KillXP value="25"/>
+        <AbilArray Link="RAInvincible"/>
+        <AbilArray Link="AlliedHarbingerGunshipSwitchToChainGunBehavior"/>
+<!--        <BehaviorArray Link="AutoHeal42"/>-->
+<!--        <BehaviorArray Link="xfjytzzdpx22"/>-->
+        <!-- <BehaviorArray Link="T4unitveteranbehaviorVanguardarmedcombataircraft"/> -->
+<!--        <BehaviorArray Link="DisablestopautoandattackinVanguardmovementcommand"/>-->
+<!--        <BehaviorArray Link="ThePioneerarmedcombataircraftkeepscirclingwhenstopped"/>-->
+        <BehaviorArray Link="DisableStopAutoCirclingVanguardAttackCommand"/>
+        <WeaponArray Link="AlliedHarbingerGunshipProtonCannon" Turret="AlliedHarbingerGunshipProtonCannonTurret"/>
+        <WeaponArray Link="AlliedHarbingerGunshipChainGun" Turret="AlliedHarbingerGunshipChainGunTurret"/>
+        <EffectArray index="Create" value="AlliedHarbingerGunshipCreateEffect"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="CNCAirplaneMove,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack2,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AutechBeidongSet32" Row="1" Column="4"/>
+            <LayoutButtons Face="AlliedHarbingerGunshipSwitchToChainGun" Type="AbilCmd" AbilCmd="AlliedHarbingerGunshipSwitchToChainGunBehavior,On" Row="1" Column="1"/>
+            <LayoutButtons Face="AlliedHarbingerGunshipSwitchToProtonCannon" Type="AbilCmd" AbilCmd="AlliedHarbingerGunshipSwitchToChainGunBehavior,Off" Row="1" Column="0"/>
+            <LayoutButtons Face="AlliedHarbingerGunshipImmortality" Type="AbilCmd" AbilCmd="RAInvincible,Execute" Row="1" Column="3"/>
+        </CardLayouts>
+        <Radius value="1"/>
+        <SeparationRadius value="1"/>
+        <ScoreMake value="100"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="13"/>
+        <MinimapRadius value="0.375"/>
+        <TacticalAI value="Battlecruiser"/>
+        <TacticalAIThink value="AIThinkBattleCruiser"/>
+        <Mass value="0.6"/>
+        <TechAliasArray value="Alias_BattlecruiserClass"/>
+        <GlossaryPriority value="160"/>
+        <GlossaryStrongArray value="Thor"/>
+        <GlossaryStrongArray value="Mutalisk"/>
+        <GlossaryStrongArray value="Carrier"/>
+        <GlossaryWeakArray value="Corruptor"/>
+        <GlossaryWeakArray value="VoidRay"/>
+        <GlossaryWeakArray value="VikingFighter"/>
+    </CUnit>
+    <CEffectSet id="AlliedHarbingerGunshipCreateEffect">
+        <EffectArray value="AugunshipBirth1"/>
+        <EffectArray value="AugunshipBirth2"/>
+    </CEffectSet>
+    <CEffectModifyUnit id="AugunshipBirth1">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactUnit Value="Caster"/>
+        <Height value="15"/>
+        <HeightTime value="0"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="AugunshipBirth2">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactUnit Value="Caster"/>
+        <Height value="-15"/>
+        <HeightTime value="3"/>
+    </CEffectModifyUnit>
+
+    <CAbilEffectInstant id="RAInvincible">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="RAPioneerArmedCombatAircraftActivatesInvincibilityEffectApplication"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="40"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedHarbingerGunshipImmortality"/>
+    </CAbilEffectInstant>
+
+    <CAbilBehavior id="AlliedHarbingerGunshipSwitchToChainGunBehavior">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="AlliedHarbingerGunshipSwitchToChainGun">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="AlliedHarbingerGunshipSwitchToProtonCannon">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="AlliedHarbingerGunshipSwitchToChainGunBehavior"/>
+    </CAbilBehavior>
+    <CBehaviorBuff id="AlliedHarbingerGunshipSwitchToChainGunBehavior">
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Modification>
+            <WeaponEnableArray value="AlliedHarbingerGunshipChainGun"/>
+            <WeaponDisableArray value="AlliedHarbingerGunshipProtonCannon"/>
+        </Modification>
+    </CBehaviorBuff>
+
+    <CActorModel id="PioneerArmedCombatCraftInvincible" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.PioneerArmedCombatCraftInvincible.On" Send="Create"/>
+        <On Terms="Behavior.PioneerArmedCombatCraftInvincible.Off" Send="AnimBracketStop BSD"/>
+        <On Terms="Behavior.ImmortalOverload2.On" Send="Create"/>
+        <On Terms="Behavior.ImmortalOverload2.Off" Send="AnimBracketStop BSD"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachOrigin"/>
+    </CActorModel>
+    <CActorMissile id="AlliedHarbingerGunshipChainGunMissile" parent="GenericAttackMissile" unitName="AlliedHarbingerGunshipChainGunMissile">
+        <Model value="AlliedHarbingerGunshipChainGunMissile"/>
+    </CActorMissile>
+    <CActorAction id="AlliedHarbingerGunshipProtonCannon@Attack1" parent="GenericAttack" effectImpact="AlliedHarbingerGunshipProtonCannon@Damage" effectLaunch="AlliedHarbingerGunshipProtonCannon@LM1">
+        <LaunchAssets Model="AlliedHarbingerGunshipProtonCannon@MissileLaunch" Sound="AlliedHarbingerGunshipProtonCannon@MissileLaunch"/>
+        <Missile value="AlliedHarbingerGunshipProtonCannonMissile"/>
+        <ImpactMap index="None" Model="AlliedHarbingerGunshipProtonCannonMissile" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
+        <ImpactMap index="Miss" Model="AlliedHarbingerGunshipProtonCannonMissile" Sound="AlliedHarbingerGunshipProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+        <LaunchSiteOps Ops="SOpAttachWeaponLeft"/>
+    </CActorAction>
+    <CActorAction id="AlliedHarbingerGunshipProtonCannon@VeterancyAttack1" parent="GenericAttack" effectImpact="AlliedHarbingerGunshipProtonCannon@VeterancyDamage" effectLaunch="AlliedHarbingerGunshipProtonCannon@VeterancyLM1">
+        <LaunchSiteOps Ops="SOpAttachWeaponLeft"/>
+        <LaunchAssets Model="AlliedHarbingerGunshipProtonCannon@MissileLaunch" Sound="AlliedHarbingerGunshipProtonCannon@MissileLaunch"/>
+        <Missile value="AlliedHarbingerGunshipProtonCannonVeterancyMissile"/>
+        <ImpactMap index="None" Model="AlliedHarbingerGunshipProtonCannon@VeterancyImpact" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
+        <ImpactMap index="Miss" Model="AlliedHarbingerGunshipProtonCannon@VeterancyImpact" Sound="AlliedHarbingerGunshipProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+    </CActorAction>
+    <CActorAction id="AlliedHarbingerGunshipProtonCannon@Attack2" parent="GenericAttack" effectImpact="AlliedHarbingerGunshipProtonCannon@Damage" effectLaunch="AlliedHarbingerGunshipProtonCannon@LM2">
+        <LaunchSiteOps Ops="SOpAttachWeaponRight"/>
+        <LaunchAssets Model="AlliedHarbingerGunshipProtonCannon@MissileLaunch" Sound="AlliedHarbingerGunshipProtonCannon@MissileLaunch"/>
+        <Missile value="AlliedHarbingerGunshipProtonCannonMissile"/>
+        <ImpactMap index="None" Model="AlliedHarbingerGunshipProtonCannonMissile" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
+        <ImpactMap index="Miss" Model="AlliedHarbingerGunshipProtonCannonMissile" Sound="AlliedHarbingerGunshipProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+    </CActorAction>
+    <CActorModel id="AlliedHarbingerGunshipChainGun@Impact" parent="ModelAnimationStyleOneShot">
+        <On Terms="Effect.AlliedHarbingerGunshipChainGun@Damage.Start" Send="Create"/>
+        <On Terms="Effect.AlliedHarbingerGunshipChainGun@Damage.Stop" Send="Destroy"/>
+        <Model value="AlliedHarbingerGunshipChainGun@Impact"/>
+    </CActorModel>
+    <CActorAction id="AlliedHarbingerGunshipProtonCannon@VeterancyAttack2" parent="GenericAttack" effectImpact="AlliedHarbingerGunshipProtonCannon@VeterancyDamage" effectLaunch="AlliedHarbingerGunshipProtonCannon@VeterancyLM2">
+        <LaunchSiteOps Ops="SOpAttachWeaponRight"/>
+        <LaunchAssets Model="AlliedHarbingerGunshipProtonCannon@MissileLaunch" Sound="AlliedHarbingerGunshipProtonCannon@MissileLaunch"/>
+        <Missile value="AlliedHarbingerGunshipProtonCannonVeterancyMissile"/>
+        <ImpactMap index="None" Model="AlliedHarbingerGunshipProtonCannon@VeterancyImpact" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
+        <ImpactMap index="Miss" Model="AlliedHarbingerGunshipProtonCannon@VeterancyImpact" Sound="AlliedHarbingerGunshipProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+    </CActorAction>
+    <CActorSquib id="AlliedHarbingerGunshipProtonCannon@VeterancySquib">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.AlliedHarbingerGunshipProtonCannon@VeterancyDamage.Start; At Effect" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="AlliedHarbingerGunshipProtonCannon@Impact" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
+    </CActorSquib>
+    <CActorSquib id="AlliedHarbingerGunshipProtonCannon@Squib">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.AlliedHarbingerGunshipProtonCannon@Damage.Start; At Effect" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="AlliedHarbingerGunshipProtonCannonMissile" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
+    </CActorSquib>
+    <CActorAction id="AlliedHarbingerGunshipChainGun@Attack" parent="GenericAttack" effectImpact="AlliedHarbingerGunshipChainGun@Damage" effectLaunch="AlliedHarbingerGunshipChainGun@LM">
+        <LaunchAssets Model="AlliedHarbingerGunshipChainGun@MissileLaunch" Sound="UnknownSound22"/>
+        <ImpactMap index="None" Model="AlliedHarbingerGunshipChainGun@Impact" Sound="UnknownSound32"/>
+        <LaunchAttachQuery Methods="AMBestMatchWeapon" Fallback="Weapon"/>
+        <Missile value="AlliedHarbingerGunshipChainGunMissile"/>
+    </CActorAction>
+
+    <CActorModel id="cashreward24" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.AutoHeal42.On" Send="Create"/>
+        <On Terms="Behavior.AutoHeal42.Off" Send="Destroy"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+        <Model value="cashreward2"/>
+    </CActorModel>
+    <CActorMissile id="AlliedHarbingerGunshipProtonCannonVeterancyMissile" parent="GenericAttackMissile" unitName="AlliedHarbingerGunshipProtonCannonVeterancyMissile">
+        <Model value="AlliedHarbingerGunshipProtonCannonVeterancyMissile"/>
+    </CActorMissile>
+    <CActorSiteOpBanker id="SOpBankerRAAir" parent="SOpBanker">
+        <RollAngleMax value="75.000000"/>
+        <RollInRate value="23.450001"/>
+        <RollOutRate value="18.799999"/>
+    </CActorSiteOpBanker>
+    <CModel id="AlliedHarbingerGunshipUpgraded" parent="Unit" Race="Terran">
+        <Model value="assets\models\Allied\AuGunshipUpgrade.m3"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraMid03"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="3.000000"/>
+        <ShadowRadius value="0.375000"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="TechPurchaseInfantry"/>
+        <UnitGlossaryCamera value="Star2CameraMid03"/>
+    </CModel>
+    <CValidatorPlayerRequirement id="AlliedHarbingerGunshipUpgraded">
+        <ResultNoPlayer value="Error"/>
+        <Find value="1"/>
+        <Value value="AlliedHarbingerGunshipUpgraded"/>
+    </CValidatorPlayerRequirement>
+    <CActorUnit id="AlliedHarbingerGunship" parent="GenericUnitBase" unitName="AlliedHarbingerGunship">
+        <AcceptedTransfers index="Model" value="1"/>
+        <AcceptedTransfers index="ModelMaterials" value="1"/>
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.SJWraith.AttackStart" Send="AnimBracketStart Attack Attack,Superior"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="ActorCreation; ValidateUnit AlliedHarbingerGunshipUpgraded" Send="ModelSwap AlliedHarbingerGunshipUpgraded"/>
+        <HostSiteOps Ops="SOpBankerRAAir"/>
+        <Model value="AlliedHarberGunship_Model"/>
+        <Scale value="0.300000"/>
+        <AnimBlendTime value="0.300000"/>
+        <DeathArray index="Normal" ModelLink="SJGriffonDeath" SoundLink="SJGriffon_Explode"/>
+        <PortraitModel value="VikingMercenaryFighterPortrait"/>
+        <AbilSoundArray Sound="AlliedHarberGunship_Attack"/>
+        <AbilSoundArray AbilCmd="attack2,Execute" Sound="AlliedHarberGunship_Attack"/>
+        <BarOffset value="70"/>
+        <BarWidth value="140"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Allied\AUGWire.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Allied\AUGbtn.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-shipplatinglevel3.dds"/>
+        <SoundArray index="Birth" value="ChinaYaoguangSpaceStrikePlatform_Actor_Movement"/>
+        <SoundArray index="Pissed" value="TerranFlyer_Pissed"/>
+        <SoundArray index="Movement" value="ChinaYaoguangSpaceStrikePlatform_Actor_Movement"/>
+        <SoundArray index="Turning" value="ChinaYaoguangSpaceStrikePlatform_Actor_Movement"/>
+        <SoundArray index="Board" value="Liberator_Board"/>
+        <SoundArray index="Click" value="AlliedHarberGunship_What"/>
+        <SoundArray index="ClickError" value="Liberator_ClickError"/>
+        <SoundArray index="Highlight" value="Liberator_Highlight"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Icons\Allied\AUGbtn.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Allied\AUGWire.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorMissile id="AlliedHarbingerGunshipProtonCannonMissile" parent="GenericAttackMissile" unitName="AlliedHarbingerGunshipProtonCannonMissile">
+        <Model value="AlliedHarbingerGunshipProtonCannonMissile"/>
+    </CActorMissile>
+
+    <CButton id="AlliedHarbingerGunshipImmortality">
+        <Icon value="Assets\Textures\btn-ability-protoss-invulnerabilityshield.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+
+    <CButton id="AlliedHarbingerGunshipSwitchToChainGun">
+        <Icon value="Assets\icons\Allied\pioneer-armed-combat-aircraft-switches-to-machine-gun-mode.dds"/>
+    </CButton>
+
+    <CButton id="AlliedHarbingerGunshipSwitchToProtonCannon">
+        <Icon value="Assets\icons\Allied\pioneer-armed-combat-aircraft-switches-main-gun-mode.dds"/>
+    </CButton>
+
+
+    <CEffectCreatePersistent id="AlliedHarbingerGunshipProtonCannon@VeterancyCP">
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="AlliedHarbingerGunshipProtonCannon@VeterancyLM1"/>
+        <PeriodicEffectArray value="AlliedHarbingerGunshipProtonCannon@VeterancyLM2"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <InitialEffect value="Vanguardsurroundingvesteffect"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="AlliedHarbingerGunshipProtonCannon@VeterancyDamage">
+        <Amount value="25"/>
+        <AreaArray Radius="2" Fraction="1"/>
+        <SearchFilters value="Ground,Visible;Missile,Invulnerable"/>
+        <AttributeBonus index="Structure" value="20"/>
+        <ExcludeArray Value="Target"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="AlliedHarbingerGunshipProtonCannon@VeterancyLM2">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="AlliedHarbingerGunshipProtonCannon@VeterancyDamage"/>
+        <AmmoUnit value="AlliedHarbingerGunshipProtonCannonVeterancyMissile"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="AlliedHarbingerGunshipProtonCannon@VeterancyLM1">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="AlliedHarbingerGunshipProtonCannon@VeterancyDamage"/>
+        <AmmoUnit value="AlliedHarbingerGunshipProtonCannonVeterancyMissile"/>
+    </CEffectLaunchMissile>
+    <CBehaviorBuff id="VeterancyFake"/>
+    <CEffectSwitch id="AlliedHarbingerGunshipProtonCannon@Switch">
+        <CaseArray Validator="RAStarPioneerGunshipEffectVerification" Effect="AlliedHarbingerGunshipProtonCannon@VeterancyCP"/>
+        <CaseDefault value="AlliedHarbingerGunshipProtonCannon@CP"/>
+    </CEffectSwitch>
+    <CEffectCreatePersistent id="AlliedHarbingerGunshipProtonCannon@CP">
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="AlliedHarbingerGunshipProtonCannon@LM1"/>
+        <PeriodicEffectArray value="AlliedHarbingerGunshipProtonCannon@LM2"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <Flags index="Channeled" value="1"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <InitialEffect value="Vanguardsurroundingvesteffect"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="AlliedHarbingerGunshipProtonCannon@LM1">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="AlliedHarbingerGunshipProtonCannon@Damage"/>
+        <AmmoUnit value="AlliedHarbingerGunshipProtonCannonMissile"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="AlliedHarbingerGunshipProtonCannon@LM2">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="AlliedHarbingerGunshipProtonCannon@Damage"/>
+        <AmmoUnit value="AlliedHarbingerGunshipProtonCannonMissile"/>
+    </CEffectLaunchMissile>
+    <CEffectDamage id="AlliedHarbingerGunshipProtonCannon@Damage">
+        <Amount value="25"/>
+        <AreaArray Radius="1.75" Fraction="1"/>
+        <SearchFilters value="Ground,Visible;Missile,Invulnerable"/>
+        <ArmorReduction value="1"/>
+        <AttributeBonus index="Structure" value="20"/>
+        <ExcludeArray Value="Target"/>
+    </CEffectDamage>
+
+    <CEffectCreatePersistent id="AlliedHarbingerGunshipChainGun@CP">
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodCount value="10"/>
+        <PeriodicEffectArray value="AlliedHarbingerGunshipChainGun@LM"/>
+        <PeriodicPeriodArray value="0.09"/>
+        <InitialEffect value="Vanguardsurroundingvesteffect"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="AlliedHarbingerGunshipChainGun@LM">
+        <ImpactEffect value="AlliedHarbingerGunshipChainGun@Damage"/>
+        <AmmoUnit value="AlliedHarbingerGunshipChainGunMissile"/>
+    </CEffectLaunchMissile>
+    <CEffectDamage id="AlliedHarbingerGunshipChainGun@Damage">
+        <Amount value="3"/>
+        <ArmorReduction value="1"/>
+        <AttributeBonus index="Light" value="3"/>
+        <AttributeBonus index="Structure" value="-2"/>
+    </CEffectDamage>
+
+    <CModel id="AlliedHarberGunship_Model" parent="Unit" Race="Terran">
+        <Model value="assets\models\Allied\AuGunship.m3"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraMid03"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="3.000000"/>
+        <ShadowRadius value="0.375000"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="TechPurchaseInfantry"/>
+        <UnitGlossaryCamera value="Star2CameraMid03"/>
+    </CModel>
+    <CModel id="PioneerArmedCombatCraftInvincible">
+        <Model value="Assets\Effects\Terran\ArcadeVikingShield\ArcadeVikingShield.m3"/>
+        <ScaleMax value="1.600000,1.600000,1.600000"/>
+        <ScaleMin value="1.600000,1.600000,1.600000"/>
+    </CModel>
+    <CModel id="AlliedHarbingerGunshipChainGun@Impact" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\HERC_Gun_Impact\HERC_Gun_Impact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Lighting value="AlliedHarbingerGunshipProtonCannonMissile"/>
+        <Priority value="16"/>
+        <ScaleMax value="1.300000,1.300000,1.300000"/>
+        <ScaleMin value="1.300000,1.300000,1.300000"/>
+    </CModel>
+    <CModel id="AlliedHarbingerGunshipProtonCannon@MissileLaunch" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\ThorArmMissileLaunch\ThorArmMissileLaunch.m3"/>
+        <AnimSpeed value="0.500000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <Flags index="Ignorable" value="0"/>
+        <Priority value="16"/>
+        <ScaleMax value="0.800000,0.800000,0.800000"/>
+        <ScaleMin value="0.800000,0.800000,0.800000"/>
+    </CModel>
+    <CModel id="cashreward2">
+        <Model value="Assets\Models\RepairBUFF.m3"/>
+    </CModel>
+    <CModel id="AlliedHarbingerGunshipProtonCannon@VeterancyImpact" parent="ImpactFX">
+        <Model value="assets\models\FXAlliedprotoncolliderhitEX.m3"/>
+        <AnimSpeed value="0.850000"/>
+        <EditorCategories value="Race:Terran"/>
+        <Priority value="16"/>
+        <ScaleMax value="1.100000,1.100000,1.100000"/>
+        <ScaleMin value="1.100000,1.100000,1.100000"/>
+    </CModel>
+    <CModel id="AlliedHarbingerGunshipProtonCannonVeterancyMissile" parent="MissileFX">
+        <Model value="assets\models\FXAlliedGunshipMissileEX.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CModel id="AlliedHarbingerGunshipProtonCannon@Impact" parent="ImpactFX">
+        <Model value="assets\models\FXAlliedprotoncolliderhit.m3"/>
+        <AnimSpeed value="0.850000"/>
+        <EditorCategories value="Race:Terran"/>
+        <Priority value="16"/>
+        <ScaleMax value="1.100000,1.100000,1.100000"/>
+        <ScaleMin value="1.100000,1.100000,1.100000"/>
+    </CModel>
+    <CModel id="AlliedHarbingerGunshipProtonCannonMissile" parent="MissileFX">
+        <Model value="assets\models\FXAlliedGunshipMissile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CModel id="AlliedHarbingerGunshipChainGunMissile" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\WraithLaserMissile\WraithLaserMissile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="AlliedHarbingerGunshipChainGun@MissileLaunch" parent="LaunchFX">
+        <Model value="Assets\Effects\Protoss\Arbiter_Purifier_Coop_Missile_Launch\Arbiter_Purifier_Coop_Missile_Launch.m3"/>
+        <AnimSpeed value="2.000000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CMoverMissile id="CycloneMissileLeft5">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="5"/>
+            <Speed value="20"/>
+            <MaxSpeed value="22"/>
+            <Outro value="-1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+            <Overlays Scale="0.2,0.2"/>
+        </MotionPhases>
+        <MotionPhases YawPitchRoll="MAX">
+            <Overlays Scale="0"/>
+        </MotionPhases>
+        <MotionOverlays>
+            <Type value="Revolver"/>
+            <RevolverSpeed value="179.2968"/>
+            <RevolverSpeedRange value="179.2968"/>
+            <RevolverMaxSpeed value="719.2968"/>
+            <RevolverMaxSpeedRange value="0"/>
+            <RevolverAccel value="337.5"/>
+            <RevolverAccelRange value="337.5"/>
+        </MotionOverlays>
+    </CMoverMissile>
+<!--    <CMoverFlock id="Fly2">-->
+<!--        <HeightMap value="Air"/>-->
+<!--        <PathMode value="Flying"/>-->
+<!--        <Flags index="IgnoreNoFlyZones" value="1"/>-->
+<!--    </CMoverFlock>-->
+    <CMoverMissile id="AlliedHarbingerGunshipChainGunMissile">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="5"/>
+            <Speed value="20"/>
+            <MaxSpeed value="300"/>
+            <Outro value="-1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+            <Overlays Scale="0.2,0.2"/>
+        </MotionPhases>
+        <MotionPhases YawPitchRoll="MAX">
+            <Overlays Scale="0"/>
+        </MotionPhases>
+        <MotionOverlays>
+            <Type value="Revolver"/>
+            <RevolverSpeed value="179.2968"/>
+            <RevolverSpeedRange value="179.2968"/>
+            <RevolverMaxSpeed value="719.2968"/>
+            <RevolverMaxSpeedRange value="0"/>
+            <RevolverAccel value="337.5"/>
+            <RevolverAccelRange value="337.5"/>
+        </MotionOverlays>
+    </CMoverMissile>
+
+    <CSound id="ChinaYaoguangSpaceStrikePlatform_Actor_Movement">
+        <AssetArray File="assets\sounds\AUGunsh_movByLoopa.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunsh_movByLoopb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunsh_movByLoopc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunsh_movByLoopd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunsh_movByLoope.ogg" FacialGroup=""/>
+        <Volume value="-5.490000,-5.490000"/>
+        <Mode value="3DWorld"/>
+        <Category value="Combat"/>
+    </CSound>
+    <CSound id="UnknownSound22" parent="Combat">
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1a.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1b.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1c.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1d.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1e.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1f.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1g.ogg" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <ReverbBalance Room="-10000"/>
+        <Volume value="-4.000000,-4.000000"/>
+    </CSound>
+    <CSound id="AlliedHarberGunship_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUHarbi_voiCreatea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiCreateb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedHarberGunship_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUHarbi_voiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelectf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelectg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelecth.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedHarberGunship_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUHarbi_voiAttSpeca.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttSpecb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttSpecc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttSpecd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttSpece.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttSpecf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttSpecg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttacka.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttackb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttackc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttackd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttacke.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiAttackf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+        <Select value="Random"/>
+    </CSound>
+    <CSound id="AlliedHarbingerGunshipProtonCannon@Impact" parent="Combat">
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2A.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2B.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2C.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2D.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2E.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2F.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2G.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2H.ogg" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <ReverbBalance Room="-10000"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="AlliedHarbingerGunshipProtonCannon@MissileLaunch" parent="Combat">
+        <AssetArray File="assets\sounds\AUGunship_cannonFireA.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonFireB.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonFireC.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonFireD.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonFireE.ogg" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <ReverbBalance Room="-10000"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="UnknownSound32" parent="Combat">
+        <AssetArray File="Assets\Sounds\Terran_MachineGunLarge_Impact_00.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran_MachineGunLarge_Impact_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran_MachineGunLarge_Impact_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran_MachineGunLarge_Impact_03.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran_MachineGunLarge_Impact_04.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran_MachineGunLarge_Impact_05.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran_MachineGunLarge_Impact_06.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran_MachineGunLarge_Impact_07.wav" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <ReverbBalance Room="-10000"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CSound id="AlliedHarberGunship_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUHarbi_voiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiMoveg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiMoveh.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiMovei.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiMovej.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedHarberGunship_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUHarbi_voiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelUndd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelUnde.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelUndf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUHarbi_voiSelUndg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CActorTurret id="RAVanguardCannon">
+        <On Terms="TurretEnable.AlliedHarbingerGunshipChainGunTurret" Send="Create"/>
+        <PitchQuery Methods="TurretZ 0"/>
+    </CActorTurret>
+    <CTurret id="AlliedHarbingerGunshipChainGunTurret">
+        <YawArc value="360"/>
+        <YawRate value="720"/>
+        <YawIdleRate value="149.9414"/>
+        <Fidget DelayMax="30" DelayMin="10"/>
+    </CTurret>
+    <CTurret id="AlliedHarbingerGunshipProtonCannonTurret">
+        <YawArc value="360"/>
+        <YawRate value="720"/>
+        <YawIdleRate value="149.9414"/>
+        <Fidget DelayMax="30" DelayMin="10"/>
+    </CTurret>
+    <CUnit id="AlliedHarbingerGunshipProtonCannonMissile" parent="MISSILE">
+        <Race value="Allied"/>
+        <Mover value="CycloneMissileLeft5"/>
+        <EditorCategories value="ObjectFamily:CNC,ObjectType:Projectile"/>
+    </CUnit>
+    <CUnit id="AlliedHarbingerGunshipProtonCannonVeterancyMissile" parent="MISSILE">
+        <Race value="Allied"/>
+        <Mover value="CycloneMissileLeft5"/>
+        <EditorCategories value="ObjectFamily:CNC,ObjectType:Projectile"/>
+    </CUnit>
+    <CUnit id="AlliedHarbingerGunshipChainGunMissile" parent="MISSILE">
+        <Race value="Allied"/>
+        <Mover value="AlliedHarbingerGunshipChainGunMissile"/>
+        <EditorCategories value="ObjectFamily:CNC,ObjectType:Projectile"/>
+    </CUnit>
+
+    <CActorTurret id="AlliedHarbingerGunshipProtonCannonTurret1">
+        <On Terms="TurretEnable.AlliedHarbingerGunshipProtonCannonTurret" Send="Create"/>
+        <PitchQuery Methods="Turret 0"/>
+        <YawQuery Methods="Turret 0"/>
+    </CActorTurret>
+    <CActorTurret id="AlliedHarbingerGunshipProtonCannonTurret2">
+        <On Terms="TurretEnable.AlliedHarbingerGunshipProtonCannonTurret" Send="Create"/>
+        <PitchQuery Methods="TurretY 0"/>
+        <YawQuery Methods="TurretY 0"/>
+    </CActorTurret>
+    <CActorLookAt id="AlliedHarbingerGunshipProtonCannonTurretFrontRow">
+        <On Terms="TurretEnable.AlliedHarbingerGunshipProtonCannonTurret" Send="Create"/>
+        <On Terms="TurretTarget.AlliedHarbingerGunshipProtonCannonTurret.Set" Send="LookAtEngage"/>
+        <On Terms="TurretTarget.AlliedHarbingerGunshipProtonCannonTurret.Clear" Send="LookAtDisengage"/>
+        <Types Id="2">
+            <Start>
+                <Group value="AlliedGunshipFR"/>
+                <Weight value="1"/>
+                <Time value="250"/>
+                <Rate value="1.000000"/>
+            </Start>
+            <Stop>
+                <Group value="AlliedGunshipFR"/>
+                <Weight value="1"/>
+                <Time value="250"/>
+                <Rate value="1.000000"/>
+            </Stop>
+        </Types>
+    </CActorLookAt>
+    <CActorLookAt id="AlliedHarbingerGunshipChainGunTurret">
+        <On Terms="TurretEnable.AlliedHarbingerGunshipChainGunTurret" Send="Create"/>
+        <On Terms="TurretTarget.AlliedHarbingerGunshipChainGunTurret.Set" Send="LookAtEngage"/>
+        <On Terms="TurretTarget.AlliedHarbingerGunshipChainGunTurret.Clear" Send="LookAtDisengage"/>
+        <Types Id="1">
+            <Start Group="AlliedGunshipGun" Weight="1" Time="250"/>
+            <Stop Group="AlliedGunshipGun" Weight="1" Time="250"/>
+        </Types>
+    </CActorLookAt>
+    <CActorLookAt id="AlliedHarbingerGunshipProtonCannonTurretRearRow">
+        <On Terms="TurretEnable.AlliedHarbingerGunshipProtonCannonTurret" Send="Create"/>
+        <On Terms="TurretTarget.AlliedHarbingerGunshipProtonCannonTurret.Set" Send="LookAtEngage"/>
+        <On Terms="TurretTarget.AlliedHarbingerGunshipProtonCannonTurret.Clear" Send="LookAtDisengage"/>
+        <Types Id="3">
+            <Start>
+                <Group value="AlliedGunshipBR"/>
+                <Weight value="1"/>
+                <Time value="250"/>
+                <Rate value="1.000000"/>
+            </Start>
+            <Stop>
+                <Group value="AlliedGunshipBR"/>
+                <Weight value="1"/>
+                <Time value="250"/>
+                <Rate value="1.000000"/>
+            </Stop>
+        </Types>
+    </CActorLookAt>
+
+    <CWeaponLegacy id="AlliedHarbingerGunshipProtonCannon">
+        <EditorCategories value=""/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\icons\先锋武装战艇机切换机枪模式.dds"/>
+        <DisplayEffect value="AlliedHarbingerGunshipProtonCannon@Damage"/>
+        <DisplayAttackCount value="2"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Invulnerable"/>
+        <Range value="10"/>
+        <Period value="4"/>
+        <Effect value="AlliedHarbingerGunshipProtonCannon@Switch"/>
+        <AllowedMovement value="Moving"/>
+        <LegacyOptions index="NoDeceleration" value="1"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="AlliedHarbingerGunshipChainGun">
+        <Options index="Disabled" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Icon value="Assets\icons\先锋武装战艇机切换主炮模式.dds"/>
+        <DisplayEffect value="AlliedHarbingerGunshipChainGun@Damage"/>
+        <TargetFilters value="Visible;Missile,Dead,Invulnerable"/>
+        <Range value="10"/>
+        <Period value="2"/>
+        <Backswing value="0"/>
+        <Effect value="AlliedHarbingerGunshipChainGun@CP"/>
+        <AllowedMovement value="Moving"/>
+        <LegacyOptions index="NoDeceleration" value="1"/>
+        <DisplayAttackCount value="10"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="AlliedHarbingerGunshipChainGunAA">
+        <EditorCategories value=""/>
+        <Options index="Disabled" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-ability-terran-surfacetoairtargeting.dds"/>
+        <DisplayEffect value="AlliedHarbingerGunshipChainGun@Damage"/>
+        <TargetFilters value="Air,Visible;Self,Missile,Dead,Invulnerable"/>
+        <Range value="11"/>
+        <Period value="2"/>
+        <Backswing value="0"/>
+        <Effect value="AlliedHarbingerGunshipChainGun@CP"/>
+        <LegacyOptions index="NoDeceleration" value="1"/>
+        <AllowedMovement value="Moving"/>
+        <DisplayAttackCount value="10"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="RAConcealedWeapon">
+        <EditorCategories value=""/>
+        <Options index="Hidden" value="1"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Icon value="Assets\Textures\btn-ability-terran-surfacetoairtargeting.dds"/>
+        <DisplayEffect value="AlliedHarbingerGunshipChainGun@Damage"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Dead,Invulnerable"/>
+        <Range value="12"/>
+        <Arc value="360"/>
+        <Period value="0.5"/>
+        <Backswing value="0"/>
+        <LegacyOptions index="NoDeceleration" value="1"/>
+        <Effect value="RAVanguardGunshipHiddenWeaponEffect"/>
+    </CWeaponLegacy>
+    <CEffectCreatePersistent id="RAVanguardGunshipHiddenWeaponEffect">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <Flags index="Channeled" value="1"/>
+        <InitialEffect value="Vanguardsurroundingvesteffect"/>
+        <PeriodCount value="2"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <PeriodicPeriodArray value="0.05"/>
+    </CEffectCreatePersistent>
+
+    <CBehaviorBuff id="PioneerArmedCombatCraftInvincible">
+        <InfoIcon value="Assets\Textures\btn-ability-mengsk-marauder-selfabsorbshield.dds"/>
+        <DisplayDuration index="Self" value="1"/>
+        <Duration value="7"/>
+        <Modification WeaponRange="-1">
+            <StateFlags index="UnitAttrOnMapBoss" value="1"/>
+            <VitalRegenArray index="Life" value="5"/>
+            <VitalRegenMultiplier index="Life" value="1"/>
+            <!--            <BehaviorLinkDisableArray value="ZHybridPsionicShockwaveHeightAndStun"/>-->
+            <WeaponDisableArray value="AlliedHarbingerGunshipProtonCannon"/>
+        </Modification>
+        <DamageResponse ModifyFraction="0.05">
+            <Chance value="1"/>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CEffectApplyBehavior id="RAPioneerArmedCombatAircraftActivatesInvincibilityEffectApplication">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="PioneerArmedCombatCraftInvincible"/>
+    </CEffectApplyBehavior>
+</Catalog>
