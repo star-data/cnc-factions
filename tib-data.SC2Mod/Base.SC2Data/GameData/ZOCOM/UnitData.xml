@@ -45,6 +45,14 @@
         <Race value="ZOCOM"/>
         <GlossaryCategory value="Unit/Category/ZOCOMUnits"/>
         <HotkeyCategory value="Unit/Category/ZOCOMUnits"/>
+        <BehaviorArray Link="TerranBuildingBurnDown"/>
+        <BehaviorArray Link="Detector11"/>
+        <BehaviorArray Link="UnderConstruction"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Halt" Type="AbilCmd" AbilCmd="BuildInProgress,Halt" Row="2" Column="3"/>
+            <LayoutButtons Face="CancelBuilding" Type="AbilCmd" AbilCmd="BuildInProgress,Cancel" Row="2" Column="4"/>
+            <LayoutButtons Face="SelectBuilder" Type="SelectBuilder" Row="1" Column="3"/>
+        </CardLayouts>
     </CUnit>
     <CUnit default="1" id="ZOCOMMissile" parent="CNCMissile">
         <Race value="ZOCOM"/>
@@ -163,8 +171,6 @@
     </CUnit>
     <!--defenses-->
     <CUnit id="ZOCOMBunker" parent="ZOCOMStructure">
-        <BehaviorArray Link="TerranBuildingBurnDown"/>
-        <BehaviorArray Link="BunkerNotJumbo"/>
         <BehaviorArray Link="ShrikeTurret"/>
         <Facing value="315"/>
         <FlagArray index="AIDefense" value="1"/>
@@ -265,6 +271,40 @@
         <GlossaryPriority value="230"/>
         <KillDisplay value="Always"/>
         <RankDisplay value="Always"/>
+    </CUnit>
+    <CUnit id="ZOCOMMissileTurret" parent="ZOCOMStructure">
+        <LifeStart value="250"/>
+        <LifeMax value="250"/>
+        <CostResource index="Minerals" value="100"/>
+        <RepairTime value="25"/>
+        <AttackTargetPriority value="19"/>
+        <Radius value="0.75"/>
+        <SeparationRadius value="0.75"/>
+        <Footprint value="Footprint2x2Contour"/>
+        <PlacementFootprint value="Footprint2x2"/>
+        <ScoreMake value="100"/>
+        <ScoreKill value="100"/>
+        <ScoreResult value="BuildOrder"/>
+        <SubgroupPriority value="14"/>
+        <MinimapRadius value="0.75"/>
+        <Sight value="11"/>
+        <AbilArray Link="BuildInProgress"/>
+        <AbilArray Link="stop"/>
+        <AbilArray Link="attack"/>
+        <BehaviorArray Link="Detector11"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="Detector" Type="Passive" Requirements="NotUnderConstruction" Row="2" Column="3"/>
+        </CardLayouts>
+        <GlossaryPriority value="310"/>
+        <WeaponArray Link="LongboltMissile" Turret="MissileTurret"/>
+        <GlossaryStrongArray value="Banshee"/>
+        <GlossaryStrongArray value="Mutalisk"/>
+        <GlossaryStrongArray value="Phoenix"/>
+        <GlossaryWeakArray value="Marine"/>
+        <GlossaryWeakArray value="Zergling"/>
+        <GlossaryWeakArray value="Zealot"/>
     </CUnit>
 
 <!--    <CUnit id="ZOCOM460mmDevoidgun" parent="ZOCOMStructure">-->
@@ -872,9 +912,6 @@
         <WeaponArray Link="ARGUSMissilePod"/>
         <WeaponArray Link="ARGUSMissilePod2"/>
         <WeaponArray Link="ARGUSMissilePod3"/>
-        <CardLayouts>
-            <LayoutButtons Face="ZOCOMAramUpgrade" Type="Passive" Row="1" Column="0"/>
-        </CardLayouts>
         <Radius value="1.25"/>
         <SeparationRadius value="1.25"/>
         <ScoreMake value="700"/>
@@ -887,61 +924,99 @@
         <TechAliasArray value="Alias_BattlecruiserClass"/>
         <GlossaryPriority value="210"/>
     </CUnit>
-    <CUnit id="ZOCOMStrikerMecha" parent="ZOCOMGround">
-        <Subtitle value="UnitSubtitle/Sujijia"/>
-        <FlagArray index="AIPressForwardDisabled" value="1"/>
-        <Response value="AcquireNoFlee"/>
-        <Attributes index="Mechanical" value="1"/>
-        <LifeStart value="1500"/>
-        <LifeMax value="1500"/>
+    <CUnit id="ZOCOMArchangel" parent="ZOCOMAir">
+        <LifeStart value="150"/>
+        <LifeMax value="150"/>
         <LifeArmor value="1"/>
-        <Speed value="2.1992"/>
-        <Deceleration value="500"/>
-        <Sight value="12"/>
+        <EnergyStart value="50"/>
+        <EnergyMax value="200"/>
+        <EnergyRegenRate value="0.5625"/>
         <Food value="-2"/>
-        <CostResource index="Minerals" value="1000"/>
-        <RepairTime value="41.667"/>
-        <KillXP value="4"/>
-        <BehaviorArray Link="UpgradeLevel12"/>
-        <BehaviorArray Link="nianayaLevel12"/>
-        <WeaponArray Link="GDIStrikerMechaAassaultGun"/>
-        <WeaponArray Link="GDIStrikerMechaRoller"/>
-        <CardLayouts/>
-        <Radius value="0.6875"/>
-        <SeparationRadius value="0.4375"/>
-        <InnerRadius value="0.6875"/>
-        <SubgroupPriority value="13"/>
-    </CUnit>
-    <CUnit id="ZOCOMJuggernautMecha" parent="ZOCOMGround">
-        <Subtitle value="UnitSubtitle/Sujijia"/>
-        <FlagArray index="AIPressForwardDisabled" value="1"/>
-        <PushPriority value="15"/>
-        <Response value="AcquireNoFlee"/>
-        <Attributes index="Mechanical" value="1"/>
-        <LifeStart value="2000"/>
-        <LifeMax value="2000"/>
-        <LifeArmor value="1"/>
-        <LifeRegenRate value="3"/>
-        <Speed value="1.5"/>
-        <Deceleration value="500"/>
-        <Sight value="14"/>
-        <Food value="-3"/>
-        <CostResource index="Minerals" value="1500"/>
-        <RepairTime value="41.667"/>
-        <KillXP value="10"/>
-        <AbilArray Link="RALaunchStickyBombs"/>
-        <BehaviorArray Link="UpgradeLevel123"/>
-        <BehaviorArray Link="nianayaLevel13"/>
-        <WeaponArray Link="88cmKwK3626" Turret="RAApocalypseMainCannon"/>
-        <WeaponArray Link="nianyalv13"/>
+        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Vespene" value="100"/>
+        <Speed value="2.875"/>
+        <RepairTime value="41.6667"/>
+        <AttackTargetPriority value="20"/>
+        <DamageDealtXP value="1"/>
+        <DamageTakenXP value="1"/>
+        <KillXP value="60"/>
+        <Radius value="0.75"/>
+        <SeparationRadius value="0.75"/>
+        <ScoreMake value="200"/>
+        <ScoreKill value="200"/>
+        <Sight value="11"/>
+        <AbilArray Link="MedivacHeal"/>
+        <AbilArray Link="MedivacTransport"/>
+        <Acceleration value="1"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="CnqingfengSpell2" Type="AbilCmd" AbilCmd="RALaunchStickyBombs,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="MedivacLoad" Type="AbilCmd" AbilCmd="MedivacTransport,Load" Row="2" Column="2"/>
+            <LayoutButtons Face="Heal" Type="AbilCmd" AbilCmd="MedivacHeal,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="MedivacUnloadAll" Type="AbilCmd" AbilCmd="MedivacTransport,UnloadAt" Row="2" Column="3"/>
         </CardLayouts>
-        <Radius value="0.6875"/>
-        <SeparationRadius value="0.4375"/>
-        <InnerRadius value="0.6875"/>
-        <SubgroupPriority value="14"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <GlossaryPriority value="185"/>
+        <TacticalAIThink value="AIThinkMedivac"/>
+        <LateralAcceleration value="1000"/>
+        <GlossaryWeakArray value="MissileTurret"/>
+        <GlossaryWeakArray value="SporeCrawler"/>
+        <GlossaryWeakArray value="PhotonCannon"/>
     </CUnit>
+<!--    <CUnit id="ZOCOMStrikerMecha" parent="ZOCOMGround">-->
+<!--        <Subtitle value="UnitSubtitle/Sujijia"/>-->
+<!--        <FlagArray index="AIPressForwardDisabled" value="1"/>-->
+<!--        <Response value="AcquireNoFlee"/>-->
+<!--        <Attributes index="Mechanical" value="1"/>-->
+<!--        <LifeStart value="1500"/>-->
+<!--        <LifeMax value="1500"/>-->
+<!--        <LifeArmor value="1"/>-->
+<!--        <Speed value="2.1992"/>-->
+<!--        <Deceleration value="500"/>-->
+<!--        <Sight value="12"/>-->
+<!--        <Food value="-2"/>-->
+<!--        <CostResource index="Minerals" value="1000"/>-->
+<!--        <RepairTime value="41.667"/>-->
+<!--        <KillXP value="4"/>-->
+<!--        <BehaviorArray Link="UpgradeLevel12"/>-->
+<!--        <BehaviorArray Link="nianayaLevel12"/>-->
+<!--        <WeaponArray Link="GDIStrikerMechaAassaultGun"/>-->
+<!--        <WeaponArray Link="GDIStrikerMechaRoller"/>-->
+<!--        <CardLayouts/>-->
+<!--        <Radius value="0.6875"/>-->
+<!--        <SeparationRadius value="0.4375"/>-->
+<!--        <InnerRadius value="0.6875"/>-->
+<!--        <SubgroupPriority value="13"/>-->
+<!--    </CUnit>-->
+<!--    <CUnit id="ZOCOMJuggernautMecha" parent="ZOCOMGround">-->
+<!--        <Subtitle value="UnitSubtitle/Sujijia"/>-->
+<!--        <FlagArray index="AIPressForwardDisabled" value="1"/>-->
+<!--        <PushPriority value="15"/>-->
+<!--        <Response value="AcquireNoFlee"/>-->
+<!--        <Attributes index="Mechanical" value="1"/>-->
+<!--        <LifeStart value="2000"/>-->
+<!--        <LifeMax value="2000"/>-->
+<!--        <LifeArmor value="1"/>-->
+<!--        <LifeRegenRate value="3"/>-->
+<!--        <Speed value="1.5"/>-->
+<!--        <Deceleration value="500"/>-->
+<!--        <Sight value="14"/>-->
+<!--        <Food value="-3"/>-->
+<!--        <CostResource index="Minerals" value="1500"/>-->
+<!--        <RepairTime value="41.667"/>-->
+<!--        <KillXP value="10"/>-->
+<!--        <AbilArray Link="RALaunchStickyBombs"/>-->
+<!--        <BehaviorArray Link="UpgradeLevel123"/>-->
+<!--        <BehaviorArray Link="nianayaLevel13"/>-->
+<!--        <WeaponArray Link="88cmKwK3626" Turret="RAApocalypseMainCannon"/>-->
+<!--        <WeaponArray Link="nianyalv13"/>-->
+<!--        <CardLayouts index="0">-->
+<!--            <LayoutButtons Face="CnqingfengSpell2" Type="AbilCmd" AbilCmd="RALaunchStickyBombs,Execute" Row="2" Column="0"/>-->
+<!--        </CardLayouts>-->
+<!--        <Radius value="0.6875"/>-->
+<!--        <SeparationRadius value="0.4375"/>-->
+<!--        <InnerRadius value="0.6875"/>-->
+<!--        <SubgroupPriority value="14"/>-->
+<!--    </CUnit>-->
     <CUnit id="ZOCOMHammerHead" parent="ZOCOMAir">
         <Attributes index="Armored" value="1"/>
         <Attributes index="Mechanical" value="1"/>

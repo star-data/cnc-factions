@@ -295,6 +295,21 @@
         <SoundArray index="What" value="MissileTurret_What"/>
         <UnitFlags index="ShowBlobShadow" value="0"/>
     </CActorUnit>
+    <CActorUnit id="CABALBunker" icon="bunker" parent="CABALBuilding">
+        <Aliases value="_UnitHuge"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <CreepHeightClass value="Small"/>
+        <DeathArray index="Normal" ModelLink="CABALObelisk_Death"/>
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="MissileTurret_Explode"/>
+        <DeathCustoms ModelLink="MissileTurretTitaniumHousingDeath" Name="Upgrade"/>
+        <!--        <PlacementModel value="CABALViperTurretPlacement"/>-->
+        <PlacementSound value="Terran_BuildingPlacementSmall"/>
+        <!--        <PlacementActorModel value="MissileTurretSkinnablePlacementModel"/>-->
+        <BarOffset value="90"/>
+        <SoundArray index="Ready" value="MissileTurret_Ready"/>
+        <SoundArray index="What" value="MissileTurret_What"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+    </CActorUnit>
     <CActorUnit id="CABALIncinerator" icon="Incinerator" parent="CABALBuilding">
         <Aliases value="_UnitHuge"/>
         <On Terms="ActorCreation; ValidateUnit MissileTurretUpgraded" Send="ModelSwap MissileTurretTitaniumHousing"/>
@@ -335,7 +350,7 @@
         <SoundArray index="What" value="MissileTurret_What"/>
         <UnitFlags index="ShowBlobShadow" value="0"/>
     </CActorUnit>
-    <CActorUnit id="CABALObeliskOfLife" icon="Obelisk" parent="CABALBuilding" unitName="CABALObeliskOfLife">
+    <CActorUnit id="CABALObeliskOfLife" icon="healingobelisk" parent="CABALBuilding" unitName="CABALObeliskOfLife">
         <Aliases value="_UnitHuge"/>
         <On Terms="ActorCreation; ValidateUnit MissileTurretUpgraded" Send="ModelSwap MissileTurretTitaniumHousing"/>
         <On Terms="Upgrade.ReinforcedSuperstructure.Add" Send="ModelSwap MissileTurretTitaniumHousing"/>
@@ -419,11 +434,11 @@
         <SoundArray index="What" value="SupplyDepot_What"/>
         <UnitFlags index="ShowBlobShadow" value="0"/>
     </CActorUnit>
-    <CActorUnit id="CABALWeaponsLaboratory" parent="CABALBuilding" icon="weaponslaboratory">
-        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Starport_Explode"/>
-        <SoundArray index="Ready" value="Starport_Ready"/>
-        <SoundArray index="What" value="Starport_What"/>
-    </CActorUnit>
+    <CActorUnit id="CABALStronghold" parent="CABALBuilding" icon="Stronghold"/>
+    <CActorUnit id="CABALWeaponsLaboratory" parent="CABALBuilding" icon="weaponslaboratory"/>
+    <CActorUnit id="CabalDisruptionGenerator" parent="CABALBuilding" icon="iondisruptiongenerator"/>
+
+
     <CActorUnit id="CABALGrandShrine" parent="CABALBuilding" icon="grandshrine">
         <CreepHeightClass value="Medium"/>
         <DeathArray index="Normal" ModelLink="CABALGrandShrine_Death"/>
@@ -1270,14 +1285,10 @@
         <On Terms="Effect.AutoHarvestVespeneNod.Start" Send="Create CNCAutomatedRefineryTextKicker4"/>
 
 
-
-
         <!--        <On Terms="Effect.AutoHarvestVespeneNod.Start; !ValidateUnit HasMicroFiltering" Send="Create CNCAutomatedRefineryTextKicker4"/>-->
         <!--        <On Terms="Effect.AutoHarvestVespeneNod.Start; ValidateUnit HasMicroFiltering" Send="Create AutomatedRefineryTextKicker5"/>-->
         <On Terms="UnitBirth.CABALVespeneRefinery" Send="TimerSet 0.100000 HideGeyser"/>
         <On Terms="ActorDestruction" Send="Create GeyserUncovered"/>
-
-
 
         <!--        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="SetTintColor 255,170,170"/>-->
         <!--        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="AnimGroupRemove D"/>-->
@@ -1296,7 +1307,7 @@
         <BarWidth value="120"/>
         <SoundArray index="Ready" value="Refinery_Ready"/>
         <SoundArray index="What" value="Refinery_What"/>
-        <!--        <StatusHarvesterData Text="UI/HarvesterCountVespene"/>-->
+        <StatusHarvesterData Text="UI/HarvesterCountVespene"/>
     </CActorUnit>
     <CActorUnit id="CABALVespeneRefineryRich"  parent="CABALBuilding" wireframe="CABALVespeneRefinery" icon="vespenerefinery">
         <Macros value="ExtractAnim"/>
