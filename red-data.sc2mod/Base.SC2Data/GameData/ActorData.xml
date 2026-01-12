@@ -248,7 +248,7 @@
         <AnimBlendTime value="-0.800000"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
         <DeathArray index="Normal" ModelLink="SovietConscriptDeath" SoundLink="SovietConscript_Death" VoiceLink=""/>
-        <PortraitModel value="TychusPortrait22"/>
+        <PortraitModel value="SovietConscriptPortrait"/>
         <WalkAnimMoveSpeed value="1.5"/>
         <BarOffset value="50"/>
         <BarWidth value="40"/>
@@ -11453,7 +11453,6 @@
         <ImpactMap index="None" Model="GuardianMPWeaponImpact2" Sound="GuardianMP_AttackImpact2"/>
     </CActorAction>
     <CActorMissile id="SovietChemicalTroopersSputterCannonProjectile" parent="GenericAttackMissile" unitName="SovietChemicalTroopersSputterCannonProjectile">
-        <Model value="SovietChemicalTroopersSputterCannonProjectile"/>
         <Scale value="0.200000"/>
     </CActorMissile>
     <CActorTurret id="GunTowerTurret2">
@@ -16173,15 +16172,15 @@
         <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
         <Map index="None" Model="SpiderMineExplosion222" AnimProps="Stand" Sound="Odin_NukeExplode2222"/>
     </CActorSquib>
-    <CActorSquib id="SovietConscriptMolotovCocktailexplosionEffect">
+    <CActorSquib id="SovietConscriptMolotovCocktailExplosionEffect">
         <Flags index="SuppressSaveLoad" value="1"/>
         <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
         <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
         <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
-        <On Terms="Effect.RAIncendiaryExplosionDamage.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.SovietConscriptMolotovDamage.Start; At Effect" Send="Create"/>
         <On Terms="Effect.RAArtilleryLocomotiveIncendiaryBombExplosionDamage.Start; At Effect" Send="Create"/>
         <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
-        <Map index="None" Model="MolotovCocktailExplosionModel" Sound="SovietConscript_MolotovImpact"/>
+        <Map index="None" Model="SovietMolotovCocktailExplosionModel" Sound="SovietConscript_MolotovImpact"/>
     </CActorSquib>
     <CActorUnit id="AlliedTanya_Actor" parent="GenericUnitStandard" unitName="AlliedTanya">
         <Aliases value="_UnitSmall"/>
@@ -17286,7 +17285,7 @@
         <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
         <On Terms="Effect.RAInitialExplosionDamageOfIncendiaryBombs2.Start; At Effect" Send="Create"/>
         <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
-        <Map index="None" Model="MolotovCocktailExplosionModel" Sound="SovietConscript_MolotovImpact"/>
+        <Map index="None" Model="SovietMolotovCocktailExplosionModel" Sound="SovietConscript_MolotovImpact"/>
     </CActorSquib>
     <CActorModel id="RATanyaC4ModelAttached" parent="ModelAddition">
         <Aliases index="0" removed="1"/>
@@ -17344,7 +17343,7 @@
         <On Terms="Effect.JusteelWeaponSearch3.Start; At Effect" Send="Create"/>
         <Model value="ColossusAttackBeamImpact22223"/>
     </CActorModel>
-    <CActorAction id="RAConscriptThrowingMolotovCocktailAttackAction" parent="GenericAttack" effectImpact="RAIncendiaryExplosionDamage" effectLaunch="RAFiresIncendiaryProjectiles2">
+    <CActorAction id="SovietConscriptThrowingMolotovCocktailAttackAction" parent="GenericAttack" effectImpact="SovietConscriptMolotovDamage" effectLaunch="SovietConscriptMolotovLaunch">
         <LaunchAttachQuery Methods="AMFilterWeapon02"/>
         <Missile value="SovietMolotovCocktail"/>
     </CActorAction>
@@ -23239,11 +23238,11 @@
     <CActorSplat id="UnpoweredVisual">
         <Scale value="0.500000"/>
     </CActorSplat>
-    <CActorAction id="MosinNagantAttack" parent="GenericAttack" effectAttack="MosinNagant">
+    <CActorAction id="SovietConscriptWeaponAttack" parent="GenericAttack" effectAttack="SovietConscriptWeaponDamage">
+        <LaunchAttachQuery Methods="AMFilterWeapon01"/>
         <LaunchAssets Model="SovietConscriptRifleFired" Sound="SovietConscript_Weapon"/>
         <ContainerAssets Model="SovietConscriptRifleFired" Sound="SovietConscript_Weapon"/>
         <ImpactMap index="None" Model="TitanMechShootBigBloodImpact2" Sound="Spectre_AttackImpact"/>
-        <LaunchAttachQuery Methods="AMFilterWeapon01"/>
     </CActorAction>
     <CActorAction id="KwK30Attack" parent="GenericAttack" effectAttack="KwK30">
         <LaunchAttachQuery Methods="AMPatternRollingStripe"/>

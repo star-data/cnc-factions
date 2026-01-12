@@ -891,11 +891,7 @@
     <CEffectCreatePersistent id="PickupRemoveDelay">
         <PeriodicPeriodArray value="0"/>
     </CEffectCreatePersistent>
-    <CEffectApplyForce id="PioneerApplicationForceTarget">
-        <WhichLocation Value="TargetPoint"/>
-        <WhichUnit Value="Caster"/>
-        <Amount value="-1"/>
-    </CEffectApplyForce>
+    <CEffectApplyForce id="PioneerApplicationForceTarget"/>
     <CEffectSet id="SUTeslaTruporSet">
         <EffectArray value="ParticleBeam5"/>
         <EffectArray value="RAMagneticBlastInfantrySplashCreatesVestUnits"/>
@@ -7648,7 +7644,7 @@
         <Kind value="Ranged"/>
         <Amount value="20"/>
     </CEffectDamage>
-    <CEffectDamage id="MosinNagant" parent="DU_WEAP">
+    <CEffectDamage id="SovietConscriptWeaponDamage" parent="DU_WEAP">
         <Kind value="Ranged"/>
         <Amount value="2"/>
     </CEffectDamage>
@@ -7955,47 +7951,28 @@
         <Behavior value="RAathenaCannonCannotMoveOrAttackDuringShieldActivation"/>
     </CEffectApplyBehavior>
     <CEffectCreatePersistent id="RAPioneerArmedCombatCraftContinuesToCircle">
-        <PeriodCount value="2"/>
         <PeriodicEffectArray value="RAPioneerArmedCombatAircraftHovering"/>
         <PeriodicOffsetArray value="0,0.1,0"/>
         <PeriodicOffsetArray value="0.1,0.1,0"/>
         <PeriodicPeriodArray value="0.1"/>
     </CEffectCreatePersistent>
-    <CEffectApplyBehavior id="RACarrierBasedAircraftReturns">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="RAMovementSpeedAndArmor20Percent36"/>
-    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="RACarrierBasedAircraftReturns"/>
     <CEffectReturnMagazine id="RACarrierBasedAircraftReturnsToMagazine"/>
-    <CEffectEnumMagazine id="RACarrierAircraftMagazineDestroyed">
-        <EffectInternal value="RADestroyBehavior1ImposedOnAircraft"/>
-    </CEffectEnumMagazine>
+    <CEffectEnumMagazine id="RACarrierAircraftMagazineDestroyed"/>
     <CEffectEnumMagazine id="RAAlliesCancelConstructionAndDestroyInitial">
         <EffectInternal value="RAAlliesCancelConstructionImpositionBehavior"/>
         <EffectExternal value="RAAlliesCancelConstructionImpositionBehavior"/>
     </CEffectEnumMagazine>
-    <CEffectRemoveBehavior id="RACarrierBasedAircraftRestoresAmmunition">
-        <BehaviorLink value="RAMovementSpeedAndArmor20Percent36"/>
-    </CEffectRemoveBehavior>
-    <CEffectRemoveBehavior id="RAFixedTheBugOfRecoveringAmmunitionForCarrierBasedAircraft">
-        <ValidatorArray index="0" value="RAAircraftStationary"/>
-        <BehaviorLink value="RAMovementSpeedAndArmor20Percent36"/>
-    </CEffectRemoveBehavior>
-    <CEffectModifyUnit id="RATheCarrierBasedAircraftRecoversAmmunitionAndReplenishesEnergy">
-        <VitalArray index="Energy">
-            <ChangeFraction value="1"/>
-        </VitalArray>
-    </CEffectModifyUnit>
+    <CEffectRemoveBehavior id="RACarrierBasedAircraftRestoresAmmunition"/>
+    <CEffectRemoveBehavior id="RAFixedTheBugOfRecoveringAmmunitionForCarrierBasedAircraft"/>
+    <CEffectModifyUnit id="RATheCarrierBasedAircraftRecoversAmmunitionAndReplenishesEnergy"/>
     <CEffectModifyUnit id="RABomberConsumesAmmunition">
         <ImpactUnit Value="Caster"/>
         <VitalArray index="Energy">
             <Change value="-10"/>
         </VitalArray>
     </CEffectModifyUnit>
-    <CEffectCreatePersistent id="RACarrierBasedAircraftReturnsToDelayedInitialization">
-        <ExpireDelay value="0.5"/>
-        <FinalEffect value="RACarrierBasedAircraftReturns"/>
-        <PeriodCount value="1"/>
-    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RACarrierBasedAircraftReturnsToDelayedInitialization"/>
     <CEffectCreatePersistent id="RAPeacekeepingBomberBombsMultipleBursts">
         <WhichLocation Value="TargetUnit"/>
         <PeriodCount value="1"/>
@@ -8355,11 +8332,9 @@
     </CEffectCreatePersistent>
     <CEffectSwitch id="RASwitchingTheAntiGroundWeaponEffectOfAntiAircraftCrawlerVehicles">
         <CaseArray Validator="RAAirDefenseCrawlerVehicleStarRatingVerification" Effect="BattleshipArtilleryP3252"/>
-        <CaseDefault value="BattleshipArtilleryP325"/>
     </CEffectSwitch>
     <CEffectSwitch id="RASwitchingTheAntiAirWeaponEffectOfAntiAircraftCrawlerVehicles">
         <CaseArray Validator="RAAirDefenseCrawlerVehicleStarRatingVerification" Effect="SovietFlakIn2"/>
-        <CaseDefault value="SovietFlakIn"/>
     </CEffectSwitch>
     <CEffectSwitch id="RAFutureTankStarUpgradeWeaponEffectSwitching">
         <CaseArray Validator="RAVerificationOfTheEffectOfStarratedFutureTanks" Effect="RALevel3FutureTankLauncherWeaponCreationBegins"/>
@@ -10131,9 +10106,9 @@
         <ImpactEffect value="RADamageSetAfterIncendiaryBombExplosion1"/>
         <AmmoUnit value="SovietMolotovCocktail"/>
     </CEffectLaunchMissile>
-    <CEffectLaunchMissile id="RAFiresIncendiaryProjectiles2">
+    <CEffectLaunchMissile id="SovietConscriptMolotovLaunch">
         <ImpactLocation Value="TargetPoint"/>
-        <ImpactEffect value="RAIncendiaryExplosionDamage"/>
+        <ImpactEffect value="SovietConscriptMolotovDamage"/>
         <AmmoUnit value="SovietMolotovCocktail2"/>
         <Movers Link="SovietMolotovCocktail"/>
     </CEffectLaunchMissile>
@@ -10203,16 +10178,16 @@
         <SearchFilters value="Ground;Self,Player,Ally,Neutral,Missile,Dead,Invulnerable"/>
         <ArmorReduction value="1"/>
     </CEffectDamage>
-    <CEffectDamage id="RAIncendiaryExplosionDamage">
+    <CEffectDamage id="SovietConscriptMolotovDamage">
+        <AttributeBonus index="Structure" value="8"/>
+        <ArmorReduction value="1"/>
         <Amount value="8"/>
         <Death value="Fire"/>
         <AreaArray Radius="1.5" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
         <SearchFilters value="Visible;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Invulnerable"/>
         <SearchFlags index="ExtendByUnitRadius" value="1"/>
         <SearchFlags index="SameCliff" value="0"/>
-        <ExcludeArray Value="Target"/>
-        <ArmorReduction value="1"/>
-        <AttributeBonus index="Structure" value="8"/>
     </CEffectDamage>
     <CEffectEnumArea id="RASearchAreaForSubsequentBurningDamageOfIncendiaryBombs1">
         <ImpactLocation Value="TargetPoint"/>
@@ -10592,12 +10567,6 @@
         <EffectArray value="RAMagneticHarpoonContinuouslyFiredAtBuildings"/>
     </CEffectSet>
     <CEffectIssueOrder id="RAPioneerArmedCombatAircraftHovering">
-        <Abil value="CNCAirplaneMove"/>
-        <CmdFlags index="Alternate" value="1"/>
-        <CmdFlags index="SmartClick" value="1"/>
-        <CmdFlags index="IsOrder" value="1"/>
-        <WhichUnit Value="Caster"/>
-        <Target Value="TargetPoint"/>
         <ValidatorArray value="VanguardCannotDisableUnitsForMovement"/>
     </CEffectIssueOrder>
     <CEffectCreatePersistent id="RADeathRayCannonXAttackStart1">
@@ -10761,16 +10730,16 @@
         <EffectArray value="RAZombieDebuffSearchForEnemyStasis"/>
         <EffectArray value="RAZombieDebuffSearchForEnemyWorkerStasis"/>
     </CEffectSet>
-    <CEffectCreatePersistent id="RAThreeConsecutiveRoundsOfLevies">
-        <PeriodCount value="3"/>
-        <PeriodicEffectArray value="MosinNagant"/>
-        <PeriodicEffectArray value="MosinNagant"/>
-        <PeriodicEffectArray value="MosinNagant"/>
-        <PeriodicPeriodArray value="0.1"/>
-        <PeriodicPeriodArray value="0.1"/>
-        <PeriodicPeriodArray value="0.1"/>
+    <CEffectCreatePersistent id="SovietConscriptWeaponCP">
         <WhichLocation Value="TargetUnitOrPoint"/>
         <OffsetVectorEndLocation Value="TargetUnitOrPoint"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="SovietConscriptWeaponDamage"/>
+        <PeriodicEffectArray value="SovietConscriptWeaponDamage"/>
+        <PeriodicEffectArray value="SovietConscriptWeaponDamage"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
     </CEffectCreatePersistent>
     <CEffectCreatePersistent id="JuImportorWeaponPre">
         <WhichLocation Value="TargetUnitOrPoint"/>
@@ -11397,28 +11366,19 @@
     </CEffectSet>
     <CEffectSet id="Pioneersurroundingvesteffectmachinegun">
         <ValidatorArray value="xfzzdwjs2"/>
-        <TargetLocationType value="UnitOrPoint"/>
     </CEffectSet>
     <CEffectSet id="Theeffectofthevanguardsurroundingthevestisempty">
         <ValidatorArray value="xfzzdwjs2"/>
-        <TargetLocationType value="UnitOrPoint"/>
     </CEffectSet>
-    <CEffectRemoveTrackedUnit id="VanguardTrackingAttackTargetRTU">
-        <BehaviorLink value="VanguardTrackingAttackTarget"/>
-    </CEffectRemoveTrackedUnit>
+    <CEffectRemoveTrackedUnit id="VanguardTrackingAttackTargetRTU"/>
     <CEffectSet id="Vanguardmobilevesteffect">
         <EffectArray value="RAPioneerArmedCombatAircraftHovering"/>
         <EffectArray value="Vanguardmobilevesteffect2"/>
-        <TargetLocationType value="Point"/>
     </CEffectSet>
     <CEffectSet id="Vanguardmobilevesteffect2">
         <EffectArray value="RAPioneerArmedCombatAircraftHovering"/>
-        <TargetLocationType value="Point"/>
     </CEffectSet>
-    <CEffectAddTrackedUnit id="AirplaneTrackingAttackTarget">
-        <BehaviorLink value="VanguardTrackingAttackTarget"/>
-        <TrackedUnit Value="Target"/>
-    </CEffectAddTrackedUnit>
+    <CEffectAddTrackedUnit id="AirplaneTrackingAttackTarget"/>
     <CEffectRemoveBehavior id="ycbncnxw">
         <WhichUnit Value="Caster"/>
         <BehaviorLink value="bntankcnjs"/>
