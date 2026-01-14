@@ -1,0 +1,242 @@
+<Catalog>
+
+    <CUnit id="SovietFlakTrooper" parent="SovietGround">
+        <PushPriority value="5"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <LifeStart value="100"/>
+        <LifeMax value="100"/>
+        <LifeArmor value="1"/>
+        <Speed value="1.5"/>
+        <LateralAcceleration value="46.0625"/>
+        <Sight value="7"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="75"/>
+        <RepairTime value="41.667"/>
+        <KillXP value="4"/>
+<!--        <AbilArray Link="SovietMotoModeSwhich63"/>-->
+<!--        <BehaviorArray Link="JuAirDamageReduce"/>-->
+<!--        <BehaviorArray Link="SovietStrongwilloftheRedArmy"/>-->
+<!--        <BehaviorArray Link="UpgradeLevel127"/>-->
+        <WeaponArray Link="90mmCannons22"/>
+        <WeaponArray Link="90mmCannons222"/>
+        <CardLayouts index="0">
+<!--            <LayoutButtons Face="TossGrenadeTychus22222763" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich63,On" Row="1" Column="1"/>-->
+<!--            <LayoutButtons Face="TossGrenadeTychus222222663" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich63,Off" Row="1" Column="2"/>-->
+<!--            <LayoutButtons>-->
+<!--                <Face value="zhukefuxingfenji24"/>-->
+<!--                <Type value="Passive"/>-->
+<!--                <Behavior value="SovietStrongwilloftheRedArmy"/>-->
+<!--                <Requirements value="RARedArmyWillUnlocksPrerequisites"/>-->
+<!--                <Row value="1"/>-->
+<!--                <Column value="4"/>-->
+<!--            </LayoutButtons>-->
+        </CardLayouts>
+        <Radius value="0.4375"/>
+        <SeparationRadius value="0.4375"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="16"/>
+        <MinimapRadius value="0.3"/>
+        <GlossaryPriority value="70"/>
+    </CUnit>
+    <CActorUnit id="SovietFlakTrooper" parent="SovietInfantry" unitName="SovietFlakTrooper" icon="FlakTrooper">
+        <On index="0" Send="Create SoundEmitter Marine_Ambience"/>
+        <On index="64" Terms="UnitDeath.SovietFlakTrooper; AnimPlaying Cover" Target="_DeathModel" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
+        <On index="65" Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On index="66" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack,T,G"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Marine_Land"/>
+        <Model value="SovietFlakTrooper_Model"/>
+        <AnimBlendTime value="-0.800000"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <DeathArray index="Normal" ModelLink="SpecterDeath2" SoundLink="TerranFlyer_What22326532329" VoiceLink="TerranFlyer_What22326532329"/>
+        <PortraitModel value="TychusPortrait222"/>
+        <WalkAnimMoveSpeed value="1.6015"/>
+        <BarOffset value="50"/>
+        <BarWidth value="30"/>
+        <HighlightTooltip value="Unit/Name/SovietTrooper"/>
+        <SoundArray index="Attack" value="SovietFlakTrooper_Ready"/>
+    </CActorUnit>
+
+
+    <CActorAction id="SiegeTankAttack22" parent="GenericAttack" effectAttack="90mmCannons22">
+        <LaunchAttachQuery Methods="Weapon 0" Fallback="Weapon"/>
+        <LaunchAssets Model="SiegeTankAttackLaunch52" Sound="AircraftMG_Launch22"/>
+        <ImpactMap index="None" Model="SiegeTankAttackImpact42" Sound="SiegeTank_AttackImpact52"/>
+        <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
+        <ContainerSiteOps Ops="SOpAttachCenter"/>
+    </CActorAction>
+    <CEffectDamage id="90mmCannons22" parent="DU_WEAP">
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <KindSplash value="Splash"/>
+        <Amount value="25"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="1" Fraction="1"/>
+        <SearchFilters value="Air,Visible;Self,Player,Ally,Neutral,Ground,Missile,Dead,Hidden,Invulnerable"/>
+        <AttributeFactor index="Armored" value="1"/>
+        <ExcludeArray Value="Target"/>
+    </CEffectDamage>
+
+    <CModel id="TychusPortrait222" parent="FXAPortrait" Race="Terran">
+        <Model value="Assets\COOP\Mengsk\Portraits\Trooper_Mengsk_COOP_Rocket_Portrait\Trooper_Mengsk_COOP_Rocket_Portrait.m3"/>
+        <FacialController value="LocalizedData\Facial\TychusPortrait.fxa"/>
+        <Image value="Assets\Textures\TychusPortrait_Static.dds"/>
+        <Lighting value="TychusPortrait"/>
+    </CModel>
+
+    <CModel id="SovietFlakTrooper_Model" parent="Unit">
+        <Model value="assets\units\soviet\FlakTrooper.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Flags index="AutoUnload" value="1"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraMid04"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="0.375000"/>
+        <ShadowRadius value="0.375000"/>
+        <SquibTypeDefault value="Flesh"/>
+        <TechPurchaseCamera value="TechPurchaseInfantry"/>
+        <TextureDeclares Prefix="Spectre_">
+            <Adaptions TriggerOnSubstring="_Diffuse" Slot="main"/>
+            <Adaptions TriggerOnSubstring="_Emissive" Slot="main"/>
+        </TextureDeclares>
+        <UnitGlossaryCamera value="Star2CameraMid04"/>
+    </CModel>
+    <CModel id="SpecterDeath2" parent="UnitDeath" Race="Protoss">
+        <Model value="Assets\COOP\Mengsk\Units\Trooper_Mengsk_COOP_Death\Trooper_Mengsk_COOP_Death.m3"/>
+        <LowQualityModel value="TerranBloodDeathLow"/>
+        <EditorCategories value="Race:Terran"/>
+        <Lighting value=""/>
+        <Occlusion value="Show"/>
+    </CModel>
+    <CModel id="SiegeTankAttackImpact42" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\ArchAngel_Xanthos_Experimentation_Railgun_Impact\ArchAngel_Xanthos_Experimentation_Railgun_Impact.m3"/>
+        <LowQualityModel value="SiegeTankAttackImpactLow"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="SiegeTankAttackLaunch52" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\TankWeaponLaunch\TankWeaponLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.300000,1.300000,1.300000"/>
+        <ScaleMin value="1.200000,1.200000,1.200000"/>
+    </CModel>
+
+    <CSound id="SiegeTank_AttackImpact52" parent="Terran_ExplosionSmall">
+        <AssetArray index="0" File="Assets\Sounds\Terran\Banshee\Banshee_AttackImpact0.wav" Pitch="0.000000,0.000000"/>
+        <AssetArray index="1" File="Assets\Sounds\Terran\Banshee\Banshee_AttackImpact1.wav" Pitch="0.000000,0.000000"/>
+        <AssetArray index="2" File="Assets\Sounds\Terran\Banshee\Banshee_AttackImpact2.wav" Pitch="0.000000,0.000000"/>
+        <AssetArray index="3" removed="1"/>
+        <AssetArray index="4" removed="1"/>
+        <AssetArray index="5" removed="1"/>
+        <AssetArray index="6" removed="1"/>
+        <AssetArray index="7" removed="1"/>
+        <AssetArray index="8" removed="1"/>
+        <AssetArray index="9" removed="1"/>
+        <DupeMuteCount value="10"/>
+        <Pitch value="-3.000000,3.000000"/>
+        <Volume value="-8.000000,-6.000000"/>
+    </CSound>
+    <CSound id="AircraftMG_Launch22" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\SUFlakT_weapFire1a.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUFlakT_weapFire1b.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUFlakT_weapFire1c.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUFlakT_weapFire1d.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUFlakT_weapFire1e.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUFlakT_weapFire1f.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUFlakT_weapFire1g.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUFlakT_weapFire1h.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUFlakT_weapFire1i.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUFlakT_weapFire1j.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="8"/>
+        <DupeMaximumMethod value="Replace"/>
+        <Volume value="-4.000000,-4.000000"/>
+    </CSound>
+    <CSound id="SovietFlakTrooper_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\iflamoae.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflamobe.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflamoce.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflamode.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietFlakTrooper_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\iflaatae.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflaatbe.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflaatce.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflaatde.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietFlakTrooper_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\iflafeae.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflafebe.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflafece.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflafede.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What22326532329" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\ifladiae.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ifladibe.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ifladice.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ifladide.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ifladiee.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+        <Category value="Death"/>
+    </CSound>
+    <CSound id="SovietFlakTrooper_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\iflaseae.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflasebe.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflasece.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\iflasede.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietFlakTrooper_Pissed" parent="TerranAck">
+        <AssetArray File="LocalizedData\Sounds\TerranVO\CampaignUnits\Spectre\Spectre_Pissed00.ogg" FacialAnim="Spectre_Pissed00"/>
+        <AssetArray File="LocalizedData\Sounds\TerranVO\CampaignUnits\Spectre\Spectre_Pissed01.ogg" FacialAnim="Spectre_Pissed01"/>
+        <AssetArray File="LocalizedData\Sounds\TerranVO\CampaignUnits\Spectre\Spectre_Pissed02.ogg" FacialAnim="Spectre_Pissed02"/>
+        <AssetArray File="LocalizedData\Sounds\TerranVO\CampaignUnits\Spectre\Spectre_Pissed03.ogg" FacialAnim="Spectre_Pissed03"/>
+        <AssetArray File="LocalizedData\Sounds\TerranVO\CampaignUnits\Spectre\Spectre_Pissed04.ogg" FacialAnim="Spectre_Pissed04"/>
+        <AssetArray File="LocalizedData\Sounds\TerranVO\CampaignUnits\Spectre\Spectre_Pissed05.ogg" FacialAnim="Spectre_Pissed05"/>
+        <Select value="Sequential"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CWeaponLegacy id="90mmCannons22">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="assets\textures\Soviet\air-defense-force-weapons.dds"/>
+        <TargetFilters value="Air,Visible;Self,Missile,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="10"/>
+        <Period value="0.65"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="90mmCannons222">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="assets\textures\Soviet\air-defense-force-weapons.dds"/>
+        <DisplayEffect value="90mmCannons22"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="4.5"/>
+        <Period value="1"/>
+        <Effect value="90mmCannons22"/>
+        <AllowedMovement value="Slowing"/>
+        <Range value="6"/>
+    </CWeaponLegacy>
+</Catalog>

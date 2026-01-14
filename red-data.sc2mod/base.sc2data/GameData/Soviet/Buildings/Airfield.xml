@@ -1,0 +1,207 @@
+<Catalog>
+
+    <CButton parent="Soviet" id="SovietKirov" icon="unit-Kirov"/>
+    <CButton parent="Soviet" id="SovietMig" icon="unit-Mig"/>
+    <CButton parent="Soviet" id="SovietTayga" icon="unit-Tayga"/>
+    <CButton parent="Soviet" id="SovietTwinBlade" icon="unit-TwinBlade"/>
+
+    <CAbilTrain id="SovietAirfieldTrain">
+        <Range value="5"/>
+        <InfoArray index="Train1" Time="30"><Button DefaultButtonFace="SovietTwinBlade"/><Unit value="SovietTwinBlade"/></InfoArray>
+        <InfoArray index="Train2" Time="30"><Button DefaultButtonFace="SovietMig"/><Unit value="SovietMig"/></InfoArray>
+        <InfoArray index="Train3" Time="30"><Button DefaultButtonFace="SovietKirov"/><Unit value="SovietKirov"/></InfoArray>
+        <InfoArray index="Train4" Time="30"><Button DefaultButtonFace="SovietTayga"/><Unit value="SovietTayga"/></InfoArray>
+    </CAbilTrain>
+    <CUnit id="SovietAirfield" parent="SovietStructure">
+        <ReviveType value="Starport"/>
+        <!--        <Facing value="339.994"/>-->
+        <Attributes index="Robotic" value="1"/>
+        <Attributes index="Psionic" value="1"/>
+        <LifeStart value="1300"/>
+        <LifeMax value="1300"/>
+        <LifeRegenDelay value="30"/>
+        <LifeRegenRate value="1"/>
+        <EnergyStart value="200"/>
+        <EnergyMax value="500"/>
+        <EnergyRegenRate value="2"/>
+        <Sight value="10"/>
+        <!--Food value="-4"/-->
+        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Vespene" value="100"/>
+        <RepairTime value="50"/>
+        <AttackTargetPriority value="5"/>
+        <KillXP value="10"/>
+        <AbilArray Link="Rally"/>
+        <AbilArray Link="SovietAirfieldTrain"/>
+        <BehaviorArray Link="AircraftAirportParkingAircraftTracking"/>
+        <BehaviorArray Link="PowerUserQueue"/>
+        <BehaviorArray Link="PowerSource2"/>
+        <BehaviorArray Link="MassProduction2"/>
+        <WeaponArray Link="InterceptorLaunch2"/>
+        <WeaponArray Link="InterceptorLaunch22"/>
+        <EffectArray index="Death" value="CNCAirporttraversaltrackingaircraft"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
+            <LayoutButtons  AbilCmd="SovietAirfieldTrain,Train1"  Type="AbilCmd" Row="0" Column="0" Face="SovietTwinBlade"/>
+            <LayoutButtons  AbilCmd="SovietAirfieldTrain,Train2"  Type="AbilCmd" Row="0" Column="1" Face="SovietMig"/>
+            <LayoutButtons  AbilCmd="SovietAirfieldTrain,Train3"  Type="AbilCmd" Row="0" Column="2" Face="SovietKirov"/>
+            <LayoutButtons  AbilCmd="SovietAirfieldTrain,Train4"  Type="AbilCmd" Row="1" Column="0" Face="SovietTayga"/>
+        </CardLayouts>
+        <CardLayouts CardId="NUL">
+            <LayoutButtons Face="SovietBuildBeaverBomber" Type="AbilCmd" AbilCmd="AirportTrain,Train4" Row="0" Column="3"/>
+            <LayoutButtons Face="SovietSecondAttackaircraft" Type="AbilCmd" AbilCmd="AirportTrain,Train18" Row="0" Column="2"/>
+        </CardLayouts>
+        <Radius value="1.75"/>
+        <SeparationRadius value="1.75"/>
+        <Footprint value="Footprint4x4Contour2"/>
+        <DeadFootprint value="Footprint4x4Contour2"/>
+        <PlacementFootprint value="Footprint4x42"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="1.8"/>
+        <TacticalAI value="Starport"/>
+        <TechAliasArray value="Alias_Starport"/>
+        <AIEvaluateAlias value="Starport"/>
+        <ReviveInfoBase>
+            <Charge Link="Starport/Revive"/>
+            <Cooldown Link="Starport/Revive"/>
+        </ReviveInfoBase>
+    </CUnit>
+    <CActorRange id="CnzhongnuRange5">
+        <Inherits index="TeamColor" value="1"/>
+        <On Terms="SelectionLocalUpdate.AlliedAirport.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedAirport.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedAirport" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedAirport.Stop" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.SovietAirfield.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietAirfield.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietAirfield" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietAirfield.Stop" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.ChinaAirport.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.ChinaAirport.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.ChinaAirport" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.ChinaAirport.Stop" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.AlliedWarFactory.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedWarFactory.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedWarFactory" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedWarFactory.Stop" Send="Destroy"/>
+        <Weapon value="InterceptorLaunch2"/>
+        <Icon value="Assets\Textures\radaricon2.dds"/>
+        <IconArcLength value="0.300000"/>
+    </CActorRange>
+    <CActorUnit id="SovietAirfield" parent="SovietBuilding" unitName="SovietAirfield" icon="Airfield">
+        <Macros value="QueueAnim"/>
+        <Macros value="BuildAnim"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <On index="70" Terms="UnitDeath.SovietAirfield" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On index="71" Terms="ActorCreation; CreepIntersects" Target="_BuildingTerrainFlatten" Send="CreepEngulfmentStartTransition"/>
+        <On index="72" Terms="UnitConstruction.SovietAirfield.Start" Target="" Send="AnimPlay 111 Birth PlayForever,NonLooping -1.000000 -1.000000 1.500000 AsTimeScale"/>
+        <On index="73" Terms="UnitConstruction.SovietAirfield.Finish" Send="AnimClear 111"/>
+        <On index="74" Terms="UnitConstruction.SovietAirfield.Cancel" Send="AnimClear 111"/>
+        <On index="75" removed="1"/>
+        <On index="76" removed="1"/>
+        <On index="77" removed="1"/>
+        <On index="78" removed="1"/>
+        <On index="79" removed="1"/>
+        <On index="80" removed="1"/>
+        <On index="81" removed="1"/>
+        <On index="82" removed="1"/>
+        <On index="83" removed="1"/>
+        <On index="84" removed="1"/>
+        <On index="85" removed="1"/>
+        <On index="86" removed="1"/>
+        <On index="87" removed="1"/>
+        <On index="88" removed="1"/>
+        <On index="89" removed="1"/>
+        <On index="90" removed="1"/>
+        <On index="91" removed="1"/>
+        <On index="92" removed="1"/>
+        <On index="93" removed="1"/>
+        <On index="94" removed="1"/>
+        <HostSiteOps Ops="SOpBankerUnitBuilding"/>
+        <Scale value="0.900000"/>
+        <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <PortraitModel value="AdjutantPortrait"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.250000,0.500000"/>
+            <RangeDown value="5.000000"/>
+            <RangeDownFade value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleMassive3"/>
+        </TerrainSquibs>
+        <BarOffset value="155"/>
+        <BarWidth value="240"/>
+        <MinimapIconScale value="1.500000"/>
+        <NameOffset value="110"/>
+        <SoundArray index="Ready" value="SovietAirfield_Birth"/>
+        <SoundArray index="What" value="SovietAirfield_Birth"/>
+        <SoundArray index="Movement" value="Starport_Movement"/>
+        <SoundArray index="Construction" value="SovietAirfield_Birth"/>
+        <SoundArray index="Click" value="SovietAirfield_Birth"/>
+    </CActorUnit>
+
+    <CActorModel id="EngineeringBay22252" parent="ModelAddition" unitName="EngineeringBay2">
+        <CopySource value="_Unit"/>
+        <Aliases index="0" value="_Unit"/>
+        <Aliases value="_Selectable"/>
+        <Aliases value="_CreepEngulfable"/>
+        <Aliases value="_UnitHuge"/>
+        <Macros value="DeadAnimationMacro"/>
+        <Macros value="SnowVisualUnitMacroMP"/>
+        <Macros value="QueueAnim"/>
+        <Flags index="RespondsToUnitPlayerChange" value="1"/>
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="CastShadows" value="0"/>
+        <Inherits index="CloakEffect" value="0"/>
+        <Inherits index="CreepEngulfment" value="0"/>
+        <Inherits index="Decal" value="0"/>
+        <Inherits index="ModelMaterials" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="TeamColor" value="0"/>
+        <Inherits index="TimeScale" value="0"/>
+        <Inherits index="TintColor" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <Inherits index="WarpGroup" value="0"/>
+        <AcceptedTransfers index="AnimProps" value="1"/>
+        <AcceptedTransfers index="Textures" value="1"/>
+        <AcceptedTransfers index="Status" value="1"/>
+        <AcceptedHostedPropTransfers index="BaseModelScale" value="0"/>
+        <On index="0" Terms="UnitConstruction.*.Finish" Send="Destroy"/>
+        <On index="1" Terms="UnitConstruction.*.Cancel" Send="Destroy"/>
+        <On index="2" Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="UnitConstruction.SovietAirfield.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart 111 {} Birth,Stand {} ContentNonLooping,ContentPlayOnce,OpeningPlayForever,Instant"/>
+        <On Terms="UnitConstruction.*.Finish" Send="AnimBracketStop 111"/>
+        <On Terms="UnitConstruction.*.Cancel" Send="AnimBracketStop 111"/>
+        <Host Subject=""/>
+        <Model value="EngineeringBay23252"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+        <ModelFlags index="NeedsVolumeMonitoring" value="1"/>
+        <ModelFlags index="OutlineOccluder" value="1"/>
+        <EventDataFootprint Actor="UnitFootprint" Model="EngineeringBay2Footprint"/>
+        <EventDataSound Actor="UnitSound"/>
+        <CreepHeightClass value="Medium"/>
+        <CreepRateGrow value="Grow"/>
+        <CreepRateShrink value="Shrink"/>
+    </CActorModel>
+    <CModel id="EngineeringBay23252" parent="EngineeringBayBase">
+        <Model value="Assets\buildings\soviet\Airport_BuildSupport.m3"/>
+        <AnimSpeed value="0.825000"/>
+        <SelectionRadius value="1.500000"/>
+    </CModel>
+    <CModel id="SovietAirfield" parent="StarportBase">
+        <Model value="Assets\buildings\soviet\AirPort.m3"/>
+        <SelectionRadius value="2.900000"/>
+    </CModel>
+    <CSound id="SovietAirfield_Birth" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SBAirfi_selectA.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+
+</Catalog>

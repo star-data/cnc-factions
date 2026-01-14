@@ -1,0 +1,989 @@
+<Catalog>
+
+    <CUnit id="SovietReaper" parent="SovietGround">
+        <Subtitle value="UnitSubtitle/Sujijia"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="150"/>
+        <LifeArmor value="1"/>
+        <Speed value="1.5"/>
+        <Acceleration value="500"/>
+        <Deceleration value="500"/>
+        <Sight value="10"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="125"/>
+        <CostResource index="Vespene" value="125"/>
+        <RepairTime value="41.667"/>
+        <KillXP value="4"/>
+        <AbilArray Link="DehakaLeap22"/>
+        <AbilArray Link="SurepearUPgrade"/>
+        <BehaviorArray Link="UpgradeLevel12"/>
+        <BehaviorArray Link="nianayaLevel12"/>
+        <WeaponArray Link="BattleshipArtillery226" Turret="RAHarvesterTurret1"/>
+        <WeaponArray Link="BattleshipArtillery2262" Turret="RAHarvesterTurret2"/>
+        <WeaponArray Link="BattleshipArtillery2263" Turret="RAHarvesterTurret3"/>
+        <WeaponArray Link="VXWeaponGround42" Turret="ReaperTurret"/>
+        <WeaponArray Link="GDIStrikerMechaRoller"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="DehakaLeap22" Type="AbilCmd" AbilCmd="DehakaLeap22,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="DehakaLeap22" Type="AbilCmd" AbilCmd="SurepearUPgrade,Execute" Row="1" Column="0"/>
+        </CardLayouts>
+        <Radius value="0.6875"/>
+        <SeparationRadius value="0.4375"/>
+        <InnerRadius value="0.6875"/>
+        <SubgroupPriority value="14"/>
+    </CUnit>
+    <CActorTurret id="RAHarvesterRocketLauncherTurret">
+        <On Terms="TurretEnable.ReaperTurret" Send="Create"/>
+        <YawQuery Methods="Weapon 10"/>
+    </CActorTurret>
+    <CAbilEffectTarget id="DehakaLeap22">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Effect index="0" value="DehakaLeapLMPoint22"/>
+        <Flags index="AbortOnAllianceChange" value="0"/>
+        <Cost>
+            <Cooldown TimeUse="15"/>
+        </Cost>
+        <Range value="13"/>
+        <PrepTime value="0.2"/>
+        <UninterruptibleArray index="Prep" value="1"/>
+        <AINotifyEffect value="DehakaLeapLMPoint22"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="DehakaLeap22"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+    </CAbilEffectTarget>
+    <CAbilMorph id="SurepearUPgrade">
+        <TechPlayer value="Owner"/>
+        <EditorCategories value="Race:Human,AbilityorEffectType:MorphsandBurrows"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="DehakaLeap22">
+            <Flags index="ShowInGlossary" value="0"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="CancelBuilding4"/>
+        <Flags index="BestUnit" value="1"/>
+        <Flags index="Birth" value="1"/>
+        <Flags index="IgnoreCollision" value="0"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="WaitUntilStopped" value="0"/>
+        <InfoArray Score="1" Unit="SovietReaperTurret" CollideRange="1"/>
+        <Activity value="UI/Upgrading"/>
+    </CAbilMorph>
+    <CActorMissile id="105mmArtilleryShellMissile22232" parent="GenericAttackMissile" unitName="105mmArtilleryShell22232">
+        <Model value="PunisherGrenadesLMWeapon22242"/>
+        <Scale value="0.700000"/>
+    </CActorMissile>
+    <CActorMissile id="105mmArtilleryShellMissile2225" parent="GenericAttackMissile" unitName="105mmArtilleryShell2225">
+        <Model value="PunisherGrenadesLMWeapon2226"/>
+        <Scale value="0.700000"/>
+    </CActorMissile>
+    <CActorUnit id="SovietReaper" parent="SovietVehicle" unitName="SovietReaper" icon="Reaper">
+        <On index="65" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack"/>
+        <On Terms="Abil.DehakaLeap22.SourcePrepStart" Send="AnimBracketStart 111 Stand,Work,Start Jump Jump,End"/>
+        <On Terms="Effect.DehakaLeapSearch22.Start" Send="AnimBracketStop 111"/>
+        <On Terms="AbilMorph.SurepearUPgrade.Finish" Send="Destroy"/>
+        <Model value="SovietReaper_Model"/>
+        <DeathArray index="Normal" ModelLink="SpiderMineExplosion2" SoundLink="Reaper_Explode"/>
+        <DeathActorModelLow value="UnitDeathModel"/>
+        <PortraitModel value="MarineMercenaryPortrait"/>
+        <WalkAnimMoveSpeed value="1.1015"/>
+        <BarWidth value="80"/>
+        <NameOffset value="60"/>
+        <SoundArray index="Ready" value="SovietReaper_Actor_Ready"/>
+        <SoundArray index="Help" value="SovietReaper_Actor_Help"/>
+        <SoundArray index="What" value="SovietReaper_Actor_What"/>
+        <SoundArray index="Yes" value="SovietReaper_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietReaper_Actor_Help"/>
+        <SoundArray index="Turning" value="SiegeTank_Turning"/>
+        <SoundArray index="Board" value="SiegeTank_Board"/>
+        <SoundArray index="Click" value="SovietReaper_Actor_What"/>
+        <SoundArray index="ClickError" value="SiegeTank_ClickError"/>
+        <SoundArray index="Highlight" value="SiegeTank_Highlight"/>
+        <UnitFlags index="SuppressStandIntro" value="1"/>
+        <UnitFlags index="SuppressWalkIntro" value="1"/>
+        <UnitFlags index="SuppressWalkOutro" value="1"/>
+        <AbilSoundArray AbilCmd="DehakaLeap22,Execute" Sound="SovietReaper_Actor_Help"/>
+    </CActorUnit>
+    <CActorSquib id="SumotoActor23">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.90mmCannons2432.Start; At Effect" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="v4huojianbzmx2" Sound="Yagdra_Fireball_Impact2332"/>
+    </CActorSquib>
+    <CActorAction id="155mmhuopao6" parent="GenericAttack" effectImpact="BattleshipArtilleryD325" effectLaunch="BattleshipArtilleryLM226">
+        <LaunchAttachQuery Methods="AMFilterWeapon2"/>
+        <LaunchAssets Model="" Sound="Colossus_Explode_Ragdoll_B2322"/>
+        <Missile value="105mmArtilleryShellMissile2225"/>
+        <ImpactMap index="None" Model="SpiderMineExplosion2" Sound="Yagdra_Fireball_Impact233" ModelReaction="ATRocketAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="ATRocketAttackImpactShield" ModelReaction="ATRocketAttackImpactReactionShield"/>
+        <ImpactMap index="Miss" Model="SpiderMineExplosion2" Sound="Yagdra_Fireball_Impact233" ModelReaction="ATRocketAttackImpactReaction"/>
+    </CActorAction>
+    <CAttachMethodFilter id="AMFilterWeapon2">
+        <Keys Keyword="Weapon"/>
+    </CAttachMethodFilter>
+    <CActorAction id="155mmhuopao62" parent="GenericAttack" effectImpact="BattleshipArtilleryD325" effectLaunch="BattleshipArtilleryLM2262">
+        <LaunchAttachQuery Methods="AMFilterWeaponRight"/>
+        <LaunchAssets Model="" Sound="Colossus_Explode_Ragdoll_B2322"/>
+        <Missile value="105mmArtilleryShellMissile2225"/>
+        <ImpactMap index="None" Model="SpiderMineExplosion2" Sound="Yagdra_Fireball_Impact233" ModelReaction="ATRocketAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="ATRocketAttackImpactShield" ModelReaction="ATRocketAttackImpactReactionShield"/>
+        <ImpactMap index="Miss" Model="SpiderMineExplosion2" Sound="Yagdra_Fireball_Impact233" ModelReaction="ATRocketAttackImpactReaction"/>
+    </CActorAction>
+    <CActorAction id="155mmhuopao622" parent="GenericAttack" effectImpact="BattleshipArtilleryD325" effectLaunch="BattleshipArtilleryLM22622">
+        <LaunchAttachQuery Methods="AMFilterWeaponLeft"/>
+        <LaunchAssets Model="" Sound="Colossus_Explode_Ragdoll_B2322"/>
+        <Missile value="105mmArtilleryShellMissile2225"/>
+        <ImpactMap index="None" Model="SpiderMineExplosion2" Sound="Yagdra_Fireball_Impact233" ModelReaction="ATRocketAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="ATRocketAttackImpactShield" ModelReaction="ATRocketAttackImpactReactionShield"/>
+        <ImpactMap index="Miss" Model="SpiderMineExplosion2" Sound="Yagdra_Fireball_Impact233" ModelReaction="ATRocketAttackImpactReaction"/>
+    </CActorAction>
+    <CActorAction id="SiegeTankAttack2532" parent="GenericAttack" effectAttack="None" effectImpact="90mmCannons2432" effectLaunch="ReaperRocket">
+        <On index="0" Terms="Effect.SplashDamage.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <On index="1" Terms="Effect.SplashDamage.Stop; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>
+        <On index="2" Terms="Effect.ReaperRocket.Start; At Caster" Send="Create"/>
+        <On index="3" removed="1"/>
+        <On index="4" removed="1"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder2243 AMPatternMarauder2562"/>
+        <LaunchAssets Model="VikingAssaultAttackLaunch232" Scale="0.500000" Sound="Colossus_Explode_Ragdoll_B23222"/>
+        <Missile value="105mmArtilleryShellMissile22232"/>
+        <ImpactMap index="None" Model="SiegeTankAttackImpact723" AnimProps="Death" Sound="Yagdra_Fireball_Impact2332"/>
+        <ImpactMap index="Miss">
+            <Model value="SiegeTankAttackImpact723"/>
+            <AnimProps value="Death"/>
+            <Sound value="Yagdra_Fireball_Impact2332"/>
+            <ModelReaction value="SiegeTankAttack2532ImpactReaction"/>
+        </ImpactMap>
+    </CActorAction>
+    <CAttachMethodFilter id="AMPatternMarauder2243">
+        <Keys Keyword="SetB"/>
+        <Keys Keyword="Weapon"/>
+    </CAttachMethodFilter>
+    <CAttachMethodPattern id="AMPatternMarauder2562">
+        <Keyword value="SetB"/>
+        <Base value="::RollingIndex"/>
+        <Driver value="ReaperRocket"/>
+    </CAttachMethodPattern>
+    <CActorSquib id="RAHarvesterMechaJumpingEffect">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.DehakaLeapSearch22.Start; At Effect" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="ColossusAttackBeamImpact222222" Scale="1.500000" Sound="SovietReaperTurret_Birth"/>
+        <Map index="Miss" Model="ColossusAttackBeamImpact222222" Scale="1.500000" Sound="SovietReaperTurret_Birth"/>
+    </CActorSquib>
+    <CButton id="DehakaLeap22">
+        <Icon value="Assets\icons\Soviet\harvester-mecha-skill-icon.dds"/>
+    </CButton>
+    <CEffectEnumArea id="DehakaLeapSearch22">
+        <EditorCategories value="Race:Zerg"/>
+        <ImpactLocation Value="CasterUnit"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Missile,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="2.5" Effect="RAHarvesterMechJumpDamage"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="BattleshipArtilleryD325" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="15"/>
+        <Death value="Blast"/>
+        <AreaArray MaxCount="3" Radius="1" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <SearchFlags index="OffsetByUnitRadius" value="0"/>
+        <SearchFlags index="SameCliff" value="0"/>
+        <AttributeFactor index="Light" value="2"/>
+    </CEffectDamage>
+    <CEffectDamage id="RAHarvesterMechJumpDamage">
+        <Amount value="5000"/>
+        <ArmorReduction value="1"/>
+    </CEffectDamage>
+    <CEffectDamage id="90mmCannons2432" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <KindSplash value="Splash"/>
+        <Amount value="20"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="1.5" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Visible;Self,Player,Ally,Neutral,Missile,Dead,Invulnerable"/>
+        <SearchFlags index="OffsetByUnitRadius" value="0"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="BattleshipArtilleryP3263">
+        <WhichLocation Value="TargetUnit"/>
+        <OffsetVectorEndLocation Value="TargetUnit"/>
+        <PeriodCount value="8"/>
+        <PeriodicEffectArray value="ReaperRocket"/>
+        <PeriodicEffectArray value="ReaperRocket"/>
+        <PeriodicEffectArray value="ReaperRocket"/>
+        <PeriodicEffectArray value="ReaperRocket"/>
+        <PeriodicEffectArray value="ReaperRocket"/>
+        <PeriodicEffectArray value="ReaperRocket"/>
+        <PeriodicEffectArray value="ReaperRocket"/>
+        <PeriodicEffectArray value="ReaperRocket"/>
+        <PeriodicPeriodArray value="0.2"/>
+        <PeriodicPeriodArray value="0.2"/>
+        <PeriodicPeriodArray value="0.2"/>
+        <PeriodicPeriodArray value="0.2"/>
+        <PeriodicPeriodArray value="0.2"/>
+        <PeriodicPeriodArray value="0.2"/>
+        <PeriodicPeriodArray value="0.2"/>
+        <PeriodicPeriodArray value="0.2"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="SovietReaperJumpSet">
+        <EffectArray value="upgradetoSurepTower"/>
+        <EffectArray value="DehakaLeapSearch22"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectIssueOrder id="upgradetoSurepTower">
+        <WhichUnit Effect="DehakaLeapLMPoint22" Value="Caster"/>
+        <Abil value="SurepearUPgrade"/>
+        <Player Value="Caster"/>
+        <Target Effect="DehakaLeapLMPoint22" Value="CasterUnit"/>
+    </CEffectIssueOrder>
+    <CEffectLaunchMissile id="BattleshipArtilleryLM226">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="BattleshipArtilleryD325"/>
+        <AmmoUnit value="105mmArtilleryShell2225"/>
+        <Movers Link="PunisherGrenadesWeapon2223"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="BattleshipArtilleryLM2262">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="BattleshipArtilleryD325"/>
+        <AmmoUnit value="105mmArtilleryShell2225"/>
+        <Movers Link="PunisherGrenadesWeapon2223"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="BattleshipArtilleryLM22622">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="BattleshipArtilleryD325"/>
+        <AmmoUnit value="105mmArtilleryShell2225"/>
+        <Movers Link="PunisherGrenadesWeapon2223"/>
+    </CEffectLaunchMissile>
+    <CMoverMissile id="PunisherGrenadesWeapon2223">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="3200"/>
+            <MaxSpeed value="10"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CEffectCreatePersistent id="BattleshipArtilleryP326">
+        <WhichLocation Value="TargetUnit"/>
+        <Flags index="RandomOffset" value="1"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="BattleshipArtilleryLM226"/>
+        <PeriodicPeriodArray value="0.2"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="BattleshipArtilleryP3262">
+        <WhichLocation Value="TargetUnit"/>
+        <Flags index="RandomOffset" value="1"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="BattleshipArtilleryLM2262"/>
+        <PeriodicPeriodArray value="0.2"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="BattleshipArtilleryP32622">
+        <WhichLocation Value="TargetUnit"/>
+        <Flags index="RandomOffset" value="1"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="BattleshipArtilleryLM22622"/>
+        <PeriodicPeriodArray value="0.2"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="DehakaLeapLMPoint22">
+        <ValidatorArray index="0" value="CliffLevelGreater2"/>
+        <EditorCategories value="Race:Zerg"/>
+        <LaunchLocation Value="CasterUnit"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <FinishEffect value="SovietReaperJumpSet"/>
+        <Flags index="Placement" value="1"/>
+        <Flags index="PlacementIgnoreBlockers" value="1"/>
+        <Flags index="PlacementIgnoreCliffTest" value="1"/>
+        <PlacementRange value="1"/>
+        <Movers Link="RALeapMissile"/>
+        <DeathType value="Unknown"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="ReaperRocket">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="90mmCannons2432"/>
+        <AmmoUnit value="105mmArtilleryShell22232"/>
+        <Movers Link="MissileDefault32"/>
+    </CEffectLaunchMissile>
+    <CModel id="PunisherGrenadesLMWeapon22242" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_Carrier_Coop_Missile\MiraHorner_Carrier_Coop_Missile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="VikingAssaultAttackLaunch232" parent="LaunchFX">
+        <Model value="Assets\Effects\Protoss\Malash_Attack_Missile_Launch\Malash_Attack_Missile_Launch.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.300000,1.300000,1.300000"/>
+        <ScaleMin value="1.300000,1.300000,1.300000"/>
+    </CModel>
+    <CModel id="PunisherGrenadesLMWeapon2226" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_Hellion_BasicGrenade_Coop_Missile\MiraHorner_Hellion_BasicGrenade_Coop_Missile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="SovietReaper_Model" parent="Unit" Race="Terran">
+        <Model value="assets\units\soviet\Reaper.m3"/>
+        <Flags index="AutoUnload" value="1"/>
+        <SelectionRadius value="0.700000"/>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetB" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 02">
+            <Keys index="SetB" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetB" value="2"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 04">
+            <Keys index="SetB" value="3"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 05">
+            <Keys index="SetB" value="4"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 06">
+            <Keys index="SetB" value="5"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 07">
+            <Keys index="SetB" value="6"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 08">
+            <Keys index="SetB" value="7"/>
+        </AttachProps>
+    </CModel>
+    <CModel id="SiegeTankAttackImpact723" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\WidowMineImpact\WidowMineImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.700000,0.700000,0.700000"/>
+        <ScaleMin value="0.700000,0.700000,0.700000"/>
+    </CModel>
+    <CModel id="ColossusAttackBeamImpact222222" parent="ImpactFX">
+        <Model value="Assets\Effects\Other\PhysicsImpactRockMassive\PhysicsImpactRockMassive.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="1.200000,1.200000,1.200000"/>
+        <ScaleMin value="1.200000,1.200000,1.200000"/>
+    </CModel>
+    <CModel id="v4huojianbzmx2" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\WraithMissileImpact\WraithMissileImpact.m3"/>
+        <Flags index="Wait" value="1"/>
+        <ScaleMax value="3.300000,3.300000,3.300000"/>
+        <ScaleMin value="3.300000,3.300000,3.300000"/>
+        <AnimSpeed value="0.700000"/>
+    </CModel>
+    <CMoverMissile id="MissileDefault32">
+        <MotionPhases>
+            <Driver value="Ballistic"/>
+            <Acceleration value="32000"/>
+            <AccelerationRange value="30"/>
+            <Speed value="22"/>
+            <MaxSpeed value="30"/>
+            <Gravity value="2"/>
+            <ClearanceAcceleration value="75"/>
+            <ActorTracking value="Linear"/>
+            <Outro value="-1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CSound id="Yagdra_Fireball_Impact233" parent="Combat">
+        <EditorCategories value="Race:Zerg"/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_grndfireexploa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_grndfireexplob.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_grndfireexploc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_grndfireexplod.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_grndfireexploe.ogg" FacialGroup=""/>
+        <Volume value="0.000000,2.000000"/>
+    </CSound>
+    <CSound id="Colossus_Explode_Ragdoll_B2322" parent="Combat">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarFireA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarFireB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarFireC.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarFireD.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarFireE.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="7"/>
+        <DupeHistoryCount value="8"/>
+        <DupeMuteCount value="5"/>
+        <Volume value="-6.000000,-3.000000"/>
+    </CSound>
+    <CSound id="SovietReaper_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\SUReape_voiAttacka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiAttackb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiAttackc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiAttackd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiAttacke.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiAttackf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiAttackg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="Colossus_Explode_Ragdoll_B23222" parent="Combat">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketfirea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketfireb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketfirec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketfired.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketfiree.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketfiref.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="7"/>
+        <DupeHistoryCount value="8"/>
+        <DupeMuteCount value="5"/>
+        <Volume value="-6.000000,-4.000000"/>
+    </CSound>
+    <CSound id="SovietReaper_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\SUReape_voiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiSelectg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiSelecth.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="Yagdra_Fireball_Impact2332" parent="Combat">
+        <EditorCategories value="Race:Zerg"/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketexploa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketexplob.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketexploc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketexplod.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketexploe.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_wpnrocketexplof.ogg" FacialGroup=""/>
+        <Volume value="0.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietReaper_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\SUReape_voiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiMoveg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiMoveh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiMovei.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiMovej.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUReape_voiMovek.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietReaper_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\SUReape_voiCreateb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietReaperTurret_Birth" parent="Combat">
+        <EditorCategories value="Race:Zerg"/>
+        <AssetArray File="Assets\sounds\harvester-armor-suprotosickl_jumplanda.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armor-suprotosickl_jumplandb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armor-suprotosickl_jumplandc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armor-suprotosickl_jumplandd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickl_jumplande.ogg" FacialGroup=""/>
+        <Volume value="3.000000,5.000000"/>
+    </CSound>
+    <CTurret id="ReaperTurret">
+        <YawArc value="360"/>
+        <YawRate value="360"/>
+        <YawIdleRate value="180"/>
+    </CTurret>
+    <CTurret id="RAHarvesterTurret1">
+        <Idle value="ResetIfMoving"/>
+        <YawArc value="119.9926"/>
+        <YawRate value="360"/>
+        <YawIdleRate value="360"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+    <CTurret id="RAHarvesterTurret2">
+        <Idle value="ResetIfMoving"/>
+        <YawStart value="90"/>
+        <YawArc value="119.9926"/>
+        <YawRate value="360"/>
+        <YawIdleRate value="360"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+    <CTurret id="RAHarvesterTurret3">
+        <Idle value="ResetIfMoving"/>
+        <YawStart value="-90"/>
+        <YawArc value="119.9926"/>
+        <YawRate value="360"/>
+        <YawIdleRate value="360"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+    <CUnit id="105mmArtilleryShell22232" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="MissileDefault32"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CUnit id="105mmArtilleryShell2225" parent="MISSILE">
+        <Race value="China"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CUnit id="SovietReaperTurret" parent="SovietStructure">
+        <Subtitle value="UnitSubtitle/Sujijia"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <FlagArray index="ClearRallyOnTargetLost" value="0"/>
+        <FlagArray index="ArmySelect" value="1"/>
+        <Response value="AcquireNoFlee"/>
+        <LifeStart value="130"/>
+        <LifeMax value="130"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranVehiclePlating"/>
+        <Speed value="1.5"/>
+        <Sight value="10"/>
+        <!--Food value="-1"/-->
+        <CostResource index="Minerals" value="1200"/>
+        <RepairTime value="41.667"/>
+        <AttackTargetPriority value="20"/>
+        <KillXP value="10"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="move"/>
+        <BehaviorArray Link="UpgradeLevel12"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent69"/>
+        <WeaponArray Link="BattleshipArtillery2264" Turret="ReaperTurret2"/>
+        <WeaponArray Link="VXWeaponGround422" Turret="ReaperTurret2"/>
+        <WeaponArray Link="BattleshipArtillery22643" Turret="ReaperTurret2"/>
+        <WeaponArray Link="BattleshipArtillery22642" Turret="ReaperTurret2"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="move,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+        </CardLayouts>
+        <Radius value="0.6875"/>
+        <SeparationRadius value="0.4375"/>
+        <InnerRadius value="0.6875"/>
+        <CargoSize value="2"/>
+        <SubgroupPriority value="10"/>
+    </CUnit>
+    <CWeaponLegacy id="BattleshipArtillery2263">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-nova-flashgrenade.dds"/>
+        <DisplayEffect value="BattleshipArtilleryD325"/>
+        <DisplayAttackCount value="3"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="7"/>
+        <Period value="4"/>
+        <Backswing value="0"/>
+        <Effect value="BattleshipArtilleryP32622"/>
+        <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="BattleshipArtillery2262">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-nova-flashgrenade.dds"/>
+        <DisplayEffect value="BattleshipArtilleryD325"/>
+        <DisplayAttackCount value="3"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="7"/>
+        <Period value="4"/>
+        <Backswing value="0"/>
+        <Effect value="BattleshipArtilleryP3262"/>
+        <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+<!--    8-pack Katyusha rocket launcher-->
+    <CWeaponLegacy id="VXWeaponGround42">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-nova-bansheeMissilestrik.dds"/>
+        <DisplayEffect value="90mmCannons2432"/>
+        <DisplayAttackCount value="8"/>
+        <TargetFilters value="Visible;Self,Missile,Dead,Invulnerable"/>
+        <Range value="8"/>
+        <Period value="4"/>
+        <Effect value="BattleshipArtilleryP3263"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+<!--    PKX40 Grenade Launcher-->
+    <CWeaponLegacy id="BattleshipArtillery226">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-nova-flashgrenade.dds"/>
+        <DisplayEffect value="BattleshipArtilleryD325"/>
+        <DisplayAttackCount value="3"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="6"/>
+        <Period value="4"/>
+        <Backswing value="0"/>
+        <Effect value="BattleshipArtilleryP326"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+
+    <CActorUnit id="SovietReaperCannons_Actor" parent="GenericUnitMorph" unitName="SovietReaperCannons">
+        <Aliases value="_UnitLarge"/>
+        <Macros value="UnloadDropAnim"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <AcceptedTransfers index="ModelMaterials" value="1"/>
+        <On index="0" Send="Create SoundEmitter SiegeTank_Ambience"/>
+        <On index="65" Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
+        <On index="66" Terms="ActorCreation" Send="TextureSelectById wreckedcargotruck_diffuse"/>
+        <On index="67" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack1 Attack"/>
+        <On index="68" Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack1"/>
+        <On index="69" removed="1"/>
+        <On index="70" removed="1"/>
+        <Model value="SovietReaperCannons_Model"/>
+        <Scale value="1.200000"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <EventDataFootprint index="0" Model="SiegeTankFootprint"/>
+        <CreepHeightClass value="Tiny"/>
+        <DeathArray index="Normal" ModelLink="SiegeTankDeath" SoundLink="SiegeTank_Explode" VoiceLink="SiegeTankDeathVoice"/>
+        <DeathCustoms ModelLink="TerranLargeUnitDeathLow" Name="AntiGravTerran"/>
+        <DeathCustoms ActorModel="SiegeTankDeathRagdoll" ModelLink="SiegeTankDeathRagdoll" Name="RagdollBasic">
+            <BodySquibs Name="Basic" Model="TerranSquibDeathRagdoll"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms>
+            <ModelLink value="DeathVoidShadowMedium"/>
+            <SoundLink value="ShadowUnit_DeathFX"/>
+            <VoiceLink value="ShadowUnit_DeathVox"/>
+            <Name value="Shadow"/>
+        </DeathCustoms>
+        <DeathCustomData Name="RagdollBasic"/>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
+        <PortraitModel value="SiegeTankPortrait422"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="1.000000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleSiegeTank"/>
+        </TerrainSquibs>
+        <WalkAnimMoveSpeed value="2.5"/>
+        <BarOffset value="80"/>
+        <BarWidth value="70"/>
+        <ErrorArray Error="CantSeeBuildLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantSeeLandLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantBuildLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantLandLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CouldntReachTarget" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <GroupIcon>
+            <Image value="Assets\icons\Soviet\reaper-cannon-wireframe.dds"/>
+        </GroupIcon>
+        <GroupSoundArray index="What" value="SiegeTank_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="SiegeTank_GroupYes"/>
+        <GroupSoundArray index="Attack" value="SiegeTank_GroupAttack"/>
+        <GroupSoundArray index="Board" value="SiegeTank_GroupBoard"/>
+        <HeroIcon value="Assets\icons\Soviet\reaper-cannon-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-vehicleplatinglevel0.dds"/>
+        <SoundArray index="Birth" value="SovietRhinoTankMK0_Actor_Birth"/>
+        <SoundArray index="Ready" value="SovietReaper_Actor_Ready"/>
+        <SoundArray index="Help" value="SovietReaper_Actor_Help"/>
+        <SoundArray index="What" value="SovietReaper_Actor_What"/>
+        <SoundArray index="Yes" value="SovietReaper_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietReaper_Actor_Help"/>
+        <SoundArray index="Pissed" value="SiegeTank_Pissed"/>
+        <SoundArray index="Movement" value="SovietRhinoTankMK0_Actor_Birth"/>
+        <SoundArray index="Turning" value="SiegeTank_Turning"/>
+        <SoundArray index="Board" value="SiegeTank_Board"/>
+        <SoundArray index="Click" value="SovietReaper_Actor_What"/>
+        <SoundArray index="ClickError" value="SiegeTank_ClickError"/>
+        <SoundArray index="Highlight" value="SiegeTank_Highlight"/>
+        <UnitIcon value="Assets\icons\Soviet\reaper-cannon-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\icons\Soviet\reaper-cannon-wireframe.dds"/>
+        </Wireframe>
+        <HighlightTooltip value="Unit/Name/SovietReaperCannons_Actor"/>
+    </CActorUnit>
+    <CActorAction id="6pdrAttack3" parent="GenericAttack" effectImpact="6pdr3" effectLaunch="HammerSecurityLM225">
+        <On index="1" Terms="Effect.Bogus.Start; FromEffectTreeDescendant" Send="ActionImpact"/>
+        <On index="2" Terms="Effect.Bogus.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <LaunchAttachQuery Methods="Weapon 0"/>
+        <LaunchAssets Model="SiegeTankAttackLaunch" Sound="Colossus_Explode_Ragdoll_B242"/>
+        <Missile value="HammerSecurityAttackMissile2"/>
+        <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
+    </CActorAction>
+    <CActorSquib id="v4rocketbz35">
+        <On Terms="Effect.6pdr3.Start; At Effect" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 5.000000 huopao"/>
+        <On Terms="TimerExpired; TimerName huopao" Send="Destroy"/>
+        <On Terms="TimerExpired; TimerName huopao" Send="TimerKill huopao"/>
+        <On Terms="Effect.6pdr24.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.6pdr223.Start; At Effect" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="v4huojianbzmx34" Sound="Colossus_Explode_Ragdoll_B25"/>
+        <Map index="Miss" Model="v4huojianbzmx34" Sound="Colossus_Explode_Ragdoll_B25"/>
+        <Flags index="SuppressSaveLoad" value="1"/>
+    </CActorSquib>
+    <CEffectDamage id="6pdr3" parent="DU_WEAP">
+        <ValidatorArray value="noMarkers"/>
+        <AttributeFactor index="Light" value="3"/>
+        <AttributeFactor index="Structure" value="3"/>
+        <Kind value="Spell"/>
+        <Amount value="120"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="1.5" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Missile,Invulnerable"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="HammerSecurityLM225">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="6pdr3"/>
+        <AmmoUnit value="HammerSecurityLMWeapon2"/>
+        <Movers Link="PunisherGrenadesWeapon4"/>
+    </CEffectLaunchMissile>
+    <CModel id="SiegeTankPortrait422" parent="SiegeTankPortraitBase">
+        <Model value="Assets\Portraits\Terran\SiegeTank_Commando_Collection_Portrait\SiegeTank_Commando_Collection_Portrait.m3"/>
+        <Image value="Assets\Textures\SiegeTankPortrait_Static.dds"/>
+        <Lighting value="SiegeTankPortrait"/>
+    </CModel>
+    <CModel id="SovietReaperCannons_Model" parent="SiegeTankBase">
+        <Model value="assets\models\LocustTankDestroyer.m3"/>
+        <SelectionRadius value="0.650000"/>
+    </CModel>
+    <CModel id="v4huojianbzmx34" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\Xanthos_Missile_Impact\Xanthos_Missile_Impact.m3"/>
+        <Flags index="Wait" value="1"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+
+    <CSound id="Colossus_Explode_Ragdoll_B242" parent="Combat">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\SovietHeavyTankLaunch.ogg" FacialGroup=""/>
+        <Volume value="-6.000000,-2.000000"/>
+        <Pitch value="-4.000000,0.000000"/>
+        <Flags index="AllowDuckingInPlayDelay" value="0"/>
+    </CSound>
+    <CSound id="SovietRhinoTankMK0_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\the-engine-sound-effect-of-the-birth-of-the-rhino-tank-vrhistaa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\the-engine-sound-effect-of-the-birth-of-the-rhino-tank-vrhistab.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\the-engine-sound-effect-of-the-birth-of-the-rhino-tank-vrhistac.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\the-engine-sound-effect-of-the-birth-of-the-rhino-tank-vrhistad.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Build"/>
+        <Volume value="-10.000000,-10.000000"/>
+    </CSound>
+    <CWeaponLegacy id="75mmATT5">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\icons\麒麟破阵战车主炮模式.dds"/>
+        <DisplayEffect value="6pdr3"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="11"/>
+        <MinimumRange value="2"/>
+        <Period value="5"/>
+        <Backswing value="0"/>
+        <Effect value="HammerSecurityLM225"/>
+    </CWeaponLegacy>
+
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent69">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <DamageDealtFraction index="Spell" value="2"/>
+            <DamageDealtFraction index="Melee" value="2"/>
+            <DamageDealtFraction index="Ranged" value="2"/>
+            <DamageDealtFraction index="Splash" value="2"/>
+            <DamageDealtFraction index="NoProc" value="2"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CActorUnit id="SovietReaperTurret" parent="SovietBuilding" unitName="SovietReaperTurret" icon="reaperturret">
+        <On index="65" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack"/>
+        <On Terms="AbilMorph.SurepearUPgrade.Finish" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart 111 Birth"/>
+        <DeathArray index="Normal" ModelLink="SpiderMineExplosion2" SoundLink="Reaper_Explode"/>
+        <DeathActorModelLow value="UnitDeathModel"/>
+        <PortraitModel value="MarineMercenaryPortrait"/>
+        <WalkAnimMoveSpeed value="1.1015"/>
+        <BarWidth value="90"/>
+        <NameOffset value="60"/>
+        <SoundArray index="Birth" value="SovietReaperTurret_Birth"/>
+        <SoundArray index="Ready" value="SovietReaperTurret_Ready"/>
+        <SoundArray index="Help" value="SovietReaperTurret_Help"/>
+        <SoundArray index="What" value="SovietReaperTurret_Ready"/>
+        <SoundArray index="Yes" value="SovietReaper_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietReaperTurret_Ready"/>
+        <SoundArray index="Turning" value="SiegeTank_Turning"/>
+        <SoundArray index="Board" value="SiegeTank_Board"/>
+        <SoundArray index="Click" value="SovietReaperTurret_Ready"/>
+        <SoundArray index="ClickError" value="SiegeTank_ClickError"/>
+        <SoundArray index="Highlight" value="SiegeTank_Highlight"/>
+        <UnitFlags index="SuppressStandIntro" value="1"/>
+        <UnitFlags index="SuppressWalkIntro" value="1"/>
+        <UnitFlags index="SuppressWalkOutro" value="1"/>
+        <HeroIcon value="assets\icons\Soviet\building-reaperturret-alt.dds"/>
+        <UnitIcon value="assets\icons\Soviet\building-reaperturret-alt.dds"/>
+    </CActorUnit>
+    <CModel id="SovietReaperTurret" parent="Unit" Race="Terran">
+        <Model value="Assets\models\soviet\ReaperTurret.m3"/>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetB" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 02">
+            <Keys index="SetB" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetB" value="2"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 04">
+            <Keys index="SetB" value="3"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 05">
+            <Keys index="SetB" value="4"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 06">
+            <Keys index="SetB" value="5"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 07">
+            <Keys index="SetB" value="6"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 08">
+            <Keys index="SetB" value="7"/>
+        </AttachProps>
+        <Flags index="AutoUnload" value="1"/>
+        <SelectionRadius value="0.700000"/>
+        <SelectionLayer value="2"/>
+    </CModel>
+    <CSound id="SovietReaperTurret_Ready" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickle_deployselecta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\harvester-armorsuprotosickle_deployselectb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CTurret id="ReaperTurret2">
+        <Idle value="Hold"/>
+        <YawArc value="360"/>
+        <YawRate value="360"/>
+        <YawIdleRate value="180"/>
+    </CTurret>
+
+    <CWeaponLegacy id="BattleshipArtillery22643">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-nova-flashgrenade.dds"/>
+        <DisplayEffect value="BattleshipArtilleryD325"/>
+        <DisplayAttackCount value="3"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="9"/>
+        <Arc value="45"/>
+        <Period value="3"/>
+        <Backswing value="0"/>
+        <Effect value="BattleshipArtilleryP3262"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="BattleshipArtillery22642">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-nova-flashgrenade.dds"/>
+        <DisplayEffect value="BattleshipArtilleryD325"/>
+        <DisplayAttackCount value="3"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="9"/>
+        <Arc value="45"/>
+        <Period value="3"/>
+        <Backswing value="0"/>
+        <Effect value="BattleshipArtilleryP32622"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="BattleshipArtillery2264">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-nova-flashgrenade.dds"/>
+        <DisplayEffect value="BattleshipArtilleryD325"/>
+        <DisplayAttackCount value="3"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="9"/>
+        <Arc value="45"/>
+        <Period value="3"/>
+        <Backswing value="0"/>
+        <Effect value="BattleshipArtilleryP326"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="VXWeaponGround422">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-nova-bansheeMissilestrik.dds"/>
+        <DisplayEffect value="90mmCannons2432"/>
+        <DisplayAttackCount value="8"/>
+        <TargetFilters value="Visible;Self,Missile,Dead,Invulnerable"/>
+        <Range value="13"/>
+        <Period value="4"/>
+        <Effect value="BattleshipArtilleryP3263"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+
+</Catalog>

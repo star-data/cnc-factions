@@ -1,0 +1,171 @@
+<Catalog>
+    <CUnit id="SovietTayga" parent="SovietAir">
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <Speed value="2.25"/>
+        <Food value="-3"/>
+        <LifeArmor value="1"/>
+        <SubgroupPriority value="12"/>
+        <GlossaryPriority value="150"/>
+        <CostResource index="Minerals" value="300"/>
+        <CostResource index="Vespene" value="300"/>
+        <AbilArray Link="TaygaHeal"/>
+        <AbilArray Link="MedivacTransport"/>
+        <EnergyStart value="50"/>
+        <EnergyMax value="200"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="MedivacLoad" Type="AbilCmd" AbilCmd="MedivacTransport,Load" Row="2" Column="2"/>
+            <LayoutButtons Face="Heal" Type="AbilCmd" AbilCmd="TaygaHeal,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="MedivacUnloadAll" Type="AbilCmd" AbilCmd="MedivacTransport,UnloadAt" Row="2" Column="3"/>
+        </CardLayouts>
+    </CUnit>
+    <CActorUnit id="SovietTayga" parent="SovietAir" unitName="SovietTayga" icon="Tayga"/>
+    <CModel id="SovietTayga" parent="SovietVehicle" model="Tayga"/>
+
+    <CButton id="SovietTaygaUltraTorpedoes" parent="Soviet" icon="warbear-roar"/>
+
+    <CAbilEffectInstant id="SovietTaygaSiege" parent="SovietEI">
+    </CAbilEffectInstant>
+
+    <CWeaponLegacy id="SovietTayga" parent="SovietVehicleWeapon">
+        <Period value="0.76"/>
+        <Range value="0.5"/>
+    </CWeaponLegacy>
+    <CEffectDamage id="SovietTayga@Damage" parent="SovietDamage">
+        <AttributeBonus index="Massive" value="40"/>
+        <Amount value="30"/>
+    </CEffectDamage>
+
+
+    <CAbilEffectTarget id="TaygaHeal">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <TargetFilters value="Mechanical,Visible;Self,Enemy,Structure,Missile,Dead,Hidden,Invulnerable"/>
+        <Range value="4"/>
+        <Arc value="360"/>
+        <AutoCastRange value="6"/>
+        <AcquireAttackers value="1"/>
+        <DefaultError value="RequiresHealTarget"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <TargetSorts RequestCount="1">
+            <SortArray value="TSAlliancePassive"/>
+            <SortArray value="TSLifeFraction"/>
+            <SortArray value="TSDistance"/>
+        </TargetSorts>
+        <SmartValidatorArray value="healSmartTargetFilters"/>
+        <SmartValidatorArray value="NotWarpingIn"/>
+        <AutoCastValidatorArray value="healCasterMinEnergy"/>
+        <AutoCastValidatorArray value="NotWarpingIn"/>
+        <UseMarkerArray index="Approach" value="0"/>
+        <UseMarkerArray index="Prep" value="0"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Heal"/>
+        <AutoCastAcquireLevel value="Defensive"/>
+        <AutoCastFilters value="Visible;Neutral,Enemy,Missile,Stasis,Dead,Invulnerable"/>
+        <Alignment value="Positive"/>
+    </CAbilEffectTarget>
+    <CActorSite id="TaygaHealBeamLaunchSite" parent="SiteCenter">
+        <On Terms="ActorCreation" Send="RefSet ::global.TaygaHealLaunch ::Self"/>
+        <On Terms="Signal.*.HealModel" Send="RefSetFromMsg ::actor.HealModel ::Sender"/>
+        <On Terms="Signal.*.HealSound" Send="RefSetFromMsg ::actor.HealSound ::Sender"/>
+        <On Terms="Effect.TaygaHeal.TargetStop" Target="::actor.HealModel" Send="Destroy"/>
+        <On Terms="Effect.TaygaHeal.TargetStop" Target="::actor.HealSound" Send="Destroy"/>
+        <On Terms="Effect.TaygaHeal.TargetStop" Send="Destroy"/>
+    </CActorSite>
+    <CActorSite id="TaygaHealBeamImpactSite" parent="SiteCenter">
+        <On Terms="ActorCreation" Send="RefSet ::global.TaygaHealImpact ::Self"/>
+        <On Terms="Effect.TaygaHeal.TargetStop" Send="Destroy"/>
+    </CActorSite>
+    <CActorBeamSimple id="TaygaHealBeam" parent="BeamSimpleAnimationStyleContinuous">
+        <On Terms="Effect.TaygaHeal.TargetStop" Send="Destroy"/>
+        <HostLaunch Subject="::global.TaygaHealLaunch"/>
+        <HostImpact Subject="::global.TaygaHealImpact"/>
+    </CActorBeamSimple>
+    <CActorModel id="TaygaHealModel">
+        <Model value="MedicHealModel"/>
+        <On Terms="ActorCreation" Send="$Birth PlayForever"/>
+        <On Terms="ActorCreation" Target="::global.TaygaHealLaunch" Send="Signal HealModel"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+    </CActorModel>
+    <CActorSound id="TaygaHealSound" parent="SoundContinuous">
+        <Sound value="Medivac_HealLoop"/>
+        <On Terms="ActorCreation" Send="Create TaygaHealSoundStart"/>
+        <On Terms="ActorDestruction" Send="Create TaygaHealSoundStop"/>
+        <On Terms="ActorCreation" Target="::global.TaygaHealLaunch" Send="Signal HealSound"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+    </CActorSound>
+    <CActorSound id="TaygaHealSoundStop" parent="SoundOneShot">
+        <Sound value="Medivac_HealEnd"/>
+    </CActorSound>
+    <CActorSound id="TaygaHealSoundStart" parent="SoundOneShot">
+        <Sound value="Medivac_HealStart"/>
+    </CActorSound>
+    <CActorBeamSimple id="TaygaHealBeamRev1" parent="BeamSimpleAnimationStyleContinuous">
+        <Model value="TaygaHealBeam"/>
+        <On Terms="Effect.TaygaHeal.TargetStart" Send="Create"/>
+        <On Terms="Effect.TaygaHeal.TargetStop" Send="Destroy"/>
+        <HostForProps Subject="_Unit" Scope="Caster" Actor="Find"/>
+        <HostLaunch Subject="_Unit" Scope="Caster" Actor="Find"/>
+        <HostImpact Subject="_Unit" Scope="Target" Actor="Find"/>
+        <HostLaunchSiteOps Ops="SOpAttachCenter"/>
+        <HostImpactSiteOps Ops="SOpAttachCenter"/>
+        <Inherits index="Visibility" value="1"/>
+        <Supporter Subject="_Unit" Scope="Caster" Actor="Find"/>
+        <Host Subject="_Unit" Scope="Caster" Actor="Find"/>
+    </CActorBeamSimple>
+    <CActorModel id="TaygaHealModelRev1" parent="ModelAnimationStyleContinuous">
+        <Model value="MedicHealModel"/>
+        <On Terms="ActorCreation" Send="$Birth PlayForever"/>
+        <On Terms="Effect.TaygaHeal.TargetStart; At Target" Send="Create"/>
+        <On Terms="Effect.TaygaHeal.TargetStop; At Target" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+    </CActorModel>
+    <CActorSound id="TaygaHealSoundRev1" parent="SoundContinuous">
+        <Sound value="Medivac_HealLoop"/>
+        <On Terms="Effect.TaygaHeal.TargetStart; At Target" Send="Create"/>
+        <On Terms="Effect.TaygaHeal.TargetStop; At Target" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="Create TaygaHealSoundStart"/>
+        <On Terms="ActorDestruction" Send="Create TaygaHealSoundStop"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+    </CActorSound>
+    <CEffectCreateHealer id="TaygaHeal">
+        <EditorCategories value="Race:Terran"/>
+        <ValidatorArray value="noMarkers"/>
+        <ValidatorArray value="NotWarpingIn"/>
+        <ValidatorArray value="HiddenCompareAB"/>
+        <ValidatorArray value="HiddenCompareBA"/>
+        <ValidatorArray value="NotSpineCrawlerUprooted"/>
+        <ValidatorArray value="NotSporeCrawlerUprooted"/>
+        <ValidatorArray value="NotVortexd"/>
+        <ValidatorArray value=""/>
+        <ValidatorArray value="SourceNotHidden"/>
+        <ValidatorArray value="TaygaHealTargetFilter"/>
+        <ValidatorArray value="NotDisintegrating"/>
+        <DrainVital value="Energy"/>
+        <DrainVitalCostFactor value="0.33"/>
+        <RechargeVitalRate value="9"/>
+    </CEffectCreateHealer>
+    <CValidatorUnitFilters id="TaygaHealTargetFilter">
+        <Filters value="Mechanical,Visible;Enemy,Stasis,Dead,Hidden,Invulnerable"/>
+    </CValidatorUnitFilters>
+    <CModel id="TaygaHealBeamUpgrade" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Terran\MedivacBeamUpgrade\MedivacBeamUpgrade.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <RadiusLoose value="1.000000"/>
+    </CModel>
+    <CModel id="TaygaHealBeam" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Terran\MedivacBeam\MedivacBeam.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <RadiusLoose value="1.000000"/>
+    </CModel>
+</Catalog>

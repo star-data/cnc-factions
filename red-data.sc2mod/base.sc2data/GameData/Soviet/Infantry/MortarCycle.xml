@@ -1,0 +1,462 @@
+<Catalog>
+
+    <CUnit id="SovietMortarCycle" parent="SovietGround">
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <LifeStart value="75"/>
+        <LifeMax value="75"/>
+        <LifeArmor value="1"/>
+        <Speed value="4.5"/>
+        <Acceleration value="7"/>
+        <Deceleration value="500"/>
+        <StationaryTurningRate value="360"/>
+        <TurningRate value="360"/>
+        <Sight value="13"/>
+        <VisionHeight value="2"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="100"/>
+        <RepairTime value="41.667"/>
+        <KillXP value="4"/>
+        <AbilArray Link="SovietMotoModeSwhich"/>
+        <AbilArray Link="ScannerSweep"/>
+        <BehaviorArray Link="SovietSandbagAuraB"/>
+        <BehaviorArray Link="SovietStrongwilloftheRedArmy"/>
+        <BehaviorArray Link="RADetector9"/>
+        <BehaviorArray Link="UpgradeLevel122"/>
+        <WeaponArray Link="75mmATT222"/>
+        <WeaponArray Link="Mortar"/>
+        <Radius value="0.625"/>
+        <SeparationRadius value="0.4375"/>
+        <InnerRadius value="0.25"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="14"/>
+        <MinimapRadius value="0.375"/>
+        <GlossaryPriority value="470"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="TossGrenadeTychus222227" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich,On" Row="2" Column="1"/>
+            <LayoutButtons Face="TossGrenadeTychus2222226" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich,Off" Row="2" Column="2"/>
+            <LayoutButtons>
+                <Face value="zhukefuxingfenji24"/>
+                <Type value="Passive"/>
+                <Behavior value="SovietStrongwilloftheRedArmy"/>
+                <Requirements value="RARedArmyWillUnlocksPrerequisites"/>
+                <Row value="1"/>
+                <Column value="4"/>
+            </LayoutButtons>
+            <LayoutButtons Face="Scan" Type="AbilCmd" AbilCmd="ScannerSweep,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+    </CUnit>
+    <CBehaviorBuff id="SovietMotoCycleBehavior">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Modification>
+            <DamageTakenMaximum index="Spell" value="1000"/>
+            <DamageTakenMaximum index="Melee" value="1000"/>
+            <DamageTakenMaximum index="Ranged" value="1000"/>
+            <DamageTakenMaximum index="Splash" value="1000"/>
+            <DamageTakenMaximum index="NoProc" value="1000"/>
+            <WeaponEnableArray value="Mortar"/>
+            <WeaponDisableArray value="75mmATT222"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CAbilBehavior id="SovietMotoModeSwhich">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus222227">
+            <Flags index="ShowInGlossary" value="0"/>
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus2222226">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="SovietMotoCycleBehavior"/>
+    </CAbilBehavior>
+    <CActorUnit id="SovietMortarCycle" parent="SovietInfantry" unitName="SovietMortarCycle" icon="MortarCycle">
+        <On Terms="ActorCreation" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior.On" Send="AnimBracketStart Attack1 Morph,A {} Morph,B"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior.On" Send="AnimGroupRemove A"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior.Off" Send="AnimBracketStop Attack1"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior.Off" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior.Off" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior.On" Send="AnimGroupApply B"/>
+        <DeathArray index="Normal" ModelLink="TerranSmallUnitDeath" SoundLink="UmojanLab_SentryBot_DeathExplosion_Init"/>
+        <DeathActorModelLow value="UnitDeathModel"/>
+        <PortraitModel value="VulturePortrait"/>
+        <BarOffset value="60"/>
+        <GlossaryAnim value="Stand,C"/>
+        <GroupSoundArray index="Birth" value="SovietMotoCycleVoice"/>
+        <GroupSoundArray index="Ready" value="SovietMortarCycle_Actor_Ready"/>
+        <GroupSoundArray index="Help" value="SovietMortarCycle_Actor_Help"/>
+        <GroupSoundArray index="What" value="SovietMortarCycle_Actor_What"/>
+        <GroupSoundArray index="Yes" value="SovietMortarCycle_Actor_Yes"/>
+        <GroupSoundArray index="Attack" value="SovietMortarCycle_Actor_Attack"/>
+        <GroupSoundArray index="Pissed" value="SovietMortarCycle_Actor_Attack"/>
+        <GroupSoundArray index="Movement" value="SumotoCycle"/>
+        <GroupSoundArray index="Click" value="SovietMortarCycle_Actor_What"/>
+        <HighlightTooltip value="Unit/Name/SovietMortarCycle"/>
+        <NameOffset value="50"/>
+        <SoundArray index="Birth" value="SovietMotoCycleVoice"/>
+        <SoundArray index="Ready" value="SovietMortarCycle_Actor_Ready"/>
+        <SoundArray index="Help" value="SovietMortarCycle_Actor_Help"/>
+        <SoundArray index="What" value="SovietMortarCycle_Actor_What"/>
+        <SoundArray index="Yes" value="SovietMortarCycle_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietMortarCycle_Actor_Attack"/>
+        <SoundArray index="Pissed" value="SovietMortarCycle_Actor_Attack"/>
+        <SoundArray index="Movement" value="SumotoCycle"/>
+        <SoundArray index="Click" value="SovietMortarCycle_Actor_What"/>
+        <UnitFlags index="SuppressStandIntro" value="1"/>
+        <UnitFlags index="SuppressWalkIntro" value="1"/>
+        <UnitFlags index="SuppressWalkOutro" value="1"/>
+    </CActorUnit>
+    <CActorSquib id="SumotoActor2">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.CrucioShockCannonBlast3.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.90mmCannons243.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.RASmokeGrenadeInitialExplosionDamage.Start; At Effect" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="SpiderMineExplosion2" Sound="Yagdra_Fireball_Impact23"/>
+    </CActorSquib>
+    <CActorAction id="SiegeTankSiegedAttack3" parent="GenericAttack" effectAttack="CrucioShockCannonBlast3">
+        <LaunchAssets Model="SiegeTankSiegedAttackLaunch3" Sound="SiegeTank_SiegedAttackLaunch3"/>
+        <LaunchAttachQuery Methods="Weapon 2"/>
+        <ImpactSiteOps Ops="SOpActionCenter SOpTargetUnitZ" HoldPosition="1"/>
+        <ImpactMap index="None" Model="SiegeTankSiegedAttackImpact3" Sound="SiegeTank_SiegedAttackImpact4"/>
+        <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
+        <DamageSiteOps Ops="SOpAttachHarness"/>
+        <DamageMap index="None" Model="SiegeTankSiegedAttackDamage3"/>
+        <ShieldFlashType value="Full"/>
+    </CActorAction>
+    <CActorAction id="MortarAttack" parent="GenericAttack" effectAttack="" effectImpact="CrucioShockCannonBlast3" effectLaunch="MortarLM">
+        <On index="0" Terms="Effect.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="5" Terms="Effect.Start; At Caster" Send="Create"/>
+        <LaunchAttachQuery Methods="Weapon 2"/>
+        <LaunchAssets Model="PlanetaryFortressAttackLaunch" Sound="Colossus_Explode_Ragdoll_B232"/>
+        <Missile value="MortarMissile"/>
+        <ImpactMap index="None" Model="SpiderMineExplosion" Sound="PlanetaryFortress_AttackImpact"/>
+        <ImpactPhysics Name="IbiksCannonImpact" MatchKeys="Basic" Physics="PlanetaryFortressAttackForce"/>
+    </CActorAction>
+    <CActorMissile id="MortarMissile" parent="GenericAttackMissile" unitName="MortarShell">
+        <Model value="PunisherGrenadesLMWeapon"/>
+        <Scale value="0.300000"/>
+    </CActorMissile>
+    <CActorAction id="RAArtilleryLocomotiveThrowingMolotovCocktails" parent="GenericAttack" effectImpact="RAArtilleryLocomotiveIncendiaryBombExplosionDamage" effectLaunch="RAFiresIncendiaryProjectiles3">
+        <LaunchAttachQuery Methods="AMFilterWeapon02"/>
+        <Missile value="SovietMolotovCocktail"/>
+    </CActorAction>
+    <CBehaviorBuff id="RADetector9" parent="Detector">
+        <InfoIcon value="Assets\Textures\btn-status-detector.dds"/>
+        <Modification Detect="9"/>
+        <Alignment value="Positive"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+
+<!--    Switch to mobile artillery mode-->
+    <CButton id="TossGrenadeTychus222227">
+        <Icon value="assets\icons\Soviet\artillery-locomotive-mobile-artillery-mode.dds"/>
+    </CButton>
+<!--    Switch to Napalm bombs mode-->
+    <CButton id="TossGrenadeTychus2222226">
+        <Icon value="assets\icons\Soviet\artillery-locomotive-petrol-bomb-mode.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+
+
+    <CMoverMissile id="Mortar">
+        <MotionPhases>
+            <Driver value="Ballistic"/>
+            <Acceleration value="12"/>
+            <Speed value="10.2031"/>
+            <SpeedRange value="10"/>
+            <Gravity value="35"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CEffectCreatePersistent id="RADelayedStartOfThrowingMolotovCocktails">
+        <ExpireDelay value="0.2"/>
+        <FinalEffect value="RAFiresIncendiaryProjectiles3"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="RAFiresIncendiaryProjectiles3">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="RAArtilleryLocomotiveIncendiaryBombExplosionDamage"/>
+        <AmmoUnit value="SovietMolotovCocktail2"/>
+        <Movers Link="SovietMolotovCocktail"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="MortarLM" parent="BacklashRocketsLM">
+        <Name value="Effect/Name/MortarLM"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <ImpactEffect value="CrucioShockCannonBlast3"/>
+        <AmmoUnit value="CycloneMissile"/>
+        <Movers index="0" Link="Mortar"/>
+    </CEffectLaunchMissile>
+    <CUnit id="MortarShell" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="PunisherGrenadesWeapon"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+<!--    <CUnit id="CycloneMissile" parent="MISSILE">-->
+<!--        <Race value="Terr"/>-->
+<!--        <Mover value="CycloneMissileLeft"/>-->
+<!--        <EditorCategories value="ObjectFamily:Melee,ObjectType:Projectile"/>-->
+<!--    </CUnit>-->
+<!--    <CModel id="CycloneMissile" parent="MissileFX">-->
+<!--        <Model value="Assets\Effects\Terran\Cyclone_Missile\Cyclone_Missile.m3"/>-->
+<!--        <EditorCategories value="Race:Terran"/>-->
+<!--    </CModel>-->
+<!--    <CMoverMissile id="CycloneMissileLeft">-->
+<!--        <MotionPhases>-->
+<!--            <Driver value="Guidance"/>-->
+<!--            <Acceleration value="5"/>-->
+<!--            <Speed value="20"/>-->
+<!--            <MaxSpeed value="35"/>-->
+<!--            <Outro value="-1"/>-->
+<!--            <YawPitchRoll value="719.2968"/>-->
+<!--            <Overlays Scale="0.2,0.2"/>-->
+<!--        </MotionPhases>-->
+<!--        <MotionPhases YawPitchRoll="MAX">-->
+<!--            <Overlays Scale="0"/>-->
+<!--        </MotionPhases>-->
+<!--        <MotionOverlays>-->
+<!--            <Type value="Revolver"/>-->
+<!--            <RevolverSpeed value="179.2968"/>-->
+<!--            <RevolverSpeedRange value="179.2968"/>-->
+<!--            <RevolverMaxSpeed value="719.2968"/>-->
+<!--            <RevolverMaxSpeedRange value="0"/>-->
+<!--            <RevolverAccel value="337.5"/>-->
+<!--            <RevolverAccelRange value="337.5"/>-->
+<!--        </MotionOverlays>-->
+<!--    </CMoverMissile>-->
+<!--    <CActorMissile id="CycloneMissile" parent="GenericAttackMissile" unitName="CycloneMissile"/>-->
+
+
+
+
+
+    <CEffectDamage id="RAArtilleryLocomotiveIncendiaryBombExplosionDamage">
+        <AttributeFactor index="Light" value="1"/>
+        <ArmorReduction value="1"/>
+        <Amount value="25"/>
+        <Death value="Fire"/>
+        <AreaArray Radius="1.5" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Visible;Self,Player,Ally,Missile,Stasis,Dead,Invulnerable"/>
+        <SearchFlags index="ExtendByUnitRadius" value="1"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectDamage id="CrucioShockCannonBlast3" parent="CrucioShockCannonBlast">
+        <Name value="Effect/Name/CrucioShockCannonBlast3"/>
+        <AttributeFactor index="Structure" value="2"/>
+        <Amount value="100"/>
+        <AreaArray index="0" Radius="2"/>
+        <AreaArray index="1" removed="1"/>
+        <AreaArray index="2" removed="1"/>
+        <SearchFilters value="Ground,Visible;Self,Player,Ally,Neutral,Dead,Invulnerable"/>
+        <SearchFlags index="CallForHelp" value="0"/>
+        <SearchFlags index="SameCliff" value="0"/>
+        <ValidatorArray index="0" removed="1"/>
+    </CEffectDamage>
+    <CEffectSet id="SiegeTankSiegedVoid4">
+        <EffectArray value="MortarLM"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CModel id="SovietMortarCycle" parent="Unit" Race="Terran">
+        <Model value="assets\units\soviet\MortarCycle.m3"/>
+        <Flags index="AutoUnload" value="1"/>
+        <PlanetPanelCamera value="Star2CameraHigher18"/>
+        <ScaleMax value="0.700000,0.700000,0.700000"/>
+        <ScaleMin value="0.700000,0.700000,0.700000"/>
+        <SelectionRadius value="0.800000"/>
+        <ShadowRadius value="1.000000"/>
+        <TechPurchaseCamera value="Star2CameraHigher18"/>
+        <Tipability value="0.750000"/>
+        <TipabilityLength value="0.375000"/>
+        <TipabilityWidth value="0.375000"/>
+        <TextureDeclares Prefix="SniperBot3000_">
+            <Adaptions TriggerOnSubstring="_Diffuse" Slot="main"/>
+            <Adaptions TriggerOnSubstring="_Emissive" Slot="main"/>
+        </TextureDeclares>
+        <UnitGlossaryCamera value="Star2CameraHigher18"/>
+    </CModel>
+
+    <CModel id="SiegeTankSiegedAttackDamage3" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\FireImpact\FireImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="SiegeTankSiegedAttackImpact3" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\TerranSmallBlast\TerranSmallBlast.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="SiegeTankSiegedAttackLaunch3" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\SiegeTankWeaponLaunch\SiegeTankWeaponLaunch.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CSound id="Yagdra_Fireball_Impact23" parent="Combat">
+        <EditorCategories value="Race:Zerg"/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarExploA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarExploB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarExploC.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarExploD.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarExploE.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarExploF.ogg" FacialGroup=""/>
+        <Volume value="4.000000,6.000000"/>
+    </CSound>
+    <CSound id="SovietMortarCycle_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SUMorta_voiAttSpeca.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiAttSpecb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiAttSpecc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiAttSpecd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiAttSpece.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiAttacka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiAttackb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiAttackc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiAttackd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiAttacke.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietMortarCycle_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SUMorta_voiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiSelUndd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="Colossus_Explode_Ragdoll_B232" parent="Combat">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarFireA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarFireB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarFireC.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarFireD.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_mortarFireE.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="7"/>
+        <DupeHistoryCount value="8"/>
+        <DupeMuteCount value="5"/>
+        <Volume value="5.000000,5.000000"/>
+    </CSound>
+    <CSound id="SovietMortarCycle_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SUMorta_voiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiMoveg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SumotoCycle" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_movByLpA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_movByLpB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_movByLpC.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_movByLpD.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_movByLpE.ogg" FacialGroup=""/>
+        <DupeMaximumMethod value="Replace"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietMortarCycle_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SUMorta_voiCreatea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiCreateb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiCreatec.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietMortarCycle_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SUMorta_voiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorta_voiSelectf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SiegeTank_SiegedAttackImpact4" parent="Terran_ExplosionMedium">
+        <AssetArray index="0" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium0.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="1" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium1.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="2" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium2.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="3" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium3.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="4" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium4.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="5" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium5.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="6" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium6.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="7" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium7.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="8" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium8.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="9" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium9.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <DupeMuteCount value="10"/>
+        <Pitch value="0.000000,0.000000"/>
+        <Volume value="0.000000,0.000000"/>
+    </CSound>
+    <CSound id="SiegeTank_SiegedAttackLaunch3" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\Artillery2.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\Artillery1.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="8"/>
+        <DupeMaximumMethod value="Replace"/>
+        <Pitch value="-6.180000,-1.820000"/>
+        <Volume value="-2.520000,-1.460000"/>
+    </CSound>
+    <CSound id="SovietMotoCycleVoice" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SUMorCycle_movstartA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_movstartB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_movstartC.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUMorCycle_movstartD.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-5.000000,-5.000000"/>
+        <Category value="Build"/>
+    </CSound>
+
+
+    <CWeaponLegacy id="75mmATT222">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="assets\textures\Soviet\artillery-locomotive-petrol-bomb-mode.dds"/>
+        <DisplayEffect value="RAArtilleryLocomotiveIncendiaryBombExplosionDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="6"/>
+        <Arc value="360"/>
+        <Marker Link="Weapon/75mmATT"/>
+        <Cost>
+            <Cooldown Link="Weapon/75mmATT"/>
+        </Cost>
+        <Period value="1.1"/>
+        <Backswing value="0"/>
+        <Effect value="RADelayedStartOfThrowingMolotovCocktails"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="Mortar">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="assets\textures\Soviet\artillery-locomotive-mobile-artillery-mode.dds"/>
+        <DisplayEffect value="CrucioShockCannonBlast3"/>
+        <TargetFilters value="Ground,Visible;Self,Hover,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Period value="3"/>
+        <Effect value="SiegeTankSiegedVoid4"/>
+        <MinScanRange value="12"/>
+        <Range value="12"/>
+        <Backswing value="0.4"/>
+    </CWeaponLegacy>
+</Catalog>

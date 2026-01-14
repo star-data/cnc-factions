@@ -1,0 +1,178 @@
+<Catalog>
+    <CUnit id="SovietSuperReactor" parent="SovietStructure">
+        <LifeStart value="1500"/>
+        <LifeMax value="1500"/>
+        <Food value="30"/>
+        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Vespene" value="100"/>
+        <RepairTime value="35"/>
+        <KillXP value="30"/>
+        <AbilArray Link="attack"/>
+        <BehaviorArray Link="PowerUserQueue"/>
+        <BehaviorArray Link="jiangshichaobaoshi2"/>
+        <BehaviorArray Link="PowerSource2"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="NukeCalldown2" Type="Passive" Row="1" Column="0"/>
+        </CardLayouts>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <Footprint value="Footprint4x4Contour"/>
+        <PlacementFootprint value="Footprint4x4"/>
+        <ScoreMake value="125"/>
+        <ScoreKill value="125"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="1.75"/>
+    </CUnit>
+    <CActorModel id="EngineeringBay2223" parent="ModelConstruction" unitName="EngineeringBay2">
+        <On Terms="UnitConstruction.SovietSuperReactor.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart 111 {} Birth,Stand {} ContentNonLooping,ContentPlayOnce,OpeningPlayForever,Instant"/>
+        <On Terms="UnitConstruction.SovietSuperReactor.Finish" Send="AnimBracketStop 111"/>
+        <On Terms="UnitConstruction.SovietSuperReactor.Finish" Send="AnimBracketStop 111"/>
+        <On Terms="UnitConstruction.SovietSuperReactor.Cancel" Send="Destroy"/>
+        <On Terms="UnitConstruction.SovietSuperReactor.Finish" Send="Destroy"/>
+        <Model value="EngineeringBay2323"/>
+    </CActorModel>
+    <CActorSquib id="GhostNukeExplode2">
+        <On Terms="Effect.RARadiationEffectCreation2.Start; At Effect" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 20.000000 hedianzhan"/>
+        <On Terms="TimerExpired; TimerName hedianzhan" Send="Destroy"/>
+        <On Terms="TimerExpired; TimerName hedianzhan" Send="TimerKill hedianzhan"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="GhostNukeExplode3" Sound="Odin_NukeExplode2"/>
+    </CActorSquib>
+    <CActorModel id="RAAtomicBombRadiationModel" parent="ModelAnimationStyleOneShot">
+        <Aliases value="_Snapshot"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="CastShadows" value="1"/>
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="CreepEngulfment" value="1"/>
+        <Inherits index="Decal" value="1"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <Inherits index="Opacity" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="TeamColor" value="1"/>
+        <Inherits index="TimeScale" value="1"/>
+        <Inherits index="TintColor" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <Inherits index="WarpGroup" value="1"/>
+        <On Terms="Effect.RARadiationSearchArea1.Start" Send="Create"/>
+        <On Terms="Effect.RARadiationSearchArea2.Start" Send="Create"/>
+        <Model value="TempestGroundAttackImpact2222"/>
+        <ModelFlags index="UseSyncSeed" value="1"/>
+    </CActorModel>
+    <CActorUnit id="SovietSuperReactor" parent="SovietBuilding" unitName="SovietSuperReactor" icon="SuperReactor">
+        <On Terms="UnitConstruction.SovietSuperReactor.Start" Send="AnimPlay 111 Build PlayForever,NonLooping -1.000000 -1.000000 0.075000 AsTimeScaleAbsolute"/>
+        <On Terms="UnitConstruction.SovietSuperReactor.Finish" Send="AnimClear 111"/>
+        <On Terms="UnitConstruction.SovietSuperReactor.Cancel" Send="AnimClear 111"/>
+        <Model value="SovietSuperReactor"/>
+        <Scale value="1.300000"/>
+        <CreepHeightClass value="Medium"/>
+        <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <PortraitModel value="EngineeringBayPortrait"/>
+        <BarOffset value="130"/>
+        <BarWidth value="180"/>
+        <NameOffset value="110"/>
+        <SoundArray index="Birth" value="SovietSuperReactor_Birth"/>
+        <SoundArray index="Ready" value="SovietSuperReactor_Birth"/>
+        <SoundArray index="What" value="SovietSuperReactor_Birth"/>
+        <SoundArray index="Construction" value="SovietSuperReactor_Birth"/>
+        <SoundArray index="Click" value="SovietSuperReactor_Birth"/>
+    </CActorUnit>
+    <CBehaviorBuff id="jiangshichaobaoshi2">
+        <InfoFlags index="Hidden" value="1"/>
+        <DamageResponse Fatal="1" Handled="NukeDetonate2">
+            <ExcludeEffectInChainArray value="DisbandDeath8"/>
+            <ExcludeEffectInChainArray value="ArtanisVoidUlnarDamage22"/>
+            <ExcludeEffectInChainArray value="DisbandDeath"/>
+            <Chance value="1"/>
+        </DamageResponse>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+    </CBehaviorBuff>
+    <CButton id="NukeCalldown2">
+        <Icon value="Assets\Textures\btn-progression-hornerhan-14-nukefortelefrag.dds"/>
+        <Hotkey value="Button/Hotkey/Nukeexplo"/>
+        <HidesForSimpleText value="0"/>
+    </CButton>
+    <CEffectCreatePersistent id="NukeDetonate2">
+        <EditorCategories value="Race:Terran"/>
+        <WhichLocation Value="SourceUnit"/>
+        <InitialEffect value="RARadiationEffectCreation2"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="NukeDamage2"/>
+        <PeriodicPeriodArray value="0.2"/>
+        <RevealRadius value="8"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="RARadiationDamage2">
+        <Amount value="5"/>
+        <Death value="Disintegrate"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="RARadiationEffectCreation2">
+        <InitialDelay value="1"/>
+        <PeriodCount value="120"/>
+        <PeriodicEffectArray value="RARadiationGroundAndBehavioralSetOnSet2"/>
+        <PeriodicPeriodArray value="0.125"/>
+        <RevealRadius value="8"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="RARadiationGroundAndBehavioralSetOnSet2">
+        <EffectArray value="RARadiationSearchArea2"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CEffectEnumArea id="RARadiationSearchArea2">
+        <ImpactLocation Value="TargetPoint"/>
+        <SearchFilters value="-;Ally,Neutral,Structure,Missile,Dead,Invulnerable"/>
+        <AreaArray Radius="10" Effect="RARadiationDamage2"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="NukeDamage2">
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <Amount value="1800"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="4" Fraction="0.5"/>
+        <AreaArray Radius="5" Fraction="0.25"/>
+        <AreaArray Radius="6" Fraction="0.25"/>
+        <SearchFilters value="-;Ally,Neutral,Missile,Dead,Invulnerable"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CModel id="TempestGroundAttackImpact2222" parent="ImpactFX">
+        <Model value="assets\models\RA2Fushe.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="1.400000,1.400000,1.400000"/>
+        <ScaleMin value="1.400000,1.400000,1.400000"/>
+    </CModel>
+    <CModel id="EngineeringBay2323" parent="EngineeringBayBase">
+        <Model value="Assets\buildings\soviet\SuperReactor_BuildSupport.m3"/>
+        <AnimSpeed value="0.415000"/>
+        <ScaleMax value="0.600000,0.600000,0.600000"/>
+        <ScaleMin value="0.600000,0.600000,0.600000"/>
+        <SelectionRadius value="2.000000"/>
+    </CModel>
+    <CModel id="GhostNukeExplode3" parent="OneShotSpellFX">
+        <Model value="Assets\Effects\Terran\Nuke\Nuke.m3"/>
+        <AnimSpeed value="1.300000"/>
+        <EditorCategories value="Race:Terran"/>
+        <RadiusLoose value="1.000000"/>
+        <ScaleMax value="1.200000,1.200000,1.200000"/>
+        <ScaleMin value="1.200000,1.200000,1.200000"/>
+    </CModel>
+    <CModel id="SovietSuperReactor" parent="EngineeringBayBase">
+        <Model value="Assets\buildings\soviet\SuperReactor.m3"/>
+        <ScaleMax value="0.600000,0.600000,0.600000"/>
+        <ScaleMin value="0.600000,0.600000,0.600000"/>
+        <SelectionRadius value="2.700000"/>
+    </CModel>
+    <CSound id="Odin_NukeExplode2" parent="Ghost_NukeExplode">
+        <AssetArray index="0" File="assets\sounds\RA2snukexpl.ogg" FacialGroup=""/>
+        <Volume value="6.000000,6.000000"/>
+    </CSound>
+    <CSound id="SovietSuperReactor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-power-plant_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+
+</Catalog>

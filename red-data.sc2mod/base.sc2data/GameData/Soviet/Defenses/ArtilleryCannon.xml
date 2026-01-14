@@ -1,0 +1,187 @@
+<Catalog>
+
+    <CUnit id="SovietArtilleryCannon" parent="SovietStructure">
+        <FlagArray index="AIDefense" value="1"/>
+        <FlagArray index="Unstoppable" value="1"/>
+        <LifeStart value="750"/>
+        <LifeMax value="750"/>
+        <Sight value="20"/>
+        <!--Food value="-4"/-->
+        <CostResource index="Minerals" value="300"/>
+        <CostResource index="Vespene" value="300"/>
+        <RepairTime value="30"/>
+        <AttackTargetPriority value="20"/>
+        <KillXP value="30"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="Disband2"/>
+        <AbilArray Link="Blink22"/>
+        <BehaviorArray Link="SovietT4unitveteranbehavior"/>
+        <BehaviorArray Link="PowerSource2"/>
+        <BehaviorArray Link="PowerUserQueue"/>
+        <BehaviorArray Link="RATowerdefensemovementCDreduced"/>
+        <WeaponArray Link="SovietArtilleryCannon" Turret="AlliedBankGun_Model"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Disband3" Type="AbilCmd" AbilCmd="Disband2,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="RAHandlingturrets" Type="AbilCmd" AbilCmd="Blink22,Execute" Row="0" Column="0"/>
+        </CardLayouts>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <Footprint value="Footprint1x1CreepNormal2"/>
+        <PlacementFootprint value="Footprint1x1CreepNormal2"/>
+        <ScoreMake value="1000"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="3"/>
+    </CUnit>
+    <CActorAction id="90mmHTCannon42" parent="GenericAttack" effectImpact="90mmHTCannon42" effectLaunch="HammerSecurityLM222242">
+        <LaunchAttachQuery Methods="AMFilterWeapon AMFilterWeapon2" Fallback="Weapon"/>
+        <LaunchAssets Model="SiegeTankAttackImpact73" Scale="1.500000" Sound="Colossus_Explode_Ragdoll_B2"/>
+        <Missile value="HammerSecurityAttackMissile22"/>
+        <ImpactMap index="None" Model="" Scale="0.700000" Sound="Colossus_Explode_Ragdoll_B25"/>
+        <ImpactMap index="Miss" Scale="0.700000" Sound="Colossus_Explode_Ragdoll_B25" ModelReaction="90mmHTCannonImpactReaction"/>
+        <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
+    </CActorAction>
+    <CActorMissile id="HammerSecurityAttackMissile22" parent="GenericAttackMissile" unitName="CoastDefenseGunShells">
+        <Model value="HammerSecurityLMWeapon22"/>
+    </CActorMissile>
+    <CActorSquib id="RAShoreDefenseArtilleryBombardment">
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.90mmHTCannon4.Start" Send="Create"/>
+        <On Terms="Effect.90mmHTCannon23.Start" Send="Create"/>
+        <On Terms="Effect.90mmHTCannon42.Start" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="SiegeTankAttackImpact722" Sound="Colossus_Explode_Ragdoll_B25"/>
+        <Flags index="SuppressSaveLoad" value="1"/>
+    </CActorSquib>
+    <CActorModel id="EngineeringBay22232222" parent="ModelConstruction" unitName="EngineeringBay2">
+        <On Terms="ActorCreation" Send="AnimBracketStart 111 {} Birth,Stand {} ContentNonLooping,ContentPlayOnce,OpeningPlayForever,Instant"/>
+        <On Terms="UnitConstruction.SovietArtilleryCannon.Start" Send="Create"/>
+        <On Terms="UnitConstruction.SovietArtilleryCannon.Cancel" Send="AnimBracketStop 111"/>
+        <On Terms="UnitConstruction.SovietArtilleryCannon.Finish" Send="AnimBracketStop 111"/>
+        <Model value="EngineeringBay23232222"/>
+    </CActorModel>
+    <CActorUnit id="SovietArtilleryCannon" parent="SovietBuilding" unitName="SovietArtilleryCannon" icon="ArtilleryCannon">
+        <Scale value="0.600000"/>
+        <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <PortraitModel value="AdjutantPortrait"/>
+        <BarOffset value="120"/>
+        <SoundArray index="Birth" value="AlliedGrandCannon_Actor_What"/>
+        <SoundArray index="Ready" value="AlliedGrandCannon_Actor_What"/>
+        <SoundArray index="What" value="AlliedGrandCannon_Actor_What"/>
+        <SoundArray index="Construction" value="AlliedGrandCannon_Actor_What"/>
+        <SoundArray index="Click" value="AlliedGrandCannon_Actor_What"/>
+        <BarWidth value="120"/>
+        <On Terms="UnitConstruction.SovietArtilleryCannon.Start" Send="AnimPlay 111 Birth PlayForever,NonLooping -1.000000 -1.000000 0.560000 AsTimeScale"/>
+        <On Terms="UnitConstruction.SovietArtilleryCannon.Finish" Send="AnimClear 111"/>
+        <On Terms="UnitConstruction.SovietArtilleryCannon.Cancel" Send="AnimClear 111"/>
+    </CActorUnit>
+    <CActorRange id="SiegeTankSiegedRange22232">
+        <Inherits index="TeamColor" value="1"/>
+        <On Terms="SelectionLocalUpdate.SovietArtilleryCannon.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietArtilleryCannon.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietArtilleryCannon" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietArtilleryCannon.Stop" Send="Destroy"/>
+        <Weapon value="SovietArtilleryCannon"/>
+        <Icon value="Assets\Textures\radaricon2.dds"/>
+        <IconArcLength value="0.300000"/>
+    </CActorRange>
+    <CEffectLaunchMissile id="HammerSecurityLM222242">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="90mmHTCannon42"/>
+        <AmmoUnit value="CoastDefenseGunShells"/>
+        <Movers Link="PunisherGrenadesWeapon42"/>
+    </CEffectLaunchMissile>
+    <CEffectCreatePersistent id="RAThreeConsecutiveLaunchesOfTheGiantCannon">
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="HammerSecurityLM222242"/>
+        <PeriodicEffectArray value="HammerSecurityLM222242"/>
+        <PeriodicEffectArray value="HammerSecurityLM222242"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.25"/>
+        <PeriodicPeriodArray value="0.25"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="90mmHTCannon42" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="400"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="4" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Air,Missile,Invulnerable"/>
+        <ArmorReduction value="0"/>
+    </CEffectDamage>
+    <CModel id="SiegeTankAttackImpact73" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\SiegeTankWeaponLaunch\SiegeTankWeaponLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackImpactLow"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.200000,1.200000,1.200000"/>
+        <ScaleMin value="1.200000,1.200000,1.200000"/>
+    </CModel>
+    <CModel id="HammerSecurityLMWeapon22" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\YamatoMissile\YamatoMissile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.100000,1.100000,1.100000"/>
+        <ScaleMin value="1.100000,1.100000,1.100000"/>
+    </CModel>
+    <CModel id="SiegeTankAttackImpact722" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_NapalmBomb_Coop_Explosion\MiraHorner_NapalmBomb_Coop_Explosion.m3"/>
+        <AnimSpeed value="0.900000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="2.000000,2.000000,1.200000"/>
+        <ScaleMin value="2.000000,2.000000,1.200000"/>
+    </CModel>
+    <CModel id="EngineeringBay23232222" parent="EngineeringBayBase">
+        <Model value="Assets\buildings\soviet\BattleLab_BuildSupport.m3"/>
+        <AnimSpeed value="0.550000"/>
+        <ScaleMax value="0.800000,0.800000,0.800000"/>
+        <ScaleMin value="0.800000,0.800000,0.800000"/>
+        <SelectionRadius value="1.500000"/>
+    </CModel>
+    <CModel id="SovietArtilleryCannon" parent="Unit" race="Terran">
+        <Model value="Assets\buildings\soviet\ArtilleryCannon.m3"/>
+        <Radius value="1.500000"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="1.600000"/>
+        <ShadowRadius value="3.000000"/>
+    </CModel>
+
+    <CTurret id="AlliedBankGun_Model">
+        <Idle value="Hold"/>
+        <YawArc value="360"/>
+        <YawRate value="90"/>
+        <YawIdleRate value="29.8828"/>
+        <Fidget TurnAngle="29.9707">
+            <ChanceArray index="Anim" value="30"/>
+            <ChanceArray index="Idle" value="40"/>
+            <ChanceArray index="Turn" value="30"/>
+        </Fidget>
+    </CTurret>
+    <CUnit id="CoastDefenseGunShells" parent="MISSILE">
+        <Race value="China"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <Mover value="MarauderWeapon"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CWeaponLegacy id="SovietArtilleryCannon">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-vehicleweaponslevel2.dds"/>
+        <DisplayEffect value="90mmHTCannon42"/>
+        <DisplayAttackCount value="3"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="18"/>
+        <Range value="18"/>
+        <RangeSlop value="3"/>
+        <Period value="2"/>
+        <Backswing value="0"/>
+        <Effect value="RAThreeConsecutiveLaunchesOfTheGiantCannon"/>
+        <LegacyOptions index="LockTurretWhileFiring" value="1"/>
+    </CWeaponLegacy>
+</Catalog>

@@ -1,0 +1,410 @@
+<Catalog>
+
+    <CUnit id="SovietSickle" parent="SovietGround">
+        <Subtitle value="UnitSubtitle/Sujijia"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <PushPriority value="5"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="130"/>
+        <LifeMax value="130"/>
+        <LifeArmor value="1"/>
+        <Speed value="2"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="125"/>
+        <CostResource index="Vespene" value="25"/>
+        <RepairTime value="41.667"/>
+        <KillXP value="2"/>
+        <AbilArray Link="DehakaLeap2"/>
+        <BehaviorArray Link="UpgradeLevel14"/>
+        <BehaviorArray Link="nianayaLevel1"/>
+        <WeaponArray Link="MosinNagant3" Turret="RASickleMechTurret1"/>
+        <WeaponArray Link="MosinNagant32" Turret="RASickleMechaTurret2"/>
+        <WeaponArray Link="MosinNagant33" Turret="RASickleMechTurret32"/>
+        <WeaponArray Link="nianyalv1"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="DehakaLeap2" Type="AbilCmd" AbilCmd="DehakaLeap2,Execute" Row="1" Column="0"/>
+        </CardLayouts>
+        <Radius value="0.6875"/>
+        <SeparationRadius value="0.4375"/>
+        <InnerRadius value="0.6875"/>
+        <SubgroupPriority value="12"/>
+    </CUnit>
+    <CAbilEffectTarget id="DehakaLeap2">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Flags index="AbortOnAllianceChange" value="0"/>
+        <Cost>
+            <Cooldown TimeUse="15"/>
+        </Cost>
+        <Range value="12"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="DehakaLeap2"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+        <Effect index="0" value="DehakaLeapLMPoint2"/>
+        <PrepTime value="0.4"/>
+        <FinishTime value="1"/>
+        <UninterruptibleArray index="Prep" value="1"/>
+        <AINotifyEffect value="DehakaLeapLMPoint2"/>
+    </CAbilEffectTarget>
+    <CActorSquib id="RASickleMechaJumpingEffect">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.DehakaLeapSearch2.Start" Send="Create"/>
+        <On Terms="Effect.DehakaLeapSearch23.Start" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="ColossusAttackBeamImpact222222" Scale="1.500000" Sound="Suliandaoland"/>
+        <Map index="Miss" Model="ColossusAttackBeamImpact222222" Scale="1.500000" Sound="Suliandaoland"/>
+    </CActorSquib>
+    <CActorUnit id="SovietSickle" parent="SovietVehicle" unitName="SovietSickle" icon="Sickle">
+        <Scale value="1.200000"/>
+        <DeathArray index="Normal" ModelLink="SpiderMineExplosion2" SoundLink="Reaper_Explode"/>
+        <DeathActorModelLow value="UnitDeathModel"/>
+        <PortraitModel value="MarineMercenaryPortrait"/>
+        <WalkAnimMoveSpeed value="1.1015"/>
+        <BarOffset value="70"/>
+        <NameOffset value="60"/>
+        <SoundArray index="Ready" value="SulinadaoVoice"/>
+        <SoundArray index="Help" value="SovietSickle_Actor_Help"/>
+        <SoundArray index="What" value="SovietSickle_Actor_What"/>
+        <SoundArray index="Yes" value="SovietSickle_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietSickle_Actor_Attack"/>
+        <SoundArray index="Pissed" value="SovietSickle_Actor_Attack"/>
+        <SoundArray index="Click" value="SovietSickle_Actor_What"/>
+        <UnitFlags index="SuppressStandIntro" value="1"/>
+        <UnitFlags index="SuppressWalkIntro" value="1"/>
+        <UnitFlags index="SuppressWalkOutro" value="1"/>
+        <On index="65" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack"/>
+        <On Terms="Abil.DehakaLeap2.SourcePrepStart" Send="AnimBracketStart 111 Stand,Work,Start Jump Jump,End"/>
+        <On Terms="Effect.DehakaLeapSearch2.Start" Send="AnimBracketStop 111"/>
+        <AbilSoundArray AbilCmd="DehakaLeap2,Execute" Sound="SulinadaoVoice6" GroupSound="SulinadaoVoice6"/>
+    </CActorUnit>
+    <CActorAction id="MosinNagantAttack3" parent="GenericAttack" effectAttack="MosinNagant3">
+        <LaunchAttachQuery Methods="AMFilterWeapon01" Fallback="Weapon"/>
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="VikingAssault_AttackLaunch2224"/>
+        <ContainerAssets Model="SovietConscriptRifleFired" Sound="VikingAssault_AttackLaunch2224"/>
+        <ImpactMap index="None" Model="TitanMechShootBigBloodImpact2" Sound="Spectre_AttackImpact"/>
+    </CActorAction>
+    <CActorAction id="MosinNagantAttack32" parent="GenericAttack" effectAttack="MosinNagant32">
+        <LaunchAttachQuery Methods="AMFilterWeapon02" Fallback="Weapon"/>
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="VikingAssault_AttackLaunch2224"/>
+        <ContainerAssets Model="SovietConscriptRifleFired" Sound="VikingAssault_AttackLaunch2224"/>
+        <ImpactMap index="None" Model="TitanMechShootBigBloodImpact2" Sound="Spectre_AttackImpact"/>
+    </CActorAction>
+    <CActorAction id="MosinNagantAttack322" parent="GenericAttack" effectAttack="MosinNagant322">
+        <LaunchAttachQuery Methods="AMFilterWeapon03" Fallback="Weapon"/>
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="VikingAssault_AttackLaunch2224"/>
+        <ContainerAssets Model="SovietConscriptRifleFired" Sound="VikingAssault_AttackLaunch2224"/>
+        <ImpactMap index="None" Model="TitanMechShootBigBloodImpact2" Sound="Spectre_AttackImpact"/>
+    </CActorAction>
+    <CButton id="DehakaLeap2">
+        <Icon value="Assets\icons\Soviet\sickle-mech-skill-icon.dds"/>
+    </CButton>
+    <CEffectEnumArea id="DehakaLeapSearch2">
+        <EditorCategories value="Race:Zerg"/>
+        <ImpactLocation Value="CasterUnit"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Structure,Missile,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="1" Effect="RASickleMechJumpDamage"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="MosinNagant3" parent="DU_WEAP">
+        <AttributeFactor index="Light" value="1"/>
+        <Kind value="Ranged"/>
+        <Amount value="5"/>
+    </CEffectDamage>
+    <CEffectDamage id="MosinNagant32" parent="DU_WEAP">
+        <AttributeFactor index="Light" value="1"/>
+        <Kind value="Ranged"/>
+        <Amount value="5"/>
+    </CEffectDamage>
+    <CEffectDamage id="MosinNagant322" parent="DU_WEAP">
+        <AttributeFactor index="Light" value="1"/>
+        <Kind value="Ranged"/>
+        <Amount value="5"/>
+    </CEffectDamage>
+    <CEffectDamage id="RASickleMechJumpDamage">
+        <AttributeFactor index="Light" value="1"/>
+        <Amount value="80"/>
+        <ArmorReduction value="1"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="RASickleMecha5Rounds">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <OffsetVectorEndLocation Value="TargetUnitOrPoint"/>
+        <PeriodCount value="5"/>
+        <PeriodicEffectArray value="MosinNagant3"/>
+        <PeriodicEffectArray value="MosinNagant3"/>
+        <PeriodicEffectArray value="MosinNagant3"/>
+        <PeriodicEffectArray value="MosinNagant3"/>
+        <PeriodicEffectArray value="MosinNagant3"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RASickleMecha5Bursts2">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <OffsetVectorEndLocation Value="TargetUnitOrPoint"/>
+        <PeriodCount value="5"/>
+        <PeriodicEffectArray value="MosinNagant32"/>
+        <PeriodicEffectArray value="MosinNagant32"/>
+        <PeriodicEffectArray value="MosinNagant32"/>
+        <PeriodicEffectArray value="MosinNagant32"/>
+        <PeriodicEffectArray value="MosinNagant32"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RASickleMecha5Bursts3">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <OffsetVectorEndLocation Value="TargetUnitOrPoint"/>
+        <PeriodCount value="5"/>
+        <PeriodicEffectArray value="MosinNagant322"/>
+        <PeriodicEffectArray value="MosinNagant322"/>
+        <PeriodicEffectArray value="MosinNagant322"/>
+        <PeriodicEffectArray value="MosinNagant322"/>
+        <PeriodicEffectArray value="MosinNagant322"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="DehakaLeapLMPoint2">
+        <EditorCategories value="Race:Zerg"/>
+        <LaunchLocation Value="CasterUnit"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <FinishEffect value="DehakaLeapSearch2"/>
+        <Flags index="Placement" value="1"/>
+        <Flags index="PlacementIgnoreCliffTest" value="1"/>
+        <PlacementRange value="1"/>
+        <Movers Link="RALeapMissile"/>
+        <DeathType value="Unknown"/>
+    </CEffectLaunchMissile>
+    <CMoverMissile id="RALeapMissile" parent="MissileDefault">
+        <MotionPhases index="0">
+            <Driver value="AdaptableParabola"/>
+            <Acceleration value="0"/>
+            <MinSpeed value="10"/>
+            <MaxSpeed value="10"/>
+            <ClearanceAcceleration value="75"/>
+            <ActorTracking value="Actual"/>
+            <Outro value="0"/>
+            <AdaptableParabolaIsUpright value="1"/>
+            <AdaptableParabolaClearance value="3,0.5"/>
+            <YawPitchRoll value="0"/>
+            <AdaptableParabolaDistances index="Launch" value="1"/>
+            <AdaptableParabolaDistances index="PreApex" value="0.3"/>
+            <AdaptableParabolaDistances index="PostApex" value="0.3"/>
+            <AdaptableParabolaDistances index="Land" value="1"/>
+            <AdaptableParabolaAccels index="Launch" value="0"/>
+            <AdaptableParabolaAccels index="Ascent" value="0"/>
+            <AdaptableParabolaAccels index="Apex" value="0"/>
+            <AdaptableParabolaAccels index="Descent" value="0"/>
+            <AdaptableParabolaAccels index="Land" value="0"/>
+        </MotionPhases>
+        <MotionPhases index="1" removed="1"/>
+    </CMoverMissile>
+    <CModel id="SovietSickle" parent="Unit" Race="Terran">
+        <Model value="assets\units\soviet\Sickle.m3"/>
+        <Flags index="AutoUnload" value="1"/>
+        <SelectionRadius value="0.400000"/>
+    </CModel>
+    <CSound id="VikingAssault_AttackLaunch2224" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\MutAmon_Tychus_GatGun_Launch_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\MutAmon_Tychus_GatGun_Launch_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\MutAmon_Tychus_GatGun_Launch_03a.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\MutAmon_Tychus_GatGun_Launch_04.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\MutAmon_Tychus_GatGun_Launch_05.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\MutAmon_Tychus_GatGun_Launch_06.wav" FacialGroup=""/>
+        <DupeMaximumMethod value="Replace"/>
+        <Pitch value="-2.000000,0.000000"/>
+        <Volume value="-12.000000,-10.000000"/>
+    </CSound>
+    <CSound id="Suliandaoland" parent="Combat">
+        <EditorCategories value="Race:Zerg"/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_landa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_landb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_landc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_landd.ogg" FacialGroup=""/>
+        <Volume value="2.000000,3.000000"/>
+    </CSound>
+    <CSound id="SovietSickle_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiselecta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiselectb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiselectc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiselectd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiselecte.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiselectf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiselectg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\scythe-mecha-susickl_voiselecth.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietSickle_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\scythe-mecha-susickl_voiattacka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattackb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattackc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattackd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattacke.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattackf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattackg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\scythe-mecha-susickl_voiattackh.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietSickle_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voimovea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mechasusickl_voimoveb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voimovec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voimoved.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\scythe-mecha-susickl_voimovee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voimovef.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\scythe-mecha-susickl_voimoveg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voimoveh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voimovei.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voimovej.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SulinadaoVoice6" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattjuma.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattjumb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattjumc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattjumd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattjume.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiattjumf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SulinadaoVoice" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voicreatec.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietSickle_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiselunda.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\scythe-mecha-susickl_voiselundb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\scythe-mecha-susickl_voiselundc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiselundd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\sickle-mecha-susickl_voiselunde.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CActorTurret id="RASickleMechaTurret1">
+        <On Terms="TurretEnable.RASickleMechTurret1" Send="Create"/>
+        <On Terms="TurretEnable.RAHarvesterTurret1" Send="Create"/>
+        <YawQuery Methods="Turret 0"/>
+    </CActorTurret>
+    <CActorTurret id="RASickleMechTurret2">
+        <On Terms="TurretEnable.RASickleMechaTurret2" Send="Create"/>
+        <On Terms="TurretEnable.RAHarvesterTurret2" Send="Create"/>
+        <YawQuery Methods="TurretY 0"/>
+    </CActorTurret>
+    <CActorTurret id="RASickleMechTurret3">
+        <On Terms="TurretEnable.RASickleMechTurret32" Send="Create"/>
+        <On Terms="TurretEnable.RAHarvesterTurret3" Send="Create"/>
+        <YawQuery Methods="TurretZ 0"/>
+    </CActorTurret>
+    <CTurret id="RASickleMechTurret1">
+        <Idle value="ResetIfMoving"/>
+        <YawArc value="119.9926"/>
+        <YawRate value="360"/>
+        <YawIdleRate value="360"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+    <CTurret id="RASickleMechaTurret2">
+        <Idle value="ResetIfMoving"/>
+        <YawStart value="-119.9926"/>
+        <YawArc value="360"/>
+        <YawRate value="360"/>
+        <YawIdleRate value="360"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+    <CTurret id="RASickleMechTurret32">
+        <Idle value="ResetIfMoving"/>
+        <YawStart value="119.9926"/>
+        <YawArc value="360"/>
+        <YawRate value="360"/>
+        <YawIdleRate value="360"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+    <CWeaponLegacy id="MosinNagant32">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Options index="IgnoreThreat" value="1"/>
+        <Options index="IgnoreAttackPriority" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-mengsk-engineeringbay-dominionweaponslevel3.dds"/>
+        <DisplayEffect value="MosinNagant3"/>
+        <DisplayAttackCount value="5"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Hidden,Invulnerable"/>
+        <Range value="9"/>
+        <Period value="1.5"/>
+        <Backswing value="0"/>
+        <Effect value="RASickleMecha5Bursts2"/>
+        <LegacyOptions index="CanRetargetWhileChanneling" value="1"/>
+        <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="MosinNagant33">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Options index="IgnoreThreat" value="1"/>
+        <Options index="IgnoreAttackPriority" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-mengsk-engineeringbay-dominionweaponslevel3.dds"/>
+        <DisplayEffect value="MosinNagant3"/>
+        <DisplayAttackCount value="5"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Hidden,Invulnerable"/>
+        <Range value="9"/>
+        <Period value="1.5"/>
+        <Backswing value="0"/>
+        <Effect value="RASickleMecha5Bursts3"/>
+        <LegacyOptions index="CanRetargetWhileChanneling" value="1"/>
+        <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="MosinNagant3">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-mengsk-engineeringbay-dominionweaponslevel3.dds"/>
+        <DisplayAttackCount value="5"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Hidden,Invulnerable"/>
+        <Range value="8"/>
+        <Period value="1.5"/>
+        <Backswing value="0"/>
+        <Effect value="RASickleMecha5Rounds"/>
+        <LegacyOptions index="CanRetargetWhileChanneling" value="1"/>
+        <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+</Catalog>

@@ -1,0 +1,78 @@
+<Catalog>
+    <CAbilEffectTarget id="SovietRepairBuildings">
+        <Alignment value="Positive"/>
+        <OrderArray index="0" Model="Assets\UI\Cursors\WayPointConfirm_Void\WayPointConfirm_Void.m3"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <Effect index="0" value="BuildingRepairSet"/>
+        <Cost/>
+        <TargetFilters value="Structure;Ally,Neutral,Enemy,Dead"/>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <SmartValidatorArray value="healSmartTargetFilters"/>
+        <SmartValidatorArray value="NoMedivacMarkers2"/>
+        <SmartValidatorArray value="RAExcludeBuildingsBeingRepaired"/>
+        <SmartValidatorArray value="NotWarpingIn"/>
+        <SmartValidatorArray value="NotFullLife"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="SovietBuildingRepair"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Transient" value="1"/>
+    </CAbilEffectTarget>
+    <CActorUnit id="AubuildDunmmyUnit323" parent="GenericUnitStandard" unitName="AubuildDunmmyUnit323">
+        <Model value="Invisible"/>
+        <AbilSoundArray AbilCmd="EmpireRepairBuildings,Execute" Sound="JUConstructionComplete2324"/>
+        <AbilSoundArray AbilCmd="AlliedRepairBuildings,Execute" Sound="JUConstructionComplete2322"/>
+        <AbilSoundArray AbilCmd="ChinaRepairBuildings,Execute" Sound="JUConstructionComplete232"/>
+        <AbilSoundArray AbilCmd="SovietRepairBuildings,Execute" Sound="JUConstructionComplete2323"/>
+        <HighlightTooltip value="Unit/Name/Bogus"/>
+        <StatusBarFlags index="Life" value="0"/>
+    </CActorUnit>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent56">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="NotFullLife"/>
+        <DisableValidatorArray value="NoMedivacMarkers23"/>
+        <RemoveValidatorArray value="NotFullLife"/>
+        <RemoveValidatorArray value="NoMedivacMarkers23"/>
+        <Modification>
+            <VitalRegenArray index="Life" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CEffectCreateHealer id="Repair22">
+        <ValidatorArray value="NotWarpingIn"/>
+        <ValidatorArray value="HiddenCompareBA"/>
+        <ValidatorArray value="HiddenCompareAB"/>
+        <ValidatorArray value="NotVortexd"/>
+        <ValidatorArray value="NoMedivacMarkers2"/>
+        <EditorCategories value="Race:Terran"/>
+        <Marker Link="Effect/Repair"/>
+        <DrainResourceCostFactor index="Minerals" value="0.5"/>
+        <RechargeVitalRate value="10"/>
+        <Flags index="Channeled" value="0"/>
+        <PeriodicValidator value="NoMedivacMarkers23"/>
+    </CEffectCreateHealer>
+    <CEffectApplyBehavior id="BuildingRepairAB">
+        <Behavior value="RAMovementSpeedAndArmor20Percent56"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="BuildingRepairSet">
+        <ValidatorArray value="NotWarpingIn"/>
+        <ValidatorArray value="HiddenCompareBA"/>
+        <ValidatorArray value="HiddenCompareAB"/>
+        <ValidatorArray value="NotFullLife"/>
+        <ValidatorArray value="NotVortexd"/>
+        <ValidatorArray value="RAExcludeBuildingsBeingRepaired"/>
+        <ValidatorArray value="NotUnderConstruction"/>
+        <EffectArray value="BuildingRepairAB"/>
+        <EffectArray value="Repair22"/>
+    </CEffectSet>
+    <CModel id="cashreward2">
+        <Model value="Assets\Models\RepairBUFF.m3"/>
+    </CModel>
+    <CValidatorUnitCompareMarkerCount id="NoMedivacMarkers2">
+        <ResultFailed value="AlreadyTargeted"/>
+        <WhichUnit Effect="Repair22"/>
+    </CValidatorUnitCompareMarkerCount>
+    <CValidatorUnitCompareBehaviorCount id="RAExcludeBuildingsBeingRepaired">
+        <ResultFailed value="Error,cannotrepair2dn"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent56"/>
+    </CValidatorUnitCompareBehaviorCount>
+</Catalog>

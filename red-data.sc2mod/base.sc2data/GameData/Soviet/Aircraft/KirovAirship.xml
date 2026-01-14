@@ -1,0 +1,506 @@
+<Catalog>
+
+    <CUnit id="SovietKirovAirship" parent="SovietAir">
+        <DefaultAcquireLevel value="Defensive"/>
+        <!--        <Response value="Nothing"/>-->
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <LifeArmor value="1"/>
+        <LifeRegenRate value="5"/>
+        <Speed value="0.8984"/>
+        <Acceleration value="50"/>
+        <LateralAcceleration value="46.0625"/>
+        <StationaryTurningRate value="99.8437"/>
+        <TurningRate value="99.8437"/>
+        <Sight value="11"/>
+        <Food value="-4"/>
+        <CostResource index="Minerals" value="250"/>
+        <CostResource index="Vespene" value="150"/>
+        <RepairTime value="50"/>
+        <KillXP value="25"/>
+        <AbilArray index="0" Link="stop2"/>
+        <AbilArray index="1" Link="move2"/>
+        <AbilArray Link="VolatileBurstBuilding2523"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent12"/>
+        <BehaviorArray Link="UpgradeLevel12325"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent68"/>
+        <WeaponArray Link="StrategicBomb2"/>
+<!--        <WeaponArray Link="Twin792mm2222"/>-->
+        <CardLayouts index="0">
+            <LayoutButtons Face="Move2" Type="AbilCmd" AbilCmd="move2,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="Stop2" Type="AbilCmd" AbilCmd="stop2,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="MoveHoldPosition2" Type="AbilCmd" AbilCmd="move2,HoldPos" Row="0" Column="2"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move2,Patrol" Row="0" Column="4"/>
+            <LayoutButtons Face="TossGrenadeTychus222222523" Type="AbilCmd" AbilCmd="VolatileBurstBuilding2523,Off" Row="1" Column="1"/>
+            <LayoutButtons Face="CloakingDrone2" Type="Passive" Row="1" Column="4"/>
+            <LayoutButtons Face="TossGrenadeTychus22222623" Type="AbilCmd" AbilCmd="VolatileBurstBuilding2523,On" Row="1" Column="2"/>
+        </CardLayouts>
+        <Radius value="1.125"/>
+        <SeparationRadius value="1"/>
+        <InnerRadius value="0.875"/>
+        <ScoreMake value="350"/>
+        <ScoreKill value="700"/>
+        <SubgroupPriority value="16"/>
+        <MinimapRadius value="0.875"/>
+    </CUnit>
+    <CActorSound id="RAKirovBombExplosionSoundEffects" parent="SoundOneShot">
+        <On Terms="Effect.CrucioShockCannonBlast22.Start" Send="Create"/>
+        <On Terms="Effect.CrucioShockCannonBlast2222.Start" Send="Create"/>
+        <Sound value="SiegeTank_SiegedAttackImpact22"/>
+    </CActorSound>
+    <CActorMissile id="RAKirovBombModel" parent="GenericAttackMissile" unitName="SovietKirovBomb">
+        <Model value="CycloneMissile24"/>
+        <On index="1" Terms="UnitBirth" Send="AnimBracketStart Lifetime Birth Stand {} Instant"/>
+    </CActorMissile>
+    <CActorAction id="Twin792mmAttack2" parent="GenericAttack" effectAttack="Twin792mm5">
+        <On Terms="Effect.Twin792mm3.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.Twin792mm3; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+        <LaunchAssets Model="VikingAssaultAttackLaunch2" Sound="VikingAssault_AttackLaunch2"/>
+        <Missile value=""/>
+        <ImpactMap index="None" Model="VikingAssaultAttackImpact2" Sound="Viking_AssaultAttackImpact2"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact2"/>
+    </CActorAction>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent12">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DamageResponse ClampMaximum="600" Minimum="0">
+            <Chance value="1"/>
+        </DamageResponse>
+        <Alignment value="Positive"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent68">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="0.001"/>
+        <Modification Height="17">
+            <HeightTime index="Stop" value="2.5"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="TossGrenadeTychus222222523">
+        <Icon value="Assets\icons\Soviet\kirov-spaceship-turns-off-the-transcendental-device.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus22222623">
+        <Icon value="Assets\icons\Soviet\kirov-activates-the-transcendental-device.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CActorUnit id="SovietKirovAirship" parent="SovietAir" unitName="SovietKirovAirship" icon="KirovAirship">
+        <Aliases value="_UnitHuge"/>
+        <On Terms="ActorCreation" Send="Create BlimpIdleSound"/>
+        <On Terms="ActorCreation" Send="Create BlimpMovementSound"/>
+        <On Terms="ActorCreation" Target="BlimpMovementSound" Send="SoundSetVolume Linear -18.000000@0.000000,-96.000000@1000.000000"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Target="BlimpIdleSound" Send="SoundSetVolume Linear -18.000000@0.000000,-96.000000@1000.000000"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Target="BlimpMovementSound" Send="SoundSetVolume Linear"/>
+        <On Terms="UnitMovementUpdate.*.Stand" Target="BlimpIdleSound" Send="SoundSetVolume Linear"/>
+        <On Terms="UnitMovementUpdate.*.Stand" Target="BlimpMovementSound" Send="SoundSetVolume Linear -18.000000@0.000000,-96.000000@1000.000000"/>
+        <DeathArray index="Normal" ModelLink="BlimpDeath2" SoundLink="Blimp_Explode2"/>
+        <PortraitModel value="BattlecruiserPortrait"/>
+        <BarOffset value="80"/>
+        <BarWidth value="102"/>
+        <NameOffset value="80"/>
+        <Scale value="0.330000"/>
+        <GroupSoundArray index="What" value="SJBattlecruiser_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="SJBattlecruiser_GroupYes"/>
+        <GroupSoundArray index="Attack" value="SJBattlecruiser_GroupAttack"/>
+        <GroupSoundArray index="Board" value="SJBattlecruiser_GroupBoard"/>
+        <SoundArray index="Birth" value="SovietBandByBomber3_Actor_Birth"/>
+        <SoundArray index="Ready" value="SovietKirovAirship_Ready"/>
+        <SoundArray index="Help" value="SovietKirovAirship_Help"/>
+        <SoundArray index="What" value="SovietKirovAirship_What"/>
+        <SoundArray index="Yes" value="SovietKirovAirship_Yes"/>
+        <SoundArray index="Attack" value="SovietKirovAirship_Attack"/>
+        <SoundArray index="Pissed" value="SovietKirovAirship_Attack"/>
+        <SoundArray index="Board" value="SovietKirovAirship_What"/>
+        <SoundArray index="Click" value="SovietKirovAirship_What"/>
+        <SoundArray index="ClickError" value="Battlecruiser_ClickError"/>
+        <SoundArray index="Highlight" value="Battlecruiser_Highlight"/>
+    </CActorUnit>
+    <CAbilBehavior id="VolatileBurstBuilding2523">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus22222623">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus222222523">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="MedivacSpeedBoost2"/>
+    </CAbilBehavior>
+    <CActorAction id="SiegeTankSiegedAttack22" parent="GenericAttack" effectAttack="" effectImpact="CrucioShockCannonBlast22" effectLaunch="RAKirovLaunchesBomb">
+        <On index="0" Terms="Effect.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="5" Terms="Effect.Start; At Caster" Send="Create"/>
+        <LaunchAssets Model="" Sound="UnknownSound23"/>
+        <Missile value="RAKirovBombModel"/>
+        <ImpactSiteOps Ops="SOpActionCenter SOpTargetUnitZ" HoldPosition="1"/>
+        <ImpactMap index="None" Model="" Sound="SiegeTank_SiegedAttackImpact22" ModelReaction=""/>
+        <ImpactMap index="Miss" Sound="SiegeTank_SiegedAttackImpact22"/>
+        <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
+        <DamageSiteOps Ops="SOpAttachHarness"/>
+        <DamageMap index="None" Model="SiegeTankSiegedAttackDamage22"/>
+        <ShieldFlashType value="Full"/>
+    </CActorAction>
+    <CEffectDamage id="CrucioShockCannonBlast22" parent="CrucioShockCannonBlast">
+        <Name value="Effect/Name/CrucioShockCannonBlast22"/>
+        <Amount value="400"/>
+        <AreaArray index="0" removed="1"/>
+        <AreaArray index="1" removed="1"/>
+        <AreaArray index="2" removed="1"/>
+        <SearchFilters value="-;-"/>
+        <AttributeFactor index="Armored" value="1"/>
+        <AttributeFactor index="Structure" value="1"/>
+        <SearchFlags index="OffsetAreaByAngle" value="0"/>
+        <SearchFlags index="SameCliff" value="0"/>
+        <ExcludeArray index="0" removed="1"/>
+        <ArmorReduction value="0"/>
+        <ValidatorArray index="0" removed="1"/>
+    </CEffectDamage>
+    <CEffectDamage id="Twin792mm5" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="60"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="RAKirovBombSearchArea">
+        <ImpactLocation Effect="RAKirovLaunchesBomb" Value="CasterPoint"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Dead,Invulnerable"/>
+        <AreaArray Radius="2.5" Effect="CrucioShockCannonBlast22"/>
+    </CEffectEnumArea>
+    <CEffectSet id="SiegeTankSiegedVoid32">
+        <EffectArray value="RAKirovBombSearchArea"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectLaunchMissile id="RAKirovLaunchesBomb">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <AmmoUnit value="SovietKirovBomb"/>
+        <FinishEffect value="SiegeTankSiegedVoid32"/>
+        <Movers Link="CycloneMissileLeft3"/>
+    </CEffectLaunchMissile>
+    <CModel id="BloodTargetImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Other\BloodTargetImpact\BloodTargetImpact.m3"/>
+        <EditorCategories value="Race:Neutral"/>
+        <Flags index="Ignorable" value="1"/>
+    </CModel>
+    <CModel id="CycloneMissile24" parent="MissileFX">
+        <Model value="assets\units\soviet\KirovBomb.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.530000,0.530000,0.530000"/>
+        <ScaleMin value="0.600000,0.600000,0.600000"/>
+    </CModel>
+    <CModel id="SovietKirovAirship" parent="Unit" Race="Terran">
+        <Model value="assets\units\soviet\KirovAirship.m3"/>
+        <SelectionOffset value="0.000000,0.000000,-0.500000"/>
+        <SelectionRadius value="2.200000"/>
+    </CModel>
+    <CModel id="SiegeTankSiegedAttackDamage22" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\FireImpact\FireImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="VikingAssaultAttackImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\VikingAssaultWeaponImpact\VikingAssaultWeaponImpact.m3"/>
+        <AnimSpeed value="3.000000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.800000,0.800000,0.800000"/>
+        <ScaleMin value="0.800000,0.800000,0.800000"/>
+    </CModel>
+    <CModel id="VikingAssaultAttackLaunch2" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\VikingAssaultWeaponLaunch\VikingAssaultWeaponLaunch.m3"/>
+        <AnimSpeed value="3.000000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.500000,0.500000,0.500000"/>
+        <ScaleMin value="0.500000,0.500000,0.500000"/>
+    </CModel>
+    <CMoverMissile id="CycloneMissileLeft3">
+        <MotionPhases>
+            <Driver value="Throw"/>
+            <Acceleration value="2"/>
+            <Speed value="3"/>
+            <MaxSpeed value="3"/>
+            <Gravity value="1"/>
+            <ClearanceAcceleration value="-1"/>
+            <ArrivalTestType value="3D"/>
+            <Outro value="9,10"/>
+            <ThrowRotationType value="Vectored"/>
+            <ThrowVector value="0,0,-3"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+        <MotionOverlays>
+            <Type value="Revolver"/>
+            <RevolverSpeed value="179.2968"/>
+            <RevolverSpeedRange value="179.2968"/>
+            <RevolverMaxSpeed value="719.2968"/>
+            <RevolverMaxSpeedRange value="0"/>
+            <RevolverAccel value="337.5"/>
+            <RevolverAccelRange value="337.5"/>
+        </MotionOverlays>
+    </CMoverMissile>
+    <CSound id="Blimp_Explode2" parent="Terran_ExplosionLarge">
+        <EditorCategories value="Race:Neutral"/>
+    </CSound>
+    <CSound id="SovietBandByBomber3_Actor_Birth" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUCentu_movStartA.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartB.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartC.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartD.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartE.ogg" FacialGroup=""/>
+        <Category value="Movement"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="SovietKirovAirship_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUKirov_VoiAttacka.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiAttackb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiAttackc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiAttackd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiAttacke.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiAttackf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietKirovAirship_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUKirov_VoiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiSelUndd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiSelUnde.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiSelUndf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SiegeTank_SiegedAttackImpact22" parent="Terran_ExplosionMedium">
+        <AssetArray index="0" File="Assets\Sounds\SUKirov_bombExplosa.ogg" FacialGroup=""/>
+        <AssetArray index="1" File="Assets\Sounds\SUKirov_bombExplosb.ogg" FacialGroup=""/>
+        <AssetArray index="2" File="Assets\Sounds\SUKirov_bombExplosc.ogg" FacialGroup=""/>
+        <AssetArray index="3" File="Assets\Sounds\SUKirov_bombExplosd.ogg" FacialGroup=""/>
+        <AssetArray index="4" File="Assets\Sounds\SUKirov_bombExplose.ogg" FacialGroup=""/>
+        <AssetArray index="5" File="Assets\Sounds\SUKirov_bombExplosf.ogg" FacialGroup=""/>
+        <AssetArray index="6" removed="1"/>
+        <AssetArray index="7" removed="1"/>
+        <AssetArray index="8" removed="1"/>
+        <AssetArray index="9" removed="1"/>
+        <DupeMuteCount value="10"/>
+        <Pitch value="0.000000,0.000000"/>
+        <Volume value="5.000000,5.000000"/>
+    </CSound>
+    <CSound id="SovietKirovAirship_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUKirov_VoiCreatea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiCreateb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="UnknownSound23" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\SUKirov_bomDropA.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="5"/>
+        <DupeMuteCount value="6"/>
+        <Volume value="-10.000000,-10.000000"/>
+    </CSound>
+    <CSound id="SovietKirovAirship_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUKirov_VoiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiMoveg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiMoveh.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietKirovAirship_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUKirov_VoiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUKirov_VoiSelectf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="Viking_AssaultAttackImpact2" parent="Terran_MultipleBulletAttackImpact"/>
+    <CSound id="VikingAssault_AttackLaunch2" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\Terran\Viking\Viking_AssaultAttackLaunch0.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\Viking\Viking_AssaultAttackLaunch1.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\Viking\Viking_AssaultAttackLaunch2.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\Viking\Viking_AssaultAttackLaunch3.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\Viking\Viking_AssaultAttackLaunch4.wav"/>
+        <DupeDestroyCount value="8"/>
+        <DupeMaximumMethod value="Replace"/>
+        <DupeMuteCount value="3"/>
+        <DupePrioritization value="Oldest"/>
+        <Pitch value="-2.000000,0.000000"/>
+        <Volume value="-10.610000,-9.610000"/>
+    </CSound>
+
+    <CUnit id="SovietKirovBomb">
+        <Race value="Soviet"/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <Mover value="CycloneMissileLeft3"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent15"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:CNC"/>
+    </CUnit>
+
+
+    <CWeaponLegacy id="Twin792mm2222">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-shipweaponslevel2.dds"/>
+        <DisplayEffect value="Twin792mm5"/>
+        <TargetFilters value="Air,Visible;Self,Missile,Stasis,Invulnerable"/>
+        <Range value="16"/>
+        <Arc value="360"/>
+        <Marker Link="Weapon/Twin792mm"/>
+        <Cost>
+            <Cooldown Link="Weapon/Twin792mm"/>
+        </Cost>
+        <Period value="0.3"/>
+        <Effect value="Twin792mm5"/>
+        <AllowedMovement value="Moving"/>
+        <Backswing value="3"/>
+    </CWeaponLegacy>
+    <CWeaponStrafe id="StrategicBomb2">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Melee" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-nova-flashgrenade.dds"/>
+        <DisplayEffect value="CrucioShockCannonBlast22"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Hidden,Invulnerable"/>
+        <AcquireTargetSorts RequestCount="1" RequestPercentage="1"/>
+        <MinScanRange value="8"/>
+        <Range value="1"/>
+        <Arc value="360"/>
+        <ArcSlop value="29.9926"/>
+        <Period value="1.1"/>
+        <Backswing value="3"/>
+        <Effect value="RAKirovLaunchesBomb"/>
+    </CWeaponStrafe>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent15">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="1.4"/>
+        <FinalEffect value="StrategicBombD2"/>
+        <ExpireEffect value="TimedLifeFate"/>
+        <DeathType value="Impact"/>
+    </CBehaviorBuff>
+    <CEffectDamage id="StrategicBombD2" parent="DU_WEAP">
+        <ImpactLocation Value="CasterUnit"/>
+    </CEffectDamage>
+    <CBehaviorBuff id="MedivacSpeedBoost2">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-terran-jotunboosters.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
+        <Modification MoveSpeedMultiplier="1.75" AccelerationBonus="500" DecelerationBonus="500">
+            <DamageDealtFraction index="Spell" value="0.2"/>
+            <DamageDealtFraction index="Melee" value="0.2"/>
+            <DamageDealtFraction index="Ranged" value="0.2"/>
+            <DamageDealtFraction index="Splash" value="0.2"/>
+            <DamageDealtFraction index="NoProc" value="0.2"/>
+            <VitalRegenArray index="Life" value="-35"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CActorModel id="KirovContinuesToBeBurned" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.MedivacSpeedBoost2.On" Send="Create"/>
+        <On Terms="Behavior.MedivacSpeedBoost2.Off" Send="AnimBracketStop BSD"/>
+        <On Terms="Behavior.MedivacSpeedBoost2.Off" Send="Destroy"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachTurret"/>
+        <Model value="SovietKirovBurn"/>
+    </CActorModel>
+    <CActorSound id="Medivac_IgniteAfterburners22" parent="SoundOneShot">
+        <On Terms="Behavior.MedivacSpeedBoost2.On" Send="Create"/>
+    </CActorSound>
+    <CActorSound id="Medivac_IgniteAfterburners3" parent="SoundOneShot">
+        <On Terms="Behavior.MedivacSpeedBoost2.On" Send="Create"/>
+        <On Terms="Behavior.GDIMammothFullfirepower.On" Send="Create"/>
+        <On Terms="Behavior.MedivacSpeedBoost2.Off" Send="Destroy"/>
+        <On Terms="Behavior.GDIMammothFullfirepower.Off" Send="Destroy"/>
+    </CActorSound>
+    <CEffectApplyBehavior id="MedivacSpeedBoost2">
+        <EditorCategories value="Race:Terran"/>
+    </CEffectApplyBehavior>
+    <CModel id="SovietKirovBurn">
+        <Model value="Assets\Abilities\Spells\Other\War3_BreathOfFireDamage\War3_BreathOfFireDamage.m3"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CSound id="Medivac_IgniteAfterburners3" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\Medivac_AfterburnerOn_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Medivac_AfterburnerOn_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Medivac_AfterburnerOn_03.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Medivac_AfterburnerOn_04.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Medivac_AfterburnerOn_05.wav" FacialGroup=""/>
+        <DupeHistoryCount value="5"/>
+        <DupeMuteCount value="3"/>
+        <Pitch value="-2.000000,2.000000"/>
+        <Volume value="-9.000000,-9.000000"/>
+    </CSound>
+    <CSound id="Medivac_IgniteAfterburners22" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\VoidSeeker_PsytrousOxideMovement0.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\VoidSeeker_PsytrousOxideMovement1.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\VoidSeeker_PsytrousOxideMovement2.wav" FacialGroup=""/>
+        <DupeHistoryCount value="3"/>
+        <DupeMuteCount value="2"/>
+        <Pitch value="6.000000,7.000000"/>
+        <ResourcePriority value="64"/>
+        <Volume value="-19.000000,-19.000000"/>
+    </CSound>
+
+
+    <CActorAction id="SiegeTankSiegedAttack222" parent="GenericAttack" effectAttack="CrucioShockCannonBlast222">
+        <LaunchAssets Model="SiegeTankSiegedAttackLaunch222" Sound="SiegeTank_SiegedAttackLaunch222"/>
+        <ImpactSiteOps Ops="SOpActionCenter SOpTargetUnitZ" HoldPosition="1"/>
+        <ImpactMap index="None" Model="SiegeTankSiegedAttackImpact222" Sound="SiegeTank_SiegedAttackImpact222"/>
+        <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
+        <DamageSiteOps Ops="SOpAttachHarness"/>
+        <DamageMap index="None" Model="SiegeTankSiegedAttackDamage222"/>
+        <ShieldFlashType value="Full"/>
+    </CActorAction>
+    <CActorAction id="SiegeTankSiegedAttack2222" parent="GenericAttack" effectImpact="CrucioShockCannonBlast2222" effectLaunch="RACarrierBasedAircraftLaunchesBomb">
+        <LaunchAssets Model="CycloneMissile242" Sound="SiegeTank_SiegedAttackLaunch2222"/>
+        <ImpactSiteOps Ops="SOpActionCenter SOpTargetUnitZ" HoldPosition="1"/>
+        <ImpactMap index="None" Model="SiegeTankSiegedAttackImpact2222" Sound="SiegeTank_SiegedAttackImpact2222"/>
+        <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
+        <DamageSiteOps Ops="SOpAttachHarness"/>
+        <DamageMap index="None" Model="SiegeTankSiegedAttackDamage2222"/>
+        <DamageModel value="SiegeTankAttackDamageModel2222"/>
+        <ShieldFlashType value="Full"/>
+        <On index="5" Terms="Effect.RACarrierBasedAircraftLaunchesBomb.Start; At Caster" Send="Create"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="AMFilterCenter"/>
+        <Missile value="RACarrierbasedAircraftBombModel"/>
+    </CActorAction>
+    <CActorModel id="RAVerticalExplosionEffectOfCarrierbasedAircraftBombing" parent="ModelAnimationStyleOneShotNoOrphan">
+        <On Terms="Effect.CrucioShockCannonBlast2222.Start" Send="Create"/>
+        <Model value="SiegeTankSiegedAttackImpact2222"/>
+    </CActorModel>
+    <CModel id="SiegeTankSiegedAttackImpact2222" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\Swann_PulseCannon_Beam_Impact\Swann_PulseCannon_Beam_Impact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.500000,1.500000,1.500000"/>
+        <ScaleMin value="1.500000,1.500000,1.500000"/>
+    </CModel>
+</Catalog>

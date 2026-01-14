@@ -1,0 +1,577 @@
+<Catalog>
+
+    <CUnit id="SovietTeslaTrooper" parent="SovietGround">
+        <Subtitle value="UnitSubtitle/fantanke"/>
+        <Collide index="Small" value="1"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <LifeStart value="1200"/>
+        <LifeMax value="1200"/>
+        <LifeArmor value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranInfantryArmor"/>
+        <Speed value="1.3984"/>
+        <LateralAcceleration value="46.0625"/>
+        <Sight value="8"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="75"/>
+        <CostResource index="Vespene" value="25"/>
+        <RepairTime value="25"/>
+        <KillXP value="4"/>
+        <AbilArray Link="SovietMotoModeSwhich5"/>
+        <AbilArray Link="Charge22"/>
+        <BehaviorArray Link="SovietSandbagAuraB"/>
+        <BehaviorArray Link="SovietStrongwilloftheRedArmy"/>
+        <BehaviorArray Link="UpgradeLevel1211"/>
+        <WeaponArray Link="ParticleBeam4"/>
+        <WeaponArray Link="ParticleBeam43"/>
+        <WeaponArray Link="ParticleBeam42"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="TossGrenadeTychus2222275" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich5,On" Row="1" Column="0"/>
+            <LayoutButtons Face="TossGrenadeTychus22222265" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich5,Off" Row="1" Column="1"/>
+            <LayoutButtons>
+                <Face value="zhukefuxingfenji24"/>
+                <Type value="Passive"/>
+                <Behavior value="SovietStrongwilloftheRedArmy"/>
+                <Requirements value="RARedArmyWillUnlocksPrerequisites"/>
+                <Row value="1"/>
+                <Column value="4"/>
+            </LayoutButtons>
+            <LayoutButtons Face="TossGrenadeTychus222227522" Type="AbilCmd" AbilCmd="Charge22,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <Radius value="0.375"/>
+        <SeparationRadius value="0.375"/>
+        <SubgroupPriority value="14"/>
+        <MinimapRadius value="0.3"/>
+        <ReviveInfoBase>
+            <Charge Link="Marauder/Revive"/>
+            <Cooldown Link="Marauder/Revive"/>
+        </ReviveInfoBase>
+    </CUnit>
+<!--    Tesla Coil-->
+    <CAbilBehavior id="SovietMotoModeSwhich5">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus2222275">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus22222265">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="SovietMotoCycleBehavior4"/>
+    </CAbilBehavior>
+<!--    Magnetic Storm Charge-->
+    <CAbilEffectTarget id="Charge22">
+        <OrderArray index="0" Model="Assets\UI\Cursors\WayPointConfirm_Void\WayPointConfirm_Void.m3"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Effect index="0" value="RAMagneticStormtrooperSChargedAttackStarts"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="ReExecutable" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="2.6"/>
+        </Cost>
+        <Range value="4"/>
+        <SmartValidatorArray value="IsNotHellionTank235"/>
+        <AutoCastFilters value="Visible;Ally,Neutral,Enemy"/>
+        <AutoCastRange value="4"/>
+        <AutoCastValidatorArray value="IsNotHellionTank235"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="TossGrenadeTychus222227522"/>
+    </CAbilEffectTarget>
+    <CValidatorUnitType id="IsNotHellionTank235">
+        <ResultFailed value="CantLoadThatUnit"/>
+        <Value value="DestructibleWallStraightHorizontalBF"/>
+    </CValidatorUnitType>
+    <CActorModel id="KarassPsiStormModel2" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.SovietMotoCycleBehavior4.On" Send="Create"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior4.Off" Send="AnimBracketStop BSD"/>
+        <On Terms="ActorCreation" Send="SetTintColor 0,255,255"/>
+        <HostSiteOps Ops="SOpShadow"/>
+        <Scale value="5.000000"/>
+    </CActorModel>
+    <CModel id="KarassPsiStormModel2" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Terran\PsiDisruptorImpact\PsiDisruptorImpact.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CModel>
+    <CActorSound id="RAMagneticStormTroopersActivateElectromagneticInterferenceSoundEffects">
+        <On Terms="Behavior.SovietMotoCycleBehavior4.On" Send="Create"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior4.Off" Send="Destroy"/>
+        <Sound value="SovietTeslaUnitVioce722"/>
+    </CActorSound>
+
+    <CBehaviorBuff id="SovietMotoCycleBehavior4">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="RAMagneticExplosionInfantryElectromagneticInterferenceContinuousBehaviorCreation"/>
+        <Modification>
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <ModifyFlags index="SuppressTurning" value="1"/>
+            <AbilLinkDisableArray value="Charge22"/>
+            <WeaponDisableArray value="ParticleBeam4"/>
+            <WeaponDisableArray value="ParticleBeam42"/>
+            <SoundArray index="Movement" value="SovietTeslaTrooper_Actor_Pissed"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CEffectCreatePersistent id="RAMagneticExplosionInfantryElectromagneticInterferenceContinuousBehaviorCreation">
+        <WhichLocation Value="CasterUnitOrPoint"/>
+        <InitialEffect value="RAMagneticExplosionInfantryElectromagneticInterferenceBehaviorSearch"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="RAMagneticExplosionInfantryElectromagneticInterferenceBehaviorSearch"/>
+        <PeriodicPeriodArray value="0.3"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="RAMagneticExplosionInfantryElectromagneticInterferenceBehaviorSearch">
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Air,Structure,Missile,Dead,Invulnerable"/>
+        <AreaArray MaxCount="4" Radius="2" Effect="PsiDisruptionApplyBehavior22"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="PsiDisruptionApplyBehavior22">
+        <EditorCategories value="Race:Terran"/>
+        <Behavior value="PsiDisruption24"/>
+        <ValidatorArray index="0" value="RAApplyFrozenHealthToZombiesToVerifyLessThan100"/>
+    </CEffectApplyBehavior>
+    <CValidatorUnitCompareVitality id="RAApplyFrozenHealthToZombiesToVerifyLessThan100">
+        <Compare value="LE"/>
+        <Value value="100"/>
+    </CValidatorUnitCompareVitality>
+    <CBehaviorBuff id="PsiDisruption24">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\war3_btnstun.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+<!--        <RemoveValidatorArray value="HasPsiStrike"/>-->
+        <Duration value="2.5"/>
+        <Modification>
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="DisableWeapons" value="1"/>
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <ModifyFlags index="SuppressTurning" value="1"/>
+            <StateFlags index="Stun" value="1"/>
+            <BehaviorLinkDisableArray value="CritterWander"/>
+        </Modification>
+    </CBehaviorBuff>
+
+    <CActorUnit id="SovietTeslaTrooper" parent="SovietInfantry" unitName="SovietTeslaTrooper" icon="TeslaTrooper">
+        <Aliases value="_UnitMedium"/>
+        <Macros value="UnloadDropAnim"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <On index="0" Send="Create SoundEmitter Marauder_Ambience"/>
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Send="AnimClear AttackLeft"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Send="AnimClear AttackRight"/>
+        <On Terms="ModelEvent; ModelEventName AnimClear" Send="AnimClear AttackLeft"/>
+        <On Terms="ModelEvent; ModelEventName AnimClear" Send="AnimClear AttackRight"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo Marauder" Send="Create"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Marauder_Land"/>
+        <On Terms="UnitDeathCustomize; PassChance 1.000000; ValidateUnit IsNotNeuralParasited" Send="Create Marauder_Death"/>
+        <On Terms="UnitDeathCustomize; PassChance 10.000000; !ValidateUnit IsNotNeuralParasited" Send="Create Marauder_Death_NP"/>
+        <On Terms="ActorCreation" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior4.On" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior4.On" Send="AnimGroupRemove A"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior4.On" Send="AnimBracketStart 111 Morph,A,B {} Morph,B,A"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior4.Off" Send="AnimBracketStop 111"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior4.Off" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior4.Off" Send="AnimGroupRemove B"/>
+        <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack1 Ready Attack,A {} Instant"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack1"/>
+        <On Terms="Abil.Charge22.SourcePrepStart" Send="AnimBracketStart Attack2 Ready Attack,A {} Instant"/>
+        <On Terms="Abil.Charge22.SourceFinishStart" Send="AnimBracketStop Attack2"/>
+        <On Terms="Abil.Charge22.SourceCancel" Send="AnimBracketStop Attack2"/>
+        <Scale value="0.990000"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <EventDataFootprint index="0" Actor="UnitFootprint" Model="MarauderFootprint"/>
+        <DeathArray index="Normal" ModelLink="MarauderDeath" SoundLink="SovietTeslaUnitVioce72" VoiceLink="SovietTeslaUnitVioce72"/>
+        <DeathArray index="Eviscerate">
+            <AnimProps value="Death"/>
+            <ModelLink value="MarauderDeath"/>
+            <SoundLink value="SovietTeslaUnitVioce72"/>
+            <VoiceLink value="SovietTeslaUnitVioce72"/>
+        </DeathArray>
+        <DeathArray index="Silentkill">
+            <AnimProps value="Death"/>
+            <ModelLink value="MarauderDeath"/>
+            <SoundLink value="SovietTeslaUnitVioce72"/>
+            <VoiceLink value="SovietTeslaUnitVioce72"/>
+        </DeathArray>
+        <DeathCustoms ActorModel="UnitDeathRagdollBloodPrevent" ModelLink="MarauderDeathRagdoll" Name="RagdollBasic">
+            <BodySquibs Name="None"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms>
+            <ModelLink value="DeathVoidShadowMedium"/>
+            <SoundLink value="ShadowUnit_DeathFX"/>
+            <VoiceLink value="ShadowUnit_DeathVox"/>
+            <Name value="Shadow"/>
+        </DeathCustoms>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
+        <PortraitModel value="MarauderPortrait"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="0.800000"/>
+            <RangeDown value="0.800000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleLarge"/>
+        </TerrainSquibs>
+        <WalkAnimMoveSpeed value="1"/>
+        <AbilSoundArray AbilCmd="attack,Execute" Sound="SovietTeslaUnitVioce7" GroupSound="SovietTeslaUnitVioce7"/>
+        <BarOffset value="70"/>
+        <GroupSoundArray index="What" value="Marauder_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="Marauder_GroupYes"/>
+        <GroupSoundArray index="Attack" value="Marauder_GroupAttack"/>
+        <GroupSoundArray index="Board" value="Marauder_GroupBoard"/>
+        <SoundArray index="Birth" value="Spectre_Click"/>
+        <SoundArray index="Ready" value="SovietTeslaUnitVioce"/>
+        <SoundArray index="Help" value="SovietTeslaTrooper_Actor_Help"/>
+        <SoundArray index="What" value="SovietTeslaTrooper_Actor_What"/>
+        <SoundArray index="Yes" value="SovietTeslaTrooper_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietTeslaTrooper_Actor_Attack"/>
+        <SoundArray index="Pissed" value="SovietTeslaTrooper_Actor_Pissed"/>
+        <SoundArray index="Movement" value="Spectre_Movement"/>
+        <SoundArray index="Turning" value="Spectre_Turning"/>
+        <SoundArray index="Board" value="Spectre_Board"/>
+        <SoundArray index="Click" value="Spectre_Click"/>
+        <SoundArray index="ClickError" value="Spectre_ClickError"/>
+        <SoundArray index="Highlight" value="Spectre_Highlight"/>
+    </CActorUnit>
+<!--    Magnetic Infantry attack animation-->
+    <CActorAction id="ProbeAttack5" parent="GenericAttack" effectAttack="ParticleBeam5">
+        <LaunchSiteOps Ops="SOpAttachWeapon01"/>
+        <Beam value="ProbeAttackBeam"/>
+        <ImpactMap index="None" Model="ProbeAttackImpact6" Sound="SovietTeslaUnitVioce7222"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+        <ContainerSiteOps Ops="SOpAttachCenter"/>
+    </CActorAction>
+<!--    Magnetic storm coil charging effect-->
+    <CActorModelMaterial id="GlazeShadow242" parent="GlazeParent">
+        <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Main"/>
+        <On Terms="Behavior.RATheTeslaCoilHasBeenChargedAttackSpeedDamageAndRangeAreGreatlyIncreased.On" Send="Create"/>
+        <On Terms="Behavior.RATheTeslaCoilHasBeenChargedAttackSpeedDamageAndRangeAreGreatlyIncreased.Off" Send="Destroy"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModelMaterial>
+<!--    Magnetic Trooper's charged attack action-->
+    <CActorAction id="ProbeAttack52" parent="GenericAttack" effectAttack="ParticleBeam52">
+        <LaunchSiteOps Ops="SOpAttachWeapon01"/>
+        <Beam value="ProbeAttackBeam"/>
+        <ImpactMap index="None" Model="" Sound="SovietTeslaUnitVioce72222"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+
+<!--    Magnetic storm coil charging behavior verification behavior-->
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent39">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <MaxStackCount value="2"/>
+        <MaxStackCountPerCaster value="1"/>
+        <Duration value="4.1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RATheTeslaCoilHasBeenChargedAttackSpeedDamageAndRangeAreGreatlyIncreased">
+        <InfoIcon value="Assets\Textures\btn-ability-zeratul-chargedcrystal-psionicwinds.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="4.1"/>
+        <Modification>
+            <WeaponEnableArray value="ParticleBeam5"/>
+            <WeaponDisableArray value="ParticleBeam"/>
+        </Modification>
+    </CBehaviorBuff>
+<!--    Switch to a small Tesla coil-->
+    <CButton id="TossGrenadeTychus22222265">
+        <Icon value="assets\icons\Soviet\magnetic-storm-infantry-weapon-icon.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+<!--    Switch to an electromagnetic jammer-->
+    <CButton id="TossGrenadeTychus2222275">
+        <Icon value="assets\icons\Soviet\explosive-infantry-skill-icon.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+<!--    charging up-->
+    <CButton id="TossGrenadeTychus222227522">
+        <Icon value="Assets\Textures\btn-ability-zeratul-chargedcrystal-psionicwinds.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+
+
+    <CEffectDamage id="ParticleBeam53" parent="DU_WEAP">
+        <AttributeFactor index="Light" value="2"/>
+        <Amount value="100"/>
+    </CEffectDamage>
+    <CEffectDamage id="ParticleBeam5" parent="DU_WEAP">
+        <Amount value="50"/>
+        <AttributeFactor index="Light" value="2"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="RAMagneticInfantryAttackStarts">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <InitialEffect value="SUTeslaTruporSet"/>
+        <Flags index="Channeled" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RAMagneticStormtrooperSChargedAttackStarts">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <InitialEffect value="ParticleBeam52"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="RAMagneticStormCoilChargingApplicationBehaviorCollection"/>
+        <PeriodicPeriodArray value="0"/>
+        <Flags index="Channeled" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="SUTeslaTruporSet">
+        <EffectArray value="ParticleBeam5"/>
+        <EffectArray value="RAMagneticBlastInfantrySplashCreatesVestUnits"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectCreateUnit id="RAMagneticBlastInfantrySplashCreatesVestUnits">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <Origin Value="TargetUnitOrPoint"/>
+        <SpawnEffect value="RAMagneticExplosiveInfantrySplashDamageSearchArea"/>
+        <SpawnUnit value="RAMagneticExplosiveInfantrySputterVestUnit"/>
+    </CEffectCreateUnit>
+    <CEffectEnumArea id="RAMagneticExplosiveInfantrySplashDamageSearchArea">
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Air,Missile,Dead,Invulnerable"/>
+        <AreaArray MaxCount="5" Radius="2.5" Effect="ParticleBeam5"/>
+    </CEffectEnumArea>
+    <CEffectSet id="RAMagneticStormCoilChargingApplicationBehaviorCollection">
+        <ValidatorArray value="IsNotHellionTank235"/>
+        <EffectArray value="RAMagneticStormInfantryChargingTheMagneticStormCoilApplicationBehavior"/>
+        <EffectArray value="RAMagneticStormCoilChargingVerificationBehaviorApplicationBehavior"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="RAMagneticStormCoilChargingVerificationBehaviorApplicationBehavior">
+        <Behavior value="RAMovementSpeedAndArmor20Percent39"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="RAMagneticStormInfantryChargingTheMagneticStormCoilApplicationBehavior">
+        <ValidatorArray index="0" value="RAVerifierWithChargedStormCoil"/>
+        <Behavior value="RATheTeslaCoilHasBeenChargedAttackSpeedDamageAndRangeAreGreatlyIncreased"/>
+    </CEffectApplyBehavior>
+    <CEffectDamage id="ParticleBeam52" parent="DU_WEAP">
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+
+    <CModel id="ProbeAttackImpact6" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\ArchonBeamImpact\ArchonBeamImpact.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="1.400000,1.400000,1.400000"/>
+        <ScaleMin value="1.400000,1.400000,1.400000"/>
+    </CModel>
+    <CModel id="SovietTeslaTrooper" parent="MarauderBase">
+        <Model value="assets\units\soviet\TeslaTrooper.m3"/>
+    </CModel>
+    <CModel id="GlazeShadow242" parent="Glaze">
+        <Model value="Assets\Effects\Glaze\PylonPowerOn_Glaze\PylonPowerOn_Glaze.m3"/>
+        <OccludingOpacity value="1.000000"/>
+        <Priority value="32"/>
+    </CModel>
+
+
+    <CSound id="SovietTeslaUnitVioce" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTesla_VoiCrea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiCreb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTeslaUnitVioce7" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTesla_VoiMovAtka.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovAtke.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovAtkf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovAtkg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovAtkh.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovAtki.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovAtkj.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTeslaTrooper_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTesla_VoiAtka.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtke.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkh.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtki.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkj.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkk.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkl.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTeslaTrooper_Actor_Pissed" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkSpca.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkSpcb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkSpcc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiAtkSpcd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTeslaUnitVioce72" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTesla_VoiDiea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiDieb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiDiec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiDied.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiDiee.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiDief.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiDieg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiDieh.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiDiei.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Death"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTeslaUnitVioce7222" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\magnetic-explosion-infantry-attack-sound-effect-1itesatta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\magnetic-explosion-infantry-attack-sound-effect-2.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Combat"/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+    <CSound id="SovietTeslaTrooper_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTesla_VoiSela.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiSelb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiSelc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiSeld.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiSele.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiSelf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiSelg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTeslaTrooper_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTesla_VoiSelUndFra.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiSelUndFrb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiSelUndFrc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiSelUndFrd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiSelUndFre.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiSelUndFrf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTeslaTrooper_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTesla_VoiMovb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMove.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovh.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovi.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMovj.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_VoiMova.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTeslaUnitVioce72222" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\magnetic-explosion-infantry-charging-sound-effect.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Combat"/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+
+    <CUnit id="RAMagneticExplosiveInfantrySputterVestUnit">
+        <Race value="Allied"/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Uncursorable" value="1"/>
+        <FlagArray index="Undetectable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="Unstoppable" value="1"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent62"/>
+        <EditorCategories value="ObjectFamily:Melee,ObjectType:Other"/>
+        <MinimapRadius value="0"/>
+    </CUnit>
+    <CSound id="SovietTeslaUnitVioce722" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTesla_EMDisrupt2a.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_EMDisrupt2b.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_EMDisrupt2c.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Combat"/>
+        <Volume value="-9.000000,-9.000000"/>
+    </CSound>
+
+
+    <CWeaponLegacy id="ParticleBeam43">
+        <EditorCategories value="Race:Protoss"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="assets\textures\Soviet\magnetic-storm-infantry-weapon-icon.dds"/>
+        <DisplayEffect value="ParticleBeam53"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Hidden,Invulnerable"/>
+        <Arc value="360"/>
+        <Period value="1.5"/>
+        <Effect value="SUTeslaTruporSet"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ParticleBeam4">
+        <EditorCategories value="Race:Protoss"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="assets\textures\Soviet\magnetic-storm-infantry-weapon-icon.dds"/>
+        <DisplayEffect value="ParticleBeam53"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Stasis,Dead,Invulnerable"/>
+        <Period value="1.5"/>
+        <Effect value="RAMagneticInfantryAttackStarts"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ParticleBeam42">
+        <EditorCategories value="Race:Protoss"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="assets\textures\Soviet\magnetic-storm-infantry-weapon-icon.dds"/>
+        <DisplayEffect value="ParticleBeam52"/>
+        <TargetFilters value="Ground,Visible;Enemy,Missile,Dead,Hidden,Invulnerable"/>
+        <Period value="1.5"/>
+        <Effect value="RAMagneticStormtrooperSChargedAttackStarts"/>
+        <Range value="4"/>
+    </CWeaponLegacy>
+    <CActorUnit id="RAMagneticExplosiveInfantrySputterVestUnit_Actor" parent="GenericUnitStandard" unitName="RAMagneticExplosiveInfantrySputterVestUnit">
+        <Model value="Invisible"/>
+        <HighlightTooltip value="Unit/Name/Bogus"/>
+    </CActorUnit>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent62" parent="TimedLife">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisplayDuration index="Self" value="0"/>
+        <DisplayDuration index="Ally" value="0"/>
+        <Duration value="0.5"/>
+    </CBehaviorBuff>
+</Catalog>

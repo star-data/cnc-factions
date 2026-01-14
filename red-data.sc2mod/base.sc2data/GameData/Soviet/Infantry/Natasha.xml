@@ -1,0 +1,766 @@
+<Catalog>
+
+    <CUnit id="SovietNatasha" parent="SovietInfantry">
+        <Attributes index="Heroic" value="1"/>
+        <PushPriority value="21"/>
+        <LifeStart value="150"/>
+        <LifeMax value="150"/>
+        <LifeArmor value="1"/>
+        <LifeRegenRate value="5"/>
+        <Speed value="1.6992"/>
+        <LateralAcceleration value="46.0625"/>
+        <StationaryTurningRate value="719.2968"/>
+        <TurningRate value="719.2968"/>
+        <Sight value="11"/>
+        <Food value="-3"/>
+        <CostResource index="Minerals" value="300"/>
+        <CostResource index="Vespene" value="300"/>
+        <RepairTime value="20"/>
+        <KillXP value="40"/>
+        <AbilArray Link="RaynorSnipe2"/>
+        <AbilArray Link="RAPrecisionStrike"/>
+        <AbilArray Link="RATechnologyCenterResearch3"/>
+        <AbilArray Link="RAFireIncendiaryBombs"/>
+        <BehaviorArray Link="Detector8"/>
+        <BehaviorArray Link="BlitzkriegAuraBehaviour22"/>
+        <BehaviorArray Link="UpgradeLevel123222"/>
+        <WeaponArray Link="CommandoRifle2"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="OdinBarrage223" Type="AbilCmd" AbilCmd="RAPrecisionStrike,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="RaynorSnipe2" Type="AbilCmd" AbilCmd="RaynorSnipe2,Execute" Row="1" Column="1"/>
+            <LayoutButtons Face="TossGrenadeTychus22" Type="AbilCmd" AbilCmd="RAFireIncendiaryBombs,Execute" Row="2" Column="1"/>
+        </CardLayouts>
+        <CardLayouts CardId="0002">
+            <LayoutButtons Face="RAImproveTheSkillsOfTheHeroInfantry1" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch3,Research21" Row="0" Column="1"/>
+            <LayoutButtons Face="RAImproveTheSkillsOfTheHeroInfantry1" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch3,Research11" Row="0" Column="1"/>
+            <LayoutButtons Face="RAImproveTheSkillsOfTheHeroInfantry1" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch3,Research12" Row="0" Column="1"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <InnerRadius value="0.5"/>
+        <ScoreMake value="500000"/>
+        <ScoreKill value="100"/>
+        <SubgroupPriority value="100"/>
+        <TacticalAI value="GhostCloaked"/>
+        <HotkeyAlias value="Raynor01"/>
+        <AIEvaluateAlias value="Ghost"/>
+    </CUnit>
+    <CAbilEffectTarget id="RAPrecisionStrike">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <Effect index="0" value="RACallBombingEffectCollectionStarts"/>
+        <Range value="18"/>
+        <PrepTime value="1.5"/>
+        <CastIntroTime value="0.4"/>
+        <FinishTime value="0.1"/>
+        <ShowProgressArray index="Prep" value="1"/>
+        <CursorEffect value="nukeDamage"/>
+        <CalldownEffect value="RACallBombingContinuousEffectCreation"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="OdinBarrage223"/>
+        <Cost>
+            <Cooldown TimeUse="8"/>
+        </Cost>
+        <TargetFilters value="-;Self,Player,Ally,Neutral,Stasis,Invulnerable,MapBoss"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <UninterruptibleArray index="Channel" value="1"/>
+        <UninterruptibleArray index="Finish" value="1"/>
+        <ProgressButtonArray index="Prep" value="OdinBarrage223"/>
+        <PrepEffect value="RACallBombingActorResponse"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <AutoCastFilters value="Structure;Self,Player,Ally,Neutral,Invulnerable,MapBoss"/>
+        <AutoCastRange value="17"/>
+        <AutoCastValidatorArray value="RAExcludeLockedTargets"/>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="RaynorSnipe2">
+        <Alignment value="Negative"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Effect index="0" value="RASVDNormalAttackSet"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="3"/>
+        </Cost>
+        <TargetFilters value="Visible;Player,Ally,Neutral,Dead,Hidden,Invulnerable"/>
+        <Range value="15"/>
+        <AutoCastRange value="15"/>
+        <AutoCastValidatorArray value="zombie622"/>
+        <CastIntroTime value="0.36"/>
+        <FinishTime value="0.46"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <UninterruptibleArray index="Channel" value="1"/>
+        <UninterruptibleArray index="Finish" value="1"/>
+        <CursorEffect value="RaynorSnipeSearch"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="RaynorSnipe2"/>
+    </CAbilEffectTarget>
+    <CActorModel id="ContinuouslyBurnedByIncendiaryBombs" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.ToBeContinuouslyBurned.On" Send="Create"/>
+        <On Terms="Behavior.ToBeContinuouslyBurned.Off" Send="AnimBracketStop BSD"/>
+        <On Terms="Behavior.ToBeContinuouslyBurned.Off" Send="Destroy"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachOrigin"/>
+        <Model value="SovietMolotvBurn"/>
+    </CActorModel>
+    <CActorMissile id="TychusTossGrenadeMissile22" parent="GenericAttackMissile" unitName="SovietMolotovCocktail">
+        <HostSiteOps Ops="SOpAttachWeapon"/>
+    </CActorMissile>
+    <CActorUnit id="SovietNatasha" parent="SovietInfantry" unitName="SovietNatasha" icon="Natasha">
+        <On Terms="ActorCreation" Send="RefSet ::global.RaynorCommando ::Self"/>
+        <On Terms="AnimDone; AnimName Spell" Send="AnimGroupRemove Work"/>
+        <On Terms="Signal.*.DestroySplat" Target="RaynorSnipeSplat" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="TextureSelectById Decal_Terran_0002_01"/>
+        <On Terms="Abil.RaynorSnipe2.SourcePrepStart" Send="AnimBracketStart 111 Stand,Work,Start,A Stand,Work,A Stand,Work,End,A"/>
+        <On Terms="Abil.RaynorSnipe2.SourceFinishStart" Send="AnimBracketStop 111"/>
+        <On Terms="Abil.RAFireIncendiaryBombs.SourcePrepStart" Send="AnimBracketStart Attack1 Stand,Work,Start,A Stand,Work,A Stand,Work,End,A"/>
+        <On Terms="Abil.RAFireIncendiaryBombs.SourceFinishStart" Send="AnimBracketStop Attack1"/>
+        <On Terms="Abil.RAPrecisionStrike.SourcePrepStart" Send="AnimBracketStart Attack2 {} Spell {} Instant 0.500000 AsTimeScale"/>
+        <On Terms="Abil.RAPrecisionStrike.SourceFinishStart" Send="AnimBracketStop Attack2"/>
+        <On Terms="Abil.RAPrecisionStrike.SourceFinishStart" Send="AnimBaselineStart"/>
+        <On Terms="Abil.RAPrecisionStrike.SourceCancel" Send="AnimBaselineStart"/>
+        <On Terms="ActorCreation" Send="AnimGroupApply A"/>
+        <On Terms="Abil.RAPrecisionStrike.SourceCancel" Send="AnimBracketStop Attack2"/>
+        <On Terms="ActorCreation" Send="Create ColossusAttackBeamImpact23"/>
+        <On Terms="Abil.RAPrecisionStrike.SourcePrecastCancel" Send="AnimBracketStop Attack2"/>
+        <On Terms="Abil.RAPrecisionStrike.SourcePrepStart" Send="TimerSet 5.000000,5.000000 NatashaSpell"/>
+        <On Terms="TimerExpired; TimerName NatashaSpell" Send="TimerKill NatashaSpell"/>
+        <On Terms="TimerExpired; TimerName NatashaSpell" Send="AnimBaselineStart"/>
+        <On Terms="TimerExpired; TimerName NatashaSpell" Send="AnimBracketStop Attack2"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Send="AnimBracketStop Attack2 Instant"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Send="AnimBracketClear Attack2"/>
+        <Scale value="1.010000"/>
+        <ModelFlags index="SuppressPlayerDecals" value="1"/>
+        <DeathArray index="Normal" ModelLink="NatashaDeath" SoundLink="TerranFlyer_What223265323222" VoiceLink="TerranFlyer_What223265323222"/>
+        <DeathArray index="Fire" ModelLink="NatashaDeath" SoundLink="TerranFlyer_What223265323222"/>
+        <PortraitModel value="KerriganGhostPortrait"/>
+        <StandAnimTurnTime value="5"/>
+        <WalkAnimMoveSpeed value="3"/>
+        <AbilSoundArray AbilCmd="RaynorSnipe2,Execute" Sound="SovietNatasha_Actor_Attack"/>
+        <AbilSoundArray AbilCmd="RAPrecisionStrike,Execute" Sound="TerranFlyer_What223265323221"/>
+        <BarOffset value="50"/>
+        <BarWidth value="80"/>
+        <CustomUnitStatusFrame value="HotS_UnitStatus/KerriganHeroUnitStatusFrameTemplate"/>
+        <MinimapIcon value="Assets\Textures\ui_emoticons_skull.dds"/>
+        <SoundArray index="Birth" value="SovietNatasha_Actor_Birth"/>
+        <SoundArray index="Ready" value="SovietNatasha_Actor_Birth"/>
+        <SoundArray index="Help" value="SovietNatasha_Actor_Help"/>
+        <SoundArray index="What" value="SovietNatasha_Actor_What"/>
+        <SoundArray index="Yes" value="SovietNatasha_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietNatasha_Actor_Attack"/>
+        <SoundArray index="Pissed" value="Raynor_Pissed"/>
+        <SoundArray index="Movement" value="Raynor_Movement"/>
+        <SoundArray index="Turning" value="Raynor_Turning"/>
+        <SoundArray index="Board" value="Raynor_Board"/>
+        <SoundArray index="Click" value="SovietNatasha_Actor_What"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <UnitBorderNormalColor value="150,150,150"/>
+        <UnitBorderSubgroupColor value="255,255,255"/>
+        <UnitKillRank Text="UnitKillRank/Raynor"/>
+        <UnitKillRank MinKills="1000" Text="UnitKillRank/Raynor"/>
+        <UnitKillRank MinKills="2000" Text="UnitKillRank/Raynor"/>
+        <MinimapIconScale value="0.600000"/>
+        <MinimapIconBackgroundScale value="0.600000"/>
+    </CActorUnit>
+    <CActorSimple id="SeekerMissileTint2">
+        <Aliases value="_AngryTinter"/>
+        <Remove Terms="Effect.RACallBombingActorResponse.Start; At Target" Send="Create"/>
+        <Remove Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <Remove Terms="Effect.RAGuardianTankLaserTargetingContinuousEffect.Start; At Target" Send="Create"/>
+        <On Terms="Effect.RACallBombingActorResponse.Start; At Target" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <On Terms="Behavior.natashalock.On" Send="Create"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <On Terms="Behavior.natashalock.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.natashalock.Off" Send="Destroy"/>
+        <On Terms="Behavior.natashalock2.On" Send="Create"/>
+        <On Terms="Behavior.natashalock2.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.natashalock2.Off" Send="Destroy"/>
+        <On Terms="Behavior.natashalock22.On" Send="Create"/>
+        <On Terms="Behavior.natashalock22.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.natashalock22.Off" Send="Destroy"/>
+        <On Terms="Behavior.TankTrapAuraBe5.On" Send="Create"/>
+        <On Terms="Behavior.TankTrapAuraBe5.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+    </CActorSimple>
+    <CActorBeamSimple id="ProbeAttackBeam42" parent="GenericAttackBeam">
+        <On Terms="Abil.RAPrecisionStrike.SourcePrepStart" Send="Create"/>
+        <On Terms="Abil.RAPrecisionStrike.SourceCancel" Send="Destroy"/>
+        <On Terms="Abil.RAPrecisionStrike.SourceFinishStart" Send="Destroy"/>
+        <On Terms="Effect.RACallBombingActorResponse.Start" Send="Create"/>
+        <On Terms="Abil.RAPrecisionStrike.SourcePrepStop" Send="Destroy"/>
+        <HostLaunch Subject="_Unit" Scope="Caster"/>
+        <HostLaunchSiteOps Ops="SOpAttachWeapon01"/>
+        <HostImpact Subject="_Unit" Scope="Target"/>
+        <HostImpactSiteOps Ops="SOpTargetUnit SOpAttachCenter"/>
+    </CActorBeamSimple>
+    <CActorBeamSimple id="RaynorSnipeBeam2" parent="BeamSimpleAnimationStyleOneShot">
+        <On Terms="Effect.RaynorSnipeCreatePersistent2.Start" Send="Create"/>
+        <Model value="RaynorSnipeBeam3"/>
+        <HostLaunch Subject="SovietNatasha"/>
+        <HostLaunchSiteOps Ops="SOpAttachWeapon" HoldPosition="1" HoldRotation="1"/>
+        <HostImpact Subject="_Unit" Scope="Target"/>
+        <HostImpactSiteOps Ops="SOpTargetUnit SOpAttachCenter"/>
+    </CActorBeamSimple>
+    <CActorModel id="RABombingCallAircraftFlyingOverEffectModel" parent="ModelAnimationStyleOneShotNoOrphan">
+        <Aliases value="_Snapshot"/>
+        <Flags index="SuppressSaveLoad" value="0"/>
+        <InheritType value="None"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="CastShadows" value="1"/>
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="CreepEngulfment" value="1"/>
+        <Inherits index="Decal" value="1"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <Inherits index="Opacity" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="TimeScale" value="1"/>
+        <Inherits index="TintColor" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <Inherits index="WarpGroup" value="1"/>
+        <AcceptedHostedPropTransfers index="TeamColor" value="0"/>
+        <On index="0" Terms="ActorCreation" Send="AnimPlay 111 Spell PlayForever,NonLooping"/>
+        <On index="1" Terms="Effect.RACallBombingContinuousEffectCreation.Start; At Target" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 5.000000,5.000000 natasha"/>
+        <On Terms="TimerExpired; TimerName natasha" Send="TimerKill natasha"/>
+        <On Terms="TimerExpired; TimerName natasha" Send="Destroy"/>
+        <On Terms="AnimDone; AnimPlayingName 111" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="RAThePositionOfTheExplosionEffectOfTheVacuumImplosionBombIsShiftedBy2Blocks"/>
+        <Model value="RAPlanesCallingForBombingFlyOverTheModel"/>
+        <Scale value="2.000000"/>
+        <LocalOffsetFor2ndVisibilityTest value="0.000000,0.000000,-0.000000"/>
+        <ModelFlags index="UseSyncSeed" value="1"/>
+    </CActorModel>
+    <CActorSiteOpLocalOffset id="RAThePositionOfTheExplosionEffectOfTheVacuumImplosionBombIsShiftedBy2Blocks">
+        <LocalOffset value="0.000000,0.000000,2.000000"/>
+    </CActorSiteOpLocalOffset>
+    <CActorModel id="RACallBombExplosionEffect" parent="ModelAnimationStyleOneShot">
+        <On Terms="Effect.RACallBombingDamage.Start" Send="Create"/>
+        <On Terms="Effect.OdinNukeDamage222.Start" Send="Create"/>
+        <Model value="TychusTossGrenadeImpact223"/>
+    </CActorModel>
+    <CActorRegionCircle id="RAFireBombExplosionRangeTracking">
+        <Inherits index="Visibility" value="1"/>
+        <On Terms="Effect.RAInitialExplosionDamageOfIncendiaryBombs1.Start; At Effect" Send="Create"/>
+        <On Terms="ActorCreation" Send="QueryRegion ::Self RAFireBombExplosionRangeTracking AgainstCenter"/>
+        <On Terms="Effect.RAInitialExplosionDamageOfIncendiaryBombs1.Start; At Effect" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpShadow"/>
+    </CActorRegionCircle>
+    <CActorSound id="RAIncendiaryBombContinuesBurningSoundEffect" parent="SoundOneShot">
+        <On Terms="Effect.RASearchAreaForSubsequentBurningDamageOfIncendiaryBombs1.Start" Send="Create"/>
+        <On Terms="Effect.RACreationOfContinuousDamageOfTheSecondStageEffectOfIncendiaryBombs1.Expire" Send="Destroy"/>
+        <HostSiteOps Ops="SOpTargetPointStationary"/>
+        <Sound value="Broodling_DeathFXFire"/>
+    </CActorSound>
+    <CActorModel id="RAIncendiaryExplosionEffect" parent="ModelAnimationStyleOneShot">
+        <On Terms="Effect.RAInitialExplosionDamageOfIncendiaryBombs1.Start" Send="Create"/>
+        <Model value="TychusTossGrenadeImpact22"/>
+    </CActorModel>
+    <CActorSound id="RAIncendiaryExplosionSoundEffects" parent="SoundOneShot">
+        <On Terms="Effect.RAInitialExplosionDamageOfIncendiaryBombs1.Start" Send="Create"/>
+        <Sound value="Yagdra_Fireball_Impact"/>
+    </CActorSound>
+    <CActorModel id="RAIncendiaryGroundCombustionModel" parent="ModelAnimationStyleOneShot">
+        <InheritType value="None"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentForceLooping"/>
+        <On Terms="Effect.RACreationOfContinuousDamageOfTheSecondStageEffectOfIncendiaryBombs1.Start" Send="Create"/>
+        <On Terms="Effect.RACreationOfContinuousDamageOfTheSecondStageEffectOfIncendiaryBombs1.Stop" Send="AnimBracketStop BSD"/>
+        <HostSiteOps Ops="SOpTargetPointStationary"/>
+        <Model value="TychusTossGrenadeImpact222"/>
+        <ModelFlags index="UseSyncSeed" value="1"/>
+    </CActorModel>
+    <CActorSound id="RANatashaCallsBombBombExplosionSoundEffects" parent="SoundOneShot">
+        <Flags index="SuppressSaveLoad" value="0"/>
+        <InheritType value="Continuous"/>
+        <Inherits index="Visibility" value="0"/>
+        <AcceptedTransfers index="Position" value="0"/>
+        <AcceptedTransfers index="Rotation" value="0"/>
+        <On index="0" Terms="Effect.RACallBombingDamage.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.OdinNukeDamage222.Start; At Effect" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000,2.000000 liansuoshanghai"/>
+        <On Terms="TimerExpired; TimerName liansuoshanghai" Send="TimerKill liansuoshanghai"/>
+        <On Terms="TimerExpired; TimerName liansuoshanghai" Send="Destroy"/>
+        <Sound value="UnknownSound33"/>
+    </CActorSound>
+    <CActorSound id="RANatashaSniperSoundEffects" parent="SoundOneShot">
+        <On Terms="Effect.RaynorSnipeCreatePersistent2.Start; At Caster" Send="Create"/>
+        <Sound value="TerranFlyer_What2232653232182"/>
+    </CActorSound>
+    <CActorAction id="RaynorCommandoAttack2" parent="GenericAttack" effectAttack="CommandoRifle2">
+        <LaunchAssets Model="RaynorCommandoAttackLaunch2" Sound="RaynorCommandoAttackLaunch2"/>
+        <ImpactMap index="None" Model="RaynorCommandoAttackImpact2" Sound="Raynor_CommandoAttackImpact2"/>
+    </CActorAction>
+    <CActorModel id="RaynorSnipeBigBloodImpact2" parent="ModelAnimationStyleOneShot">
+        <On Terms="Behavior.RaynorCommandoSniped2.Off; ValidateUnit UnitIsBiological" Send="Create"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachTarget SOpRaynorSnipeBigBloodImpactLaunchGuide SOpPatch15"/>
+    </CActorModel>
+    <CActorRegionCircle id="RaynorSnipeDoodadKiller2">
+        <On Terms="Effect.RaynorSnipeSearch2.Start; At Effect" Send="Create"/>
+        <On Terms="ActorCreation" Send="QueryRegion ::Self DoodadKillQuery AgainstCenter"/>
+        <On Terms="Effect.RaynorSnipeSearch2.Start; At Effect" Send="Destroy"/>
+        <Radius value="0.600000"/>
+    </CActorRegionCircle>
+    <CActorSound id="Raynor_Death2" parent="SoundOneShot">
+        <On Terms="UnitDeath.Raynor; PassChance 100.000000" Send="Create"/>
+        <On Terms="UnitDeath.Raynor01; PassChance 100.000000" Send="Create"/>
+        <On Terms="UnitDeath.SovietNatasha; PassChance 100.000000" Send="Create"/>
+        <Sound value="Raynor_Death"/>
+    </CActorSound>
+    <CActorSound id="Raynor_SnipeImpact2" parent="SoundOneShot">
+        <On Terms="Effect.RaynorSnipeDamage2.Start" Send="Create"/>
+    </CActorSound>
+
+
+    <CBehaviorBuff id="natashalock">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-tips-laserdrillantiair.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="3"/>
+        <AINotifyEffect value="SeekerMissileDamage"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RaynorCommandoSniped2">
+        <InfoFlags index="Hidden" value="1"/>
+        <Duration value="0.125"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="PsiDisruption22">
+        <InfoIcon value="Assets\Textures\war3_btnstun.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <RemoveValidatorArray value="HasPsiStrike"/>
+        <Duration value="7"/>
+        <Modification>
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="DisableWeapons" value="1"/>
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <ModifyFlags index="SuppressTurning" value="1"/>
+            <StateFlags index="Stun" value="1"/>
+            <BehaviorLinkDisableArray value="CritterWander"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="ToBeContinuouslyBurned">
+        <InfoIcon value="Assets\Textures\war3_btninnerfire.dds"/>
+        <Duration value="10"/>
+        <Period value="0.4"/>
+        <InitialEffect value="RAIncendiaryBombsContinueBurningDamage1"/>
+        <PeriodicEffect value="RAIncendiaryBombsContinueBurningDamage1"/>
+        <Modification MoveSpeedMultiplier="0.5" AttackSpeedMultiplier="0.7" LifeArmorMultiplier="0">
+            <ModifyFlags index="Reveal" value="1"/>
+            <ModifyFlags index="Detected" value="1"/>
+            <ModifyFlags index="ShareSight" value="1"/>
+        </Modification>
+        <DamageResponse ModifyFraction="1.5">
+            <Chance value="1"/>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CButton id="OdinBarrage223">
+        <Icon value="Assets\Textures\btn-progression-hornerhan-7-wraithvikingupgrades.dds"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus22">
+        <Icon value="Assets\Textures\war3_pasbtnliquidfire.dds"/>
+    </CButton>
+    <CButton id="RaynorSnipe2">
+        <Icon value="Assets\Textures\btn-upgrade-mengsk-engineeringbay-orbitaldrop.dds"/>
+    </CButton>
+
+
+
+
+    <CEffectDamage id="RaynorSnipeDamage2">
+        <ValidatorArray value="noMarkers"/>
+        <ValidatorArray value="WeaponInRange"/>
+        <ImpactLocation Value="TargetUnit"/>
+        <AttributeFactor index="Light" value="1"/>
+        <Kind value="Ranged"/>
+        <Amount value="2000"/>
+        <Death value="Silentkill"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="RaynorSnipeCreatePersistent2">
+        <ValidatorArray value="HasVision"/>
+        <EditorCategories value="Race:Terran"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+        <WhichLocation Value="CasterPoint"/>
+        <OffsetVectorStartLocation Value="CasterPoint"/>
+        <PeriodCount value="26"/>
+        <PeriodicEffectArray value="RaynorSnipeSearch2"/>
+        <PeriodicOffsetArray value="0,-1,0"/>
+        <PeriodicOffsetArray value="0,-2,0"/>
+        <PeriodicOffsetArray value="0,-3,0"/>
+        <PeriodicOffsetArray value="0,-4,0"/>
+        <PeriodicOffsetArray value="0,-5,0"/>
+        <PeriodicOffsetArray value="0,-6,0"/>
+        <PeriodicOffsetArray value="0,-7,0"/>
+        <PeriodicOffsetArray value="0,-8,0"/>
+        <PeriodicOffsetArray value="0,-9,0"/>
+        <PeriodicOffsetArray value="0,-10,0"/>
+        <PeriodicOffsetArray value="0,-11,0"/>
+        <PeriodicOffsetArray value="0,-12,0"/>
+        <PeriodicOffsetArray value="0,-13,0"/>
+        <PeriodicOffsetArray value="0,-14,0"/>
+        <PeriodicOffsetArray value="0,-15,0"/>
+        <PeriodicOffsetArray value="0,-16,0"/>
+        <PeriodicOffsetArray value="0,-17,0"/>
+        <PeriodicOffsetArray value="0,-18,0"/>
+        <PeriodicOffsetArray value="0,-19,0"/>
+        <PeriodicOffsetArray value="0,-20,0"/>
+        <PeriodicOffsetArray value="0,-21,0"/>
+        <PeriodicOffsetArray value="0,-22,0"/>
+        <PeriodicOffsetArray value="0,-23,0"/>
+        <PeriodicOffsetArray value="0,-24,0"/>
+        <PeriodicOffsetArray value="0,-25,0"/>
+        <PeriodicOffsetArray value="0,-26,0"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RACallBombingActorResponse">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <PeriodCount value="30"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <OffsetVectorEndLocation Value="TargetUnitOrPoint"/>
+        <PeriodicEffectArray value="SeekerMissileApplyBehavior2"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RACallBombingContinuousEffectCreation">
+        <WhichLocation Value="TargetUnit"/>
+        <ExpireDelay value="1"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="ArtanisVoidUlnarDamage22222"/>
+        <PeriodicEffectArray value="RACallBombingDamage"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <InitialDelay value="2"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="RACallBombingDamage">
+        <Amount value="99999"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Invulnerable"/>
+        <Flags index="NoBehaviorResponse" value="1"/>
+        <AreaArray Radius="2" Fraction="1"/>
+    </CEffectDamage>
+    <CEffectSet id="RACallBombingEffectCollectionStarts">
+        <EffectArray value="RACallBombingPersistsVirtualEffectsCreationDelay"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="RACallBombingPersistsVirtualEffectsCreationDelay">
+        <WhichLocation Value="TargetUnit"/>
+        <ExpireDelay value="0.2"/>
+        <ExpireEffect value="RACallBombingContinuousEffectCreation"/>
+        <Flags index="Channeled" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RACreationOfContinuousDamageOfTheSecondStageEffectOfIncendiaryBombs1">
+        <PeriodCount value="30"/>
+        <PeriodicEffectArray value="RASearchAreaForSubsequentBurningDamageOfIncendiaryBombs1"/>
+        <PeriodicPeriodArray value="0.2"/>
+        <RevealRadius value="3"/>
+        <RevealFlags index="Unfog" value="1"/>
+        <RevealFlags index="Detect" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="RADamageSetAfterIncendiaryBombExplosion1">
+        <EffectArray value="RACreationOfContinuousDamageOfTheSecondStageEffectOfIncendiaryBombs1"/>
+        <EffectArray value="RAInitialExplosionDamageOfIncendiaryBombs1"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="RADelayedStartOfFiringIncendiaryBombs">
+        <ExpireDelay value="0.2"/>
+        <FinalEffect value="RAFiresIncendiaryProjectiles1"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="RAFiresIncendiaryProjectiles1">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="RADamageSetAfterIncendiaryBombExplosion1"/>
+        <AmmoUnit value="SovietMolotovCocktail"/>
+    </CEffectLaunchMissile>
+    <CEffectDamage id="RAIncendiaryBombsContinueBurningDamage1">
+        <Amount value="5"/>
+        <Death value="Fire"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="RAIncendiaryBurnDamageSetBehavior1">
+        <ValidatorArray index="0" removed="1"/>
+        <Behavior value="ToBeContinuouslyBurned"/>
+    </CEffectApplyBehavior>
+    <CEffectDamage id="RAInitialExplosionDamageOfIncendiaryBombs1">
+        <Amount value="50"/>
+        <Death value="Fire"/>
+    </CEffectDamage>
+    <CEffectSet id="RaynorSnipeDamageSet2">
+        <EditorCategories value="Race:Terran"/>
+        <EffectArray value="RaynorSnipeDamage2"/>
+        <EffectArray value="RaynorSnipeApplyBehavior2"/>
+    </CEffectSet>
+    <CEffectEnumArea id="RaynorSnipeSearch2">
+        <EditorCategories value="Race:Terran"/>
+        <SearchFilters value="Visible;Self,Player,Ally,Neutral,Missile,Invulnerable"/>
+        <AreaArray Radius="1.25" Effect="RaynorSnipeDamageSet2"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="RASearchAreaForSubsequentBurningDamageOfIncendiaryBombs1">
+        <ImpactLocation Value="TargetPoint"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Air,Missile,Stasis,Hidden,Invulnerable"/>
+        <AreaArray Radius="3" Effect="RAIncendiaryBurnDamageSetBehavior1"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="CommandoRifle2">
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <Flags index="Notification" value="1"/>
+        <Kind value="Ranged"/>
+        <Amount value="50"/>
+        <ImpactUnitValidator value="RANotAllowedToAttackAllies"/>
+    </CEffectDamage>
+    <CEffectSet id="RASVDNormalAttackSet">
+        <EffectArray value="CommandoRifle2"/>
+        <EffectArray value="RASVDNormalEffectSearchArea"/>
+        <EffectArray value="QueenBurstHeal4"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="RASVDNormalAttackStunEffectBehaviorProvided">
+        <ValidatorArray index="0" removed="1"/>
+        <Behavior value="PsiDisruption22"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumArea id="RASVDNormalEffectSearchArea">
+        <SearchFilters value="-;Player,Ally,Neutral,Invulnerable,MapBoss"/>
+        <AreaArray MaxCount="1" Radius="0.5" Effect="RASVDNormalAttackStunEffectBehaviorProvided"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="SeekerMissileApplyBehavior2">
+        <EditorCategories value="Race:Terran"/>
+        <WhichUnit Effect="RACallBombingActorResponse"/>
+        <Behavior value="natashalock"/>
+    </CEffectApplyBehavior>
+    <CEffectModifyUnit id="ArtanisVoidUlnarDamage22222">
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+    </CEffectModifyUnit>
+    <CEffectApplyBehavior id="RaynorSnipeApplyBehavior2">
+        <ValidatorArray index="0" value=""/>
+        <EditorCategories value="Race:Terran"/>
+        <Behavior value="RaynorCommandoSniped2"/>
+    </CEffectApplyBehavior>
+    <CEffectModifyUnit id="QueenBurstHeal4">
+        <EditorCategories value="Race:Zerg"/>
+        <ImpactUnit Value="Caster"/>
+        <VitalArray index="Life">
+            <Change value="1500"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+
+
+    <CModel id="TychusTossGrenadeImpact223" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\EyeOfAdunMissileImpact\EyeofAdunMissileImpact.m3"/>
+        <AnimSpeed value="0.600000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.400000,1.400000,1.400000"/>
+        <ScaleMin value="1.400000,1.400000,1.400000"/>
+    </CModel>
+    <CModel id="SovietMolotovCocktail" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\MolotovMissile\MolotovMissile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+        <SelectionRadius value="0.833200"/>
+        <ShadowRadius value="0.833200"/>
+    </CModel>
+    <CModel id="TychusTossGrenadeImpact22" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\MolotovMissileImpact\MolotovMissileImpact.m3"/>
+        <AnimSpeed value="0.300000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="2.100000,2.100000,2.100000"/>
+        <ScaleMin value="2.100000,2.100000,2.100000"/>
+    </CModel>
+
+    <CModel id="NatashaDeath" parent="UnitDeath" Race="Terran">
+        <Model value="assets\units\soviet\Natasha_Death.m3"/>
+        <SelectionOffset value="0.000000,0.000000,-0.500000"/>
+        <SelectionRadius value="1.250000"/>
+    </CModel>
+    <CModel id="ProbeAttackBeam42" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Terran\SpaceMineTargetingLaserMedium\SpaceMineTargetingLaserMedium.m3"/>
+        <AnimSpeed value="0.800000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="5.000000,5.000000,5.000000"/>
+        <ScaleMin value="5.000000,5.000000,5.000000"/>
+    </CModel>
+    <CModel id="SovietNatasha" parent="Unit" Race="Terran">
+        <Model value="assets\units\soviet\Natasha.m3"/>
+        <Flags index="AutoUnload" value="1"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraMid04"/>
+        <SelectionRadius value="0.416500"/>
+        <ShadowRadius value="0.416500"/>
+        <SquibTypeDefault value="Flesh"/>
+        <TechPurchaseCamera value="Star2CameraMid04"/>
+        <UnitGlossaryCamera value="Star2CameraMid04"/>
+    </CModel>
+    <CModel id="RAPlanesCallingForBombingFlyOverTheModel" parent="PersistentSpellFX">
+        <Model value="assets\units\soviet\NatashaBomber.m3"/>
+        <Flags index="Wait" value="1"/>
+        <Priority value="32"/>
+    </CModel>
+    <CModel id="RaynorCommandoAttackImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\GhostWeaponImpact\GhostWeaponImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="RaynorCommandoAttackLaunch2" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\GhostWeaponLaunch\GhostWeaponLaunch.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="RaynorSnipeBeam3" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Terran\ArchAngel_Xanthos_Experimentation_Railgun\ArchAngel_Xanthos_Experimentation_Railgun.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Lighting value=""/>
+    </CModel>
+    <CModel id="RaynorSnipeBigBloodImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Other\BloodTargetImpact\BloodTargetImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Lighting value=""/>
+        <ScaleMax value="3.500000,3.500000,3.500000"/>
+        <ScaleMin value="3.500000,3.500000,3.500000"/>
+    </CModel>
+    <CModel id="TychusTossGrenadeImpact222" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_NapalmBomb_Coop_Fire\MiraHorner_NapalmBomb_Coop_Fire.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Lighting value="TychusTossGrenadeImpact22"/>
+        <ScaleMax value="1.400000,1.400000,0.500000"/>
+        <ScaleMin value="1.400000,1.400000,0.500000"/>
+    </CModel>
+    <CModel id="SovietMolotvBurn">
+        <Model value="Assets\Abilities\Spells\Other\War3_BreathOfFireDamage\War3_BreathOfFireDamage.m3"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CMoverMissile id="TossGrenade22">
+        <MotionPhases>
+            <Driver value="Ballistic"/>
+            <MaxSpeed value="6"/>
+            <Gravity value="12"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <FlightTime value="0.5"/>
+        </MotionPhases>
+    </CMoverMissile>
+
+
+    <CSound id="TerranFlyer_What223265323222" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUNatas_voiDiea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_voiDieb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_voiDiec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_voiDied.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_voiDiee.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_voiDief.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+        <Category value="Death"/>
+    </CSound>
+    <CSound id="SovietNatasha_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUNatas_VoiAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiAtke.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiAtkf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiAtkg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What223265323221" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUNatas_VoiAttAira.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiAttAirb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiAttAirc.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+<!--    Natasha calls for bombing bombing explosion sound effects-->
+    <CSound id="UnknownSound33" parent="Combat">
+        <AssetArray File="Assets\Sounds\Cyclone_Missile_Impact_01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Cyclone_Missile_Impact_02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Cyclone_Missile_Impact_03.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Cyclone_Missile_Impact_04.wav" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="SovietNatasha_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUNatas_VoiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiSelectf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietNatasha_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUNatas_VoiFeara.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiFearb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiFearc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiFeard.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietNatasha_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUNatas_VoiCreatea.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietNatasha_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUNatas_VoiMove.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatas_VoiMovee.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What2232653232182" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\SUNatasha_rifleA.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatasha_rifleB.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatasha_rifleC.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatasha_rifleD.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatasha_rifleE.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUNatasha_rifleF.ogg" FacialGroup=""/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CSound id="Raynor_CommandoAttackImpact2" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\BulletImpacts\Terran_SingleBulletAttackImpact0.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\BulletImpacts\Terran_SingleBulletAttackImpact1.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\BulletImpacts\Terran_SingleBulletAttackImpact2.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\BulletImpacts\Terran_SingleBulletAttackImpact3.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\BulletImpacts\Terran_SingleBulletAttackImpact4.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\BulletImpacts\Terran_SingleBulletAttackImpact5.wav"/>
+        <Pitch value="-1.500000,1.500000"/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+    <CSound id="RaynorCommandoAttackLaunch2" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\Terran\Ghost\Ghost_AttackLaunch0.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\Ghost\Ghost_AttackLaunch1.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\Ghost\Ghost_AttackLaunch2.wav"/>
+        <DupeMaximumMethod value="Replace"/>
+        <Pitch value="-0.890000,0.840000"/>
+        <Volume value="-12.000000,-10.500000"/>
+    </CSound>
+    <CSound id="Raynor_SnipeImpact2" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\Terran\Ghost\Ghost_SnipeImpact0.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\Ghost\Ghost_SnipeImpact1.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\Ghost\Ghost_SnipeImpact2.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\Ghost\Ghost_SnipeImpact3.wav"/>
+        <AssetArray File="Assets\Sounds\Terran\Ghost\Ghost_SnipeImpact4.wav"/>
+        <DupeMaximumMethod value="Replace"/>
+        <Pitch value="-1.000000,3.000000"/>
+        <Volume value="-9.599999,-9.599999"/>
+    </CSound>
+    <CWeaponLegacy id="CommandoRifle2">
+        <EditorCategories value="Race:Terran"/>
+        <Icon value="Assets\Textures\btn-upgrade-mengsk-engineeringbay-dominionweaponslevel2.dds"/>
+        <TargetFilters value="Visible;Structure,Missile,Stasis,Dead,Invulnerable"/>
+        <Range value="13"/>
+        <Period value="2"/>
+        <Effect value="RaynorSnipeCreatePersistent2"/>
+        <DisplayEffect value="RaynorSnipeDamage2"/>
+        <Backswing value="2"/>
+    </CWeaponLegacy>
+</Catalog>

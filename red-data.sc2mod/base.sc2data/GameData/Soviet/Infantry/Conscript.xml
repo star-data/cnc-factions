@@ -1,0 +1,361 @@
+<Catalog>
+    <CUnit id="SovietConscript" parent="SovietInfantry">
+        <LifeStart value="40"/>
+        <LifeMax value="40"/>
+        <Speed value="2"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="50"/>
+        <RepairTime value="41.667"/>
+        <KillXP value="1"/>
+        <AbilArray Link="SovietConscriptWeaponSwitch"/>
+        <BehaviorArray Link="SovietConscriptfallsdownwhentakingDamage"/>
+        <WeaponArray Link="SovietConscriptAK47"/>
+        <WeaponArray Link="SovietConscriptMolotov"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="SovietConscriptSwitchToAssaultRifle" Type="AbilCmd" AbilCmd="SovietConscriptWeaponSwitch,Off" Row="2" Column="0"/>
+            <LayoutButtons Face="SovietConscriptSwitchToMolotov" Type="AbilCmd" AbilCmd="SovietConscriptWeaponSwitch,On" Row="2" Column="1"/>
+        </CardLayouts>
+        <Radius value="0.375"/>
+        <SeparationRadius value="0.375"/>
+        <SubgroupPriority value="18"/>
+        <MinimapRadius value="0.3"/>
+        <TacticalAI value="SpecterUnit"/>
+        <TacticalAIThink value="AIThinkGhost"/>
+        <GlossaryPriority value="70"/>
+    </CUnit>
+    <CActorUnit id="SovietConscript" parent="SovietInfantry" unitName="SovietConscript" icon="Conscript">
+        <On Terms="Behavior.SovietMotoCycleBehavior2.On" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior2.Off" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior2.On" Send="AnimBracketStart beamweapon1 Morph,A,B {} Morph,B,A 0 5.000000 AsTimeScale"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior2.Off" Send="AnimBracketStop beamweapon1"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior2.On" Send="StatusSet zzb 0"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior2.Off" Send="StatusSet zzb 1"/>
+        <On Terms="Behavior.SovietConscriptSlieDown.On" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.SovietConscriptSlieDown.On" Send="AnimGroupApply C"/>
+        <On Terms="Behavior.SovietConscriptSlieDown.Off" Send="AnimGroupRemove C"/>
+        <On Terms="Behavior.SovietConscriptSlieDown.Off; IsStatus zzb 1" Send="AnimBaselineStart"/>
+        <On Terms="Behavior.SovietConscriptSlieDown.Off; IsStatus zzb 0" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.SovietConscriptSlieDown.Off; IsStatus zzb 1" Send="AnimGroupRemove B"/>
+        <On Terms="ActorCreation" Send="StatusSet zzb 1"/>
+        <AnimBlendTime value="-0.800000"/>
+        <DeathArray index="Normal" ModelLink="SovietConscriptDeath" SoundLink="SovietConscript_Death" VoiceLink=""/>
+        <PortraitModel value="SovietConscriptPortrait"/>
+        <WalkAnimMoveSpeed value="1.5"/>
+        <BarOffset value="50"/>
+        <BarWidth value="40"/>
+        <SoundArray index="Pissed" value="SovietConscript_Attack"/>
+        <SoundArray index="Click" value="SovietConscript_What"/>
+    </CActorUnit>
+    <CModel id="SovietConscript" parent="Unit">
+        <Model value="assets\units\soviet\Conscript.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Flags index="AutoUnload" value="1"/>
+        <Lighting value="Spectre3"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraMid04"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="0.305000"/>
+        <ShadowRadius value="0.375000"/>
+        <SquibTypeDefault value="Flesh"/>
+        <TechPurchaseCamera value="TechPurchaseInfantry"/>
+        <TextureDeclares Prefix="Spectre_">
+            <Adaptions TriggerOnSubstring="_Diffuse" Slot="main"/>
+            <Adaptions TriggerOnSubstring="_Emissive" Slot="main"/>
+        </TextureDeclares>
+        <UnitGlossaryCamera value="Star2CameraMid04"/>
+    </CModel>
+
+
+    <CWeaponLegacy id="SovietConscriptAK47">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="assets\textures\Soviet\conscript-switches-to-rifle-mode.dds"/>
+        <DisplayEffect value="SovietConscriptWeaponDamage"/>
+        <DisplayAttackCount value="3"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Period value="0.76"/>
+        <Effect value="SovietConscriptWeaponCP"/>
+    </CWeaponLegacy>
+    <CEffectCreatePersistent id="SovietConscriptWeaponCP">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <OffsetVectorEndLocation Value="TargetUnitOrPoint"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="SovietConscriptWeaponDamage"/>
+        <PeriodicEffectArray value="SovietConscriptWeaponDamage"/>
+        <PeriodicEffectArray value="SovietConscriptWeaponDamage"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="SovietConscriptWeaponDamage" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="2"/>
+    </CEffectDamage>
+
+    <CBehaviorBuff id="SovietConscriptfallsdownwhentakingDamage">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DamageResponse Handled="SovietConscriptSlieDownAB">
+            <Chance value="1"/>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CEffectApplyBehavior id="SovietConscriptSlieDownAB">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="SovietConscriptSlieDown"/>
+    </CEffectApplyBehavior>
+    <CBehaviorSpawn id="SovietConscriptSlieDown">
+        <InfoIcon value="Assets\Textures\btn-tips-fallenheroes.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+    </CBehaviorSpawn>
+
+    <CAbilBehavior id="SovietConscriptWeaponSwitch">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="SovietConscriptSwitchToMolotov">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="SovietConscriptSwitchToAssaultRifle">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="SovietMotoCycleBehavior2"/>
+    </CAbilBehavior>
+    <CBehaviorBuff id="SovietMotoCycleBehavior2">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Modification>
+            <DamageTakenMaximum index="Spell" value="1000"/>
+            <DamageTakenMaximum index="Melee" value="1000"/>
+            <DamageTakenMaximum index="Ranged" value="1000"/>
+            <DamageTakenMaximum index="Splash" value="1000"/>
+            <DamageTakenMaximum index="NoProc" value="1000"/>
+            <VitalDamageLeechArray index="Life">
+                <KindArray index="Spell" value="0.2"/>
+                <KindArray index="Melee" value="0.2"/>
+                <KindArray index="Ranged" value="0.2"/>
+                <KindArray index="Splash" value="0.2"/>
+                <KindArray index="NoProc" value="0.2"/>
+            </VitalDamageLeechArray>
+            <WeaponEnableArray value="SovietConscriptMolotov"/>
+            <WeaponDisableArray value="SovietConscriptAK47"/>
+        </Modification>
+        <InitialEffect value="RAInfantryCannotMoveWhenSwitchingModes"/>
+        <FinalEffect value="RAInfantryCannotMoveWhenSwitchingModes"/>
+    </CBehaviorBuff>
+    <CActorAction id="SovietConscriptThrowingMolotovCocktailAttackAction" parent="GenericAttack" effectImpact="SovietConscriptMolotovDamage" effectLaunch="SovietConscriptMolotovLaunch">
+        <LaunchAttachQuery Methods="AMFilterWeapon02"/>
+        <Missile value="SovietMolotovCocktail"/>
+    </CActorAction>
+    <CActorAction id="SovietConscriptWeaponAttack" parent="GenericAttack" effectAttack="SovietConscriptWeaponDamage">
+        <LaunchAttachQuery Methods="AMFilterWeapon01"/>
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="SovietConscript_Weapon"/>
+        <ContainerAssets Model="SovietConscriptRifleFired" Sound="SovietConscript_Weapon"/>
+        <ImpactMap index="None" Model="TitanMechShootBigBloodImpact2" Sound="Spectre_AttackImpact"/>
+    </CActorAction>
+    <CButton id="SovietConscriptSwitchToAssaultRifle">
+        <Icon value="assets\icons\Soviet\conscript-switches-to-rifle-mode.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CButton id="SovietConscriptSwitchToMolotov">
+        <Icon value="assets\icons\Soviet\artillery-locomotive-petrol-bomb-mode.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CEffectDamage id="SovietConscriptMolotovDamage">
+        <AttributeBonus index="Structure" value="8"/>
+        <ArmorReduction value="1"/>
+        <Amount value="8"/>
+        <Death value="Fire"/>
+        <AreaArray Radius="1.5" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Visible;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Invulnerable"/>
+        <SearchFlags index="ExtendByUnitRadius" value="1"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="SovietConscriptMolotovLaunch">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="SovietConscriptMolotovDamage"/>
+        <AmmoUnit value="SovietMolotovCocktail2"/>
+        <Movers Link="SovietMolotovCocktail"/>
+    </CEffectLaunchMissile>
+    
+    <CModel id="SovietConscriptDeath" parent="UnitDeath" Race="Terran">
+        <Model value="assets\units\soviet\Conscript_Death.m3"/>
+        <SelectionOffset value="0.000000,0.000000,-0.500000"/>
+        <SelectionRadius value="1.250000"/>
+    </CModel>
+    <CModel id="SovietConscriptPortrait" parent="FXAPortrait" Race="Terran">
+        <Model value="Assets\COOP\Mengsk\Portraits\Trooper_Mengsk_COOP_Portrait\Trooper_Mengsk_COOP_Portrait.m3"/>
+        <FacialController value="LocalizedData\Facial\TychusPortrait.fxa"/>
+        <Image value="Assets\Textures\TychusPortrait_Static.dds"/>
+        <Lighting value="TychusPortrait"/>
+    </CModel>
+    <CSound id="SovietConscript_Weapon" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFirea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFireb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFirec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFired.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFiree.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFiref.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFireg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFireh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFirei.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFirej.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFirek.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_weaFirel.ogg" FacialGroup=""/>
+        <DupeMaximumMethod value="Replace"/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+    <CSound id="SovietConscript_MolotovImpact" parent="Combat">
+        <EditorCategories value="Race:Zerg"/>
+        <AssetArray File="Assets\Sounds\Yagdra_WeaponImpact_1.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Yagdra_WeaponImpact_2.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Yagdra_WeaponImpact_3.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Yagdra_WeaponImpact_4.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Yagdra_WeaponImpact_5.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Yagdra_WeaponImpact_6.wav" FacialGroup=""/>
+        <Pitch value="-3.000000,0.000000"/>
+        <Volume value="4.000000,6.000000"/>
+    </CSound>
+    <CSound id="SovietConscript_Ready" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SUConsc_VoiCreatea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiCreateb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietConscript_Death" parent="DeathVoice">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiDiea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiDieb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiDiec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiDied.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiDiee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiDief.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiDieg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiDieh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiDiei.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiDiej.ogg" FacialGroup=""/>
+        <Chance value="100"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietConscript_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelectf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelectg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelecth.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelecti.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelectj.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietConscript_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelUndd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelUnde.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiSelUndf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietConscript_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SUConsc_VoiAttMola.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiAttMolb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiAttMolc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiAttMold.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiAttMole.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiAttacka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiAttackb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiAttackc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiAttackd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiAttacke.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietConscript_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SUConsc_VoiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiMoveg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiMoveh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SUConsc_VoiMovei.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CWeaponLegacy id="SovietConscriptMolotov">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="assets\textures\Soviet\artillery-locomotive-petrol-bomb-mode.dds"/>
+        <DisplayEffect value="SovietConscriptMolotovDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Hidden,Invulnerable"/>
+        <Period value="3"/>
+        <DamagePoint value="0.5"/>
+        <Effect value="SovietConscriptMolotovLaunch"/>
+    </CWeaponLegacy>
+
+    <CActorMissile id="SovietMolotovCocktail" parent="GenericAttackMissile" unitName="SovietMolotovCocktail2">
+        <HostSiteOps Ops="SOpAttachWeapon"/>
+        <Model value="SovietMolotovCocktailModel"/>
+    </CActorMissile>
+
+    <CMoverMissile id="SovietMolotovCocktail">
+        <MotionPhases>
+            <Driver value="Ballistic"/>
+            <Speed value="3"/>
+            <MaxSpeed value="3"/>
+            <Gravity value="15"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <FlightTime value="1"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CUnit id="SovietMolotovCocktail2" parent="MISSILE">
+        <Race value="Soviet"/>
+        <Mover value="SovietMolotovCocktail"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:CNC"/>
+        <TacticalAI value="BonesTossGrenadeWeapon"/>
+    </CUnit>
+    <CActorSquib id="SovietConscriptMolotovCocktailExplosionEffect">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.SovietConscriptMolotovDamage.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.RAArtilleryLocomotiveIncendiaryBombExplosionDamage.Start; At Effect" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="SovietMolotovCocktailExplosionModel" Sound="SovietConscript_MolotovImpact"/>
+    </CActorSquib>
+    <CModel id="SovietMolotovCocktailExplosionModel" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\MolotovMissileImpact\MolotovMissileImpact.m3"/>
+        <AnimSpeed value="0.400000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.200000,1.200000,1.200000"/>
+        <ScaleMin value="1.200000,1.200000,1.200000"/>
+    </CModel>
+    <CModel id="SovietMolotovCocktailModel" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\MolotovMissile\MolotovMissile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.500000,1.500000,1.500000"/>
+        <ScaleMin value="1.500000,1.500000,1.500000"/>
+    </CModel>
+</Catalog>

@@ -1,0 +1,587 @@
+<Catalog>
+
+    <CUnit id="SovietVacuumImploder" parent="SovietStructure">
+        <Facing value="119.9926"/>
+        <Attributes index="Heroic" value="1"/>
+        <LifeStart value="1500"/>
+        <LifeMax value="1500"/>
+        <Sight value="6"/>
+        <!--        <Food value="-8"/>-->
+        <CostCategory value="Army"/>
+        <CostResource index="Minerals" value="1000"/>
+        <CostResource index="Vespene" value="1000"/>
+        <RepairTime value="50"/>
+        <KillXP value="200"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="OdinNuclearStrike222"/>
+        <AbilArray Link="ScannerSweep"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent48"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent482"/>
+        <BehaviorArray Link="PowerUserQueue"/>
+        <BehaviorArray Link="PowerSource2"/>
+        <WeaponArray Turret="RAProtonColliderMainCannon"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="OdinBarrage224" Type="AbilCmd" AbilCmd="OdinNuclearStrike222,Execute" Row="0" Column="0"/>
+            <LayoutButtons Face="Scan" Type="AbilCmd" AbilCmd="ScannerSweep,Execute" Row="2" Column="1"/>
+        </CardLayouts>
+        <Radius value="3"/>
+        <SeparationRadius value="3"/>
+        <Footprint value="Footprint4x4Contour2"/>
+        <DeadFootprint value="Footprint4x4Contour2"/>
+        <PlacementFootprint value="Footprint4x42"/>
+        <ScoreMake value="1250000"/>
+        <ScoreKill value="2500"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="3"/>
+    </CUnit>
+    <CAbilEffectTarget id="OdinNuclearStrike222">
+        <Alignment value="Negative"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Effect index="0" value="RAVacuumImplosionBombInitialEffectSet"/>
+        <Cost>
+            <Charge Link="Abil/NovaNuclearStrike"/>
+            <Cooldown Link="zhenkong" TimeStart="0" TimeUse="360"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <Marker Link="Abil/NovaNuclearStrike"/>
+        <ValidatedArray index="Channel" value="0"/>
+        <AlertArray index="Cast" value="CalldownLaunch"/>
+        <CursorEffect value="nukeDamage"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="OdinBarrage224" Requirements="SuperWeaponRe2"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
+        <CalldownEffect value="OdinNukePersistent22"/>
+    </CAbilEffectTarget>
+    <CActorModel id="SovietVacuumploderweilan" parent="ModelConstruction" unitName="EngineeringBay2">
+        <On Terms="UnitConstruction.SovietVacuumImploder.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart 111 {} Birth,Stand {} ContentNonLooping,ContentPlayOnce,OpeningPlayForever,Instant"/>
+        <On Terms="UnitConstruction.SovietVacuumImploder.Finish" Send="AnimBracketStop 111"/>
+        <On Terms="UnitConstruction.SovietVacuumImploder.Cancel" Send="AnimBracketStop 111"/>
+    </CActorModel>
+    <CActorSound id="RAVacuumImplosionBombChargingSoundEffect" parent="SoundOneShot">
+        <Sound value="Odin_NukeLaunch2222"/>
+        <FogVisibility value="Visible"/>
+    </CActorSound>
+    <CSound id="Odin_NukeLaunch2222" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\SSP_vacuumReadyA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\SSP_vacuumReadyB.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="4"/>
+        <DupeMaximumMethod value="Replace"/>
+        <Volume value="6.000000,6.000000"/>
+    </CSound>
+    <CActorUnit id="SovietVacuumImploder" parent="SovietBuilding" unitName="SovietVacuumImploder" icon="VacuumImploder">
+        <On Terms="Abil.*.PawnTarget" Send="AnimPlay"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent482.Off" Send="AnimBracketStart Attack1 Stand,Work,Start Stand,Work"/>
+        <On Terms="Effect.RAVacuumImplosionBombInitialEffectSet.Start" Send="AnimBracketStart 111 Ready Attack Stand,Work,End"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent482.On" Send="AnimBracketStop Attack1"/>
+        <On Terms="Effect.RAVacuumImplosionBombInitialDelay.Stop" Send="AnimBracketStop 111"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent48.Off" Send="PlayUnitSound Board"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent482.Off" Send="Create RAVacuumImplosionBombChargingSoundEffect"/>
+        <On Terms="UnitConstruction.SovietVacuumImploder.Start" Send="AnimPlay Aufspell1 Stand PlayForever,NonLooping -1.000000 -1.000000 0.300000 AsTimeScale"/>
+        <On Terms="UnitConstruction.SovietVacuumImploder.Finish" Send="AnimClear Aufspell1"/>
+        <On Terms="UnitConstruction.SovietVacuumImploder.Cancel" Send="AnimClear Aufspell1"/>
+        <DeathArray index="Normal" ModelLink="TerranBuildingDeath" SoundLink="Bunker_Explode"/>
+        <DeathActorModel value="UnitDeathModelPersistent"/>
+        <DeathActorModelLow value="UnitDeathModelPersistent"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <PortraitModel value="AdjutantPortrait"/>
+        <BarOffset value="120"/>
+        <BarWidth value="200"/>
+        <NameOffset value="150"/>
+        <SoundArray index="Ready" value="SovietVacuumImploder_Birth"/>
+        <SoundArray index="Help" value="GhostAcademy_Help"/>
+        <SoundArray index="What" value="SovietVacuumImploder_Birth"/>
+        <SoundArray index="Yes" value="GhostAcademy_Yes"/>
+        <SoundArray index="Attack" value="GhostAcademy_Attack"/>
+        <SoundArray index="Pissed" value="GhostAcademy_Pissed"/>
+        <SoundArray index="Movement" value="GhostAcademy_Movement"/>
+        <SoundArray index="Turning" value="GhostAcademy_Turning"/>
+        <SoundArray index="Construction" value="SovietVacuumImploder_Birth"/>
+        <SoundArray index="Click" value="SovietVacuumImploder_Birth"/>
+        <SoundArray index="ClickError" value="GhostAcademy_ClickError"/>
+        <SoundArray index="Highlight" value="GhostAcademy_Highlight"/>
+    </CActorUnit>
+    <CActorModel id="VortexModel2222" parent="ModelAnimationStyleContinuous">
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD {} Death {} ContentPlayOnce,Instant"/>
+        <On Terms="Effect.RAVacuumImplosionBombFakeDamage.Start" Send="Create"/>
+        <On Terms="Effect.VortexCreatePersistentInitial2.Stop" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.VortexCreatePersistentInitial2.Stop" Send="Destroy"/>
+        <HostSiteOps Ops="SOpShadow"/>
+    </CActorModel>
+    <CActorSiteOpLocalOffset id="RAVacuumImplosionBombExplosionEffectPositionOffset">
+        <LocalOffset value="0.000000,0.000000,2.500000"/>
+    </CActorSiteOpLocalOffset>
+    <CActorModel id="VortexModel222" parent="ModelAnimationStyleContinuous">
+        <On Terms="Effect.VortexCreatePersistentInitial2.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.VortexCreatePersistentInitial2.Stop" Send="AnimBracketStop BSD Instant"/>
+        <On Terms="Effect.VortexCreatePersistentInitial2.Stop" Send="Destroy"/>
+        <On Terms="Effect.VortexCreatePersistent3.Stop" Send="Destroy"/>
+        <HostSiteOps Ops="RAVacuumImplosionBombExplosionEffectPositionOffset" HoldPosition="1"/>
+    </CActorModel>
+    <CActorModel id="VortexModel22" parent="ModelAnimationStyleContinuous">
+        <On Terms="Effect.VortexCreatePersistentInitial2.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.VortexCreatePersistentInitial2.Stop" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.VortexCreatePersistentInitial2.Stop" Send="Destroy"/>
+        <HostSiteOps Ops="RAVacuumImplosionBombExplosionEffectPositionOffset" HoldPosition="1"/>
+    </CActorModel>
+    <CActorSound id="VortexBirthSound2222" parent="SoundOneShot">
+        <On Terms="Effect.RAVacuumImplosionBombInitialDelay.Stop" Send="Create"/>
+        <On Terms="Effect.VortexCreatePersistentInitial2.Stop" Send="Destroy"/>
+        <HostSiteOps Ops="SOpShadow"/>
+        <Sound value="Mothership_VortexStart2222"/>
+    </CActorSound>
+    <CActorSound id="VortexBirthSound22" parent="SoundOneShot">
+        <On Terms="Effect.RAVacuumImplosionBombInitialDelay.Start" Send="Create"/>
+        <On Terms="Effect.VortexCreatePersistentInitial2.Stop" Send="Destroy"/>
+        <HostSiteOps Ops="SOpShadow"/>
+        <Sound value="Mothership_VortexStart2"/>
+    </CActorSound>
+    <CActorSound id="VortexBirthSound2" parent="SoundOneShot">
+        <On Terms="Effect.RAVacuumImplosionBombInitialDelay.Stop" Send="Create"/>
+        <On Terms="Effect.VortexCreatePersistentInitial2.Stop" Send="Destroy"/>
+        <HostSiteOps Ops="SOpShadow"/>
+        <Sound value="Mothership_VortexStart23"/>
+    </CActorSound>
+    <CActorSound id="ArtanisVortexSound2" parent="SoundOneShot">
+        <Flags index="SuppressSaveLoad" value="0"/>
+        <Supporter Subject="::Creator"/>
+        <On Terms="SupporterDestruction" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="Effect.VortexCreatePersistentInitial2.Start" Send="Create"/>
+        <On Terms="Effect.VortexCreatePersistentInitial2.Stop" Send="Destroy"/>
+        <Sound value="Mothership_VortexStart222"/>
+    </CActorSound>
+    <CBehaviorBuff id="VortexExit3">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\BTN-Ability-Protoss-phaseshift.dds"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="1.5"/>
+        <Modification>
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="EnableMove" value="1"/>
+            <ModifyFlags index="Reveal" value="1"/>
+            <StateFlags index="Invulnerable" value="1"/>
+            <StateFlags index="SuppressAttack" value="1"/>
+            <StateFlags index="SuppressCloak" value="1"/>
+            <StateFlags index="SuppressCollision" value="1"/>
+            <StateFlags index="SuppressDetection" value="1"/>
+            <StateFlags index="SuppressRadar" value="1"/>
+            <DamageDealtFraction index="Spell" value="-1"/>
+            <DamageDealtFraction index="Melee" value="-1"/>
+            <DamageDealtFraction index="Ranged" value="-1"/>
+            <DamageDealtFraction index="Splash" value="-1"/>
+            <DamageDealtFraction index="NoProc" value="-1"/>
+            <DamageDealtMaximum index="Spell" value="0"/>
+            <DamageDealtMaximum index="Melee" value="0"/>
+            <DamageDealtMaximum index="Ranged" value="0"/>
+            <DamageDealtMaximum index="Splash" value="0"/>
+            <DamageDealtMaximum index="NoProc" value="0"/>
+            <AbilClassEnableArray index="CAbilMorph" value="1"/>
+            <AbilClassEnableArray index="CAbilStop" value="1"/>
+            <AbilLinkEnableArray value="Warpable"/>
+            <AbilLinkEnableArray value="BroodLordQueue2"/>
+            <AbilLinkEnableArray value="BroodLordHangar"/>
+            <BehaviorClassDisableArray index="CBehaviorPowerSource" value="1"/>
+        </Modification>
+        <InitialEffect value="DisbandDeath7"/>
+        <DisableValidatorArray value="RAExcludeLeviathan"/>
+        <RemoveValidatorArray value="RAExcludeLeviathan"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="VortexBehavior2">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-blackhole.dds"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="0.125"/>
+        <InitialEffect value="VortexForce2"/>
+        <RefreshEffect value="VortexForce2"/>
+        <ExpireEffect value="VortexExit2"/>
+        <Modification TimeScale="0.1" MoveSpeedMaximum="3" MoveSpeedMinimum="3">
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="Detected" value="1"/>
+            <StateFlags index="Invulnerable" value="1"/>
+            <StateFlags index="Stasis" value="1"/>
+            <StateFlags index="SuppressAttack" value="1"/>
+            <StateFlags index="SuppressCloak" value="1"/>
+            <StateFlags index="SuppressCollision" value="1"/>
+            <StateFlags index="SuppressDetection" value="1"/>
+            <StateFlags index="SuppressPassenger" value="1"/>
+            <StateFlags index="SuppressLifeRegen" value="1"/>
+            <StateFlags index="SuppressShieldsRegen" value="1"/>
+            <StateFlags index="SuppressEnergyRegen" value="1"/>
+            <StateFlags index="Uncommandable" value="1"/>
+            <StateFlags index="Unselectable" value="1"/>
+            <StateFlags index="Untargetable" value="1"/>
+            <AbilClassEnableArray index="CAbilMorph" value="1"/>
+            <AbilLinkEnableArray value="BroodLordQueue2"/>
+            <AbilLinkEnableArray value="BroodLordHangar"/>
+            <AbilLinkDisableArray value="MorphToOverseer"/>
+            <AbilLinkDisableArray value="MorphToBroodLord"/>
+            <BehaviorClassDisableArray index="CBehaviorPowerSource" value="1"/>
+            <BehaviorLinkEnableArray value="ReaperJump"/>
+            <BehaviorLinkDisableArray value="CloakField"/>
+            <BehaviorLinkDisableArray value="AreaDenialTank"/>
+        </Modification>
+        <Replace value="FarthestDistance"/>
+        <ReplaceLocation Effect="VortexCreatePersistentInitial" Value="TargetPoint"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="VortexBehaviorEnemy2">
+        <Name value="Behavior/Name/VortexBehavior"/>
+        <Tooltip value="Behavior/Tooltip/VortexBehavior"/>
+        <Alignment value="Negative"/>
+        <Cost>
+            <Charge Link="Behavior/VortexBehavior"/>
+            <Cooldown Link="Behavior/VortexBehavior"/>
+        </Cost>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-blackhole.dds"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="0.125"/>
+        <InitialEffect value="VortexForce2"/>
+        <RefreshEffect value="VortexForce2"/>
+        <ExpireEffect value="VortexExit2"/>
+        <Modification>
+            <Height value="4"/>
+            <TimeScale value="0.1"/>
+            <MoveSpeedMaximum value="20"/>
+            <MoveSpeedMinimum value="20"/>
+            <MoveSpeedBonus value="1"/>
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="Detected" value="1"/>
+            <StateFlags index="Invulnerable" value="1"/>
+            <StateFlags index="Stasis" value="1"/>
+            <StateFlags index="SuppressAttack" value="1"/>
+            <StateFlags index="SuppressCloak" value="1"/>
+            <StateFlags index="SuppressCollision" value="1"/>
+            <StateFlags index="SuppressDetection" value="1"/>
+            <StateFlags index="SuppressPassenger" value="1"/>
+            <StateFlags index="SuppressLifeRegen" value="1"/>
+            <StateFlags index="SuppressShieldsRegen" value="1"/>
+            <StateFlags index="SuppressEnergyRegen" value="1"/>
+            <StateFlags index="Uncommandable" value="1"/>
+            <StateFlags index="Unselectable" value="1"/>
+            <StateFlags index="Untargetable" value="1"/>
+            <DamageDealtFraction index="Spell" value="-1"/>
+            <DamageDealtFraction index="Melee" value="-1"/>
+            <DamageDealtFraction index="Ranged" value="-1"/>
+            <DamageDealtFraction index="Splash" value="-1"/>
+            <DamageDealtFraction index="NoProc" value="-1"/>
+            <DamageDealtMaximum index="Spell" value="0"/>
+            <DamageDealtMaximum index="Melee" value="0"/>
+            <DamageDealtMaximum index="Ranged" value="0"/>
+            <DamageDealtMaximum index="Splash" value="0"/>
+            <DamageDealtMaximum index="NoProc" value="0"/>
+            <AbilClassEnableArray index="CAbilMorph" value="1"/>
+            <AbilLinkEnableArray value="BroodLordQueue2"/>
+            <AbilLinkEnableArray value="BroodLordHangar"/>
+            <AbilLinkDisableArray value="MorphToOverseer"/>
+            <AbilLinkDisableArray value="MorphToBroodLord"/>
+            <BehaviorClassDisableArray index="CBehaviorPowerSource" value="1"/>
+            <BehaviorLinkEnableArray value="ReaperJump"/>
+            <BehaviorLinkDisableArray value="CloakField"/>
+            <BehaviorLinkDisableArray value="AreaDenialTank"/>
+            <BehaviorLinkDisableArray value="BanelingExplode"/>
+            <WeaponDisableArray value="HotSBanelingExplode"/>
+            <WeaponDisableArray value="HotSBanelingExplodeBuilding"/>
+        </Modification>
+        <DamageResponse>
+            <Cost>
+                <Charge Link="Behavior/VortexBehavior"/>
+                <Cooldown Link="Behavior/VortexBehavior"/>
+            </Cost>
+        </DamageResponse>
+        <Replace value="FarthestDistance"/>
+        <ReplaceLocation Effect="VortexCreatePersistentInitial" Value="TargetPoint"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="VortexEventHorizon2">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-blackhole.dds"/>
+        <EditorCategories value="Race:Protoss,AbilityorEffectType:Units"/>
+        <Duration value="0.125"/>
+        <Modification>
+            <ModifyFlags index="Warpable" value="1"/>
+            <BehaviorLinkDisableArray value="BanelingExplode"/>
+            <WeaponDisableArray value="HotSBanelingExplode"/>
+            <WeaponDisableArray value="HotSBanelingExplodeBuilding"/>
+        </Modification>
+        <Replace value="FarthestDistance"/>
+        <ReplaceLocation Effect="VortexCreatePersistentInitial2" Value="TargetPoint"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent482">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <Duration value="350"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent48">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <Duration value="360"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CButton id="OdinBarrage224">
+        <Icon value="Assets\Textures\RA3fashezhenkong.tga"/>
+        <HotkeyAlias value="OdinBarrage2"/>
+        <Hotkey value="Button/Hotkey/IronCurtain"/>
+    </CButton>
+    <CEffectDamage id="DisbandDeath7">
+        <ImpactLocation Value="SourceUnit"/>
+        <Flags index="Kill" value="1"/>
+        <Death value="Squish"/>
+        <SearchFilters value="-;MapBoss"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectSet id="RACollectionOfStartOfVacuumImplosionBombEffects">
+        <EffectArray value="VortexCreatePersistentInitial2"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSet>
+    <CEffectDamage id="RADamageToBuildingsCausedByVacuumImplosionBombs">
+        <Amount value="900"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectApplyForce id="VortexForce2">
+        <ValidatorArray value="IsNotWarpBubble"/>
+        <EditorCategories value="Race:Protoss"/>
+        <WhichLocation Effect="VortexCreatePersistent3" Value="TargetPoint"/>
+        <Amount value="-100"/>
+    </CEffectApplyForce>
+    <CEffectSwitch id="VortexApplyDisable2">
+        <EditorCategories value="Race:Protoss"/>
+        <CaseArray Validator="TargetIsEnemy" Effect="VortexApplyDisableEnemy2"/>
+        <CaseDefault value="VortexApplyDisableOther2"/>
+    </CEffectSwitch>
+    <CEffectApplyBehavior id="VortexApplyDisableEnemy2">
+        <ValidatorArray index="0" value="IsNotWarpingIn"/>
+        <EditorCategories value="Race:Protoss"/>
+        <Behavior value="VortexBehaviorEnemy2"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="VortexApplyDisableOther2">
+        <ValidatorArray index="0" value="IsNotWarpingIn"/>
+        <EditorCategories value="Race:Protoss"/>
+        <Behavior value="VortexBehavior2"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="VortexEffect2">
+        <ValidatorArray value="NoYoink"/>
+        <ValidatorArray value="IsNotMothershipCorePurifyNexus"/>
+        <EditorCategories value="Race:Protoss"/>
+        <EffectArray value="VortexKillForceField2"/>
+        <EffectArray value="VortexUnburrow2"/>
+        <EffectArray value="VortexDummy2"/>
+        <EffectArray value="VortexUnsiege2"/>
+        <EffectArray value="VortexApplyDisable2"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="VortexEventHorizon2">
+        <ValidatorArray index="0" value="NoYoink"/>
+        <ValidatorArray value="IsNotMothershipCorePurifyNexus"/>
+        <EditorCategories value="Race:Protoss"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumArea id="VortexEventHorizonSearchArea2">
+        <EditorCategories value="Race:Protoss"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Structure,Missile,Item,Dead,Hidden,MapBoss"/>
+        <AreaArray Radius="6" Effect="VortexEventHorizon2"/>
+    </CEffectEnumArea>
+    <CEffectIssueOrder id="VortexUnburrow2">
+        <EditorCategories value="Race:Protoss"/>
+        <Marker Link="Effect/Vortex"/>
+        <Abil value="BurrowZerglingUp"/>
+    </CEffectIssueOrder>
+    <CEffectIssueOrder id="VortexUnsiege2">
+        <EditorCategories value="Race:Protoss"/>
+        <Marker Link="Effect/Vortex"/>
+        <Abil value="Unsiege"/>
+    </CEffectIssueOrder>
+    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB2">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent482"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent48"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumArea id="VortexSearchArea222">
+        <SearchFilters value="MapBoss;Self,Player,Ally,Neutral,Missile,Item,Dead,Invulnerable"/>
+        <AreaArray Radius="7" Effect="RADamageToBuildingsCausedByVacuumImplosionBombs"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="VortexSearchArea2">
+        <EditorCategories value="Race:Protoss"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Structure,MapBoss"/>
+        <AreaArray Radius="7" Effect="VortexEffect2"/>
+        <AreaArray Radius="7" Effect="RAVacuumImplosionBombsProhibitTheUseOfPoisonousExplosionSuicideEffects"/>
+    </CEffectEnumArea>
+    <CEffectCreatePersistent id="VortexCreatePersistent3">
+        <EditorCategories value="Race:Protoss"/>
+        <PeriodCount value="160"/>
+        <PeriodicEffectArray value="VortexSearchArea2"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <RevealRadius value="10"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="VortexCreatePersistentInitial2">
+        <EditorCategories value="Race:Protoss"/>
+        <InitialDelay value="1.5"/>
+        <InitialEffect value="VortexCreatePersistent3"/>
+        <PeriodCount value="168"/>
+        <PeriodicEffectArray value="VortexEventHorizonSearchArea2"/>
+        <PeriodicEffectArray value="VortexSearchArea22"/>
+        <PeriodicEffectArray value="VortexSearchArea222"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <RevealRadius value="10"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="RAVacuumImplosionBombFakeDamage">
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="RAVacuumImplosionBombInitialDelay">
+        <ExpireDelay value="1"/>
+        <ExpireEffect value="RACollectionOfStartOfVacuumImplosionBombEffects"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="RAVacuumImplosionBombFakeDamage"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <InitialDelay value="4"/>
+        <RevealRadius value="10"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="RAVacuumImplosionBombInitialEffectSet">
+        <EffectArray value="RAVacuumImplosionBombInitialDelay"/>
+        <EffectArray value="SuperWeapon120ScooldownAB"/>
+        <EffectArray value="SuperWeapon120ScooldownAB2"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CEffectEnumArea id="VortexSearchArea22">
+        <SearchFilters value="Structure;Self,Player,Ally,Neutral,RawResource,HarvestableResource,Missile,Item,Dead,Invulnerable"/>
+        <AreaArray Radius="7" Effect="RADamageToBuildingsCausedByVacuumImplosionBombs"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="RAVacuumImplosionBombsProhibitTheUseOfPoisonousExplosionSuicideEffects">
+        <Behavior value="RAMovingSpeed20Percent1"/>
+    </CEffectApplyBehavior>
+    <CEffectDamage id="VortexDummy2">
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <Visibility value="Visible"/>
+        <Flags index="Notification" value="1"/>
+        <Flags index="NoBehaviorResponse" value="1"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="VortexExit2">
+        <EditorCategories value="Race:Protoss"/>
+        <Behavior value="VortexExit3"/>
+    </CEffectApplyBehavior>
+    <CModel id="SovietVacuumploderweilan" parent="EngineeringBayBase">
+        <Model value="Assets\buildings\soviet\Vacuum_BuildSupport.m3"/>
+        <AnimSpeed value="0.270000"/>
+        <ScaleMax value="1.100000,1.100000,1.100000"/>
+        <ScaleMin value="1.100000,1.100000,1.100000"/>
+        <SelectionRadius value="1.500000"/>
+    </CModel>
+    <CModel id="SovietVacuumImploder" parent="Building" Race="Terran">
+        <Model value="Assets\buildings\soviet\VacuumImploder.m3"/>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 02">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="2"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 04">
+            <Keys index="SetA" value="3"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 05">
+            <Keys index="SetA" value="4"/>
+        </AttachProps>
+        <Occlusion value="Show"/>
+        <Radius value="3.000000"/>
+        <RadiusLoose value="0.000000"/>
+        <ScaleMax value="0.600000,0.600000,0.600000"/>
+        <ScaleMin value="0.600000,0.600000,0.600000"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="3.000000"/>
+        <ShadowRadius value="3.000000"/>
+        <SquibTypeDefault value="Metal"/>
+    </CModel>
+    <CModel id="VortexModel2222" parent="ImpactFX">
+        <Model value="assets\units\soviet\VacuumImploderMissile.m3"/>
+        <AnimSpeed value="0.900000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.400000,0.400000,0.400000"/>
+        <ScaleMin value="0.400000,0.400000,0.400000"/>
+    </CModel>
+    <CModel id="VortexModel222" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\Immortal_Collection_Purifier_Vortex_Missile\Immortal_Collection_Purifier_Vortex_Missile.m3"/>
+        <AnimSpeed value="0.080000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="1.700000,1.700000,1.700000"/>
+        <ScaleMin value="1.700000,1.700000,1.700000"/>
+    </CModel>
+    <CModel id="VortexModel22" parent="ImpactFX">
+        <Model value="Assets\Effects\Zerg\Void_Kerrigan_Extinction_Charge\Void_Kerrigan_Extinction_Charge.m3"/>
+        <AnimSpeed value="0.400000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CSound id="Mothership_VortexStart22" parent="Spell">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\SPVacum_explo2A.ogg" FacialGroup=""/>
+        <Select value="Sequential"/>
+        <Spread value="90.000000"/>
+    </CSound>
+    <CSound id="Mothership_VortexStart2" parent="Spell">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\SPVacum_explo1.ogg" FacialGroup=""/>
+        <Spread value="90.000000"/>
+        <PlayDelay value="150,150"/>
+    </CSound>
+    <CSound id="Mothership_VortexStart2222" parent="Spell">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\SPVacum_explo3.ogg" FacialGroup=""/>
+        <Select value="Sequential"/>
+        <Volume value="6.000000,6.000000"/>
+        <PlayDelay value="1200,1200"/>
+        <Category value="Combat"/>
+    </CSound>
+    <CSound id="Mothership_VortexStart222" parent="Spell">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\SPVacum_explo2B.ogg" FacialGroup=""/>
+        <Select value="Sequential"/>
+        <Spread value="90.000000"/>
+    </CSound>
+    <CSound id="Mothership_VortexStart23" parent="Spell">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\SPVacum_incoming1.ogg" FacialGroup=""/>
+        <Volume value="6.000000,6.000000"/>
+        <Category value="Combat"/>
+    </CSound>
+    <CSound id="SovietVacuumImploder_Board" parent="Ready">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\Adjutant-The-vacuum-implosion-bomb-is-ready.ogg" FacialGroup=""/>
+        <AssetArrayTemplate>
+            <File value="LocalizedData\Sounds\VO\Terran\^TemplateParam2^.ogg"/>
+            <FacialAnim value="^TemplateParam1^"/>
+            <FacialGroup value="^TemplateParam1^"/>
+            <FacialFile value="LocalizedData\Sounds\VO\Terran\^TemplateParam1^.fxe"/>
+        </AssetArrayTemplate>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="0"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CSound id="SovietVacuumImploder_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SBVacuu_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CTurret id="RAProtonColliderMainCannon">
+        <YawArc value="360"/>
+        <YawRate value="199.8632"/>
+        <YawIdleRate value="149.9414"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+</Catalog>

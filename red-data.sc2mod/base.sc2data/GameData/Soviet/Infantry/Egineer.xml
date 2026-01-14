@@ -1,0 +1,202 @@
+<Catalog>
+    <CUnit id="SovietEngineer" parent="SovietGround">
+        <Subtitle value="UnitSubtitle/gbing"/>
+        <PushPriority value="5"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <LifeStart value="40"/>
+        <LifeMax value="40"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranSovietEngineerArmor"/>
+        <EnergyStart value="100"/>
+        <EnergyMax value="100"/>
+        <EnergyRegenRate value="100"/>
+        <Speed value="1.3007"/>
+        <LateralAcceleration value="46.0625"/>
+        <Sight value="7"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="75"/>
+        <AttackTargetPriority value="5"/>
+        <KillXP value="30"/>
+        <AbilArray Link="BuildingCapture2"/>
+        <AbilArray Link="BuildingCapture"/>
+        <AbilArray Link="BuildCV222"/>
+        <AbilArray Link="BuildInProgress"/>
+        <BehaviorArray Link="SovietStrongwilloftheRedArmy"/>
+        <BehaviorArray Link="UpgradeLevel13"/>
+        <WeaponArray Link="MG4222"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="BuildCV222,Halt" Row="2" Column="4"/>
+            <LayoutButtons Face="EngineerCapture" Type="AbilCmd" AbilCmd="BuildingCapture,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="EngineerCapture3" Type="AbilCmd" AbilCmd="BuildingCapture2,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="SpiderMine2" Type="AbilCmd" AbilCmd="BuildCV222,Build18" Row="1" Column="1"/>
+        </CardLayouts>
+        <Radius value="0.375"/>
+        <SeparationRadius value="0.375"/>
+        <SubgroupPriority value="5"/>
+        <MinimapRadius value="0.3"/>
+    </CUnit>
+    <CActorUnit id="SovietEngineer" parent="SovietInfantry" unitName="SovietEngineer" icon="Engineer">
+        <On Terms="Abil.BuildCV222.WorkerStart" Send="AnimPlay 111 Build AssetDrivenLooping"/>
+        <On Terms="Abil.BuildCV222.WorkerCancel" Send="AnimClear 111"/>
+        <On Terms="Abil.BuildCV222.WorkerStop" Send="AnimClear 111"/>
+        <Scale value="1.300000"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <EventDataFootprint index="0" Actor="UnitFootprint" Model="SpectreFootprint"/>
+        <DeathArray index="Normal" ModelLink="SovietEngineer" SoundLink="TerranFlyer_What22326532325263" VoiceLink=""/>
+        <DeathArray index="Timeout" ModelLink="Invisible" SoundLink="SuperWeaponReadyVoice2322222"/>
+        <DeathArray index="Salvage" AnimProps="Death" ModelLink="SovietEngineer" SoundLink="TerranFlyer_What22326532325263"/>
+        <PortraitModel value="SCV_Blizzcon17_Portrait"/>
+        <WalkAnimMoveSpeed value="1.3984"/>
+        <AbilSoundArray AbilCmd="BuildingCapture,Execute" Sound="SovietEngineerVoice6"/>
+        <BarOffset value="50"/>
+        <BarWidth value="40"/>
+        <GroupSoundArray index="What" value="Spectre_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="Spectre_GroupYes"/>
+        <GroupSoundArray index="Attack" value="Spectre_GroupAttack"/>
+        <GroupSoundArray index="Board" value="Spectre_GroupBoard"/>
+        <SoundArray index="Birth" value="Spectre_Birth"/>
+        <SoundArray index="Ready" value="SovietEngineerVoice"/>
+        <SoundArray index="Help" value="SovietEngineer_Actor_Help"/>
+        <SoundArray index="What" value="SovietEngineer_Actor_What"/>
+        <SoundArray index="Yes" value="SovietEngineer_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietEngineer_Actor_Attack"/>
+        <SoundArray index="Pissed" value="SovietEngineer_Actor_Attack"/>
+        <SoundArray index="Movement" value="Spectre_Movement"/>
+        <SoundArray index="Turning" value="Spectre_Turning"/>
+        <SoundArray index="Board" value="Spectre_Board"/>
+        <SoundArray index="Click" value="SovietEngineer_Actor_What"/>
+        <SoundArray index="ClickError" value="Spectre_ClickError"/>
+        <SoundArray index="Highlight" value="Spectre_Highlight"/>
+    </CActorUnit>
+
+    <CActorAction id="MG42Attack32" parent="GenericAttack" effectAttack="MG4222">
+        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+        <LaunchAssets Model="MarineAttackLaunch" Sound="Marine_AttackLaunch322"/>
+        <ContainerAssets Model="MarineBunkerAttackLaunch" Sound="Marine_AttackLaunch322"/>
+        <ImpactMap index="None" Model="MarineAttackImpact" Sound="Marine_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="BulletImpact" MatchKeys="Basic" Physics="MarineAttackDeathForce"/>
+        <DamageMap index="None" Sound=""/>
+        <AcquisitionYawHalfArc value="10.000000"/>
+        <AcquisitionPitchHalfArc value="15.000000"/>
+        <AccuracyHalfArc value="5.000000"/>
+        <ContainerSiteOps Ops="SOpAttachCenter"/>
+    </CActorAction>
+    <CEffectDamage id="MG4222" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="50"/>
+    </CEffectDamage>
+    <CModel id="SovietEngineer" parent="SovietInfantry" model="Engineer"/>
+    <CSound id="SovietEngineerVoice" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voicreatea.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What22326532325263" parent="TerranDeath">
+        <AssetArray File="Assets\sounds\soviet-engineer-suengin_voidiea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-suengin_voidieb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-suengin_voidiec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-suengin_voidiee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-suengin_voidief.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-suengin_voidieg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-suengin_voidieh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-suengin_voidiei.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-suengin_voidiej.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-suengin_voidiek.ogg" FacialGroup=""/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+
+
+
+    <CWeaponLegacy id="MG4222">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-mengsk-engineeringbay-dominionweaponslevel0.dds"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Hidden,Invulnerable"/>
+        <Period value="3"/>
+    </CWeaponLegacy>
+    <CSound id="SovietEngineer_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voimovea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voimoveb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voimovec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voimoved.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voimovee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voimovef.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voimoveg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietEngineer_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselunda.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselundb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselundc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselundd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselunde.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietEngineer_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiattacka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiattackb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiattackc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiattackd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiattacke.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietEngineer_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselecta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselectb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselectc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselectd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselecte.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselectf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselectg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselecth.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voiselecti.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="Marine_AttackLaunch322" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireC.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireD.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireE.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireF.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireG.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireH.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireI.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="6"/>
+        <DupeMaximumMethod value="Replace"/>
+        <DupeMuteCount value="6"/>
+        <Volume value="-5.000000,-5.000000"/>
+    </CSound>
+
+
+    <CSound id="SovietEngineerVoice6" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voimovcapa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voimovcapb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voimovcapc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-engineer-sucomba_voimovcapd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SuperWeaponReadyVoice2322222" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\neutral-oil-wells-have-captured-soviet-seva_oilderrickcapt.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="6.000000,6.000000"/>
+    </CSound>
+</Catalog>

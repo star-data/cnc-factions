@@ -1,0 +1,211 @@
+<Catalog>
+
+    <CUnit id="SovietTeslaCoil" parent="SovietStructure">
+        <FlagArray index="Untooltipable" value="0"/>
+        <FlagArray index="Destructible" value="1"/>
+        <FlagArray index="CameraFollow" value="0"/>
+        <LifeStart value="200"/>
+        <LifeMax value="200"/>
+        <LifeArmorName value="Unit/LifeArmorName/Tesla"/>
+        <Sight value="10"/>
+        <!--        <Food value="-2"/>-->
+        <CostResource index="Minerals" value="100"/>
+        <CostResource index="Vespene" value="100"/>
+        <RepairTime value="60"/>
+        <KillXP value="5"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="Disband2"/>
+        <AbilArray Link="Blink2210"/>
+        <BehaviorArray Link="UpgradeLevel122"/>
+        <BehaviorArray Link="PowerUserQueue"/>
+        <BehaviorArray Link="PowerSource2"/>
+        <BehaviorArray Link="RATowerdefensemovementCDreduced"/>
+        <WeaponArray Link="ParticleBeam6" Turret="SiegeTankSieged"/>
+        <WeaponArray Link="ParticleBeam5" Turret="SiegeTankSieged"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Disband3" Type="AbilCmd" AbilCmd="Disband2,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="TossGrenadeTychus22222752" Type="Passive" Requirements="HaveHeavyArtillery2463" Row="1" Column="4"/>
+            <LayoutButtons Face="RAHandlingturrets" Type="AbilCmd" AbilCmd="Blink2210,Execute" Row="0" Column="0"/>
+        </CardLayouts>
+        <Footprint value="Footprint1x1CreepNormal"/>
+        <PlacementFootprint value="Footprint1x1CreepNormal"/>
+        <MinimapRadius value="0"/>
+    </CUnit>
+    <CActorBeamSimple id="ProbeAttackBeam22" parent="GenericAttackBeam">
+        <On Terms="ActorCreation" Send="SetTintColor {227,68,255 10.000000} 0.000000 Bounce"/>
+        <Model value="ProbeAttackBeam2"/>
+    </CActorBeamSimple>
+    <CActorUnit id="SovietTeslaCoil" parent="SovietBuilding" unitName="SovietTeslaCoil" icon="TeslaCoil">
+        <On Terms="UnitConstruction.SovietTeslaCoil.Start" Send="AnimPlay 111 Birth PlayForever,NonLooping -1.000000 -1.000000 0.520000 AsTimeScale"/>
+        <On Terms="UnitConstruction.SovietTeslaCoil.Finish" Send="AnimClear 111"/>
+        <On Terms="UnitConstruction.SovietTeslaCoil.Cancel" Send="AnimClear 111"/>
+        <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <BarOffset value="80"/>
+        <MinimapIcon value="Assets\Textures\minimapiconcreeploc.dds"/>
+        <MinimapIconScale value="0.500000"/>
+        <SoundArray index="Birth" value="SovietTeslaCoil_Birth"/>
+        <SoundArray index="Ready" value="SovietTeslaCoil_Birth"/>
+        <SoundArray index="What" value="SovietTeslaCoil_Birth"/>
+        <SoundArray index="Construction" value="SovietTeslaCoil_Birth"/>
+        <SoundArray index="Click" value="SovietTeslaCoil_Birth"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+    </CActorUnit>
+    <CActorAction id="ProbeAttack7" parent="GenericAttack" effectAttack="ParticleBeam7">
+        <Beam value="ProbeAttackBeam5"/>
+        <ImpactMap index="None" Model="ProbeAttackImpact" Sound="Karass_PsionicStormImpact252"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+    <CActorBeamSimple id="ProbeAttackBeam5" parent="GenericAttackBeam"/>
+
+    <CActorAction id="ProbeAttack6" parent="GenericAttack" effectAttack="ParticleBeam6">
+        <Beam value="ProbeAttackBeam22"/>
+        <ImpactMap index="None" Model="ProbeAttackImpact6" Sound="Karass_PsionicStormImpact2524"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+    <CActorRange id="SiegeTankSiegedRange22">
+        <Inherits index="TeamColor" value="1"/>
+        <On Terms="SelectionLocalUpdate.SovietTeslaCoil.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietTeslaCoil.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietTeslaCoil" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietTeslaCoil.Stop" Send="Destroy"/>
+        <Weapon value="ParticleBeam5"/>
+        <Icon value="Assets\Textures\radaricon2.dds"/>
+        <IconArcLength value="0.300000"/>
+    </CActorRange>
+    <CActorModel id="RAMagneticStormCoilChargingModelVisual" parent="ModelAddition">
+        <Aliases index="0" removed="1"/>
+        <Inherits index="LocalTintColor" value="1"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart Attack1 Stand Stand"/>
+        <On index="1" Terms="ActorOrphan" Send="AnimBracketClear Attack1"/>
+        <On index="2" Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000,2.000000 cibao"/>
+        <On Terms="TimerExpired; TimerName cibao" Send="Destroy"/>
+        <On Terms="TimerExpired; TimerName cibao" Send="TimerKill cibao"/>
+        <On Terms="Effect.RAMagneticStormCoilAttackStarts1.Start" Send="Create"/>
+        <On Terms="Effect.RAMagneticStormCoilEnhancedAttackStart.Start" Send="Create"/>
+        <AddToProximitySystem value="0"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+        <Model value="TempestWeaponGround235"/>
+    </CActorModel>
+    <CActorSound id="RAMagneticStormCoilChargingSoundEffect" parent="SoundOneShot">
+        <On Terms="Effect.RAMagneticStormCoilAttackStarts1.Start" Send="Create"/>
+        <On Terms="Effect.RAMagneticStormCoilEnhancedAttackStart.Start" Send="Create"/>
+        <Sound value="Karass_PsionicStormImpact25"/>
+        <FogVisibility value="Visible"/>
+    </CActorSound>
+    <CButton id="TossGrenadeTychus22222752">
+        <Icon value="assets\icons\Soviet\explosive-infantry-skill-icon.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CEffectCreatePersistent id="RAMagneticStormCoilAttackStarts2">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <InitialDelay value="1.5"/>
+        <InitialEffect value="ParticleBeam7"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RAMagneticStormCoilEnhancedAttackStart">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <InitialDelay value="1.2"/>
+        <InitialEffect value="ParticleBeam6"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="ParticleBeam7" parent="DU_WEAP">
+        <ValidatorArray value="noMarkers"/>
+        <Amount value="450"/>
+        <AreaArray MaxCount="2" Radius="1" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Player,Ally,Neutral,Missile,Dead,Invulnerable"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectDamage id="ParticleBeam6" parent="DU_WEAP">
+        <Amount value="1350"/>
+        <AreaArray MaxCount="3" Radius="1.5" Fraction="1"/>
+        <SearchFilters value="-;Player,Ally,Neutral,Missile,Dead,Invulnerable"/>
+        <SearchFlags index="SameCliff" value="0"/>
+        <ValidatorArray value="noMarkers"/>
+        <ExcludeArray Value="Target"/>
+    </CEffectDamage>
+    <CModel id="ProbeAttackBeam2" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Protoss\TempestGroundBeam\TempestGroundBeam.m3"/>
+        <AnimSpeed value="1.500000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="1.200000,1.200000,1.200000"/>
+        <ScaleMin value="0.700000,0.700000,0.700000"/>
+    </CModel>
+    <CModel id="SovietTeslaCoil" parent="Doodad">
+        <Model value="Assets\buildings\soviet\TeslaCoil.m3"/>
+        <Radius value="2.000000"/>
+        <ScaleMax value="0.320000,0.320000,0.320000"/>
+        <ScaleMin value="0.320000,0.320000,0.320000"/>
+        <SelectionLayer value="3"/>
+        <SelectionRadius value="1.600000"/>
+        <ShadowRadius value="2.000000"/>
+    </CModel>
+    <CModel id="TempestWeaponGround235" parent="LaunchFX">
+        <Model value="Assets\Effects\Protoss\PlasmaSurgeLaunch\PlasmaSurgeLaunch.m3"/>
+        <AnimSpeed value="0.600000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <Flags index="Ignorable" value="0"/>
+        <Priority value="16"/>
+        <ScaleMax value="2.000000,2.000000,0.700000"/>
+        <ScaleMin value="2.000000,2.000000,0.700000"/>
+    </CModel>
+    <CModel id="ProbeAttackBeam5" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Zerg\HybridBeam\HybridBeam.m3"/>
+        <AnimSpeed value="2.000000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="1.000000,1.000000,1.500000"/>
+        <ScaleMin value="1.000000,1.000000,1.500000"/>
+    </CModel>
+    <CSound id="Karass_PsionicStormImpact2524" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\Suteslat2a.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="4"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="Karass_PsionicStormImpact25" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\SUTesla_chargea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTesla_chargeb.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="4"/>
+        <Volume value="-2.000000,-2.000000"/>
+    </CSound>
+    <CSound id="SovietTeslaCoil_Birth" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SBTesla_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+    <CSound id="Karass_PsionicStormImpact252" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\Suteslat1a.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="4"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CWeaponLegacy id="ParticleBeam5">
+        <EditorCategories value="Race:Protoss"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-protoss-fenix-carrier-solarbeam.dds"/>
+        <DisplayEffect value="ParticleBeam6"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="16"/>
+        <Period value="2.5"/>
+        <Effect value="RAMagneticStormCoilEnhancedAttackStart"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="ParticleBeam6">
+        <EditorCategories value="Race:Protoss"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-protoss-fenix-carrier-solarbeam.dds"/>
+        <DisplayEffect value="ParticleBeam7"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="16"/>
+        <Period value="3.1"/>
+        <Effect value="RAMagneticStormCoilAttackStarts2"/>
+    </CWeaponLegacy>
+</Catalog>

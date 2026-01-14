@@ -1,0 +1,150 @@
+<Catalog>
+    <CButton parent="Soviet" id="SovietWarBear" icon="unit-WarBear"/>
+    <CButton parent="Soviet" id="SovietConscript" icon="unit-Conscript"/>
+    <CButton parent="Soviet" id="SovietDesolator" icon="unit-Desolator"/>
+    <CButton parent="Soviet" id="SovietEgineer" icon="unit-Egineer"/>
+    <CButton parent="Soviet" id="SovietFlakTrooper" icon="unit-FlakTrooper"/>
+    <CButton parent="Soviet" id="SovietMortarCycle" icon="unit-MortarCycle"/>
+    <CButton parent="Soviet" id="SovietNatasha" icon="unit-Natasha"/>
+    <CButton parent="Soviet" id="SovietTeslaTrooper" icon="unit-TeslaTrooper"/>
+
+    <CAbilTrain id="SovietBarracksTrain">
+        <Range value="5"/>
+        <InfoArray index="Train1" Time="30"><Button DefaultButtonFace="SovietWarBear"/><Unit value="SovietWarBear"/></InfoArray>
+        <InfoArray index="Train2" Time="30"><Button DefaultButtonFace="SovietConscript"/><Unit value="SovietConscript"/></InfoArray>
+        <InfoArray index="Train3" Time="30"><Button DefaultButtonFace="SovietFlakTrooper"/><Unit value="SovietFlakTrooper"/></InfoArray>
+        <InfoArray index="Train4" Time="30"><Button DefaultButtonFace="SovietMortarCycle"/><Unit value="SovietMortarCycle"/></InfoArray>
+        <InfoArray index="Train5" Time="30"><Button DefaultButtonFace="SovietTeslaTrooper"/><Unit value="SovietTeslaTrooper"/></InfoArray>
+        <InfoArray index="Train6" Time="30"><Button DefaultButtonFace="SovietDesolator"/><Unit value="SovietDesolator"/></InfoArray>
+        <InfoArray index="Train7" Time="30"><Button DefaultButtonFace="SovietEgineer"/><Unit value="SovietEgineer"/></InfoArray>
+        <InfoArray index="Train8" Time="30"><Button DefaultButtonFace="SovietNatasha"/><Unit value="SovietNatasha"/></InfoArray>
+    </CAbilTrain>
+    <CUnit id="SovietBarracks" parent="SovietStructure">
+        <!--        <Facing value="29.9926"/>-->
+        <LifeStart value="1000"/>
+        <LifeMax value="1000"/>
+        <EnergyStart value="100"/>
+        <EnergyMax value="100"/>
+        <EnergyRegenRate value="100"/>
+        <Sight value="7"/>
+        <!--        <Food value="-4"/>-->
+        <CostResource index="Minerals" value="150"/>
+        <KillXP value="5"/>
+        <AbilArray Link="Rally"/>
+        <AbilArray Link="SovietBarracksTrain"/>
+        <!--        <AbilArray Link="CityTrain"/>-->
+        <AbilArray Link="heal"/>
+        <BehaviorArray Link="MassProduction22"/>
+        <BehaviorArray Link="PowerUserQueue"/>
+        <BehaviorArray Link="PowerSource2"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
+            <LayoutButtons  AbilCmd="SovietBarracksTrain,Train1"  Type="AbilCmd" Row="0" Column="0" Face="SovietWarBear"/>
+            <LayoutButtons  AbilCmd="SovietBarracksTrain,Train2"  Type="AbilCmd" Row="0" Column="1" Face="SovietConscript"/>
+            <LayoutButtons  AbilCmd="SovietBarracksTrain,Train3"  Type="AbilCmd" Row="0" Column="2" Face="SovietFlakTrooper"/>
+            <LayoutButtons  AbilCmd="SovietBarracksTrain,Train4"  Type="AbilCmd" Row="1" Column="0" Face="SovietMortarCycle"/>
+            <LayoutButtons  AbilCmd="SovietBarracksTrain,Train5"  Type="AbilCmd" Row="1" Column="1" Face="SovietTeslaTrooper"/>
+            <LayoutButtons  AbilCmd="SovietBarracksTrain,Train6"  Type="AbilCmd" Row="1" Column="2" Face="SovietDesolator"/>
+            <LayoutButtons  AbilCmd="SovietBarracksTrain,Train7"  Type="AbilCmd" Row="2" Column="0" Face="SovietEgineer"/>
+            <LayoutButtons  AbilCmd="SovietBarracksTrain,Train8"  Type="AbilCmd" Row="2" Column="1" Face="SovietNatasha"/>
+        </CardLayouts>
+    </CUnit>
+    <CModel id="SovietBarracks">
+        <Model value="assets\buildings\soviet\Barracks.m3"/>
+        <ScaleMax value="0.600000,0.600000,0.600000"/>
+        <ScaleMin value="0.600000,0.600000,0.600000"/>
+        <SelectionRadius value="2.300000"/>
+    </CModel>
+    <CActorUnit id="SovietBarracks" parent="SovietBuilding" unitName="SovietBarracks" icon="Barracks">
+        <DeathArray index="Normal" ModelLink="TerranBuildingDeath" SoundLink="Terran_ExplosionLarge"/>
+        <On Terms="ActorCreation; ModelVariation 0" Send="Create SoundEmitter Doodad_ColonistSovietBarracks00"/>
+        <On Terms="UnitConstruction.SovietBarracks.Start" Send="ModelSwap SovietBarracks4 255 PredecessorDestroyImmediate"/>
+        <On Terms="UnitConstruction.SovietBarracks.Finish" Send="ModelSwap SovietBarracks 255 PredecessorDestroyImmediate"/>
+        <On Terms="UnitConstruction.SovietBarracks.Finish" Send="AnimClear 111"/>
+        <On Terms="UnitConstruction.SovietBarracks.Start" Send="AnimPlay 111 Birth PlayForever,NonLooping -1.000000 -1.000000 0.900000 AsTimeScale"/>
+        <GroupSoundArray index="Birth" value="SovietBarracks_Birth"/>
+        <GroupSoundArray index="Ready" value="SovietBarracks_Ready"/>
+        <GroupSoundArray index="Help" value="SovietBarracks_Help"/>
+        <GroupSoundArray index="What" value="SovietBarracks_Ready"/>
+        <GroupSoundArray index="Yes" value="SovietBarracks_Yes"/>
+        <GroupSoundArray index="Attack" value="SovietBarracks_Attack"/>
+        <GroupSoundArray index="Pissed" value="SovietBarracks_Pissed"/>
+        <GroupSoundArray index="Movement" value="SovietBarracks_Movement"/>
+        <GroupSoundArray index="Turning" value="SovietBarracks_Turning"/>
+        <GroupSoundArray index="Board" value="SovietBarracks_Board"/>
+        <GroupSoundArray index="Construction" value="SovietBarracks_Ready"/>
+        <GroupSoundArray index="Click" value="SovietBarracks_Ready"/>
+        <GroupSoundArray index="ClickError" value="SovietBarracks_ClickError"/>
+        <GroupSoundArray index="Highlight" value="SovietBarracks_Highlight"/>
+        <HeroIcon value="Assets\icons\Soviet\soviet-barracks-icon.dds"/>
+        <SoundArray index="Birth" value="SovietBarracks_Highlight"/>
+        <SoundArray index="What" value="SovietBarracks_Ready"/>
+        <SoundArray index="Construction" value="SovietBarracks_Ready"/>
+        <SoundArray index="Click" value="SovietBarracks_Ready"/>
+        <BarWidth value="140"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <BarOffset value="140"/>
+    </CActorUnit>
+
+
+    <CModel id="EngineeringBay2324" parent="EngineeringBayBase">
+        <Model value="Assets\buildings\soviet\Reactor_BuildSupport.m3"/>
+        <AnimSpeed value="1.650000"/>
+        <SelectionRadius value="1.500000"/>
+        <ScaleMax value="1.100000,1.100000,1.100000"/>
+        <ScaleMin value="1.100000,1.100000,1.100000"/>
+    </CModel>
+    <CActorModel id="EngineeringBay2224" parent="ModelAddition" unitName="EngineeringBay2">
+        <CopySource value="_Unit"/>
+        <Aliases index="0" value="_Unit"/>
+        <Aliases value="_Selectable"/>
+        <Aliases value="_CreepEngulfable"/>
+        <Aliases value="_UnitHuge"/>
+        <Macros value="DeadAnimationMacro"/>
+        <Macros value="SnowVisualUnitMacroMP"/>
+        <Macros value="QueueAnim"/>
+        <Flags index="RespondsToUnitPlayerChange" value="1"/>
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="CastShadows" value="0"/>
+        <Inherits index="CloakEffect" value="0"/>
+        <Inherits index="CreepEngulfment" value="0"/>
+        <Inherits index="Decal" value="0"/>
+        <Inherits index="ModelMaterials" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="TeamColor" value="0"/>
+        <Inherits index="TimeScale" value="0"/>
+        <Inherits index="TintColor" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <Inherits index="WarpGroup" value="0"/>
+        <AcceptedTransfers index="AnimProps" value="1"/>
+        <AcceptedTransfers index="Textures" value="1"/>
+        <AcceptedTransfers index="Status" value="1"/>
+        <AcceptedHostedPropTransfers index="BaseModelScale" value="0"/>
+        <On index="0" Terms="UnitConstruction.*.Finish" Send="Destroy"/>
+        <On index="1" Terms="UnitConstruction.*.Cancel" Send="Destroy"/>
+        <On index="2" Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="UnitConstruction.SovietBarracks.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart 111 {} Birth,Stand {} ContentNonLooping,ContentPlayOnce,OpeningPlayForever,Instant"/>
+        <On Terms="UnitConstruction.*.Finish" Send="AnimBracketStop 111"/>
+        <On Terms="UnitConstruction.*.Cancel" Send="AnimBracketStop 111"/>
+        <Host Subject=""/>
+        <Model value="EngineeringBay2324"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+        <ModelFlags index="NeedsVolumeMonitoring" value="1"/>
+        <ModelFlags index="OutlineOccluder" value="1"/>
+        <EventDataFootprint Actor="UnitFootprint" Model="EngineeringBay2Footprint"/>
+        <EventDataSound Actor="UnitSound"/>
+        <CreepHeightClass value="Medium"/>
+        <CreepRateGrow value="Grow"/>
+        <CreepRateShrink value="Shrink"/>
+    </CActorModel>
+
+    <CSound id="SovietBarracks_Ready" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\SBBarra_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+
+</Catalog>

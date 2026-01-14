@@ -1,0 +1,256 @@
+<Catalog>
+
+    <CUnit id="SovietTwinBlade" parent="SovietAir">
+        <Subtitle value="UnitSubtitle/hangk"/>
+        <Collide index="FlyingEscorts" value="1"/>
+        <Response value="Nothing"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="150"/>
+        <LifeMax value="150"/>
+        <LifeArmor value="1"/>
+        <Speed value="2.5"/>
+        <Acceleration value="15"/>
+        <Deceleration value="10"/>
+        <LateralAcceleration value="10"/>
+        <Sight value="10"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="100"/>
+        <CostResource index="Vespene" value="100"/>
+        <RepairTime value="2"/>
+        <KillXP value="4"/>
+        <BehaviorArray Link="UpgradeLevel12"/>
+        <WeaponArray Link="WraithG23"/>
+        <WeaponArray Link="BattleshipArtillery2242"/>
+        <ScoreMake value="200"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="13"/>
+        <MinimapRadius value="0.375"/>
+        <GlossaryPriority value="160"/>
+        <GlossaryStrongArray value="SJViking"/>
+        <GlossaryWeakArray value="SJFighter1"/>
+    </CUnit>
+    <CActorUnit id="SovietTwinBlade" parent="SovietAir" unitName="SovietTwinBlade" icon="TwinBlade">
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.SJWraith.AttackStart" Send="AnimBracketStart Attack Attack,Superior"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <Scale value="0.700000"/>
+        <AnimBlendTime value="0.300000"/>
+        <DeathArray index="Normal" ModelLink="SJGriffonDeath" SoundLink="SumigReady76"/>
+        <PortraitModel value="WraithPortrait"/>
+        <BarOffset value="60"/>
+        <BarWidth value="50"/>
+        <SoundArray index="Birth" value="SovietTwinBlade_Birth"/>
+        <SoundArray index="Ready" value="SovietTwinBlade_Ready"/>
+        <SoundArray index="Help" value="SovietTwinBlade_Help"/>
+        <SoundArray index="What" value="SovietTwinBlade_What"/>
+        <SoundArray index="Yes" value="SovietTwinBlade_Yes"/>
+        <SoundArray index="Attack" value="SovietTwinBlade_Attack"/>
+        <SoundArray index="Pissed" value="SovietTwinBlade_Attack"/>
+        <SoundArray index="Movement" value="SovietTwinBlade_Birth"/>
+        <SoundArray index="Turning" value="Liberator_Turning"/>
+        <SoundArray index="Board" value="Liberator_Board"/>
+        <SoundArray index="Click" value="SovietTwinBlade_What"/>
+        <SoundArray index="ClickError" value="Liberator_ClickError"/>
+        <SoundArray index="Highlight" value="Liberator_Highlight"/>
+    </CActorUnit>
+    <CActorAction id="WraithGroundAttack22" parent="GenericAttack" effectAttack="1 双刃直升机的机枪伤害" effectImpact="WraithGU22" effectLaunch="WraithGLaunchMissile22">
+        <LaunchAttachQuery Methods="AMFilterWeapon02 AMFilterWeapon01"/>
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="UnknownSound22"/>
+        <Missile value="WraithGroundAttackMissile2"/>
+        <ImpactMap index="None" Model="WraithGroundAttackImpact2" Sound="Viking_AssaultAttackImpact"/>
+        <On index="0" Terms="Effect.Bogus.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="5" Terms="Effect.Bogus.Start; At Caster" Send="Create"/>
+    </CActorAction>
+    <CActorAction id="155mmhuopao42" parent="GenericAttack" effectImpact="BattleshipArtilleryD3242" effectLaunch="BattleshipArtilleryLM2242">
+        <LaunchAttachQuery Methods="AMPatternMarauder255 AMPatternMarauder224"/>
+        <LaunchAssets Model="SiegeTankAttackLaunch7" Sound="SJViking_AttackLaunch"/>
+        <Missile value="105mmArtilleryShellMissile22232"/>
+        <ImpactMap index="None" Model="SiegeTankSiegedAttackImpact" Sound="SiegeTank_SiegedAttackImpact" ModelReaction="SiegeTankSiegedAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="SiegeTankSiegedAttackImpactShield" ModelReaction="SiegeTankSiegedAttackImpactReactionShield"/>
+    </CActorAction>
+    <CEffectCreatePersistent id="BattleshipArtilleryP3242">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <OffsetVectorEndLocation Value="TargetUnitOrPoint"/>
+        <PeriodCount value="8"/>
+        <PeriodicEffectArray value="BattleshipArtilleryLM2242"/>
+        <PeriodicPeriodArray value="0.25"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="BattleshipArtilleryD3242" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="25"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="1" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <SearchFlags index="OffsetByUnitRadius" value="0"/>
+        <SearchFlags index="SameCliff" value="0"/>
+        <AttributeFactor index="Armored" value="1"/>
+        <AttributeFactor index="Structure" value="1"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="BattleshipArtilleryLM2242">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <ImpactEffect value="BattleshipArtilleryD3242"/>
+        <AmmoUnit value="105mmArtilleryShell22232"/>
+        <Movers Link="MissileDefault32"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="WraithGLaunchMissile22">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="WraithGU22"/>
+        <AmmoUnit value="TenguAntiGroundWeapon"/>
+    </CEffectLaunchMissile>
+    <CEffectCreatePersistent id="RADualBladeLaunchInitiallyCreatesAPersistentEffect">
+        <WhichLocation Value="TargetUnit"/>
+        <OffsetVectorEndLocation Value="TargetUnit"/>
+        <PeriodCount value="6"/>
+        <PeriodicEffectArray value="WraithGLaunchMissile22"/>
+        <PeriodicPeriodArray value="0.12"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="WraithGU22" parent="DU_WEAP">
+        <AttributeFactor index="Light" value="2"/>
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <Amount value="5"/>
+    </CEffectDamage>
+    <CModel id="SovietTwinBlade" parent="MarineBase">
+        <Model value="assets\units\soviet\TwinBlade.m3"/>
+        <SelectionRadius value="0.700000"/>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 04">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+    </CModel>
+    <CModel id="SiegeTankAttackLaunch7" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\ThorArmMissileLaunch\ThorArmMissileLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CSound id="SovietTwinBlade_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTwinb_VoiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiMoveg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiMoveh.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiMovei.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTwinBlade_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelectf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelectg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="UnknownSound22" parent="Combat">
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1a.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1b.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1c.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1d.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1e.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1f.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_weapFire1g.ogg" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <ReverbBalance Room="-10000"/>
+        <Volume value="-4.000000,-4.000000"/>
+    </CSound>
+    <CSound id="SovietTwinBlade_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTwinb_VoiCreatea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiCreateb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTwinBlade_Birth" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUCryo_movStartA.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCryo_movStartB.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCryo_movStartC.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCryo_movStartD.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCryo_movStartE.ogg" FacialGroup=""/>
+        <Category value="Movement"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+
+    <CSound id="SumigReady76" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTwinb_VoiCrasha.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiCrashb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiCrashc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiCrashd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Death"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTwinBlade_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTwinb_VoiAttacka.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiAttackb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiAttackc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiAttackd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiAttacke.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiAttackf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTwinBlade_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelUndd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUTwinb_VoiSelUnde.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+
+
+    <CWeaponLegacy id="BattleshipArtillery2242">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\Textures\btn-ability-stetmann-corruptorMissilebarrage.dds"/>
+        <DisplayEffect value="BattleshipArtilleryD3242"/>
+        <DisplayAttackCount value="8"/>
+        <TargetFilters value="Ground,Visible;Hover,Missile,Stasis,Dead,Invulnerable"/>
+        <Range value="7"/>
+        <Arc value="4.9987"/>
+        <Marker Link="Weapon/BattleshipArtillery"/>
+        <Cost>
+            <Cooldown Link="Weapon/BattleshipArtillery"/>
+        </Cost>
+        <Period value="5"/>
+        <Effect value="BattleshipArtilleryP3242"/>
+        <AllowedMovement value="Moving"/>
+        <RandomDelayMax value="0.325"/>
+        <Backswing value="0"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="WraithG23">
+        <EditorCategories value="Race:Terran"/>
+        <Icon value="Assets\Textures\btn-ability-hornerhan-mechbioweaponupgrades-c.dds"/>
+        <DisplayEffect value="WraithGU22"/>
+        <DisplayAttackCount value="6"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="7"/>
+        <Arc value="4.9987"/>
+        <Period value="1.3"/>
+        <Backswing value="0"/>
+        <Effect value="RADualBladeLaunchInitiallyCreatesAPersistentEffect"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+</Catalog>

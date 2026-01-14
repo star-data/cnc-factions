@@ -1,0 +1,282 @@
+<Catalog>
+    <CUnit id="SovietBullfrog" parent="SovietGround">
+        <Subtitle value="UnitSubtitle/xianjintanke"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="125"/>
+        <LifeMax value="125"/>
+        <LifeArmor value="1"/>
+        <Speed value="1.6992"/>
+        <LateralAcceleration value="64"/>
+        <StationaryTurningRate value="540"/>
+        <TurningRate value="540"/>
+        <Sight value="10"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="100"/>
+        <RepairTime value="45"/>
+        <KillXP value="4"/>
+        <BehaviorArray Link="UpgradeLevel128"/>
+        <BehaviorArray Link="JuAirDamageReduce"/>
+        <BehaviorArray Link="nianayaLevel12"/>
+        <WeaponArray Link="Twin792mm2432222" Turret="RABeamTankTurret2"/>
+        <WeaponArray Link="GDIStrikerMechaRoller"/>
+        <CardLayouts/>
+        <Radius value="0.625"/>
+        <InnerRadius value="0.1875"/>
+        <CargoSize value="4"/>
+        <ScoreResult value="Units"/>
+        <SubgroupPriority value="10"/>
+        <MinimapRadius value="0.375"/>
+        <TacticalAI value="SiegeTank"/>
+        <AIEvalFactor value="1.5"/>
+        <HotkeyAlias value="SiegeTank"/>
+        <AIEvaluateAlias value="SiegeTank"/>
+        <ReviveInfoBase>
+            <Charge Link="SiegeTank/Revive"/>
+            <Cooldown Link="SiegeTank/Revive"/>
+        </ReviveInfoBase>
+    </CUnit>
+    <CActorUnit id="SovietBullfrog" parent="SovietVehicle" unitName="SovietBullfrog" icon="Bullfrog">
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <On index="0" Send="Create SoundEmitter SiegeTank_Ambience"/>
+        <On index="65" Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
+<!--        <On index="66" Terms="ActorCreation; ValidateUnit ValidateUSSR" Send="TextureSelectById is2"/>-->
+<!--        <On index="67" Terms="ActorCreation; ValidateUnit ValidateGermany" Send="TextureSelectById kingtiger"/>-->
+        <On index="68" Terms="Effect.HammerSecurityLM2222.Start" Send="AnimBracketStart Attack1 {} Attack,A {} ContentPlayOnce"/>
+        <On index="69" Terms="WeaponStop.90mmHTCannon" Send="AnimBracketClear Attack1"/>
+        <On index="70" Terms="Behavior.VolatileBurstBuilding23.Enable" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Enable" Send="AnimBracketStart Aufspell1 Spell {} {} ContentPlayOnce"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Off" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Off" Send="AnimBracketStop Aufspell1"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.On" Send="Create RAApocalypseTankMagneticHarpoonLaunchingPositionModel"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <EventDataFootprint index="0" Model="SiegeTankFootprint"/>
+        <CreepHeightClass value="Tiny"/>
+        <DeathArray index="Normal" ModelLink="SiegeTankDeath" SoundLink="SiegeTank_Explode" VoiceLink="SiegeTankDeathVoice"/>
+        <DeathCustoms ModelLink="TerranLargeUnitDeathLow" Name="AntiGravTerran"/>
+        <DeathCustoms ActorModel="SiegeTankDeathRagdoll" ModelLink="SiegeTankDeathRagdoll" Name="RagdollBasic">
+            <BodySquibs Name="Basic" Model="TerranSquibDeathRagdoll"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms>
+            <ModelLink value="DeathVoidShadowMedium"/>
+            <SoundLink value="ShadowUnit_DeathFX"/>
+            <VoiceLink value="ShadowUnit_DeathVox"/>
+            <Name value="Shadow"/>
+        </DeathCustoms>
+        <DeathCustomData Name="RagdollBasic"/>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
+        <PortraitModel value="DiamondbackPortrait"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="1.000000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleSiegeTank"/>
+        </TerrainSquibs>
+        <AbilSoundArray/>
+        <BarOffset value="80"/>
+        <BarWidth value="75"/>
+        <ErrorArray Error="CantSeeBuildLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantSeeLandLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantBuildLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantLandLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CouldntReachTarget" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <GroupSoundArray index="What" value="SiegeTank_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="SiegeTank_GroupYes"/>
+        <GroupSoundArray index="Attack" value="SiegeTank_GroupAttack"/>
+        <GroupSoundArray index="Board" value="SiegeTank_GroupBoard"/>
+        <SoundArray index="Birth" value="SovietBullfrog_Actor_Birth"/>
+        <SoundArray index="Ready" value="SuniuwaVioce"/>
+        <SoundArray index="Help" value="SovietBullfrog_Actor_Help"/>
+        <SoundArray index="What" value="SovietBullfrog_Actor_What"/>
+        <SoundArray index="Yes" value="SovietBullfrog_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietBullfrog_Actor_Attack"/>
+        <SoundArray index="Pissed" value="SovietBullfrog_Actor_Attack"/>
+        <SoundArray index="Movement" value="SovietBullfrog_Actor_Birth"/>
+        <SoundArray index="Turning" value="Diamondback_Turning"/>
+        <SoundArray index="Board" value="Diamondback_Board"/>
+        <SoundArray index="Click" value="SovietBullfrog_Actor_What"/>
+        <SoundArray index="ClickError" value="Diamondback_ClickError"/>
+        <SoundArray index="Highlight" value="Diamondback_Highlight"/>
+    </CActorUnit>
+    <CActorAction id="Twin792mmAttack3222" parent="GenericAttack" effectAttack="Twin792mm6222">
+        <LaunchAttachQuery Methods="AMPatternMarauder225" Fallback="Weapon"/>
+        <LaunchAssets Model="VikingAssaultAttackLaunch3" Sound="VikingAssault_AttackLaunch2223"/>
+        <ImpactMap index="None" Model="SiegeTankAttackImpact9" Sound="SiegeTank_AttackLaunch92"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="GatlingCannonImpact" MatchKeys="Basic" Physics="VikingAssaultAttackForce"/>
+    </CActorAction>
+    <CAttachMethodFilter id="AMPatternMarauder225">
+        <Keys Keyword="SetA"/>
+        <Keys Keyword="Weapon"/>
+    </CAttachMethodFilter>
+    <CEffectDamage id="Twin792mm6222" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="15"/>
+        <AreaArray Radius="1" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Dead,Hidden,Invulnerable"/>
+    </CEffectDamage>
+
+    <CModel id="SiegeTankAttackImpact9" parent="ImpactFX">
+        <Model value="Assets\Effects\Neutral\Evolution_Impact_Terran_Coop\Evolution_Impact_Terran_Coop.m3"/>
+        <LowQualityModel value="SiegeTankAttackImpact9"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.500000,0.500000,0.500000"/>
+        <ScaleMin value="0.500000,0.500000,0.500000"/>
+    </CModel>
+    <CModel id="SovietBullfrog" parent="SiegeTankBase">
+        <Model value="assets\units\soviet\Bullfrog.m3"/>
+        <AttachProps index="0" Id="Ref_Weapon Left">
+            <Keys index="SetA" value="0"/>
+            <Keys index="Turret" value="-128"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon Right">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <SelectionRadius value="0.800000"/>
+    </CModel>
+    <CModel id="VikingAssaultAttackLaunch3" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\VikingAssaultWeaponLaunch\VikingAssaultWeaponLaunch.m3"/>
+        <AnimSpeed value="3.000000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.800000,1.200000,1.000000"/>
+        <ScaleMin value="0.800000,1.200000,1.000000"/>
+    </CModel>
+    <CSound id="SiegeTank_AttackLaunch92" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\anti-aircraft-crawler-vehicle-attack-sound-effect-1.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\anti-aircraft-crawler-vehicle-attack-sound-effect-2.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\anti-aircraft-crawler-vehicle-attack-sound-effect-3.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\anti-aircraft-crawler-vehicle-attack-sound-effect-4.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="8"/>
+        <DupeMaximumMethod value="Replace"/>
+        <Pitch value="-6.180000,-1.820000"/>
+        <Volume value="-6.000000,-4.000000"/>
+    </CSound>
+    <CSound id="SovietBullfrog_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\SUBullf_VoiAttacka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiAttackb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiAttackc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiAttackd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiAttacke.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiAttackf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="SovietBullfrog_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelUndd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelUnde.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="VikingAssault_AttackLaunch2223" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\bullfrog-vehicle-weapon-launchsubull_flakcana.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\bullfrog-vehicle-weapon-launchsubull_flakcanb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\bullfrog-vehicle-weapon-launchsubull_flakcanc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\bullfrog-vehicle-weapon-launchsubull_flakcand.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\bullfrog-vehicle-weapon-launchsubull_flakcane.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\bullfrog-vehicle-weapon-launchsubull_flakcanf.ogg" FacialGroup=""/>
+        <DupeMaximumMethod value="Replace"/>
+        <Pitch value="-2.000000,0.000000"/>
+        <Volume value="-4.000000,-4.000000"/>
+    </CSound>
+    <CSound id="SovietBullfrog_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\SUBullf_VoiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiMoveg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiMoveh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiMovei.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="SovietBullfrog_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelectf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\SUBullf_VoiSelectg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="SuniuwaVioce" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\SUBullf_VoiCreatea.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="SovietBullfrog_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\the-engine-sound-effect-of-the-birth-of-the-anti-aircraft-crawler-vehicle-vflastaa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\the-engine-sound-effects-of-the-birth-of-the-anti-aircraft-crawler-vehicle-vflastab.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\the-engine-sound-effect-of-the-birth-of-the-anti-aircraft-crawler-vehicle-vflastac.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\the-engine-sound-effects-of-the-birth-of-the-anti-aircraft-crawler-vehicle-vflastad.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Build"/>
+        <Volume value="-10.000000,-10.000000"/>
+    </CSound>
+    <CTurret id="RABeamTankTurret2">
+        <Idle value="ResetIfMoving"/>
+        <YawArc value="360"/>
+        <YawRate value="1440"/>
+        <YawIdleRate value="360"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+    <CWeaponLegacy id="Twin792mm2432222">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-doodad-korholcannon.dds"/>
+        <DisplayEffect value="Twin792mm6222"/>
+        <TargetFilters value="Air,Visible;Missile,Invulnerable"/>
+        <Range value="12"/>
+        <Arc value="9.9975"/>
+        <Period value="0.15"/>
+        <Effect value="Twin792mm6222"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+
+</Catalog>

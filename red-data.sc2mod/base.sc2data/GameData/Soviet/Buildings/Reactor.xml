@@ -1,0 +1,101 @@
+<Catalog>
+
+    <CUnit id="SovietReactor" parent="SovietStructure">
+        <Facing value="29.9926"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <Food value="30"/>
+        <CostResource index="Minerals" value="150"/>
+        <RepairTime value="35"/>
+        <KillXP value="30"/>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <Footprint value="Footprint2x2Contour"/>
+        <PlacementFootprint value="Footprint2x2"/>
+        <ScoreMake value="125"/>
+        <ScoreKill value="125"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="1.75"/>
+    </CUnit>
+    <CActorUnit id="SovietReactor" parent="SovietBuilding" unitName="SovietReactor" icon="Reactor">
+        <CreepHeightClass value="Medium"/>
+        <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <PortraitModel value="EngineeringBayPortrait"/>
+        <BarOffset value="130"/>
+        <BarWidth value="100"/>
+        <NameOffset value="110"/>
+        <SoundArray index="Birth" value="SovietReactor_Birth"/>
+        <SoundArray index="Ready" value="SovietReactor_Birth"/>
+        <SoundArray index="What" value="SovietReactor_Birth"/>
+        <SoundArray index="Construction" value="SovietReactor_Birth"/>
+        <SoundArray index="Click" value="SovietReactor_Birth"/>
+        <On Terms="UnitConstruction.SovietReactor.Start" Send="AnimPlay 111 Build PlayForever,NonLooping -1.000000 -1.000000 1.485000 AsTimeScale"/>
+        <On Terms="UnitConstruction.SovietReactor.Finish" Send="AnimClear 111"/>
+        <On Terms="UnitConstruction.SovietReactor.Cancel" Send="AnimClear 111"/>
+    </CActorUnit>
+    <CActorModel id="EngineeringBay222" parent="ModelAddition" unitName="EngineeringBay2">
+        <CopySource value="_Unit"/>
+        <Aliases index="0" value="_Unit"/>
+        <Aliases value="_Selectable"/>
+        <Aliases value="_CreepEngulfable"/>
+        <Aliases value="_UnitHuge"/>
+        <Macros value="DeadAnimationMacro"/>
+        <Macros value="SnowVisualUnitMacroMP"/>
+        <Macros value="QueueAnim"/>
+        <Flags index="RespondsToUnitPlayerChange" value="1"/>
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="CastShadows" value="0"/>
+        <Inherits index="CloakEffect" value="0"/>
+        <Inherits index="CreepEngulfment" value="0"/>
+        <Inherits index="Decal" value="0"/>
+        <Inherits index="ModelMaterials" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="TeamColor" value="0"/>
+        <Inherits index="TimeScale" value="0"/>
+        <Inherits index="TintColor" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <Inherits index="WarpGroup" value="0"/>
+        <AcceptedTransfers index="AnimProps" value="1"/>
+        <AcceptedTransfers index="Textures" value="1"/>
+        <AcceptedTransfers index="Status" value="1"/>
+        <AcceptedHostedPropTransfers index="BaseModelScale" value="0"/>
+        <On index="0" Terms="UnitConstruction.*.Finish" Send="Destroy"/>
+        <On index="1" Terms="UnitConstruction.*.Cancel" Send="Destroy"/>
+        <On index="2" Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="UnitConstruction.SovietReactor.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart 111 {} Birth,Stand {} ContentNonLooping,ContentPlayOnce,OpeningPlayForever,Instant"/>
+        <On Terms="UnitConstruction.*.Finish" Send="AnimBracketStop 111"/>
+        <On Terms="UnitConstruction.*.Cancel" Send="AnimBracketStop 111"/>
+        <On Terms="UnitConstruction.SovietRadar.Start" Send="Create"/>
+        <On Terms="UnitConstruction.SovietBunker.Start" Send="Create"/>
+        <Host Subject=""/>
+        <Model value="EngineeringBay232"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+        <ModelFlags index="NeedsVolumeMonitoring" value="1"/>
+        <ModelFlags index="OutlineOccluder" value="1"/>
+        <EventDataFootprint Actor="UnitFootprint" Model="EngineeringBay2Footprint"/>
+        <EventDataSound Actor="UnitSound"/>
+        <CreepHeightClass value="Medium"/>
+        <CreepRateGrow value="Grow"/>
+        <CreepRateShrink value="Shrink"/>
+    </CActorModel>
+    <CModel id="EngineeringBay232" parent="EngineeringBayBase">
+        <Model value="assets\buildings\soviet\Reactor_BuildSupport.m3"/>
+        <AnimSpeed value="1.650000"/>
+        <SelectionRadius value="1.500000"/>
+    </CModel>
+    <CModel id="SovietReactor" parent="EngineeringBayBase">
+        <Model value="assets\buildings\soviet\Reactor.m3"/>
+        <ScaleMax value="0.930000,0.930000,0.930000"/>
+        <ScaleMin value="0.930000,0.930000,0.930000"/>
+        <SelectionRadius value="1.100000"/>
+    </CModel>
+    <CSound id="SovietReactor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-power-plant_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+</Catalog>

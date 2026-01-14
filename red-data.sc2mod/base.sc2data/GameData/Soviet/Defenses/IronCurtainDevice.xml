@@ -1,0 +1,295 @@
+<Catalog>
+
+    <CUnit id="SovietIronCurtainDevice" parent="SovietStructure">
+        <Facing value="119.9926"/>
+        <Attributes index="Heroic" value="1"/>
+        <LifeStart value="1500"/>
+        <LifeMax value="1500"/>
+        <LifeArmor value="3"/>
+        <Sight value="6"/>
+        <!--Food value="-6"/-->
+        <CostCategory value="Army"/>
+        <CostResource index="Minerals" value="1000"/>
+        <CostResource index="Vespene" value="1000"/>
+        <RepairTime value="50"/>
+        <KillXP value="100"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="ScannerSweep"/>
+        <AbilArray Link="SovietIronCurtainDevice"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent4822"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent48222"/>
+        <BehaviorArray Link="PowerUserQueue"/>
+        <BehaviorArray Link="PowerSource2"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="Scan" Type="AbilCmd" AbilCmd="ScannerSweep,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="IronCurtain" Type="AbilCmd" AbilCmd="SovietIronCurtainDevice,Execute" Row="0" Column="0"/>
+        </CardLayouts>
+        <Radius value="3"/>
+        <SeparationRadius value="3"/>
+        <Footprint value="Footprint4x4Contour"/>
+        <DeadFootprint value="Footprint4x4Contour"/>
+        <PlacementFootprint value="Footprint4x4"/>
+        <ScoreMake value="12500"/>
+        <ScoreKill value="2500"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="2"/>
+    </CUnit>
+    <CAbilEffectTarget id="SovietIronCurtainDevice">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Effect index="0" value="RAIronCurtainInitialEffectCollection"/>
+        <Cost>
+            <Charge Link="Abil/NovaNuclearStrike"/>
+            <Cooldown Link="chaoneng" TimeStart="0" TimeUse="180"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <Marker Link="Abil/NovaNuclearStrike"/>
+        <AlertArray index="Cast" value="CalldownLaunch"/>
+        <CursorEffect value="RAIronCurtainDeviceSearchMechanicalUnit"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="IronCurtain" Requirements="SuperWeaponRe5"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
+    </CAbilEffectTarget>
+    <CActorSquib id="SumotoActor222">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD {} Death {} ContentNonLooping,Instant 20.000000"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.RATheEffectOfTheIronCurtainDeviceBegins.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.RATheEffectOfTheIronCurtainDeviceBegins.Stop" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="SetTintColor 255,0,0"/>
+        <On Terms="Effect.RATheEffectOfTheIronCurtainDeviceBegins.Stop" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.RAIronCurtainDeviceAppliesBehaviorToItself.Start; At Effect" Send="Create"/>
+        <On Terms="SoundDone; SoundIsFinalSound" Send="Destroy"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="SpiderMineExplosion222" AnimProps="Stand" Sound="Odin_NukeExplode2222"/>
+    </CActorSquib>
+    <CActorModelMaterial id="GlazeShadow2" parent="GlazeParent">
+        <On Terms="Behavior.VoidShade2.On" Send="Create"/>
+        <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Main"/>
+        <On Terms="Behavior.VoidShade2.Off" Send="Destroy"/>
+        <On Terms="Behavior.VoidShade22.On" Send="Create"/>
+        <On Terms="Behavior.VoidShade22.Off" Send="Destroy"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModelMaterial>
+    <CActorSound id="RAIronCurtainDeviceReadySoundEffect" parent="SoundOneShot">
+        <Sound value="Odin_NukeExplode2222"/>
+    </CActorSound>
+    <CActorUnit id="SovietIronCurtainDevice" parent="SovietBuilding" unitName="SovietIronCurtainDevice" icon="IronCurtainDevice">
+        <On Terms="Abil.*.PawnTarget" Send="AnimPlay"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent48222.Off" Send="AnimBracketStart Attack1 Stand,Work,Start Stand,Work Stand,Work,End"/>
+        <On Terms="Effect.RATheEffectOfTheIronCurtainDeviceBegins.Stop" Send="AnimBracketStop Attack1"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent4822.Off" Send="PlayUnitSound Board"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent48222.Off" Send="Create RAIronCurtainDeviceReadySoundEffect"/>
+        <On Terms="UnitConstruction.SovietIronCurtainDevice.Start" Send="AnimPlay 111 Birth PlayForever,NonLooping -1.000000 -1.000000 0.430000 AsTimeScale"/>
+        <On Terms="UnitConstruction.SovietIronCurtainDevice.Finish" Send="AnimClear 111"/>
+        <On Terms="UnitConstruction.SovietIronCurtainDevice.Cancel" Send="AnimClear 111"/>
+        <Scale value="0.950000"/>
+        <DeathArray index="Normal" ModelLink="TerranBuildingDeath" SoundLink="Bunker_Explode"/>
+        <DeathActorModel value="UnitDeathModelPersistent"/>
+        <DeathActorModelLow value="UnitDeathModelPersistent"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <PortraitModel value="AdjutantPortrait"/>
+        <BarOffset value="120"/>
+        <BarWidth value="200"/>
+        <NameOffset value="150"/>
+        <SoundArray index="Birth" value="SovietIronCurtainVioce"/>
+        <SoundArray index="Ready" value="SovietIronCurtainVioce"/>
+        <SoundArray index="Help" value="GhostAcademy_Help"/>
+        <SoundArray index="What" value="SovietIronCurtainVioce"/>
+        <SoundArray index="Yes" value="GhostAcademy_Yes"/>
+        <SoundArray index="Attack" value="GhostAcademy_Attack"/>
+        <SoundArray index="Pissed" value="GhostAcademy_Pissed"/>
+        <SoundArray index="Movement" value="GhostAcademy_Movement"/>
+        <SoundArray index="Turning" value="GhostAcademy_Turning"/>
+        <SoundArray index="Construction" value="SovietIronCurtainVioce"/>
+        <SoundArray index="Click" value="SovietIronCurtainVioce"/>
+        <SoundArray index="ClickError" value="GhostAcademy_ClickError"/>
+        <SoundArray index="Highlight" value="GhostAcademy_Highlight"/>
+    </CActorUnit>
+    <CActorSound id="RAIronCurtainDeviceActivatesSoundEffects">
+        <On Terms="Behavior.VoidShade22.On" Send="Create"/>
+        <On Terms="Behavior.VoidShade22.Off" Send="Destroy"/>
+        <Sound value="VoidRay_WeaponLoop3232"/>
+        <Layers Sound="VoidRay_WeaponLoop323" VolumeSource="Sound">
+            <Chance value="1"/>
+            <Pitch value="0.000000,0.000000"/>
+            <PlayDelay value="0,0"/>
+            <Volume value="-3.000000,-3.000000"/>
+        </Layers>
+        <Layers Sound="VoidRay_WeaponLoop32322" VolumeSource="Sound">
+            <Chance value="1"/>
+            <Pitch value="0.000000,0.000000"/>
+            <PlayDelay value="18000,18000"/>
+            <Volume value="-3.000000,-3.000000"/>
+        </Layers>
+    </CActorSound>
+    <CActorModel id="EngineeringBay22232224" parent="ModelConstruction" unitName="EngineeringBay2">
+        <On Terms="UnitConstruction.SovietIronCurtainDevice.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart 111 {} Birth,Stand {} ContentNonLooping,ContentPlayOnce,OpeningPlayForever,Instant"/>
+        <On Terms="UnitConstruction.SovietIronCurtainDevice.Finish" Send="AnimBracketStop 111"/>
+        <On Terms="UnitConstruction.SovietIronCurtainDevice.Cancel" Send="AnimBracketStop 111"/>
+        <Model value="SuweilanIronCurtainBuild"/>
+    </CActorModel>
+    <CBehaviorBuff id="VoidShade22">
+        <InfoIcon value="Assets\Textures\btn-ability-protoss-forcefield-red.dds"/>
+        <Duration value="25"/>
+        <Modification>
+            <DamageTakenFraction index="Spell" value="-0.999"/>
+            <DamageTakenFraction index="Melee" value="-0.999"/>
+            <DamageTakenFraction index="Ranged" value="-0.999"/>
+            <DamageTakenFraction index="Splash" value="-0.999"/>
+            <DamageTakenFraction index="NoProc" value="-0.999"/>
+            <VitalRegenArray index="Life" value="10"/>
+            <VitalDamageLeechArray index="Life">
+                <KindArray index="Spell" value="1"/>
+                <KindArray index="Melee" value="1"/>
+                <KindArray index="Ranged" value="1"/>
+                <KindArray index="Splash" value="1"/>
+                <KindArray index="NoProc" value="1"/>
+            </VitalDamageLeechArray>
+        </Modification>
+        <DamageResponse ModifyFraction="0.001">
+            <Chance value="1"/>
+        </DamageResponse>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent48222">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <Duration value="170"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent4822">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <Duration value="180"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CButton id="IronCurtain">
+        <Icon value="assets\icons\Soviet\activate-the-iron-curtain-device-force-field.dds"/>
+    </CButton>
+    <CEffectApplyBehavior id="RAIronCurtainAppBehavior">
+        <Behavior value="VoidShade22"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumArea id="RAIronCurtainDeviceSearchKillsBiologicalUnits">
+        <LaunchLocation Value="TargetPoint"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <SearchFilters value="Biological;Self,Ally,Neutral,Air,Structure,Dead,Hidden,Invulnerable,MapBoss"/>
+        <AreaArray Radius="3.5" Effect="RAIronCurtainInstantKill"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="RAIronCurtainDeviceSearchMechanicalUnit">
+        <LaunchLocation Value="TargetPoint"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <SearchFilters value="Mechanical;Neutral,Enemy,Air,Biological"/>
+        <AreaArray Radius="3.5" Effect="RAIronCurtainAppBehavior"/>
+    </CEffectEnumArea>
+    <CEffectSet id="RAIronCurtainDeviceSearchRangeEffectCollection">
+        <EffectArray value="RAIronCurtainDeviceSearchMechanicalUnit"/>
+        <EffectArray value="RAIronCurtainDeviceSearchKillsBiologicalUnits"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectSet id="RAIronCurtainInitialEffectCollection">
+        <EffectArray value="RATheEffectOfTheIronCurtainDeviceBegins"/>
+        <EffectArray value="SuperWeapon120ScooldownAB22"/>
+        <EffectArray value="SuperWeapon120ScooldownAB222"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CEffectDamage id="RAIronCurtainInstantKill">
+        <Flags index="Kill" value="1"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB222">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent48222"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB22">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent4822"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="RATheEffectOfTheIronCurtainDeviceBegins">
+        <InitialEffect value="RAIronCurtainDeviceSearchRangeEffectCollection"/>
+        <PeriodCount value="10"/>
+        <PeriodicEffectArray value="RAIronCurtainDeviceSearchRangeEffectCollection"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <RevealRadius value="6"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CModel id="GlazeShadow2" parent="Glaze">
+        <Model value="Assets\Effects\Glaze\Glaze_VoidStasis\Glaze_VoidStasis.m3"/>
+        <Priority value="32"/>
+        <OccludingOpacity value="1.000000"/>
+    </CModel>
+    <CModel id="SovietIronCurtainDevice" parent="Building" Race="Terran">
+        <Model value="Assets\buildings\soviet\IronCurtainDevice.m3"/>
+        <Occlusion value="Show"/>
+        <Radius value="3.000000"/>
+        <RadiusLoose value="0.000000"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="2.000000"/>
+        <ShadowRadius value="3.000000"/>
+        <SquibTypeDefault value="Metal"/>
+    </CModel>
+    <CModel id="SuweilanIronCurtainBuild" parent="EngineeringBayBase">
+        <Model value="Assets\buildings\soviet\ironCurtainDevice_BuildSupport.m3"/>
+        <AnimSpeed value="0.410000"/>
+        <ScaleMax value="1.100000,1.100000,1.100000"/>
+        <ScaleMin value="1.100000,1.100000,1.100000"/>
+        <SelectionRadius value="1.500000"/>
+    </CModel>
+    <CModel id="SpiderMineExplosion222" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\UltraSonicMissileImpact\UltraSonicMissileImpact.m3"/>
+        <LowQualityModel value="SpiderMineExplosion222"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.500000,1.500000,1.500000"/>
+        <ScaleMin value="1.500000,1.500000,1.500000"/>
+    </CModel>
+    <CSound id="Odin_NukeExplode2222" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\SPIron_readya.ogg" FacialGroup=""/>
+        <DupeMaximumMethod value="Replace"/>
+        <Spread value="180.000000"/>
+        <Volume value="6.000000,6.000000"/>
+    </CSound>
+    <CSound id="VoidRay_WeaponLoop3232" parent="Combat">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="assets\sounds\SPIron_shieLoopa.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SPIron_shieLoopb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SPIron_shieLoopc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SPIron_shieLoopd.ogg" FacialGroup=""/>
+        <DupeMuteCount value="4"/>
+        <LoopCount value="-1"/>
+        <OffsetFadeIn Volume="-96.000000"/>
+        <OffsetFadeIn Time="100"/>
+        <OffsetFadeOut/>
+        <OffsetFadeOut Time="100" Volume="-96.000000"/>
+        <OverlapTimeDelta value="100"/>
+        <PlayDelay value="1500,1500"/>
+        <SustainFade index="1" Time="100"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="SovietIronCurtainVioce" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SBIronC_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+    <CSound id="SovietIronCurtain_Board" parent="Ready">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\Adjutant-The-Iron-Curtain-device-is-ready.ogg" FacialGroup=""/>
+        <AssetArrayTemplate>
+            <File value="LocalizedData\Sounds\VO\Terran\^TemplateParam2^.ogg"/>
+            <FacialAnim value="^TemplateParam1^"/>
+            <FacialGroup value="^TemplateParam1^"/>
+            <FacialFile value="LocalizedData\Sounds\VO\Terran\^TemplateParam1^.fxe"/>
+        </AssetArrayTemplate>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="0"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+</Catalog>

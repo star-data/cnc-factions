@@ -1,0 +1,165 @@
+<Catalog>
+    <CUnit id="SovietHarvester" parent="SovietGround">
+        <FlagArray index="Worker" value="1"/>
+        <FlagArray index="TurnBeforeMove" value="1"/>
+        <FlagArray index="ClearRallyOnTargetLost" value="0"/>
+        <LifeStart value="150"/>
+        <LifeMax value="150"/>
+        <Speed value="1.3007"/>
+        <LateralAcceleration value="46.0625"/>
+        <StationaryTurningRate value="360"/>
+        <TurningRate value="360"/>
+        <Sight value="11"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="100"/>
+        <RepairTime value="50"/>
+        <AttackTargetPriority value="1"/>
+        <KillXP value="50"/>
+        <AbilArray Link="SCVHarvest2"/>
+        <AbilArray Link="VolatileBurstBuilding26"/>
+        <BehaviorArray Link="CNCAutoHarvestMinerals"/>
+        <BehaviorArray Link="nianayaLevel1"/>
+        <WeaponArray Link="nianyalv1"/>
+        <EffectArray index="Create" value="oreminerSearch"/>
+        <EffectArray index="Birth" value="oreminerSearch"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Gather" Type="AbilCmd" AbilCmd="SCVHarvest2,Gather" Row="1" Column="0"/>
+            <LayoutButtons Face="ReturnCargo" Type="AbilCmd" AbilCmd="SCVHarvest2,Return" Row="1" Column="1"/>
+            <LayoutButtons Face="Disband2" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="4"/>
+            <LayoutButtons Face="TossGrenadeTychus2222227" Type="AbilCmd" AbilCmd="VolatileBurstBuilding26,Off" Row="2" Column="0"/>
+            <LayoutButtons Face="TossGrenadeTychus222228" Type="AbilCmd" AbilCmd="VolatileBurstBuilding26,On" Row="2" Column="1"/>
+            <LayoutButtons Face="RASingleMaximumCarryingCapacity" Type="Passive" Row="1" Column="4"/>
+        </CardLayouts>
+        <SeparationRadius value="1"/>
+        <InnerRadius value="0.1875"/>
+        <ScoreMake value="350"/>
+        <ScoreKill value="700"/>
+        <SubgroupPriority value="16"/>
+        <MinimapRadius value="0.875"/>
+    </CUnit>
+    <CAbilHarvest id="SCVHarvest2">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <ResourceAmountRequest index="Vespene" value="20"/>
+        <ResourceAmountCapacity index="Minerals" value="20"/>
+        <ResourceAmountCapacity index="Vespene" value="20"/>
+        <ResourceTimeMultiplier index="Vespene" value="3.55"/>
+    </CAbilHarvest>
+    <CAbilBehavior id="VolatileBurstBuilding26">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus222228">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus2222227">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Cost/>
+        <BehaviorArray value="VolatileBurstBuilding26"/>
+    </CAbilBehavior>
+    <CActorUnit id="SovietHarvester" parent="SovietVehicle" unitName="SovietHarvester" icon="OreMiner">
+        <On Terms="ActorCreation" Send="AnimGroupApply A"/>
+        <On Terms="Abil.SCVHarvest2.Start" Send="Create RAMiningTruckOreSuctionModel"/>
+        <On Terms="Behavior.VolatileBurstBuilding26.On" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.VolatileBurstBuilding26.On" Send="AnimGroupRemove A"/>
+        <On Terms="Behavior.VolatileBurstBuilding26.Off" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.VolatileBurstBuilding26.Off" Send="AnimGroupRemove B"/>
+        <Scale value="0.980000"/>
+        <DeathArray index="Normal" ModelLink="DumpTruckDeath" SoundLink="DumpTruck_Explode"/>
+        <WalkAnimMoveSpeed value="2.5"/>
+        <BarOffset value="80"/>
+        <BarWidth value="102"/>
+        <NameOffset value="40"/>
+        <SoundArray index="Birth" value="EmpireImperialOreMiner_Actor_Movement"/>
+        <SoundArray index="Ready" value="SovietOreMiner_What"/>
+        <SoundArray index="Help" value="SovietHarvester_Actor_Help"/>
+        <SoundArray index="What" value="SovietHarvester_Actor_What"/>
+        <SoundArray index="Yes" value="SovietHarvester_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietHarvester_Actor_Yes"/>
+        <SoundArray index="Pissed" value="SovietHarvester_Actor_What"/>
+        <SoundArray index="Movement" value="EmpireImperialOreMiner_Actor_Movement"/>
+        <SoundArray index="Turning" value="Vulture_Turning"/>
+        <SoundArray index="Board" value="Vulture_Board"/>
+        <SoundArray index="Click" value="SovietHarvester_Actor_What"/>
+        <SoundArray index="ClickError" value="Vulture_ClickError"/>
+        <SoundArray index="Highlight" value="Vulture_Highlight"/>
+        <PortraitModel value="SCV_Blizzcon17_Portrait"/>
+    </CActorUnit>
+<!--    <CBehaviorBuff id="CNCAutoHarvestMinerals">-->
+<!--        <InfoFlags index="Hidden" value="1"/>-->
+<!--        <EditorCategories value="AbilityorEffectType:Units"/>-->
+<!--        <DisableValidatorArray value="RAMiningTruckIdle"/>-->
+<!--        <Period value="3"/>-->
+<!--        <PeriodicEffect value="oreminerSearch"/>-->
+<!--    </CBehaviorBuff>-->
+    <CButton id="RASingleMaximumCarryingCapacity">
+        <Icon value="Assets\icons\Soviet\soviet-mining-trucks-switch-back-to-mining-mode.dds"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus2222227">
+        <Icon value="Assets\icons\Soviet\soviet-mining-trucks-switch-back-to-mining-mode.dds"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus222228">
+        <Icon value="Assets\icons\Soviet\soviet-minecart-deploys-onion-armor.dds"/>
+    </CButton>
+    <CEffectIssueOrder id="oreminerwork">
+        <Abil value="SCVHarvest2"/>
+        <Target Effect="oreminerwork" Value="TargetUnit"/>
+        <DebugTrace value="1"/>
+        <WhichUnit Effect="oreminerSearch"/>
+    </CEffectIssueOrder>
+    <CEffectEnumArea id="oreminerSearch">
+        <AreaArray Radius="12" Effect="oreminerwork"/>
+        <MaxCount value="1"/>
+    </CEffectEnumArea>
+    <CModel id="SovietHarvester" parent="Unit" Race="Terran">
+        <Model value="assets\units\soviet\OreMiner.m3"/>
+        <Radius value="1.200000"/>
+        <SelectionRadius value="0.800000"/>
+        <ShadowRadius value="1.499700"/>
+    </CModel>
+    <CSound id="SovietHarvester_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\adjutant-oh-I-bought-the-card.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="6.000000,6.000000"/>
+    </CSound>
+    <CSound id="SovietOreMiner_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-mining-truck_voicrea.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietHarvester_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-mining-truck_voimova.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-vehicle_voimovb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-truck_voimovc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-truck_voimovd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-vehicle_voimove.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-vehicle_voimovf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-vehicle_voimovg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-truck_voimovh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-truck_voimovi.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietHarvester_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-mining-truck_voisela.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-truck_voiselb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-truck_voiselc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-truck_voiseld.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-truck_voisele.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\soviet-mining-vehicle_voiself.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialOreMiner_Actor_Movement" parent="Movement">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\mining-vehicle-turning-sound-effect-1.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\mining-vehicle-turning-sound-effect-2.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\mining-vehicle-turning-sound-effect-3.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="3"/>
+        <Pitch value="-1.000000,1.000000"/>
+        <Volume value="-12.000000,-12.000000"/>
+    </CSound>
+</Catalog>

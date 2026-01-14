@@ -1,0 +1,583 @@
+<Catalog>
+
+    <CUnit id="SovietApocalypseTank" parent="SovietGround">
+        <Subtitle value="UnitSubtitle/xianjintanke"/>
+        <PushPriority value="16"/>
+        <Response value="AcquireNoFlee"/>
+        <LifeStart value="300"/>
+        <LifeMax value="300"/>
+        <LifeArmor value="1"/>
+        <LifeRegenRate value="5"/>
+        <Speed value="1.1992"/>
+        <Acceleration value="100"/>
+        <StationaryTurningRate value="180"/>
+        <TurningRate value="180"/>
+        <Sight value="12"/>
+        <Food value="-4"/>
+        <CostResource index="Minerals" value="250"/>
+        <CostResource index="Vespene" value="150"/>
+        <KillXP value="10"/>
+        <AbilArray Link="VolatileBurstBuilding23"/>
+        <BehaviorArray Link="UpgradeLevel1233"/>
+        <BehaviorArray Link="nianayaLevel13"/>
+        <WeaponArray Link="90mmHTCannon" Turret="RAOtherHeavyTankMainGuns2"/>
+        <WeaponArray Link="RAMagneticHarpoon"/>
+        <WeaponArray Link="SovietApoSpecialWeapon"/>
+        <WeaponArray Link="SovietApoSpecialWeapon2"/>
+        <WeaponArray Link="SovietApoSpecialWeapon22"/>
+        <WeaponArray Link="nianyalv13"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="1" Face="Stop" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="1"/>
+            <LayoutButtons Face="TossGrenadeTychus2222223" Type="AbilCmd" AbilCmd="VolatileBurstBuilding23,Off" Row="1" Column="2"/>
+            <LayoutButtons Face="TossGrenadeTychus222224" Type="AbilCmd" AbilCmd="VolatileBurstBuilding23,On" Row="1" Column="1"/>
+        </CardLayouts>
+        <Radius value="0.75"/>
+        <SeparationRadius value="0.625"/>
+        <InnerRadius value="0.1875"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <ScoreResult value="Units"/>
+        <MinimapRadius value="0.375"/>
+    </CUnit>
+    <CActorTurret id="RAOtherHeavyTankMainGuns">
+        <On Terms="TurretEnable.RAOtherHeavyTankMainGuns2" Send="Create"/>
+    </CActorTurret>
+    <CAbilBehavior id="VolatileBurstBuilding23">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus222224">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus2222223">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Cost/>
+        <BehaviorArray value="VolatileBurstBuilding23"/>
+    </CAbilBehavior>
+    <CActorAction id="CleaverAttack222" parent="GenericAttack" effectAttack="RAMagneticHarpoonCausesContinuousDamageToPeople">
+        <LaunchAssets Model="TitanMechShootBigBloodImpact22" Sound="InfestedCivilianAttackLaunch22"/>
+        <ImpactMap index="None" Model="TitanMechShootBigBloodImpact2" Sound="Colossus_Explode_Ragdoll_B22"/>
+        <LaunchSiteOps Ops="SOpAttachWeapon04"/>
+    </CActorAction>
+    <CActorAction id="90mmHTCannon" parent="GenericAttack" effectAttack="90mmHTCannon">
+        <LaunchAttachQuery Methods="Weapon 1" Fallback="Weapon"/>
+        <LaunchAssets Model="SiegeTankAttackImpact7" Scale="1.500000" Sound="Colossus_Explode_Ragdoll_B2"/>
+        <ImpactMap index="None" Model="" Scale="0.700000" Sound="Colossus_Explode_Ragdoll_B25"/>
+        <ImpactMap index="Miss" Scale="0.700000" Sound="Colossus_Explode_Ragdoll_B25" ModelReaction="90mmHTCannonImpactReaction"/>
+        <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
+        <On index="1" Terms="Effect.SplashDamage.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <On index="2" Terms="Effect.SplashDamage.Stop; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>
+        <On index="3" Terms="Effect.90mmHTCannon.Start; At Caster" Send="Create"/>
+        <On index="4" Terms="Effect.90mmHTCannon.Stop" Send="Destroy"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+    </CActorAction>
+    <CActorAction id="90mmHTCannon2" parent="GenericAttack" effectAttack="90mmHTCannon2">
+        <LaunchAttachQuery Methods="Weapon 2" Fallback="Weapon"/>
+        <LaunchAssets Model="SiegeTankAttackImpact7" Scale="1.500000" Sound="Colossus_Explode_Ragdoll_B2"/>
+        <ImpactMap index="None">
+            <Model value=""/>
+            <Scale value="0.700000"/>
+            <Sound value="Colossus_Explode_Ragdoll_B25"/>
+            <ModelReaction value="90mmHTCannonImpactReaction"/>
+        </ImpactMap>
+        <ImpactMap index="Shield" Sound="90mmHTCannonImpactShield" ModelReaction="90mmHTCannonImpactReactionShield"/>
+        <ImpactMap index="Miss" Scale="0.700000" Sound="Colossus_Explode_Ragdoll_B25" ModelReaction="90mmHTCannonImpactReaction"/>
+        <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
+        <On index="1" Terms="Effect.SplashDamage.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <On index="2" Terms="Effect.SplashDamage.Stop; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>
+        <On index="3" Terms="Effect.90mmHTCannon2.Start; At Caster" Send="Create"/>
+        <On index="4" Terms="Effect.90mmHTCannon2.Stop" Send="Destroy"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+    </CActorAction>
+    <CActorAction id="90mmHTCannon25" parent="GenericAttack" effectAttack="90mmHTCannon25">
+        <On index="1" Terms="Effect.SplashDamage.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <On index="2" Terms="Effect.SplashDamage.Stop; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>
+        <On index="3" Terms="Effect.90mmHTCannon25.Start; At Caster" Send="Create"/>
+        <On index="4" Terms="Effect.90mmHTCannon25.Stop" Send="Destroy"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="Weapon 2" Fallback="Weapon"/>
+        <LaunchAssets Model="SiegeTankAttackImpact7" Scale="1.500000" Sound="Colossus_Explode_Ragdoll_B2"/>
+        <ImpactMap index="None">
+            <Model value=""/>
+            <Scale value="0.700000"/>
+            <Sound value="Colossus_Explode_Ragdoll_B25"/>
+            <ModelReaction value="90mmHTCannonImpactReaction"/>
+        </ImpactMap>
+        <ImpactMap index="Shield" Sound="90mmHTCannonImpactShield" ModelReaction="90mmHTCannonImpactReactionShield"/>
+        <ImpactMap index="Miss" Scale="0.700000" Sound="Colossus_Explode_Ragdoll_B25" ModelReaction="90mmHTCannonImpactReaction"/>
+        <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
+    </CActorAction>
+    <CActorAction id="90mmHTCannon7" parent="GenericAttack" effectAttack="90mmHTCannon7">
+        <On index="1" Terms="Effect.SplashDamage.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <On index="2" Terms="Effect.SplashDamage.Stop; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>
+        <On index="3" Terms="Effect.90mmHTCannon7.Start; At Caster" Send="Create"/>
+        <On index="4" Terms="Effect.90mmHTCannon7.Stop" Send="Destroy"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="Weapon 1" Fallback="Weapon"/>
+        <LaunchAssets Model="SiegeTankAttackImpact7" Scale="1.500000" Sound="Colossus_Explode_Ragdoll_B2"/>
+        <ImpactMap index="None" Model="" Scale="0.700000" Sound="Colossus_Explode_Ragdoll_B25"/>
+        <ImpactMap index="Miss" Scale="0.700000" Sound="Colossus_Explode_Ragdoll_B25" ModelReaction="90mmHTCannonImpactReaction"/>
+        <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
+    </CActorAction>
+
+    <CActorUnit id="SovietApocalypseTank" parent="SovietVehicle" unitName="SovietApocalypseTank" icon="ApocalypseTank">
+        <On index="0" Terms="UnitBirth.SovietApocalypseTank"/>
+        <On index="1" Terms="UnitBirth.SovietApocalypseTank"/>
+        <On index="2" Terms="UnitRevive.SovietApocalypseTank"/>
+        <On index="3" Terms="UnitRevive.SovietApocalypseTank"/>
+        <On index="4" Terms="UnitConstruction.SovietApocalypseTank.Start"/>
+        <On index="5" Terms="UnitConstruction.SovietApocalypseTank.Finish"/>
+        <On index="65" Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
+<!--        <On index="66" Terms="ActorCreation; ValidateUnit ValidateUSSR" Send="TextureSelectById is2"/>-->
+<!--        <On index="67" Terms="ActorCreation; ValidateUnit ValidateGermany" Send="TextureSelectById kingtiger"/>-->
+        <On index="68" Terms="Effect.RAApocalypseTankFiresTwoGuns1.Start" Send="AnimBracketStart Attack1 {} Attack,A {} ContentPlayOnce"/>
+        <On index="69" Terms="WeaponStop.90mmHTCannon" Send="AnimBracketClear Attack1"/>
+        <On index="70" Terms="Behavior.VolatileBurstBuilding23.Enable" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Enable" Send="AnimBracketStart Aufspell1 Spell {} {} ContentPlayOnce"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Off" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Off" Send="AnimBracketStop Aufspell1"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.On" Send="Create RAApocalypseTankMagneticHarpoonLaunchingPositionModel"/>
+        <Model value="SovietApocalypseTank_Model"/>
+        <Scale value="1.050000"/>
+        <PortraitModel value="SiegeTankMercenaryPortrait"/>
+        <WalkAnimMoveSpeed value="2.8007"/>
+        <HighlightTooltip value="Unit/Name/SovietApocalypseTank"/>
+        <SoundArray index="Ready" value="SovietApocalypseTank_Actor_Ready"/>
+        <SoundArray index="Help" value="SovietApocalypseTank_Actor_Help"/>
+        <SoundArray index="What" value="SovietApocalypseTank_Actor_What"/>
+        <SoundArray index="Yes" value="SovietApocalypseTank_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietApocalypseTank_Actor_Attack"/>
+        <SoundArray index="Movement" value="SovietB4howitzers_Actor_Movement"/>
+        <AbilSoundArray index="0" removed="1"/>
+    </CActorUnit>
+    <CActorBeamSimple id="LaserDrillTripodBiggerAttackBeam324" parent="BeamSimpleAnimationStyleContinuous">
+        <On Terms="Effect.RAMagneticHarpoonContinuesToFire.Stop; At Effect" Send="Destroy"/>
+        <On Terms="Effect.RAMagneticHarpoonContinuouslyFiredAtBuildings.Start" Send="Create"/>
+        <On Terms="Effect.RAMagneticHarpoonContinuesToFire.Start" Send="Create"/>
+        <On Terms="Effect.RAMagneticHarpoonContinuouslyFiredAtBuildings.Stop; At Effect" Send="Destroy"/>
+        <HostForProps Subject="_Unit" Scope="Caster"/>
+        <Model value="VoidRayAttackBeam2"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+        <HostLaunch Subject="_Unit" Scope="Caster"/>
+        <HostLaunchSiteOps Ops="SOpAttachWeapon03"/>
+        <HostImpact Subject="_Unit" Scope="Target"/>
+        <HostImpactSiteOps Ops="SOpTargetUnit SOpAttachCenter"/>
+    </CActorBeamSimple>
+    <CActorSound id="VoidRaySoundStart3" parent="SoundOneShot">
+        <On Terms="Effect.RAMagneticHarpoonContinuesToFire.Start" Send="Create"/>
+        <On Terms="Effect.RAMagneticHarpoonContinuouslyFiredAtBuildings.Start" Send="Create"/>
+        <Sound value="VoidRay_WeaponStart3"/>
+    </CActorSound>
+    <CActorAction id="VoidRayChargeBeamAttack2" parent="GenericAttackBase">
+        <On Terms="Effect.RAMagneticHarpoonContinuesToFire.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.RAMagneticHarpoonContinuesToFire.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <On Terms="Effect.RAMagneticHarpoonContinuesToFire.Stop" Send="Destroy"/>
+        <On Terms="Effect.RAMagneticHarpoonContinuouslyFiredAtBuildings.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.RAMagneticHarpoonContinuouslyFiredAtBuildings.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <On Terms="Effect.RAMagneticHarpoonContinuouslyFiredAtBuildings.Stop" Send="Destroy"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder2222"/>
+        <Beam value="LaserDrillTripodBiggerAttackBeam324"/>
+        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance SOpForwardLaunchGuide"/>
+        <ActionFlags index="AlignedImpactsAndDamages" value="1"/>
+        <Lifetime value="-1.000000"/>
+    </CActorAction>
+    <CActorModel id="RAApocalypseTankMagneticHarpoonLotsOfSparks" parent="ModelAddition">
+        <Aliases index="0" removed="1"/>
+        <Inherits index="LocalTintColor" value="1"/>
+        <On Terms="Effect.RAMagneticHarpoonDamage.Start" Send="Create"/>
+        <On Terms="Effect.RAMagneticHarpoonCausesContinuousDamageToPeople.Stop" Send="Destroy"/>
+        <AddToProximitySystem value="0"/>
+        <HostSiteOps Ops="SOpAttachWeapon04"/>
+        <Model value="TitanMechShootBigBloodImpact22"/>
+        <Scale value="1.100000"/>
+    </CActorModel>
+    <CActorSquib id="RAStarApocalypseTankBombardment">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.90mmHTCannon7.Start" Send="Create"/>
+        <On Terms="Effect.90mmHTCannon25.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="SetTintColor 255,68,72"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="SiegeTankAttackImpact724" Sound="Colossus_Explode_Ragdoll_B25"/>
+    </CActorSquib>
+    <CBehaviorBuff id="PsiDisruption23">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\war3_btnstun.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Duration value="0.5"/>
+        <Modification MoveSpeedMaximum="4" MoveSpeedMinimum="3">
+            <DamageDealtFraction index="Spell" value="-0.75"/>
+            <DamageDealtFraction index="Melee" value="-0.75"/>
+            <DamageDealtFraction index="Ranged" value="-0.75"/>
+            <DamageDealtFraction index="Splash" value="-0.75"/>
+            <DamageDealtFraction index="NoProc" value="-0.75"/>
+            <AbilClassDisableArray index="CAbilMove" value="1"/>
+            <AbilLinkDisableArray value="FungalGrowth"/>
+            <BehaviorLinkDisableArray value="CritterWander"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RAMovingSpeed20Percent3">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="2"/>
+        <Modification>
+            <UnifiedDamageTakenFraction index="Spell" value="-0.5"/>
+            <UnifiedDamageTakenFraction index="Melee" value="-0.5"/>
+            <UnifiedDamageTakenFraction index="Ranged" value="-0.5"/>
+            <UnifiedDamageTakenFraction index="Splash" value="-0.5"/>
+            <UnifiedDamageTakenFraction index="NoProc" value="-0.5"/>
+            <WeaponDisableArray value="SovietApoSpecialWeapon"/>
+            <WeaponDisableArray value="SovietApoSpecialWeapon2"/>
+            <WeaponDisableArray value="SovietApoSpecialWeapon22"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="TossGrenadeTychus2222223">
+        <Icon value="Assets\icons\suapospella.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus222224">
+        <Icon value="Assets\icons\suapospellb.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CEffectCreatePersistent id="RAMagneticHarpoonCausesContinuousDamageToPeople">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <TimeScaleSource Value="Caster"/>
+        <InitialEffect value="RAMagneticHarpoonApplicationBehaviorCollection"/>
+        <PeriodCount value="12"/>
+        <PeriodicEffectArray value="RAMagneticHarpoonDamage"/>
+        <PeriodicPeriodArray value="0.15"/>
+    </CEffectCreatePersistent>
+    <CEffectApplyBehavior id="RAMagneticHarpoonHold">
+        <Behavior value="PsiDisruption23"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="RAApocalypseTankFiresTwoGuns1">
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="90mmHTCannon"/>
+        <PeriodicEffectArray value="90mmHTCannon2"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <PeriodicPeriodArray value="0.43"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RAMagneticHarpoonContinuesToFire">
+        <WhichLocation Effect="RAMagneticHarpoonContinuesToFire" Value="TargetUnit"/>
+        <TimeScaleSource Value="Caster"/>
+        <Flags index="Channeled" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodCount value="50"/>
+        <PeriodicEffectArray value="RAMagneticHarpoonPullsPeople"/>
+        <PeriodicEffectArray value="RAMagneticHarpoonHold"/>
+        <PeriodicPeriodArray value="0.0625"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RAMagneticHarpoonContinuouslyFiredAtBuildings">
+        <WhichLocation Effect="RAMagneticHarpoonContinuouslyFiredAtBuildings" Value="TargetUnit"/>
+        <TimeScaleSource Value="Caster"/>
+        <Flags index="Channeled" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodCount value="20"/>
+        <PeriodicEffectArray value="RAMagneticHarpoonsPullThemselvesAgainstBuildings"/>
+        <PeriodicPeriodArray value="0.0625"/>
+    </CEffectCreatePersistent>
+    <CEffectApplyForce id="RAMagneticHarpoonPullsPeople">
+        <WhichLocation Effect="RAMagneticHarpoonContinuesToFire" Value="CasterUnit"/>
+        <WhichUnit Effect="RAMagneticHarpoonContinuesToFire"/>
+        <Amount value="-1000"/>
+    </CEffectApplyForce>
+    <CEffectSet id="RAMagneticHarpoonVisualAndPracticalEffects">
+        <EffectArray value="RAMagneticHarpoonContinuesToFire"/>
+        <ValidatorArray value="RA1TheMagneticHarpoonCannotPullImmobilizedUnits"/>
+    </CEffectSet>
+    <CEffectSet id="RAMagneticHarpoonVisualAndPracticalEffectsOnArchitecture">
+        <EffectArray value="RAMagneticHarpoonContinuouslyFiredAtBuildings"/>
+    </CEffectSet>
+    <CEffectApplyForce id="RAMagneticHarpoonsPullThemselvesAgainstBuildings">
+        <WhichLocation Effect="RAMagneticHarpoonContinuouslyFiredAtBuildings" Value="TargetUnit"/>
+        <WhichUnit Effect="RAMagneticHarpoonContinuouslyFiredAtBuildings" Value="Caster"/>
+        <Amount value="-1"/>
+        <MassFraction value="0"/>
+    </CEffectApplyForce>
+    <CEffectCreatePersistent id="RATheThirdGenerationStarRatedApocalypseTankFiresTwoCannons">
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="90mmHTCannon7"/>
+        <PeriodicEffectArray value="90mmHTCannon25"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <PeriodicPeriodArray value="0.43"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="90mmHTCannon" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="100"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="1" Fraction="1"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Invulnerable"/>
+        <ExcludeArray Value="Target"/>
+        <AttributeBonus index="Light" value="-50"/>
+    </CEffectDamage>
+    <CEffectDamage id="90mmHTCannon2" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="100"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="1" Fraction="1"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Invulnerable"/>
+        <ExcludeArray Value="Target"/>
+        <AttributeBonus index="Light" value="-50"/>
+    </CEffectDamage>
+    <CEffectDamage id="RAMagneticHarpoonDamage">
+        <Amount value="25"/>
+        <AreaArray Arc="90" Radius="0.5" Fraction="1"/>
+        <SearchFilters value="Ground,Visible;Player,Ally,Neutral,Missile,Stasis,Dead,Hidden"/>
+    </CEffectDamage>
+    <CEffectDamage id="90mmHTCannon7" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="100"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="1.25" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Invulnerable"/>
+        <ArmorReduction value="0"/>
+    </CEffectDamage>
+    <CEffectDamage id="90mmHTCannon25" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="100"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="1.25" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Invulnerable"/>
+        <ArmorReduction value="0"/>
+    </CEffectDamage>
+    <CEffectSwitch id="RATheEffectOfTheThirdGenerationStarRatedApocalypseTankIsSwitchedBetweenTwoGunFirings">
+        <CaseArray Validator="RAStarApocalypseTankEffectVerification" Effect="RATheThirdGenerationStarRatedApocalypseTankFiresTwoCannons"/>
+        <CaseDefault value="RAApocalypseTankFiresTwoGuns1"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSwitch>
+
+    <CModel id="SiegeTankAttackImpact7" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\SiegeTankWeaponLaunch\SiegeTankWeaponLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackImpactLow"/>
+        <EditorCategories value="Race:Terran"/>
+        <Flags index="Ignorable" value="0"/>
+        <Priority value="24"/>
+        <ScaleMax value="1.200000,1.200000,1.200000"/>
+        <ScaleMin value="1.200000,1.200000,1.200000"/>
+    </CModel>
+    <CModel id="SovietApocalypseTank_Model" parent="SiegeTankBase">
+        <Model value="assets\units\soviet\Apocalipsis.m3"/>
+        <AttachProps index="0" Id="Ref_Weapon 02">
+            <Keys index="SetA" value="0"/>
+            <Keys index="Turret" value="-128"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetB" value="1"/>
+        </AttachProps>
+        <Tipability value="0.000000"/>
+        <TipabilityWidth value="0.000000"/>
+    </CModel>
+    <CModel id="VoidRayAttackBeam2" parent="MissileFX">
+        <Model value="Assets\Effects\Neutral\Truck_XelNagaCore_Beam\Truck_XelNagaCore_Beam.m3"/>
+        <LowQualityModel value="VoidRayAttackBeamLow"/>
+        <AnimSpeed value="2.000000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.500000,0.500000,0.500000"/>
+        <ScaleMin value="0.500000,0.500000,0.500000"/>
+    </CModel>
+    <CModel id="SiegeTankAttackImpact724" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\OdinShoulderMissileImpact\OdinShoulderMissileImpact.m3"/>
+        <AnimSpeed value="0.650000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.700000,0.700000,0.700000"/>
+        <ScaleMin value="0.700000,0.700000,0.700000"/>
+    </CModel>
+
+
+    <CSound id="SovietB4howitzers_Actor_Movement" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\SUApoca_movLoopa.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_movLoopb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_movLoopc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_movLoopd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_movLoope.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_movLoopf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_movLoopg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_movLooph.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_movLoopi.ogg" FacialGroup=""/>
+        <Volume value="-12.000000,-12.000000"/>
+    </CSound>
+
+    <CSound id="VoidRay_WeaponStart3" parent="Combat">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="assets\sounds\SUApoc_wea2A.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoc_wea2B.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="4"/>
+        <Pitch value="-1.820000,1.640000"/>
+        <Volume value="-6.940000,-5.200000"/>
+    </CSound>
+    <CSound id="SovietApocalypseTank_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUApoca_VoiCrea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiCreb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="SovietApocalypseTank_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUApoca_VoiSelUndFra.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiSelUndFrb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiSelUndFrc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiSelUndFrd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="SovietApocalypseTank_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUApoca_VoiMova.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiMovb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiMovc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiMovd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiMove.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiMovf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiMovg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiMovh.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="SovietApocalypseTank_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUApoca_VoiAtka.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiAtke.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiAtkf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiAtkg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiAtkh.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="SovietApocalypseTank_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\SUApoca_VoiSela.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiSelb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiSelc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiSeld.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiSele.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiSelf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\SUApoca_VoiSelg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CTurret id="RAOtherHeavyTankMainGuns2">
+        <YawArc value="360"/>
+        <YawRate value="239.9414"/>
+        <YawIdleRate value="180"/>
+    </CTurret>
+    <CWeaponLegacy id="SovietApoSpecialWeapon">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\laserdrill_coop.dds"/>
+        <DisplayEffect value="RAMagneticHarpoonDamage"/>
+        <TargetFilters value="Ground,Visible;Self,Structure,User1,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AcquireCliffLevelRange value="0,0"/>
+        <Range value="10"/>
+        <MinimumRange value="0.5"/>
+        <Marker>
+            <MatchFlags index="Link" value="1"/>
+        </Marker>
+        <Period value="0.4"/>
+        <Effect value="RAMagneticHarpoonVisualAndPracticalEffects"/>
+        <RangeDisplayFlags index="DisplayRounded" value="1"/>
+        <DamagePoint value="2.5"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="SovietApoSpecialWeapon22">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\laserdrill_coop.dds"/>
+        <DisplayEffect value="RAMagneticHarpoonDamage"/>
+        <TargetFilters value="Ground,User1,Visible;Self,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AcquireCliffLevelRange value="0,0"/>
+        <Range value="10"/>
+        <RangeDisplayFlags index="DisplayRounded" value="1"/>
+        <MinimumRange value="0.5"/>
+        <Marker>
+            <MatchFlags index="Link" value="1"/>
+        </Marker>
+        <Period value="0.4"/>
+        <DamagePoint value="2.5"/>
+        <Effect value="RAMagneticHarpoonVisualAndPracticalEffectsOnArchitecture"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="SovietApoSpecialWeapon2">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\laserdrill_coop.dds"/>
+        <DisplayEffect value="RAMagneticHarpoonDamage"/>
+        <TargetFilters value="Ground,Structure,Visible;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AcquireCliffLevelRange value="0,0"/>
+        <Range value="10"/>
+        <MinimumRange value="0.5"/>
+        <Marker>
+            <MatchFlags index="Link" value="1"/>
+        </Marker>
+        <Period value="0.4"/>
+        <Effect value="RAMagneticHarpoonVisualAndPracticalEffectsOnArchitecture"/>
+        <RangeDisplayFlags index="DisplayRounded" value="1"/>
+        <DamagePoint value="2.5"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="90mmHTCannon">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-shipweaponslevel3.dds"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="9"/>
+        <Period value="2.6"/>
+        <Backswing value="0"/>
+        <AllowedMovement value="Moving"/>
+        <Range value="7"/>
+        <DisplayAttackCount value="2"/>
+        <Effect value="RATheEffectOfTheThirdGenerationStarRatedApocalypseTankIsSwitchedBetweenTwoGunFirings"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="RAMagneticHarpoon">
+        <EditorCategories value=""/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Melee" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Options index="IgnoreThreat" value="1"/>
+        <Icon value="Assets\Textures\war3_btnballista.dds"/>
+        <DisplayEffect value="RAMagneticHarpoonDamage"/>
+        <DisplayAttackCount value="12"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="1"/>
+        <Range value="1.5"/>
+        <Arc value="0.9997"/>
+        <Period value="2"/>
+        <Effect value="RAMagneticHarpoonCausesContinuousDamageToPeople"/>
+        <AllowedMovement value="Slowing"/>
+        <Marker>
+            <MatchFlags index="Link" value="1"/>
+        </Marker>
+    </CWeaponLegacy>
+</Catalog>

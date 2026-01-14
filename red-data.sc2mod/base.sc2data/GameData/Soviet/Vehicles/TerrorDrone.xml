@@ -1,0 +1,232 @@
+<Catalog>
+
+    <CUnit id="SovietTerrorDrone" parent="SovietGround">
+        <Subtitle value="UnitSubtitle/Sujijia"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <PushPriority value="5"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="75"/>
+        <LifeMax value="75"/>
+        <Speed value="5"/>
+        <Sight value="7"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="25"/>
+        <CostResource index="Vespene" value="50"/>
+        <RepairTime value="41.667"/>
+        <AttackTargetPriority value="15"/>
+        <KillXP value="2"/>
+        <WeaponArray Link="AssaultRifle222"/>
+        <CardLayouts/>
+        <Radius value="0.4375"/>
+        <SeparationRadius value="0.4375"/>
+        <InnerRadius value="0.25"/>
+        <MinimapRadius value="0.375"/>
+    </CUnit>
+    <CActorUnit id="SovietTerrorDrone" parent="SovietVehicle" unitName="SovietTerrorDrone" icon="TerrorDrone">
+        <DeathArray index="Normal" ModelLink="SpiderMineExplosion2" SoundLink="SovietTerrorDrone_Actor_Help"/>
+        <DeathActorModelLow value="UnitDeathModel"/>
+        <PortraitModel value="UtilityBotPortrait"/>
+        <WalkAnimMoveSpeed value="2.5"/>
+        <BarOffset value="35"/>
+        <SoundArray index="Ready" value="SovietTerrorDrone_Actor_Ready"/>
+        <SoundArray index="Help" value="SovietTerrorDrone_Actor_Help"/>
+        <SoundArray index="What" value="SovietTerrorDrone_Actor_Ready"/>
+        <SoundArray index="Yes" value="SovietTerrorDrone_Actor_Yes"/>
+        <SoundArray index="Attack" value="SovietTerrorDrone_Actor_Attack"/>
+        <SoundArray index="Movement" value="SovietTerrorDrone_Actor_Yes"/>
+        <SoundArray index="Click" value="SovietTerrorDrone_Actor_Ready"/>
+        <UnitFlags index="SuppressStandIntro" value="1"/>
+        <UnitFlags index="SuppressWalkIntro" value="1"/>
+        <UnitFlags index="SuppressWalkOutro" value="1"/>
+        <Scale value="0.800000"/>
+        <BarWidth value="45"/>
+    </CActorUnit>
+    <CActorSquib id="RATerrorRobotBites">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.ParasiticInvasionLeapLM2.Start" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="" Sound="SovietTerrorDrone_Actor_Attack"/>
+    </CActorSquib>
+    <CBehaviorBuff id="ParasiticInvasion2">
+        <InfoIcon value="Assets\icons\恐怖机器人武器图标.dds"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="RATerrorRobotEffectSwitching"/>
+        <FinalEffect value="ParasiticInvasionSearchForLarvalQueen2"/>
+        <Modification>
+            <ModifyFlags index="Reveal" value="1"/>
+            <ModifyFlags index="Detected" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AirfieldAuraB27223">
+        <Alignment value="Positive"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Duration value="0.7"/>
+        <Modification>
+            <StateFlags index="Invulnerable" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="ParasiticInvasionActive2">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Period value="0.125"/>
+        <PeriodicEffect value="ParasiticInvasionIssueFollowOrder2"/>
+        <Modification MoveSpeedMultiplier="10">
+            <StateFlags index="Invulnerable" value="1"/>
+            <StateFlags index="SuppressCollision" value="1"/>
+            <StateFlags index="NoDraw" value="1"/>
+            <StateFlags index="Uncommandable" value="1"/>
+        </Modification>
+        <FinalEffect value="QueenBurstHeal5"/>
+        <Duration value="180"/>
+    </CBehaviorBuff>
+    <CEffectDamage id="RAHorribleRobotDamage">
+        <Amount value="50"/>
+        <ArmorReduction value="1"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="ParasiticInvasionSearchForLarvalQueen2">
+        <EditorCategories value="Race:Zerg"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <AreaArray Radius="2" Effect="ParasiticInvasionRemoveActiveBehavior2"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="ParasiticInvasionApplyActiveBehavior2">
+        <EditorCategories value="Race:Zerg"/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="ParasiticInvasionActive2"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="ParasiticInvasionApplyMindControlBehavior2">
+        <EditorCategories value="Race:Zerg"/>
+        <Behavior value="ParasiticInvasion2"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="ParasiticInvasionImpactSet2">
+        <EditorCategories value="Race:Zerg"/>
+        <EffectArray value="ParasiticInvasionApplyMindControlBehavior2"/>
+        <EffectArray value="ParasiticInvasionLeapRemoveBehavior2"/>
+        <EffectArray value="ParasiticInvasionApplyActiveBehavior2"/>
+        <EffectArray value="ParasiticInvasionIssueFollowOrder2"/>
+    </CEffectSet>
+    <CEffectRemoveBehavior id="ParasiticInvasionLeapRemoveBehavior2">
+        <EditorCategories value="Race:Zerg"/>
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="ParasiticInvasionLeap2"/>
+    </CEffectRemoveBehavior>
+    <CEffectModifyUnit id="QueenBurstHeal5">
+        <EditorCategories value="Race:Zerg"/>
+        <VitalArray index="Life">
+            <Change value="100"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectSwitch id="RATerrorRobotEffectSwitching">
+        <CaseArray Validator="TargetNotDead2" Effect="RATerrorRobotInstantKill"/>
+        <CaseDefault value="RAHorribleRobotDamage"/>
+    </CEffectSwitch>
+    <CEffectIssueOrder id="ParasiticInvasionIssueFollowOrder2">
+        <EditorCategories value="Race:Zerg"/>
+        <WhichUnit Value="Caster"/>
+        <Abil value="move"/>
+        <Target Effect="ParasiticInvasionLeapLM2" Value="TargetUnit"/>
+    </CEffectIssueOrder>
+    <CEffectDamage id="RATerrorRobotInstantKill">
+        <Amount value="20000"/>
+    </CEffectDamage>
+    <CEffectRemoveBehavior id="ParasiticInvasionRemoveActiveBehavior2">
+        <EditorCategories value="Race:Zerg"/>
+        <BehaviorLink value="ParasiticInvasionActive2"/>
+    </CEffectRemoveBehavior>
+    <CEffectLaunchMissile id="ParasiticInvasionLeapLM2">
+        <EditorCategories value="Race:Zerg"/>
+        <LaunchLocation Value="CasterUnit"/>
+        <Flags index="PlacementIgnoreCliffTest" value="1"/>
+        <PlacementRange value="1"/>
+        <Movers Link="ParasiticInvasionLeapMover2"/>
+        <DeathType value="Unknown"/>
+        <ValidatorArray index="0" removed="1"/>
+        <ImpactEffect value="ParasiticInvasionImpactSet2"/>
+        <InterruptEffect value="ParasiticInvasionSearchForLarvalQueen2"/>
+        <LaunchEffect value="TerroDroneAB"/>
+    </CEffectLaunchMissile>
+    <CMoverMissile id="ParasiticInvasionLeapMover2">
+        <MotionPhases>
+            <Driver value="AdaptableParabola"/>
+            <MinSpeed value="8"/>
+            <MaxSpeed value="12"/>
+            <ActorTracking value="Actual"/>
+            <Outro value="-0.5,-0.1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <AdaptableParabolaIsUpright value="1"/>
+            <AdaptableParabolaClearance value="1,0.1"/>
+            <AdaptableParabolaDistances index="Launch" value="1"/>
+            <AdaptableParabolaDistances index="PreApex" value="0.3"/>
+            <AdaptableParabolaDistances index="PostApex" value="0.3"/>
+            <AdaptableParabolaDistances index="Land" value="1"/>
+            <AdaptableParabolaAccels index="Launch" value="0"/>
+            <AdaptableParabolaAccels index="Ascent" value="0"/>
+            <AdaptableParabolaAccels index="Apex" value="0"/>
+            <AdaptableParabolaAccels index="Descent" value="0"/>
+            <AdaptableParabolaAccels index="Land" value="0"/>
+        </MotionPhases>
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="100"/>
+            <MaxSpeed value="40"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CEffectApplyBehavior id="TerroDroneAB">
+        <WhichUnit Effect="ParasiticInvasionLeapLM2" Value="Caster"/>
+        <Behavior value="AirfieldAuraB27223"/>
+    </CEffectApplyBehavior>
+    <CModel id="SovietTerrorDrone" parent="Unit" Race="Terran">
+        <Model value="assets\units\soviet\TerrorDrone.m3"/>
+        <Flags index="AutoUnload" value="1"/>
+        <PlanetPanelCamera value="Star2CameraHigher18"/>
+        <SelectionRadius value="0.400000"/>
+        <ShadowRadius value="1.000000"/>
+        <TechPurchaseCamera value="Star2CameraHigher18"/>
+        <Tipability value="0.750000"/>
+        <TipabilityLength value="0.375000"/>
+        <TipabilityWidth value="0.375000"/>
+        <UnitGlossaryCamera value="Star2CameraHigher18"/>
+    </CModel>
+    <CSound id="SovietTerrorDrone_Actor_Help" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\horror-robot-vterdiea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\horror-robot-vterdieb.ogg" FacialGroup=""/>
+        <Category value="Death"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTerrorDrone_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\horror-robot-vtersela.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\horror-robot-vterselb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietTerrorDrone_Actor_Attack" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\horror-robot-vteratta.ogg" FacialGroup=""/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CSound id="SovietTerrorDrone_Actor_Yes" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\horror-robot-vtermova.ogg" FacialGroup=""/>
+        <Volume value="-2.000000,0.000000"/>
+    </CSound>
+    <CWeaponLegacy id="AssaultRifle222">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Melee" value="1"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Icon value="Assets\icons\恐怖机器人武器图标.dds"/>
+        <DisplayEffect value="RAHorribleRobotDamage"/>
+        <TargetFilters value="Ground;Self,Ally,Air,Structure,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="3"/>
+        <Period value="1.5"/>
+        <Effect value="ParasiticInvasionLeapLM2"/>
+    </CWeaponLegacy>
+</Catalog>

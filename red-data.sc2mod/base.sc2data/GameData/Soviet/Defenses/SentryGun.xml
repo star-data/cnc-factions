@@ -1,0 +1,203 @@
+<Catalog>
+
+    <CUnit id="SovietSentryGun" parent="SovietStructure">
+        <FlagArray index="AIDefense" value="1"/>
+        <LifeStart value="300"/>
+        <LifeMax value="300"/>
+        <Sight value="10"/>
+        <!--        <Food value="-1"/>-->
+        <CostResource index="Minerals" value="100"/>
+        <RepairTime value="40"/>
+        <KillXP value="2"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="Disband2"/>
+        <AbilArray Link="Blink227"/>
+        <BehaviorArray Link="UpgradeLevel14"/>
+        <BehaviorArray Link="PowerUserQueue"/>
+        <BehaviorArray Link="PowerSource2"/>
+        <BehaviorArray Link="RATowerdefensemovementCDreduced"/>
+        <WeaponArray Link="SovietSentryGunMachinegun" Turret="AlliedGrandCannon_Model"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="Disband3" Type="AbilCmd" AbilCmd="Disband2,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="RAHandlingturrets" Type="AbilCmd" AbilCmd="Blink227,Execute" Row="0" Column="0"/>
+        </CardLayouts>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <Footprint value="Footprint1x1CreepNormal"/>
+        <PlacementFootprint value="Footprint1x1CreepNormal"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="0.75"/>
+        <TacticalAI value="Bunker"/>
+        <TacticalAIThink value="AIThinkBunker"/>
+        <ReviveInfoBase>
+            <Charge Link="Bunker/Revive"/>
+            <Cooldown Link="Bunker/Revive"/>
+        </ReviveInfoBase>
+    </CUnit>
+    <CActorUnit id="SovietSentryGun" parent="SovietBuilding" unitName="SovietSentryGun" icon="SentryGun">
+        <Macros value="BunkerTransportAnim"/>
+        <On Terms="UnitConstruction.SovietSentryGun.Start" Send="AnimPlay 111 Build PlayForever,NonLooping -1.000000 -1.000000 0.470000 AsTimeScale"/>
+        <On Terms="UnitConstruction.SovietSentryGun.Finish" Send="AnimClear 111"/>
+        <On Terms="UnitConstruction.SovietSentryGun.Cancel" Send="AnimClear 111"/>
+        <Scale value="0.900000"/>
+        <EventDataFootprint index="0" Model="BunkerFootprint"/>
+        <CreepHeightClass value="Small"/>
+        <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
+        <DeathCustoms ModelLink="BunkerUpgradeDeath" Name="Upgrade"/>
+        <DeathCustoms ModelLink="BunkerDeathEmpty" Name="Empty"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <PlacementActorModel value="AlliedMachinegunBunker_Actor"/>
+        <PlaceholderActorModel value="BunkerPlaceholderModel"/>
+        <PortraitModel value="AdjutantPortrait2"/>
+        <BarOffset value="80"/>
+        <BarWidth value="50"/>
+        <GlossaryAnim value="Stand,Work"/>
+        <GroupSoundArray index="What" value="Bunker_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="Bunker_GroupYes"/>
+        <GroupSoundArray index="Attack" value="Bunker_GroupAttack"/>
+        <GroupSoundArray index="Board" value="Bunker_GroupBoard"/>
+        <NameOffset value="70"/>
+        <SoundArray index="Ready" value="SovietSentryGun_Birth"/>
+        <SoundArray index="Help" value="Bunker_Help"/>
+        <SoundArray index="What" value="SovietSentryGun_Birth"/>
+        <SoundArray index="Yes" value="Bunker_Yes"/>
+        <SoundArray index="Attack" value="Bunker_Attack"/>
+        <SoundArray index="Pissed" value="Bunker_Pissed"/>
+        <SoundArray index="Movement" value="Bunker_Movement"/>
+        <SoundArray index="Turning" value="Bunker_Turning"/>
+        <SoundArray index="Board" value="Bunker_Board"/>
+        <SoundArray index="Construction" value="SovietSentryGun_Birth"/>
+        <SoundArray index="Click" value="SovietSentryGun_Birth"/>
+        <SoundArray index="ClickError" value="Bunker_ClickError"/>
+        <SoundArray index="Highlight" value="Bunker_Highlight"/>
+    </CActorUnit>
+    <CActorAction id="SovietSentryGunMachinegunAttack" parent="GenericAttack" effectAttack="" effectImpact="SovietSentryGunMachinegunDamage" effectLaunch="SovietSentryGunMachinegunLM">
+        <On index="0" Terms="Effect.Bogus.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="5" Terms="Effect.SovietSentryGunMachinegunLM.Start; At Caster" Send="Create"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="AMFilterWeapon01 AMFilterWeapon02 AMFilterWeapon03" Fallback="Weapon"/>
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="AUACVVoice6"/>
+        <Missile value="WraithGroundAttackMissile2"/>
+        <ImpactMap index="None" Model="WraithGroundAttackImpact2" Sound="Viking_AssaultAttackImpact"/>
+    </CActorAction>
+    <CActorModel id="EngineeringBay22242" parent="ModelAddition" unitName="EngineeringBay2">
+        <CopySource value="_Unit"/>
+        <Aliases index="0" value="_Unit"/>
+        <Aliases value="_Selectable"/>
+        <Aliases value="_CreepEngulfable"/>
+        <Aliases value="_UnitHuge"/>
+        <Macros value="DeadAnimationMacro"/>
+        <Macros value="SnowVisualUnitMacroMP"/>
+        <Macros value="QueueAnim"/>
+        <Flags index="RespondsToUnitPlayerChange" value="1"/>
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="CastShadows" value="0"/>
+        <Inherits index="CloakEffect" value="0"/>
+        <Inherits index="CreepEngulfment" value="0"/>
+        <Inherits index="Decal" value="0"/>
+        <Inherits index="ModelMaterials" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="TeamColor" value="0"/>
+        <Inherits index="TimeScale" value="0"/>
+        <Inherits index="TintColor" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <Inherits index="WarpGroup" value="0"/>
+        <AcceptedTransfers index="AnimProps" value="1"/>
+        <AcceptedTransfers index="Textures" value="1"/>
+        <AcceptedTransfers index="Status" value="1"/>
+        <AcceptedHostedPropTransfers index="BaseModelScale" value="0"/>
+        <On index="0" Terms="UnitConstruction.*.Finish" Send="Destroy"/>
+        <On index="1" Terms="UnitConstruction.*.Cancel" Send="Destroy"/>
+        <On index="2" Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="UnitConstruction.SovietSentryGun.Start" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart 111 {} Birth,Stand {} ContentNonLooping,ContentPlayOnce,OpeningPlayForever,Instant"/>
+        <On Terms="UnitConstruction.*.Finish" Send="AnimBracketStop 111"/>
+        <On Terms="UnitConstruction.*.Cancel" Send="AnimBracketStop 111"/>
+        <On Terms="UnitConstruction.SovietSentryGun.Start" Send="Create"/>
+        <On Terms="UnitConstruction.SovietFlakCannon.Start" Send="Create"/>
+        <On Terms="UnitConstruction.SovietSpitfireTower.Start" Send="Create"/>
+        <Host Subject=""/>
+        <Model value="EngineeringBay23242"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+        <ModelFlags index="NeedsVolumeMonitoring" value="1"/>
+        <ModelFlags index="OutlineOccluder" value="1"/>
+        <EventDataFootprint Actor="UnitFootprint" Model="EngineeringBay2Footprint"/>
+        <EventDataSound Actor="UnitSound"/>
+        <CreepHeightClass value="Medium"/>
+        <CreepRateGrow value="Grow"/>
+        <CreepRateShrink value="Shrink"/>
+    </CActorModel>
+    <CEffectDamage id="SovietSentryGunMachinegunDamage" parent="DU_WEAP">
+        <AttributeFactor index="Armored" value="-0.8"/>
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <Amount value="40"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="SovietSentryGunMachinegunLM">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="SovietSentryGunMachinegunDamage"/>
+        <AmmoUnit value="TenguAntiGroundWeapon"/>
+    </CEffectLaunchMissile>
+    <CModel id="AdjutantPortrait2" parent="FXAPortrait" Race="Terran">
+        <Model value="Assets\Portraits\Terran\AdjutantPortrait\AdjutantPortrait.m3"/>
+        <FacialController value="LocalizedData\Facial\AdjutantPortrait.fxa"/>
+        <Image value="Assets\Textures\AdjutantPortrait_Static.dds"/>
+        <Lighting value="AdjutantPortrait"/>
+    </CModel>
+    <CModel id="SovietSentryGun" parent="Building" Race="Terran">
+        <Model value="Assets\buildings\soviet\SentryGun.m3"/>
+        <PlanetPanelCamera value="Star2CameraLow07"/>
+        <Radius value="1.250000"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="0.700000"/>
+        <ShadowRadius value="1.500000"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="TechPurchaseBunker"/>
+        <UnitGlossaryCamera value="Star2CameraLow07"/>
+    </CModel>
+    <CModel id="EngineeringBay23242" parent="EngineeringBayBase">
+        <Model value="Assets\buildings\soviet\TeslaCoil_BuildSupport.m3"/>
+        <AnimSpeed value="1.100000"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+        <SelectionRadius value="1.500000"/>
+    </CModel>
+    <CSound id="SovietSentryGun_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\soviet-sentry-gun-turret-sbsentry_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="AUACVVoice6" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfirea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfireb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfirec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfired.ogg" FacialGroup=""/>
+        <Flags index="Ignorable" value="1"/>
+        <Flags index="Purgable" value="0"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-4.000000,-4.000000"/>
+    </CSound>
+    <CTurret id="AlliedGrandCannon_Model">
+        <Idle value="Hold"/>
+        <YawArc value="360"/>
+        <YawRate value="720"/>
+        <YawIdleRate value="720"/>
+    </CTurret>
+    <CWeaponLegacy id="SovietSentryGunMachinegun">
+        <EditorCategories value="Race:Terran"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-nova-shotgunaoe.dds"/>
+        <DisplayEffect value="SovietSentryGunMachinegunDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="12"/>
+        <Period value="0.3"/>
+        <Effect value="SovietSentryGunMachinegunLM"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+</Catalog>
