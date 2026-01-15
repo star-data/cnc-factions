@@ -577,4 +577,744 @@
         <Icon value="Assets\icons\Soviet\##icon##.dds"/>
     </CButton>
 
+
+
+
+    <CUnit default="1" id="AlliedGround" parent="CNCGround">
+        <Race value="Allied"/>
+        <GlossaryCategory value="Unit/Category/AlliedUnits"/>
+        <HotkeyCategory value="Unit/Category/AlliedUnits"/>
+        <!--        <AbilArray Link="Disband"/>-->
+        <!--        <CardLayouts index="0">-->
+        <!--            <LayoutButtons Face="Disband" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="3"/>-->
+        <!--        </CardLayouts>-->
+    </CUnit>
+    <CUnit default="1" id="AlliedVehicle" parent="AlliedGround">
+        <Collide index="Small" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <RepairTime value="8"/>
+        <LifeArmorName value="Unit/LifeArmorName/AlliedVehiclesArmor"/>
+    </CUnit>
+    <CUnit default="1" id="AlliedAirPlane" parent="CNCAirPlane">
+        <Race value="Allied"/>
+        <GlossaryCategory value="Unit/Category/AlliedUnits"/>
+        <HotkeyCategory value="Unit/Category/AlliedUnits"/>
+        <LifeArmorName value="Unit/LifeArmorName/AlliedVehiclesArmor"/>
+    </CUnit>
+    <CUnit default="1" id="AlliedAir" parent="CNCAir">
+        <Race value="Allied"/>
+        <GlossaryCategory value="Unit/Category/AlliedUnits"/>
+        <HotkeyCategory value="Unit/Category/AlliedUnits"/>
+        <!--        <BehaviorArray Link="##id##VeterancyUpgrade"/>-->
+        <LifeArmorName value="Unit/LifeArmorName/AlliedVehiclesArmor"/>
+    </CUnit>
+    <CUnit default="1" id="AlliedInfantry" parent="AlliedGround">
+        <Collide index="Small" value="1"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranInfantryArmor"/>
+    </CUnit>
+    <CUnit default="1" id="AlliedStructure" parent="CNCStructure">
+        <Race value="Allied"/>
+        <GlossaryCategory value="Unit/Category/AlliedUnits"/>
+        <HotkeyCategory value="Unit/Category/AlliedUnits"/>
+        <AbilArray Link="Disband"/>
+        <BehaviorArray Link="FireSuppressionSystem"/>
+        <CardLayouts>
+            <!--            <LayoutButtons Face="CancelBuilding4" Type="AbilCmd" AbilCmd="BuildInProgress,Halt" Row="2" Column="3"/>-->
+            <LayoutButtons Face="Disband" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="3"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit default="1" id="AlliedMissile" parent="CNCMissile">
+        <Race value="Allied"/>
+    </CUnit>
+
+    <CActorUnit default="1" id="AlliedBuilding" parent="GenericUnitStandard">
+        <?token id="unitName" type="CUnitLink" value="##id##"?>
+        <?token id="icon" value="##id##"?>
+        <!--        <BuildModel value="##id##_Birth"/>-->
+        <BuildModel value="##id##"/>
+        <ModelFlags index="OutlineOccluder" value="1"/>
+        <Aliases value="_CreepEngulfable"/>
+        <Aliases value="_UnitHuge"/>
+        <CreepHeightClass value="Default"/>
+        <CreepRateGrow value="Grow"/>
+        <CreepRateShrink value="Shrink"/>
+        <Macros value="QueueAnim"/>
+        <Macros value="CNCUnpoweredAnim"/>
+        <!--RUMBLE UNURROW-->
+        <On Terms="UnitConstruction.##unitName##.Start" Send="AnimPlay Standup Unburrow"/>
+        <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create CNCRumble"/>-->
+        <!--DROPPOD-->
+        <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create AlliedConstructionDropPod"/>-->
+        <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create ##unitName##Build"/>-->
+        <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="AnimPlay Unburrow Unburrow"/>-->
+        <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create AlliedDropPodDamage"/>-->
+
+        <On Terms="UnitConstruction.##unitName##.Start" Send="Create BuildingTerrainFlatten"/>
+        <On Terms="UnitConstruction.##unitName##.Cancel" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On Terms="UnitConstruction.##unitName##.Finish" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On Terms="UnitConstruction.##unitName##.Start" Send="QueryRadius 1.750000 BuildingCrushQueryResponse"/>
+        <On Terms="UnitBirth.##unitName##.Normal" Send="Create BuildingTerrainFlatten"/>
+        <On Terms="UnitBirth.##unitName##.Suppressed" Send="Create BuildingTerrainFlattenInstant"/>
+        <On Terms="UnitBirth.##unitName##.EditorPlaced" Send="Create BuildingTerrainFlattenEditor"/>
+        <On Terms="UnitDeath.##unitName##" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On Terms="UnitDeathCustomize; CreepEngulfs" Send="CreepEngulfmentStopTransition"/>
+        <On Terms="ActorCreation; CreepIntersects" Send="CreepEngulfmentStartTransition"/>
+        <DeathArray index="Normal" ModelLink="##unitName##_Death" SoundLink=""/>
+        <PlacementModel value="##unitName##"/>
+        <PlacementSound value="Terran_BuildingPlacement"/>
+        <Macros value="SnowVisualUnitMacroMP"/>
+        <LifeArmorIcon value="Assets\icons\Allied\btn-upgrade-Allied-buildingarmor.dds"/>
+        <SoundArray index="Construction" value="Terran_ConstructionWhat"/>
+        <NameOffset value="110"/>
+        <BarOffset value="110"/>
+        <BarWidth value="135"/>
+        <Model value="##id##"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <PortraitModel value="AlliedPortrait"/>
+        <PlaceholderActorModel value="AlliedPlaceholderActorModel"/>
+        <PlacementActorModel value="AlliedPlaceholderActorModel"/>
+        <HeroIcon value="Assets\icons\Allied\building-##icon##.dds"/>
+        <UnitIcon value="Assets\icons\Allied\building-##icon##.dds"/>
+        <ShieldArmorIcon value="Assets\icons\Allied\Allied-armor-agreement-icon.dds"/>
+        <GroupIcon>
+            <Image value="Assets\icons\Allied\building-##icon##-wireframe.dds"/>
+        </GroupIcon>
+        <Wireframe>
+            <Image value="Assets\icons\Allied\building-##icon##-wireframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorUnit default="1" id="AlliedUnit"  parent="GenericUnitBase">
+        <?token id="unitName" type="CUnitLink" value="##id##"?>
+        <?token id="icon" value="##id##"?>
+        <Macros value="UnloadDropAnim"/>
+        <On index="0" Send="Create SoundEmitter GDIZoneTrooper_Ambience"/>
+        <On index="35" Terms="UnitBirth.*.Normal" Send="AnimPlay Birth Stand 0 0.000000"/>
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.*.AttackStart; WeaponTargetElevation GE 20.000000" Send="AnimBracketStart Attack Attack,Superior"/>
+        <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <StandAnimTurnTime value="5"/>
+        <WalkAnimMoveSpeed value="2"/>
+        <UnitFlags index="StandAnimBirthVariation" value="0"/>
+        <ErrorArray Error="CantSeeBuildLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantSeeLandLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantBuildLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantLandLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CouldntReachTarget" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <PortraitModel value="AlliedPortrait"/>
+        <HeroIcon value="Assets\icons\Allied\unit-##icon##.dds"/>
+        <UnitIcon value="Assets\icons\Allied\unit-##icon##.dds"/>
+        <GroupIcon>
+            <Image value="Assets\icons\Allied\unit-##icon##.dds"/>
+        </GroupIcon>
+        <Wireframe>
+            <Image value="Assets\icons\Allied\unit-##icon##-wireframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorUnit default="1" id="AlliedInfantry" parent="AlliedUnit">
+        <Aliases value="_UnitSmall"/>
+        <WalkAnimMoveSpeed value="2.25"/>
+        <On Terms="Behavior.MercGroundDrop.Create" Send="Create WarPigDropModel"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Marine_Land"/>
+        <LifeArmorIcon value="Assets\icons\Allied\btn-Allied-infantry-armor.dds"/>
+        <BarOffset value="40"/>
+        <BarWidth value="36"/>
+        <!--        <DeathArray index="Normal" ModelLink="" SoundLink="Marine_DeathFXBloodSpray" VoiceLink="##unitName##_Death"/>-->
+        <DeathArray index="Normal" ModelLink="" SoundLink="Marine_DeathFXBloodSpray" VoiceLink="Marine_Death"/>
+        <DeathArray index="Blast" SoundLink="Marine_DeathFXBlast"/>
+        <DeathArray index="Disintegrate" SoundLink="Marine_DeathFXFire"/>
+        <DeathArray index="Eat" AnimProps="Stand" SoundLink="Marine_DeathFXEat"/>
+        <DeathArray index="Eviscerate" AnimProps="Death" SoundLink="Marine_DeathFXEviscerate"/>
+        <DeathArray index="Fire" AnimProps="Death" SoundLink="Marine_DeathFXFire"/>
+        <DeathArray index="Silentkill" SoundLink="Marine_DeathFXSilentKill"/>
+        <DeathArray index="Squish" SoundLink="Marine_DeathFXBloodSpray"/>
+        <GroupSoundArray index="What" value="MarineGroupWhat"/>
+        <GroupSoundArray index="Yes" value="MarineGroupYes"/>
+        <GroupSoundArray index="Attack" value="MarineGroupAttack"/>
+        <GroupSoundArray index="Board" value="MarineGroupBoard"/>
+        <SoundArray index="Birth" value="MarineBirth"/>
+        <SoundArray index="Pissed" value="##unitName##_What"/>
+        <SoundArray index="Movement" value="MarineMovement"/>
+        <SoundArray index="Turning" value="MarineTurning"/>
+        <SoundArray index="Board" value="MarineBoard"/>
+        <SoundArray index="Click" value="MarineClick"/>
+        <SoundArray index="ClickError" value="MarineClickError"/>
+        <SoundArray index="Highlight" value="MarineHighlight"/>
+        <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathSmall" Name="Hallucination"/>
+    </CActorUnit>
+    <CActorUnit default="1" id="AlliedVehicle" parent="AlliedUnit">
+        <Aliases value="_UnitLarge"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <AcceptedTransfers index="ModelMaterials" value="1"/>
+        <LifeArmorIcon value="Assets\icons\Allied\Allied-minecart-deploys-onion-armor.dds"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
+        <CreepHeightClass value="Tiny"/>
+        <DeathArray index="Normal" ModelLink="CABALAvengerTank_Death" SoundLink="SiegeTank_Explode"/>
+        <DeathCustomData Name="RagdollBasic"/>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
+        <StandAnimTurnTime value="3.33"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="1.000000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleSiegeTank"/>
+        </TerrainSquibs>
+        <WalkAnimMoveSpeed value="1"/>
+        <BarOffset value="80"/>
+        <BarWidth value="102"/>
+        <SoundArray index="Birth" value="SiegeTankBirth"/>
+        <SoundArray index="Pissed" value="NodScorpionTank_What"/>
+        <SoundArray index="Movement" value="CABALAvengerTank_Movement"/>
+        <SoundArray index="Turning" value="SiegeTankTurning"/>
+        <SoundArray index="Board" value="SiegeTankBoard"/>
+        <SoundArray index="Click" value="SiegeTankClick"/>
+        <SoundArray index="ClickError" value="SiegeTankClickError"/>
+        <SoundArray index="Highlight" value="SiegeTankHighlight"/>
+        <GroupSoundArray index="What" value="SiegeTankGroupWhat"/>
+        <GroupSoundArray index="Yes" value="SiegeTankGroupYes"/>
+        <GroupSoundArray index="Attack" value="SiegeTankGroupAttack"/>
+        <GroupSoundArray index="Board" value="SiegeTankGroupBoard"/>
+
+        <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathMedium" Name="Hallucination"/>
+    </CActorUnit>
+    <CActorUnit default="1" id="AlliedWheeler" parent="AlliedUnit">
+        <Aliases value="_UnitMedium"/>
+        <CreepHeightClass value="Tiny"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Hellion_Land"/>
+        <On Terms="Behavior.MercGroundDrop.Create" Send="Create MercHellionDropModel"/>
+        <LifeArmorIcon value="Assets\icons\Allied\Allied-minecart-deploys-onion-armor.dds"/>
+        <DeathArray index="Normal" ModelLink="CABALRaider_Death" SoundLink="Hellion_Explode"/>
+        <BarOffset value="50"/>
+        <SoundArray index="Movement" value="AlliedVehicleMoveLoopBike"/>
+
+        <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathMedium" Name="Hallucination"/>
+    </CActorUnit>
+    <CActorUnit default="1" id="AlliedAir" parent="AlliedUnit">
+        <Aliases value="_UnitLarge"/>
+        <HostSiteOps Ops="CnCBankerAir"/>
+        <AnimBlendTime value="0.300000"/>
+        <LifeArmorIcon value="Assets\icons\Allied\Allied-minecart-deploys-onion-armor.dds"/>
+        <DeathArray index="Normal" ModelLink="CABALVenom_Death" SoundLink="Wraith_Explode"/>
+        <BarOffset value="55"/>
+        <BarWidth value="66"/>
+        <SoundArray index="Movement" value="Venom_Movement"/>
+
+        <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathMedium" Name="Hallucination"/>
+    </CActorUnit>
+    <CActorModel id="AlliedPlaceholderActorModel" parent="PlacementModel">
+        <!--        <Model value="AlliedPowerPlant"/>-->
+        <!--        <On Terms="ActorCreation" Send="GlowStart"/>-->
+        <On Terms="ActorCreation" Send="SetOpacity 0.400000"/>
+        <On Terms="ActorCreation" Send="SetCastShadows"/>
+        <!--        <On Terms="ActorCreation" Send="TextureSelectById HoloMainDiff"/>-->
+        <!--        <On Terms="ActorCreation" Send="TextureSelectById HoloMainEmis"/>-->
+        <!--        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>-->
+        <On Terms="ActorCreation" Send="SetTintColor {233,100,0 10.000000}"/>
+    </CActorModel>
+
+    <CModel default="1" id="AlliedUnit" parent="Unit">
+        <?token id="model" value="##id##"?>
+        <Model value="Assets\Units\Allied\##model##.m3"/>
+        <EditorCategories value="Race:Allied"/>
+        <Occlusion value="Show"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="0.340800"/>
+        <ShadowRadius value="0.340800"/>
+        <UnitGlossaryCamera value="Star2CameraMid03"/>
+    </CModel>
+    <CModel default="1" id="AlliedVehicle" parent="AlliedUnit">
+        <Tipability value="0.750000"/>
+        <TipabilityWidth value="0.800000"/>
+        <TipabilityLength value="0.800000"/>
+        <SquibTypeDefault value="Metal"/>
+    </CModel>
+    <CModel default="1" id="AlliedInfantry" parent="AlliedUnit">
+        <SquibTypeDefault value="Flesh"/>
+    </CModel>
+    <CModel default="1" id="AlliedBuilding" parent="Unit">
+        <?token id="model" value="##id##"?>
+        <Model value="Assets\Buildings\Allied\##model##.m3"/>
+        <SelectionLayer value="2"/>
+        <EditorCategories value="Race:Allied"/>
+        <Occlusion value="Show"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="0.340800"/>
+        <ShadowRadius value="0.340800"/>
+        <UnitGlossaryCamera value="Star2CameraMid03"/>
+    </CModel>
+    <CModel default="1" id="AlliedObject" parent="Unit">
+        <?token id="model" value="##id##"?>
+        <Model value="Assets\Units\Allied\##model##.m3"/>
+        <SelectionLayer value="2"/>
+        <EditorCategories value="Race:Allied"/>
+        <Occlusion value="Show"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="0.340800"/>
+        <ShadowRadius value="0.340800"/>
+        <UnitGlossaryCamera value="Star2CameraMid03"/>
+    </CModel>
+    <CModel default="1" id="AlliedBuildingDeath" parent="BuildingDeath">
+        <?token id="model" value="##id##"?>
+        <Model value="Assets\Buildings\Allied\##model##.m3"/>
+        <LowQualityModel value="TerranBuildingDeathLow"/>
+        <EditorCategories value="Race:Allied"/>
+    </CModel>
+    <CModel default="1" id="AlliedUnitDeath" parent="UnitDeath">
+        <?token id="model" value="##id##"?>
+        <Model value="Assets\Units\Allied\##model##.m3"/>
+        <EditorCategories value="Race:Allied"/>
+        <Occlusion value="Show"/>
+    </CModel>
+    <CModel default="1" id="AlliedEquipment" parent="Unit">
+        <?token id="model" value="##id##"?>
+        <Occlusion value="Show"/>
+        <SelectionRadius value="0.468700"/>
+        <SquibTypeDefault value="Flesh"/>
+        <Tipability value="0.750000"/>
+        <TipabilityWidth value="0.400000"/>
+        <TipabilityLength value="0.400000"/>
+        <Radius value="0.450000"/>
+        <ShadowRadius value="0.468700"/>
+        <Model value="Assets\Weapons\##model##.m3"/>
+        <EditorCategories value="Race:WZ"/>
+    </CModel>
+    <CModel id="AlliedPortrait" parent="Portrait">
+        <Model value="Assets\Models\Allied Portrait.m3"/>
+        <EditorCategories value="Race:Allied"/>
+        <Image value="Assets\Textures\Allied.dds"/>
+        <Lighting value="FemaleCivilian4Portrait"/>
+    </CModel>
+
+    <CAbilEffectInstant id="AlliedEI" deafult="1">
+        <EditorCategories value="Race:Allied,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="##id##"/>
+    </CAbilEffectInstant>
+    <CAbilEffectTarget id="AlliedET" deafult="1">
+        <EditorCategories value="Race:Allied,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="##id##"/>
+    </CAbilEffectTarget>
+
+    <CBehaviorBuff id="AlliedBB" default="1">
+        <EditorCategories value="Race:Allied,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CAbilBehavior id="AlliedAB" default="1">
+        <EditorCategories value="Race:Allied,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="##id##On">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="##id##Off">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <BehaviorArray value="##id##"/>
+    </CAbilBehavior>
+
+    <CWeaponLegacy default="1" id="AlliedInfantryWeapon">
+        <?token id="icon" value="conscript-switches-to-rifle-mode"?>
+        <EditorCategories value="Race:Allied"/>
+        <Icon value="Assets\icons\Allied\##icon##.dds"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <DisplayEffect value="##id##@Damage"/>
+        <Effect value="##id##@Damage"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy default="1" id="AlliedVehicleWeapon">
+        <?token id="icon" value="hammer-tank-main-gun-mode"?>
+        <EditorCategories value="Race:Allied"/>
+        <Icon value="Assets\icons\Allied\##icon##.dds"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <DisplayEffect value="##id##@Damage"/>
+        <Effect value="##id##@Damage"/>
+    </CWeaponLegacy>
+
+    <CEffectDamage default="1" id="AlliedDamage">
+        <EditorCategories value="Race:Allied"/>
+        <Kind value="Ranged"/>
+    </CEffectDamage>
+
+    <CButton default="1" id="Allied">
+        <?token id="icon" value="##id##"?>
+        <EditorCategories value="Race:Allied"/>
+        <Icon value="Assets\icons\Allied\##icon##.dds"/>
+    </CButton>
+
+
+
+    <CUnit default="1" id="EmpireGround" parent="CNCGround">
+        <Race value="Empire"/>
+        <GlossaryCategory value="Unit/Category/EmpireUnits"/>
+        <HotkeyCategory value="Unit/Category/EmpireUnits"/>
+        <!--        <AbilArray Link="Disband"/>-->
+        <!--        <CardLayouts index="0">-->
+        <!--            <LayoutButtons Face="Disband" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="3"/>-->
+        <!--        </CardLayouts>-->
+    </CUnit>
+    <CUnit default="1" id="EmpireVehicle" parent="EmpireGround">
+        <Collide index="Small" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <RepairTime value="8"/>
+        <LifeArmorName value="Unit/LifeArmorName/EmpireVehiclesArmor"/>
+    </CUnit>
+    <CUnit default="1" id="EmpireAirPlane" parent="CNCAirPlane">
+        <Race value="Empire"/>
+        <GlossaryCategory value="Unit/Category/EmpireUnits"/>
+        <HotkeyCategory value="Unit/Category/EmpireUnits"/>
+        <LifeArmorName value="Unit/LifeArmorName/EmpireVehiclesArmor"/>
+    </CUnit>
+    <CUnit default="1" id="EmpireAir" parent="CNCAir">
+        <Race value="Empire"/>
+        <GlossaryCategory value="Unit/Category/EmpireUnits"/>
+        <HotkeyCategory value="Unit/Category/EmpireUnits"/>
+        <!--        <BehaviorArray Link="##id##VeterancyUpgrade"/>-->
+        <LifeArmorName value="Unit/LifeArmorName/EmpireVehiclesArmor"/>
+    </CUnit>
+    <CUnit default="1" id="EmpireInfantry" parent="EmpireGround">
+        <Collide index="Small" value="1"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranInfantryArmor"/>
+    </CUnit>
+    <CUnit default="1" id="EmpireStructure" parent="CNCStructure">
+        <Race value="Empire"/>
+        <GlossaryCategory value="Unit/Category/EmpireUnits"/>
+        <HotkeyCategory value="Unit/Category/EmpireUnits"/>
+        <AbilArray Link="Disband"/>
+        <BehaviorArray Link="FireSuppressionSystem"/>
+        <CardLayouts>
+            <!--            <LayoutButtons Face="CancelBuilding4" Type="AbilCmd" AbilCmd="BuildInProgress,Halt" Row="2" Column="3"/>-->
+            <LayoutButtons Face="Disband" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="3"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit default="1" id="EmpireMissile" parent="CNCMissile">
+        <Race value="Empire"/>
+    </CUnit>
+
+    <CActorUnit default="1" id="EmpireBuilding" parent="GenericUnitStandard">
+        <?token id="unitName" type="CUnitLink" value="##id##"?>
+        <?token id="icon" value="##id##"?>
+        <!--        <BuildModel value="##id##_Birth"/>-->
+        <BuildModel value="##id##"/>
+        <ModelFlags index="OutlineOccluder" value="1"/>
+        <Aliases value="_CreepEngulfable"/>
+        <Aliases value="_UnitHuge"/>
+        <CreepHeightClass value="Default"/>
+        <CreepRateGrow value="Grow"/>
+        <CreepRateShrink value="Shrink"/>
+        <Macros value="QueueAnim"/>
+        <Macros value="CNCUnpoweredAnim"/>
+        <!--RUMBLE UNURROW-->
+        <On Terms="UnitConstruction.##unitName##.Start" Send="AnimPlay Standup Unburrow"/>
+        <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create CNCRumble"/>-->
+        <!--DROPPOD-->
+        <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create EmpireConstructionDropPod"/>-->
+        <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create ##unitName##Build"/>-->
+        <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="AnimPlay Unburrow Unburrow"/>-->
+        <!--        <On Terms="UnitConstruction.##unitName##.Start" Send="Create EmpireDropPodDamage"/>-->
+
+        <On Terms="UnitConstruction.##unitName##.Start" Send="Create BuildingTerrainFlatten"/>
+        <On Terms="UnitConstruction.##unitName##.Cancel" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On Terms="UnitConstruction.##unitName##.Finish" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On Terms="UnitConstruction.##unitName##.Start" Send="QueryRadius 1.750000 BuildingCrushQueryResponse"/>
+        <On Terms="UnitBirth.##unitName##.Normal" Send="Create BuildingTerrainFlatten"/>
+        <On Terms="UnitBirth.##unitName##.Suppressed" Send="Create BuildingTerrainFlattenInstant"/>
+        <On Terms="UnitBirth.##unitName##.EditorPlaced" Send="Create BuildingTerrainFlattenEditor"/>
+        <On Terms="UnitDeath.##unitName##" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On Terms="UnitDeathCustomize; CreepEngulfs" Send="CreepEngulfmentStopTransition"/>
+        <On Terms="ActorCreation; CreepIntersects" Send="CreepEngulfmentStartTransition"/>
+        <DeathArray index="Normal" ModelLink="##unitName##_Death" SoundLink=""/>
+        <PlacementModel value="##unitName##"/>
+        <PlacementSound value="Terran_BuildingPlacement"/>
+        <Macros value="SnowVisualUnitMacroMP"/>
+        <LifeArmorIcon value="Assets\icons\Empire\btn-upgrade-Empire-buildingarmor.dds"/>
+        <SoundArray index="Construction" value="Terran_ConstructionWhat"/>
+        <NameOffset value="110"/>
+        <BarOffset value="110"/>
+        <BarWidth value="135"/>
+        <Model value="##id##"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <PortraitModel value="EmpirePortrait"/>
+        <PlaceholderActorModel value="EmpirePlaceholderActorModel"/>
+        <PlacementActorModel value="EmpirePlaceholderActorModel"/>
+        <HeroIcon value="Assets\icons\Empire\building-##icon##.dds"/>
+        <UnitIcon value="Assets\icons\Empire\building-##icon##.dds"/>
+        <ShieldArmorIcon value="Assets\icons\Empire\Empire-armor-agreement-icon.dds"/>
+        <GroupIcon>
+            <Image value="Assets\icons\Empire\building-##icon##-wireframe.dds"/>
+        </GroupIcon>
+        <Wireframe>
+            <Image value="Assets\icons\Empire\building-##icon##-wireframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorUnit default="1" id="EmpireUnit"  parent="GenericUnitBase">
+        <?token id="unitName" type="CUnitLink" value="##id##"?>
+        <?token id="icon" value="##id##"?>
+        <Macros value="UnloadDropAnim"/>
+        <On index="0" Send="Create SoundEmitter GDIZoneTrooper_Ambience"/>
+        <On index="35" Terms="UnitBirth.*.Normal" Send="AnimPlay Birth Stand 0 0.000000"/>
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.*.AttackStart; WeaponTargetElevation GE 20.000000" Send="AnimBracketStart Attack Attack,Superior"/>
+        <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <StandAnimTurnTime value="5"/>
+        <WalkAnimMoveSpeed value="2"/>
+        <UnitFlags index="StandAnimBirthVariation" value="0"/>
+        <ErrorArray Error="CantSeeBuildLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantSeeLandLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantBuildLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantLandLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CouldntReachTarget" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <PortraitModel value="EmpirePortrait"/>
+        <HeroIcon value="Assets\icons\Empire\unit-##icon##.dds"/>
+        <UnitIcon value="Assets\icons\Empire\unit-##icon##.dds"/>
+        <GroupIcon>
+            <Image value="Assets\icons\Empire\unit-##icon##.dds"/>
+        </GroupIcon>
+        <Wireframe>
+            <Image value="Assets\icons\Empire\unit-##icon##-wireframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorUnit default="1" id="EmpireInfantry" parent="EmpireUnit">
+        <Aliases value="_UnitSmall"/>
+        <WalkAnimMoveSpeed value="2.25"/>
+        <On Terms="Behavior.MercGroundDrop.Create" Send="Create WarPigDropModel"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Marine_Land"/>
+        <LifeArmorIcon value="Assets\icons\Empire\btn-Empire-infantry-armor.dds"/>
+        <BarOffset value="40"/>
+        <BarWidth value="36"/>
+        <!--        <DeathArray index="Normal" ModelLink="" SoundLink="Marine_DeathFXBloodSpray" VoiceLink="##unitName##_Death"/>-->
+        <DeathArray index="Normal" ModelLink="" SoundLink="Marine_DeathFXBloodSpray" VoiceLink="Marine_Death"/>
+        <DeathArray index="Blast" SoundLink="Marine_DeathFXBlast"/>
+        <DeathArray index="Disintegrate" SoundLink="Marine_DeathFXFire"/>
+        <DeathArray index="Eat" AnimProps="Stand" SoundLink="Marine_DeathFXEat"/>
+        <DeathArray index="Eviscerate" AnimProps="Death" SoundLink="Marine_DeathFXEviscerate"/>
+        <DeathArray index="Fire" AnimProps="Death" SoundLink="Marine_DeathFXFire"/>
+        <DeathArray index="Silentkill" SoundLink="Marine_DeathFXSilentKill"/>
+        <DeathArray index="Squish" SoundLink="Marine_DeathFXBloodSpray"/>
+        <GroupSoundArray index="What" value="MarineGroupWhat"/>
+        <GroupSoundArray index="Yes" value="MarineGroupYes"/>
+        <GroupSoundArray index="Attack" value="MarineGroupAttack"/>
+        <GroupSoundArray index="Board" value="MarineGroupBoard"/>
+        <SoundArray index="Birth" value="MarineBirth"/>
+        <SoundArray index="Pissed" value="##unitName##_What"/>
+        <SoundArray index="Movement" value="MarineMovement"/>
+        <SoundArray index="Turning" value="MarineTurning"/>
+        <SoundArray index="Board" value="MarineBoard"/>
+        <SoundArray index="Click" value="MarineClick"/>
+        <SoundArray index="ClickError" value="MarineClickError"/>
+        <SoundArray index="Highlight" value="MarineHighlight"/>
+        <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathSmall" Name="Hallucination"/>
+    </CActorUnit>
+    <CActorUnit default="1" id="EmpireVehicle" parent="EmpireUnit">
+        <Aliases value="_UnitLarge"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <AcceptedTransfers index="ModelMaterials" value="1"/>
+        <LifeArmorIcon value="Assets\icons\Empire\Empire-minecart-deploys-onion-armor.dds"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
+        <CreepHeightClass value="Tiny"/>
+        <DeathArray index="Normal" ModelLink="CABALAvengerTank_Death" SoundLink="SiegeTank_Explode"/>
+        <DeathCustomData Name="RagdollBasic"/>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
+        <StandAnimTurnTime value="3.33"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="1.000000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleSiegeTank"/>
+        </TerrainSquibs>
+        <WalkAnimMoveSpeed value="1"/>
+        <BarOffset value="80"/>
+        <BarWidth value="102"/>
+        <SoundArray index="Birth" value="SiegeTankBirth"/>
+        <SoundArray index="Pissed" value="NodScorpionTank_What"/>
+        <SoundArray index="Movement" value="CABALAvengerTank_Movement"/>
+        <SoundArray index="Turning" value="SiegeTankTurning"/>
+        <SoundArray index="Board" value="SiegeTankBoard"/>
+        <SoundArray index="Click" value="SiegeTankClick"/>
+        <SoundArray index="ClickError" value="SiegeTankClickError"/>
+        <SoundArray index="Highlight" value="SiegeTankHighlight"/>
+        <GroupSoundArray index="What" value="SiegeTankGroupWhat"/>
+        <GroupSoundArray index="Yes" value="SiegeTankGroupYes"/>
+        <GroupSoundArray index="Attack" value="SiegeTankGroupAttack"/>
+        <GroupSoundArray index="Board" value="SiegeTankGroupBoard"/>
+
+        <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathMedium" Name="Hallucination"/>
+    </CActorUnit>
+    <CActorUnit default="1" id="EmpireWheeler" parent="EmpireUnit">
+        <Aliases value="_UnitMedium"/>
+        <CreepHeightClass value="Tiny"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Hellion_Land"/>
+        <On Terms="Behavior.MercGroundDrop.Create" Send="Create MercHellionDropModel"/>
+        <LifeArmorIcon value="Assets\icons\Empire\Empire-minecart-deploys-onion-armor.dds"/>
+        <DeathArray index="Normal" ModelLink="CABALRaider_Death" SoundLink="Hellion_Explode"/>
+        <BarOffset value="50"/>
+        <SoundArray index="Movement" value="EmpireVehicleMoveLoopBike"/>
+
+        <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathMedium" Name="Hallucination"/>
+    </CActorUnit>
+    <CActorUnit default="1" id="EmpireAir" parent="EmpireUnit">
+        <Aliases value="_UnitLarge"/>
+        <HostSiteOps Ops="CnCBankerAir"/>
+        <AnimBlendTime value="0.300000"/>
+        <LifeArmorIcon value="Assets\icons\Empire\Empire-minecart-deploys-onion-armor.dds"/>
+        <DeathArray index="Normal" ModelLink="CABALVenom_Death" SoundLink="Wraith_Explode"/>
+        <BarOffset value="55"/>
+        <BarWidth value="66"/>
+        <SoundArray index="Movement" value="Venom_Movement"/>
+
+        <DeathCustoms ModelLink="HallucinationDeath" SoundLink="Sentry_HallucinationDeathMedium" Name="Hallucination"/>
+    </CActorUnit>
+    <CActorModel id="EmpirePlaceholderActorModel" parent="PlacementModel">
+        <!--        <Model value="EmpirePowerPlant"/>-->
+        <!--        <On Terms="ActorCreation" Send="GlowStart"/>-->
+        <On Terms="ActorCreation" Send="SetOpacity 0.400000"/>
+        <On Terms="ActorCreation" Send="SetCastShadows"/>
+        <!--        <On Terms="ActorCreation" Send="TextureSelectById HoloMainDiff"/>-->
+        <!--        <On Terms="ActorCreation" Send="TextureSelectById HoloMainEmis"/>-->
+        <!--        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>-->
+        <On Terms="ActorCreation" Send="SetTintColor {233,100,0 10.000000}"/>
+    </CActorModel>
+
+    <CModel default="1" id="EmpireUnit" parent="Unit">
+        <?token id="model" value="##id##"?>
+        <Model value="Assets\Units\Empire\##model##.m3"/>
+        <EditorCategories value="Race:Empire"/>
+        <Occlusion value="Show"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="0.340800"/>
+        <ShadowRadius value="0.340800"/>
+        <UnitGlossaryCamera value="Star2CameraMid03"/>
+    </CModel>
+    <CModel default="1" id="EmpireVehicle" parent="EmpireUnit">
+        <Tipability value="0.750000"/>
+        <TipabilityWidth value="0.800000"/>
+        <TipabilityLength value="0.800000"/>
+        <SquibTypeDefault value="Metal"/>
+    </CModel>
+    <CModel default="1" id="EmpireInfantry" parent="EmpireUnit">
+        <SquibTypeDefault value="Flesh"/>
+    </CModel>
+    <CModel default="1" id="EmpireBuilding" parent="Unit">
+        <?token id="model" value="##id##"?>
+        <Model value="Assets\Buildings\Empire\##model##.m3"/>
+        <SelectionLayer value="2"/>
+        <EditorCategories value="Race:Empire"/>
+        <Occlusion value="Show"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="0.340800"/>
+        <ShadowRadius value="0.340800"/>
+        <UnitGlossaryCamera value="Star2CameraMid03"/>
+    </CModel>
+    <CModel default="1" id="EmpireObject" parent="Unit">
+        <?token id="model" value="##id##"?>
+        <Model value="Assets\Units\Empire\##model##.m3"/>
+        <SelectionLayer value="2"/>
+        <EditorCategories value="Race:Empire"/>
+        <Occlusion value="Show"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="0.340800"/>
+        <ShadowRadius value="0.340800"/>
+        <UnitGlossaryCamera value="Star2CameraMid03"/>
+    </CModel>
+    <CModel default="1" id="EmpireBuildingDeath" parent="BuildingDeath">
+        <?token id="model" value="##id##"?>
+        <Model value="Assets\Buildings\Empire\##model##.m3"/>
+        <LowQualityModel value="TerranBuildingDeathLow"/>
+        <EditorCategories value="Race:Empire"/>
+    </CModel>
+    <CModel default="1" id="EmpireUnitDeath" parent="UnitDeath">
+        <?token id="model" value="##id##"?>
+        <Model value="Assets\Units\Empire\##model##.m3"/>
+        <EditorCategories value="Race:Empire"/>
+        <Occlusion value="Show"/>
+    </CModel>
+    <CModel default="1" id="EmpireEquipment" parent="Unit">
+        <?token id="model" value="##id##"?>
+        <Occlusion value="Show"/>
+        <SelectionRadius value="0.468700"/>
+        <SquibTypeDefault value="Flesh"/>
+        <Tipability value="0.750000"/>
+        <TipabilityWidth value="0.400000"/>
+        <TipabilityLength value="0.400000"/>
+        <Radius value="0.450000"/>
+        <ShadowRadius value="0.468700"/>
+        <Model value="Assets\Weapons\##model##.m3"/>
+        <EditorCategories value="Race:WZ"/>
+    </CModel>
+    <CModel id="EmpirePortrait" parent="Portrait">
+        <Model value="Assets\Models\Empire Portrait.m3"/>
+        <EditorCategories value="Race:Empire"/>
+        <Image value="Assets\Textures\Empire.dds"/>
+        <Lighting value="FemaleCivilian4Portrait"/>
+    </CModel>
+
+    <CAbilEffectInstant id="EmpireEI" deafult="1">
+        <EditorCategories value="Race:Empire,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="##id##"/>
+    </CAbilEffectInstant>
+    <CAbilEffectTarget id="EmpireET" deafult="1">
+        <EditorCategories value="Race:Empire,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="##id##"/>
+    </CAbilEffectTarget>
+
+    <CBehaviorBuff id="EmpireBB" default="1">
+        <EditorCategories value="Race:Empire,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CAbilBehavior id="EmpireAB" default="1">
+        <EditorCategories value="Race:Empire,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="##id##On">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="##id##Off">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <BehaviorArray value="##id##"/>
+    </CAbilBehavior>
+
+    <CWeaponLegacy default="1" id="EmpireInfantryWeapon">
+        <?token id="icon" value="conscript-switches-to-rifle-mode"?>
+        <EditorCategories value="Race:Empire"/>
+        <Icon value="Assets\icons\Empire\##icon##.dds"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <DisplayEffect value="##id##@Damage"/>
+        <Effect value="##id##@Damage"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy default="1" id="EmpireVehicleWeapon">
+        <?token id="icon" value="hammer-tank-main-gun-mode"?>
+        <EditorCategories value="Race:Empire"/>
+        <Icon value="Assets\icons\Empire\##icon##.dds"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <DisplayEffect value="##id##@Damage"/>
+        <Effect value="##id##@Damage"/>
+    </CWeaponLegacy>
+
+    <CEffectDamage default="1" id="EmpireDamage">
+        <EditorCategories value="Race:Empire"/>
+        <Kind value="Ranged"/>
+    </CEffectDamage>
+
+    <CButton default="1" id="Empire">
+        <?token id="icon" value="##id##"?>
+        <EditorCategories value="Race:Empire"/>
+        <Icon value="Assets\icons\Empire\##icon##.dds"/>
+    </CButton>
+    
+    
 </Catalog>
