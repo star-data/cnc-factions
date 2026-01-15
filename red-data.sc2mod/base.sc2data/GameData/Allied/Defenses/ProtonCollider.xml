@@ -1,3 +1,264 @@
 <Catalog>
 
+    <CUnit id="AlliedProtonCollider" parent="AlliedStructure">
+        <Attributes index="Heroic" value="1"/>
+        <LifeStart value="2500"/>
+        <LifeMax value="2500"/>
+        <Sight value="6"/>
+        <!--Food value="-8"/-->
+        <CostCategory value="Army"/>
+        <CostResource index="Minerals" value="5000"/>
+        <RepairTime value="50"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="OdinNuclearStrike22"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent48"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent482"/>
+        <BehaviorArray Link="PowerUserQueue"/>
+        <BehaviorArray Link="Alliedforcesbuildsmallenergycircle"/>
+        <BehaviorArray Link="Lowpower22"/>
+        <BehaviorArray Link="RASufficientpower"/>
+        <WeaponArray Turret="RAProtonColliderMainCannon"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="OdinBarrage22" Type="AbilCmd" AbilCmd="OdinNuclearStrike22,Execute" Row="0" Column="0"/>
+        </CardLayouts>
+        <Radius value="3"/>
+        <SeparationRadius value="3"/>
+        <Footprint value="Footprint4x4Contour"/>
+        <DeadFootprint value="Footprint4x4Contour"/>
+        <PlacementFootprint value="Footprint4x4"/>
+        <ScoreMake value="1250000"/>
+        <ScoreKill value="2500"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="3"/>
+    </CUnit>
+    <CAbilEffectTarget id="OdinNuclearStrike22">
+        <Alignment value="Negative"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Effect index="0" value="RAProtonColliderLaunchAssembly"/>
+        <Cost>
+            <Charge Link="Abil/NovaNuclearStrike"/>
+            <Cooldown Link="zhizipao" TimeStart="360" TimeUse="360"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <Marker Link="Abil/NovaNuclearStrike"/>
+        <ValidatedArray index="Channel" value="0"/>
+        <AlertArray index="Cast" value="CalldownLaunch"/>
+        <CalldownEffect value="OdinNukePersistent22"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="OdinBarrage22" Requirements="SuperWeaponRe"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
+    </CAbilEffectTarget>
+
+    <CActorUnit id="AlliedProtonCollider_Actor" parent="TerranBuilding" unitName="AlliedProtonCollider">
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent482.Off" Send="AnimBracketStart Attack1 Stand,Work,Start Stand,B Stand,Work,End"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent482.On" Send="AnimBracketStop Attack1"/>
+        <On Terms="Effect.OdinNukePersistent22.Start" Send="AnimBracketStart 111 Attack,B Attack,B Stand,Work,End 0 0.500000 AsTimeScale"/>
+        <On Terms="Effect.OdinNukePersistent22.Stop" Send="AnimBracketStop 111"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent48.Off" Send="PlayUnitSound Board"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent482.Off" Send="Create RAProtonColliderChargingSoundEffect"/>
+        <On Terms="ActorCreation" Send="AnimPlay Attack2 Build PlayForever,NonLooping -1.000000 -1.000000 1.000000 AsTimeScale"/>
+        <On Terms="AnimDone; AnimName Attack2" Send="AnimClear Attack2"/>
+        <On Terms="AnimDone; AnimName Attack2" Send="ModelSwap AlliedProtonCollider_Actor"/>
+        <On Terms="AnimDone; AnimName Attack2" Send="AnimBaselineStart"/>
+        <On Terms="AnimBracketState.*.AfterClosing" Send="AnimBracketStart BSD {} Stand {} Instant"/>
+        <Scale value="0.600000"/>
+        <DeathArray index="Normal" ModelLink="TerranBuildingDeath" SoundLink="Bunker_Explode"/>
+        <DeathActorModel value="UnitDeathModelPersistent"/>
+        <DeathActorModelLow value="UnitDeathModelPersistent"/>
+        <PortraitModel value="StaticPortrait9"/>
+        <BarOffset value="70"/>
+        <BarWidth value="135"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Allied\proton-collider-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Allied\proton-collider-unit-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+        <NameOffset value="100"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Icons\Allied\proton-collider-unit-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Allied\proton-collider-wireframe.dds"/>
+        </Wireframe>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <SoundArray index="Birth" value="AlliedProtonCollider_Actor_Birth"/>
+        <SoundArray index="Ready" value="AlliedProtonCollider_Actor_Birth"/>
+        <SoundArray index="Help" value="GhostAcademy_Help"/>
+        <SoundArray index="What" value="AlliedProtonCollider_Actor_Birth"/>
+        <SoundArray index="Yes" value="GhostAcademy_Yes"/>
+        <SoundArray index="Attack" value="GhostAcademy_Attack"/>
+        <SoundArray index="Pissed" value="GhostAcademy_Pissed"/>
+        <SoundArray index="Movement" value="GhostAcademy_Movement"/>
+        <SoundArray index="Turning" value="GhostAcademy_Turning"/>
+        <SoundArray index="Board" value="AlliedProtonCollider_Actor_Board"/>
+        <SoundArray index="Construction" value="AlliedProtonCollider_Actor_Birth"/>
+        <SoundArray index="Click" value="AlliedProtonCollider_Actor_Birth"/>
+        <SoundArray index="ClickError" value="GhostAcademy_ClickError"/>
+        <SoundArray index="Highlight" value="GhostAcademy_Highlight"/>
+        <Model value="AlliedProtonCollider_Model"/>
+        <ModelFlags index="AutomateGlobalLoops" value="0"/>
+        <HighlightTooltip value="Unit/Name/AlliedProtonCollider_Actor"/>
+    </CActorUnit>
+
+    <CActorSquib id="OdinNukeLaunch22">
+        <On Terms="Effect.OdinNukePersistent22.Start" Send="Create"/>
+        <HostSiteOps Ops="SOpSourcePointSationary"/>
+        <Map index="None" Model="" Sound=""/>
+    </CActorSquib>
+    <CActorModel id="OdinNukeIndicator22" parent="ModelAnimationStyleOneShot">
+        <Filter index="Enemy" value="1"/>
+        <On Terms="Effect.OdinNukePersistent22.Start" Send="Create"/>
+        <On Terms="Effect.OdinNukePersistent22.Stop" Send="Destroy"/>
+        <Model value="GhostNukeIndicator22"/>
+    </CActorModel>
+    <CActorSound id="OdinNukeSeek22" parent="SoundContinuous">
+        <On Terms="Effect.OdinNukePersistent22.Initial" Send="Create"/>
+        <On Terms="Effect.OdinNukePersistent22.Stop; At Effect" Send="Destroy"/>
+        <Sound value="Odin_NukeSeek22"/>
+    </CActorSound>
+    <CActorModel id="OdinNukeTarget22" parent="ModelAnimationStyleOneShot">
+        <Filter index="Self" value="1"/>
+        <Filter index="Ally" value="1"/>
+        <On Terms="Effect.OdinNukePersistent22.Start" Send="Create"/>
+        <On Terms="Effect.OdinNukePersistent22.Stop" Send="AnimBracketStop BSD"/>
+        <Model value="GhostNukeTarget22"/>
+    </CActorModel>
+    <CButton id="OdinBarrage22">
+        <Icon value="Assets\Textures\RA3fashezhizipao.tga"/>
+        <Hotkey value="Button/Hotkey/Proton"/>
+    </CButton>
+    <CEffectRandomPointInCircle id="AupacCircle2">
+        <EditorCategories value="Race:Terran"/>
+        <WhichLocation Value="TargetPoint"/>
+        <Effect value="BattleshipArtilleryLM2232"/>
+        <Radius value="5"/>
+    </CEffectRandomPointInCircle>
+    <CEffectCreatePersistent id="OdinNukePersistent22">
+        <ExpireDelay value="3"/>
+        <FinalEffect value="RAProtonColliderFiringUnlocksTurret"/>
+        <PeriodCount value="4"/>
+        <PeriodicEffectArray value="AupacCircle2"/>
+        <PeriodicEffectArray value="AupacCircle2"/>
+        <PeriodicEffectArray value="AupacCircle2"/>
+        <PeriodicEffectArray value="AupacCircle2"/>
+        <PeriodicPeriodArray value="1.5"/>
+        <PeriodicPeriodArray value="1.5"/>
+        <PeriodicPeriodArray value="1.5"/>
+        <PeriodicPeriodArray value="1.5"/>
+        <RevealRadius value="10"/>
+        <RevealFlags index="Unfog" value="1"/>
+        <InitialDelay value="0.2"/>
+        <InitialEffect value="AupacCircle2"/>
+    </CEffectCreatePersistent>
+    <CEffectModifyUnit id="RAProtonColliderFiringLockedTurret">
+        <ImpactUnit Value="Caster"/>
+        <ModifyTurret Turret="RAProtonColliderMainCannon" AimCompleteEffect="RAProtonColliderVirtualDamage1">
+            <Target Value="TargetUnitOrPoint"/>
+            <Flags index="Tracking" value="1"/>
+        </ModifyTurret>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="RAProtonColliderFiringUnlocksTurret">
+        <ImpactUnit Value="Caster"/>
+        <ModifyTurret Action="ClearTarget" Turret="RAProtonColliderMainCannon" AimCompleteEffect="OdinNukePersistent22">
+            <Target Value="TargetUnitOrPoint"/>
+            <Flags index="ClearTargetOnAimComplete" value="1"/>
+        </ModifyTurret>
+    </CEffectModifyUnit>
+    <CEffectSet id="RAProtonColliderLaunchAssembly">
+        <EffectArray value="OdinNukePersistent22"/>
+        <EffectArray value="RAProtonColliderFiringLockedTurret"/>
+        <EffectArray value="SuperWeapon120ScooldownAB"/>
+        <EffectArray value="SuperWeapon120ScooldownAB2"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB2">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent482"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent48"/>
+    </CEffectApplyBehavior>
+    <CModel id="GhostNukeIndicator22" parent="PersistentSpellFX">
+        <Model value="Assets\UI\BossTargetCursorSplat\BossTargetCursorSplat.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+    </CModel>
+    <CModel id="AlliedProtonCollider_Model" parent="Building" Race="Terran">
+        <Model value="assets\buildings\Allied\ProtonCollider.m3"/>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 02">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="2"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 04">
+            <Keys index="SetA" value="3"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 05">
+            <Keys index="SetA" value="4"/>
+        </AttachProps>
+        <Occlusion value="Show"/>
+        <Radius value="3.000000"/>
+        <RadiusLoose value="7.000000"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="3.000000"/>
+        <ShadowRadius value="3.000000"/>
+        <SquibTypeDefault value="Metal"/>
+    </CModel>
+    <CModel id="GhostNukeTarget22" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Terran\GhostLaseTarget\GhostLaseTarget.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CSound id="Odin_NukeSeek22" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\Terran\Ghost\Ghost_NuclearStrikeSeek0.wav"/>
+        <DupeDestroyCount value="4"/>
+        <DupeMaximumMethod value="Replace"/>
+        <LoopCount value="-1"/>
+        <OffsetFadeIn Volume="-96.000000"/>
+        <OffsetFadeIn Time="4201" Volume="-12.270000"/>
+        <OffsetFadeIn Time="6457" Volume="-6.330000"/>
+        <OffsetFadeIn Time="7740" Volume="-1.880000"/>
+        <OffsetFadeIn Time="8000"/>
+        <SustainFade index="1" Time="2000"/>
+    </CSound>
+    <CSound id="AlliedProtonCollider_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\ABProto_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+    <CSound id="AlliedProtonCollider_Actor_Board" parent="Ready">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\Adjutant-The-proton-impactor-is-ready.ogg" FacialGroup=""/>
+        <AssetArrayTemplate>
+            <File value="LocalizedData\Sounds\VO\Terran\^TemplateParam2^.ogg"/>
+            <FacialAnim value="^TemplateParam1^"/>
+            <FacialGroup value="^TemplateParam1^"/>
+            <FacialFile value="LocalizedData\Sounds\VO\Terran\^TemplateParam1^.fxe"/>
+        </AssetArrayTemplate>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="0"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CTurret id="RAProtonColliderMainCannon">
+        <YawArc value="360"/>
+        <YawRate value="199.8632"/>
+        <YawIdleRate value="149.9414"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
 </Catalog>

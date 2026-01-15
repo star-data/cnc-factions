@@ -1,3 +1,690 @@
 <Catalog>
 
+    <CUnit id="EmpireStrikerVX" parent="EmpireGround">
+        <FlagArray index="AIThreatGround" value="1"/>
+        <FlagArray index="AIThreatAir" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Robotic" value="1"/>
+        <LifeStart value="650"/>
+        <LifeMax value="650"/>
+        <LifeArmor value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranShipPlating"/>
+        <Speed value="2"/>
+        <Sight value="10"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="1200"/>
+        <RepairTime value="41.6667"/>
+        <KillXP value="4"/>
+        <AbilArray Link="FighterMode32"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent502"/>
+        <BehaviorArray Link="UpgradeLevel12"/>
+        <WeaponArray Link="VXWeaponGround2"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="FighterMode22" Type="AbilCmd" AbilCmd="FighterMode32,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="Disband2" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="3"/>
+        </CardLayouts>
+        <Radius value="0.5625"/>
+        <SeparationRadius value="0.5625"/>
+        <InnerRadius value="0.375"/>
+        <ScoreKill value="225"/>
+        <SubgroupPriority value="12"/>
+        <MinimapRadius value="0.75"/>
+        <TacticalAIThink value="AIThinkVikingAssault"/>
+        <TechAliasArray value="Alias_Viking"/>
+        <GlossaryPriority value="155"/>
+        <Fidget>
+            <ChanceArray index="Anim" value="15"/>
+            <ChanceArray index="Idle" value="55"/>
+            <ChanceArray index="Turn" value="30"/>
+        </Fidget>
+    </CUnit>
+    <CAbilMorph id="FighterMode32">
+        <AbilSetId value="FighterMode"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="FighterMode22" Requirements="UseFighterMode">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Unmorph" DefaultButtonFace="AssaultMode22"/>
+        <Flags index="DisableAbils" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Cost>
+            <Charge Link="Abil/AssaultMode3"/>
+            <Cooldown Location="Unit" TimeUse="30"/>
+        </Cost>
+        <CostUnmorph>
+            <Charge Link="Abil/AssaultMode3"/>
+            <Cooldown Location="Unit" TimeUse="30"/>
+        </CostUnmorph>
+        <InfoArray Unit="EmpireVXFighter" RandomDelayMax="0.5">
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+            <SectionArray index="Collide">
+                <DurationArray index="Delay" value="0.7"/>
+            </SectionArray>
+            <SectionArray index="Mover">
+                <DurationArray index="Delay" value="0.13"/>
+                <DurationArray index="Duration" value="0.75"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+        </InfoArray>
+        <Activity value="UI/Upgrading"/>
+    </CAbilMorph>
+    <CAbilMorph id="AssaultMode32">
+        <OrderArray index="0">
+            <DisplayType value="Confirm"/>
+            <Color value="255,0,255,0"/>
+            <Model value="Assets\UI\Cursors\WayPointAttack_Void\WayPointAttack_Void.m3"/>
+            <LineTexture value="Assets\Textures\WayPointLine.dds"/>
+        </OrderArray>
+        <AbilSetId value="AssaultMode"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AssaultMode22">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Unmorph" DefaultButtonFace="FighterMode22"/>
+        <Flags index="DisableAbils" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="IgnorePlacement" value="0"/>
+        <Cost>
+            <Charge Link="Abil/AssaultMode3"/>
+            <Cooldown Link="Abil/FighterMode32" Location="Unit" TimeUse="30"/>
+        </Cost>
+        <CostUnmorph>
+            <Charge Link="Abil/AssaultMode3"/>
+            <Cooldown Link="Abil/FighterMode32" Location="Unit" TimeUse="30"/>
+        </CostUnmorph>
+        <InfoArray Unit="EmpireStrikerVX" CollideRange="3.75" RandomDelayMax="0.5">
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+            <SectionArray index="Mover">
+                <DurationArray index="Delay" value="0.133"/>
+                <DurationArray index="Duration" value="0.8"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+        </InfoArray>
+        <Activity value="UI/Upgrading"/>
+    </CAbilMorph>
+    <CActorUnit id="VikingAssault22" parent="GenericUnitBase" unitName="EmpireStrikerVX">
+        <Aliases value="_UnitMedium"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo VikingAssault22" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom VikingAssault22" Send="Destroy"/>
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="UnitPortrait.*.Configure" Target="::PortraitGameSelf" Send="AnimClear Visor 0.000000"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Viking_Land"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <DeathArray index="Normal" ModelLink="VikingAssaultDeath" SoundLink="Viking_Explode"/>
+        <DeathArray index="Blast" AnimProps="Death,Blast" ModelLink="VikingAssaultDeath"/>
+        <DeathCustoms ModelLink="VikingAssaultDeathRagdoll" Name="RagdollBasic">
+            <BodySquibs Name="Basic" Model="TerranSquibDeathRagdoll"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <PortraitModel value="VikingAssaultPortrait"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="1.000000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleLarge"/>
+        </TerrainSquibs>
+        <WalkAnimMoveSpeed value="2.5468"/>
+        <BarOffset value="70"/>
+        <BarWidth value="70"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Empire\vx-striker-mode-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Empire\vx-striker-mode-unit-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-shipplatinglevel0.dds"/>
+        <SoundArray index="Ready" value="EmpireHoverMecha_Actor_Ready"/>
+        <SoundArray index="Help" value="EmpireHoverMecha_Actor_Help"/>
+        <SoundArray index="What" value="EmpireHoverMecha_Actor_What"/>
+        <SoundArray index="Yes" value="EmpireHoverMecha_Actor_Yes"/>
+        <SoundArray index="Attack" value="EmpireHoverMecha_Actor_Attack"/>
+        <SoundArray index="Pissed" value="EmpireHoverMecha_Actor_Attack"/>
+        <SoundArray index="Movement" value="ChinaQingfengMissileLaunchVehicle_Actor_Movement"/>
+        <SoundArray index="Click" value="EmpireHoverMecha_Actor_What"/>
+        <UnitFlags index="StandAnimBirthVariation" value="0"/>
+        <UnitIcon value="Assets\Icons\Empire\vx-striker-mode-unit-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Empire\vx-striker-mode-wireframe.dds"/>
+        </Wireframe>
+        <Scale value="0.950000"/>
+        <AbilSoundArray AbilCmd="AssaultMode32,Execute" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+        <AbilSoundArray AbilCmd="FighterMode32,Unmorph" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+        <AbilSoundArray AbilCmd="AssaultMode32,Unmorph" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+        <AbilSoundArray AbilCmd="FighterMode32,Execute" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+        <Model value="VikingAssault22"/>
+        <HighlightTooltip value="Unit/Name/VikingAssault22"/>
+    </CActorUnit>
+    <CActorSquib id="SumotoActor33">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.90mmCannons24.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.90mmCannons245.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.90mmCannons247.Start; At Effect" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="TychusTossGrenadeImpact2232" Sound="UnknownSound34"/>
+        <Map index="Miss" Model="TychusTossGrenadeImpact2232" Sound="UnknownSound34"/>
+    </CActorSquib>
+    <CActorAction id="SiegeTankAttack25" parent="GenericAttack" effectAttack="None" effectImpact="90mmCannons24" effectLaunch="ATRocket5">
+        <LaunchAttachQuery Methods="AMPatternMarauder224 AMPatternMarauder2532"/>
+        <LaunchAssets Model="SiegeTankAttackLaunch83" Scale="0.500000" Sound="WarHound_Missile_Launch"/>
+        <Missile value="ATRocketMissile4"/>
+        <ImpactMap index="None" Model="TychusTossGrenadeImpact2232" Sound="UnknownSound34"/>
+        <On index="0" Terms="Effect.90mmCannons24.Start; FromEffectTreeDescendant" Send="ActionImpact"/>
+        <On index="1" Terms="Effect.90mmCannons24.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="2" Terms="Effect.SplashDamage.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <On index="3" Terms="Effect.SplashDamage.Stop; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>
+        <On index="4" Terms="Effect.ATRocket5.Start; At Caster" Send="Create"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+    </CActorAction>
+    <CActorMissile id="ATRocketMissile4" parent="GenericAttackMissile" unitName="ATRocket4">
+        <Model value="BacklashRocketsLMWeapon4"/>
+        <Scale value="0.450000,0.700000,0.450000"/>
+    </CActorMissile>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent502">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <DamageResponse ModifyFraction="0.5">
+            <Chance value="1"/>
+        </DamageResponse>
+        <Modification>
+            <DamageDealtFraction index="Spell" value="1"/>
+            <DamageDealtFraction index="Melee" value="1"/>
+            <DamageDealtFraction index="Ranged" value="1"/>
+            <DamageDealtFraction index="Splash" value="1"/>
+            <DamageDealtFraction index="NoProc" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="FighterMode22">
+        <Icon value="assets\icons\Empire\vx-switches-to-helicopter-mode.dds"/>
+        <HotkeySet value="VikingModes"/>
+    </CButton>
+    <CEffectDamage id="90mmCannons24" parent="DU_WEAP">
+        <AttributeFactor index="Light" value="-0.8"/>
+        <Kind value="Ranged"/>
+        <KindSplash value="Splash"/>
+        <Amount value="25"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="0.75" Fraction="1"/>
+        <SearchFilters value="Visible;Self,Player,Ally,Neutral,Hover,Missile,Stasis,Dead,Invulnerable"/>
+        <ExcludeArray Value="Target"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="ATRocket5">
+        <EditorCategories value="Race:Terran"/>
+        <Marker Link="Effect/BacklashRocketsLM"/>
+        <ImpactEffect value="90mmCannons24"/>
+        <AmmoUnit value="ATRocket4"/>
+        <Movers Link="ScourgeMissileLeftRear2"/>
+    </CEffectLaunchMissile>
+    <CModel id="SiegeTankAttackLaunch83" parent="LaunchFX">
+        <Model value="Assets\COOP\Zeratul\Effects\Immortal_Zeratul_COOP_CannonLaunch\Immortal_Zeratul_COOP_CannonLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
+        <AnimSpeed value="0.800000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CModel id="VikingAssault22" parent="Unit" Race="Terran">
+        <Model value="assets\units\Empire\VX_Assault.m3"/>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 02">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="2"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 04">
+            <Keys index="SetA" value="3"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 05">
+            <Keys index="SetA" value="4"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 06">
+            <Keys index="SetA" value="5"/>
+        </AttachProps>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraMid07"/>
+        <Radius value="0.650000"/>
+        <SelectionRadius value="0.764400"/>
+        <ShadowRadius value="0.764400"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="Star2CameraMid07"/>
+        <Tipability value="0.750000"/>
+        <TipabilityLength value="0.800000"/>
+        <TipabilityWidth value="0.800000"/>
+        <UnitGlossaryCamera value="Star2CameraMid07"/>
+    </CModel>
+    <CModel id="TychusTossGrenadeImpact2232" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\EyeOfAdunMissileImpact\EyeofAdunMissileImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CModel id="BacklashRocketsLMWeapon4" parent="MissileFX">
+        <Model value="Assets\COOP\Stetmann\Effects\Hydralisk_Stetmann_COOP_MissilePowerRangeUpgrade\Hydralisk_Stetmann_COOP_MissilePowerRangeUpgrade.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CMoverMissile id="ScourgeMissileLeftRear2">
+        <MotionPhases>
+            <Driver value="Throw"/>
+            <Acceleration value="9"/>
+            <Speed value="4"/>
+            <MaxSpeed value="10"/>
+            <Outro value="0.5,1"/>
+            <Timeout value="1"/>
+            <ThrowRotationType value="ThrowForward"/>
+            <ThrowVector value="0,-0.4,0"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="29.9597,-9.9975,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+        <MotionPhases>
+            <Driver value="Ballistic"/>
+            <Acceleration value="50"/>
+            <Speed value="14"/>
+            <MaxSpeed value="20"/>
+            <Gravity value="30"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="540"/>
+            <PowerslideAngle value="5.9985"/>
+            <PowerslideDecel value="9"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CSound id="EmpireHoverMecha_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUStrik_VoiAtka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiAtke.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiAtkf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiAtkg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="EmpireHoverMecha_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSela.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSeld.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSele.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelh.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="EmpireHoverMecha_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelUndFira.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelUndFirb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelUndFirc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelUndFird.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelUndFire.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="EmpireHoverMecha_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUStrik_VoiCreb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="EmpireHoverMecha_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUStrik_VoiMova.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiMovb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiMovc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiMovd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiMove.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiMovf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiMovg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiMovh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiMovi.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiMovj.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="UnknownSound34" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\JUPearl_canoImpaa.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUPearl_canoImpab.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUPearl_canoImpac.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUPearl_canoImpad.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUPearl_canoImpae.ogg" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <DupeMaximumMethod value="Replace"/>
+        <Volume value="4.000000,4.000000"/>
+    </CSound>
+    <CSound id="JuMechaVoice822" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUStrik_transforma.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Combat"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="WarHound_Missile_Launch">
+        <Volume value="-12.000000,-10.000000"/>
+    </CSound>
+    <CUnit id="EmpireVXFighter" parent="EmpireAir">
+        <FlagArray index="AIThreatGround" value="1"/>
+        <FlagArray index="AIThreatAir" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Robotic" value="1"/>
+        <LifeStart value="650"/>
+        <LifeMax value="650"/>
+        <LifeArmor value="1"/>
+        <Speed value="2.5"/>
+        <Acceleration value="4.625"/>
+        <Sight value="10"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="1200"/>
+        <RepairTime value="41.6667"/>
+        <KillXP value="4"/>
+        <AbilArray Link="AssaultMode32"/>
+        <BehaviorArray Link="UpgradeLevel12"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent5022"/>
+        <WeaponArray Link="VXWeaponGround"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="AssaultMode22" Type="AbilCmd" AbilCmd="AssaultMode32,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="Disband2" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="3"/>
+        </CardLayouts>
+        <Radius value="0.5625"/>
+        <SeparationRadius value="0.5625"/>
+        <ScoreMake value="225"/>
+        <ScoreKill value="225"/>
+        <SubgroupPriority value="12"/>
+        <MinimapRadius value="0.75"/>
+        <TacticalAIThink value="AIThinkVikingFighter"/>
+        <SelectAlias value="EmpireStrikerVX"/>
+        <TechAliasArray value="Alias_Viking"/>
+        <GlossaryPriority value="150"/>
+        <GlossaryStrongArray value="Battlecruiser"/>
+        <GlossaryStrongArray value="Corruptor"/>
+        <GlossaryStrongArray value="VoidRay"/>
+        <GlossaryWeakArray value="Marine"/>
+        <GlossaryWeakArray value="Mutalisk"/>
+        <GlossaryWeakArray value="Stalker"/>
+    </CUnit>
+    <CUnit id="ATRocket4" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="ScourgeMissileLeftRear2"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CWeaponLegacy id="VXWeaponGround2">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-raynor-ripwaveMissiles.dds"/>
+        <DisplayEffect value="90mmCannons24"/>
+        <TargetFilters value="Air,Visible;Self,Hover,Missile,Stasis,Dead,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="11"/>
+        <Period value="0.3"/>
+        <Effect value="ATRocket5"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+    <CActorSound id="RAHelicopterPropellerWhirring">
+        <On Terms="UnitDeath.EmpireVXFighter" Send="Destroy"/>
+        <On Terms="AbilMorph.AssaultMode32.Start" Send="Destroy"/>
+        <On Terms="UnitDeath.EmpireStrikerVX" Send="Destroy"/>
+        <On Terms="UnitBirth.EmpireVXFighter" Send="Create"/>
+        <Sound value="VoidRay_WeaponLoop32"/>
+    </CActorSound>
+    <CActorUnit id="EmpireVXFighter" parent="GenericUnitBase" unitName="EmpireVXFighter">
+        <Aliases value="_UnitMedium"/>
+        <AcceptedTransfers index="Status" value="0"/>
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On Terms="WeaponStart.*.AttackStart; AnimPlaying Birth" Send="AnimClear Birth"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo EmpireVXFighter" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom EmpireVXFighter" Send="Destroy"/>
+        <On Terms="ActorDestruction; HasStatus FlyerHelper" Send="StatusDecrement FlyerHelper"/>
+        <On Terms="UnitPortrait.*.Configure" Target="::PortraitGameSelf" Send="AnimPlay Visor Morph,Stand PlayForever 0.000000"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create VikingFighter_Land"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit HaveVoidShade" Send="DeathCustomize Shadow"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit HaveTerrazineShadow" Send="DeathCustomize Shadow"/>
+        <HostSiteOps Ops="SOpBankerViking"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <Baselines index="Walk" BlendIn="1.500000" BlendOut="2.000000"/>
+        <DeathArray index="Normal" ModelLink="VikingFighterDeath" SoundLink="Viking_Explode"/>
+        <DeathCustoms>
+            <ActorModel value="UnitDeathRagdollFlier"/>
+            <ModelLink value="VikingFighterDeathRagdoll"/>
+            <Name value="RagdollBasic"/>
+            <PhysicsMatchKeysOrdered value="BasicAir,Basic"/>
+            <BodySquibs Name="Basic" Model="TerranSquibDeathRagdoll"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms>
+            <ModelLink value="DeathVoidShadowMedium"/>
+            <SoundLink value="ShadowUnit_DeathFX"/>
+            <VoiceLink value="ShadowUnit_DeathVox"/>
+            <Name value="Shadow"/>
+        </DeathCustoms>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionFlier"/>
+        <PortraitModel value="VikingFighterPortrait"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.250000,0.500000"/>
+            <RangeDown value="5.000000"/>
+            <RangeDownFade value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleMassive15"/>
+        </TerrainSquibs>
+        <BarOffset value="50"/>
+        <BarWidth value="70"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Empire\vx-helicopter-mode-unit-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Empire\vx-helicopter-mode-unit-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-shipplatinglevel0.dds"/>
+        <NameOffset value="50"/>
+        <SoundArray index="Birth" value="ChinaQingfengMissileLaunchVehicle_Actor_Birth"/>
+        <SoundArray index="Ready" value="EmpireHoverMecha_Actor_Ready"/>
+        <SoundArray index="Help" value="EmpireHoverMecha_Actor_Help"/>
+        <SoundArray index="What" value="EmpireVXFighter_Actor_What"/>
+        <SoundArray index="Yes" value="EmpireHoverMecha_Actor_Yes"/>
+        <SoundArray index="Attack" value="EmpireHoverMecha_Actor_Attack"/>
+        <SoundArray index="Pissed" value="EmpireHoverMecha_Actor_Attack"/>
+        <SoundArray index="Movement" value="ChinaQingfengMissileLaunchVehicle_Actor_Movement"/>
+        <SoundArray index="Turning" value="ChinaQingfengMissileLaunchVehicle_Actor_Movement"/>
+        <SoundArray index="Board" value="ChinaQingfengMissileLaunchVehicle_Actor_Board"/>
+        <SoundArray index="Click" value="EmpireVXFighter_Actor_What"/>
+        <SoundArray index="ClickError" value="ChinaQingfengMissileLaunchVehicle_Actor_ClickError"/>
+        <SoundArray index="Highlight" value="ChinaQingfengMissileLaunchVehicle_Actor_Highlight"/>
+        <UnitFlags index="StandAnimBirthVariation" value="0"/>
+        <UnitIcon value="Assets\Icons\Empire\vx-helicopter-mode-unit-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Empire\vx-helicopter-mode-unit-wireframe.dds"/>
+        </Wireframe>
+        <Scale value="0.950000"/>
+        <AbilSoundArray AbilCmd="AssaultMode32,Execute" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+        <AbilSoundArray AbilCmd="FighterMode32,Unmorph" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+        <AbilSoundArray AbilCmd="AssaultMode32,Unmorph" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+        <AbilSoundArray AbilCmd="FighterMode32,Execute" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+    </CActorUnit>
+    <CActorUnit id="EmpireVXFighter_Actor" parent="GenericUnitBaseMorphTransition" unitName="EmpireVXFighter">
+        <Aliases value="_UnitMedium"/>
+        <On index="1" Send="Destroy"/>
+        <On Terms="AbilMorph.*.Start; MorphTo EmpireVXFighter" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo EmpireVXFighter" Send="AnimPlay End Morph,A PlayForever,NonLooping -1.000000 -1.000000 2.000000 AsTimeScale"/>
+        <On Terms="AbilMorph.*.Finish; MorphFrom EmpireVXFighter" Send="Destroy"/>
+        <On Terms="AbilMorph.*.Finish; MorphFrom VikingAssault22" Send="Destroy"/>
+        <Model value="EmpireStrikerVX_Model"/>
+        <DeathArray index="Normal" ModelLink="WreckingCrewFighterDeath"/>
+        <PortraitModel value="VikingFighterPortrait"/>
+        <AbilSoundArray AbilCmd="AssaultMode32,Execute" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+        <AbilSoundArray AbilCmd="FighterMode32,Unmorph" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+        <AbilSoundArray AbilCmd="AssaultMode32,Unmorph" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+        <AbilSoundArray AbilCmd="FighterMode32,Execute" Sound="JuMechaVoice822" GroupSound="JuMechaVoice822"/>
+        <BarOffset value="50"/>
+        <BarWidth value="70"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Empire\vx-helicopter-mode-unit-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Empire\vx-helicopter-mode-unit-icon.dds"/>
+        <HighlightTooltip value="Unit/Name/EmpireVXFighter_Actor"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-shipplatinglevel0.dds"/>
+        <SoundArray index="Birth" value="ChinaQingfengMissileLaunchVehicle_Actor_Birth"/>
+        <SoundArray index="Ready" value="EmpireHoverMecha_Actor_Ready"/>
+        <SoundArray index="Help" value="EmpireHoverMecha_Actor_Help"/>
+        <SoundArray index="What" value="EmpireVXFighter_Actor_What"/>
+        <SoundArray index="Yes" value="EmpireHoverMecha_Actor_Yes"/>
+        <SoundArray index="Attack" value="EmpireHoverMecha_Actor_Attack"/>
+        <SoundArray index="Pissed" value="EmpireHoverMecha_Actor_Attack"/>
+        <SoundArray index="Movement" value="ChinaQingfengMissileLaunchVehicle_Actor_Movement"/>
+        <SoundArray index="Turning" value="ChinaQingfengMissileLaunchVehicle_Actor_Movement"/>
+        <SoundArray index="Board" value="ChinaQingfengMissileLaunchVehicle_Actor_Board"/>
+        <SoundArray index="Click" value="EmpireVXFighter_Actor_What"/>
+        <SoundArray index="ClickError" value="ChinaQingfengMissileLaunchVehicle_Actor_ClickError"/>
+        <SoundArray index="Highlight" value="ChinaQingfengMissileLaunchVehicle_Actor_Highlight"/>
+        <UnitIcon value="Assets\Icons\Empire\vx-helicopter-mode-unit-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Empire\vx-helicopter-mode-unit-wireframe.dds"/>
+        </Wireframe>
+        <Scale value="0.950000"/>
+    </CActorUnit>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent5022">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <DamageDealtFraction index="Spell" value="1"/>
+            <DamageDealtFraction index="Melee" value="1"/>
+            <DamageDealtFraction index="Ranged" value="1"/>
+            <DamageDealtFraction index="Splash" value="1"/>
+            <DamageDealtFraction index="NoProc" value="1"/>
+            <DamageDealtAttributeMultiplier index="Armored" value="1"/>
+            <DamageDealtAttributeMultiplier index="Structure" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="AssaultMode22">
+        <Icon value="assets\icons\Empire\vx-switches-to-striker-mode.dds"/>
+        <HotkeySet value="VikingModes"/>
+    </CButton>
+    <CModel id="EmpireVXFighter" parent="Unit" Race="Terran">
+        <Model value="assets\units\Empire\VX_Fighter.m3"/>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 02">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="2"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 04">
+            <Keys index="SetA" value="3"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 05">
+            <Keys index="SetA" value="4"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 06">
+            <Keys index="SetA" value="5"/>
+        </AttachProps>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraLow07"/>
+        <Radius value="0.650000"/>
+        <SelectionRadius value="0.764400"/>
+        <ShadowRadius value="0.764400"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="TechPurchaseViking"/>
+        <UnitGlossaryCamera value="Star2CameraLow07"/>
+    </CModel>
+    <CModel id="EmpireStrikerVX_Model" parent="Unit" Race="Terran">
+        <Model value="assets\units\Empire\VX_Morph.m3"/>
+        <Occlusion value="Show"/>
+        <Radius value="0.650000"/>
+        <SelectionOffset value="0.000000,0.000000,-0.600000"/>
+        <SelectionRadius value="0.764400"/>
+        <ShadowRadius value="0.764400"/>
+    </CModel>
+    <CSound id="VoidRay_WeaponLoop32" parent="Combat">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\helicopter-propeller-idleloopa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\helicopter-propeller-idleloopb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\helicopter-propeller-idleloopc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\helicopter-propeller-idleloopd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\helicopter-propeller-idleloope.ogg" FacialGroup=""/>
+        <DupeMuteCount value="4"/>
+        <LoopCount value="-1"/>
+        <OffsetFadeIn Volume="-96.000000"/>
+        <OffsetFadeIn Time="100"/>
+        <OffsetFadeOut/>
+        <OffsetFadeOut Time="100" Volume="-96.000000"/>
+        <OverlapTimeDelta value="100"/>
+        <SustainFade index="1" Time="100"/>
+        <Volume value="-5.000000,-5.000000"/>
+    </CSound>
+    <CSound id="EmpireVXFighter_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelChpa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelChpb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiSelChpc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUStrik_VoiCrea.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CWeaponLegacy id="VXWeaponGround">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-nova-bansheeMissilestrik.dds"/>
+        <DisplayEffect value="90mmCannons24"/>
+        <TargetFilters value="Ground,Visible;Self,Hover,Missile,Stasis,Dead,Invulnerable"/>
+        <MinScanRange value="8"/>
+        <Range value="7"/>
+        <Period value="0.25"/>
+        <Effect value="ATRocket5"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
 </Catalog>

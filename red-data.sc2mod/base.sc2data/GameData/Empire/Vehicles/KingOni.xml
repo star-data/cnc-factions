@@ -1,3 +1,346 @@
 <Catalog>
 
+    <CUnit id="EmpireGhostKing" parent="EmpireGround">
+        <Subtitle value="UnitSubtitle/xianjinfantankepao"/>
+        <FogVisibility value="Dimmed"/>
+        <PushPriority value="15"/>
+        <Collide index="Small" value="1"/>
+        <Response value="Nothing"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Robotic" value="1"/>
+        <LifeStart value="3000"/>
+        <LifeMax value="3000"/>
+        <LifeArmor value="1"/>
+        <LifeRegenRate value="2"/>
+        <LifeArmorName value="Unit/LifeArmorName/ProtossArmor"/>
+        <Mover value="Colossus22"/>
+        <Speed value="2.3007"/>
+        <LateralAcceleration value="46.0625"/>
+        <Sight value="12"/>
+        <Food value="-3"/>
+        <CostResource index="Minerals" value="2000"/>
+        <KillXP value="10"/>
+        <AbilArray Link="Warpable"/>
+        <AbilArray Link="ProgressRally"/>
+        <AbilArray Link="KraithCrashingCharge"/>
+        <BehaviorArray Link="Detector10"/>
+        <BehaviorArray Link="UpgradeLevel123"/>
+        <BehaviorArray Link="nianayaLevel13"/>
+        <WeaponArray Link="ParticleBeam22" Turret="RAGhostKingWeapon2"/>
+        <WeaponArray Link="nianyalv13"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Disband2" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="KraithCrashingCharge2" Type="AbilCmd" AbilCmd="KraithCrashingCharge,Execute" Row="1" Column="0"/>
+        </CardLayouts>
+        <Radius value="0.625"/>
+        <CargoSize value="4"/>
+        <ScoreMake value="100"/>
+        <ScoreKill value="200"/>
+        <SubgroupPriority value="19"/>
+        <MinimapRadius value="0.375"/>
+        <Fidget>
+            <ChanceArray index="Anim" value="20"/>
+            <ChanceArray index="Idle" value="70"/>
+            <ChanceArray index="Turn" value="10"/>
+        </Fidget>
+    </CUnit>
+    <CAbilEffectTarget id="KraithCrashingCharge">
+        <Cost>
+            <Cooldown TimeUse="15"/>
+        </Cost>
+        <Range value="20"/>
+        <PrepTime value="0"/>
+        <FinishTime value="0.5"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <ProgressButtonArray index="Prep" value="KraithCrashingCharge2"/>
+        <Effect index="0" value="kncfcsyc"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="KraithCrashingCharge2"/>
+    </CAbilEffectTarget>
+    <CActorUnit id="EmpireGhostKing_Actor" parent="GenericUnitStandard" unitName="EmpireGhostKing">
+        <On index="64" Terms="WeaponStart.*.AttackStart; AnimPlaying Birth" Send="AnimClear Birth"/>
+        <On index="65" Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On index="66" Terms="Abil.KraithCrashingCharge.SourceCastStart" Send="AnimBaselineStop"/>
+        <On index="67" Terms="Effect.KraithCrashingCharge.Start; At Caster" Send="AnimBracketStart chongfeng1 {} Spell Spell,End Instant"/>
+        <On index="68" Terms="Effect.KraithCrashingCharge.Stop; At Caster" Send="AnimBracketStop chongfeng1"/>
+        <On Terms="Abil.KraithCrashingCharge.SourceFinishStop" Send="AnimBaselineStart"/>
+        <On Terms="Effect.kncfcsyc.Start; At Caster" Send="AnimPlay spellready Stand,Work,Start"/>
+        <On Terms="Effect.KraithCrashingCharge.Start; At Caster" Send="AnimClear spellready"/>
+        <On Terms="WeaponStart.*.AttackStart; ValidateUnit gwbzgjztz2; IsStatus King 1" Send="AnimBracketStart Attack {} Attack {} OpeningPlayForever"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop attack"/>
+        <On Terms="Behavior.gwgjztz.On; IsStatus King 1" Send="AnimBracketStart Attack1 Ready Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimBracketStop Attack1"/>
+        <On Terms="Abil.attack.ReadyStart" Send="Create RAGhostKingPreparesToAttackSoundEffects"/>
+        <On Terms="Behavior.gwgjztz.Off" Send="AnimBracketStop Attack1"/>
+        <On Terms="ActorCreation" Send="StatusSet King 1"/>
+        <On Terms="UnitMovementUpdate.*.Stand" Send="StatusSet King 1"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Send="StatusSet King 0"/>
+        <On Terms="WeaponStart.*.AttackStart; ValidateUnit gwbzgjztz2; IsStatus King 0" Send="AnimBracketStart Attack {} Walk,Attack {} OpeningPlayForever"/>
+        <On Terms="Behavior.gwgjztz.On; IsStatus King 0" Send="AnimBracketStart Attack1 Ready Walk,Attack"/>
+        <On Terms="SelectionSyncUpdate.*.Add" Send="StatusSet S 1"/>
+        <On Terms="SelectionSyncUpdate.*.Remove" Send="StatusSet S 0"/>
+        <On Terms="ActorCreation" Send="StatusSet S 0"/>
+        <On Terms="SelectionSyncUpdate.*.Add; IsStatus King 1" Send="AnimGroupApply B Stand,Work,Start Stand,Work,End"/>
+        <On Terms="SelectionSyncUpdate.*.Add; IsStatus King 1" Send="AnimGroupRemove A"/>
+        <On Terms="SelectionSyncUpdate.*.Remove; IsStatus King 1" Send="AnimGroupRemove B"/>
+        <On Terms="SelectionSyncUpdate.*.Remove; IsStatus King 1" Send="AnimGroupApply A"/>
+        <On Terms="SelectionSyncUpdate.*.Add; IsStatus King 1" Send="PlayUnitSound Click"/>
+        <On Terms="UnitMovementUpdate.*.Stand; IsStatus S 0" Send="AnimGroupApply A"/>
+        <On Terms="UnitMovementUpdate.*.Stand; IsStatus S 0" Send="AnimGroupRemove B"/>
+        <Model value="EmpireGhostKing_Actor"/>
+        <Scale value="0.550000"/>
+        <DeathArray index="Normal" ModelLink="StoneZealotDeath" SoundLink="StoneZealot_Death"/>
+        <DeathActorModelLow value="UnitDeathModel"/>
+        <PortraitModel value="DarkArchonEx2Portrait"/>
+        <WalkAnimMoveSpeed value="3.3867"/>
+        <AbilSoundArray AbilCmd="KraithCrashingCharge,Execute" Sound="EmpireGhostKingK_Actor_Pissed" GroupSound="EmpireGhostKingK_Actor_Pissed"/>
+        <BarOffset value="180"/>
+        <BarWidth value="102"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Empire\ghost-king-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Empire\ghost-king-unit-icon.dds"/>
+        <HighlightTooltip value="Unit/Name/EmpireGhostKing_Actor"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-protoss-groundarmorlevel1.dds"/>
+        <NameOffset value="80"/>
+        <SoundArray index="Birth" value="EmpireGhostKingK_Actor_Birth"/>
+        <SoundArray index="Ready" value="EmpireGhostKingK_Actor_Ready"/>
+        <SoundArray index="Help" value="EmpireGhostKingK_Actor_Help"/>
+        <SoundArray index="What" value="EmpireGhostKingK_Actor_What"/>
+        <SoundArray index="Yes" value="EmpireGhostKingK_Actor_Yes"/>
+        <SoundArray index="Attack" value="EmpireGhostKingK_Actor_Attack"/>
+        <SoundArray index="Pissed" value="EmpireGhostKingK_Actor_Pissed"/>
+        <SoundArray index="Movement" value="EmpireGhostKingK_Actor_Birth"/>
+        <SoundArray index="Click" value="EmpireGhostKingK_Actor_Click"/>
+        <UnitIcon value="Assets\Icons\Empire\ghost-king-unit-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Empire\ghost-king-wireframe.dds"/>
+        </Wireframe>
+        <WireframeShield>
+            <Image value="Assets\Textures\Wireframe-Protoss-stonezealot-Shield01.dds"/>
+            <Image value="Assets\Textures\Wireframe-Protoss-stonezealot-Shield02.dds"/>
+            <Image value="Assets\Textures\Wireframe-Protoss-stonezealot-Shield03.dds"/>
+        </WireframeShield>
+    </CActorUnit>
+    <CActorAction id="ProbeAttack32" parent="GenericAttack" effectAttack="ParticleBeam32">
+        <ContainerAttachQuery Methods="AMFilterWeaponLeft AMFilterWeaponRight"/>
+        <Beam value="ProbeAttackBeam32"/>
+        <ImpactMap index="None" Model="ProbeAttackImpact3" Sound="TerranFlyer_What223265323223422"/>
+        <ImpactMap index="Miss" Model="ProbeAttackImpact3" Sound="TerranFlyer_What223265323223422" ModelReaction="ProbeAttack3ImpactReaction"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+    <CActorBeamSimple id="ProbeAttackBeam32" parent="GenericAttackBeam">
+        <On Terms="ActorCreation" Send="SetTintColor {170,85,255 2.000000}"/>
+    </CActorBeamSimple>
+    <CBehaviorBuff id="jiqiangbingjiansu22">
+        <InfoIcon value="Assets\Textures\btn-upgrade-protoss-vanguard-aoeradiusincreased.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="60"/>
+        <Modification>
+            <DamageDealtFraction index="Spell" value="-0.3"/>
+            <DamageDealtFraction index="Melee" value="-0.3"/>
+            <DamageDealtFraction index="Ranged" value="-0.3"/>
+            <DamageDealtFraction index="Splash" value="-0.3"/>
+            <DamageDealtFraction index="NoProc" value="-0.3"/>
+        </Modification>
+        <DamageResponse ModifyFraction="1.3">
+            <ExcludeEffectInChainArray value="ParticleBeam32"/>
+            <Chance value="1"/>
+        </DamageResponse>
+        <MaxStackCount value="3"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="gwgjztz">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="5"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CButton id="KraithCrashingCharge2">
+        <Icon value="Assets\Textures\RA3kuangniu.tga"/>
+        <HotkeyAlias value="KraithCrashingCharge"/>
+    </CButton>
+    <CEffectCreatePersistent id="RADeathRayCannonAttackStarts">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <InitialDelay value="1"/>
+        <InitialEffect value="ParticleBeam32"/>
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="RAGhostKingAppliesWeaknessEffectApplicationBehavior"/>
+        <PeriodicPeriodArray value="0"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="ParticleBeam32" parent="DU_WEAP">
+        <Amount value="175"/>
+        <AreaArray Radius="1" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Player,Ally,Neutral,Missile,Dead,Invulnerable"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="yygwgjztz">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="gwgjztz"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="KraithCrashingCharge"/>
+    <CEffectSet id="EyeBeamsGroundSet22">
+        <EditorCategories value="Race:Protoss"/>
+        <EffectArray value="RADeathRayCannonAttackStarts"/>
+        <EffectArray value="yygwgjztz"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="RAGhostKingAppliesWeaknessEffectApplicationBehavior">
+        <Behavior value="jiqiangbingjiansu22"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="kncfcsyc">
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="KraithCrashingCharge"/>
+        <PeriodicPeriodArray value="0.3"/>
+    </CEffectCreatePersistent>
+    <CModel id="ProbeAttackBeam32" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Protoss\ColossusBeam\ColossusBeam.m3"/>
+        <AnimSpeed value="3.000000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.400000,0.400000,0.700000"/>
+        <ScaleMin value="0.400000,0.400000,0.700000"/>
+    </CModel>
+
+    <CModel id="ProbeAttackImpact3" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\ColossusBeamBurn_Upgrade\ColossusBeamBurn_Upgrade.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CModel id="EmpireGhostKing_Actor" parent="Unit" Race="Protoss">
+        <Model value="assets\units\Empire\KingOni.m3"/>
+        <Flags index="AutoUnload" value="1"/>
+        <Occlusion value="Show"/>
+        <Radius value="1.500000"/>
+        <SelectionRadius value="1.500000"/>
+        <ShadowRadius value="1.500000"/>
+    </CModel>
+    <CMoverAvoid id="Colossus22">
+        <Flags index="RestoreHeight" value="1"/>
+        <PathMode value="Scaler"/>
+        <PlacementArray index="Prevent">
+            <Bits index="GroundNoSpawn" value="1"/>
+        </PlacementArray>
+    </CMoverAvoid>
+    <CSound id="EmpireGhostKingK_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\JUKingO_VoiAttacka.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiAttackb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiAttackc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiAttackd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiAttacke.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiAttackf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireGhostKingK_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\JUKingO_VoiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiMovef.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireGhostKingK_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\JUKingO_VoiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiSelectf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireGhostKingK_Actor_Pissed" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\JUKingO_VoiAttSpea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiAttSpeb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What223265323223422" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\JUKingO_laseFireLRa.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_laseFirea.ogg" FacialGroup=""/>
+        <AssetArrayTemplate>
+            <File value="LocalizedData\Sounds\VO\Terran\^TemplateParam2^.ogg"/>
+            <FacialAnim value="^TemplateParam1^"/>
+            <FacialGroup value="^TemplateParam1^"/>
+            <FacialFile value="LocalizedData\Sounds\VO\Terran\^TemplateParam1^.fxe"/>
+        </AssetArrayTemplate>
+        <Flags index="Ignorable" value="1"/>
+        <Flags index="Purgable" value="0"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <SustainFade index="1" Time="250"/>
+        <Volume value="-8.000000,-8.000000"/>
+    </CSound>
+    <CSound id="EmpireGhostKingK_Actor_Click" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\JUKingO_fistPalma.ogg" FacialGroup=""/>
+        <Flags index="Ignorable" value="1"/>
+        <Flags index="Purgable" value="0"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <PlayDelay value="600,600"/>
+    </CSound>
+    <CSound id="EmpireGhostKingK_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\JUKingO_VoiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiSelUndd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireGhostKingK_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\JUKingO_VoiCreatea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiCreateb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_VoiCreatec.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireGhostKingK_Actor_Birth" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\JUKingO_footstepa.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_footstepb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_footstepc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_footstepd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_footstepe.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_footstepf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUKingO_footstepg.ogg" FacialGroup=""/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+    <CTurret id="RAGhostKingWeapon2">
+        <YawArc value="360"/>
+        <YawRate value="239.9414"/>
+        <YawIdleRate value="239.9414"/>
+    </CTurret>
+    <CWeaponLegacy id="ParticleBeam22">
+        <EditorCategories value="Race:Protoss"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\Textures\btn-ability-mengsk-ghost-pyrokineticimmolation_blue.dds"/>
+        <DisplayEffect value="ParticleBeam32"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="7"/>
+        <Period value="1.75"/>
+        <Backswing value="1"/>
+        <Effect value="EyeBeamsGroundSet22"/>
+        <DamagePoint value="0"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+
+
+
 </Catalog>

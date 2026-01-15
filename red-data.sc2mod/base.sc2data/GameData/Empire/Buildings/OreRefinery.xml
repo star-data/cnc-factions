@@ -1,3 +1,129 @@
 <Catalog>
 
+    <CUnit id="EmpireImperialMine" parent="EmpireStructure">
+        <ResourceDropOff index="Minerals" value="1"/>
+        <ResourceDropOff index="Vespene" value="1"/>
+        <ResourceDropOff index="Terrazine" value="1"/>
+        <ResourceDropOff index="Custom" value="1"/>
+        <LifeStart value="2000"/>
+        <LifeMax value="2000"/>
+        <ShieldRegenDelay value="20"/>
+        <Sight value="8"/>
+        <!--Food value="-3"/-->
+        <CostResource index="Minerals" value="2000"/>
+        <RepairTime value="66.6667"/>
+        <AttackTargetPriority value="20"/>
+        <KillXP value="20"/>
+        <AbilArray Link="Rally"/>
+        <AbilArray Link="CityTrain"/>
+        <AbilArray Link="RATechnologyCenterResearch4"/>
+        <BehaviorArray Link="JurefinerycreateMiner"/>
+        <BehaviorArray Link="RefineryB"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="BuildTankTrap224" Type="AbilCmd" AbilCmd="CityTrain,Train2" Row="0" Column="0"/>
+            <LayoutButtons Face="Disband2" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="0" Column="4"/>
+            <LayoutButtons Face="RAMinerUpgradeCollectionVolume" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch4,Research21" Row="1" Column="0"/>
+            <LayoutButtons Face="RAMinerUpgradeMiningSpeed1" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch4,Research22" Row="1" Column="1"/>
+            <LayoutButtons Face="RAUpgradeCollectionCapacity" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch4,Research26" Row="1" Column="2"/>
+        </CardLayouts>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <Footprint value="Footprint5x5DropOff2"/>
+        <PlacementFootprint value="Footprint5x5DropOff2"/>
+        <SubgroupPriority value="10"/>
+        <MinimapRadius value="2"/>
+    </CUnit>
+    <CActorUnit id="EmpireImperialMine_Actor" parent="GenericUnitStandard" unitName="EmpireImperialMine">
+        <On Terms="UnitDeathCustomize; ModelVariation 1" Send="DeathCustomize Variation2"/>
+        <On Terms="UnitConstruction.EmpireImperialMine.Start" Send="ModelSwap AbandonedBuilding2222 255 PredecessorDestroyImmediate"/>
+        <On Terms="UnitConstruction.EmpireImperialMine.Start" Send="AnimPlay 111 Birth,Stand PlayForever,NonLooping"/>
+        <On Terms="UnitConstruction.EmpireImperialMine.Finish" Send="AnimClear 111"/>
+        <On Terms="UnitConstruction.EmpireImperialMine.Finish" Send="ModelSwap EmpireImperialMine_Model 255 PredecessorDestroyImmediate"/>
+        <On Terms="UnitConstruction.EmpireImperialMine.Finish" Send="AnimBaselineStart"/>
+        <Model value="EmpireImperialMine_Model"/>
+        <Scale value="0.800000"/>
+        <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
+        <DeathActorModel value="UnitDeathModelPersistent"/>
+        <DeathActorModelLow value="UnitDeathModelPersistent"/>
+        <BarOffset value="190"/>
+        <BarWidth value="200"/>
+        <GroupIcon>
+            <Image value="Assets\icons\帝国mine-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\icons\empire\Empire\empire-mine-icon.dds"/>
+        <HighlightTooltip value="Unit/Name/JURefinery"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+        <NameOffset value="130"/>
+        <StatusBarFlags index="Energy" value="0"/>
+        <StatusBarFlags index="Cargo" value="0"/>
+        <StatusHarvesterData Text="UI/HarvesterCountMinerals" SearchFilters="HarvestableResource;Ally,Enemy"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\icons\empire\Empire\empire-mine-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\icons\帝国mine-wireframe.dds"/>
+        </Wireframe>
+        <SoundArray index="Birth" value="EmpireImperialMine_Actor_Birth"/>
+        <SoundArray index="Ready" value="EmpireImperialMine_Actor_Birth"/>
+        <SoundArray index="What" value="EmpireImperialMine_Actor_Birth"/>
+        <SoundArray index="Board" value="EmpireImperialOreMiner_Actor_Ready"/>
+        <SoundArray index="Construction" value="EmpireImperialMine_Actor_Birth"/>
+        <SoundArray index="Click" value="EmpireImperialMine_Actor_Birth"/>
+    </CActorUnit>
+    <CBehaviorBuff id="JurefinerycreateMiner">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Requirements value="HaveMediumAirframes2254232"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <Duration value="0.5"/>
+        <ExpireEffect value="JurefinerycreateMiner"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RefineryB">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="1"/>
+        <FinalEffect value="RefineryRBSet"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CEffectCreateUnit id="JurefinerycreateMiner">
+        <EditorCategories value="Race:Terran"/>
+        <SpawnUnit value="EmpireImperialOreMiner"/>
+    </CEffectCreateUnit>
+    <CEffectRemoveBehavior id="RefineryRB">
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="JurefinerycreateMiner2"/>
+    </CEffectRemoveBehavior>
+    <CEffectRemoveBehavior id="RefineryRB2">
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="JurefinerycreateMiner4"/>
+    </CEffectRemoveBehavior>
+    <CEffectRemoveBehavior id="RefineryRB3">
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="JurefinerycreateMiner3"/>
+    </CEffectRemoveBehavior>
+    <CEffectRemoveBehavior id="RefineryRB4">
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="JurefinerycreateMiner"/>
+    </CEffectRemoveBehavior>
+    <CEffectSet id="RefineryRBSet">
+        <EffectArray value="RefineryRB4"/>
+        <EffectArray value="RefineryRB3"/>
+        <EffectArray value="RefineryRB2"/>
+        <EffectArray value="RefineryRB"/>
+    </CEffectSet>
+    <CModel id="EmpireImperialMine_Model" parent="Building">
+        <Model value="Assets\buildings\Empire\Refinery.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Flags index="AutoUnload" value="1"/>
+        <Radius value="1.200000"/>
+        <SelectionRadius value="2.000000"/>
+        <ShadowRadius value="1.250000"/>
+        <SelectionLayer value="2"/>
+    </CModel>
+    <CSound id="EmpireImperialMine_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\imperial-mine_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
 </Catalog>

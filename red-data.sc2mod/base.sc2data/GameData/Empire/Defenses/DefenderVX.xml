@@ -1,3 +1,315 @@
 <Catalog>
 
+    <CUnit id="EmpireDfenderVX" parent="EmpireStructure">
+        <FlagArray index="AIDefense" value="1"/>
+        <LifeStart value="1000"/>
+        <LifeMax value="1000"/>
+        <Sight value="10"/>
+        <!--Food value="-1"/-->
+        <CostResource index="Minerals" value="800"/>
+        <RepairTime value="40"/>
+        <KillXP value="5"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="Disband2"/>
+        <AbilArray Link="VolatileBurstBuilding244"/>
+        <AbilArray Link="Blink2216"/>
+        <BehaviorArray Link="UpgradeLevel12"/>
+        <BehaviorArray Link="RATowerdefensemovementCDreduced"/>
+        <WeaponArray Link="WraithG2432" Turret="AlliedGrandCannon_Model"/>
+        <WeaponArray Link="VXWeaponGround23" Turret="AlliedGrandCannon_Model"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="Disband3" Type="AbilCmd" AbilCmd="Disband2,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="TossGrenadeTychus2222254" Type="AbilCmd" AbilCmd="VolatileBurstBuilding244,On" Row="1" Column="1"/>
+            <LayoutButtons Face="TossGrenadeTychus22222244" Type="AbilCmd" AbilCmd="VolatileBurstBuilding244,Off" Row="1" Column="2"/>
+            <LayoutButtons Face="RAHandlingturrets" Type="AbilCmd" AbilCmd="Blink2216,Execute" Row="0" Column="0"/>
+        </CardLayouts>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <Footprint value="Footprint1x1CreepNormal"/>
+        <PlacementFootprint value="Footprint1x1CreepNormal"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="0.75"/>
+        <TacticalAI value="Bunker"/>
+        <TacticalAIThink value="AIThinkBunker"/>
+        <AIEvalFactor value="1.1"/>
+        <HotkeyAlias value="Bunker"/>
+        <AIEvaluateAlias value="Bunker"/>
+        <ReviveInfoBase>
+            <Charge Link="Bunker/Revive"/>
+            <Cooldown Link="Bunker/Revive"/>
+        </ReviveInfoBase>
+    </CUnit>
+    <CAbilBehavior id="VolatileBurstBuilding244">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus2222254">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus22222244">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Cost/>
+        <BehaviorArray value="DfenderVXModeSwhich"/>
+    </CAbilBehavior>
+    <CBehaviorBuff id="DfenderVXModeSwhich">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification SightBonus="3">
+            <DamageDealtFraction index="Spell" value="0.5"/>
+            <DamageDealtFraction index="Melee" value="0.5"/>
+            <DamageDealtFraction index="Ranged" value="0.5"/>
+            <DamageDealtFraction index="Splash" value="0.5"/>
+            <DamageDealtFraction index="NoProc" value="0.5"/>
+            <WeaponEnableArray value="VXWeaponGround23"/>
+            <WeaponDisableArray value="WraithG2432"/>
+        </Modification>
+        <DamageResponse ModifyFraction="0.5">
+            <Chance value="1"/>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CActorAction id="SiegeTankAttack255" parent="GenericAttack" effectAttack="None" effectImpact="90mmCannons245" effectLaunch="DfenderVXLM">
+        <On index="0" Terms="Effect.90mmCannons24.Start; FromEffectTreeDescendant" Send="ActionImpact"/>
+        <On index="1" Terms="Effect.90mmCannons24.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="2" Terms="Effect.SplashDamage.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <On index="3" Terms="Effect.SplashDamage.Stop; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>
+        <On index="4" Terms="Effect.DfenderVXLM.Start; At Caster" Send="Create"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder224 AMPatternMarauder25322"/>
+        <LaunchAssets Model="SiegeTankAttackLaunch83" Scale="0.500000" Sound="WarHound_Missile_Launch"/>
+        <Missile value="ATRocketMissile4"/>
+        <ImpactMap index="None" Model="TychusTossGrenadeImpact2232" Sound="UnknownSound34"/>
+    </CActorAction>
+    <CActorAction id="WraithGroundAttack2332" parent="GenericAttack" effectAttack="" effectImpact="WraithGU2332" effectLaunch="WraithGLaunchMissile2322">
+        <On index="0" Terms="Effect.Bogus.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="5" Terms="Effect.WraithGLaunchMissile2322.Start; At Caster" Send="Create"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder22442 AMPatternMarauder253222" Fallback="Weapon"/>
+        <LaunchAssets Model="VikingAssaultAttackLaunch23" Sound="UnknownSound222"/>
+        <Missile value="WraithGroundAttackMissile22"/>
+        <ImpactMap index="None" Model="WraithGroundAttackImpact2" Sound="Viking_AssaultAttackImpact"/>
+    </CActorAction>
+    <CActorUnit id="EmpireDfenderVX_Actor" parent="TerranBuildingEx" unitName="EmpireDfenderVX">
+        <Aliases value="_UnitHuge"/>
+        <Macros value="BunkerTransportAnim"/>
+        <On index="0" Send="Create SoundEmitter Bunker_Ambience"/>
+        <On index="65" Terms="UnitConstruction.EmpireDfenderVX.Start"/>
+        <On index="66" Terms="UnitConstruction.EmpireDfenderVX.Cancel" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On index="67" Terms="UnitConstruction.EmpireDfenderVX.Finish"/>
+        <On index="68" Terms="UnitConstruction.EmpireDfenderVX.Start" Send="QueryRadius 1.750000 BuildingCrushQueryResponse"/>
+        <On index="69" Terms="UnitDeath.EmpireDfenderVX" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On index="70" Terms="UnitDeathCustomize; CreepEngulfs" Send="CreepEngulfmentStopTransition"/>
+        <On index="71" Terms="ActorCreation; CreepIntersects" Target="_BuildingTerrainFlatten" Send="CreepEngulfmentStartTransition"/>
+        <On index="72" Terms="UnitDeathCustomize; ValidateUnit BunkerIsEmpty" Target="_BuildingTerrainFlatten" Send="DeathCustomize Empty"/>
+        <On index="73" Terms="UnitDeathCustomize; ValidateUnit NeosteelFramePurchasedNoConstruction" Send="DeathCustomize Upgrade"/>
+        <On index="74" Terms="Upgrade.NeosteelFrame.Add; ValidateUnit HasCargo" Send="AnimGroupApply Stand,Work Stand,Work,Start Stand,Work,End"/>
+        <On index="75" Terms="UnitBirth.EmpireDfenderVX" Send="StatusSet BunkerBuilt 1"/>
+        <On index="76" Terms="Behavior.DfenderVXModeSwhich.On" Send="AnimGroupApply B"/>
+        <On index="77" Terms="UnitDeathCustomize; IsStatus ShrikeTurret 1" Target="ShrikeTurret" Send="Signal TurretDeath"/>
+        <On index="78" Terms="UnitDeathCustomize; IsStatus ShrikeTurret 1" Target="ShrikeTurretPlaceholder" Send="Signal TurretDeath"/>
+        <On index="79" Terms="UnitDeathCustomize; ValidateUnit JumboBunkerResearched" Send="DeathCustomize Upgrade"/>
+        <On Terms="ActorCreation" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.DfenderVXModeSwhich.On" Send="AnimGroupRemove A"/>
+        <On Terms="Behavior.DfenderVXModeSwhich.Off" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.DfenderVXModeSwhich.Off" Send="AnimGroupApply A"/>
+        <On Terms="UnitConstruction.EmpireDfenderVX.Start" Send="AnimPlay 111 Birth,Stand PlayForever,NonLooping"/>
+        <On Terms="UnitConstruction.EmpireDfenderVX.Finish" Send="AnimClear 111"/>
+        <Model value="EmpireDfenderVX_Model"/>
+        <Scale value="0.900000"/>
+        <EventDataFootprint index="0" Model="BunkerFootprint"/>
+        <CreepHeightClass value="Small"/>
+        <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing32DeathVoice"/>
+        <DeathCustoms ModelLink="BunkerUpgradeDeath" Name="Upgrade"/>
+        <DeathCustoms ModelLink="BunkerDeathEmpty" Name="Empty"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <PlacementActorModel value="AlliedMachinegunBunker_Actor"/>
+        <PlaceholderActorModel value="BunkerPlaceholderModel"/>
+        <PortraitModel value="AdjutantPortrait2"/>
+        <BarWidth value="65"/>
+        <GlossaryAnim value="Stand,Work"/>
+        <GroupIcon>
+            <Image value="Assets\icons\Empire\defender-vx-wireframe.dds"/>
+        </GroupIcon>
+        <GroupSoundArray index="What" value="Bunker_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="Bunker_GroupYes"/>
+        <GroupSoundArray index="Attack" value="Bunker_GroupAttack"/>
+        <GroupSoundArray index="Board" value="Bunker_GroupBoard"/>
+        <HeroIcon value="Assets\icons\Empire\defender-vx-icon.dds"/>
+        <HighlightTooltip value="Unit/Name/EmpireDfenderVX_Model"/>
+        <SoundArray index="Birth" value="EmpireDfenderVX_Actor_Birth"/>
+        <SoundArray index="Ready" value="EmpireDfenderVX_Actor_Birth"/>
+        <SoundArray index="Help" value="Bunker_Help"/>
+        <SoundArray index="What" value="EmpireDfenderVX_Actor_Birth"/>
+        <SoundArray index="Yes" value="Bunker_Yes"/>
+        <SoundArray index="Attack" value="Bunker_Attack"/>
+        <SoundArray index="Pissed" value="Bunker_Pissed"/>
+        <SoundArray index="Movement" value="Bunker_Movement"/>
+        <SoundArray index="Turning" value="Bunker_Turning"/>
+        <SoundArray index="Board" value="Bunker_Board"/>
+        <SoundArray index="Construction" value="EmpireDfenderVX_Actor_Birth"/>
+        <SoundArray index="Click" value="EmpireDfenderVX_Actor_Birth"/>
+        <SoundArray index="ClickError" value="Bunker_ClickError"/>
+        <SoundArray index="Highlight" value="Bunker_Highlight"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\icons\Empire\defender-vx-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\icons\Empire\defender-vx-wireframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorMissile id="WraithGroundAttackMissile22" parent="GenericAttackMissile" unitName="WraithGroundWeapon22">
+        <On Terms="ActorCreation" Send="SetTintColor {0,255,255 2.000000}"/>
+        <Scale value="1.000000,0.100000,1.000000"/>
+    </CActorMissile>
+    <CButton id="TossGrenadeTychus2222254">
+        <Icon value="Assets\icons\Empire\defender-core-switch-mode.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus22222244">
+        <Icon value="Assets\icons\Empire\build-defender-vx-core-icon.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CEffectDamage id="90mmCannons245" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <KindSplash value="Splash"/>
+        <Amount value="40"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="0.75" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Visible;Self,Player,Ally,Neutral,Hover,Missile,Stasis,Dead,Invulnerable"/>
+    </CEffectDamage>
+    <CEffectDamage id="WraithGU2332" parent="DU_WEAP">
+        <AttributeFactor index="Armored" value="-0.5"/>
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <Amount value="15"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="WraithGLaunchMissile2322">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="WraithGU2332"/>
+        <AmmoUnit value="WraithGroundWeapon22"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="DfenderVXLM">
+        <EditorCategories value="Race:Terran"/>
+        <Marker Link="Effect/BacklashRocketsLM"/>
+        <ImpactEffect value="90mmCannons245"/>
+        <AmmoUnit value="ATRocket4"/>
+        <Movers Link="ScourgeMissileLeftRear2"/>
+    </CEffectLaunchMissile>
+    <CModel id="EmpireDfenderVX_Model" parent="Building" Race="Terran">
+        <Model value="Assets\models\Empire\JUDefendTower.m3"/>
+        <PlanetPanelCamera value="Star2CameraLow07"/>
+        <Radius value="1.250000"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="0.700000"/>
+        <ShadowRadius value="1.500000"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="TechPurchaseBunker"/>
+        <UnitGlossaryCamera value="Star2CameraLow07"/>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 02">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="2"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon Left">
+            <Keys index="SetB" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon Right">
+            <Keys index="SetB" value="0"/>
+        </AttachProps>
+    </CModel>
+    <CModel id="WraithGroundWeapon22" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\WraithLaserMissile\WraithLaserMissile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="AdjutantPortrait2" parent="FXAPortrait" Race="Terran">
+        <Model value="Assets\Portraits\Terran\AdjutantPortrait\AdjutantPortrait.m3"/>
+        <FacialController value="LocalizedData\Facial\AdjutantPortrait.fxa"/>
+        <Image value="Assets\Textures\AdjutantPortrait_Static.dds"/>
+        <Lighting value="AdjutantPortrait"/>
+    </CModel>
+    <CModel id="WraithGroundAttackImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\WraithLaserMissileImpact\WraithLaserMissileImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.500000,0.500000,0.500000"/>
+        <ScaleMin value="0.500000,0.500000,0.500000"/>
+    </CModel>
+    <CModel id="VikingAssaultAttackLaunch23" parent="LaunchFX">
+        <Model value="Assets\Effects\Protoss\Arbiter_Purifier_Coop_Missile_Launch\Arbiter_Purifier_Coop_Missile_Launch.m3"/>
+        <AnimSpeed value="2.000000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CMoverMissile id="MissileDefault3">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="3200"/>
+            <MaxSpeed value="35"/>
+            <ClearanceAcceleration value="75"/>
+            <Outro value="-1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+        <MotionPhases YawPitchRoll="MAX"/>
+    </CMoverMissile>
+    <CSound id="EmpireDfenderVX_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\defender-vx-select-jbdefen_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="UnknownSound222" parent="Combat">
+        <AssetArray File="Assets\sounds\empire-defender-vx-jbdefen_wea1firea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\empire-defender-vx-jbdefen_wea1fireb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\empire-defender-vx-jbdefen_wea1firec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\empire-defender-vx-jbdefen_wea1fired.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\empire-defender-vx-jbdefen_wea1firee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\empire-defender-vx-jbdefen_wea1firef.ogg" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <ReverbBalance Room="-10000"/>
+        <Volume value="-7.000000,-7.000000"/>
+    </CSound>
+    <CTurret id="AlliedGrandCannon_Model">
+        <Idle value="Hold"/>
+        <YawArc value="360"/>
+        <YawRate value="720"/>
+        <YawIdleRate value="720"/>
+    </CTurret>
+    <CUnit id="WraithGroundWeapon22" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="MissileDefault3"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CWeaponLegacy id="WraithG2432">
+        <EditorCategories value="Race:Terran"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-nova-shotgunaoe.dds"/>
+        <DisplayEffect value="WraithGU2332"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="12"/>
+        <Period value="0.25"/>
+        <Effect value="WraithGLaunchMissile2322"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="VXWeaponGround23">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-raynor-ripwaveMissiles.dds"/>
+        <DisplayEffect value="90mmCannons245"/>
+        <TargetFilters value="Air,Visible;Hover,Missile,Stasis,Dead,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="15"/>
+        <Period value="0.4"/>
+        <Effect value="DfenderVXLM"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
 </Catalog>

@@ -1,3 +1,426 @@
 <Catalog>
 
+    <CUnit id="AlliedCenturyBomber" parent="AlliedAir">
+        <Subtitle value="UnitSubtitle/hangk"/>
+        <Collide index="FlyingEscorts" value="1"/>
+        <Response value="Nothing"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="250"/>
+        <LifeMax value="250"/>
+        <LifeArmor value="1"/>
+        <EnergyStart value="100"/>
+        <EnergyMax value="100"/>
+        <Mover value="Fly2"/>
+        <Speed value="2.6992"/>
+        <Acceleration value="100"/>
+        <Deceleration value="10"/>
+        <StationaryTurningRate value="180"/>
+        <TurningRate value="180"/>
+        <Sight value="13"/>
+        <CostResource index="Minerals" value="2000"/>
+        <RepairTime value="2"/>
+        <KillXP value="10"/>
+        <AbilArray Link="attack2"/>
+        <AbilArray Link="CNCReturnToTheAirport"/>
+        <AbilArray Link="CNCAirportPlanetakingoff"/>
+        <AbilArray Link="CNCAirportPlaneLanding"/>
+        <AbilArray Link="CNCAirplaneMove"/>
+        <AbilArray Link="SpecOpsDropshipTransport2"/>
+        <AbilArray Link="SovietMotoModeSwhich53"/>
+        <BehaviorArray Link="ThePioneerarmedcombataircraftkeepscirclingwhenstopped"/>
+        <BehaviorArray Link="DisablestopautoandattackinVanguardmovementcommand"/>
+        <BehaviorArray Link="LackOfAmmo"/>
+        <BehaviorArray Link="StopautocirclingdisabledinPeacekeeperbomberattackcommand"/>
+        <BehaviorArray Link="Theaircraftiscirclingtheactor"/>
+        <BehaviorArray Link="Aircraftautomaticallyreplenishesammunitionpeacekeepingbomber"/>
+        <BehaviorArray Link="UpgradeLevel1224"/>
+        <BehaviorArray Link="AutoHeal42"/>
+        <WeaponArray Link="StrategicBomb22"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="CNCAirplaneMove,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="MothershipCoreAttack" Type="AbilCmd" AbilCmd="CNCAirportPlanetakingoff,255" Row="0" Column="4"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack2,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="ReturnAirport3" Type="AbilCmd" AbilCmd="CNCReturnToTheAirport,255" Row="1" Column="0"/>
+            <LayoutButtons Face="BiodomeLoad3" Type="AbilCmd" AbilCmd="SpecOpsDropshipTransport2,Load" Row="2" Column="0"/>
+            <LayoutButtons Face="MedivacUnloadAll" Type="AbilCmd" AbilCmd="SpecOpsDropshipTransport2,UnloadAll" Row="2" Column="1"/>
+            <LayoutButtons Face="TossGrenadeTychus22222754" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich53,On" Row="1" Column="1"/>
+            <LayoutButtons Face="TossGrenadeTychus222222653" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich53,Off" Row="1" Column="2"/>
+            <LayoutButtons Face="AutechBeidongSet25" Type="Passive" Requirements="StortModeRe218" Row="1" Column="3"/>
+            <LayoutButtons Face="AutechBeidongSet26" Type="Passive" Requirements="StortModeRe219" Row="1" Column="4"/>
+        </CardLayouts>
+        <SubgroupPriority value="13"/>
+    </CUnit>
+    <CAbilTransport id="SpecOpsDropshipTransport2">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Load" DefaultButtonFace="BiodomeLoad3"/>
+        <CmdButtonArray index="UnloadAll" DefaultButtonFace="MedivacUnloadAll"/>
+        <CmdButtonArray index="UnloadUnit">
+            <Flags index="Hidden" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="LoadAll">
+            <Flags index="Hidden" value="1"/>
+        </CmdButtonArray>
+        <MaxCargoCount value="5"/>
+        <MaxCargoSize value="2"/>
+        <TotalCargoSpace value="5"/>
+        <UnloadPeriod value="1"/>
+        <Range value="2"/>
+        <LoadCargoBehavior value="AirfieldAuraB2723"/>
+        <LoadValidatorArray value="HasCargo2"/>
+        <LoadSmartPriority value="20"/>
+        <LoadTransportBehavior value="AirfieldAuraB27232"/>
+    </CAbilTransport>
+    <CAbilBehavior id="SovietMotoModeSwhich53">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus22222754">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus222222653">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="AushijifightrtMode"/>
+    </CAbilBehavior>
+    <CActorUnit id="AlliedCenturyBomber_Actor" parent="GenericUnitBase" unitName="AlliedCenturyBomber">
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.SJWraith.AttackStart" Send="AnimBracketStart Attack Attack,Superior"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="Behavior.Airportlanded.On" Send="AnimBracketStart 111 Stand,Work,Start Stand,Work Stand,Work,End 0 2.000000 AsTimeScale"/>
+        <On Terms="Behavior.Airportlanded.Off" Send="AnimBracketStop 111 0 2.000000 AsTimeScale"/>
+        <On Terms="ActorCreation; ValidateUnit AlliedConstructionYardTechlv02" Send="ModelSwap AlliedHeavyBomber4"/>
+        <HostSiteOps Ops="SOpBankerRAAir"/>
+        <Model value="AlliedCenturyBomber_Model"/>
+        <Scale value="0.900000"/>
+        <AnimBlendTime value="0.300000"/>
+        <DeathArray index="Normal" ModelLink="SJGriffonDeath" SoundLink="TerranFlyer_What2223766"/>
+        <PortraitModel value="WraithPortrait"/>
+        <BarOffset value="55"/>
+        <BarWidth value="90"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Allied\century-bomber-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Allied\century-bomber-icon.dds"/>
+        <HighlightTooltip value="Unit/Name/AlliedCenturyBomber_Actor"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-shipplatinglevel0.dds"/>
+        <SoundArray index="Birth" value="SovietBandByBomber3_Actor_Birth"/>
+        <SoundArray index="Ready" value="AlliedCenturyBomber_Actor_Ready"/>
+        <SoundArray index="Help" value="AlliedCenturyBomber_Actor_Help"/>
+        <SoundArray index="What" value="AlliedCenturyBomber_Actor_What"/>
+        <SoundArray index="Yes" value="AlliedCenturyBomber_Actor_Yes"/>
+        <SoundArray index="Attack" value="AlliedCenturyBomber_Actor_Attack"/>
+        <SoundArray index="Pissed" value="AlliedCenturyBomber_Actor_Attack"/>
+        <SoundArray index="Movement" value="SovietBandByBomber3_Actor_Birth"/>
+        <SoundArray index="Turning" value="Liberator_Turning"/>
+        <SoundArray index="Board" value="Liberator_Board"/>
+        <SoundArray index="Click" value="AlliedCenturyBomber_Actor_What"/>
+        <SoundArray index="ClickError" value="Liberator_ClickError"/>
+        <SoundArray index="Highlight" value="Liberator_Highlight"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Icons\Allied\century-bomber-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Allied\century-bomber-wireframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorAction id="SiegeTankSiegedAttack223" parent="GenericAttack" effectAttack="" effectImpact="CrucioShockCannonBlast223" effectLaunch="RACenturyBomberDropsBombs">
+        <On index="0" Terms="Effect.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="5" Terms="Effect.Start; At Caster" Send="Create"/>
+        <LaunchAttachQuery Fallback="Origin"/>
+        <LaunchAssets Model="" Sound="WarHound_Missile_Launch2"/>
+        <Missile value="StrategicBombShell22"/>
+        <ImpactSiteOps Ops="SOpActionCenter SOpTargetUnitZ" HoldPosition="1"/>
+        <ImpactMap index="None" Model="" Sound="Yagdra_Fireball_Impact232" ModelReaction=""/>
+        <ImpactMap index="Miss" Sound="Yagdra_Fireball_Impact232"/>
+        <ImpactPhysics Name="Explosion" MatchKeys="Basic" Physics="SiegeTankSiegedForce"/>
+        <DamageSiteOps Ops="SOpAttachHarness"/>
+        <DamageMap index="None" Model="SiegeTankSiegedAttackDamage22"/>
+        <ShieldFlashType value="Full"/>
+    </CActorAction>
+    <CActorMissile id="StrategicBombShell22" parent="GenericAttackMissile" unitName="AlliedCenturyBomberBombProjectile">
+        <On Terms="ActorCreation" Send="SetTintColor 182,182,182"/>
+        <Model value="BomberWeaponMissile2"/>
+    </CActorMissile>
+    <CBehaviorBuff id="AirfieldAuraB27232">
+        <Alignment value="Positive"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Modification>
+            <ModifyFlags index="DisableWeapons" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="AirfieldAuraB2723">
+        <Alignment value="Positive"/>
+        <Cost>
+            <Charge Link="Behavior/AirfieldAuraB"/>
+            <Cooldown Link="Behavior/AirfieldAuraB"/>
+        </Cost>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Modification>
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="DisableWeapons" value="1"/>
+            <StateFlags index="SuppressAttack" value="1"/>
+            <AbilClassDisableArray index="CAbilAttack" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="ReturnAirport3">
+        <Icon value="Assets\icons\return-to-the-airport.dds"/>
+    </CButton>
+    <CButton id="BiodomeLoad3">
+        <Icon value="Assets\Textures\btn-ability-terran-load.dds"/>
+    </CButton>
+    <CButton id="AutechBeidongSet26">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-neosteelbunker.dds"/>
+    </CButton>
+    <CButton id="AutechBeidongSet25">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-rapiddeployment.dds"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus22222754">
+        <Icon value="Assets\icons\Allied\century-bomber-unloading-infantry-icon.dds"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus222222653">
+        <Icon value="Assets\Textures\talent-raynor-level02-bansheeairstrike.dds"/>
+    </CButton>
+    <CEffectRemoveBehavior id="RABehaviorOfCenturyBomberApplicationOfForceRemoval">
+        <BehaviorLink value="RAMovementSpeedAndArmor20Percent37"/>
+    </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="RABehaviorOfCenturyBomberWithAppliedForces">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent37"/>
+    </CEffectApplyBehavior>
+    <CEffectModifyUnit id="RABomberConsumesAmmunition">
+        <ImpactUnit Value="Caster"/>
+        <VitalArray index="Energy">
+            <Change value="-10"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectDamage id="CrucioShockCannonBlast223" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <KindSplash value="Splash"/>
+        <Amount value="50"/>
+        <Death value="Blast"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="centrybomberSA">
+        <EditorCategories value="Race:Terran"/>
+        <SearchFilters value="Ground;Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="2" Effect="CrucioShockCannonBlast223"/>
+        <SearchFlags index="CenterAtLaunch" value="1"/>
+        <SearchFlags index="OffsetAreaByAngle" value="0"/>
+    </CEffectEnumArea>
+    <CEffectApplyForce id="RACenturyBomberBombingApplication">
+        <WhichLocation Effect="RABehaviorOfCenturyBomberWithAppliedForces" Value="TargetPoint"/>
+        <Amount value="-2"/>
+    </CEffectApplyForce>
+    <CEffectLaunchMissile id="RACenturyBomberDropsBombs">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <AmmoUnit value="AlliedCenturyBomberBombProjectile"/>
+        <Movers Link="CycloneMissileLeft3"/>
+        <FinishEffect value="centrybomberSA"/>
+        <LaunchEffect value="BomberCost"/>
+        <ValidatorArray index="0" value="CasterHasEnergy222"/>
+    </CEffectLaunchMissile>
+    <CEffectCreatePersistent id="RACenturyBomberDropsMultipleBombs">
+        <PeriodCount value="5"/>
+        <PeriodicEffectArray value="RACenturyBomberDropsBombs"/>
+        <PeriodicEffectArray value="RACenturyBomberDropsBombs"/>
+        <PeriodicEffectArray value="RACenturyBomberDropsBombs"/>
+        <PeriodicEffectArray value="RACenturyBomberDropsBombs"/>
+        <PeriodicEffectArray value="RACenturyBomberDropsBombs"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <FinalEffect value="RABehaviorOfCenturyBomberApplicationOfForceRemoval"/>
+        <WhichLocation Effect="RACenturyBomberDropsBombs" Value="CasterPoint"/>
+        <ValidatorArray value="CasterHasEnergy222"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="RACollectionOfCenturyBomberBombingEffects">
+        <EffectArray value="RACenturyBomberDropsMultipleBombs"/>
+        <EffectArray value="AlliedCentryIn"/>
+        <TargetLocationType value="Unknown"/>
+        <ValidatorArray value="CasterHasEnergy222"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="AlliedCentryIn">
+        <ValidatorArray value="RAGreaterThan001Range"/>
+        <WhichLocation Value="CasterUnit"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="RABehaviorOfCenturyBomberWithAppliedForces"/>
+        <PeriodicOffsetArray value="0,-12,0"/>
+        <PeriodicPeriodArray value="0"/>
+    </CEffectCreatePersistent>
+    <CModel id="AlliedCenturyBomber_Model" parent="MarineBase">
+        <Model value="assets\units\Allied\CenturyBomber.m3"/>
+        <SelectionRadius value="0.700000"/>
+    </CModel>
+    <CModel id="BomberWeaponMissile2" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\Mutator_Nuke_Missile\Mutator_Nuke_Missile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Occlusion value="Show"/>
+        <ScaleMax value="0.200000,0.200000,0.200000"/>
+        <ScaleMin value="0.200000,0.200000,0.200000"/>
+    </CModel>
+    <CModel id="SiegeTankSiegedAttackDamage22" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\FireImpact\FireImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CMoverMissile id="CycloneMissileLeft3">
+        <MotionPhases>
+            <Driver value="Throw"/>
+            <Acceleration value="2"/>
+            <Speed value="3"/>
+            <MaxSpeed value="3"/>
+            <Gravity value="1"/>
+            <ClearanceAcceleration value="-1"/>
+            <ArrivalTestType value="3D"/>
+            <Outro value="9,10"/>
+            <ThrowRotationType value="Vectored"/>
+            <ThrowVector value="0,0,-3"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+        <MotionOverlays>
+            <Type value="Revolver"/>
+            <RevolverSpeed value="179.2968"/>
+            <RevolverSpeedRange value="179.2968"/>
+            <RevolverMaxSpeed value="719.2968"/>
+            <RevolverMaxSpeedRange value="0"/>
+            <RevolverAccel value="337.5"/>
+            <RevolverAccelRange value="337.5"/>
+        </MotionOverlays>
+    </CMoverMissile>
+    <CSound id="AlliedCenturyBomber_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUCentu_VoiMovAtta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMovAttb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMovAttc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMovAttd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMovAtte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMovAttf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMovAttg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMovAtth.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedCenturyBomber_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUCentu_VoiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelectf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelectg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedCenturyBomber_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUCentu_VoiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelUndd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelUnde.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelUndf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiSelUndg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="Yagdra_Fireball_Impact232" parent="Combat">
+        <EditorCategories value="Race:Zerg"/>
+        <AssetArray File="assets\sounds\AUCentu_bombExploA.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_bombExploB.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_bombExploC.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_bombExploD.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_bombExploE.ogg" FacialGroup=""/>
+        <Volume value="1.000000,3.000000"/>
+    </CSound>
+    <CSound id="SovietBandByBomber3_Actor_Birth" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUCentu_movStartA.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartB.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartC.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartD.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartE.ogg" FacialGroup=""/>
+        <Category value="Movement"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="AlliedCenturyBomber_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUCentu_VoiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMoveg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiMoveh.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What2223766" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUCentu_VoiCrasha.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiCrashb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiCrashc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiCrashd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiCrashe.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiCrashf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Death"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="WarHound_Missile_Launch2" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1a.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1b.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1c.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1d.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1e.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1f.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1g.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1h.ogg" FacialGroup=""/>
+        <Pitch value="-2.000000,2.000000"/>
+        <Volume value="-8.000000,-8.000000"/>
+    </CSound>
+    <CSound id="AlliedCenturyBomber_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUCentu_VoiCreatea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_VoiCreateb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CUnit id="AlliedCenturyBomberBombProjectile" parent="MISSILE">
+        <Race value="Allied"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <Mover value="CycloneMissileLeft3"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent153"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:CNC"/>
+    </CUnit>
+    <CWeaponLegacy id="StrategicBomb22">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Options index="IgnoreThreat" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-nova-flashgrenade.dds"/>
+        <DisplayEffect value="CrucioShockCannonBlast223"/>
+        <DisplayAttackCount value="5"/>
+        <TargetFilters value="Ground;Missile,Dead,Invulnerable"/>
+        <AcquireTargetSorts RequestCount="1" RequestPercentage="1"/>
+        <MinScanRange value="8"/>
+        <Range value="3"/>
+        <Arc value="4.9987"/>
+        <ArcSlop value="29.9926"/>
+        <Period value="2.5"/>
+        <Backswing value="3"/>
+        <Effect value="RACollectionOfCenturyBomberBombingEffects"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+
 </Catalog>

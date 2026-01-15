@@ -1,3 +1,522 @@
 <Catalog>
 
+    <CUnit id="EmpireWaveForceArtillery" parent="EmpireGround">
+        <Subtitle value="UnitSubtitle/xianjintanke"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <PushPriority value="16"/>
+        <Collide index="Small" value="1"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <LifeArmor value="1"/>
+        <Speed value="1"/>
+        <LateralAcceleration value="64"/>
+        <StationaryTurningRate value="540"/>
+        <TurningRate value="540"/>
+        <Sight value="14"/>
+        <Food value="-3"/>
+        <CostResource index="Minerals" value="1800"/>
+        <RepairTime value="45"/>
+        <KillXP value="10"/>
+        <AbilArray Link="SovietMotoModeSwhich2322"/>
+        <BehaviorArray Link="UpgradeLevel1222"/>
+        <BehaviorArray Link="nianayaLevel12"/>
+        <WeaponArray Link="LaserDrillTripodLaserBeam3" Turret="RAPacifierTurret2"/>
+        <WeaponArray Link="LaserDrillTripodLaserBeam32" Turret="RAPacifierTurret2"/>
+        <WeaponArray Link="GDIStrikerMechaRoller"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="AlliedJavaModeSwitch5" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich2322,Off" Row="1" Column="0"/>
+            <LayoutButtons Face="AlliedJavaModeSwitch42" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich2322,On" Row="1" Column="1"/>
+        </CardLayouts>
+        <Radius value="0.6875"/>
+        <SeparationRadius value="0.6875"/>
+        <InnerRadius value="0.1875"/>
+        <CargoSize value="4"/>
+        <MinimapRadius value="0.375"/>
+        <TacticalAI value="SiegeTank"/>
+        <AIEvalFactor value="1.5"/>
+        <HotkeyAlias value="SiegeTank"/>
+        <AIEvaluateAlias value="SiegeTank"/>
+        <ReviveInfoBase>
+            <Charge Link="SiegeTank/Revive"/>
+            <Cooldown Link="SiegeTank/Revive"/>
+        </ReviveInfoBase>
+    </CUnit>
+    <CAbilBehavior id="SovietMotoModeSwhich2322">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="AlliedJavaModeSwitch42">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="AlliedJavaModeSwitch5">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="Wavetankchangemode"/>
+    </CAbilBehavior>
+    <CActorSound id="RATheWaveEnergyTankIsAboutToEmitSoundEffects" parent="SoundOneShot">
+        <On Terms="Effect.juwaveTankdummyD.Start; At Effect" Send="Create"/>
+        <Sound value="TerranFlyer_What22326532322342222"/>
+    </CActorSound>
+    <CActorSound id="RAWaveEnergyTankWeaponChargingSoundEffect" parent="SoundOneShot">
+        <On Terms="Effect.yybncnjsxw.Start; At Caster" Send="Create"/>
+        <Sound value="TerranFlyer_What223265323223422222"/>
+        <FogVisibility value="Visible"/>
+    </CActorSound>
+    <CActorUnit id="EmpireWaveForceArtillery_Actor" parent="GenericUnitMorph" unitName="EmpireWaveForceArtillery">
+        <Aliases value="_UnitLarge"/>
+        <Macros value="UnloadDropAnim"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <AcceptedTransfers index="ModelMaterials" value="1"/>
+        <On index="0" Send="Create SoundEmitter SiegeTank_Ambience"/>
+        <On index="65" Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
+        <On index="66" Terms="Effect.bntankcxyd.Start" Send="AnimPlay Attack1 Stand,Work,Start PlayForever,NonLooping -1.000000 -1.000000 1.660000 AsTimeScaleAbsolute"/>
+        <On index="67" Terms="Effect.bntankcxyd.Stop" Send="AnimBracketStart 111 Attack,E {} Stand,Work,End,E"/>
+        <On index="68" Terms="UnitMovementUpdate.EmpireWaveForceArtillery.Walk" Send="AnimClear Attack1"/>
+        <On index="69" Terms="UnitMovementUpdate.EmpireWaveForceArtillery.Walk" Send="AnimBracketStop 111 Instant"/>
+        <On index="70" Terms="UnitMovementUpdate.EmpireWaveForceArtillery.Walk" Send="AnimBracketClear 111"/>
+        <On Terms="Effect.bntankcxyd.Stop" Send="TimerSet 0.700000 wave"/>
+        <On Terms="TimerExpired; TimerName wave" Send="TimerKill wave"/>
+        <On Terms="TimerExpired; TimerName wave" Send="AnimBracketClear 111 Instant"/>
+        <On Terms="TimerExpired; TimerName wave" Send="AnimBracketStop 111"/>
+        <On Terms="TimerExpired; TimerName wave" Send="AnimClear Attack1"/>
+        <On Terms="Effect.bnsmpsh222.Start" Send="AnimPlay Attack2 Attack"/>
+        <On Terms="WeaponStop.LaserDrillTripodLaserBeam32.AttackStop" Send="AnimClear Attack2"/>
+        <Model value="EmpireWaveForceArtillery_Model"/>
+        <Scale value="1.800000"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <EventDataFootprint index="0" Model="SiegeTankFootprint"/>
+        <CreepHeightClass value="Tiny"/>
+        <DeathArray index="Normal" ModelLink="SiegeTankDeath" SoundLink="SiegeTank_Explode" VoiceLink="SiegeTankDeathVoice"/>
+        <DeathCustoms ModelLink="TerranLargeUnitDeathLow" Name="AntiGravTerran"/>
+        <DeathCustoms ActorModel="SiegeTankDeathRagdoll" ModelLink="SiegeTankDeathRagdoll" Name="RagdollBasic">
+            <BodySquibs Name="Basic" Model="TerranSquibDeathRagdoll"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms>
+            <ModelLink value="DeathVoidShadowMedium"/>
+            <SoundLink value="ShadowUnit_DeathFX"/>
+            <VoiceLink value="ShadowUnit_DeathVox"/>
+            <Name value="Shadow"/>
+        </DeathCustoms>
+        <DeathCustomData Name="RagdollBasic"/>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
+        <PortraitModel value="SiegeTankPortrait4222"/>
+        <StandAnimTurnTime value="3.33"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="1.000000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleSiegeTank"/>
+        </TerrainSquibs>
+        <WalkAnimMoveSpeed value="1"/>
+        <BarOffset value="80"/>
+        <BarWidth value="100"/>
+        <ErrorArray Error="CantSeeBuildLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantSeeLandLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantBuildLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantLandLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CouldntReachTarget" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Empire\wave-energy-tank-wireframe.dds"/>
+        </GroupIcon>
+        <GroupSoundArray index="What" value="EmpireWaveForceArtillery_Actor_What"/>
+        <GroupSoundArray index="Yes" value="EmpireWaveForceArtillery_Actor_Yes"/>
+        <GroupSoundArray index="Attack" value="EmpireWaveForceArtillery_Actor_Attack"/>
+        <GroupSoundArray index="Board" value="SiegeTank_GroupBoard"/>
+        <HeroIcon value="Assets\Icons\Empire\wave-energy-tank-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-vehicleplatinglevel0.dds"/>
+        <SoundArray index="Birth" value="AlliedAthenaTank_Actor_Birth"/>
+        <SoundArray index="Ready" value="JuWaveTankVioce"/>
+        <SoundArray index="Help" value="EmpireWaveForceArtillery_Actor_Help"/>
+        <SoundArray index="What" value="EmpireWaveForceArtillery_Actor_What"/>
+        <SoundArray index="Yes" value="EmpireWaveForceArtillery_Actor_Yes"/>
+        <SoundArray index="Attack" value="EmpireWaveForceArtillery_Actor_Attack"/>
+        <SoundArray index="Pissed" value="EmpireWaveForceArtillery_Actor_Attack"/>
+        <SoundArray index="Movement" value="SiegeTank_Movement"/>
+        <SoundArray index="Turning" value="SiegeTank_Turning"/>
+        <SoundArray index="Board" value="SiegeTank_Board"/>
+        <SoundArray index="Click" value="EmpireWaveForceArtillery_Actor_What"/>
+        <SoundArray index="ClickError" value="SiegeTank_ClickError"/>
+        <SoundArray index="Highlight" value="SiegeTank_Highlight"/>
+        <UnitIcon value="Assets\Icons\Empire\wave-energy-tank-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Empire\wave-energy-tank-wireframe.dds"/>
+        </Wireframe>
+        <HighlightTooltip value="Unit/Name/EmpireWaveForceArtillery_Actor"/>
+    </CActorUnit>
+    <CActorBeamSimple id="bnsmpgjgs2" parent="GenericAttackBeam">
+        <On Terms="ActorCreation; ValidateEffect DiamondbackCharged" Send="ModelSwap DiamondbackAttackBeamCharged"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Model value="ProbeAttackBeam322"/>
+        <Scale value="1.700000"/>
+    </CActorBeamSimple>
+    <CActorAction id="bnsmpgj2" parent="GenericAttack" effectAttack="RaynorSnipeCreatePersistent22">
+        <LaunchAttachQuery Methods="AMFilterWeapon01" Fallback="Weapon"/>
+        <LaunchAssets Model="" Sound="TerranFlyer_What2232653232234222"/>
+        <Beam value="bnsmpgjgs2"/>
+        <ImpactPhysics Name="RailgunImpact" MatchKeys="Basic" Physics="MengskDiamondbackAttackDeathForce"/>
+        <ImpactMap index="None" Model="ProbeAttackImpact32" Sound="TerranFlyer_What2232653232234222" ModelReaction="ProbeAttack322ImpactReaction"/>
+        <ImpactMap index="Shield" Sound="ProbeAttack322ImpactShield" ModelReaction="ProbeAttack322ImpactReactionShield"/>
+        <ImpactMap index="Miss" Model="ProbeAttackImpact32" Sound="TerranFlyer_What2232653232234222" ModelReaction="ProbeAttack3ImpactReaction"/>
+        <ActionFlags index="AlignedImpactsAndDamages" value="1"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+    <CBehaviorBuff id="bntankcnjs">
+        <InfoIcon value="Assets\Textures\speedfreaks_coop.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <MaxStackCount value="5"/>
+        <MaxStackCountPerCaster value="5"/>
+        <Duration value="6"/>
+        <BuffFlags index="RefreshStack" value="1"/>
+        <DisableValidatorArray value="RAPhantomTankStationary"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CButton id="AlliedJavaModeSwitch42">
+        <Icon value="assets\icons\Empire\wave-energy-tank-early-launch-mode.dds"/>
+    </CButton>
+    <CButton id="AlliedJavaModeSwitch5">
+        <Icon value="Assets\Textures\btn-ability-mengsk-siegetank-shockandawe.dds"/>
+    </CButton>
+    <CEffectDamage id="bnsmpsh22" parent="DU_WEAP">
+        <ValidatorArray value="WeaponInRange"/>
+        <Kind value="Ranged"/>
+        <Amount value="750"/>
+        <Death value="Blast"/>
+        <AttributeFactor index="Structure" value="1"/>
+    </CEffectDamage>
+    <CEffectDamage id="bnsmpsh222" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="100"/>
+        <Death value="Blast"/>
+        <AttributeFactor index="Structure" value="1"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="RaynorSnipeSearch22">
+        <EditorCategories value="Race:Terran"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Missile,Invulnerable"/>
+        <AreaArray Radius="1" Effect="bnsmpsh22"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="yybncnjsxw">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="bntankcnjs"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="bdchzsbntkcn">
+        <WhichLocation Value="CasterUnit"/>
+        <InitialDelay value="1"/>
+        <PeriodCount value="5"/>
+        <PeriodicEffectArray value="ycbncnxw"/>
+        <PeriodicPeriodArray value="0.2"/>
+    </CEffectCreatePersistent>
+    <CEffectDestroyPersistent id="chbncnxg">
+        <Effect value="bntankcxyd"/>
+        <Count value="1"/>
+        <Radius value="0.5"/>
+    </CEffectDestroyPersistent>
+    <CEffectRemoveBehavior id="ycbncnxw">
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="bntankcnjs"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+    <CEffectSwitch id="djzhqtdwqh">
+        <CaseDefault value="bnsmpsh2"/>
+    </CEffectSwitch>
+    <CEffectSwitch id="bntkqhcnhjxgj">
+        <CaseArray Validator="bntkcnddzdz" Effect="jqgsmzjh2"/>
+        <CaseDefault value="yybncnjsxw"/>
+    </CEffectSwitch>
+    <CEffectDamage id="bnsmpsh2" parent="DU_WEAP">
+        <EditorCategories value="Race:Terran"/>
+        <Kind value="Ranged"/>
+        <Death value="Blast"/>
+    </CEffectDamage>
+    <CEffectSet id="jqgsmzjh2">
+        <EffectArray value="djzhqtdwqh"/>
+        <EffectArray value="chbncnxg"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="bntankcxyd">
+        <Flags index="Channeled" value="1"/>
+        <FinalEffect value="jqgsmzjh222"/>
+        <PeriodCount value="6"/>
+        <PeriodicEffectArray value="bntkqhcnhjxgj"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <InitialEffect value="juwaveTankdummyD"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <OffsetVectorEndLocation Value="TargetUnitOrPoint"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="jqgsmzjh22">
+        <ValidatorArray value="bntkcnddzdz232"/>
+        <EffectArray value="djzhqtdwqh"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectSet id="jqgsmzjh222">
+        <EffectArray value="jqgsmzjh22"/>
+        <EffectArray value="bdchzsbntkcn"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectSet id="RAWaveEnergyTankRapidFireModeDamageSet">
+        <EffectArray value="bnsmpsh2"/>
+        <EffectArray value="bnsmpsh222"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectSet id="JuwavetankattackeffectCP">
+        <EffectArray value="bntankcxyd"/>
+        <EffectArray value="bntankcxyd2"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectDamage id="juwaveTankdummyD"/>
+    <CEffectCreatePersistent id="RaynorSnipeCreatePersistent22">
+        <EditorCategories value="Race:Terran"/>
+        <PeriodCount value="37"/>
+        <PeriodicEffectArray value="RaynorSnipeSearch22"/>
+        <PeriodicOffsetArray value="0,-1,0"/>
+        <PeriodicOffsetArray value="0,-2,0"/>
+        <PeriodicOffsetArray value="0,-3,0"/>
+        <PeriodicOffsetArray value="0,-4,0"/>
+        <PeriodicOffsetArray value="0,-5,0"/>
+        <PeriodicOffsetArray value="0,-6,0"/>
+        <PeriodicOffsetArray value="0,-7,0"/>
+        <PeriodicOffsetArray value="0,-8,0"/>
+        <PeriodicOffsetArray value="0,-9,0"/>
+        <PeriodicOffsetArray value="0,-10,0"/>
+        <PeriodicOffsetArray value="0,-11,0"/>
+        <PeriodicOffsetArray value="0,-12,0"/>
+        <PeriodicOffsetArray value="0,-13,0"/>
+        <PeriodicOffsetArray value="0,-14,0"/>
+        <PeriodicOffsetArray value="0,-15,0"/>
+        <PeriodicOffsetArray value="0,-16,0"/>
+        <PeriodicOffsetArray value="0,-17,0"/>
+        <PeriodicOffsetArray value="0,-18,0"/>
+        <PeriodicOffsetArray value="0,-19,0"/>
+        <PeriodicOffsetArray value="0,-20,0"/>
+        <PeriodicOffsetArray value="0,-21,0"/>
+        <PeriodicOffsetArray value="0,-22,0"/>
+        <PeriodicOffsetArray value="0,-23,0"/>
+        <PeriodicOffsetArray value="0,-24,0"/>
+        <PeriodicOffsetArray value="0,-25,0"/>
+        <PeriodicOffsetArray value="0,-26,0"/>
+        <PeriodicOffsetArray value="0,-27,0"/>
+        <PeriodicOffsetArray value="0,-28,0"/>
+        <PeriodicOffsetArray value="0,-29,0"/>
+        <PeriodicOffsetArray value="0,-30,0"/>
+        <PeriodicOffsetArray value="0,-31,0"/>
+        <PeriodicOffsetArray value="0,-32,0"/>
+        <PeriodicOffsetArray value="0,-33,0"/>
+        <PeriodicOffsetArray value="0,-34,0"/>
+        <PeriodicOffsetArray value="0,-35,0"/>
+        <PeriodicOffsetArray value="0,-36,0"/>
+        <PeriodicOffsetArray value="0,-37,0"/>
+        <InitialEffect value="RaynorSnipeSearch22"/>
+        <PeriodicPeriodArray value="0"/>
+        <WhichLocation Value="SourcePoint"/>
+        <OffsetVectorEndLocation Value="TargetUnitOrPoint"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="bntankcxyd2">
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="6"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <FinalEffect value="RaynorSnipeCreatePersistent22"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <OffsetVectorEndLocation Value="TargetUnitOrPoint"/>
+    </CEffectCreatePersistent>
+    <CModel id="SiegeTankPortrait4222" parent="SiegeTankPortraitBase">
+        <Model value="Assets\Portraits\Terran\SiegeTank_Junker_Collection_Portrait\SiegeTank_Junker_Collection_Portrait.m3"/>
+        <Image value="Assets\Textures\SiegeTankPortrait_Static.dds"/>
+        <Lighting value="SiegeTankPortrait"/>
+    </CModel>
+    <CModel id="ProbeAttackBeam322" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Protoss\MothershipPhotonBeam\MothershipPhotonBeam.m3"/>
+        <AnimSpeed value="4.000000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.600000,0.600000,0.600000"/>
+        <ScaleMin value="0.600000,0.600000,0.600000"/>
+    </CModel>
+    <CModel id="ProbeAttackImpact32" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\MothershipPurifyMissileImpact\MothershipPurifyMissileImpact.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CModel id="EmpireWaveForceArtillery_Model" parent="SiegeTankBase">
+        <Model value="assets\units\Empire\WaveForceArtillery.m3"/>
+        <AttachProps index="0" removed="1"/>
+        <Lighting value="SiegeTank"/>
+        <SelectionRadius value="0.600000"/>
+    </CModel>
+    <CSound id="AlliedAthenaTank_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUAthena_movStartA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUAthena_movStartB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUAthena_movStartC.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUAthena_movStartD.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUAthena_movStartE.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Build"/>
+        <Volume value="-14.000000,-14.000000"/>
+    </CSound>
+    <CSound id="JuWaveTankVioce" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUWaveF_VoiCreatea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiCreateb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What22326532322342222" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\JUWavef_weapStara.ogg" FacialGroup=""/>
+        <PlayDelay value="500,500"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What2232653232234222" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\JUWavef_weapFirea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\JUWavef_weapFireb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\JUWavef_weapFirec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\JUWavef_weapFired.ogg" FacialGroup=""/>
+        <AssetArrayTemplate>
+            <File value="LocalizedData\Sounds\VO\Terran\^TemplateParam2^.ogg"/>
+            <FacialAnim value="^TemplateParam1^"/>
+            <FacialGroup value="^TemplateParam1^"/>
+            <FacialFile value="LocalizedData\Sounds\VO\Terran\^TemplateParam1^.fxe"/>
+        </AssetArrayTemplate>
+        <Flags index="Ignorable" value="1"/>
+        <Flags index="Purgable" value="0"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <SustainFade index="1" Time="250"/>
+        <Volume value="6.000000,6.000000"/>
+    </CSound>
+    <CSound id="EmpireWaveForceArtillery_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelUndd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelUnde.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireWaveForceArtillery_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUWaveF_VoiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiMoveg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireWaveForceArtillery_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelectf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiSelectg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What223265323223422222" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\JUWavef_weapChar1a.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\JUWavef_weapChar1b.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\JUWavef_weapChar1c.ogg" FacialGroup=""/>
+        <Pitch value="0.000000,3.000000"/>
+        <Volume value="-10.000000,-10.000000"/>
+    </CSound>
+    <CSound id="EmpireWaveForceArtillery_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUWaveF_VoiAttacka.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiAttackb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiAttackc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiAttackd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiAttacke.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUWaveF_VoiAttackf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CTurret id="RAPacifierTurret2">
+        <YawArc value="360"/>
+        <YawRate value="199.8632"/>
+        <YawIdleRate value="149.9414"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+        <Idle value="ResetIfMoving"/>
+    </CTurret>
+    <CWeaponLegacy id="LaserDrillTripodLaserBeam3">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\Textures\btn-ability-mengsk-siegetank-shockandawe.dds"/>
+        <DisplayEffect value="bnsmpsh22"/>
+        <TargetFilters value="Ground;Self,Missile,Dead,Invulnerable"/>
+        <Range value="20"/>
+        <MinimumRange value="3"/>
+        <Period value="6"/>
+        <Effect value="JuwavetankattackeffectCP"/>
+        <LegacyOptions index="CanRetargetWhileChanneling" value="1"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="LaserDrillTripodLaserBeam32">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="assets\textures\Empire\wave-energy-tank-early-launch-mode.dds"/>
+        <DisplayEffect value="bnsmpsh222"/>
+        <TargetFilters value="Ground;Self,Missile,Dead,Invulnerable"/>
+        <Range value="14"/>
+        <MinimumRange value="6"/>
+        <Period value="1.5"/>
+        <Effect value="RAWaveEnergyTankRapidFireModeDamageSet"/>
+        <LegacyOptions index="CanRetargetWhileChanneling" value="1"/>
+    </CWeaponLegacy>
+
+    <CBehaviorBuff id="Wavetankchangemode">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <WeaponEnableArray value="LaserDrillTripodLaserBeam32"/>
+            <WeaponDisableArray value="LaserDrillTripodLaserBeam3"/>
+        </Modification>
+    </CBehaviorBuff>
 </Catalog>

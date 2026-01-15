@@ -1,3 +1,240 @@
 <Catalog>
 
+    <CUnit id="EmpireSuddenFav" parent="EmpireGround">
+        <Subtitle value="UnitSubtitle/zhencha"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <PushPriority value="5"/>
+        <Collide index="Small" value="1"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="550"/>
+        <LifeMax value="550"/>
+        <Speed value="3.5"/>
+        <LateralAcceleration value="64"/>
+        <Sight value="15"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="500"/>
+        <RepairTime value="45"/>
+        <KillXP value="2"/>
+        <BehaviorArray Link="UpgradeLevel1"/>
+        <BehaviorArray Link="nianayaLevel1"/>
+        <WeaponArray Link="WraithG24" Turret="RAShenzhouTankTurret2"/>
+        <WeaponArray Link="nianyalv1"/>
+        <CardLayouts/>
+        <InnerRadius value="0.1875"/>
+        <CargoSize value="4"/>
+        <ScoreResult value="Units"/>
+        <SubgroupPriority value="5"/>
+        <MinimapRadius value="0.375"/>
+        <TacticalAI value="SiegeTank"/>
+        <AIEvalFactor value="1.5"/>
+        <HotkeyAlias value="SiegeTank"/>
+        <AIEvaluateAlias value="SiegeTank"/>
+        <ReviveInfoBase>
+            <Charge Link="SiegeTank/Revive"/>
+            <Cooldown Link="SiegeTank/Revive"/>
+        </ReviveInfoBase>
+    </CUnit>
+    <CActorMissile id="WraithGroundAttackMissile2" parent="GenericAttackMissile" unitName="TenguAntiGroundWeapon">
+        <Scale value="1.000000,0.100000,1.000000"/>
+        <Model value="WraithGroundWeapon2"/>
+    </CActorMissile>
+    <CActorUnit id="EmpireSuddenFav_Actor" parent="GenericUnitMorph" unitName="EmpireSuddenFav">
+        <Aliases value="_UnitLarge"/>
+        <Macros value="UnloadDropAnim"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <AcceptedTransfers index="ModelMaterials" value="1"/>
+        <On index="0" Send="Create SoundEmitter SiegeTank_Ambience"/>
+        <On index="65" Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
+        <On index="66" Terms="ActorCreation; ValidateUnit ValidateUSSR" Send="TextureSelectById is2"/>
+        <On index="67" Terms="ActorCreation; ValidateUnit ValidateGermany" Send="TextureSelectById kingtiger"/>
+        <On index="68" Terms="Effect.HammerSecurityLM2222.Start" Send="AnimBracketStart Attack1 {} Attack,A {} ContentPlayOnce"/>
+        <On index="69" Terms="WeaponStop.90mmHTCannon" Send="AnimBracketClear Attack1"/>
+        <On index="70" Terms="Behavior.VolatileBurstBuilding23.Enable" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Enable" Send="AnimBracketStart Aufspell1 Spell {} {} ContentPlayOnce"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Off" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Off" Send="AnimBracketStop Aufspell1"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.On" Send="Create RAApocalypseTankMagneticHarpoonLaunchingPositionModel"/>
+        <Model value="EmpireSuddenFav_Model"/>
+        <Scale value="0.900000"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <EventDataFootprint index="0" Model="SiegeTankFootprint"/>
+        <CreepHeightClass value="Tiny"/>
+        <DeathArray index="Normal" ModelLink="SiegeTankDeath" SoundLink="SiegeTank_Explode" VoiceLink="SiegeTankDeathVoice"/>
+        <DeathCustoms ModelLink="TerranLargeUnitDeathLow" Name="AntiGravTerran"/>
+        <DeathCustoms ActorModel="SiegeTankDeathRagdoll" ModelLink="SiegeTankDeathRagdoll" Name="RagdollBasic">
+            <BodySquibs Name="Basic" Model="TerranSquibDeathRagdoll"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms>
+            <ModelLink value="DeathVoidShadowMedium"/>
+            <SoundLink value="ShadowUnit_DeathFX"/>
+            <VoiceLink value="ShadowUnit_DeathVox"/>
+            <Name value="Shadow"/>
+        </DeathCustoms>
+        <DeathCustomData Name="RagdollBasic"/>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
+        <PortraitModel value="VulturePortrait"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="1.000000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleSiegeTank"/>
+        </TerrainSquibs>
+        <AbilSoundArray/>
+        <BarOffset value="80"/>
+        <BarWidth value="50"/>
+        <ErrorArray Error="CantSeeBuildLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantSeeLandLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantBuildLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantLandLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CouldntReachTarget" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <GroupIcon>
+            <Image value="Assets\icons\thunder-assault-vehicle-wireframe.dds"/>
+        </GroupIcon>
+        <GroupSoundArray index="What" value="SiegeTank_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="SiegeTank_GroupYes"/>
+        <GroupSoundArray index="Attack" value="SiegeTank_GroupAttack"/>
+        <GroupSoundArray index="Board" value="SiegeTank_GroupBoard"/>
+        <HeroIcon value="Assets\icons\thunder-assault-vehicle-icon.dds"/>
+        <HighlightTooltip value="Unit/Name/EmpireSuddenFav_Actor"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-vehicleplatinglevel0.dds"/>
+        <SoundArray index="Birth" value="Vulture_Birth"/>
+        <SoundArray index="Ready" value="EmpireImperialOreMiner_Actor_Ready"/>
+        <SoundArray index="Help" value="EmpireImperialOreMiner_Actor_Help"/>
+        <SoundArray index="What" value="EmpireImperialOreMiner_Actor_What"/>
+        <SoundArray index="Yes" value="EmpireImperialOreMiner_Actor_Yes"/>
+        <SoundArray index="Attack" value="EmpireImperialOreMiner_Actor_Attack"/>
+        <SoundArray index="Pissed" value="EmpireImperialOreMiner_Actor_Attack"/>
+        <SoundArray index="Movement" value="Vulture_Movement"/>
+        <SoundArray index="Turning" value="Vulture_Turning"/>
+        <SoundArray index="Board" value="Vulture_Board"/>
+        <SoundArray index="Click" value="EmpireImperialOreMiner_Actor_What"/>
+        <SoundArray index="ClickError" value="Vulture_ClickError"/>
+        <SoundArray index="Highlight" value="Vulture_Highlight"/>
+        <UnitIcon value="Assets\icons\thunder-assault-vehicle-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\icons\thunder-assault-vehicle-wireframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorAction id="WraithGroundAttack23" parent="GenericAttack" effectAttack="" effectImpact="WraithGU23" effectLaunch="WraithGLaunchMissile23">
+        <On index="0" Terms="Effect.Bogus.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="5" Terms="Effect.WraithGLaunchMissile23.Start; At Caster" Send="Create"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder2244 AMPatternMarauder2533" Fallback="Weapon"/>
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="VikingAssault_AttackLaunch"/>
+        <Missile value="WraithGroundAttackMissile2"/>
+        <ImpactMap index="None" Model="WraithGroundAttackImpact2" Sound="Viking_AssaultAttackImpact"/>
+    </CActorAction>
+    <CEffectDamage id="WraithGU23" parent="DU_WEAP">
+        <AttributeFactor index="Light" value="1"/>
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <Amount value="10"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="WraithGLaunchMissile23">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="WraithGU23"/>
+        <AmmoUnit value="TenguAntiGroundWeapon"/>
+    </CEffectLaunchMissile>
+    <CModel id="EmpireSuddenFav_Model" parent="SiegeTankBase">
+        <Model value="assets\units\Empire\SuddenTransport.m3"/>
+        <AttachProps index="0" Id="Ref_Weapon Left">
+            <Keys index="SetA" value="0"/>
+            <Keys index="Turret" value="-128"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon Right">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <SelectionRadius value="0.800000"/>
+    </CModel>
+    <CSound id="EmpireImperialOreMiner_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUOreCo_VoiCrea.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialOreMiner_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUOreCo_VoiAtka.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiAtke.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialOreMiner_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUOreCo_VoiMova.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiMovb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiMovc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiMovd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiMove.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialOreMiner_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUOreCo_VoiSela.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSeld.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSele.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialOreMiner_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelUndFira.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelUndFirb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelUndFirc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelUndFird.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CTurret id="RAShenzhouTankTurret2">
+        <Idle value="ResetIfMoving"/>
+        <YawArc value="360"/>
+        <YawRate value="360"/>
+        <YawIdleRate value="360"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+    <CWeaponLegacy id="WraithG24">
+        <EditorCategories value="Race:Terran"/>
+        <Icon value="assets\textures\thunder-assault-vehicle-weapon-icon.dds"/>
+        <DisplayEffect value="WraithGU23"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="7"/>
+        <Period value="0.2"/>
+        <Effect value="WraithGLaunchMissile23"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
 </Catalog>

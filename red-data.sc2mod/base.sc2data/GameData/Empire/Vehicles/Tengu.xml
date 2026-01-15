@@ -1,3 +1,489 @@
 <Catalog>
 
+    <CUnit id="EmpireTengoMechaMechaMode" parent="EmpireGround">
+        <FlagArray index="AIThreatGround" value="1"/>
+        <FlagArray index="AIThreatAir" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="560"/>
+        <LifeMax value="560"/>
+        <LifeArmor value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranShipPlating"/>
+        <Speed value="2.5"/>
+        <Sight value="10"/>
+        <Food value="-0.5"/>
+        <CostResource index="Minerals" value="800"/>
+        <RepairTime value="41.6667"/>
+        <KillXP value="2"/>
+        <AbilArray Link="FighterMode3"/>
+        <BehaviorArray Link="UpgradeLevel12"/>
+        <WeaponArray Link="WraithG2"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="FighterMode2" Type="AbilCmd" AbilCmd="FighterMode3,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="Disband2" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="3"/>
+        </CardLayouts>
+        <Radius value="0.4375"/>
+        <SeparationRadius value="0.375"/>
+        <InnerRadius value="0.375"/>
+        <ScoreKill value="225"/>
+        <SubgroupPriority value="12"/>
+        <MinimapRadius value="0.75"/>
+        <TacticalAIThink value="AIThinkVikingAssault"/>
+        <GlossaryPriority value="155"/>
+        <Fidget>
+            <ChanceArray index="Anim" value="15"/>
+            <ChanceArray index="Idle" value="55"/>
+            <ChanceArray index="Turn" value="30"/>
+        </Fidget>
+    </CUnit>
+    <CAbilMorph id="AssaultMode3">
+        <OrderArray index="0">
+            <DisplayType value="Confirm"/>
+            <Color value="255,0,255,0"/>
+            <Model value="Assets\UI\Cursors\WayPointAttack_Void\WayPointAttack_Void.m3"/>
+            <LineTexture value="Assets\Textures\WayPointLine.dds"/>
+        </OrderArray>
+        <AbilSetId value="AssaultMode"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AssaultMode2">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Unmorph" DefaultButtonFace="FighterMode2"/>
+        <Flags index="DisableAbils" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="IgnorePlacement" value="0"/>
+        <InfoArray Unit="EmpireTengoMechaMechaMode" CollideRange="3.75" RandomDelayMax="0.5">
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+            <SectionArray index="Mover">
+                <DurationArray index="Delay" value="0.133"/>
+                <DurationArray index="Duration" value="0.8"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+        </InfoArray>
+        <Activity value="UI/Upgrading"/>
+        <Cost>
+            <Cooldown Link="Abil/FighterMode3" Location="Unit" TimeUse="15"/>
+        </Cost>
+        <CostUnmorph>
+            <Cooldown Link="Abil/FighterMode3" Location="Unit" TimeUse="15"/>
+        </CostUnmorph>
+    </CAbilMorph>
+    <CAbilMorph id="FighterMode3">
+        <AbilSetId value="FighterMode"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="FighterMode2" Requirements="UseFighterMode">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Unmorph" DefaultButtonFace="AssaultMode2"/>
+        <Flags index="DisableAbils" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Cost>
+            <Charge Link="Abil/AssaultMode3"/>
+            <Cooldown Location="Unit" TimeUse="15"/>
+        </Cost>
+        <CostUnmorph>
+            <Charge Link="Abil/AssaultMode3"/>
+            <Cooldown Location="Unit" TimeUse="15"/>
+        </CostUnmorph>
+        <InfoArray Unit="EmpireTengoMechaJetMode" RandomDelayMax="0.5">
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+            <SectionArray index="Collide">
+                <DurationArray index="Delay" value="0.7"/>
+            </SectionArray>
+            <SectionArray index="Mover">
+                <DurationArray index="Delay" value="0.13"/>
+                <DurationArray index="Duration" value="0.75"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+        </InfoArray>
+        <Activity value="UI/Upgrading"/>
+    </CAbilMorph>
+    <CActorUnit id="VikingAssault2" parent="GenericUnitBase" unitName="EmpireTengoMechaMechaMode">
+        <Aliases value="_UnitMedium"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo VikingAssault2" Send="Create"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo VikingAssault2" Target="FlyerHelperSplat" Send="Destroy"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom VikingAssault2" Send="Destroy"/>
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="UnitPortrait.*.Configure" Target="::PortraitGameSelf" Send="AnimClear Visor 0.000000"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Viking_Land"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <DeathArray index="Normal" ModelLink="VikingAssaultDeath" SoundLink="Viking_Explode"/>
+        <DeathArray index="Blast" AnimProps="Death,Blast" ModelLink="VikingAssaultDeath"/>
+        <DeathCustoms ModelLink="VikingAssaultDeathRagdoll" Name="RagdollBasic">
+            <BodySquibs Name="Basic" Model="TerranSquibDeathRagdoll"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <PortraitModel value="VikingAssaultPortrait"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="1.000000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleLarge"/>
+        </TerrainSquibs>
+        <WalkAnimMoveSpeed value="2.5468"/>
+        <BarOffset value="70"/>
+        <BarWidth value="50"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Empire\tengu-line-frame.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Empire\tengu-unit-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-shipplatinglevel0.dds"/>
+        <SoundArray index="Ready" value="JuMechaVoice"/>
+        <SoundArray index="Help" value="MengskVikingAssaultMorphModel2_Help"/>
+        <SoundArray index="What" value="MengskVikingAssaultMorphModel2_What"/>
+        <SoundArray index="Yes" value="MengskVikingAssaultMorphModel2_Yes"/>
+        <SoundArray index="Attack" value="MengskVikingAssaultMorphModel2_Attack"/>
+        <SoundArray index="Pissed" value="MengskVikingAssaultMorphModel2_Attack"/>
+        <SoundArray index="Click" value="JuMechaVoice"/>
+        <UnitFlags index="StandAnimBirthVariation" value="0"/>
+        <UnitIcon value="Assets\Icons\Empire\tengu-unit-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Empire\tengu-line-frame.dds"/>
+        </Wireframe>
+        <Scale value="0.900000"/>
+        <AbilSoundArray AbilCmd="AssaultMode3,Unmorph" Sound="JuMechaVoice82" GroupSound="JuMechaVoice82"/>
+        <AbilSoundArray AbilCmd="FighterMode3,Execute" Sound="JuMechaVoice82" GroupSound="JuMechaVoice82"/>
+        <AbilSoundArray AbilCmd="AssaultMode3,Execute" Sound="JuMechaVoice82" GroupSound="JuMechaVoice82"/>
+        <AbilSoundArray AbilCmd="FighterMode3,Unmorph" Sound="JuMechaVoice82" GroupSound="JuMechaVoice82"/>
+        <Model value="VikingAssault2"/>
+        <HighlightTooltip value="Unit/Name/VikingAssault2"/>
+    </CActorUnit>
+    <CActorAction id="WraithGroundAttack2" parent="GenericAttack" effectAttack="WraithGU2" effectImpact="WraithGU2" effectLaunch="WraithGLaunchMissile2">
+        <LaunchAttachQuery Methods="AMPatternMarauder253 AMPatternMarauder224"/>
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="VikingAssault_AttackLaunch"/>
+        <ImpactMap index="None" Model="WraithGroundAttackImpact2" Sound="Viking_AssaultAttackImpact"/>
+        <ImpactMap index="Miss" Model="WraithGroundAttackImpact2" Sound="Viking_AssaultAttackImpact" ModelReaction="WraithGroundAttack2ImpactReaction"/>
+    </CActorAction>
+    <CButton id="FighterMode2">
+        <Icon value="assets\icons\Empire\tengu-switches-to-fighter-mode.dds"/>
+        <HotkeySet value="VikingModes"/>
+    </CButton>
+    <CButton id="AssaultMode2">
+        <Icon value="assets\icons\Empire\tengu-switches-to-mecha-mode.dds"/>
+        <HotkeySet value="VikingModes"/>
+    </CButton>
+    <CEffectDamage id="WraithGU2" parent="DU_WEAP">
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <Amount value="4"/>
+        <AttributeFactor index="Light" value="2"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="RATenguLaunchesInitialCreationOfPersistentEffects">
+        <WhichLocation Value="TargetUnit"/>
+        <OffsetVectorEndLocation Value="TargetUnit"/>
+        <PeriodCount value="8"/>
+        <PeriodicEffectArray value="WraithGU2"/>
+        <PeriodicPeriodArray value="0.14"/>
+    </CEffectCreatePersistent>
+    <CModel id="VikingAssault2" parent="Unit" Race="Terran">
+        <Model value="assets\units\empire\Tengu_Assault.m3"/>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 02">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="2"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 04">
+            <Keys index="SetA" value="3"/>
+        </AttachProps>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraMid07"/>
+        <Radius value="0.650000"/>
+        <ScaleMax value="0.850000,0.850000,0.850000"/>
+        <ScaleMin value="0.850000,0.850000,0.850000"/>
+        <SelectionRadius value="0.564400"/>
+        <ShadowRadius value="0.764400"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="Star2CameraMid07"/>
+        <Tipability value="0.750000"/>
+        <TipabilityLength value="0.800000"/>
+        <TipabilityWidth value="0.800000"/>
+        <UnitGlossaryCamera value="Star2CameraMid07"/>
+    </CModel>
+    <CModel id="WraithGroundAttackImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\WraithLaserMissileImpact\WraithLaserMissileImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.500000,0.500000,0.500000"/>
+        <ScaleMin value="0.500000,0.500000,0.500000"/>
+    </CModel>
+    <CModel id="VikingFighter2" parent="Unit" Race="Terran">
+        <Model value="assets\units\empire\Tengu_Fighter.m3"/>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 02">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="2"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 04">
+            <Keys index="SetA" value="3"/>
+        </AttachProps>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraLow07"/>
+        <Radius value="0.650000"/>
+        <ScaleMax value="0.850000,0.850000,0.850000"/>
+        <ScaleMin value="0.850000,0.850000,0.850000"/>
+        <SelectionRadius value="0.564400"/>
+        <ShadowRadius value="0.764400"/>
+        <SquibTypeDefault value="Metal"/>
+        <TechPurchaseCamera value="TechPurchaseViking"/>
+        <UnitGlossaryCamera value="Star2CameraLow07"/>
+    </CModel>
+    <CSound id="MengskVikingAssaultMorphModel2_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUMecha_VoiAtka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiAtke.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiAtkf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiAtkg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="JuMechaVoice82" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\JUMecha_transforma.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\JUMecha_transformb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Combat"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="MengskVikingAssaultMorphModel2_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUMecha_VoiMova.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiMovb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiMovc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiMovd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiMove.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiMovf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="MengskVikingAssaultMorphModel2_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSela.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSeld.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSele.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="MengskVikingAssaultMorphModel2_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelUndFira.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelUndFirb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelUndFirc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelUndFird.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelUndFire.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelUndFirf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="JuMechaVoice" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUMecha_VoiCreb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CUnit id="EmpireTengoMechaJetMode" parent="EmpireAir">
+        <FlagArray index="AIThreatGround" value="1"/>
+        <FlagArray index="AIThreatAir" value="1"/>
+        <PushPriority value="5"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="560"/>
+        <LifeMax value="560"/>
+        <LifeArmor value="1"/>
+        <Speed value="5"/>
+        <Acceleration value="4.625"/>
+        <Sight value="10"/>
+        <Food value="-0.5"/>
+        <CostResource index="Minerals" value="800"/>
+        <RepairTime value="41.6667"/>
+        <KillXP value="2"/>
+        <AbilArray Link="AssaultMode3"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent50"/>
+        <BehaviorArray Link="UpgradeLevel12"/>
+        <BehaviorArray Link="JuAirDamageReduce"/>
+        <WeaponArray Link="WraithG22"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="AssaultMode2" Type="AbilCmd" AbilCmd="AssaultMode3,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="Disband2" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="3"/>
+        </CardLayouts>
+        <Radius value="0.4375"/>
+        <SeparationRadius value="0.375"/>
+        <ScoreMake value="225"/>
+        <ScoreKill value="225"/>
+        <SubgroupPriority value="12"/>
+        <MinimapRadius value="0.75"/>
+        <TacticalAIThink value="AIThinkVikingFighter"/>
+        <HotkeyAlias value="EmpireTengoMechaMechaMode"/>
+        <SelectAlias value="EmpireTengoMechaMechaMode"/>
+    </CUnit>
+    <CWeaponLegacy id="WraithG2">
+        <EditorCategories value="Race:Terran"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-shipweaponslevel0.dds"/>
+        <DisplayEffect value="WraithGU2"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="7"/>
+        <Period value="1.2"/>
+        <Effect value="RATenguLaunchesInitialCreationOfPersistentEffects"/>
+        <AllowedMovement value="Slowing"/>
+        <DisplayAttackCount value="8"/>
+    </CWeaponLegacy>
+    <CActorUnit id="VikingFighter2" parent="GenericUnitBase" unitName="EmpireTengoMechaJetMode">
+        <Aliases value="_UnitMedium"/>
+        <AcceptedTransfers index="Status" value="0"/>
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On Terms="WeaponStart.*.AttackStart; AnimPlaying Birth" Send="AnimClear Birth"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo VikingFighter2" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom VikingFighter2" Send="Destroy"/>
+        <On Terms="ActorDestruction; HasStatus FlyerHelper" Send="StatusDecrement FlyerHelper"/>
+        <On Terms="UnitPortrait.*.Configure" Target="::PortraitGameSelf" Send="AnimPlay Visor Morph,Stand PlayForever 0.000000"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create VikingFighter_Land"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit HaveVoidShade" Send="DeathCustomize Shadow"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit HaveTerrazineShadow" Send="DeathCustomize Shadow"/>
+        <HostSiteOps Ops="SOpBankerViking"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <Baselines index="Walk" BlendIn="1.500000" BlendOut="2.000000"/>
+        <DeathArray index="Normal" ModelLink="VikingFighterDeath" SoundLink="Viking_Explode"/>
+        <DeathCustoms>
+            <ActorModel value="UnitDeathRagdollFlier"/>
+            <ModelLink value="VikingFighterDeathRagdoll"/>
+            <Name value="RagdollBasic"/>
+            <PhysicsMatchKeysOrdered value="BasicAir,Basic"/>
+            <BodySquibs Name="Basic" Model="TerranSquibDeathRagdoll"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms>
+            <ModelLink value="DeathVoidShadowMedium"/>
+            <SoundLink value="ShadowUnit_DeathFX"/>
+            <VoiceLink value="ShadowUnit_DeathVox"/>
+            <Name value="Shadow"/>
+        </DeathCustoms>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionFlier"/>
+        <PortraitModel value="VikingFighterPortrait"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.250000,0.500000"/>
+            <RangeDown value="5.000000"/>
+            <RangeDownFade value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleMassive15"/>
+        </TerrainSquibs>
+        <BarOffset value="50"/>
+        <BarWidth value="50"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Empire\tengu-fighter-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Empire\tengu-fighter-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-shipplatinglevel0.dds"/>
+        <NameOffset value="50"/>
+        <SoundArray index="Birth" value="MengskVikingAssaultMorphModel2_Help"/>
+        <SoundArray index="Ready" value="JuMechaVoice"/>
+        <SoundArray index="Help" value="MengskVikingAssaultMorphModel2_Help"/>
+        <SoundArray index="What" value="VikingFighter2_What"/>
+        <SoundArray index="Yes" value="VikingFighter2_Yes"/>
+        <SoundArray index="Attack" value="MengskVikingAssaultMorphModel2_Attack"/>
+        <SoundArray index="Pissed" value="MengskVikingAssaultMorphModel2_Attack"/>
+        <SoundArray index="Movement" value="MengskVikingFighterMorphModel2_Movement"/>
+        <SoundArray index="Turning" value="MengskVikingFighterMorphModel2_Turning"/>
+        <SoundArray index="Board" value="MengskVikingFighterMorphModel2_Board"/>
+        <SoundArray index="Click" value="JuMechaVoice"/>
+        <SoundArray index="ClickError" value="MengskVikingFighterMorphModel2_ClickError"/>
+        <SoundArray index="Highlight" value="MengskVikingFighterMorphModel2_Highlight"/>
+        <UnitFlags index="StandAnimBirthVariation" value="0"/>
+        <UnitIcon value="Assets\Icons\Empire\tengu-fighter-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Empire\tengu-fighter-wireframe.dds"/>
+        </Wireframe>
+        <Scale value="0.900000"/>
+        <AbilSoundArray AbilCmd="AssaultMode3,Unmorph" Sound="JuMechaVoice82" GroupSound="JuMechaVoice82"/>
+        <AbilSoundArray AbilCmd="FighterMode3,Execute" Sound="JuMechaVoice82" GroupSound="JuMechaVoice82"/>
+        <AbilSoundArray AbilCmd="AssaultMode3,Execute" Sound="JuMechaVoice82" GroupSound="JuMechaVoice82"/>
+        <AbilSoundArray AbilCmd="FighterMode3,Unmorph" Sound="JuMechaVoice82" GroupSound="JuMechaVoice82"/>
+        <Model value="VikingFighter2"/>
+        <HighlightTooltip value="Unit/Name/VikingFighter2"/>
+    </CActorUnit>
+    <CSound id="VikingFighter2_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUMecha_VoiMovSpca.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiMovSpcb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiMovSpcc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiMovSpcd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiMovSpce.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="VikingFighter2_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelSpca.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelSpcb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelSpcc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelSpcd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IUMecha_VoiSelSpce.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CWeaponLegacy id="WraithG22">
+        <EditorCategories value="Race:Terran"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-shipweaponslevel0.dds"/>
+        <DisplayEffect value="WraithGU2"/>
+        <TargetFilters value="Air,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="10"/>
+        <Period value="0.25"/>
+        <Effect value="WraithGU2"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
 </Catalog>

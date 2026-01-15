@@ -1,0 +1,456 @@
+<Catalog>
+    <CUnit id="AlliedAruis" parent="AlliedAir">
+        <Subtitle value="UnitSubtitle/hangk"/>
+        <Collide index="FlyingEscorts" value="1"/>
+        <Response value="Nothing"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Massive" value="1"/>
+        <LifeStart value="160"/>
+        <LifeMax value="160"/>
+        <LifeArmor value="1"/>
+        <Speed value="2.5"/>
+        <SpeedMaximum value="10"/>
+        <Deceleration value="10"/>
+        <Sight value="12"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="1600"/>
+        <KillXP value="4"/>
+        <BehaviorArray Link="UpgradeLevel122"/>
+        <BehaviorArray Link="AutoHeal42"/>
+        <BehaviorArray Link="Detector93"/>
+        <WeaponArray Link="RA100mmImpactCannon"/>
+        <WeaponArray Link="WraithG2422"/>
+        <EffectArray index="Create" value="AurepairDroneHighstart3"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Detector" Type="Passive" Requirements="StortModeRe235" Row="1" Column="4"/>
+            <LayoutButtons Face="AutechBeidongSet21" Type="Passive" Requirements="StortModeRe228" Row="1" Column="3"/>
+        </CardLayouts>
+        <Radius value="0.3125"/>
+        <SeparationRadius value="0.3125"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="14"/>
+        <TacticalAI value="Carrier"/>
+        <GlossaryPriority value="160"/>
+    </CUnit>
+    <CActorMissile id="CycloneMissile225" parent="GenericAttackMissile" unitName="CycloneMissile225">
+        <Model value="CycloneMissile27"/>
+    </CActorMissile>
+    <CActorAction id="WraithGroundAttack2322" parent="GenericAttack" effectAttack="" effectImpact="WraithGU2322" effectLaunch="AlliedACVgunLaunch2">
+        <On index="0" Terms="Effect.Bogus.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="5" Terms="Effect.AlliedACVgunLaunch2.Start; At Caster" Send="Create"/>
+        <On index="6" removed="1"/>
+        <LaunchSiteOps Ops="SOpAttachHarness RATheFiringPositionOfTheMainGunOfTheKirinBreakingTankHasShifted"/>
+        <LaunchAttachQuery Methods="Origin 0" Fallback="Origin"/>
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="AUACVVoice6"/>
+        <Missile value="WraithGroundAttackMissile2"/>
+        <ImpactMap index="None" Model="WraithGroundAttackImpact2" Sound="Viking_AssaultAttackImpact"/>
+    </CActorAction>
+    <CActorUnit id="AlliedAruis" parent="GenericUnitBase" unitName="AlliedAruis">
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.SJWraith.AttackStart" Send="AnimBracketStart Attack Attack,Superior"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="ActorCreation; ValidateUnit AlliedConstructionYardTechlv02" Send="ModelSwap JetFighter222"/>
+        <HostSiteOps Ops="SOpBankerRAAir"/>
+        <Model value="AlliedAruis_Model"/>
+        <Scale value="0.800000"/>
+        <AnimBlendTime value="0.300000"/>
+        <DeathArray index="Normal" ModelLink="SJGriffonDeath" SoundLink="SJGriffon_Explode"/>
+        <PortraitModel value="VikingMercenaryFighterPortrait"/>
+        <BarOffset value="60"/>
+        <BarWidth value="70"/>
+        <GroupIcon>
+            <Image value="assets\icons\ares-interceptor-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="assets\icons\ares-interceptor-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-shipplatinglevel0.dds"/>
+        <SoundArray index="Birth" value="SovietBandByBomber3_Actor_Birth"/>
+        <SoundArray index="Attack" value="AlliedAruis_Help"/>
+        <SoundArray index="Pissed" value="AlliedAruis_Help"/>
+        <SoundArray index="Movement" value="SovietBandByBomber3_Actor_Birth"/>
+        <SoundArray index="Turning" value="Wraith_Turning"/>
+        <SoundArray index="Board" value="Wraith_Board"/>
+        <SoundArray index="Click" value="AlliedAruis_What"/>
+        <SoundArray index="ClickError" value="Wraith_ClickError"/>
+        <SoundArray index="Highlight" value="Wraith_Highlight"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="assets\icons\ares-interceptor-icon.dds"/>
+        <Wireframe>
+            <Image value="assets\icons\ares-interceptor-wireframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorAction id="RAAresAttackAction" parent="GenericAttack" effectImpact="RAAresBombDamage" effectLaunch="RAAresLaunchesBomb">
+        <LaunchSiteOps Ops="SOpAttachWeaponLeft"/>
+        <LaunchAssets Model="TempestWeaponGround234" Sound="UnknownSound2"/>
+        <Missile value="CycloneMissile225"/>
+        <ImpactMap index="None" Model="CycloneMissile22" Scale="0.500000" Sound="UnknownSound3"/>
+        <ImpactMap index="Miss">
+            <Model value="CycloneMissile22"/>
+            <Scale value="0.500000"/>
+            <Sound value="UnknownSound3"/>
+            <ModelReaction value="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+        </ImpactMap>
+    </CActorAction>
+    <CActorAction id="RAAresAttackAction2" parent="GenericAttack" effectImpact="RAAresBombDamage" effectLaunch="RAAresLaunchesBomb2">
+        <LaunchSiteOps Ops="SOpAttachWeaponRight"/>
+        <LaunchAssets Model="TempestWeaponGround234" Sound="UnknownSound2"/>
+        <Missile value="CycloneMissile225"/>
+        <ImpactMap index="None">
+            <Model value="CycloneMissile22"/>
+            <Scale value="0.500000"/>
+            <Sound value="UnknownSound3"/>
+            <ModelReaction value="RAAresAttackActionImpactReaction"/>
+        </ImpactMap>
+        <ImpactMap index="Shield" Sound="RAAresAttackActionImpactShield" ModelReaction="RAAresAttackActionImpactReactionShield"/>
+        <ImpactMap index="Miss">
+            <Model value="CycloneMissile22"/>
+            <Scale value="0.500000"/>
+            <Sound value="UnknownSound3"/>
+            <ModelReaction value="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+        </ImpactMap>
+    </CActorAction>
+    <CActorAction id="RAStarAresAttackAction" parent="GenericAttack" effectImpact="RAStarAresBombDamage" effectLaunch="RAStarAresLaunchesBomb">
+        <LaunchSiteOps Ops="SOpAttachWeaponLeft"/>
+        <LaunchAssets Model="TempestWeaponGround234" Sound="UnknownSound2"/>
+        <Missile value="CycloneMissile2242"/>
+        <ImpactMap index="None" Model="CycloneMissile225" Scale="0.500000" Sound="UnknownSound3"/>
+        <ImpactMap index="Miss">
+            <Model value="CycloneMissile225"/>
+            <Scale value="0.500000"/>
+            <Sound value="UnknownSound3"/>
+            <ModelReaction value="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+        </ImpactMap>
+    </CActorAction>
+    <CActorAction id="RAStarAresAttackAction2" parent="GenericAttack" effectImpact="RAStarAresBombDamage" effectLaunch="RAStarAresLaunchesBomb2">
+        <LaunchSiteOps Ops="SOpAttachWeaponRight"/>
+        <LaunchAssets Model="TempestWeaponGround234" Sound="UnknownSound2"/>
+        <Missile value="CycloneMissile2242"/>
+        <ImpactMap index="None">
+            <Model value="CycloneMissile225"/>
+            <Scale value="0.500000"/>
+            <Sound value="UnknownSound3"/>
+            <ModelReaction value="RAStarAresAttackActionImpactReaction"/>
+        </ImpactMap>
+        <ImpactMap index="Shield" Sound="RAStarAresAttackActionImpactShield" ModelReaction="RAStarAresAttackActionImpactReactionShield"/>
+        <ImpactMap index="Miss">
+            <Model value="CycloneMissile225"/>
+            <Scale value="0.500000"/>
+            <Sound value="UnknownSound3"/>
+            <ModelReaction value="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+        </ImpactMap>
+    </CActorAction>
+    <CActorMissile id="CycloneMissile2242" parent="GenericAttackMissile" unitName="CycloneMissile2242">
+        <Model value="CycloneMissile262"/>
+    </CActorMissile>
+    <CActorMissile id="WraithGroundAttackMissile2" parent="GenericAttackMissile" unitName="TenguAntiGroundWeapon">
+        <Scale value="1.000000,0.100000,1.000000"/>
+        <Model value="WraithGroundWeapon2"/>
+    </CActorMissile>
+    <CEffectDamage id="WraithGU2322" parent="DU_WEAP">
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <Amount value="4"/>
+    </CEffectDamage>
+    <CEffectDamage id="RAAresBombDamage">
+        <ArmorReduction value="1"/>
+        <Amount value="5"/>
+        <AreaArray Radius="0.75" Fraction="1"/>
+        <SearchFilters value="Air,Visible;Self,Player,Ally,Neutral,RawResource,HarvestableResource,Missile,Invulnerable"/>
+        <AttributeBonus index="Armored" value="20"/>
+        <AttributeBonus index="Massive" value="20"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="RAAresGroundMachineGunCreatesContinuousEffect">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="AlliedACVgunLaunch2"/>
+        <PeriodicPeriodArray value="0.2"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="AlliedACVgunLaunch2">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="WraithGU2322"/>
+        <AmmoUnit value="TenguAntiGroundWeapon"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="RAAresLaunchesBomb">
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <ImpactEffect value="RAAresBombDamage"/>
+        <AmmoUnit value="CycloneMissile225"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="RAAresLaunchesBomb2">
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <ImpactEffect value="RAAresBombDamage"/>
+        <AmmoUnit value="CycloneMissile225"/>
+    </CEffectLaunchMissile>
+    <CEffectSwitch id="RAAresStarRisingWeaponEffectSwitching">
+        <CaseArray Validator="RAStarAresEffectVerification" Effect="RAStarAresBombCreatesContinuousEffect"/>
+        <CaseDefault value="RAAresWeaponsCreateContinuousEffects"/>
+    </CEffectSwitch>
+    <CEffectCreatePersistent id="RAAresWeaponsCreateContinuousEffects">
+        <Flags index="RandomOffset" value="1"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="RAAresLaunchesBomb"/>
+        <PeriodicEffectArray value="RAAresLaunchesBomb2"/>
+        <PeriodicOffsetArray value="0,0,0"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RAStarAresBombCreatesContinuousEffect">
+        <Flags index="RandomOffset" value="1"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="RAStarAresLaunchesBomb"/>
+        <PeriodicEffectArray value="RAStarAresLaunchesBomb2"/>
+        <PeriodicOffsetArray value="0,0,0"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <WhichLocation Value="TargetUnitOrPoint"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="RAStarAresBombDamage">
+        <Amount value="5"/>
+        <AreaArray Radius="0.75" Fraction="1"/>
+        <SearchFilters value="Air,Visible;Self,Player,Ally,Neutral,RawResource,HarvestableResource,Missile,Invulnerable"/>
+        <AttributeBonus index="Armored" value="20"/>
+        <AttributeBonus index="Massive" value="20"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="RAStarAresLaunchesBomb">
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <ImpactEffect value="RAStarAresBombDamage"/>
+        <AmmoUnit value="CycloneMissile2242"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="RAStarAresLaunchesBomb2">
+        <ImpactLocation Value="TargetUnitOrPoint"/>
+        <ImpactEffect value="RAStarAresBombDamage"/>
+        <AmmoUnit value="CycloneMissile2242"/>
+    </CEffectLaunchMissile>
+    <CModel id="AlliedAruis_Model" parent="MarineBase">
+        <Model value="assets\units\Allied\Ares.m3"/>
+        <AttachProps Id="Ref_Weapon Left">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon Right">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <SelectionRadius value="0.800000"/>
+    </CModel>
+    <CModel id="CycloneMissile27" parent="MissileFX">
+        <Model value="assets\models\FXAlliedGunshipMissile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.500000,1.500000,1.500000"/>
+        <ScaleMin value="1.500000,1.500000,1.500000"/>
+    </CModel>
+    <CModel id="SovietConscriptRifleFired" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\AutoTurretWeaponLaunch\AutoTurretWeaponLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
+        <AnimSpeed value="0.800000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CModel id="TempestWeaponGround234" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\ThorArmMissileLaunch\ThorArmMissileLaunch.m3"/>
+        <AnimSpeed value="0.500000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <Flags index="Ignorable" value="0"/>
+        <Priority value="16"/>
+        <ScaleMax value="0.800000,0.800000,0.800000"/>
+        <ScaleMin value="0.800000,0.800000,0.800000"/>
+    </CModel>
+    <CModel id="CycloneMissile262" parent="MissileFX">
+        <Model value="assets\models\FXAlliedGunshipMissileEX.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.500000,1.500000,1.500000"/>
+        <ScaleMin value="1.500000,1.500000,1.500000"/>
+    </CModel>
+    <CModel id="CycloneMissile225" parent="ImpactFX">
+        <Model value="assets\models\FXAlliedprotoncolliderhitEX.m3"/>
+        <AnimSpeed value="0.850000"/>
+        <EditorCategories value="Race:Terran"/>
+        <Priority value="16"/>
+        <ScaleMax value="1.100000,1.100000,1.100000"/>
+        <ScaleMin value="1.100000,1.100000,1.100000"/>
+    </CModel>
+    <CModel id="WraithGroundWeapon2" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\WraithLaserMissile\WraithLaserMissile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="WraithGroundAttackImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\WraithLaserMissileImpact\WraithLaserMissileImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.500000,0.500000,0.500000"/>
+        <ScaleMin value="0.500000,0.500000,0.500000"/>
+    </CModel>
+    <CModel id="CycloneMissile22" parent="ImpactFX">
+        <Model value="assets\models\FXAlliedprotoncolliderhit.m3"/>
+        <AnimSpeed value="0.850000"/>
+        <EditorCategories value="Race:Terran"/>
+        <Priority value="16"/>
+        <ScaleMax value="1.100000,1.100000,1.100000"/>
+        <ScaleMin value="1.100000,1.100000,1.100000"/>
+    </CModel>
+    <CMoverMissile id="CycloneMissileLeft5">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="5"/>
+            <Speed value="20"/>
+            <MaxSpeed value="22"/>
+            <Outro value="-1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+            <Overlays Scale="0.2,0.2"/>
+        </MotionPhases>
+        <MotionPhases YawPitchRoll="MAX">
+            <Overlays Scale="0"/>
+        </MotionPhases>
+        <MotionOverlays>
+            <Type value="Revolver"/>
+            <RevolverSpeed value="179.2968"/>
+            <RevolverSpeedRange value="179.2968"/>
+            <RevolverMaxSpeed value="719.2968"/>
+            <RevolverMaxSpeedRange value="0"/>
+            <RevolverAccel value="337.5"/>
+            <RevolverAccelRange value="337.5"/>
+        </MotionOverlays>
+    </CMoverMissile>
+    <CMoverMissile id="MissileDefault3">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="3200"/>
+            <MaxSpeed value="35"/>
+            <ClearanceAcceleration value="75"/>
+            <Outro value="-1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+        <MotionPhases YawPitchRoll="MAX"/>
+    </CMoverMissile>
+    <CSound id="AlliedAruis_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\ares-interceptor-attack-1.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-attack-2.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-attack-3.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-attack-4.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-attack-5.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-attack-6.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedAruis_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\ares-interceptor-moves-1.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-moves-2.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-moves-3.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-moves-4.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-moves-5.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-moves-6.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedAruis_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\ares-interceptor-select-1.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-option-2.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-choice-3.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-choice-4.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-choice-5.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\ares-interceptor-select-6.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietBandByBomber3_Actor_Birth" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUCentu_movStartA.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartB.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartC.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartD.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCentu_movStartE.ogg" FacialGroup=""/>
+        <Category value="Movement"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="AUACVVoice6" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfirea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfireb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfirec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfired.ogg" FacialGroup=""/>
+        <Flags index="Ignorable" value="1"/>
+        <Flags index="Purgable" value="0"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-4.000000,-4.000000"/>
+    </CSound>
+    <CSound id="AlliedAruis_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\ares-interceptors-are-ready.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="UnknownSound3" parent="Combat">
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2A.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2B.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2C.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2D.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2E.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2F.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2G.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonExplo2H.ogg" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <ReverbBalance Room="-10000"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="UnknownSound2" parent="Combat">
+        <AssetArray File="assets\sounds\AUGunship_cannonFireA.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonFireB.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonFireC.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonFireD.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUGunship_cannonFireE.ogg" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <ReverbBalance Room="-10000"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CUnit id="CycloneMissile225" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="CycloneMissileLeft5"/>
+        <EditorCategories value="ObjectFamily:Melee,ObjectType:Projectile"/>
+    </CUnit>
+    <CUnit id="CycloneMissile2242" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="CycloneMissileLeft5"/>
+        <EditorCategories value="ObjectFamily:Melee,ObjectType:Projectile"/>
+    </CUnit>
+    <CUnit id="TenguAntiGroundWeapon" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="MissileDefault3"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CWeaponLegacy id="WraithG2422">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-swann-improvedturretattackspeed.dds"/>
+        <DisplayEffect value="WraithGU2322"/>
+        <DisplayAttackCount value="3"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="6"/>
+        <Period value="2.5"/>
+        <Effect value="RAAresGroundMachineGunCreatesContinuousEffect"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="RA100mmImpactCannon">
+        <EditorCategories value=""/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-protoss-fenix-scoutchampionaoeMissiles.dds"/>
+        <DisplayEffect value="RAAresBombDamage"/>
+        <DisplayAttackCount value="2"/>
+        <TargetFilters value="Air,Visible;Missile,Dead,Invulnerable"/>
+        <Range value="7"/>
+        <Period value="3"/>
+        <Effect value="RAAresStarRisingWeaponEffectSwitching"/>
+        <LegacyOptions index="NoDeceleration" value="1"/>
+    </CWeaponLegacy>
+</Catalog>

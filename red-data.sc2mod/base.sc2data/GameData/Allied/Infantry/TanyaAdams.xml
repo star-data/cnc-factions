@@ -1,4 +1,657 @@
-
 <Catalog>
+    <CUnit id="AlliedTanya" parent="AlliedGround">
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <Attributes index="Heroic" value="1"/>
+        <PushPriority value="21"/>
+        <Collide index="Small" value="1"/>
+        <LifeStart value="150"/>
+        <LifeMax value="150"/>
+        <LifeArmor value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranInfantryArmor"/>
+        <Speed value="2.5"/>
+        <LateralAcceleration value="46.0625"/>
+        <StationaryTurningRate value="1599.961"/>
+        <TurningRate value="1599.961"/>
+        <Sight value="10"/>
+        <Food value="-3"/>
+        <CostResource index="Minerals" value="2000"/>
+        <RepairTime value="20"/>
+        <KillXP value="40"/>
+        <AbilArray Link="Herrscher2ndBlink2"/>
+        <AbilArray Link="OdinNuclearStrike222232"/>
+        <BehaviorArray Link="RAComprehensiveCapabilitiesGreatlyImproved1"/>
+        <BehaviorArray Link="UpgradeLevel123222"/>
+        <BehaviorArray Link="AlliedInfantryArmor"/>
+        <BehaviorArray Link="RAInfantryAutoHeal"/>
+        <WeaponArray Link="AssaultRifle2"/>
+        <WeaponArray Link="AssaultRifle22"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="BuildHeavyTankAdvanced43222322" Type="AbilCmd" AbilCmd="OdinNuclearStrike222232,Execute" Row="1" Column="1"/>
+            <LayoutButtons Face="Herrscher2Blink3" Type="AbilCmd" AbilCmd="Herrscher2ndBlink2,Execute" Row="1" Column="0"/>
+        </CardLayouts>
+        <CardLayouts CardId="0002">
+            <LayoutButtons Face="RAImproveTheSkillsOfTheHeroInfantry1" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch3,Research21" Row="0" Column="1"/>
+            <LayoutButtons Face="RAImproveTheSkillsOfTheHeroInfantry1" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch3,Research11" Row="0" Column="1"/>
+            <LayoutButtons Face="RAImproveTheSkillsOfTheHeroInfantry1" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch3,Research12" Row="0" Column="1"/>
+            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+        </CardLayouts>
+        <InnerRadius value="0.5"/>
+        <ScoreKill value="100"/>
+        <SubgroupPriority value="100"/>
+        <TacticalAI value="Marine"/>
+        <AIEvaluateAlias value="Marine"/>
+    </CUnit>
+    <CAbilEffectTarget id="Herrscher2ndBlink2">
+        <AbilSetId value="Blnk"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <PrepEffect value="RATanyaActivatesTheInvincibilityEffectApplication"/>
+        <Effect index="0" value="Herrscher2ndBlinkTeleport2"/>
+        <Flags index="BestUnit" value="0"/>
+        <Flags index="RequireTargetVision" value="0"/>
+        <Cost>
+            <Cooldown TimeUse="15"/>
+        </Cost>
+        <TargetSorts RequestCount="2">
+            <SortArray value="TSFarthestDistance"/>
+        </TargetSorts>
+        <Range value="12"/>
+        <Arc value="360"/>
+        <AutoCastRange value="9"/>
+        <PrepTime value="0.1"/>
+        <FinishTime value="0.1"/>
+        <UninterruptibleArray index="Prep" value="1"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <UninterruptibleArray index="Finish" value="1"/>
+        <AINotifyEffect value="Herrscher2ndBlinkTeleport"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Herrscher2Blink3">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+    </CAbilEffectTarget>
+    <CAbilEffectTarget id="OdinNuclearStrike222232">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Effect index="0" value="ChinaSuperWeaponin2"/>
+        <Cost>
+            <Charge Link="Abil/NovaNuclearStrike"/>
+            <Cooldown Link="chaoneng" TimeUse="20"/>
+        </Cost>
+        <Range value="10"/>
+        <Arc value="360"/>
+        <Marker Link="Abil/NovaNuclearStrike"/>
+        <AlertArray index="Cast" value="CalldownLaunch"/>
+        <CursorEffect value="RACompletelyFreezeSearchBehavior2"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="BuildHeavyTankAdvanced43222322"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
+    </CAbilEffectTarget>
+    <CActorSound id="BlinkStopSound2" parent="SoundOneShot">
+        <On Terms="Effect.Herrscher2ndBlinkTeleport.Stop; At Source" Send="Create"/>
+        <On Terms="Effect.Herrscher2ndBlinkTeleport2.Stop; At Source" Send="Create"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOrigin"/>
+        <Sound value="Stalker_Blink2"/>
+    </CActorSound>
+    <CActorSimple id="SeekerMissileTint222">
+        <Aliases value="_AngryTinter"/>
+        <Remove Terms="Effect.RACallBombingActorResponse.Start; At Target" Send="Create"/>
+        <Remove Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <Remove Terms="Effect.RAGuardianTankLaserTargetingContinuousEffect.Start; At Target" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor {128,128,128 0.500000} 0.500000 OneShot SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="SetTintColor {255,0,0 0.500000} 1.000000 OneShot SeekerTarget"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent46.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent46.Off" Send="Destroy"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent46.On" Send="Create"/>
+    </CActorSimple>
+    <CActorModelMaterial id="GlazeShadow23" parent="GlazeParent">
+        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable1.On" Send="Create"/>
+        <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Main"/>
+        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable1.Off" Send="Destroy"/>
+        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable2.On" Send="Create"/>
+        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable2.Off" Send="Destroy"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModelMaterial>
+    <CActorModel id="v4rocketbz4323" parent="ModelAddition">
+        <Aliases index="0" removed="1"/>
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="CastShadows" value="0"/>
+        <Inherits index="CloakEffect" value="0"/>
+        <Inherits index="CreepEngulfment" value="0"/>
+        <Inherits index="Decal" value="0"/>
+        <Inherits index="ModelMaterials" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="TeamColor" value="0"/>
+        <Inherits index="TimeScale" value="0"/>
+        <Inherits index="TintColor" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <Inherits index="WarpGroup" value="0"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On index="1" Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On index="2" Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.RATheContinuousEffectOfExtremeFreezingIsActivated.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.RACompletelyFrozenFakeDamage.Start; At Effect" Send="Create"/>
+        <Host Subject=""/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Model value="v4huojianbzmx423"/>
+    </CActorModel>
+    <CActorModel id="v4rocketbz433" parent="ModelAddition">
+        <Aliases index="0" removed="1"/>
+        <Inherits index="BaseModelScale" value="0"/>
+        <Inherits index="CastShadows" value="0"/>
+        <Inherits index="CloakEffect" value="0"/>
+        <Inherits index="CreepEngulfment" value="0"/>
+        <Inherits index="Decal" value="0"/>
+        <Inherits index="ModelMaterials" value="0"/>
+        <Inherits index="Opacity" value="0"/>
+        <Inherits index="Scale" value="0"/>
+        <Inherits index="TeamColor" value="0"/>
+        <Inherits index="TimeScale" value="0"/>
+        <Inherits index="TintColor" value="0"/>
+        <Inherits index="Visibility" value="0"/>
+        <Inherits index="WarpGroup" value="0"/>
+        <On index="0" Terms="Effect.RATheContinuousEffectOfExtremeFreezingIsActivated.Start; At Effect" Send="Create"/>
+        <On index="1" Terms="Effect.RATheContinuousEffectOfExtremeFreezingIsActivated.Stop" Send="Destroy"/>
+        <On index="2" Terms="Effect.RATheContinuousEffectOfExtremeFreezingIsActivated.Start; At Effect" Send="AnimBracketStart Attack1 Birth Stand Death"/>
+        <On Terms="Effect.RATheContinuousEffectOfExtremeFreezingIsActivated.Stop" Send="AnimBracketStop Attack1"/>
+        <On Terms="ActorCreation" Send="SetTintColor {0,255,255 1.500000}"/>
+        <Host Subject=""/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Model value="v4huojianbzmx43"/>
+    </CActorModel>
+    <CActorSound id="RAExtremeFreezeBombingSoundEffects" parent="SoundOneShot">
+        <On Terms="Effect.RATheContinuousEffectOfExtremeFreezingIsActivated.Start; At Effect" Send="Create"/>
+        <Sound value="AlliedAthenaVoice8422"/>
+    </CActorSound>
+    <CActorSound id="RATanyaC4CountdownSoundEffect" parent="SoundOneShot">
+        <Flags index="SuppressSaveLoad" value="0"/>
+        <InheritType value="Continuous"/>
+        <Inherits index="Visibility" value="0"/>
+        <AcceptedTransfers index="Position" value="0"/>
+        <AcceptedTransfers index="Rotation" value="0"/>
+        <On index="0" Terms="Effect.RATanyaPerformsC4BehaviorOnTarget.Start; At Effect" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000 C4time"/>
+        <On Terms="TimerExpired; TimerName C4time" Send="TimerKill C4time"/>
+        <On Terms="TimerExpired; TimerName C4time" Send="Destroy"/>
+        <On Terms="Effect.shenxiangSpellAB.Start; At Effect" Send="Create"/>
+        <Sound value="UnknownSound333"/>
+        <FogVisibility value="Visible"/>
+    </CActorSound>
+    <CActorSquib id="RATanyaC4Explodes">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.ArtanisVoidUlnarDamage2222.Start" Send="Create"/>
+        <On Terms="Effect.RATanyaC4ExplosionDamage.Start" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="TychusTossGrenadeImpact223" Sound="SiegeTank_AttackImpact6"/>
+        <FogVisibility value="Visible"/>
+    </CActorSquib>
+    <CActorModel id="RATanyaC4ModelAttached" parent="ModelAddition">
+        <Aliases index="0" removed="1"/>
+        <Inherits index="LocalTintColor" value="1"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart Attack1 Birth Stand Death"/>
+        <On index="1" Terms="ActorOrphan" Send="AnimBracketClear Attack1"/>
+        <On index="2" Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="TimerSet 2.000000 C4"/>
+        <On Terms="TimerExpired; TimerName C4" Send="Destroy"/>
+        <On Terms="TimerExpired; TimerName C4" Send="TimerKill C4"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent46.On" Send="Create"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent46.Off" Send="Destroy"/>
+        <On Terms="Effect.RATanyaPerformsC4BehaviorOnTarget.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.shenxiangSpellAB.Start; At Effect" Send="Create"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent462.On" Send="Create"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent462.Off" Send="Destroy"/>
+        <AddToProximitySystem value="0"/>
+        <Host Scope="Target"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+        <Model value="TempestWeaponGround2322"/>
+        <Scale value="0.300000"/>
+        <FogVisibility value="Visible"/>
+    </CActorModel>
+    <CActorSound id="RATheSoundEffectOfTheZombieBeingCompletelyFrozen" parent="SoundOneShot">
+        <Flags index="SuppressSaveLoad" value="0"/>
+        <InheritType value="Continuous"/>
+        <Inherits index="Visibility" value="0"/>
+        <AcceptedTransfers index="Position" value="0"/>
+        <AcceptedTransfers index="Rotation" value="0"/>
+        <On index="0" Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable1.On" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 5.000000,5.000000 liansuoshanghai"/>
+        <On Terms="TimerExpired; TimerName liansuoshanghai" Send="TimerKill liansuoshanghai"/>
+        <On Terms="TimerExpired; TimerName liansuoshanghai" Send="Destroy"/>
+        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable1.Off" Send="Destroy"/>
+        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable2.On" Send="Create"/>
+        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable2.Off" Send="Destroy"/>
+        <Sound value="AlliedFrozenLegion_Actor_Birth"/>
+    </CActorSound>
+    <CActorUnit id="AlliedTanya_Actor" parent="GenericUnitStandard" unitName="AlliedTanya">
+        <Aliases value="_UnitSmall"/>
+        <On index="65" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack {} {} ContentForceLooping"/>
+        <On Terms="AnimDone; AnimName Spell" Send="AnimGroupRemove Work"/>
+        <On Terms="Signal.*.DestroySplat" Target="RaynorSnipeSplat" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="AnimGroupApply A"/>
+        <On Terms="ActorCreation" Send="Create ColossusAttackBeamImpact232"/>
+        <Model value="AlliedTanya_Model"/>
+        <Scale value="0.850000"/>
+        <ModelFlags index="SuppressPlayerDecals" value="1"/>
+        <DeathArray index="Normal" ModelLink="NatashaDeath3" SoundLink="TanyaVioce23" VoiceLink="TanyaVioce23"/>
+        <DeathArray index="Fire" ModelLink="NatashaDeath3" SoundLink="TanyaVioce23" VoiceLink="TanyaVioce23"/>
+        <PortraitModel value="NovaPortrait"/>
+        <StandAnimTurnTime value="5"/>
+        <WalkAnimMoveSpeed value="3"/>
+        <AbilSoundArray/>
+        <BarOffset value="50"/>
+        <BarWidth value="80"/>
+        <CustomUnitStatusFrame value="HotS_UnitStatus/KerriganHeroUnitStatusFrameTemplate"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Allied\tanya-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Allied\tanya-build-icon.dds"/>
+        <HighlightTooltip value="Unit/Name/Tanya"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
+        <MinimapIcon value="Assets\Textures\ui_emoticons_skull.dds"/>
+        <SoundArray index="Birth" value="TanyaVioce"/>
+        <SoundArray index="Ready" value="TanyaVioce"/>
+        <SoundArray index="Help" value="AlliedTanya_Actor_Help"/>
+        <SoundArray index="What" value="AlliedTanya_Actor_What"/>
+        <SoundArray index="Yes" value="AlliedTanya_Actor_Yes"/>
+        <SoundArray index="Attack" value="AlliedTanya_Actor_Attack"/>
+        <SoundArray index="Pissed" value="Raynor_Pissed"/>
+        <SoundArray index="Movement" value="Raynor_Movement"/>
+        <SoundArray index="Turning" value="Raynor_Turning"/>
+        <SoundArray index="Board" value="Raynor_Board"/>
+        <SoundArray index="Click" value="AlliedTanya_Actor_What"/>
+        <StatusBarFlags index="Life" value="0"/>
+        <StatusBarFlags index="Energy" value="0"/>
+        <UnitBorderNormalColor value="150,150,150"/>
+        <UnitBorderSubgroupColor value="255,255,255"/>
+        <UnitIcon value="Assets\Icons\Allied\tanya-icon.dds"/>
+        <UnitKillRank Text="AlliedTanya"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Allied\tanya-wireframe.dds"/>
+        </Wireframe>
+        <MinimapIconScale value="0.600000"/>
+        <MinimapIconBackgroundScale value="0.600000"/>
+    </CActorUnit>
+    <CActorModel id="TanyaBecomesInvincibleWithin3seconds" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.xianfeng4.On" Send="Create"/>
+        <On Terms="Behavior.xianfeng4.Off" Send="AnimBracketStop BSD"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachOrigin"/>
+    </CActorModel>
+    <CActorAction id="AssaultRifleAttack2" parent="GenericAttack" effectAttack="AssaultRifle2">
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="AircraftMG_Launch223"/>
+        <ContainerAssets Model="MarineBunkerAttackLaunch" Sound="Marine_BunkerAttackLaunch"/>
+        <ImpactMap index="None" Model="MarineAttackImpact" Sound="Marine_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="BulletImpact" MatchKeys="Basic" Physics="MarineAttackDeathForce"/>
+        <DamageMap index="None" Sound=""/>
+        <AcquisitionYawHalfArc value="10.000000"/>
+        <AcquisitionPitchHalfArc value="15.000000"/>
+        <AccuracyHalfArc value="5.000000"/>
+    </CActorAction>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent46">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="2"/>
+        <Modification>
+            <ModifyFlags index="Reveal" value="1"/>
+            <ModifyFlags index="Detected" value="1"/>
+            <StateFlags index="Stasis" value="1"/>
+            <DamageDealtFraction index="Spell" value="-0.9"/>
+            <DamageDealtFraction index="Melee" value="-0.9"/>
+            <DamageDealtFraction index="Ranged" value="-0.9"/>
+            <DamageDealtFraction index="Splash" value="-0.9"/>
+            <DamageDealtFraction index="NoProc" value="-0.9"/>
+        </Modification>
+        <TimeScaleSource Value="Global"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RATheTargetIsCompletelyFrozenAndVulnerable2">
+        <InfoIcon value="Assets\Textures\ui_hots_icon_flashfreeze.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="IsNotHellionTank2343"/>
+        <DisableValidatorArray value="IsNotHellionTank234"/>
+        <DisableValidatorArray value="RAExcludeBuildingsAndHeroUnits"/>
+        <RemoveValidatorArray value="IsNotHellionTank2343"/>
+        <RemoveValidatorArray value="IsNotHellionTank234"/>
+        <RemoveValidatorArray value="RAExcludeBuildingsAndHeroUnits"/>
+        <Duration value="20"/>
+        <Modification TimeScale="0.01">
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="DisableWeapons" value="1"/>
+            <ModifyFlags index="Reveal" value="1"/>
+            <ModifyFlags index="Detected" value="1"/>
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <ModifyFlags index="SuppressTurning" value="1"/>
+            <StateFlags index="UnitAttrOnMapBoss" value="1"/>
+            <StateFlags index="UnitAttrOffStructure" value="1"/>
+            <BehaviorLinkDisableArray value="AirfieldAuraB2722"/>
+            <BehaviorLinkDisableArray value="suanfushoubaoshi22"/>
+            <BehaviorLinkDisableArray value="jiangshichaobaoshi"/>
+            <BehaviorLinkDisableArray value="suanfushoubaoshi"/>
+            <BehaviorLinkDisableArray value="suanfushoubaoshi2"/>
+        </Modification>
+        <DeathType value="Freeze"/>
+        <DamageResponse Handled="DisbandDeath8">
+            <ExcludeEffectInChainArray value="LaserDrillTripodDamage2"/>
+            <Chance value="1"/>
+        </DamageResponse>
+        <TimeScaleSource Value="Caster"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="xianfeng4">
+        <InfoIcon value="Assets\Textures\btn-ability-mengsk-marauder-selfabsorbshield.dds"/>
+        <DisplayDuration index="Self" value="1"/>
+        <Duration value="7"/>
+        <Modification>
+            <StateFlags index="UnitAttrOnMapBoss" value="1"/>
+            <VitalRegenArray index="Life" value="5"/>
+            <BehaviorLinkDisableArray value="ZHybridPsionicShockwaveHeightAndStun"/>
+        </Modification>
+        <DamageResponse ModifyFraction="0.5">
+            <Chance value="1"/>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CButton id="BuildHeavyTankAdvanced43222322">
+        <Icon value="Assets\Textures\ui_hots_icon_flashfreeze.dds"/>
+        <HotkeyAlias value="Spectre"/>
+    </CButton>
+    <CButton id="Herrscher2Blink3">
+        <Icon value="assets\icons\Allied\tanya-time-and-space-belt.dds"/>
+    </CButton>
+    <CEffectDamage id="LaserDrillTripodDamage2" parent="DU_WEAP">
+        <ResponseFlags index="Acquire" value="0"/>
+        <ArmorReduction value="0"/>
+        <Kind value="Ranged"/>
+        <Death value="Fire"/>
+    </CEffectDamage>
+    <CEffectDamage id="AssaultRifle2" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="5"/>
+        <AttributeBonus index="Light" value="10"/>
+    </CEffectDamage>
+    <CEffectDamage id="DisbandDeath8">
+        <ImpactLocation Value="SourceUnit"/>
+        <Flags index="Kill" value="1"/>
+        <Flags index="NoBehaviorResponse" value="1"/>
+        <Death value="Freeze"/>
+        <ValidatorArray value="IsNotHellionTank234"/>
+        <SearchFilters value="-;Invulnerable"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="RACompletelyFreezeSearchBehavior2">
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Dead,Invulnerable,MapBoss"/>
+        <AreaArray Radius="5" Effect="RAFreezeApplicationBehaviorFinallyFreezes1"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="RACompletelyFrozenFakeDamage"/>
+    <CEffectApplyBehavior id="RAFreezeApplicationBehaviorFinallyFreezes1">
+        <Behavior value="RATheTargetIsCompletelyFrozenAndVulnerable2"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="C4">
+        <EffectArray value="RATanyaPerformsC4BehaviorOnTarget"/>
+        <EffectArray value="RATanyaC4ExplodesInSequence"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="RATanyaActivatesTheInvincibilityEffectApplication">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="xianfeng4"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="RATanyaC4ExplodesInSequence">
+        <WhichLocation Value="TargetUnit"/>
+        <InitialEffect value="RATanyaC4ExplosionDamage"/>
+        <InitialDelay value="2"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="RATanyaC4ExplosionDamage">
+        <Amount value="20000"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="RATanyaPerformsC4BehaviorOnTarget">
+        <Behavior value="RAMovementSpeedAndArmor20Percent46"/>
+    </CEffectApplyBehavior>
+    <CEffectTeleport id="Herrscher2ndBlinkTeleport2">
+        <ValidatorArray value="CasterNotFungalGrowthed"/>
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Value="Caster"/>
+        <ClearQueuedOrders value="0"/>
+        <PlacementAround Value="CasterUnit"/>
+        <Range value="500"/>
+        <TargetLocation Value="TargetPoint"/>
+        <TeleportFlags index="TestCliff" value="1"/>
+        <TeleportEffect value="RATanyaActivatesTheInvincibilityEffectApplication"/>
+    </CEffectTeleport>
+    <CEffectCreatePersistent id="RATheContinuousEffectOfExtremeFreezingIsActivated">
+        <InitialEffect value="RACompletelyFreezeSearchBehavior2"/>
+        <PeriodCount value="15"/>
+        <PeriodicEffectArray value="RACompletelyFreezeSearchBehavior2"/>
+        <PeriodicEffectArray value="RACompletelyFrozenFakeDamage"/>
+        <PeriodicPeriodArray value="0.2"/>
+        <RevealRadius value="6"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="ChinaSuperWeaponin2">
+        <ExpireDelay value="1"/>
+        <ExpireEffect value="RATheContinuousEffectOfExtremeFreezingIsActivated"/>
+        <PeriodCount value="1"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <RevealRadius value="6"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CModel id="TychusTossGrenadeImpact223" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\EyeOfAdunMissileImpact\EyeofAdunMissileImpact.m3"/>
+        <AnimSpeed value="0.600000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.400000,1.400000,1.400000"/>
+        <ScaleMin value="1.400000,1.400000,1.400000"/>
+    </CModel>
+    <CModel id="GlazeShadow23" parent="Glaze">
+        <Model value="Assets\Effects\Glaze\Glaze_Ice_TangentSpace\Glaze_Ice_TangentSpace.m3"/>
+        <Priority value="32"/>
+    </CModel>
+    <CModel id="SovietConscriptRifleFired" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\AutoTurretWeaponLaunch\AutoTurretWeaponLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
+        <AnimSpeed value="0.800000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CModel id="v4huojianbzmx423" parent="ImpactFX">
+        <Model value="Assets\Effects\Other\PhysicsImpactSnowMed\PhysicsImpactSnowMed.m3"/>
+        <Flags index="Wait" value="1"/>
+        <ScaleMax value="6.000000,6.000000,6.000000"/>
+        <ScaleMin value="6.000000,6.000000,6.000000"/>
+    </CModel>
+    <CModel id="v4huojianbzmx43" parent="ImpactFX">
+        <Model value="Assets\COOP\Tychus\Effects\Heavens_COOP_GearDeliveryBeam\Heavens_COOP_GearDeliveryBeam.m3"/>
+        <AnimSpeed value="0.700000"/>
+        <Flags index="Wait" value="1"/>
+        <ScaleMax value="1.300000,1.300000,1.300000"/>
+        <ScaleMin value="1.300000,1.300000,1.300000"/>
+    </CModel>
+    <CModel id="TanyaBecomesInvincibleWithin3seconds">
+        <Model value="Assets\Effects\Protoss\SentryShieldBubble\SentryShieldBubble.m3"/>
+        <ScaleMax value="0.160000,0.160000,0.160000"/>
+        <ScaleMin value="0.160000,0.160000,0.160000"/>
+    </CModel>
+    <CModel id="TempestWeaponGround2322" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\ArcadePowerupBomb\ArcadePowerupBomb.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CModel id="NatashaDeath3" parent="UnitDeath" Race="Terran">
+        <Model value="assets\units\Allied\Tanya_Death.m3"/>
+        <SelectionOffset value="0.000000,0.000000,-0.500000"/>
+        <SelectionRadius value="1.250000"/>
+    </CModel>
+    <CModel id="AlliedTanya_Model" parent="Unit" Race="Terran">
+        <Model value="assets\units\Allied\Tanya.m3"/>
+        <Flags index="AutoUnload" value="1"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraMid04"/>
+        <SelectionRadius value="0.416500"/>
+        <ShadowRadius value="0.416500"/>
+        <SquibTypeDefault value="Flesh"/>
+        <TechPurchaseCamera value="Star2CameraMid04"/>
+        <UnitGlossaryCamera value="Star2CameraMid04"/>
+    </CModel>
+    <CSound id="AlliedFrozenLegion_Actor_Birth" parent="Combat">
+        <AssetArray File="Assets\Sounds\AUCryoc_cryoBeamImpacta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUCryoc_cryoBeamImpactb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUCryoc_cryoBeamImpactc.ogg" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <Volume value="3.000000,3.000000"/>
+    </CSound>
+    <CSound id="AlliedAthenaVoice8422" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUCryoL_freezeSwella.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCryoL_freezeSwellb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCryoL_freezeSwellc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCryoL_freezeSwelld.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUCryoL_freezeSwelle.ogg" FacialGroup=""/>
+        <Volume value="6.000000,6.000000"/>
+    </CSound>
+    <CSound id="Stalker_Blink2" parent="Spell">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="Assets\Sounds\Zeratul_BlinkCloud01.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Zeratul_BlinkCloud02.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Zeratul_BlinkCloud03.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Zeratul_BlinkCloud04.wav" FacialGroup=""/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SiegeTank_AttackImpact6" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactSmall0.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactSmall1.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactSmall2.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactSmall3.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactSmall4.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactSmall5.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactSmall6.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactSmall7.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactSmall8.wav" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactSmall9.wav" FacialGroup=""/>
+        <DupeDestroyCount value="5"/>
+        <DupeMaximumMethod value="Replace"/>
+        <Pitch value="-3.000000,3.000000"/>
+        <Volume value="-3.000000,0.000000"/>
+    </CSound>
+    <CSound id="AlliedTanya_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\AUTanya_VoiAtka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiAtke.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiAtkf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiAtkg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="UnknownSound333" parent="Combat">
+        <AssetArray File="Assets\sounds\AUTanya_C4Timera.ogg" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="TanyaVioce23" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\AUTanya_VoiDiea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiDieb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiDiec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiDied.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiDiee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiDief.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiDieg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiDieh.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Death"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AlliedTanya_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\AUTanya_VoiSelUndFira.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiSelUndFirb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiSelUndFirc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiSelUndFird.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiSelUndFire.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="TanyaVioce" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\tanya-is-born.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="5.000000,5.000000"/>
+    </CSound>
+    <CSound id="AlliedTanya_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\AUTanya_VoiMova.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiMovb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiMovc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiMovd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiMove.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiMovf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiMovg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiMovh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiMovi.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AlliedTanya_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\AUTanya_VoiSela.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiSelb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiSelc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiSeld.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiSele.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiSelf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiSelg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\AUTanya_VoiSelh.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AircraftMG_Launch223" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireC.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireD.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireE.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireF.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireG.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireH.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUTanya_pistolFireI.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="8"/>
+        <DupeMaximumMethod value="Replace"/>
+        <Volume value="-5.000000,-5.000000"/>
+    </CSound>
+    <CWeaponLegacy id="AssaultRifle22">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Melee" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-tychus-reaper-explosivecharges.dds"/>
+        <DisplayEffect value="LaserDrillTripodDamage2"/>
+        <TargetFilters value="Ground;Air,Heroic,Missile,Stasis,Dead,Hidden,Invulnerable,MapBoss,HeroUnit"/>
+        <Range value="0"/>
+        <Period value="2"/>
+        <Effect value="C4"/>
+        <MinScanRange value="9"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="AssaultRifle2">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-ability-hornerhan-mechbioweaponupgrades-c.dds"/>
+        <TargetFilters value="Ground,Visible;Mechanical,Structure,User1,Missile,Destructible,Dead,Hidden,Invulnerable"/>
+        <Period value="0.15"/>
+        <Range value="6"/>
+    </CWeaponLegacy>
 
 </Catalog>

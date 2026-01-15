@@ -1,3 +1,210 @@
 <Catalog>
 
+    <CUnit id="EmpireImperialOreMiner" parent="EmpireGround">
+        <FlagArray index="Worker" value="1"/>
+        <FlagArray index="TurnBeforeMove" value="1"/>
+        <FlagArray index="ClearRallyOnTargetLost" value="0"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="1000"/>
+        <LifeMax value="1000"/>
+        <LifeArmor value="1"/>
+        <Speed value="1.3007"/>
+        <LateralAcceleration value="46.0625"/>
+        <StationaryTurningRate value="360"/>
+        <TurningRate value="360"/>
+        <Sight value="11"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="1000"/>
+        <RepairTime value="50"/>
+        <AttackTargetPriority value="1"/>
+        <KillXP value="50"/>
+        <AbilArray Link="SCVHarvest2"/>
+        <AbilArray Link="VolatileBurstBuilding2"/>
+        <BehaviorArray Link="CNCAutoHarvestMinerals"/>
+        <BehaviorArray Link="UpgradeLevel1"/>
+        <BehaviorArray Link="nianayaLevel1"/>
+        <WeaponArray Link="WraithG244" Turret="SiegeTank"/>
+        <WeaponArray Link="nianyalv1"/>
+        <EffectArray index="Create" value="oreminerSearch"/>
+        <EffectArray index="Birth" value="oreminerSearch"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Gather" Type="AbilCmd" AbilCmd="SCVHarvest2,Gather" Row="1" Column="0"/>
+            <LayoutButtons Face="ReturnCargo" Type="AbilCmd" AbilCmd="SCVHarvest2,Return" Row="1" Column="1"/>
+            <LayoutButtons Face="Disband2" Type="AbilCmd" AbilCmd="Disband,Execute" Row="2" Column="4"/>
+            <LayoutButtons Face="MothershipCoreAttack" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="TossGrenadeTychus222222" Type="AbilCmd" AbilCmd="VolatileBurstBuilding2,Off" Row="2" Column="0"/>
+            <LayoutButtons Face="TossGrenadeTychus22222" Type="AbilCmd" AbilCmd="VolatileBurstBuilding2,On" Row="2" Column="1"/>
+            <LayoutButtons Face="RASingleMaximumCarryingCapacity" Type="Passive" Row="1" Column="2"/>
+        </CardLayouts>
+        <SeparationRadius value="1"/>
+        <InnerRadius value="0.1875"/>
+        <ScoreMake value="350"/>
+        <ScoreKill value="700"/>
+        <SubgroupPriority value="16"/>
+        <MinimapRadius value="0.875"/>
+    </CUnit>
+    <CAbilBehavior id="VolatileBurstBuilding2">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus22222">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus222222">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Cost/>
+        <BehaviorArray value="VolatileBurstBuilding2"/>
+    </CAbilBehavior>
+    <CActorUnit id="EmpireImperialOreMiner_Actor" parent="GenericUnitStandardNoAutoSoundLinks" unitName="EmpireImperialOreMiner">
+        <Aliases value="_UnitHuge"/>
+        <On Terms="ActorCreation" Send="AnimGroupApply A"/>
+        <On Terms="Abil.SCVHarvest2.Start" Send="Create RAMiningTruckOreSuctionModel"/>
+        <On Terms="Behavior.VolatileBurstBuilding2.On" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.VolatileBurstBuilding2.On" Send="AnimGroupRemove A"/>
+        <On Terms="Behavior.VolatileBurstBuilding2.Off" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.VolatileBurstBuilding2.Off" Send="AnimGroupRemove B"/>
+        <Scale value="0.800000"/>
+        <DeathArray index="Normal" ModelLink="DumpTruckDeath" SoundLink="DumpTruck_Explode"/>
+        <WalkAnimMoveSpeed value="2.5"/>
+        <BarOffset value="80"/>
+        <BarWidth value="102"/>
+        <GroupIcon>
+            <Image value="Assets\icons\imperial-mining-vehicle-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\icons\imperial-mining-cart-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-vehicleplatinglevel0.dds"/>
+        <NameOffset value="40"/>
+        <SoundArray index="Birth" value="Vulture_Birth"/>
+        <SoundArray index="Ready" value="EmpireImperialOreMiner_Actor_Ready"/>
+        <SoundArray index="Help" value="EmpireImperialOreMiner_Actor_Help"/>
+        <SoundArray index="What" value="EmpireImperialOreMiner_Actor_What"/>
+        <SoundArray index="Yes" value="EmpireImperialOreMiner_Actor_Yes"/>
+        <SoundArray index="Attack" value="EmpireImperialOreMiner_Actor_Attack"/>
+        <SoundArray index="Pissed" value="EmpireImperialOreMiner_Actor_Attack"/>
+        <SoundArray index="Movement" value="EmpireImperialOreMiner_Actor_Movement"/>
+        <SoundArray index="Turning" value="Vulture_Turning"/>
+        <SoundArray index="Board" value="Vulture_Board"/>
+        <SoundArray index="Click" value="EmpireImperialOreMiner_Actor_What"/>
+        <SoundArray index="ClickError" value="Vulture_ClickError"/>
+        <SoundArray index="Highlight" value="Vulture_Highlight"/>
+        <UnitIcon value="Assets\icons\imperial-mining-cart-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\icons\imperial-mining-vehicle-wireframe.dds"/>
+        </Wireframe>
+        <PortraitModel value="SCV_Umojan_Portrait"/>
+        <Model value="EmpireImperialOreMiner_Actor"/>
+        <HighlightTooltip value="Unit/Name/EmpireImperialOreMiner_Actor"/>
+    </CActorUnit>
+    <CActorMissile id="WraithGroundAttackMissile2" parent="GenericAttackMissile" unitName="TenguAntiGroundWeapon">
+        <Scale value="1.000000,0.100000,1.000000"/>
+        <Model value="WraithGroundWeapon2"/>
+    </CActorMissile>
+    <CActorAction id="WraithGroundAttack23" parent="GenericAttack" effectAttack="" effectImpact="WraithGU23" effectLaunch="WraithGLaunchMissile23">
+        <On index="0" Terms="Effect.Bogus.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="5" Terms="Effect.WraithGLaunchMissile23.Start; At Caster" Send="Create"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder2244 AMPatternMarauder2533" Fallback="Weapon"/>
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="VikingAssault_AttackLaunch"/>
+        <Missile value="WraithGroundAttackMissile2"/>
+        <ImpactMap index="None" Model="WraithGroundAttackImpact2" Sound="Viking_AssaultAttackImpact"/>
+    </CActorAction>
+    <CButton id="TossGrenadeTychus222222">
+        <Icon value="Assets\icons\imperial-mining-vehicle-switches-collection-mode.dds"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus22222">
+        <Icon value="assets\icons\thunder-assault-vehicle-weapon-icon.dds"/>
+    </CButton>
+    <CEffectDamage id="WraithGU23" parent="DU_WEAP">
+        <AttributeFactor index="Light" value="1"/>
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <Amount value="10"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="WraithGLaunchMissile23">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="WraithGU23"/>
+        <AmmoUnit value="TenguAntiGroundWeapon"/>
+    </CEffectLaunchMissile>
+    <CModel id="EmpireImperialOreMiner_Actor" parent="Unit" Race="Terran">
+        <Model value="Assets\units\Empire\OreMiner.m3"/>
+        <Radius value="1.200000"/>
+        <SelectionRadius value="0.800000"/>
+        <ShadowRadius value="1.499700"/>
+    </CModel>
+    <CSound id="EmpireImperialOreMiner_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUOreCo_VoiCrea.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialOreMiner_Actor_Movement" parent="Movement">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\mining-vehicle-turning-sound-effect-1.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\mining-vehicle-turning-sound-effect-2.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\mining-vehicle-turning-sound-effect-3.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="3"/>
+        <Pitch value="-1.000000,1.000000"/>
+        <Volume value="-12.000000,-12.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialOreMiner_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUOreCo_VoiAtka.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiAtke.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialOreMiner_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUOreCo_VoiMova.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiMovb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiMovc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiMovd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiMove.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialOreMiner_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUOreCo_VoiSela.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSeld.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSele.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialOreMiner_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelUndFira.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelUndFirb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelUndFirc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\IUOreCo_VoiSelUndFird.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CWeaponLegacy id="WraithG244">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Icon value="assets\textures\thunder-assault-vehicle-weapon-icon.dds"/>
+        <DisplayEffect value="WraithGU23"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="8"/>
+        <Period value="0.2"/>
+        <Effect value="WraithGLaunchMissile23"/>
+        <AllowedMovement value="Slowing"/>
+    </CWeaponLegacy>
+    <CBehaviorBuff id="VolatileBurstBuilding2">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Modification>
+            <AbilClassDisableArray index="CAbilHarvest" value="1"/>
+            <WeaponEnableArray value="WraithG244"/>
+        </Modification>
+    </CBehaviorBuff>
 </Catalog>

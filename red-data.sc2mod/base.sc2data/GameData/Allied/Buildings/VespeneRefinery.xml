@@ -1,0 +1,127 @@
+<Catalog>
+    <CUnit id="AlliedVespeneRefinery" parent="AlliedStructure">
+        <BehaviorArray Link="CNCDeployable"/>
+        <BehaviorArray Link="HarvestableVespeneGeyserGas"/>
+        <!--        <BehaviorArray Link="RefineryMorph"/>-->
+        <!--        <BehaviorArray Link="CNCEnergyDrain5"/>-->
+        <!--        <BehaviorArray Link="AutomaticHarvestableVespene"/>-->
+        <!--        <BehaviorArray Link="AutoHarvestVespeneAllied"/>-->
+        <BehaviorArray Link="CNCConstructionRadiusSmall"/>
+        <Facing value="315"/>
+        <ResourceState value="Harvestable"/>
+        <ResourceType value="Vespene"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <StationaryTurningRate value="719.4726"/>
+        <TurningRate value="719.4726"/>
+        <CostCategory value="Economy"/>
+        <CostResource index="Minerals" value="75"/>
+        <RepairTime value="14"/>
+        <EffectArray index="Create" value="AlliedSiloRichSearch"/>
+        <Radius value="1.5"/>
+        <SeparationRadius value="1.5"/>
+        <Footprint value="FootprintGeyserRoundedBuilt"/>
+        <PlacementFootprint value="Footprint3x3CappedGeyser"/>
+        <BuiltOn value="VespeneGeyser"/>
+        <BuiltOn value="SpacePlatformGeyser"/>
+        <BuiltOn value="RichVespeneGeyser"/>
+        <BuiltOn value="ProtossVespeneGeyser"/>
+        <BuiltOn value="PurifierVespeneGeyser"/>
+        <BuiltOn value="ShakurasVespeneGeyser"/>
+        <BuiltOn value="ShakurasVespeneGeyser"/>
+        <BuiltOn value="GreenTiberiumVent"/>
+        <BuiltOn value="BlueTiberiumVent"/>
+        <BuildOnAs value="AlliedVespeneRefineryRich"/>
+        <ScoreMake value="75"/>
+        <ScoreKill value="75"/>
+        <SubgroupPriority value="1"/>
+        <GlossaryPriority value="6"/>
+    </CUnit>
+    <CUnit id="AlliedVespeneRefineryRich" parent="AlliedStructure">
+        <BehaviorArray Link="CNCDeployable"/>
+        <BehaviorArray Link="HarvestableRichVespeneGeyserGas"/>
+        <!--        <BehaviorArray Link="RefineryMorph"/>-->
+        <!--        <BehaviorArray Link="CNCEnergyDrain5"/>-->
+        <!--        <BehaviorArray Link="AutomaticHarvestableVespene"/>-->
+        <!--        <BehaviorArray Link="AutoHarvestVespeneAlliedRich"/>-->
+        <BehaviorArray Link="CNCConstructionRadiusSmall"/>
+        <Facing value="315"/>
+        <ResourceState value="Harvestable"/>
+        <ResourceType value="Vespene"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <StationaryTurningRate value="719.4726"/>
+        <TurningRate value="719.4726"/>
+        <CostCategory value="Economy"/>
+        <CostResource index="Minerals" value="75"/>
+        <RepairTime value="14"/>
+        <!--        <EffectArray index="Create" value="AlliedSiloRichSearch"/>-->
+        <Radius value="1.5"/>
+        <SeparationRadius value="1.5"/>
+        <Footprint value="FootprintGeyserRoundedBuilt"/>
+        <PlacementFootprint value="Footprint3x3CappedGeyser"/>
+        <BuiltOn value="RichVespeneGeyser"/>
+        <BuiltOn value="BlueTiberiumVent"/>
+        <ScoreMake value="75"/>
+        <ScoreKill value="75"/>
+        <SubgroupPriority value="1"/>
+        <HotkeyCategory value=""/>
+        <GlossaryCategory value=""/>
+    </CUnit>
+    <CActorUnit id="AlliedVespeneRefinery" icon="VespeneRefinery" parent="AlliedBuilding">
+        <Macros value="ExtractAnim"/>
+        <Model value="AlliedVespeneRefinery"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="SetTintColor 255,170,170"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="AnimGroupRemove D"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Deplete" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="SetTintColor 255,255,255"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Restore" Send="AnimGroupApply D"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit NoVespene" Send="DeathCustomize Empty"/>
+        <On Terms="UnitBirth.AlliedVespeneRefinery" Send="TimerSet 0.100000 HideGeyser"/>
+        <On Terms="TimerExpired; TimerName HideGeyser" Send="Create GeyserBuildFinishCovered"/>
+        <On Terms="ActorDestruction" Send="Create GeyserUncovered"/>
+        <On Terms="Behavior.HarvestableVespeneGeyserGas.Extract" Send="AnimPlay Work Work 0 -1.000000 -1.000000 1.981000 AsDuration"/>
+        <BarOffset value="150"/>
+        <BarWidth value="120"/>
+        <NameOffset value="140"/>
+
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Refinery_Explode"/>
+        <DeathCustoms ModelLink="RefineryEmptyDeath" Name="Empty"/>
+        <DeathCustoms ModelLink="RefineryDeathLow" SoundLink="Terran_ExplosionMedium" Name="Low"/>
+        <BarOffset value="160"/>
+        <BarWidth value="120"/>
+        <SoundArray index="Ready" value="Refinery_Ready"/>
+        <SoundArray index="What" value="Refinery_What"/>
+        <StatusHarvesterData Text="UI/HarvesterCountVespeneCNC"/>
+    </CActorUnit>
+    <CActorUnit id="AlliedVespeneRefineryRich" unitName="AlliedVespeneRefineryRich"  parent="AlliedBuilding" icon="VespeneRefinery">
+        <Macros value="ExtractAnim"/>
+        <Model value="AlliedVespeneRefinery"/>
+        <On index="35" Send="AnimPlay Birth Stand 0 0.000000"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="SetTintColor 255,170,170"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="AnimGroupRemove D"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Deplete" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="SetTintColor 255,255,255"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.HarvestableRichVespeneGeyserGas.Restore" Send="AnimGroupApply D"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit NoVespene" Send="DeathCustomize Empty"/>
+        <On Terms="UnitBirth.AlliedVespeneRefineryRich" Send="TimerSet 0.100000 HideGeyser"/>
+        <CreepHeightClass value="Medium"/>
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="Refinery_Explode"/>
+        <DeathCustoms ModelLink="RefineryEmptyDeath" Name="Empty"/>
+        <DeathCustoms ModelLink="RefineryDeathLow" SoundLink="Terran_ExplosionMedium" Name="Low"/>
+        <BarOffset value="160"/>
+        <BarWidth value="120"/>
+        <SoundArray index="Ready" value="Refinery_Ready"/>
+        <SoundArray index="What" value="Refinery_What"/>
+        <StatusHarvesterData Text="UI/HarvesterCountVespeneCNC"/>
+    </CActorUnit>
+    <CModel id="AlliedVespeneRefinery" parent="AlliedBuilding" model="VespeneRefinery">
+        <Radius value="1.000000"/>
+        <ScaleMax value="0.8,0.8,0.8"/>
+        <ScaleMin value="0.8,0.8,0.8"/>
+        <SelectionRadius value="1.250000"/>
+        <ShadowRadius value="1.250000"/>
+    </CModel>
+</Catalog>

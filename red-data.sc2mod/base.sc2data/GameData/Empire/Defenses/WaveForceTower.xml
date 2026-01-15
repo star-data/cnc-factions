@@ -1,3 +1,116 @@
 <Catalog>
 
+    <CUnit id="EmpireWaveTower" parent="EmpireStructure">
+        <FlagArray index="AIDefense" value="1"/>
+        <FlagArray index="Unstoppable" value="1"/>
+        <LifeStart value="1500"/>
+        <LifeMax value="1500"/>
+        <Sight value="12"/>
+        <!--Food value="-3"/-->
+        <CostResource index="Minerals" value="1200"/>
+        <RepairTime value="30"/>
+        <AttackTargetPriority value="15"/>
+        <KillXP value="10"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="Disband2"/>
+        <AbilArray Link="SovietMotoModeSwhich2322"/>
+        <AbilArray Link="Blink2215"/>
+        <BehaviorArray Link="RATowerdefensemovementCDreduced"/>
+        <BehaviorArray Link="UpgradeLevel1222"/>
+        <WeaponArray Link="LaserDrillTripodLaserBeam3" Turret="RAPacifierTurret2"/>
+        <WeaponArray Link="LaserDrillTripodLaserBeam32" Turret="RAPacifierTurret2"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Disband3" Type="AbilCmd" AbilCmd="Disband2,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="AlliedJavaModeSwitch423" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich2322,On" Row="1" Column="1"/>
+            <LayoutButtons Face="AlliedJavaModeSwitch53" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich2322,Off" Row="1" Column="2"/>
+            <LayoutButtons Face="RAHandlingturrets" Type="AbilCmd" AbilCmd="Blink2215,Execute" Row="0" Column="0"/>
+        </CardLayouts>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <Footprint value="Footprint1x1CreepNormal2"/>
+        <PlacementFootprint value="Footprint1x1CreepNormal2"/>
+        <SubgroupPriority value="3"/>
+    </CUnit>
+    <CAbilBehavior id="SovietMotoModeSwhich2322">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="AlliedJavaModeSwitch42">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="AlliedJavaModeSwitch5">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="Wavetankchangemode"/>
+    </CAbilBehavior>
+    <CActorUnit id="EmpireWaveTower_Actor" parent="TerranBuilding" unitName="EmpireWaveTower">
+        <Model value="EmpireWaveTower_Model"/>
+        <Scale value="0.900000"/>
+        <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <PortraitModel value="AdjutantPortrait"/>
+        <BarOffset value="140"/>
+        <GroupIcon>
+            <Image value="Assets\icons\Empire\wave-energy-tower-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\icons\Empire\wave-energy-tower-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+        <SoundArray index="Birth" value="ZOCOMPlasmaCannon_Actor_Birth"/>
+        <SoundArray index="Ready" value="ZOCOMPlasmaCannon_Actor_Birth"/>
+        <SoundArray index="What" value="ZOCOMPlasmaCannon_Actor_Birth"/>
+        <SoundArray index="Construction" value="ZOCOMPlasmaCannon_Actor_Birth"/>
+        <SoundArray index="Click" value="ZOCOMPlasmaCannon_Actor_Birth"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\icons\Empire\wave-energy-tower-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\icons\Empire\wave-energy-tower-wireframe.dds"/>
+        </Wireframe>
+        <On index="65" Terms="WeaponStart.LaserDrillTripodLaserBeam32.AttackStart" Send="AnimBracketStart Attack Attack,B"/>
+        <On index="67" Terms="WeaponStop.LaserDrillTripodLaserBeam32.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="ActorCreation" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.Wavetankchangemode.On" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.Wavetankchangemode.On" Send="AnimGroupRemove A"/>
+        <On Terms="Behavior.Wavetankchangemode.Off" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.Wavetankchangemode.Off" Send="AnimGroupApply A"/>
+        <On Terms="Effect.bntankcxyd.Start" Send="AnimBracketStart 111 {} Ready,A {} ContentNonLooping,ContentPlayOnce,Instant 0.700000 AsTimeScale"/>
+        <On Terms="WeaponStop.LaserDrillTripodLaserBeam3.AttackStop" Send="AnimBracketStop 111"/>
+        <On Terms="Effect.bntankcxyd.Stop" Send="AnimBracketStart Attack1 {} Attack,A {} ContentNonLooping,ContentPlayOnce,Instant"/>
+        <On Terms="WeaponStop.LaserDrillTripodLaserBeam3.AttackStop" Send="AnimBracketStop Attack1"/>
+        <On Terms="UnitConstruction.EmpireWaveTower.Start" Send="AnimPlay 111 Birth,Stand PlayForever,NonLooping"/>
+        <On Terms="UnitConstruction.EmpireWaveTower.Finish" Send="AnimClear 111"/>
+        <BarWidth value="100"/>
+        <HighlightTooltip value="Unit/Name/EmpireWaveTower_Actor"/>
+    </CActorUnit>
+    <CActorRange id="SiegeTankSiegedRange2222">
+        <Inherits index="TeamColor" value="1"/>
+        <On Terms="SelectionLocalUpdate.EmpireWaveTower.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.EmpireWaveTower.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.EmpireWaveTower" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.EmpireWaveTower.Stop" Send="Destroy"/>
+        <Weapon value="LaserDrillTripodLaserBeam3"/>
+        <Icon value="Assets\Textures\radaricon2.dds"/>
+        <IconArcLength value="0.300000"/>
+    </CActorRange>
+    <CButton id="AlliedJavaModeSwitch423">
+        <Icon value="assets\icons\Empire\wave-energy-tank-early-launch-mode.dds"/>
+    </CButton>
+    <CButton id="AlliedJavaModeSwitch53">
+        <Icon value="Assets\Textures\btn-ability-mengsk-siegetank-shockandawe.dds"/>
+    </CButton>
+    <CModel id="EmpireWaveTower_Model" parent="Unit" race="Terran">
+        <Model value="Assets\buildings\Empire\WaveTower.m3"/>
+        <Radius value="1.500000"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="1.000000"/>
+        <ShadowRadius value="3.000000"/>
+    </CModel>
+    <CSound id="ZOCOMPlasmaCannon_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\imperial-wave-energy-tower-select-jbwavef_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
 </Catalog>

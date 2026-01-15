@@ -1,0 +1,249 @@
+<Catalog>
+
+    <CUnit id="EmpireWaveenergythreeguns" parent="EmpireStructure">
+        <FlagArray index="AIDefense" value="1"/>
+        <FlagArray index="Unstoppable" value="1"/>
+        <LifeStart value="6000"/>
+        <LifeMax value="6000"/>
+        <Sight value="20"/>
+        <!--Food value="-4"/-->
+        <CostResource index="Minerals" value="4000"/>
+        <RepairTime value="30"/>
+        <AttackTargetPriority value="20"/>
+        <KillXP value="30"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="Disband2"/>
+        <AbilArray Link="Blink2"/>
+        <BehaviorArray Link="RATowerdefensemovementCDreduced"/>
+        <BehaviorArray Link="SovietT4unitveteranbehavior"/>
+        <WeaponArray Link="ParticleBeam222" Turret="AlliedBankGun_Model"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Disband3" Type="AbilCmd" AbilCmd="Disband2,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="RAHandlingturrets" Type="AbilCmd" AbilCmd="Blink2,Execute" Row="0" Column="0"/>
+        </CardLayouts>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <Footprint value="Footprint1x1CreepNormal2"/>
+        <PlacementFootprint value="Footprint1x1CreepNormal2"/>
+        <ScoreMake value="50000"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="3"/>
+    </CUnit>
+    <CActorAction id="ProbeAttack322" parent="GenericAttack" effectAttack="RAFakeDamageOfThreeWaveEnergyCannons">
+        <LaunchAttachQuery Methods="AMFilterWeaponSetA0"/>
+        <Beam value="ProbeAttackBeam322"/>
+        <ImpactMap index="None" Model="ProbeAttackImpact32" Sound="TerranFlyer_What2232653232234222"/>
+        <ImpactMap index="Miss" Model="ProbeAttackImpact32" Sound="TerranFlyer_What2232653232234222" ModelReaction="ProbeAttack3ImpactReaction"/>
+        <ActionFlags index="AlignedImpactsAndDamages" value="1"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+    <CActorBeamSimple id="ProbeAttackBeam322" parent="GenericAttackBeam"/>
+
+    <CActorRange id="SiegeTankSiegedRange22222">
+        <Inherits index="TeamColor" value="1"/>
+        <On Terms="SelectionLocalUpdate.EmpireWaveenergythreeguns.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.EmpireWaveenergythreeguns.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.EmpireWaveenergythreeguns" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.EmpireWaveenergythreeguns.Stop" Send="Destroy"/>
+        <Weapon value="ParticleBeam222"/>
+        <Icon value="Assets\Textures\radaricon2.dds"/>
+        <IconArcLength value="0.300000"/>
+    </CActorRange>
+
+    <CActorUnit id="EmpireWaveenergythreeguns_Actor" parent="TerranBuilding" unitName="EmpireWaveenergythreeguns">
+        <Model value="EmpireWaveenergythreeguns_Model"/>
+        <Scale value="0.650000"/>
+        <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
+        <PlacementSound value="Terran_BuildingPlacementSmall"/>
+        <PortraitModel value="AdjutantPortrait"/>
+        <BarOffset value="160"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Empire\wave-energy-three-gun-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Empire\wave-energy-three-cannon-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+        <SoundArray index="Birth" value="ZOCOMPlasmaCannon_Actor_Birth"/>
+        <SoundArray index="Ready" value="ZOCOMPlasmaCannon_Actor_Birth"/>
+        <SoundArray index="Help" value="ZOCOMPlasmaCannon_Actor_Help"/>
+        <SoundArray index="What" value="ZOCOMPlasmaCannon_Actor_Birth"/>
+        <SoundArray index="Yes" value="ZOCOMPlasmaCannon_Actor_Yes"/>
+        <SoundArray index="Attack" value="ZOCOMPlasmaCannon_Actor_Attack"/>
+        <SoundArray index="Pissed" value="ZOCOMPlasmaCannon_Actor_Pissed"/>
+        <SoundArray index="Movement" value="ZOCOMPlasmaCannon_Actor_Movement"/>
+        <SoundArray index="Turning" value="ZOCOMPlasmaCannon_Actor_Turning"/>
+        <SoundArray index="Board" value="ZOCOMPlasmaCannon_Actor_Board"/>
+        <SoundArray index="Construction" value="ZOCOMPlasmaCannon_Actor_Birth"/>
+        <SoundArray index="Click" value="ZOCOMPlasmaCannon_Actor_Birth"/>
+        <SoundArray index="ClickError" value="ZOCOMPlasmaCannon_Actor_ClickError"/>
+        <SoundArray index="Highlight" value="ZOCOMPlasmaCannon_Actor_Highlight"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Icons\Empire\wave-energy-three-cannon-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Empire\wave-energy-three-gun-wireframe.dds"/>
+        </Wireframe>
+        <On Terms="UnitConstruction.EmpireWaveenergythreeguns.Start" Send="AnimPlay 111 Birth,Stand PlayForever,NonLooping"/>
+        <On Terms="UnitConstruction.EmpireWaveenergythreeguns.Finish" Send="AnimClear 111"/>
+        <BarWidth value="150"/>
+        <HighlightTooltip value="Unit/Name/EmpireWaveenergythreeguns_Actor"/>
+    </CActorUnit>
+
+    <CEffectCreatePersistent id="RaynorSnipeCreatePersistent23">
+        <ValidatorArray value="HasVision"/>
+        <EditorCategories value="Race:Terran"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+        <WhichLocation Value="SourcePoint"/>
+        <PeriodCount value="38"/>
+        <PeriodicEffectArray value="RaynorSnipeSearch23"/>
+        <PeriodicOffsetArray value="0,-1,0"/>
+        <PeriodicOffsetArray value="0,-2,0"/>
+        <PeriodicOffsetArray value="0,-3,0"/>
+        <PeriodicOffsetArray value="0,-4,0"/>
+        <PeriodicOffsetArray value="0,-5,0"/>
+        <PeriodicOffsetArray value="0,-6,0"/>
+        <PeriodicOffsetArray value="0,-7,0"/>
+        <PeriodicOffsetArray value="0,-8,0"/>
+        <PeriodicOffsetArray value="0,-9,0"/>
+        <PeriodicOffsetArray value="0,-10,0"/>
+        <PeriodicOffsetArray value="0,-11,0"/>
+        <PeriodicOffsetArray value="0,-12,0"/>
+        <PeriodicOffsetArray value="0,-13,0"/>
+        <PeriodicOffsetArray value="0,-14,0"/>
+        <PeriodicOffsetArray value="0,-15,0"/>
+        <PeriodicOffsetArray value="0,-16,0"/>
+        <PeriodicOffsetArray value="0,-17,0"/>
+        <PeriodicOffsetArray value="0,-18,0"/>
+        <PeriodicOffsetArray value="0,-19,0"/>
+        <PeriodicOffsetArray value="0,-20,0"/>
+        <PeriodicOffsetArray value="0,-21,0"/>
+        <PeriodicOffsetArray value="0,-22,0"/>
+        <PeriodicOffsetArray value="0,-23,0"/>
+        <PeriodicOffsetArray value="0,-24,0"/>
+        <PeriodicOffsetArray value="0,-25,0"/>
+        <PeriodicOffsetArray value="0,-26,0"/>
+        <PeriodicOffsetArray value="0,-27,0"/>
+        <PeriodicOffsetArray value="0,-28,0"/>
+        <PeriodicOffsetArray value="0,-29,0"/>
+        <PeriodicOffsetArray value="0,-30,0"/>
+        <PeriodicOffsetArray value="0,-31,0"/>
+        <PeriodicOffsetArray value="0,-32,0"/>
+        <PeriodicOffsetArray value="0,-33,0"/>
+        <PeriodicOffsetArray value="0,-34,0"/>
+        <PeriodicOffsetArray value="0,-35,0"/>
+        <PeriodicOffsetArray value="0,-36,0"/>
+        <PeriodicOffsetArray value="0,-37,0"/>
+        <PeriodicOffsetArray value="0,-38,0"/>
+        <PeriodicPeriodArray value="0"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="RaynorSnipeSearch23">
+        <EditorCategories value="Race:Terran"/>
+        <SearchFilters value="Ground,Visible;Self,Player,Ally,Neutral,Missile,Invulnerable"/>
+        <AreaArray Radius="1.5" Effect="ParticleBeam322"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+        <DebugTrace value="1"/>
+    </CEffectEnumArea>
+    <CEffectCreatePersistent id="RATripleWaveCannonAttackStart">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <InitialEffect value="RASetOfBombardmentEffectsOfThreeWaveEnergyCannons"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="ParticleBeam322" parent="DU_WEAP">
+        <Amount value="750"/>
+        <SearchFilters value="-;Player,Ally,Neutral,Missile,Dead,Invulnerable"/>
+        <SearchFlags index="SameCliff" value="0"/>
+        <ValidatorArray value="WeaponInRange"/>
+        <ArmorReduction value="0"/>
+    </CEffectDamage>
+    <CEffectDamage id="RAFakeDamageOfThreeWaveEnergyCannons"/>
+    <CEffectSet id="RASetOfBombardmentEffectsOfThreeWaveEnergyCannons">
+        <EffectArray value="RAFakeDamageOfThreeWaveEnergyCannons"/>
+        <EffectArray value="RaynorSnipeCreatePersistent23"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CModel id="EmpireWaveenergythreeguns_Model" parent="Unit" race="Terran">
+        <Model value="assets\buildings\Empire\ArtilleryCannon.m3"/>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 02">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <Radius value="1.500000"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="1.300000"/>
+        <ShadowRadius value="3.000000"/>
+    </CModel>
+    <CModel id="ProbeAttackBeam322" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Protoss\MothershipPhotonBeam\MothershipPhotonBeam.m3"/>
+        <AnimSpeed value="4.000000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.600000,0.600000,0.600000"/>
+        <ScaleMin value="0.600000,0.600000,0.600000"/>
+    </CModel>
+    <CModel id="ProbeAttackImpact32" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\MothershipPurifyMissileImpact\MothershipPurifyMissileImpact.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CSound id="ZOCOMPlasmaCannon_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\imperial-wave-energy-tower-select-jbwavef_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What2232653232234222" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\JUWavef_weapFirea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\JUWavef_weapFireb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\JUWavef_weapFirec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\JUWavef_weapFired.ogg" FacialGroup=""/>
+        <AssetArrayTemplate>
+            <File value="LocalizedData\Sounds\VO\Terran\^TemplateParam2^.ogg"/>
+            <FacialAnim value="^TemplateParam1^"/>
+            <FacialGroup value="^TemplateParam1^"/>
+            <FacialFile value="LocalizedData\Sounds\VO\Terran\^TemplateParam1^.fxe"/>
+        </AssetArrayTemplate>
+        <Flags index="Ignorable" value="1"/>
+        <Flags index="Purgable" value="0"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <SustainFade index="1" Time="250"/>
+        <Volume value="6.000000,6.000000"/>
+    </CSound>
+    <CTurret id="AlliedBankGun_Model">
+        <Idle value="Hold"/>
+        <YawArc value="360"/>
+        <YawRate value="90"/>
+        <YawIdleRate value="29.8828"/>
+        <Fidget TurnAngle="29.9707">
+            <ChanceArray index="Anim" value="30"/>
+            <ChanceArray index="Idle" value="40"/>
+            <ChanceArray index="Turn" value="30"/>
+        </Fidget>
+    </CTurret>
+    <CWeaponLegacy id="ParticleBeam222">
+        <EditorCategories value="Race:Protoss"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\Textures\btn-ability-protoss-prismaticbeam-color.dds"/>
+        <DisplayEffect value="ParticleBeam322"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Invulnerable"/>
+        <Range value="18"/>
+        <Period value="4"/>
+        <Effect value="RATripleWaveCannonAttackStart"/>
+        <LegacyOptions index="LockTurretWhileFiring" value="1"/>
+        <LegacyOptions index="KeepChanneling" value="1"/>
+    </CWeaponLegacy>
+
+
+</Catalog>

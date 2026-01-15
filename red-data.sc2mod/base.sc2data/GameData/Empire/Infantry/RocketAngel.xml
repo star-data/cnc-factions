@@ -1,3 +1,567 @@
 <Catalog>
 
+    <CUnit id="EmpireRocketAngel" parent="EmpireAir">
+        <Subtitle value="UnitSubtitle/fantanke"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <PushPriority value="15"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <LifeStart value="2000"/>
+        <LifeMax value="2000"/>
+        <LifeArmor value="1"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranInfantryArmor"/>
+        <Speed value="2.6015"/>
+        <LateralAcceleration value="46.0625"/>
+        <Sight value="12"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="900"/>
+        <RepairTime value="20"/>
+        <KillXP value="10"/>
+        <AbilArray Link="SovietMotoModeSwhich52"/>
+        <AbilArray Link="RocketAngelSpell"/>
+        <BehaviorArray Link="JuAirDamageReduce"/>
+        <BehaviorArray Link="SovietStrongwilloftheRedArmy"/>
+        <BehaviorArray Link="SovietT4unitveteranbehavior"/>
+        <BehaviorArray Link="RATheUnitItselfTakesDamageWhenAttackingAnEnemyButItAlsoGainsHigherHealing1"/>
+        <WeaponArray Link="VXWeaponGround5"/>
+        <WeaponArray Link="LaserDrillTripodLaserBeam23"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="1"/>
+            <LayoutButtons Face="TossGrenadeTychus222227532" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich52,On" Row="1" Column="1"/>
+            <LayoutButtons Face="TossGrenadeTychus2222275322" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich52,Off" Row="1" Column="2"/>
+            <LayoutButtons Face="TossGrenadeTychus2222275324" Type="AbilCmd" AbilCmd="RocketAngelSpell,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <Radius value="0.375"/>
+        <SeparationRadius value="0.375"/>
+        <InnerRadius value="0.375"/>
+        <CargoSize value="1"/>
+        <ScoreMake value="100"/>
+        <ScoreKill value="100"/>
+        <SubgroupPriority value="7"/>
+        <MinimapRadius value="0.375"/>
+        <TacticalAI value="Reaper"/>
+        <AIEvalFactor value="1.5"/>
+        <GlossaryPriority value="50"/>
+        <Fidget>
+            <ChanceArray index="Anim" value="33"/>
+            <ChanceArray index="Idle" value="33"/>
+            <ChanceArray index="Turn" value="33"/>
+        </Fidget>
+    </CUnit>
+    <CAbilBehavior id="SovietMotoModeSwhich52">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus22222753">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus222222652">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="SovietMotoCycleBehavior522"/>
+    </CAbilBehavior>
+    <CAbilEffectTarget id="RocketAngelSpell">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Effect index="0" value="LaserDrillTripodCreatePersistent22"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOffOwnerLeave" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="LineMovement" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Cost/>
+        <TargetFilters value="Ground;Self,Player,Ally,Neutral,Air,Dead,Hidden,Invulnerable"/>
+        <Range value="13"/>
+        <AutoCastFilters value="Ground,Visible;Self,Player,Ally,Neutral,Air,Structure,Missile,Dead,Hidden,Invulnerable"/>
+        <AutoCastRange value="13"/>
+        <AutoCastValidatorArray value="noMarkers"/>
+        <CancelableArray index="Approach" value="1"/>
+        <CancelableArray index="Wait" value="1"/>
+        <CancelableArray index="Prep" value="1"/>
+        <CancelableArray index="Cast" value="1"/>
+        <CancelableArray index="Channel" value="1"/>
+        <CancelableArray index="Finish" value="1"/>
+        <CancelableArray index="Bail" value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="TossGrenadeTychus2222275324"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel2"/>
+    </CAbilEffectTarget>
+    <CActorAction id="LaserDrillTripodBiggerAttack32" parent="GenericAttackBase">
+        <On Terms="Effect.LaserDrillTripodCreatePersistent22.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.LaserDrillTripodCreatePersistent22.Stop" Send="Destroy"/>
+        <On Terms="Effect.LaserDrillTripodCreatePersistent22.Start" Send="ActionDamage"/>
+        <LaunchAttachQuery Methods="AMFilterWeapon2"/>
+        <Beam value="LaserDrillTripodBiggerAttackBeam32"/>
+        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance SOpForwardLaunchGuide"/>
+        <ActionFlags index="AlignedImpactsAndDamages" value="1"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+        <Lifetime value="-1.000000"/>
+    </CActorAction>
+    <CActorBeamSimple id="LaserDrillTripodBiggerAttackBeam32" parent="BeamSimpleAnimationStyleContinuous">
+        <On Terms="Effect.LaserDrillTripodCreatePersistent22.Stop; At Effect" Send="Destroy"/>
+        <On Terms="Effect.LaserDrillTripodCreatePersistent22.Start" Send="Create"/>
+        <Scale value="1.200000"/>
+        <HostLaunch Subject="_Unit" Scope="Caster"/>
+        <HostLaunchSiteOps Ops="SOpAttachWeapon"/>
+        <HostImpact Subject="_Unit" Scope="Target"/>
+        <HostImpactSiteOps Ops="SOpTargetUnit SOpAttachCenter"/>
+        <HostForProps Subject="_Unit" Scope="Caster"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorBeamSimple>
+    <CActorSound id="LaserDrillTripodBiggerSoundCaster33" parent="SoundContinuous">
+        <On Terms="Effect.LaserDrillTripodCreatePersistent22.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.LaserDrillTripodCreatePersistent22.Stop" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachTarget"/>
+        <Sound value="LaserDrillTripodSound24"/>
+    </CActorSound>
+    <CActorSimple id="SeekerMissileTint22">
+        <Aliases value="_AngryTinter"/>
+        <Remove Terms="Effect.RACallBombingActorResponse.Start; At Target" Send="Create"/>
+        <Remove Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <Remove Terms="Effect.RAGuardianTankLaserTargetingContinuousEffect.Start; At Target" Send="Create"/>
+        <On Terms="Effect.LaserDrillTripodCreatePersistent22.Start; At Target" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor {128,128,128 0.500000} 0.500000 OneShot SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="SetTintColor {128,128,128 0.500000} 0.500000 OneShot SeekerTarget"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent45.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent45.Off" Send="Destroy"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent45.On" Send="Create"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent453.On" Send="Create"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent453.Off" Send="Destroy"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent453.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.PsiDisruption223.On" Send="Create"/>
+        <On Terms="Behavior.PsiDisruption223.Off" Send="Destroy"/>
+        <On Terms="Behavior.PsiDisruption223.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.PsiDisruption224.On" Send="Create"/>
+        <On Terms="Behavior.PsiDisruption224.Off" Send="Destroy"/>
+        <On Terms="Behavior.PsiDisruption224.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.Lowpower.On" Send="Create"/>
+        <On Terms="Behavior.RALowPowerForitifcations.On" Send="Create"/>
+        <On Terms="Behavior.Lowpower.Off" Send="Destroy"/>
+        <On Terms="Behavior.RALowPowerForitifcations.Off" Send="Destroy"/>
+        <On Terms="Behavior.Lowpower.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.RALowPowerForitifcations.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.Lowpower22.On" Send="Create"/>
+        <On Terms="Behavior.Lowpower22.Off" Send="Destroy"/>
+        <On Terms="Behavior.Lowpower22.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+    </CActorSimple>
+    <CActorMissile id="ATRocketMissile42" parent="GenericAttackMissile" unitName="PhotonMissile">
+        <Model value="BacklashRocketsLMWeapon42"/>
+        <Scale value="0.200000,0.300000,0.200000"/>
+    </CActorMissile>
+    <CActorAction id="SiegeTankAttack254" parent="GenericAttack" effectAttack="None" effectImpact="90mmCannons244" effectLaunch="ATRocket54">
+        <On index="0" Terms="Effect.90mmCannons244.Start; FromEffectTreeDescendant" Send="ActionImpact"/>
+        <On index="1" Terms="Effect.90mmCannons244.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="2" Terms="Effect.SplashDamage.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <On index="3" Terms="Effect.SplashDamage.Stop; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>
+        <On index="4" Terms="Effect.ATRocket54.Start; At Caster" Send="Create"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder224 AMPatternMarauder257" Fallback="Weapon"/>
+        <LaunchAssets Model="SiegeTankAttackLaunch83" Scale="0.500000" Sound="WarHound_Missile_Launch"/>
+        <Missile value="ATRocketMissile42"/>
+        <ImpactMap index="None" Model="TychusTossGrenadeImpact22322" Sound="UnknownSound34"/>
+    </CActorAction>
+    <CActorUnit id="EmpireRocketAngel_Actor" parent="GenericUnitStandard" unitName="EmpireRocketAngel">
+        <Aliases value="_MissileHybrids"/>
+        <Macros value="D8ChargeAnim"/>
+        <Macros value="UnloadDropAnim"/>
+        <Macros value="D8ChargeAnim"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <On index="65" Terms="WeaponStart.VXWeaponGround5.AttackStart" Send="AnimBracketStart Attack Attack,A"/>
+        <On index="66" Terms="WeaponStop.VXWeaponGround5.AttackStop" Send="AnimBracketStop Attack"/>
+        <On index="67" Terms="WeaponStart.LaserDrillTripodLaserBeam23.AttackStart" Send="AnimBracketStart Attack1 Attack,B Attack,B"/>
+        <On index="68" Terms="WeaponStop.LaserDrillTripodLaserBeam23.AttackStop" Send="AnimBracketStop Attack1"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="UnitBirth.ReaperPlacement" Send="Create"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Reaper_Land"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit HaveVoidShade" Send="DeathCustomize Shadow"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit HaveTerrazineShadow" Send="DeathCustomize Shadow"/>
+        <On Terms="Abil.RocketAngelSpell.SourceChannelStart" Send="AnimBracketStart Attack1 Attack,B Attack,B"/>
+        <On Terms="Abil.RocketAngelSpell.SourceChannelStop" Send="AnimBracketStop Attack1"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <DeathArray index="Normal" ModelLink="ReaperDeath" SoundLink="Reaper_Explode"/>
+        <DeathCustoms ActorModel="UnitDeathRagdollBloodPrevent" ModelLink="ReaperDeathRagdoll" Name="RagdollBasic">
+            <BodySquibs Name="None"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms ActorModel="SpineCrawlerHurlDeathRagdollBloodPrevent" ModelLink="ReaperDeathRagdoll" Name="RagdollSpineCrawlerHurl">
+            <BodySquibs Name="None"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms>
+            <ModelLink value="DeathVoidShadowSmall"/>
+            <SoundLink value="ShadowUnit_DeathFX"/>
+            <VoiceLink value="ShadowUnit_DeathVox"/>
+            <Name value="Shadow"/>
+        </DeathCustoms>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
+        <PortraitModel value="SiegeTankPortrait42222222"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.250000,0.500000"/>
+            <RangeUp value="0.600000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleReaper"/>
+        </TerrainSquibs>
+        <WalkAnimMoveSpeed value="2"/>
+        <AbilSoundArray AbilCmd="D8Charge,Execute" Sound="Reaper_D8ChargeVO"/>
+        <AbilSoundArray AbilCmd="KD8Charge,Execute" Sound="Reaper_D8ChargeVO"/>
+        <BarOffset value="40"/>
+        <BarWidth value="40"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Empire\rocket-angel-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Empire\rocket-angel-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
+        <SoundArray index="Ready" value="EmpireRocketAngel_Actor_Ready"/>
+        <SoundArray index="Help" value="EmpireRocketAngel_Actor_Help"/>
+        <SoundArray index="What" value="EmpireRocketAngel_Actor_What"/>
+        <SoundArray index="Yes" value="EmpireRocketAngel_Actor_Yes"/>
+        <SoundArray index="Attack" value="EmpireRocketAngel_Actor_Attack"/>
+        <SoundArray index="Pissed" value="EmpireRocketAngel_Actor_Attack"/>
+        <SoundArray index="Movement" value="Reaper_Movement"/>
+        <SoundArray index="Click" value="EmpireRocketAngel_Actor_What"/>
+        <UnitIcon value="Assets\Icons\Empire\rocket-angel-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Empire\rocket-angel-wireframe.dds"/>
+        </Wireframe>
+        <Scale value="1.400000"/>
+        <Model value="EmpireRocketAngel_Actor"/>
+        <HighlightTooltip value="Unit/Name/EmpireRocketAngel_Actor"/>
+    </CActorUnit>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent45">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <Duration value="1"/>
+        <Modification>
+            <ModifyFlags index="Reveal" value="1"/>
+            <ModifyFlags index="SuppressMoving" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RATheUnitItselfTakesDamageWhenAttackingAnEnemyButItAlsoGainsHigherHealing1">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <AbilLinkDisableArray value="RocketAngelSpell"/>
+            <AbilLinkDisableArray value="RocketAngelSpell2"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="TossGrenadeTychus2222275324">
+        <Icon value="Assets\Textures\btn-ability-spearofadun-reconstructionbeam.dds"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus2222275322">
+        <Icon value="assets\icons\Empire\rocket-angel-photon-missile-array.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus222227532">
+        <Icon value="assets\icons\Empire\rocket-angel-paralysis-whip.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CEffectDamage id="LaserDrillTripodDamage2" parent="DU_WEAP">
+        <ResponseFlags index="Acquire" value="0"/>
+        <ArmorReduction value="0"/>
+        <Kind value="Ranged"/>
+        <Death value="Fire"/>
+    </CEffectDamage>
+    <CEffectDamage id="90mmCannons244" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <KindSplash value="Splash"/>
+        <Amount value="100"/>
+        <Death value="Blast"/>
+        <AreaArray Radius="2" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Visible;Self,Player,Ally,Neutral,Hover,Missile,Dead,Invulnerable"/>
+        <AttributeFactor index="Armored" value="1"/>
+        <AttributeFactor index="Structure" value="1"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="JurocketAngleWeaponCP">
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodCount value="6"/>
+        <PeriodicEffectArray value="ATRocket54"/>
+        <PeriodicEffectArray value="ATRocket54"/>
+        <PeriodicEffectArray value="ATRocket54"/>
+        <PeriodicEffectArray value="ATRocket54"/>
+        <PeriodicEffectArray value="ATRocket54"/>
+        <PeriodicEffectArray value="ATRocket54"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <PeriodicPeriodArray value="0.1"/>
+    </CEffectCreatePersistent>
+    <CEffectLaunchMissile id="ATRocket54">
+        <EditorCategories value="Race:Terran"/>
+        <Marker Link="Effect/BacklashRocketsLM"/>
+        <ImpactEffect value="90mmCannons244"/>
+        <AmmoUnit value="PhotonMissile"/>
+        <Movers Link="ScourgeMissileLeftRear24"/>
+    </CEffectLaunchMissile>
+    <CEffectCreatePersistent id="LaserDrillTripodCreatePersistent22">
+        <ValidatorArray value="TargetNotDead"/>
+        <EditorCategories value="Race:Terran"/>
+        <WhichLocation Value="TargetUnit"/>
+        <OffsetVectorEndLocation Value="TargetUnit"/>
+        <Flags index="Channeled" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodCount value="10"/>
+        <PeriodicValidator value="IsDead2"/>
+        <PeriodicEffectArray value="RAParalysisWhipAB"/>
+        <PeriodicPeriodArray value="0.05"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <PeriodicPeriodArray value="0.5"/>
+    </CEffectCreatePersistent>
+    <CEffectApplyBehavior id="RAParalysisWhipAB">
+        <WhichUnit Effect="LaserDrillTripodCreatePersistent22"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent45"/>
+    </CEffectApplyBehavior>
+    <CModel id="SiegeTankAttackLaunch83" parent="LaunchFX">
+        <Model value="Assets\COOP\Zeratul\Effects\Immortal_Zeratul_COOP_CannonLaunch\Immortal_Zeratul_COOP_CannonLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
+        <AnimSpeed value="0.800000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CModel id="LaserDrillTripodBiggerAttackBeam32" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Protoss\Sentry_Purifier_EnergyBeam\Sentry_Purifier_EnergyBeam.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="TychusTossGrenadeImpact22322" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\EyeOfAdunMissileImpact\EyeofAdunMissileImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CModel id="BacklashRocketsLMWeapon42" parent="MissileFX">
+        <Model value="Assets\COOP\Stetmann\Effects\Hydralisk_Stetmann_COOP_MissilePowerRangeUpgrade\Hydralisk_Stetmann_COOP_MissilePowerRangeUpgrade.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+
+    <CModel id="SiegeTankPortrait42222222" parent="SiegeTankPortraitBase">
+        <Model value="Assets\COOP\Mengsk\Portraits\Ghost_Mengsk_COOP_Portrait\Ghost_Mengsk_COOP_Portrait.m3"/>
+        <Image value="Assets\Textures\SiegeTankPortrait_Static.dds"/>
+        <Lighting value="SiegeTankPortrait"/>
+    </CModel>
+    <CModel id="EmpireRocketAngel_Actor" parent="ReaperBase">
+        <Model value="assets\units\Empire\RocketAngel.m3"/>
+        <AttachProps Id="Ref_Weapon 01">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 02">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="2"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 04">
+            <Keys index="SetA" value="3"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 05">
+            <Keys index="SetA" value="4"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 06">
+            <Keys index="SetA" value="5"/>
+        </AttachProps>
+        <SelectionRadius value="0.350000"/>
+    </CModel>
+    <CMoverMissile id="ScourgeMissileLeftRear2">
+        <MotionPhases>
+            <Driver value="Throw"/>
+            <Acceleration value="9"/>
+            <Speed value="4"/>
+            <MaxSpeed value="10"/>
+            <Outro value="0.5,1"/>
+            <Timeout value="1"/>
+            <ThrowRotationType value="ThrowForward"/>
+            <ThrowVector value="0,-0.4,0"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="29.9597,-9.9975,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+        <MotionPhases>
+            <Driver value="Ballistic"/>
+            <Acceleration value="50"/>
+            <Speed value="14"/>
+            <MaxSpeed value="20"/>
+            <Gravity value="30"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="540"/>
+            <PowerslideAngle value="5.9985"/>
+            <PowerslideDecel value="9"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CSound id="LaserDrillTripodSound24" parent="Spell">
+        <EditorCategories value="Race:Neutral"/>
+        <AssetArray File="Assets\Sounds\AUGuard_beamLoopa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_beamLoopb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_beamLoopc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_beamLoopd.ogg" FacialGroup=""/>
+        <DupeMuteCount value="2"/>
+        <LoopCount value="-1"/>
+        <Volume value="-10.000000,-10.000000"/>
+    </CSound>
+    <CSound id="EmpireRocketAngel_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IURocke_VoiAtka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiAtke.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiAtkf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiAtkg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireRocketAngel_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelUndFira.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelUndFirb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelUndFirc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelUndFird.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelUndFire.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelUndFirf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelUndFirg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireRocketAngel_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IURocke_VoiCrea.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireRocketAngel_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IURocke_VoiMova.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiMovb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiMovc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiMovd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiMove.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiMovf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiMovg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireRocketAngel_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\IURocke_VoiSela.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSeld.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSele.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSelh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\IURocke_VoiSeli.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="UnknownSound34" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\JUPearl_canoImpaa.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUPearl_canoImpab.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUPearl_canoImpac.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUPearl_canoImpad.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\JUPearl_canoImpae.ogg" FacialGroup=""/>
+        <Flags index="Purgable" value="0"/>
+        <DupeMaximumMethod value="Replace"/>
+        <Volume value="4.000000,4.000000"/>
+    </CSound>
+    <CSound id="WarHound_Missile_Launch">
+        <Volume value="-12.000000,-10.000000"/>
+    </CSound>
+    <CUnit id="PhotonMissile" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="ScourgeMissileLeftRear2"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CWeaponLegacy id="LaserDrillTripodLaserBeam23">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+        <Icon value="assets\textures\Empire\rocket-angel-paralysis-whip.dds"/>
+        <DisplayEffect value="LaserDrillTripodDamage2"/>
+        <TargetFilters value="Ground,Visible;Self,Missile,Stasis,Dead,Invulnerable,MapBoss"/>
+        <Range value="13"/>
+        <Period value="1"/>
+        <Effect value="LaserDrillTripodCreatePersistent22"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="VXWeaponGround5">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-nova-bansheeMissilestrik.dds"/>
+        <DisplayEffect value="90mmCannons244"/>
+        <TargetFilters value="Visible;Self,Hover,Missile,Stasis,Dead,Invulnerable"/>
+        <Range value="11"/>
+        <Period value="4"/>
+        <Effect value="JurocketAngleWeaponCP"/>
+        <AllowedMovement value="Slowing"/>
+        <DisplayAttackCount value="6"/>
+    </CWeaponLegacy>
+    <CBehaviorBuff id="SovietMotoCycleBehavior522">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <InitialEffect value="RAInfantryCannotMoveWhenSwitchingModes"/>
+        <FinalEffect value="RAInfantryCannotMoveWhenSwitchingModes"/>
+        <Modification>
+            <DamageTakenMaximum index="Spell" value="1000"/>
+            <DamageTakenMaximum index="Melee" value="1000"/>
+            <DamageTakenMaximum index="Ranged" value="1000"/>
+            <DamageTakenMaximum index="Splash" value="1000"/>
+            <DamageTakenMaximum index="NoProc" value="1000"/>
+            <VitalDamageLeechArray index="Life">
+                <KindArray index="Spell" value="0.2"/>
+                <KindArray index="Melee" value="0.2"/>
+                <KindArray index="Ranged" value="0.2"/>
+                <KindArray index="Splash" value="0.2"/>
+                <KindArray index="NoProc" value="0.2"/>
+            </VitalDamageLeechArray>
+            <AbilLinkEnableArray value="RocketAngelSpell"/>
+            <BehaviorLinkDisableArray value="RATheUnitItselfTakesDamageWhenAttackingAnEnemyButItAlsoGainsHigherHealing1"/>
+            <WeaponEnableArray value="SovietDesolatorSputtergun"/>
+            <WeaponDisableArray value="SovietDesolatorDeathSpray"/>
+            <WeaponDisableArray value="50mmATT22"/>
+            <WeaponDisableArray value="VXWeaponGround5"/>
+        </Modification>
+    </CBehaviorBuff>
+
+
 </Catalog>

@@ -1,3 +1,518 @@
 <Catalog>
 
+    <CUnit id="AlliedPeaceKeeper" parent="AlliedGround">
+        <Subtitle value="UnitSubtitle/jiqiang"/>
+        <PushPriority value="5"/>
+        <Collide index="Small" value="1"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <LifeStart value="50"/>
+        <LifeMax value="50"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranInfantryArmor"/>
+        <Speed value="2.1992"/>
+        <LateralAcceleration value="46.0625"/>
+        <Sight value="7"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="200"/>
+        <AbilArray Link="AlliedPeaceKeeperPelletGun"/>
+        <BehaviorArray Link="AlliedInfantryArmor"/>
+        <BehaviorArray Link="UpgradeLevel16"/>
+        <BehaviorArray Link="RAInfantryAutoHeal"/>
+        <WeaponArray Link="AlliedPeaceKeeperWinchester"/>
+        <WeaponArray Link="InfestedClaws22"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="TossGrenadeTychus22222722" Type="AbilCmd" AbilCmd="AlliedPeaceKeeperPelletGun,On" Row="1" Column="0"/>
+            <LayoutButtons Face="TossGrenadeTychus222222622" Type="AbilCmd" AbilCmd="AlliedPeaceKeeperPelletGun,Off" Row="1" Column="1"/>
+            <LayoutButtons Face="AutechBeidongSet10" Type="Passive" Requirements="StortModeRe23" Row="2" Column="2"/>
+            <LayoutButtons Face="AutechBeidongSet" Type="Passive" Requirements="StortModeRe211" Row="2" Column="3"/>
+        </CardLayouts>
+        <Radius value="0.375"/>
+        <SeparationRadius value="0.375"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="19"/>
+        <TacticalAI value="Marine"/>
+        <GlossaryPriority value="21"/>
+        <AIEvaluateAlias value="Marine"/>
+    </CUnit>
+    <CAbilBehavior id="AlliedPeaceKeeperPelletGun">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus22222722">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus222222622">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="SovietMotoCycleBehavior22"/>
+    </CAbilBehavior>
+    <CActorAction id="MG42Attack2" parent="GenericAttack" effectAttack="RAPeacekeeperInfantryFakeDamage">
+        <LaunchAttachQuery Methods="AMFilterWeapon" Fallback="Weapon"/>
+        <LaunchAssets Model="NovaWeaponHellfireShotgunBlastLaunchModel2" Sound="Nova_HellfireShotgun_Blast2"/>
+        <ContainerAssets Model="NovaWeaponHellfireShotgunBlastLaunchModel2" Sound="Nova_HellfireShotgun_Blast2"/>
+        <ImpactMap index="None" Model="NovaWeaponHellfireShotgunBlastImpact2" Sound="Marine_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="BulletImpact" MatchKeys="Basic" Physics="MarineAttackDeathForce"/>
+    </CActorAction>
+    <CActorUnit id="AlliedPeaceKeeper" parent="GenericUnitBase" unitName="AlliedPeaceKeeper">
+        <Aliases value="_UnitSmall"/>
+        <Macros value="UnloadDropAnim"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <On index="0" Send="Create SoundEmitter Marine_Ambience"/>
+        <On index="63" Terms="UnitDeath.AlliedPeaceKeeper; AnimPlaying Cover" Send="SetTintColor 255,255,255 0.500000"/>
+        <On Terms="ActorCreation; ValidatePlayer NoMarineShield" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
+        <On Terms="Upgrade.ShieldWall.Add" Send="AnimClear Cover"/>
+        <On Terms="Upgrade.ShieldWall.Remove" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
+        <On Terms="UnitDeath.Marine; AnimPlaying Cover" Target="_DeathModel" Send="AnimPlay Cover Cover PlayForever 0.000000"/>
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.AlliedPeaceKeeperWinchester.AttackStart; WeaponTargetElevation GE 20.000000" Send="AnimBracketStart Attack Attack,Superior"/>
+        <On Terms="WeaponStart.AlliedPeaceKeeperWinchester.AttackStart; WeaponTargetElevation LE -20.000000" Send="AnimBracketStart Attack Attack,Inferior"/>
+        <On Terms="WeaponStart.AlliedPeaceKeeperWinchester.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On Terms="WeaponStop.AlliedPeaceKeeperWinchester.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="ModelEvent; ModelEventName SquibStart" Send="Create MarineCheerSquib"/>
+        <On Terms="ModelEvent; ModelEventName SquibStop" Target="MarineCheerSquib" Send="Destroy"/>
+        <On Terms="ModelEvent; ModelEventName SquibStop" Target="MarineCheerSquibSound" Send="Destroy"/>
+        <On Terms="AnimDone; AnimName Cheer" Target="MarineCheerSquib" Send="Destroy"/>
+        <On Terms="AnimDone; AnimName Cheer" Target="MarineCheerSquibSound" Send="Destroy"/>
+        <On Terms="UnitHeightUpdate.*.Land" Send="Create Marine_Land"/>
+        <On Terms="Upgrade.CombatShield.Add" Send="AnimClear Cover"/>
+        <On Terms="Upgrade.CombatShield.Remove" Send="AnimPlay Cover Cover PlayForever"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit IsCelestialBurning" Send="DeathCustomize Variation14"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit IsCelestialBurning" Send="DeathCustomize RagdollFire"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit HaveVoidShade" Send="DeathCustomize Shadow"/>
+        <On Terms="UnitDeathCustomize; ValidateUnit HaveTerrazineShadow" Send="DeathCustomize Shadow"/>
+        <On Terms="ActorCreation" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior22.On" Send="AnimGroupRemove A"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior22.On" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior22.On" Send="AnimBracketStart Attack1 Morph,A,B {} Morph,B,A"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior22.Off" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior22.Off" Send="AnimBracketStop Attack1"/>
+        <On Terms="Behavior.SovietMotoCycleBehavior22.Off" Send="AnimGroupApply A"/>
+        <Model value="AlliedPeaceKeeper_Model"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <EventDataFootprint index="0" Actor="UnitFootprint" Model="MarineFootprint"/>
+        <DeathArray index="Normal" ModelLink="NatashaDeath22" VoiceLink="AlliedPeaceKeeperVoice6"/>
+        <DeathCustoms ModelLink="TerranSmallBiologicalUnitDeathLow" Name="AntiGravTerran"/>
+        <DeathCustoms ModelLink="MarineDeathRagdoll" Name="RagdollBasic">
+            <BodySquibs Name="None"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms ActorModel="SpineCrawlerHurlDeathRagdollBloodPrevent" ModelLink="MarineDeathRagdoll" Name="RagdollSpineCrawlerHurl">
+            <BodySquibs Name="None"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms ModelLink="MarineDeathFire" Name="Variation14"/>
+        <DeathCustoms>
+            <ModelLink value="DeathVoidShadowSmall"/>
+            <SoundLink value="ShadowUnit_DeathFX"/>
+            <VoiceLink value="ShadowUnit_DeathVox"/>
+            <Name value="Shadow"/>
+        </DeathCustoms>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
+        <PortraitModel value="TychusPortrait223"/>
+        <StandAnimTurnTime value="4"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="0.600000"/>
+            <RangeDown value="0.600000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleSmall"/>
+        </TerrainSquibs>
+        <WalkAnimMoveSpeed value="2.25"/>
+        <AbilSoundArray/>
+        <BarOffset value="40"/>
+        <BarWidth value="50"/>
+        <GlossaryAnim value="Spell"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Allied\peacekeeper-infantry-wireframe.dds"/>
+        </GroupIcon>
+        <GroupSoundArray index="What" value="Marine_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="Marine_GroupYes"/>
+        <GroupSoundArray index="Attack" value="Marine_GroupAttack"/>
+        <GroupSoundArray index="Board" value="Marine_GroupBoard"/>
+        <HeroIcon value="Assets\Icons\Allied\peacekeeping-infantry-unit-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
+        <SoundArray index="Birth" value="Spectre_Birth"/>
+        <SoundArray index="Ready" value="AlliedPeaceKeeperVoice"/>
+        <SoundArray index="Pissed" value="AlliedPeaceKeeper_Attack"/>
+        <SoundArray index="Movement" value="Spectre_Movement"/>
+        <SoundArray index="Turning" value="Spectre_Turning"/>
+        <SoundArray index="Board" value="Spectre_Board"/>
+        <SoundArray index="Click" value="AlliedPeaceKeeper_What"/>
+        <SoundArray index="ClickError" value="Spectre_ClickError"/>
+        <SoundArray index="Highlight" value="Spectre_Highlight"/>
+        <UnitIcon value="Assets\Icons\Allied\peacekeeping-infantry-unit-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Allied\peacekeeper-infantry-wireframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorModel id="NovaWeaponHellfireShotgunBlastImpact2" parent="ModelAnimationStyleOneShot">
+        <On Terms="Effect.NovaWeaponHellfireShotgunBlastDamage2.Start; At Target" Send="Create"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachCenter"/>
+        <ModelFlags index="AllowHitTest" value="0"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+    </CActorModel>
+    <CActorSound id="Nova_HellfireShotgun_BlastSound2" parent="SoundOneShot">
+        <On Terms="Effect.RASetOfThreeAttackEffectsOfPeacekeeperInfantry.Start; At Caster" Send="Create"/>
+        <Sound value="Nova_HellfireShotgun_Blast2"/>
+    </CActorSound>
+    <CButton id="TossGrenadeTychus22222722">
+        <Icon value="assets\icons\Allied\peacekeepers-switch-to-blast-shield-mode.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus222222622">
+        <Icon value="assets\icons\Allied\peacekeeper-infantry-switches-to-shotgun-mode.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CEffectDamage id="NovaWeaponHellfireShotgunBlastDamage22" parent="DU_WEAP">
+        <ValidatorArray value="noMarkers"/>
+        <ValidatorArray value="WeaponInRange"/>
+        <Kind value="Ranged"/>
+        <Amount value="12.5"/>
+        <Death value="Blast"/>
+        <AttributeFactor index="Structure" value="-0.4"/>
+    </CEffectDamage>
+    <CEffectDamage id="NovaWeaponHellfireShotgunBlastDamage23" parent="DU_WEAP">
+        <ValidatorArray value="noMarkers"/>
+        <ValidatorArray value="WeaponInRange"/>
+        <Kind value="Ranged"/>
+        <Amount value="3.75"/>
+        <Death value="Blast"/>
+        <AttributeFactor index="Structure" value="-0.4"/>
+    </CEffectDamage>
+    <CEffectDamage id="NovaWeaponHellfireShotgunBlastDamage2" parent="DU_WEAP">
+        <ValidatorArray value="noMarkers"/>
+        <ValidatorArray value="WeaponInRange"/>
+        <Kind value="Ranged"/>
+        <Amount value="3.75"/>
+        <Death value="Blast"/>
+        <AttributeFactor index="Structure" value="-0.4"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="NovaWeaponHellfireShotgunBlast22">
+        <WhichLocation Value="CasterPoint"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="NovaWeaponHellfireShotgunBlastSearch22"/>
+        <PeriodicOffsetArray value="0,-1,0"/>
+        <PeriodicOffsetArray value="0,-2,0"/>
+        <PeriodicOffsetArray value="0,-3,0"/>
+        <PeriodicPeriodArray value="0"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="InfestedClawsDamage22">
+        <EditorCategories value="Race:Zerg"/>
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <Flags index="Notification" value="1"/>
+        <Kind value="Melee"/>
+        <AreaArray Radius="1" Fraction="1"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Dead"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+        <SearchFlags index="OffsetByUnitRadius" value="1"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectSet id="InfestedClaws22MutiAttack">
+        <EffectArray value="InfestedClawsDamage22"/>
+        <EffectArray value="InfestedClaws22MutiAttackSearch"/>
+    </CEffectSet>
+    <CEffectEnumArea id="InfestedClaws22MutiAttackSearch">
+        <ImpactLocation Value="SourceUnit"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Invulnerable"/>
+        <AreaArray Radius="7" Effect="InfestedClawsDamage22"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="RAPeacekeeperInfantryFakeDamage"/>
+    <CEffectEnumArea id="NovaWeaponHellfireShotgunBlastSearch22">
+        <SearchFilters value="Ground;Self,Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray>
+            <Arc value="4.9987"/>
+            <Radius value="1"/>
+            <RadiusBonus value="1"/>
+            <Effect value="NovaWeaponHellfireShotgunBlastDamage2"/>
+        </AreaArray>
+        <SearchFlags index="CenterAtLaunch" value="1"/>
+        <Marker>
+            <MatchFlags index="Link" value="1"/>
+        </Marker>
+        <ExcludeArray Value="Target"/>
+    </CEffectEnumArea>
+    <CEffectCreatePersistent id="NovaWeaponHellfireShotgunBlast222">
+        <WhichLocation Value="CasterPoint"/>
+        <PeriodCount value="2"/>
+        <PeriodicEffectArray value="NovaWeaponHellfireShotgunBlastSearch222"/>
+        <PeriodicOffsetArray value="0,-1,0"/>
+        <PeriodicOffsetArray value="0,-2,0"/>
+        <PeriodicPeriodArray value="0"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+            <MatchFlags index="Link" value="1"/>
+        </Marker>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="NovaWeaponHellfireShotgunBlast2">
+        <WhichLocation Value="CasterPoint"/>
+        <PeriodCount value="16"/>
+        <PeriodicEffectArray value="NovaWeaponHellfireShotgunBlastSearch2"/>
+        <PeriodicOffsetArray value="0,-1,0"/>
+        <PeriodicOffsetArray value="0,-2,0"/>
+        <PeriodicOffsetArray value="0,-3,0"/>
+        <PeriodicOffsetArray value="0,-4,0"/>
+        <PeriodicOffsetArray value="0,-5,0"/>
+        <PeriodicOffsetArray value="0,-6,0"/>
+        <PeriodicOffsetArray value="0,-7,0"/>
+        <PeriodicOffsetArray value="0,-8,0"/>
+        <PeriodicOffsetArray value="0,-9,0"/>
+        <PeriodicOffsetArray value="0,-10,0"/>
+        <PeriodicOffsetArray value="0,-11,0"/>
+        <PeriodicOffsetArray value="0,-12,0"/>
+        <PeriodicOffsetArray value="0,-13,0"/>
+        <PeriodicOffsetArray value="0,-14,0"/>
+        <PeriodicOffsetArray value="0,-15,0"/>
+        <PeriodicOffsetArray value="0,-16,0"/>
+        <PeriodicPeriodArray value="0"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+            <MatchFlags index="Link" value="1"/>
+        </Marker>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="NovaWeaponHellfireShotgunBlastSearch222">
+        <Marker>
+            <MatchFlags index="Link" value="1"/>
+        </Marker>
+        <SearchFilters value="Ground;Self,Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray>
+            <Arc value="4.9987"/>
+            <Radius value="1"/>
+            <RadiusBonus value="1"/>
+            <Effect value="NovaWeaponHellfireShotgunBlastDamage23"/>
+        </AreaArray>
+        <SearchFlags index="CenterAtLaunch" value="1"/>
+        <ExcludeArray Value="Target"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="NovaWeaponHellfireShotgunBlastSearch2">
+        <SearchFilters value="Ground;Self,Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray>
+            <Arc value="4.9987"/>
+            <Radius value="1"/>
+            <RadiusBonus value="1"/>
+            <Effect value="NovaWeaponHellfireShotgunBlastDamage22"/>
+        </AreaArray>
+        <SearchFlags index="CenterAtLaunch" value="1"/>
+        <Marker>
+            <MatchFlags index="Link" value="1"/>
+        </Marker>
+        <ExcludeArray Value="Target"/>
+    </CEffectEnumArea>
+    <CEffectSet id="RASetOfThreeAttackEffectsOfPeacekeeperInfantry">
+        <EffectArray value="NovaWeaponHellfireShotgunBlast2"/>
+        <EffectArray value="NovaWeaponHellfireShotgunBlast22"/>
+        <EffectArray value="NovaWeaponHellfireShotgunBlast222"/>
+        <EffectArray value="RAPeacekeeperInfantryFakeDamage"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CModel id="NatashaDeath22" parent="UnitDeath" Race="Terran">
+        <Model value="assets\units\allied\Peacekeeper_Death.m3"/>
+        <Lighting value="NatashaDeath2"/>
+        <SelectionOffset value="0.000000,0.000000,-0.500000"/>
+        <SelectionRadius value="1.250000"/>
+    </CModel>
+    <CModel id="AlliedPeaceKeeper_Model" parent="MarineBase">
+        <Model value="assets\units\Allied\Peacekeeper.m3"/>
+        <SelectionRadius value="0.335000"/>
+    </CModel>
+    <CModel id="NovaWeaponHellfireShotgunBlastImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\Nova_PenetratingShot_Impact\Nova_PenetratingShot_Impact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="NovaWeaponHellfireShotgunBlastLaunchModel2" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\HERC_Gun_Upgrade_Launch\HERC_Gun_Upgrade_Launch.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.500000,3.000000,0.500000"/>
+        <ScaleMin value="0.500000,3.000000,0.500000"/>
+        <AnimSpeed value="0.800000"/>
+    </CModel>
+    <CModel id="TychusPortrait223" parent="FXAPortrait" Race="Terran">
+        <Model value="Assets\COOP\Tychus\Portraits\HERC_Heavens_COOP_Portrait\HERC_Heavens_COOP_Portrait.m3"/>
+        <FacialController value="LocalizedData\Facial\TychusPortrait.fxa"/>
+        <Image value="Assets\Textures\TychusPortrait_Static.dds"/>
+        <Lighting value="TychusPortrait"/>
+    </CModel>
+    <CSound id="AlliedPeaceKeeper_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUPeace_VoiAtka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiAtke.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiAtkf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiAtkg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedPeaceKeeper_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUPeace_VoiSelUndFira.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiSelUndFirb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiSelUndFirc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiSelUndFird.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedPeaceKeeperVoice6" parent="DeathVoice">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiDiea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiDieb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiDiec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiDied.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiDief.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiDieg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiDieh.ogg" FacialGroup=""/>
+        <AssetArrayTemplate>
+            <File value="LocalizedData\Sounds\VO\Terran\^TemplateParam2^.ogg"/>
+            <FacialAnim value="^TemplateParam1^"/>
+            <FacialGroup value="^TemplateParam1^"/>
+            <FacialFile value="LocalizedData\Sounds\VO\Terran\^TemplateParam1^.fxe"/>
+        </AssetArrayTemplate>
+        <Chance value="100"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedPeaceKeeper_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUPeace_VoiMova.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiMovb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiMovc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiMovd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiMove.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiMovf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="Nova_HellfireShotgun_Blast2" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\AUPeace_wea1FireA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_wea1FireB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_wea1FireC.ogg" FacialGroup=""/>
+        <Pitch value="-1.000000,0.000000"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedPeaceKeeper_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUPeace_VoiSela.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiSelb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiSelc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiSeld.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiSele.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiSelf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiSelg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedPeaceKeeperVoice" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUPeace_VoiCrea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiCreb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiCrec.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CWeaponLegacy id="AlliedPeaceKeeperWinchester">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="assets\textures\Allied\peacekeeper-infantry-switches-to-shotgun-mode.dds"/>
+        <DisplayEffect value="NovaWeaponHellfireShotgunBlastDamage22"/>
+        <TargetFilters value="Ground,Visible;Missile,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Period value="1.8"/>
+        <Backswing value="0.75"/>
+        <Effect value="RASetOfThreeAttackEffectsOfPeacekeeperInfantry"/>
+        <Range value="3"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="InfestedClaws22">
+        <EditorCategories value="Race:Zerg"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="Melee" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Options index="IgnoreThreat" value="1"/>
+        <Icon value="Assets\Textures\war3_pasbtncleavingattack.dds"/>
+        <DisplayEffect value="InfestedClawsDamage22"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="4"/>
+        <Arc value="360"/>
+        <Period value="0.5"/>
+        <Backswing value="0"/>
+        <Effect value="InfestedClaws22MutiAttack"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+
+    <CBehaviorBuff id="SovietMotoCycleBehavior22">
+        <InfoIcon value="assets\textures\维和步兵切换防爆盾模式.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Modification>
+            <AttackTargetPriority value="30"/>
+            <MoveSpeedMultiplier value="0.5"/>
+            <AttackSpeedMultiplier value="0.5"/>
+            <UnitNameOverride value="AlliedMarineT1"/>
+            <DamageDealtFraction index="Spell" value="-0.8"/>
+            <DamageDealtFraction index="Melee" value="-0.8"/>
+            <DamageDealtFraction index="Ranged" value="-0.8"/>
+            <DamageDealtFraction index="Splash" value="-0.8"/>
+            <DamageDealtFraction index="NoProc" value="-0.8"/>
+            <DamageTakenMaximum index="Spell" value="1000"/>
+            <DamageTakenMaximum index="Melee" value="1000"/>
+            <DamageTakenMaximum index="Ranged" value="1000"/>
+            <DamageTakenMaximum index="Splash" value="1000"/>
+            <DamageTakenMaximum index="NoProc" value="1000"/>
+            <LifeArmorBonus value="2"/>
+            <SoundArray index="Yes" value="AlliedPeaceKeeperVoice32"/>
+        </Modification>
+        <InitialEffect value="RAInfantryCannotMoveWhenSwitchingModes"/>
+        <FinalEffect value="RAInfantryCannotMoveWhenSwitchingModes"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="VolatileBurstBuilding24222">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Duration value="0.7"/>
+    </CBehaviorBuff>
+    <CEffectApplyBehavior id="RAInfantryCannotMoveWhenSwitchingModes">
+        <Behavior value="VolatileBurstBuilding24222"/>
+    </CEffectApplyBehavior>
+    <CSound id="AlliedPeaceKeeperVoice32" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUPeace_VoiMovSpca.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiMovSpcb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiMovSpcc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUPeace_VoiMovSpcd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
 </Catalog>

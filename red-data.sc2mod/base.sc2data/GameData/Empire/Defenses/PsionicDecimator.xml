@@ -1,3 +1,220 @@
 <Catalog>
 
+    <CUnit id="EmpirePsionicDecimator" parent="EmpireStructure">
+        <Facing value="330.996"/>
+        <Attributes index="Heroic" value="1"/>
+        <LifeStart value="4000"/>
+        <LifeMax value="4000"/>
+        <Sight value="6"/>
+        <!--Food value="-8"/-->
+        <CostCategory value="Army"/>
+        <CostResource index="Minerals" value="5000"/>
+        <RepairTime value="50"/>
+        <KillXP value="200"/>
+        <AbilArray Link="attack"/>
+        <AbilArray Link="ScannerSweep"/>
+        <AbilArray Link="OdinNuclearStrike2222"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent48"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent482"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="Stop" Type="AbilCmd" AbilCmd="stop,Stop" Row="0" Column="1"/>
+            <LayoutButtons Face="AttackBuilding" Type="AbilCmd" AbilCmd="attack,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="Scan" Type="AbilCmd" AbilCmd="ScannerSweep,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="OdinBarrage2242" Type="AbilCmd" AbilCmd="OdinNuclearStrike2222,Execute" Row="0" Column="0"/>
+        </CardLayouts>
+        <Radius value="3"/>
+        <SeparationRadius value="3"/>
+        <Footprint value="Footprint4x4Contour"/>
+        <DeadFootprint value="Footprint4x4Contour"/>
+        <PlacementFootprint value="Footprint4x4"/>
+        <ScoreMake value="1250000"/>
+        <ScoreKill value="2500"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="3"/>
+    </CUnit>
+    <CAbilEffectTarget id="OdinNuclearStrike2222">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Effect index="0" value="RAInitialSetOfSuperWaveDestructionDeviceEffects"/>
+        <Cost>
+            <Charge Link="Abil/NovaNuclearStrike"/>
+            <Cooldown Link="chaoneng" TimeStart="360" TimeUse="360"/>
+        </Cost>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <Marker Link="Abil/NovaNuclearStrike"/>
+        <AlertArray index="Cast" value="CalldownLaunch"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="OdinBarrage2242" Requirements="SuperWeaponRe52"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
+        <CursorEffect value="RASuperEnergyWaveDestructionDeviceSearchAreaDisplay"/>
+    </CAbilEffectTarget>
+    <CActorUnit id="EmpirePsionicDecimator_Actor" parent="TerranBuilding" unitName="EmpirePsionicDecimator">
+        <On Terms="Abil.*.PawnTarget" Send="AnimPlay"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent482.Off" Send="AnimBracketStart Attack1 Stand,Work,Start Stand,Work Stand,Work,End"/>
+        <On Terms="Effect.RATheExplosionOfTheSuperWaveDestructionDeviceBeginsAContinuousEffect.Start" Send="AnimBracketStop Attack1"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent48.Off" Send="PlayUnitSound Board"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent482.Off" Send="Create RASuperWaveDestructionDeviceReadySoundEffect"/>
+        <On Terms="UnitConstruction.EmpirePsionicDecimator.Start" Send="AnimPlay 111 Birth,Stand PlayForever,NonLooping"/>
+        <On Terms="UnitConstruction.EmpirePsionicDecimator.Finish" Send="AnimClear 111"/>
+        <Scale value="0.950000"/>
+        <DeathArray index="Normal" ModelLink="TerranBuildingDeath" SoundLink="Bunker_Explode"/>
+        <DeathActorModel value="UnitDeathModelPersistent"/>
+        <DeathActorModelLow value="UnitDeathModelPersistent"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <PortraitModel value="AdjutantPortrait"/>
+        <BarOffset value="120"/>
+        <BarWidth value="160"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Empire\super-energy-wave-destruction-device-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Empire\super-wave-destruction-device-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+        <NameOffset value="150"/>
+        <SoundArray index="Birth" value="EmpirePsionicDecimator_Actor_Birth"/>
+        <SoundArray index="Ready" value="EmpirePsionicDecimator_Actor_Birth"/>
+        <SoundArray index="Help" value="GhostAcademy_Help"/>
+        <SoundArray index="What" value="EmpirePsionicDecimator_Actor_Birth"/>
+        <SoundArray index="Yes" value="GhostAcademy_Yes"/>
+        <SoundArray index="Attack" value="GhostAcademy_Attack"/>
+        <SoundArray index="Pissed" value="GhostAcademy_Pissed"/>
+        <SoundArray index="Movement" value="GhostAcademy_Movement"/>
+        <SoundArray index="Turning" value="GhostAcademy_Turning"/>
+        <SoundArray index="Board" value="EmpirePsionicDecimator_Actor_Board"/>
+        <SoundArray index="Construction" value="EmpirePsionicDecimator_Actor_Birth"/>
+        <SoundArray index="Click" value="EmpirePsionicDecimator_Actor_Birth"/>
+        <SoundArray index="ClickError" value="GhostAcademy_ClickError"/>
+        <SoundArray index="Highlight" value="GhostAcademy_Highlight"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Icons\Empire\super-wave-destruction-device-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Empire\super-energy-wave-destruction-device-wireframe.dds"/>
+        </Wireframe>
+        <Model value="EmpirePsionicDecimator_Actor"/>
+        <HighlightTooltip value="Unit/Name/EmpirePsionicDecimator_Actor"/>
+    </CActorUnit>
+    <CActorSquib id="SumotoActor22">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
+        <On Terms="Effect.RAInitialStartOfSuperEnergyWaveDestructionDevice.Start; At Effect" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="SpiderMineExplosion22" AnimProps="Stand" Sound="Odin_NukeExplode222"/>
+    </CActorSquib>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent482">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <Duration value="350"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent48">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <BuffFlags index="DisableWhileUnderConstruction" value="1"/>
+        <Duration value="360"/>
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CButton id="OdinBarrage2242">
+        <Icon value="assets\icons\launch-super-power-to-destroy-the-wave.dds"/>
+        <HotkeyAlias value="OdinBarrage2"/>
+        <Hotkey value="Button/Hotkey/IronCurtain"/>
+    </CButton>
+    <CEffectDamage id="RASuperEnergyWaveDestructionDeviceDamage">
+        <Amount value="6000"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFlags index="ExtendByUnitRadius" value="1"/>
+        <SearchFlags index="OffsetAreaByAngle" value="1"/>
+        <SearchFlags index="SameCliff" value="0"/>
+        <ArmorReduction value="1"/>
+    </CEffectDamage>
+    <CEffectSet id="RAInitialSetOfSuperWaveDestructionDeviceEffects">
+        <EffectArray value="RAInitialStartOfSuperEnergyWaveDestructionDevice"/>
+        <EffectArray value="SuperWeapon120ScooldownAB"/>
+        <EffectArray value="SuperWeapon120ScooldownAB2"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="RAInitialStartOfSuperEnergyWaveDestructionDevice">
+        <ExpireEffect value="RATheExplosionOfTheSuperWaveDestructionDeviceBeginsAContinuousEffect"/>
+        <PeriodCount value="10"/>
+        <PeriodicPeriodArray value="0.5"/>
+        <RevealRadius value="14"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="RASuperEnergyWaveDestructionDeviceExplosionSearchArea">
+        <ImpactLocation Value="TargetPoint"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Dead,Invulnerable"/>
+        <AreaArray Radius="2" RadiusBonus="0.25" Effect="RASuperEnergyWaveDestructionDeviceDamage"/>
+        <ExcludeArray Value="Target"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB2">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent482"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent48"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="RATheExplosionOfTheSuperWaveDestructionDeviceBeginsAContinuousEffect">
+        <PeriodCount value="40"/>
+        <PeriodicEffectArray value="RASuperEnergyWaveDestructionDeviceExplosionSearchArea"/>
+        <PeriodicPeriodArray value="0.11"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+        <ExpireDelay value="7"/>
+        <RevealRadius value="14"/>
+        <RevealFlags index="Unfog" value="1"/>
+    </CEffectCreatePersistent>
+    <CModel id="EmpirePsionicDecimator_Actor" parent="Building" Race="Terran">
+        <Model value="assets\models\Empire\JUSuperWeaponAdvanced.m3"/>
+        <Occlusion value="Show"/>
+        <Radius value="3.000000"/>
+        <RadiusLoose value="0.000000"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+        <SelectionLayer value="2"/>
+        <SelectionRadius value="2.000000"/>
+        <ShadowRadius value="3.000000"/>
+        <SquibTypeDefault value="Metal"/>
+    </CModel>
+    <CModel id="SpiderMineExplosion22" parent="ImpactFX">
+        <Model value="assets\buildings\empire\PsionicDecimator.m3"/>
+        <LowQualityModel value="SpiderMineExplosion22"/>
+        <AnimSpeed value="0.620000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.500000,0.500000,0.500000"/>
+        <ScaleMin value="0.500000,0.500000,0.500000"/>
+    </CModel>
+    <CSound id="Odin_NukeExplode222" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\super-jsppsionic_exploa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\super-jsppsionic_explob.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\super-jsppsionic_exploc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\super-jsppsionic_explod.ogg" FacialGroup=""/>
+        <DupeMaximumMethod value="Replace"/>
+        <Spread value="180.000000"/>
+        <Volume value="6.000000,6.000000"/>
+    </CSound>
+    <CSound id="EmpirePsionicDecimator_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\super-jbpsion_selecta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\super-jbpsion_selectb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\super-jbpsion_selectc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\super-jbpsion_selectd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+    <CSound id="EmpirePsionicDecimator_Actor_Board" parent="Ready">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\Adjutant-The-super-wave-destruction-device-is-ready.ogg" FacialGroup=""/>
+        <AssetArrayTemplate>
+            <File value="LocalizedData\Sounds\VO\Terran\^TemplateParam2^.ogg"/>
+            <FacialAnim value="^TemplateParam1^"/>
+            <FacialGroup value="^TemplateParam1^"/>
+            <FacialFile value="LocalizedData\Sounds\VO\Terran\^TemplateParam1^.fxe"/>
+        </AssetArrayTemplate>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <PanLevel value="0.750000"/>
+        <ReverbBalance Room="0"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
 </Catalog>

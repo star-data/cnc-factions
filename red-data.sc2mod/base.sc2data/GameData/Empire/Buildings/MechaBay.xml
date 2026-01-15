@@ -1,3 +1,141 @@
 <Catalog>
 
+    <CUnit id="EmpireWarFactory" parent="EmpireStructure">
+        <LifeStart value="2500"/>
+        <LifeMax value="2500"/>
+        <LifeRegenDelay value="30"/>
+        <LifeRegenRate value="1"/>
+        <Sight value="8"/>
+        <!--Food value="-5"/-->
+        <CostResource index="Minerals" value="50"/>
+        <RepairTime value="60"/>
+        <AbilArray Link="Rally"/>
+        <AbilArray Link="WarFactoryTrain"/>
+        <AbilArray Link="WarFactoryTrain2"/>
+        <AbilArray Link="Disband22"/>
+        <AbilArray Link="BuildCity"/>
+        <AbilArray Link="RA3TechLevel"/>
+        <AbilArray Link="NanoRepair"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="KraithCrashingCharge22" Type="AbilCmd" AbilCmd="WarFactoryTrain2,Train12" Row="0" Column="1"/>
+            <LayoutButtons Face="EmpireBuildWaveForceArtillery" Type="AbilCmd" AbilCmd="WarFactoryTrain,Train3" Row="1" Column="1"/>
+            <LayoutButtons Face="Disband4" Type="AbilCmd" AbilCmd="Disband22,Execute" Row="2" Column="3"/>
+            <LayoutButtons Face="KraithCrashingCharge224" Type="AbilCmd" AbilCmd="WarFactoryTrain2,Train18" Row="0" Column="2"/>
+            <LayoutButtons Face="EmpireBuildSuddenFav" Type="AbilCmd" AbilCmd="WarFactoryTrain,Train7" Row="0" Column="0"/>
+            <LayoutButtons Face="EmpireBuildRazorTank" Type="AbilCmd" AbilCmd="WarFactoryTrain,Train5" Row="1" Column="0"/>
+            <LayoutButtons Face="EmpireBuildTsunamiTank" Type="AbilCmd" AbilCmd="WarFactoryTrain,Train2" Row="2" Column="0"/>
+            <LayoutButtons Face="JUTechUnlockT1" Type="AbilCmd" AbilCmd="RA3TechLevel,255" Row="0" Column="4"/>
+            <LayoutButtons Face="JUTechUnlockT2" Type="AbilCmd" AbilCmd="RA3TechLevel,255" Row="0" Column="4"/>
+            <LayoutButtons Face="JUTechUnlockT3" Type="AbilCmd" AbilCmd="RA3TechLevel,255" Row="0" Column="4"/>
+            <LayoutButtons Face="buttonlocked222223" Type="Passive" Requirements="UnlockTechRequirement222" Row="0" Column="4"/>
+            <LayoutButtons Face="JUTechUnlockT4" Type="AbilCmd" AbilCmd="RA3TechLevel,255" Row="0" Column="4"/>
+            <LayoutButtons Face="NanoRepair" Type="AbilCmd" AbilCmd="NanoRepair,Execute" Row="1" Column="4"/>
+            <LayoutButtons Face="buildzibaokache" Type="AbilCmd" AbilCmd="WarFactoryTrain,Train25" Row="2" Column="1"/>
+        </CardLayouts>
+        <Radius value="1.625"/>
+        <SeparationRadius value="1.625"/>
+        <Footprint value="Footprint4x4"/>
+        <PlacementFootprint value="Footprint4x4"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="0.75"/>
+        <TacticalAI value="Factory"/>
+        <ReviveInfoBase>
+            <Charge Link="Factory/Revive"/>
+            <Cooldown Link="Factory/Revive"/>
+        </ReviveInfoBase>
+        <EnergyStart value="100"/>
+        <EnergyMax value="100"/>
+        <EnergyRegenRate value="100"/>
+        <BehaviorArray Link="MassProduction2"/>
+        <KillXP value="20"/>
+    </CUnit>
+    <CAbilEffectTarget id="NanoRepair">
+        <TargetFilters value="Mechanical,Visible;Enemy,Structure,Hover,Missile,UnderConstruction,Dead,Invulnerable"/>
+        <TargetFilters value="Ground,Mechanical,Visible;Self,Enemy,Air,Structure,Missile,Uncommandable,Dead,Hidden,Invulnerable"/>
+        <Range value="8"/>
+        <Range value="8"/>
+        <SmartPriority value="15"/>
+        <AutoCastRange value="8"/>
+        <AcquirePriority value="10"/>
+        <FollowRange value="3"/>
+    </CAbilEffectTarget>
+    <CActorUnit id="EmpireWarFactory" parent="TerranBuildingFlyer" unitName="EmpireWarFactory">
+        <Macros value="QueueAnim"/>
+        <Macros value="BuildAnim"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <FogVisibility value="Visible"/>
+        <On index="66" Terms="UnitConstruction.EmpireWarFactory.Cancel" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On index="67" Terms="UnitConstruction.EmpireWarFactory.Finish" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On index="68" Terms="UnitConstruction.EmpireWarFactory.Start" Send="QueryRadius 1.750000 BuildingCrushQueryResponse"/>
+        <On index="69" Terms="UnitDeath.EmpireWarFactory" Target="_BuildingTerrainFlatten" Send="Destroy"/>
+        <On index="70" Terms="UnitDeathCustomize; CreepEngulfs" Send="CreepEngulfmentStopTransition"/>
+        <On index="71" Terms="UnitConstruction.EmpireWarFactory.Start" Target="" Send="AnimPlay 111 Birth,Stand PlayForever,NonLooping"/>
+        <On index="72" Terms="UnitConstruction.EmpireWarFactory.Finish" Target="" Send="AnimClear 111"/>
+        <On index="73" Terms="UnitConstruction.EmpireWarFactory.Finish" Send="AnimBaselineStart"/>
+        <On index="74" removed="1"/>
+        <On index="75" removed="1"/>
+        <On index="76" removed="1"/>
+        <On index="77" removed="1"/>
+        <On index="78" removed="1"/>
+        <On index="79" removed="1"/>
+        <On index="80" removed="1"/>
+        <On index="81" removed="1"/>
+        <On index="82" removed="1"/>
+        <On index="83" removed="1"/>
+        <On index="84" removed="1"/>
+        <On index="85" removed="1"/>
+        <On index="86" removed="1"/>
+        <On index="87" removed="1"/>
+        <On index="88" removed="1"/>
+        <On index="89" removed="1"/>
+        <On index="90" removed="1"/>
+        <On index="91" removed="1"/>
+        <On index="92" removed="1"/>
+        <On index="93" removed="1"/>
+        <On index="94" removed="1"/>
+        <HostSiteOps Ops="SOpBankerUnitBuilding"/>
+        <Model value="EmpireWarFactory_Model"/>
+        <Scale value="0.830000"/>
+        <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
+        <PlacementSound value="Terran_BuildingPlacement2"/>
+        <PortraitModel value="AdjutantPortrait"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.250000,0.500000"/>
+            <RangeDown value="5.000000"/>
+            <RangeDownFade value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleMassive3"/>
+        </TerrainSquibs>
+        <BarOffset value="190"/>
+        <BarWidth value="200"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\imperial-tank-factory-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\imperial-tank-factory-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
+        <NameOffset value="110"/>
+        <SoundArray index="Ready" value="Factory_Ready"/>
+        <SoundArray index="What" value="EmpireMechFactory_What"/>
+        <SoundArray index="Movement" value="Factory_Movement"/>
+        <SoundArray index="Construction" value="Terran_ConstructionWhat"/>
+        <SoundArray index="Click" value="EmpireMechFactory_What"/>
+        <UnitIcon value="Assets\Icons\imperial-tank-factory-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\imperial-tank-factory-wireframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CEffectCreateHealer id="NanoRepair"/>
+    <CModel id="EmpireWarFactory_Model" parent="FactoryBase">
+        <Model value="assets\buildings\Empire\WarFactory.m3"/>
+        <SelectionRadius value="3.234600"/>
+    </CModel>
+    <CSound id="EmpireMechFactory_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\JuWarFactory_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
 </Catalog>

@@ -1,3 +1,238 @@
 <Catalog>
 
+    <CUnit id="EmpireImperialEngineer" parent="EmpireGround">
+        <Subtitle value="UnitSubtitle/gbing"/>
+        <PushPriority value="5"/>
+        <DefaultAcquireLevel value="Defensive"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <LifeStart value="200"/>
+        <LifeMax value="200"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranEmpireImperialEngineerArmor"/>
+        <EnergyStart value="100"/>
+        <EnergyMax value="100"/>
+        <EnergyRegenRate value="100"/>
+        <Speed value="1.3007"/>
+        <LateralAcceleration value="46.0625"/>
+        <Sight value="7"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="500"/>
+        <AttackTargetPriority value="5"/>
+        <KillXP value="30"/>
+        <AbilArray Link="BuildingCapture2"/>
+        <AbilArray Link="BuildingCapture"/>
+        <AbilArray Link="zhukefuxingfenji2"/>
+        <BehaviorArray Link="SovietSandbagAuraB"/>
+        <BehaviorArray Link="SovietStrongwilloftheRedArmy"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="EngineerCapture" Type="AbilCmd" AbilCmd="BuildingCapture,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="EngineerCapture3" Type="AbilCmd" AbilCmd="BuildingCapture2,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="Stim2" Type="AbilCmd" AbilCmd="zhukefuxingfenji2,Execute" Row="1" Column="1"/>
+        </CardLayouts>
+        <Radius value="0.375"/>
+        <SeparationRadius value="0.375"/>
+        <SubgroupPriority value="5"/>
+        <MinimapRadius value="0.3"/>
+    </CUnit>
+    <CAbilEffectInstant id="zhukefuxingfenji2">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <InfoTooltipPriority value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost>
+            <Charge Link=""/>
+            <Cooldown Link="Abil/AlarakSingularity" TimeUse="40"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Stim2">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+    </CAbilEffectInstant>
+    <CActorUnit id="EmpireImperialEngineer_Actor" parent="GenericUnitStandard" unitName="EmpireImperialEngineer">
+        <Aliases value="_UnitSmall"/>
+        <Model value="EmpireImperialEngineer_Model"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <EventDataFootprint index="0" Actor="UnitFootprint" Model="SpectreFootprint"/>
+        <DeathArray index="Normal" ModelLink="Spectre623" SoundLink="TerranFlyer_What22326532325262" VoiceLink=""/>
+        <DeathArray index="Timeout" ModelLink="Invisible" SoundLink="SuperWeaponReadyVoice2322223"/>
+        <DeathArray index="Salvage" AnimProps="Death" ModelLink="Spectre623" SoundLink="TerranFlyer_What22326532325262"/>
+        <PortraitModel value="SCV_Umojan_Portrait"/>
+        <WalkAnimMoveSpeed value="2.1992"/>
+        <AbilSoundArray AbilCmd="BuildingCapture,Execute" Sound="EmpireImperialEngineer_Actor_Attack"/>
+        <AbilSoundArray AbilCmd="BuildingCapture2,Execute" Sound="SovietEngineerVoice76"/>
+        <BarOffset value="50"/>
+        <BarWidth value="40"/>
+        <GroupIcon>
+            <Image value="Assets\icons\imperial-engineer-unit-wireframe.dds"/>
+        </GroupIcon>
+        <GroupSoundArray index="What" value="Spectre_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="Spectre_GroupYes"/>
+        <GroupSoundArray index="Attack" value="Spectre_GroupAttack"/>
+        <GroupSoundArray index="Board" value="Spectre_GroupBoard"/>
+        <HeroIcon value="Assets\icons\imperial-engineer-unit-icon.dds"/>
+        <HighlightTooltip value="Unit/Name/Spectre"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
+        <SoundArray index="Birth" value="Spectre_Birth"/>
+        <SoundArray index="Ready" value="EmpireImperialEngineer_Actor_Ready"/>
+        <SoundArray index="Help" value="EmpireImperialEngineer_Actor_Help"/>
+        <SoundArray index="What" value="EmpireImperialEngineer_Actor_What"/>
+        <SoundArray index="Yes" value="EmpireImperialEngineer_Actor_Yes"/>
+        <SoundArray index="Attack" value="EmpireImperialEngineer_Actor_Attack"/>
+        <SoundArray index="Pissed" value="EmpireImperialEngineer_Actor_What"/>
+        <SoundArray index="Movement" value="Spectre_Movement"/>
+        <SoundArray index="Turning" value="Spectre_Turning"/>
+        <SoundArray index="Board" value="Spectre_Board"/>
+        <SoundArray index="Click" value="EmpireImperialEngineer_Actor_What"/>
+        <SoundArray index="ClickError" value="Spectre_ClickError"/>
+        <SoundArray index="Highlight" value="Spectre_Highlight"/>
+        <UnitIcon value="Assets\icons\imperial-engineer-unit-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\icons\imperial-engineer-unit-wireframe.dds"/>
+        </Wireframe>
+        <On Terms="ActorCreation" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.zhukefuxingfenji2.On" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.zhukefuxingfenji2.On" Send="AnimGroupRemove A"/>
+        <On Terms="Behavior.zhukefuxingfenji22.On" Send="AnimBracketStart 111 {} Run,End {} ContentForceLooping,Instant"/>
+        <On Terms="Behavior.zhukefuxingfenji22.Off" Send="AnimBracketStop 111"/>
+        <On Terms="Behavior.zhukefuxingfenji22.Off" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.zhukefuxingfenji22.Off" Send="AnimGroupRemove B"/>
+        <Scale value="1.200000"/>
+    </CActorUnit>
+    <CActorModel id="zombieattack2" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.zhukefuxingfenji2.On" Send="Create"/>
+        <On Terms="Behavior.zhukefuxingfenji2.Off" Send="AnimBracketStop BSD"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachOrigin"/>
+    </CActorModel>
+    <CBehaviorBuff id="zhukefuxingfenji2">
+        <InfoIcon value="Assets\icons\帝国工程师开启狂奔模式图标.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <DisplayDuration index="Self" value="1"/>
+        <Duration value="15"/>
+        <ExpireEffect value="zhukefuxingfenji22"/>
+        <Modification MoveSpeedBonus="1.5"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="zhukefuxingfenji22">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\icons\帝国工程师开启狂奔模式图标.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Duration value="10"/>
+        <Modification>
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <ModifyFlags index="SuppressTurning" value="1"/>
+            <SoundArray index="Yes" value="SovietEngineerVoice732"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="Stim2">
+        <Icon value="Assets\icons\imperial-engineer-turns-on-running-mode-icon.dds"/>
+    </CButton>
+
+    <CEffectApplyBehavior id="zhukefuxingfenji22">
+        <EditorCategories value="Race:Terran"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="zhukefuxingfenji2">
+        <EditorCategories value="Race:Terran"/>
+    </CEffectApplyBehavior>
+    <CModel id="Spectre623" parent="UnitDeath">
+        <Model value="Assets\units\Empire\engineer.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Occlusion value="Show"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="0.250000"/>
+        <ShadowRadius value="0.375000"/>
+    </CModel>
+    <CModel id="EmpireImperialEngineer_Model" parent="Unit">
+        <Model value="Assets\units\Empire\engineer.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Occlusion value="Show"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="0.250000"/>
+        <ShadowRadius value="0.375000"/>
+        <SquibTypeDefault value="Flesh"/>
+        <UnitGlossaryCamera value="Star2CameraMid04"/>
+    </CModel>
+    <CModel id="zombieattack2">
+        <Model value="Assets\Effects\Terran\Fire_UnitDamage\Fire_UnitDamage.m3"/>
+    </CModel>
+    <CSound id="TerranFlyer_What22326532325262" parent="TerranDeath">
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidiea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidieb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidiec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidied.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidiee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidief.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidieg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidieh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidiei.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidiej.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidiek.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voidiel.ogg" FacialGroup=""/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialEngineer_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voicreatea.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialEngineer_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voimovea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voimoveb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voimovee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voimovef.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voimoveg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voimoveh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voimovei.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SovietEngineerVoice76" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voirepaira.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voirepairb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voirepairc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voirepaird.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voirepaire.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialEngineer_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselecta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselectb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselectc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselectd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselecte.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselectf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselectg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialEngineer_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselunda.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselundb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselundc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselundd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselunde.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselundf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voiselundg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="EmpireImperialEngineer_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voicaptura.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voicapturb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voicapturc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\imperial-engineer-juengin_voicapturd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SuperWeaponReadyVoice2322223" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\neutral-oil-wells-have-captured-the-empire-ieva_oilderrickcapt.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="6.000000,6.000000"/>
+    </CSound>
 </Catalog>

@@ -1,3 +1,311 @@
 <Catalog>
 
+    <CUnit id="AlliedVindicator" parent="AlliedAir">
+        <Subtitle value="UnitSubtitle/hangk"/>
+        <FlagArray index="AIThreatGround" value="1"/>
+        <FlagArray index="AIThreatAir" value="1"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="105"/>
+        <LifeMax value="105"/>
+        <EnergyStart value="40"/>
+        <EnergyMax value="40"/>
+        <Speed value="4.5"/>
+        <Acceleration value="100"/>
+        <Deceleration value="10"/>
+        <StationaryTurningRate value="180"/>
+        <TurningRate value="180"/>
+        <Sight value="10"/>
+        <CostResource index="Minerals" value="1200"/>
+        <RepairTime value="2"/>
+        <KillXP value="2"/>
+        <AbilArray index="0" Link="CNCAirplaneMove"/>
+        <AbilArray index="2" Link="attack2"/>
+        <AbilArray Link="CNCReturnToTheAirport"/>
+        <AbilArray Link="CNCAirportPlanetakingoff"/>
+        <AbilArray Link="CNCAirportPlaneLanding"/>
+        <BehaviorArray Link="ThePioneerarmedcombataircraftkeepscirclingwhenstopped"/>
+        <BehaviorArray Link="DisablestopautoandattackinVanguardmovementcommand"/>
+        <BehaviorArray Link="LackOfAmmo"/>
+        <BehaviorArray Link="StopautocirclingdisabledinPeacekeeperbomberattackcommand"/>
+        <BehaviorArray Link="Theaircraftiscirclingtheactor"/>
+        <BehaviorArray Link="Aircraftautomaticallyreplenishesammunitionpeacekeepingbomber"/>
+        <BehaviorArray Link="UpgradeLevel12242"/>
+        <BehaviorArray Link="AutoHeal42"/>
+        <BehaviorArray Link="Auweiheshanbi"/>
+        <WeaponArray Link="VXWeaponGround3"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="MothershipCoreAttack" Type="AbilCmd" AbilCmd="CNCAirportPlanetakingoff,255" Row="0" Column="4"/>
+            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack2,Execute" Row="0" Column="4"/>
+            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="CNCAirplaneMove,Move" Row="0" Column="0"/>
+            <LayoutButtons Face="ReturnAirport3" Type="AbilCmd" AbilCmd="CNCReturnToTheAirport,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="AutechBeidongSet30" Type="Passive" Requirements="StortModeRe223" Row="1" Column="3"/>
+            <LayoutButtons Face="AutechBeidongSet29" Type="Passive" Requirements="StortModeRe2" Row="1" Column="4"/>
+        </CardLayouts>
+        <ScoreMake value="200"/>
+        <SubgroupPriority value="13"/>
+        <GlossaryPriority value="160"/>
+    </CUnit>
+    <CActorUnit id="AlliedVindicator_Actor" parent="GenericUnitBase" unitName="AlliedVindicator">
+        <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
+        <On Terms="WeaponStart.SJWraith.AttackStart" Send="AnimBracketStart Attack Attack,Superior"/>
+        <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
+        <On Terms="ActorCreation; ValidateUnit AlliedConstructionYardTechlv02" Send="ModelSwap WW2Fighter43"/>
+        <HostSiteOps Ops="SOpBankerRAAir"/>
+        <Model value="AlliedVindicator_Model"/>
+        <Scale value="0.900000"/>
+        <AnimBlendTime value="0.300000"/>
+        <DeathArray index="Normal" ModelLink="SJGriffonDeath" SoundLink="TerranFlyer_What2223752"/>
+        <PortraitModel value="WraithPortrait"/>
+        <BarOffset value="55"/>
+        <BarWidth value="70"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Allied\peacekeeper-bomber-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Allied\peacekeeping-bomber-icon.dds"/>
+        <HighlightTooltip value="Unit/Name/AlliedVindicator_Actor"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-shipplatinglevel0.dds"/>
+        <SoundArray index="Birth" value="AlliedVindicator_Actor_Birth"/>
+        <SoundArray index="Ready" value="AlliedVindicator_Actor_Ready"/>
+        <SoundArray index="Help" value="AlliedVindicator_Actor_Help"/>
+        <SoundArray index="What" value="AlliedVindicator_Actor_What"/>
+        <SoundArray index="Yes" value="AlliedVindicator_Actor_Yes"/>
+        <SoundArray index="Attack" value="AlliedVindicator_Actor_Attack"/>
+        <SoundArray index="Pissed" value="AlliedVindicator_Actor_Attack"/>
+        <SoundArray index="Movement" value="AlliedVindicator_Actor_Birth"/>
+        <SoundArray index="Turning" value="Liberator_Turning"/>
+        <SoundArray index="Board" value="Liberator_Board"/>
+        <SoundArray index="Click" value="AlliedVindicator_Actor_What"/>
+        <SoundArray index="ClickError" value="Liberator_ClickError"/>
+        <SoundArray index="Highlight" value="Liberator_Highlight"/>
+        <UnitFlags index="ShowBlobShadow" value="0"/>
+        <UnitIcon value="Assets\Icons\Allied\peacekeeping-bomber-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Allied\peacekeeper-bomber-wireframe.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CModel id="WW2Fighter43" parent="MarineBase">
+        <Model value="assets\units\Allied\VindicatorUpgrade.m3"/>
+        <SelectionRadius value="0.700000"/>
+    </CModel>
+    <CActorAction id="SiegeTankAttack252" parent="GenericAttack" effectAttack="None" effectImpact="90mmCannons242" effectLaunch="ATRocket52">
+        <On index="0" Terms="Effect.90mmCannons24.Start; FromEffectTreeDescendant" Send="ActionImpact"/>
+        <On index="1" Terms="Effect.90mmCannons24.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="2" Terms="Effect.SplashDamage.Start; FromEffectTreeDescendant" Send="ActionDamage"/>
+        <On index="3" Terms="Effect.SplashDamage.Stop; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>
+        <On index="4" Terms="Effect.ATRocket52.Start; At Caster" Send="Create"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder224 AMPatternMarauder2532"/>
+        <LaunchAssets Model="" Scale="0.500000" Sound="WarHound_Missile_Launch2"/>
+        <Missile value="StrategicBombShell2"/>
+        <ImpactMap index="None" Model="SiegeTankSiegedAttackImpact" Sound="SiegeTank_SiegedAttackImpact" ModelReaction="SiegeTankSiegedAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="SiegeTankSiegedAttackImpactShield" ModelReaction="SiegeTankSiegedAttackImpactReactionShield"/>
+    </CActorAction>
+    <CActorMissile id="StrategicBombShell2" parent="GenericAttackMissile" unitName="StrategicBombShell2">
+        <On Terms="ActorCreation" Send="SetTintColor 182,182,182"/>
+        <Model value="BomberWeaponMissile"/>
+    </CActorMissile>
+    <CActorSquib id="RAPeacekeepingBomberBombingEffect">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.centrybomberSA2.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.90mmCannons2422.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.90mmCannons246.Start; At Effect" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="SiegeTankAttackImpact723" Sound="Colossus_Explode_Ragdoll_B"/>
+    </CActorSquib>
+    <CBehaviorBuff id="Auweiheshanbi">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\btn-upgrade-mengsk-engineeringbay-neosteelfortifiedarmor.dds"/>
+    </CBehaviorBuff>
+    <CButton id="ReturnAirport3">
+        <Icon value="Assets\icons\return-to-the-airport.dds"/>
+    </CButton>
+    <CButton id="AutechBeidongSet30">
+        <Icon value="Assets\Textures\btn-ability-mengsk-earthsplitterordnance-earthsplitterbombardment.dds"/>
+    </CButton>
+    <CButton id="AutechBeidongSet29">
+        <Icon value="Assets\Textures\btn-techupgrade-terran-titaniumhousing.dds"/>
+    </CButton>
+    <CEffectModifyUnit id="RABomberConsumesAmmunition">
+        <ImpactUnit Value="Caster"/>
+        <VitalArray index="Energy">
+            <Change value="-10"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectDamage id="90mmCannons242" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <KindSplash value="Splash"/>
+        <Amount value="30"/>
+        <Death value="Blast"/>
+    </CEffectDamage>
+    <CEffectEnumArea id="centrybomberSA2">
+        <EditorCategories value="Race:Terran"/>
+        <SearchFilters value="Ground;Dead,Invulnerable"/>
+        <AreaArray Radius="1" Effect="90mmCannons242"/>
+    </CEffectEnumArea>
+    <CEffectLaunchMissile id="ATRocket52">
+        <EditorCategories value="Race:Terran"/>
+        <AmmoUnit value="StrategicBombShell2"/>
+        <Movers Link="PunisherGrenadesWeapon3"/>
+        <ValidatorArray index="0" value="WeaponInRange"/>
+        <FinishEffect value="centrybomberSA2"/>
+        <LaunchEffect value="BomberCost"/>
+    </CEffectLaunchMissile>
+    <CEffectCreatePersistent id="RAPeacekeepingBomberBombsMultipleBursts">
+        <WhichLocation Value="TargetUnit"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="ATRocket52"/>
+        <PeriodicPeriodArray value="0.25"/>
+        <InitialEffect value="ATRocket52"/>
+    </CEffectCreatePersistent>
+    <CModel id="AlliedVindicator_Model" parent="MarineBase">
+        <Model value="assets\units\Allied\Vindicator.m3"/>
+        <SelectionRadius value="0.700000"/>
+    </CModel>
+    <CModel id="BomberWeaponMissile" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\Mutator_Nuke_Missile\Mutator_Nuke_Missile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Occlusion value="Show"/>
+        <ScaleMax value="0.200000,0.200000,0.200000"/>
+        <ScaleMin value="0.200000,0.200000,0.200000"/>
+    </CModel>
+    <CModel id="SiegeTankAttackImpact723" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\WidowMineImpact\WidowMineImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.700000,0.700000,0.700000"/>
+        <ScaleMin value="0.700000,0.700000,0.700000"/>
+    </CModel>
+    <CMoverMissile id="PunisherGrenadesWeapon3">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="3200"/>
+            <Speed value="13"/>
+            <MaxSpeed value="13"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CSound id="Colossus_Explode_Ragdoll_B">
+        <Volume value="1.000000,3.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What2223752" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUVindi_VoiCrasha.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiCrashb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiCrashc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiCrashd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Death"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedVindicator_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUVindi_VoiMovAtta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovAttb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovAttc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovAttd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovAtte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovAttf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovAttg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovAtth.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovAtti.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovAttj.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovAttk.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedVindicator_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUVindi_VoiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelUndd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelUnde.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedVindicator_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUVindi_VoiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMoveg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMoveh.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovei.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiMovej.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedVindicator_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUVindi_VoiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelectf.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelectg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelecth.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiSelecti.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="WarHound_Missile_Launch2" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1a.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1b.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1c.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1d.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1e.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1f.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1g.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_weapFire1h.ogg" FacialGroup=""/>
+        <Pitch value="-2.000000,2.000000"/>
+        <Volume value="-8.000000,-8.000000"/>
+    </CSound>
+    <CSound id="AlliedVindicator_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUVindi_VoiCreatea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiCreateb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_VoiCreatec.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedVindicator_Actor_Birth" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUVindi_movStartA.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_movStartB.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_movStartC.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_movStartD.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUVindi_movStartE.ogg" FacialGroup=""/>
+        <Category value="Movement"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CUnit id="StrategicBombShell2" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="PunisherGrenadesWeapon3"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CWeaponStrafe id="VXWeaponGround3">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-nova-bansheeMissilestrik.dds"/>
+        <DisplayEffect value="90mmCannons242"/>
+        <DisplayAttackCount value="2"/>
+        <TargetFilters value="Ground;Hover,Missile,Stasis,Dead,Invulnerable"/>
+        <Range value="3"/>
+        <Arc value="14.9963"/>
+        <Period value="1.2"/>
+        <Effect value="RAPeacekeepingBomberBombsMultipleBursts"/>
+    </CWeaponStrafe>
+
 </Catalog>

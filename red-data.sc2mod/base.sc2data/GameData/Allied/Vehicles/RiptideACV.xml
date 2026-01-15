@@ -1,4 +1,436 @@
-
 <Catalog>
+    <CUnit id="AlliedRiptide" parent="AlliedGround">
+        <Subtitle value="UnitSubtitle/zhencha"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="100"/>
+        <LifeMax value="100"/>
+        <Speed value="2.3007"/>
+        <LateralAcceleration value="64"/>
+        <Sight value="15"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="800"/>
+        <RepairTime value="45"/>
+        <KillXP value="2"/>
+        <AbilArray Link="SpecOpsDropshipTransport22"/>
+        <BehaviorArray Link="UpgradeLevel1"/>
+        <BehaviorArray Link="nianayaLevel1"/>
+        <BehaviorArray Link="AutoHeal42"/>
+        <WeaponArray Link="WraithG242" Turret="RAShenzhouTankTurret2"/>
+        <WeaponArray Link="LongboltMissile24"/>
+        <WeaponArray Link="nianyalv1"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="BiodomeLoad32" Type="AbilCmd" AbilCmd="SpecOpsDropshipTransport22,Load" Row="2" Column="0"/>
+            <LayoutButtons Face="HerculesUnloadAll" Type="AbilCmd" AbilCmd="SpecOpsDropshipTransport22,UnloadAt" Row="2" Column="1"/>
+        </CardLayouts>
+        <InnerRadius value="0.1875"/>
+        <CargoSize value="4"/>
+        <ScoreResult value="Units"/>
+        <SubgroupPriority value="5"/>
+        <MinimapRadius value="0.375"/>
+        <TacticalAI value="SiegeTank"/>
+        <HotkeyAlias value="SiegeTank"/>
+        <AIEvaluateAlias value="Hellion"/>
+        <ReviveInfoBase>
+            <Charge Link="SiegeTank/Revive"/>
+            <Cooldown Link="SiegeTank/Revive"/>
+        </ReviveInfoBase>
+    </CUnit>
+    <CAbilTransport id="SpecOpsDropshipTransport22">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Load" DefaultButtonFace="BiodomeLoad32"/>
+        <CmdButtonArray index="UnloadAll" DefaultButtonFace="MedivacUnloadAll"/>
+        <CmdButtonArray index="UnloadAt" DefaultButtonFace="UnloadTaurenOuthouse"/>
+        <CmdButtonArray index="UnloadUnit">
+            <Flags index="Hidden" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="LoadAll">
+            <Flags index="Hidden" value="1"/>
+        </CmdButtonArray>
+        <Range value="2"/>
+        <MaxCargoCount value="5"/>
+        <MaxCargoSize value="1"/>
+        <TotalCargoSpace value="5"/>
+        <UnloadPeriod value="0.5"/>
+        <LoadCargoBehavior value="AirfieldAuraB2723"/>
+    </CAbilTransport>
+    <CActorMissile id="MissileTurretAttackMissile2" parent="GenericAttackMissile" unitName="SovietLongboltMissileWeapon2">
+        <On Terms="ActorCreation" Send="AnimPlay Phase1 Stand PlayForever"/>
+        <On Terms="MotionPhaseStart; MotionPhase 1" Send="AnimPlay Phase2 Turbo PlayForever"/>
+        <Model value="LongboltMissileWeapon2"/>
+    </CActorMissile>
+    <CActorUnit id="AlliedRiptide_Actor" parent="GenericUnitMorph" unitName="AlliedRiptide">
+        <Aliases value="_UnitLarge"/>
+        <Macros value="UnloadDropAnim"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <AcceptedTransfers index="ModelMaterials" value="1"/>
+        <On index="0" Send="Create SoundEmitter SiegeTank_Ambience"/>
+        <On index="65" Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
+        <On index="66" Terms="ActorCreation; ValidateUnit ValidateUSSR" Send="TextureSelectById is2"/>
+        <On index="67" Terms="ActorCreation; ValidateUnit ValidateGermany" Send="TextureSelectById kingtiger"/>
+        <On index="68" Terms="Effect.HammerSecurityLM2222.Start" Send="AnimBracketStart Attack1 {} Attack,A {} ContentPlayOnce"/>
+        <On index="69" Terms="WeaponStop.90mmHTCannon" Send="AnimBracketClear Attack1"/>
+        <On index="70" Terms="Behavior.VolatileBurstBuilding23.Enable" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Enable" Send="AnimBracketStart Aufspell1 Spell {} {} ContentPlayOnce"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Off" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.Off" Send="AnimBracketStop Aufspell1"/>
+        <On Terms="Behavior.VolatileBurstBuilding23.On" Send="Create RAApocalypseTankMagneticHarpoonLaunchingPositionModel"/>
+        <Model value="AlliedRiptide_Model"/>
+        <Scale value="0.990000"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <EventDataFootprint index="0" Model="SiegeTankFootprint"/>
+        <CreepHeightClass value="Tiny"/>
+        <DeathArray index="Normal" ModelLink="SiegeTankDeath" SoundLink="SiegeTank_Explode" VoiceLink="SiegeTankDeathVoice"/>
+        <DeathCustoms ModelLink="TerranLargeUnitDeathLow" Name="AntiGravTerran"/>
+        <DeathCustoms ActorModel="SiegeTankDeathRagdoll" ModelLink="SiegeTankDeathRagdoll" Name="RagdollBasic">
+            <BodySquibs Name="Basic" Model="TerranSquibDeathRagdoll"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms>
+            <ModelLink value="DeathVoidShadowMedium"/>
+            <SoundLink value="ShadowUnit_DeathFX"/>
+            <VoiceLink value="ShadowUnit_DeathVox"/>
+            <Name value="Shadow"/>
+        </DeathCustoms>
+        <DeathCustomData Name="RagdollBasic"/>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
+        <PortraitModel value="SiegeTankPortrait4222"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="1.000000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleSiegeTank"/>
+        </TerrainSquibs>
+        <AbilSoundArray/>
+        <BarOffset value="70"/>
+        <ErrorArray Error="CantSeeBuildLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantSeeLandLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantBuildLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantLandLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CouldntReachTarget" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <GroupIcon>
+            <Image value="Assets\icons\torrent-acv-wireframe.dds"/>
+        </GroupIcon>
+        <GroupSoundArray index="What" value="SiegeTank_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="SiegeTank_GroupYes"/>
+        <GroupSoundArray index="Attack" value="SiegeTank_GroupAttack"/>
+        <GroupSoundArray index="Board" value="SiegeTank_GroupBoard"/>
+        <HeroIcon value="Assets\icons\Allied\riptide-acv-unit-icon.dds"/>
+        <HighlightTooltip value="Unit/Name/AlliedRiptide_Actor"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-vehicleplatinglevel0.dds"/>
+        <SoundArray index="Birth" value="AlliedRiptide_Actor_Birth"/>
+        <SoundArray index="Ready" value="AUACVVoice"/>
+        <SoundArray index="Help" value="AlliedRiptide_Actor_Help"/>
+        <SoundArray index="What" value="AlliedRiptide_Actor_What"/>
+        <SoundArray index="Yes" value="AlliedRiptide_Actor_Yes"/>
+        <SoundArray index="Attack" value="AlliedRiptide_Actor_Attack"/>
+        <SoundArray index="Pissed" value="AlliedRiptide_Actor_Attack"/>
+        <SoundArray index="Movement" value="Vulture_Movement"/>
+        <SoundArray index="Turning" value="Vulture_Turning"/>
+        <SoundArray index="Board" value="Vulture_Board"/>
+        <SoundArray index="Click" value="AlliedRiptide_Actor_What"/>
+        <SoundArray index="ClickError" value="Vulture_ClickError"/>
+        <SoundArray index="Highlight" value="Vulture_Highlight"/>
+        <UnitIcon value="Assets\icons\Allied\riptide-acv-unit-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\icons\torrent-acv-wireframe.dds"/>
+        </Wireframe>
+        <BarWidth value="70"/>
+    </CActorUnit>
+    <CActorAction id="WraithGroundAttack232" parent="GenericAttack" effectAttack="" effectImpact="WraithGU232" effectLaunch="AlliedACVgunLaunch">
+        <On index="0" Terms="Effect.Bogus.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
+        <On index="5" Terms="Effect.AlliedACVgunLaunch.Start; At Caster" Send="Create"/>
+        <On index="6" removed="1"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder22532 AMPatternMarauder2633" Fallback="Weapon"/>
+        <LaunchAssets Model="SovietConscriptRifleFired" Sound="AUACVVoice6"/>
+        <Missile value="WraithGroundAttackMissile2"/>
+        <ImpactMap index="None" Model="WraithGroundAttackImpact2" Sound="Viking_AssaultAttackImpact"/>
+    </CActorAction>
+    <CActorAction id="MissileTurretAttack23" parent="GenericAttack" effectImpact="LongboltMissileU23" effectLaunch="LongboltMissileLM23">
+        <LaunchAttachQuery Methods="AMPatternMarauder2253 AMPatternMarauder263"/>
+        <LaunchAssets Sound="AUACVVoice7"/>
+        <Missile value="MissileTurretAttackMissile2"/>
+        <ImpactAttachQuery Methods="AMFilterTarget AMRandomUniform"/>
+        <ImpactMap index="None" Model="MissileTurretAttackImpact" Sound="MissileTurret_AttackImpact"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
+        <ImpactPhysics Name="LongboltMissileImpact" MatchKeys="BasicAir" Physics="MissileAttackForce"/>
+    </CActorAction>
+    <CActorMissile id="WraithGroundAttackMissile2" parent="GenericAttackMissile" unitName="TenguAntiGroundWeapon">
+        <Scale value="1.000000,0.100000,1.000000"/>
+        <Model value="WraithGroundWeapon2"/>
+    </CActorMissile>
+    <CBehaviorBuff id="AirfieldAuraB2723">
+        <Alignment value="Positive"/>
+        <Cost>
+            <Charge Link="Behavior/AirfieldAuraB"/>
+            <Cooldown Link="Behavior/AirfieldAuraB"/>
+        </Cost>
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <Modification>
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="DisableWeapons" value="1"/>
+            <StateFlags index="SuppressAttack" value="1"/>
+            <AbilClassDisableArray index="CAbilAttack" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="BiodomeLoad32">
+        <Icon value="Assets\Textures\btn-ability-terran-load.dds"/>
+    </CButton>
+    <CEffectDamage id="WraithGU232" parent="DU_WEAP">
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <Amount value="2"/>
+        <AttributeBonus index="Light" value="3"/>
+    </CEffectDamage>
+    <CEffectDamage id="LongboltMissileU23" parent="DU_WEAP_MISSILE">
+        <Amount value="40"/>
+        <AttributeFactor index="Light" value="-0.5"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="AlliedACVgunLaunch">
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="WraithGU232"/>
+        <AmmoUnit value="TenguAntiGroundWeapon"/>
+    </CEffectLaunchMissile>
+    <CEffectLaunchMissile id="LongboltMissileLM23">
+        <ValidatorArray index="0" value="RangeCheckLE15"/>
+        <EditorCategories value="Race:Terran"/>
+        <ImpactEffect value="LongboltMissileU23"/>
+        <AmmoUnit value="SovietLongboltMissileWeapon2"/>
+    </CEffectLaunchMissile>
+    <CModel id="SovietConscriptRifleFired" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\AutoTurretWeaponLaunch\AutoTurretWeaponLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
+        <AnimSpeed value="0.800000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CModel id="LongboltMissileWeapon2" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\MissileTurretMissile\MissileTurretMissile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="SiegeTankPortrait4222" parent="SiegeTankPortraitBase">
+        <Model value="Assets\Portraits\Terran\SiegeTank_Junker_Collection_Portrait\SiegeTank_Junker_Collection_Portrait.m3"/>
+        <Image value="Assets\Textures\SiegeTankPortrait_Static.dds"/>
+        <Lighting value="SiegeTankPortrait"/>
+    </CModel>
+    <CModel id="AlliedRiptide_Model" parent="SiegeTankBase">
+        <Model value="Assets\units\Allied\RiptideACV.m3"/>
+        <AttachProps index="0" Id="Ref_Weapon 02">
+            <Keys index="SetA" value="0"/>
+            <Keys index="Turret" value="-128"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon">
+            <Keys index="SetB" value="0"/>
+        </AttachProps>
+        <SelectionRadius value="1.000000"/>
+    </CModel>
+    <CModel id="WraithGroundWeapon2" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\WraithLaserMissile\WraithLaserMissile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CModel id="WraithGroundAttackImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\WraithLaserMissileImpact\WraithLaserMissileImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.500000,0.500000,0.500000"/>
+        <ScaleMin value="0.500000,0.500000,0.500000"/>
+    </CModel>
+    <CMoverMissile id="LongboltMissileWeapon3">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Speed value="15"/>
+            <MaxSpeed value="25"/>
+            <ActorTracking value="Actual"/>
+            <Outro value="-4"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+        <MotionPhases>
+            <Acceleration value="400"/>
+            <MaxSpeed value="30"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CMoverMissile id="MissileDefault3">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="3200"/>
+            <MaxSpeed value="35"/>
+            <ClearanceAcceleration value="75"/>
+            <Outro value="-1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+        <MotionPhases YawPitchRoll="MAX"/>
+    </CMoverMissile>
+    <CSound id="AlliedRiptide_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\riptide-acv-auripti_voiattacka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiattackb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiattackc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiattackd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-auripti_voiattacke.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiattackf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-auripti_voiattackg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedRiptide_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\riptide-acv-auripti_voiselunda.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselundb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselundc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselundd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselunde.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AUACVVoice6" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfirea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfireb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfirec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfired.ogg" FacialGroup=""/>
+        <Flags index="Ignorable" value="1"/>
+        <Flags index="Purgable" value="0"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-4.000000,-4.000000"/>
+    </CSound>
+    <CSound id="AlliedRiptide_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voimovea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voimoveb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voimovec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voimoved.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voimovee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voimovef.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voimoveg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voimoveh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voimovei.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AUACVVoice7" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\sounds\riptide-acv-torpedo-attack-sound-effect-auacv_torpedofirea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-torpedo-attack-sound-effect-auacv_torpedofireb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-torpedo-attack-sound-effect-auacv_torpedofirec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-torpedo-attack-sound-effect-auacv_torpedofired.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-torpedo-attack-sound-effect-auacv_torpedofiree.ogg" FacialGroup=""/>
+        <Flags index="Ignorable" value="1"/>
+        <Flags index="Purgable" value="0"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="AUACVVoice" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voicreatea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voicreateb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedRiptide_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\three-generations-of-versatile-ready-engine-sounds-aumgifv_movstarta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\three-generations-of-versatile-ready-engine-sounds-aumgifv_movstartb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\three-generations-of-versatile-ready-engine-sounds-aumgifv_movstartc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\three-generations-of-versatile-ready-engine-sounds-aumgifv_movstartd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\three-generations-of-versatile-ready-engine-sounds-aumgifv_movstarte.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Build"/>
+        <Volume value="-14.000000,-14.000000"/>
+    </CSound>
+    <CSound id="AlliedRiptide_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselecta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselectb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselectc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselectd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselecte.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselectf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\sounds\riptide-acv-auripti_voiselectg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CTurret id="RAShenzhouTankTurret2">
+        <Idle value="ResetIfMoving"/>
+        <YawArc value="360"/>
+        <YawRate value="360"/>
+        <YawIdleRate value="360"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+    <CUnit id="SovietLongboltMissileWeapon2" parent="MISSILE_HALFLIFE">
+        <Race value="Soviet"/>
+        <Mover value="LongboltMissileWeapon3"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:CNC"/>
+    </CUnit>
+    <CUnit id="TenguAntiGroundWeapon" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="MissileDefault3"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CWeaponLegacy id="LongboltMissile24">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Icon value="Assets\Textures\btn-ability-terran-shredderMissile-color.dds"/>
+        <DisplayEffect value="LongboltMissileU23"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Arc value="90"/>
+        <Period value="1"/>
+        <Effect value="LongboltMissileLM23"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="WraithG242">
+        <EditorCategories value="Race:Terran"/>
+        <Icon value="Assets\Textures\btn-upgrade-swann-improvedturretattackspeed.dds"/>
+        <DisplayEffect value="WraithGU232"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Period value="0.2"/>
+        <Effect value="AlliedACVgunLaunch"/>
+        <AllowedMovement value="Slowing"/>
+        <Range value="6"/>
+    </CWeaponLegacy>
 
 </Catalog>

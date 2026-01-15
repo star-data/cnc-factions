@@ -1,4 +1,411 @@
-
 <Catalog>
+
+    <CUnit id="AlliedMirageTank" parent="AlliedGround">
+        <Subtitle value="UnitSubtitle/xianjintanke"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <PushPriority value="21"/>
+        <Collide index="Small" value="1"/>
+        <CostResource index="Minerals" value="1600"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Mechanical" value="1"/>
+        <LifeStart value="125"/>
+        <LifeMax value="125"/>
+        <LifeArmor value="1"/>
+        <Speed value="1.8007"/>
+        <Acceleration value="100"/>
+        <LateralAcceleration value="64"/>
+        <StationaryTurningRate value="360"/>
+        <TurningRate value="360"/>
+        <Sight value="12"/>
+        <Food value="-3"/>
+        <RepairTime value="45"/>
+        <KillXP value="10"/>
+        <AbilArray Link="VolatileBurstBuilding25222"/>
+        <BehaviorArray Link="RACamouflage"/>
+        <BehaviorArray Link="UpgradeLevel123"/>
+        <BehaviorArray Link="nianayaLevel12"/>
+        <BehaviorArray Link="AutoHeal42"/>
+        <WeaponArray Link="ParticleBeam3"/>
+        <WeaponArray Link="InfestedClaws222"/>
+        <WeaponArray Link="GDIStrikerMechaRoller"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="TossGrenadeTychus2222225222" Type="AbilCmd" AbilCmd="VolatileBurstBuilding25222,Off" Row="1" Column="0"/>
+            <LayoutButtons Face="TossGrenadeTychus222226222" Type="AbilCmd" AbilCmd="VolatileBurstBuilding25222,On" Row="1" Column="1"/>
+        </CardLayouts>
+        <Radius value="0.6875"/>
+        <SeparationRadius value="0.625"/>
+        <InnerRadius value="0.1875"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="13"/>
+        <MinimapRadius value="0.375"/>
+        <TacticalAI value="SiegeTank"/>
+        <AIEvalFactor value="1.5"/>
+        <ReviveInfoBase>
+            <Charge Link="SiegeTank/Revive"/>
+            <Cooldown Link="SiegeTank/Revive"/>
+        </ReviveInfoBase>
+    </CUnit>
+    <CAbilBehavior id="VolatileBurstBuilding25222">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus222226222">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus2222225222">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="miratankspell"/>
+    </CAbilBehavior>
+    <CActorBeamSimple id="ProbeAttackBeam4" parent="GenericAttackBeam">
+        <Model value="ProbeAttackBeam44"/>
+    </CActorBeamSimple>
+    <CActorAction id="ProbeAttack42" parent="GenericAttack" effectAttack="ParticleBeam42">
+        <Beam value="ProbeAttackBeam4"/>
+        <ImpactMap index="None" Model="ProbeAttackImpact4" Sound="Karass_PsionicStormImpact2522"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+
+    <CActorUnit id="AlliedMirageTank_Actor" parent="GenericUnitMorph" unitName="AlliedMirageTank">
+        <Aliases value="_UnitLarge"/>
+        <Macros value="UnloadDropAnim"/>
+        <Macros value="TerrainSquibAnimations"/>
+        <Macros value="PhysicsDeathsSwarmGround"/>
+        <Macros value="PhysicsDeathsVoidGround"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <AcceptedTransfers index="ModelMaterials" value="1"/>
+        <On index="0" Send="Create SoundEmitter SiegeTank_Ambience"/>
+        <On index="65" Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
+        <On index="66" Terms="ActorCreation" Send="TextureSelectById siegetankgreen_diffuse"/>
+        <On index="67" removed="1"/>
+        <On index="68" removed="1"/>
+        <On index="69" removed="1"/>
+        <On index="70" removed="1"/>
+        <Model value="AlliedMirageTank_Model"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <EventDataFootprint index="0" Model="SiegeTankFootprint"/>
+        <CreepHeightClass value="Tiny"/>
+        <DeathArray index="Normal" ModelLink="SiegeTankDeath" SoundLink="SiegeTank_Explode" VoiceLink="SiegeTankDeathVoice"/>
+        <DeathCustoms ModelLink="TerranLargeUnitDeathLow" Name="AntiGravTerran"/>
+        <DeathCustoms ActorModel="SiegeTankDeathRagdoll" ModelLink="SiegeTankDeathRagdoll" Name="RagdollBasic">
+            <BodySquibs Name="Basic" Model="TerranSquibDeathRagdoll"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollSiegeTank" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollNuke" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollFire" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Fire"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollAcid" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollBaneling" InheritsFrom="RagdollBasic">
+            <BodySquibs Name="Acid"/>
+        </DeathCustoms>
+        <DeathCustoms Name="RagdollUltraUnburrow" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDPRH" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollOverkillDOI" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms Name="RagdollMidair" InheritsFrom="RagdollBasic"/>
+        <DeathCustoms>
+            <ModelLink value="DeathVoidShadowMedium"/>
+            <SoundLink value="ShadowUnit_DeathFX"/>
+            <VoiceLink value="ShadowUnit_DeathVox"/>
+            <Name value="Shadow"/>
+        </DeathCustoms>
+        <DeathCustomData Name="RagdollBasic"/>
+        <DeathActorModel value="UnitDeathModelWithDeathMotionGround"/>
+        <PortraitModel value="SiegeTankPortrait422222"/>
+        <StandAnimTurnTime value="3.33"/>
+        <TerrainSquibs>
+            <MovementDistance value="0.150000,0.150000"/>
+            <IdlePeriod value="0.100000,0.250000"/>
+            <RangeUp value="1.000000"/>
+            <RangeDown value="1.000000"/>
+            <AttachQuery Methods="AMFilterCenter"/>
+            <Visuals TerrainPhysicsMaterial="Water" ActorModel="TerrainSquibHarnessContinuous" ModelLink="WaterRippleSiegeTank"/>
+        </TerrainSquibs>
+        <WalkAnimMoveSpeed value="8"/>
+        <BarOffset value="80"/>
+        <BarWidth value="102"/>
+        <ErrorArray Error="CantSeeBuildLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantSeeLandLocation" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantBuildLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CantLandLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <ErrorArray Error="CouldntReachTarget" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Allied\phantom-tank-wireframe.dds"/>
+        </GroupIcon>
+        <GroupSoundArray index="What" value="SiegeTank_GroupWhat"/>
+        <GroupSoundArray index="Yes" value="SiegeTank_GroupYes"/>
+        <GroupSoundArray index="Attack" value="SiegeTank_GroupAttack"/>
+        <GroupSoundArray index="Board" value="SiegeTank_GroupBoard"/>
+        <HeroIcon value="Assets\Icons\Allied\phantom-tank-icon.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-vehicleplatinglevel0.dds"/>
+        <SoundArray index="Birth" value="AlliedMiraTankVoice"/>
+        <SoundArray index="Ready" value="AlliedMirageTank_Actor_Ready"/>
+        <SoundArray index="Help" value="AlliedMirageTank_Actor_Help"/>
+        <SoundArray index="What" value="AlliedMirageTank_Actor_What"/>
+        <SoundArray index="Yes" value="AlliedMirageTank_Actor_Yes"/>
+        <SoundArray index="Attack" value="AlliedMirageTank_Actor_Attack"/>
+        <SoundArray index="Pissed" value="AlliedMirageTank_Actor_Attack"/>
+        <SoundArray index="Movement" value="SiegeTank_Movement"/>
+        <SoundArray index="Turning" value="SiegeTank_Turning"/>
+        <SoundArray index="Board" value="SiegeTank_Board"/>
+        <SoundArray index="Click" value="AlliedMirageTank_Actor_What"/>
+        <SoundArray index="ClickError" value="SiegeTank_ClickError"/>
+        <SoundArray index="Highlight" value="SiegeTank_Highlight"/>
+        <UnitIcon value="Assets\Icons\Allied\phantom-tank-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Allied\phantom-tank-wireframe.dds"/>
+        </Wireframe>
+        <Scale value="0.600000,0.550000,0.550000"/>
+        <HighlightTooltip value="Unit/Name/AlliedMirageTank_Actor"/>
+    </CActorUnit>
+    <CActorAction id="ProbeAttack4" parent="GenericAttack" effectAttack="ParticleBeam4">
+        <Beam value="ProbeAttackBeam44"/>
+        <ImpactMap index="None" Model="ProbeAttackImpact4" Sound="Karass_PsionicStormImpact2522"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+    <CActorBeamSimple id="ProbeAttackBeam44" parent="GenericAttackBeam">
+        <Model value="ProbeAttackBeam4"/>
+    </CActorBeamSimple>
+    <CBehaviorBuff id="RACamouflage">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="RAPhantomTankStationary"/>
+        <Modification>
+            <StateFlags index="Cloak" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="TossGrenadeTychus2222225222">
+        <Icon value="assets\icons\Allied\phantom-tank-attack-mode.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus222226222">
+        <Icon value="assets\icons\Allied\phantom-tank-rift-generator-mode.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CEffectDamage id="ParticleBeam422" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="25"/>
+        <SearchFilters value="-;Player,Ally,Neutral"/>
+        <SearchFlags index="OffsetByUnitRadius" value="0"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectDamage id="ParticleBeam42" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="15"/>
+        <SearchFilters value="-;Player,Ally,Neutral"/>
+        <SearchFlags index="OffsetByUnitRadius" value="0"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectDamage id="ParticleBeam4" parent="DU_WEAP">
+        <Amount value="10"/>
+        <SearchFlags index="SameCliff" value="0"/>
+        <Kind value="Ranged"/>
+        <SearchFilters value="-;Player,Ally,Neutral"/>
+    </CEffectDamage>
+    <CEffectDamage id="InfestedClawsDamage22">
+        <EditorCategories value="Race:Zerg"/>
+        <ResponseFlags index="Acquire" value="1"/>
+        <ResponseFlags index="Flee" value="1"/>
+        <Flags index="Notification" value="1"/>
+        <Kind value="Melee"/>
+        <AreaArray Radius="1" Fraction="1"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Dead"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+        <SearchFlags index="OffsetByUnitRadius" value="1"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectSet id="InfestedClaws22MutiAttack2">
+        <EffectArray value="InfestedClawsDamage22"/>
+        <EffectArray value="InfestedClaws22MutiAttackSearch2"/>
+    </CEffectSet>
+    <CEffectEnumArea id="InfestedClaws22MutiAttackSearch2">
+        <ImpactLocation Value="SourceUnit"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Visible;Player,Ally,Neutral,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="10" Effect="InfestedClawsDamage22"/>
+    </CEffectEnumArea>
+    <CEffectCreatePersistent id="MirashTankEffect">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <OffsetVectorStartLocation Value="TargetUnitOrPoint"/>
+        <OffsetVectorEndLocation Value="TargetUnitOrPoint"/>
+        <InitialEffect value="ParticleBeam42"/>
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="RAPhantomTankVestUnit"/>
+        <PeriodicPeriodArray value="0.05"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="RAPhantomTankDamageSearch">
+        <SearchFilters value="Ground;Player,Ally,Neutral,Missile,Dead,Hidden,Invulnerable"/>
+        <AreaArray MaxCount="6" Radius="2" Effect="ParticleBeam4"/>
+        <ExcludeArray Value="Target"/>
+    </CEffectEnumArea>
+    <CEffectCreateUnit id="RAPhantomTankVestUnit">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <Origin Value="TargetUnitOrPoint"/>
+        <SpawnEffect value="RAPhantomTankDamageSearch"/>
+        <SpawnUnit value="AlliedPhantomTankSpectralVestUnit"/>
+    </CEffectCreateUnit>
+    <CModel id="AlliedMirageTank_Model" parent="SiegeTankBase">
+        <Model value="assets\units\Allied\MirageTank.m3"/>
+        <Lighting value="SiegeTank"/>
+        <ScaleMax value="1.000000,1.000000,1.000000"/>
+        <ScaleMin value="1.000000,1.000000,1.000000"/>
+        <SelectionRadius value="1.500000"/>
+        <TextureDeclares Prefix="LaserDrill_">
+            <Adaptions TriggerOnSubstring="_Diffuse" Slot="main"/>
+            <Adaptions TriggerOnSubstring="_Emissive" Slot="main"/>
+        </TextureDeclares>
+    </CModel>
+    <CModel id="SiegeTankPortrait422222" parent="SiegeTankPortraitBase">
+        <Model value="Assets\Portraits\Terran\SiegeTank_Umojan_Portrait\SiegeTank_Umojan_Portrait.m3"/>
+        <Image value="Assets\Textures\SiegeTankPortrait_Static.dds"/>
+        <Lighting value="SiegeTankPortrait"/>
+    </CModel>
+    <CModel id="ProbeAttackBeam44" parent="PersistentSpellFX">
+        <Model value="assets\effects\MirashTankBeamLevel1.m3"/>
+        <AnimSpeed value="4.000000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="1.500000,1.500000,1.500000"/>
+        <ScaleMin value="1.500000,1.500000,1.500000"/>
+    </CModel>
+    <CModel id="ProbeAttackImpact4" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\ArchonBeamImpact\ArchonBeamImpact.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="1.400000,1.400000,1.400000"/>
+        <ScaleMin value="1.400000,1.400000,1.400000"/>
+    </CModel>
+    <CModel id="ProbeAttackBeam4" parent="PersistentSpellFX">
+        <Model value="assets\effects\MirashTankBeamLevel1.m3"/>
+        <AnimSpeed value="4.000000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.500000,0.500000,0.500000"/>
+        <ScaleMin value="0.500000,0.500000,0.500000"/>
+    </CModel>
+    <CSound id="AlliedMirageTank_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUMirag_VoiAtka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiAtkb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiAtkc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiAtkd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiAtke.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiAtkf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiAtkg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiAtkh.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AlliedMirageTank_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUMirag_VoiSelUndFira.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiSelUndFirb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiSelUndFirc.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AlliedMirageTank_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUMirag_VoiMova.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiMovb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiMovc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiMovd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiMove.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiMovf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiMovg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AlliedMirageTank_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUMirag_VoiCrea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiCreb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiCrec.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AlliedMirageTank_Actor_What" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUMirag_VoiSela.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiSelb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiSelc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiSeld.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_VoiSele.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="Karass_PsionicStormImpact2522" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\AUMirag_wea1FireA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_wea1FireB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_wea1FireC.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="4"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedMiraTankVoice" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUMirag_movStartA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_movStartB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUMirag_movStartC.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-4.000000,-4.000000"/>
+    </CSound>
+    <CUnit id="AlliedPhantomTankSpectralVestUnit">
+        <Race value="Allied"/>
+        <FlagArray index="Uncommandable" value="1"/>
+        <FlagArray index="Unselectable" value="1"/>
+        <FlagArray index="Uncursorable" value="1"/>
+        <FlagArray index="Undetectable" value="1"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <FlagArray index="Unstoppable" value="1"/>
+        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent62"/>
+        <MinimapRadius value="0"/>
+        <EditorCategories value="ObjectFamily:Melee,ObjectType:Other"/>
+    </CUnit>
+    <CWeaponLegacy id="ParticleBeam3">
+        <EditorCategories value="Race:Protoss"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-protoss-fenix-adept-recochetglaive.dds"/>
+        <DisplayEffect value="ParticleBeam422"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="6"/>
+        <Period value="1.6"/>
+        <Effect value="MirashTankEffect"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="InfestedClaws222">
+        <EditorCategories value="Race:Zerg"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="RequireEnabledAttackAbil" value="0"/>
+        <Options index="IgnoreThreat" value="1"/>
+        <Icon value="Assets\Textures\war3_pasbtncleavingattack.dds"/>
+        <DisplayEffect value="InfestedClawsDamage22"/>
+        <TargetFilters value="Visible;Self,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="12"/>
+        <Arc value="360"/>
+        <Period value="2"/>
+        <Backswing value="0"/>
+        <Effect value="InfestedClaws22MutiAttack2"/>
+    </CWeaponLegacy>
+    <CActorUnit id="AlliedPhantomTankSpectralVestUnit_Actor" parent="GenericUnitStandard" unitName="AlliedPhantomTankSpectralVestUnit">
+        <Model value="Invisible"/>
+        <HighlightTooltip value="Unit/Name/Bogus"/>
+    </CActorUnit>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent62" parent="TimedLife">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisplayDuration index="Self" value="0"/>
+        <DisplayDuration index="Ally" value="0"/>
+        <Duration value="0.5"/>
+    </CBehaviorBuff>
+
 
 </Catalog>

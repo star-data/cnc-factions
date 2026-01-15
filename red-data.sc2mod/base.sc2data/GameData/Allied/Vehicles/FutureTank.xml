@@ -1,4 +1,971 @@
-
 <Catalog>
 
+    <CUnit id="AlliedFutureTank" parent="AlliedGround">
+        <Subtitle value="UnitSubtitle/xianjintanke"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <PushPriority value="21"/>
+        <Collide index="Small" value="1"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Robotic" value="1"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <LifeArmor value="1"/>
+        <LifeRegenRate value="0.5"/>
+        <Speed value="1.6992"/>
+        <Acceleration value="100"/>
+        <StationaryTurningRate value="239.9414"/>
+        <TurningRate value="239.9414"/>
+        <Sight value="15"/>
+        <Food value="-4"/>
+        <CostResource index="Minerals" value="3000"/>
+        <RepairTime value="41.667"/>
+        <KillXP value="25"/>
+        <AbilArray Link="AlliedFSpell"/>
+        <BehaviorArray Link="UpgradeLevel12323"/>
+        <BehaviorArray Link="nianayaLevel13"/>
+        <BehaviorArray Link="AutoHeal42"/>
+        <WeaponArray Link="TempestGround2" Turret="RANeutronDisturbanceCannon2"/>
+        <WeaponArray Link="nianyalv13"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="OdinBarrage" Type="AbilCmd" AbilCmd="attack,Barrage" Row="2" Column="0"/>
+            <LayoutButtons Face="RARiotBeam2" Type="AbilCmd" AbilCmd="AlliedFSpell,Execute" Row="1" Column="1"/>
+            <LayoutButtons Face="AutechBeidongSet4" Type="Passive" Requirements="StortModeRe238" Row="1" Column="4"/>
+        </CardLayouts>
+        <Radius value="0.75"/>
+        <SeparationRadius value="0.4375"/>
+        <InnerRadius value="0.25"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <MinimapRadius value="0.375"/>
+        <GlossaryPriority value="470"/>
+    </CUnit>
+    <CAbilEffectTarget id="AlliedFSpell">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <PrepEffect value="RAFutureTankLaunchesSpreadingBeamToDisableTheMainWeapon"/>
+        <Effect index="0" value="ThermalLances3"/>
+        <Effect value="RAFutureTankLaunchesSpreadingBeamToDisableTheMainWeapon"/>
+        <Flags index="ReApproachable" value="0"/>
+        <Flags index="UpdateTarget" value="1"/>
+        <Cost>
+            <Cooldown TimeUse="15"/>
+        </Cost>
+        <Range value="9"/>
+        <PrepTime value="0.4"/>
+        <CastIntroTime value="0.5"/>
+        <CastOutroTime value="1"/>
+        <FinishTime value="0.3"/>
+        <UninterruptibleArray index="Prep" value="1"/>
+        <UninterruptibleArray index="Cast" value="1"/>
+        <UninterruptibleArray index="Channel" value="1"/>
+        <UninterruptibleArray index="Finish" value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="RARiotBeam2"/>
+    </CAbilEffectTarget>
+    <CActorMissile id="TempestAttackGroundMissile2" unitName="TempestWeapon">
+        <Aliases value="_Unit"/>
+        <Aliases value="_Missile"/>
+        <On Terms="UnitBirth.Futuretankweaponsandammunitionunit" Send="Create"/>
+        <On Terms="UnitBirth" Send="AnimBracketStart Lifetime Birth Walk"/>
+        <On Terms="UnitDeath" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="Upgrade.DarkProtoss.Add" Send="ModelSwap TempestTalDarimWeapon"/>
+        <On Terms="ActorCreation; ValidateUnit NoDarkProtoss" Send="ModelSwap TempestTalDarimWeapon"/>
+        <Model value="TempestWeaponGround2"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+        <PreHost value="_ActorAction"/>
+    </CActorMissile>
+    <CActorModel id="DarkTempestTestImpact2" parent="ModelAnimationStyleOneShot">
+        <Flags index="SuppressCreationErrors" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD {} Death {} ContentPlayOnce"/>
+        <On index="2" Terms="ActorCreation" Target="::Creator" Send="Signal DarkProtossTest"/>
+        <On Terms="Signal.*.DarkProtossSwap" Send="ModelSwap TempestTalDarimAttackGround"/>
+        <On Terms="Effect.RATheFirstContinuousEffectOfFutureTankAttackIsCreated.Start" Send="Create"/>
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfFutureTanks.Start" Send="Destroy"/>
+        <On Terms="Effect.RATheFirstContinuousEffectOfTheMiniFutureTankAttackIsCreated.Start" Send="Create"/>
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfTheMiniFutureTank.Start" Send="Destroy"/>
+        <Model value="TempestGroundAttackImpact2"/>
+        <ModelFlags index="AllowHitTest" value="0"/>
+    </CActorModel>
+    <CActorUnit id="AlliedFutureTank" parent="GenericUnitStandardNoAutoSoundLinks" unitName="AlliedFutureTank">
+        <On index="36" Send="AnimPlay Attack4 Stand"/>
+        <On Terms="ActorCreation" Send="StatusSet PriWeapon 0"/>
+        <On Terms="Effect.RACreationOfFutureTankFiringWeaponsBegins.Start; At Caster" Send="StatusIncrement PriWeapon"/>
+        <On Terms="Effect.RACreationOfFutureTankFiringWeaponsBegins.Start; At Caster; IsStatus PriWeapon 2" Send="StatusSet PriWeapon 0"/>
+        <On Terms="Effect.RACreationOfFutureTankFiringWeaponsBegins.Start; At Caster; IsStatus PriWeapon 0" Send="AnimClear Attack2"/>
+        <On Terms="Effect.RACreationOfFutureTankFiringWeaponsBegins.Start; At Caster; IsStatus PriWeapon 0" Send="AnimPlay Attack1 Attack,01"/>
+        <On Terms="Effect.RACreationOfFutureTankFiringWeaponsBegins.Start; At Caster; IsStatus PriWeapon 1" Send="AnimClear Attack1"/>
+        <On Terms="Effect.RACreationOfFutureTankFiringWeaponsBegins.Start; At Caster; IsStatus PriWeapon 1" Send="AnimPlay Attack2 Attack,02"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Send="AnimBracketClear Attack1"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Send="AnimBracketClear Attack2"/>
+        <On Terms="ModelEvent; ModelEventName AnimClear" Send="AnimBracketClear Attack1"/>
+        <On Terms="ModelEvent; ModelEventName AnimClear" Send="AnimBracketClear Attack2"/>
+        <On Terms="Effect.RAFutureTanksFirstDamageCollection.Start; At Caster; IsStatus PriWeapon 1" Send="Create RALeftSideOfNeutronDisruptorCannon"/>
+        <On Terms="Effect.RAFutureTanksFirstDamageCollection.Start; At Caster; IsStatus PriWeapon 0" Send="Create RARightSideOfNeutronDisruptorCannon"/>
+        <On Terms="Effect.RALevel3FutureTankLauncherWeaponCreationBegins.Start; At Caster" Send="StatusIncrement PriWeapon"/>
+        <On Terms="Effect.RALevel3FutureTankLauncherWeaponCreationBegins.Start; At Caster; IsStatus PriWeapon 2" Send="StatusSet PriWeapon 0"/>
+        <On Terms="Effect.RALevel3FutureTankLauncherWeaponCreationBegins.Start; At Caster; IsStatus PriWeapon 0" Send="AnimClear Attack2"/>
+        <On Terms="Effect.RALevel3FutureTankLauncherWeaponCreationBegins.Start; At Caster; IsStatus PriWeapon 0" Send="AnimPlay Attack1 Attack,01"/>
+        <On Terms="Effect.RALevel3FutureTankLauncherWeaponCreationBegins.Start; At Caster; IsStatus PriWeapon 1" Send="AnimClear Attack1"/>
+        <On Terms="Effect.RALevel3FutureTankLauncherWeaponCreationBegins.Start; At Caster; IsStatus PriWeapon 1" Send="AnimPlay Attack2 Attack,02"/>
+        <On Terms="Effect.RATheFirstDamageCollectionOfLevelThreeFutureTanks.Start; At Caster; IsStatus PriWeapon 0" Send="Create RALeftSideOfNeutronDisruptorCannon2"/>
+        <On Terms="Effect.RATheFirstDamageCollectionOfLevelThreeFutureTanks.Start; At Caster; IsStatus PriWeapon 1" Send="Create RARightSideOfNeutronDisruptorCannon2"/>
+        <On Terms="Abil.AlliedFSpell.SourceCastStart" Send="AnimBracketStart Aufspell1 {} Cover,Start {} OpeningPlayForever,Instant,FullMatch"/>
+        <On Terms="Abil.AlliedFSpell.SourceCastStop" Send="AnimBracketStop Aufspell1"/>
+        <On Terms="Abil.AlliedFSpell.SourcePrepStop" Send="AnimBaselineStart"/>
+        <On Terms="Abil.AlliedFSpell.SourceChannelStart" Send="AnimBracketStart Aufspell2 {} Spell Stand,Work,End"/>
+        <On Terms="Abil.AlliedFSpell.SourceChannelStop" Send="AnimBracketStop Aufspell2"/>
+        <On Terms="Abil.AlliedFSpell.SourcePrepStart" Send="AnimBaselineStop"/>
+        <On Terms="Abil.AlliedFSpell.SourcePrepStart" Send="AnimPlay Aufspell3 Stand,Work,End"/>
+        <On Terms="Abil.AlliedFSpell.SourcePrepStop" Send="AnimClear Aufspell3"/>
+        <On Terms="Abil.attack.ReadyStart" Send="AnimBracketStart Attack5 {} {} Stand,Work,End"/>
+        <On Terms="Abil.attack.TargetOff" Send="AnimBracketStop Attack5"/>
+        <On Terms="Abil.AlliedFSpell.SourceCastStart" Send="AnimBracketClear beamweapon2 Instant"/>
+        <On Terms="Abil.AlliedFSpell.SourceCastStart" Send="AnimBracketClear beamweapon3 Instant"/>
+        <On Terms="ActorCreation" Send="StatusSet F 1"/>
+        <On Terms="ActorCreation" Send="StatusSet S 0"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Send="StatusSet F 0"/>
+        <On Terms="UnitMovementUpdate.*.Stand" Send="StatusSet F 1"/>
+        <On Terms="SelectionSyncUpdate.*.Add" Send="StatusSet S 1"/>
+        <On Terms="SelectionSyncUpdate.*.Remove" Send="StatusSet S 0"/>
+        <On Terms="ActorCreation" Send="AnimGroupApply A"/>
+        <On Terms="UnitMovementUpdate.*.Stand; IsStatus S 0" Send="AnimGroupRemove B"/>
+        <On Terms="UnitMovementUpdate.*.Stand; IsStatus S 0" Send="AnimGroupApply A"/>
+        <On Terms="SelectionSyncUpdate.*.Add; IsStatus F 1" Send="AnimGroupApply B Stand,Work,Start Stand,Work,End"/>
+        <On Terms="SelectionSyncUpdate.*.Add; IsStatus F 1" Send="AnimGroupRemove A"/>
+        <On Terms="SelectionSyncUpdate.*.Remove; IsStatus F 1" Send="AnimGroupRemove B"/>
+        <On Terms="SelectionSyncUpdate.*.Remove; IsStatus F 1" Send="AnimGroupApply A"/>
+        <On Terms="SelectionSyncUpdate.*.Add; IsStatus F 1" Send="PlayUnitSound Click"/>
+        <Model value="AlliedFutureTank_Model"/>
+        <Scale value="1.200000"/>
+        <DeathArray index="Normal" ModelLink="SiegeTankDeath3" SoundLink="UmojanLab_SentryBot_DeathExplosion_Init"/>
+        <DeathActorModelLow value="UnitDeathModel"/>
+        <PortraitModel value="ARESPortrait"/>
+        <WalkAnimMoveSpeed value="1.75"/>
+        <AbilSoundArray AbilCmd="attack,Barrage" Sound="AlliedFutureTank_Attack"/>
+        <AbilSoundArray AbilCmd="AlliedFSpell,255" Sound="TerranFlyer_What2242"/>
+        <BarOffset value="70"/>
+        <BarWidth value="100"/>
+        <GlossaryAnim value="Stand,A"/>
+        <GroupIcon>
+            <Image value="Assets\Icons\Allied\AUF.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Allied\AUFbtn.dds"/>
+        <LifeArmorIcon value="Assets\Textures\btn-amonshardsarmor.dds"/>
+        <NameOffset value="40"/>
+        <SoundArray index="Birth" value="AlliedFutureTank_Birth"/>
+        <SoundArray index="Ready" value="AlliedFutureTank_Ready"/>
+        <SoundArray index="Help" value="AlliedFutureTank_Help"/>
+        <SoundArray index="What" value="AlliedFutureTank_What"/>
+        <SoundArray index="Yes" value="AlliedFutureTank_Yes"/>
+        <SoundArray index="Attack" value="AlliedFutureTank_Attack"/>
+        <SoundArray index="Pissed" value="AlliedFutureTank_Pissed"/>
+        <SoundArray index="Movement" value="AlliedFutureTank_Movement"/>
+        <SoundArray index="Turning" value="AlliedFutureTank_Movement"/>
+        <SoundArray index="Board" value="Archon_Board"/>
+        <SoundArray index="Click" value="AlliedFutureTank_Click"/>
+        <SoundArray index="ClickError" value="Archon_ClickError"/>
+        <SoundArray index="Highlight" value="Archon_Highlight"/>
+        <UnitFlags index="SuppressStandIntro" value="1"/>
+        <UnitFlags index="SuppressWalkIntro" value="1"/>
+        <UnitFlags index="SuppressWalkOutro" value="1"/>
+        <UnitIcon value="Assets\Icons\Allied\AUFbtn.dds"/>
+        <UnitKillRank Text="未来科技原型机"/>
+        <Wireframe>
+            <Image value="Assets\Icons\Allied\AUF.dds"/>
+        </Wireframe>
+    </CActorUnit>
+    <CActorBeamSimple id="ColossusAttackBeam3">
+        <Terms value="Cap 1"/>
+        <On Terms="ActorCreation" Send="Create ColossusAttackBeamImpact3"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
+        <On Terms="Signal.*.Arrival" Send="AnimBracketStop BSD"/>
+        <On Terms="AnimBracketState.*.AfterOpening; AnimName BSD" Target="ColossusAttackImpactSite3" Send="MoverMove"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.ThermalLancesE3.Impact" Send="Create"/>
+        <On Terms="ActorCreation" Send="SetTintColor {190,255,255 2.000000}"/>
+        <HostLaunch Subject="AlliedFBeamright" Scope="Caster" Actor="Create"/>
+        <HostLaunchSiteOps Ops="SOpAttachWeapon01"/>
+        <HostImpact Subject="ColossusAttackImpactSite3"/>
+    </CActorBeamSimple>
+    <CActorSiteMover id="ColossusAttackImpactSite3">
+        <Terms value="Cap 1"/>
+        <Sharing value="PerEffectTree"/>
+        <On Terms="Effect.ThermalLancesE3.Impact" Send="Create"/>
+        <On Terms="Effect.ThermalLancesE3.Impact; At Effect" Send="MoverSetDestination2D"/>
+        <On Terms="MoverArrived" Target="ColossusAttackBeam3" Send="Signal Arrival"/>
+        <HostSiteOps Ops="SOpShadow"/>
+        <Acceleration value="40.000000"/>
+        <Deceleration value="40.000000"/>
+        <Speed value="2.000000"/>
+        <SpeedMax value="3.000000"/>
+    </CActorSiteMover>
+    <CActorMissile id="TempestAttackGroundMissile22" unitName="TempestWeapon">
+        <Aliases value="_Unit"/>
+        <Aliases value="_Missile"/>
+        <On Terms="UnitBirth.TempestWeaponGround22" Send="Create"/>
+        <On Terms="UnitBirth" Send="AnimBracketStart Lifetime Birth Walk"/>
+        <On Terms="UnitDeath" Send="Destroy"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="Upgrade.DarkProtoss.Add" Send="ModelSwap TempestTalDarimWeapon"/>
+        <On Terms="ActorCreation; ValidateUnit NoDarkProtoss" Send="ModelSwap TempestTalDarimWeapon"/>
+        <Model value="TempestWeaponGround22"/>
+        <ModelFlags index="AutomateGlobalLoops" value="1"/>
+        <PreHost value="_ActorAction"/>
+    </CActorMissile>
+    <CActorSound id="RAFutureTankLaunchesSpreadingBeamToSwitchWeaponSoundEffects" parent="SoundOneShot">
+        <On Terms="Abil.AlliedFSpell.SourcePrepStart" Send="Create"/>
+        <On Terms="UnitClick.AlliedFutureTank" Send="Create"/>
+        <Sound value="Karass_PsionicStormImpact232"/>
+    </CActorSound>
+    <CActorModel id="RAFutureTankSecondStageExplosionModel" parent="ModelAnimationStyleOneShot">
+        <Aliases value="_Snapshot"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="CastShadows" value="1"/>
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="CreepEngulfment" value="1"/>
+        <Inherits index="Decal" value="1"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <Inherits index="Opacity" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="TeamColor" value="1"/>
+        <Inherits index="TimeScale" value="1"/>
+        <Inherits index="TintColor" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <Inherits index="WarpGroup" value="1"/>
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfFutureTanks.Start" Send="Create"/>
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfFutureTanks.Expire" Send="Destroy Immediate"/>
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfTheMiniFutureTank.Start" Send="Create"/>
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfTheMiniFutureTank.Expire" Send="Destroy Immediate"/>
+        <Model value="TempestGroundAttackImpact22"/>
+        <ModelFlags index="UseSyncSeed" value="1"/>
+    </CActorModel>
+    <CActorModel id="RAInitialExplosionModelOfTheSecondStageOfTheFutureTank" parent="ModelAnimationStyleOneShot">
+        <Aliases value="_Snapshot"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="CastShadows" value="1"/>
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="CreepEngulfment" value="1"/>
+        <Inherits index="Decal" value="1"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <Inherits index="Opacity" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="TeamColor" value="1"/>
+        <Inherits index="TimeScale" value="1"/>
+        <Inherits index="TintColor" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <Inherits index="WarpGroup" value="1"/>
+        <On Terms="Effect.RADelayBetweenFutureTankSOngoingEffects.Start" Send="Create"/>
+        <On Terms="Effect.RADelayBetweenMiniFutureTankSOngoingEffects.Start" Send="Create"/>
+        <Model value="TempestGroundAttackImpact223"/>
+        <ModelFlags index="UseSyncSeed" value="1"/>
+    </CActorModel>
+    <CActorModel id="RALevel3FutureTankSecondStageExplosionModel" parent="ModelAnimationStyleOneShot">
+        <Aliases value="_Snapshot"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="CastShadows" value="1"/>
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="CreepEngulfment" value="1"/>
+        <Inherits index="Decal" value="1"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <Inherits index="Opacity" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="TeamColor" value="1"/>
+        <Inherits index="TimeScale" value="1"/>
+        <Inherits index="TintColor" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <Inherits index="WarpGroup" value="1"/>
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfTheThirdLevelFutureTank.Start" Send="Create"/>
+        <Model value="TempestGroundAttackImpact222"/>
+        <ModelFlags index="UseSyncSeed" value="1"/>
+    </CActorModel>
+    <CActorSound id="RATheFirstSoundEffectOfFutureTankAttack" parent="SoundOneShot">
+        <On Terms="Effect.RAFutureTankAttackFirstSectionSearch.Start" Send="Create"/>
+        <On Terms="Effect.RALevel3FutureTankAttackFirstSectionSearch.Start" Send="Create"/>
+        <On Terms="Effect.RAMiniFutureTankAttackFirstSectionSearch.Start" Send="Create"/>
+        <Sound value="Karass_PsionicStormImpact23"/>
+    </CActorSound>
+    <CActorModel id="RATheInitialStageOfTheSecondStageExplosionModelOfTheThirdlevelFutureTank" parent="ModelAnimationStyleOneShot">
+        <Aliases value="_Snapshot"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="CastShadows" value="1"/>
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="CreepEngulfment" value="1"/>
+        <Inherits index="Decal" value="1"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <Inherits index="Opacity" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="TeamColor" value="1"/>
+        <Inherits index="TimeScale" value="1"/>
+        <Inherits index="TintColor" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <Inherits index="WarpGroup" value="1"/>
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfTheThirdLevelFutureTank.Start" Send="Create"/>
+        <Model value="TempestGroundAttackImpact2223"/>
+        <ModelFlags index="UseSyncSeed" value="1"/>
+    </CActorModel>
+    <CActorSound id="RATheSecondSoundEffectOfFutureTankAttack" parent="SoundOneShot">
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfFutureTanks.Start" Send="Create"/>
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfTheThirdLevelFutureTank.Start" Send="Create"/>
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfTheMiniFutureTank.Start" Send="Create"/>
+        <Sound value="Karass_PsionicStormImpact2"/>
+    </CActorSound>
+    <CActorBeamSimple id="ColossusAttackBeamReverse2">
+        <Terms value="Cap 1"/>
+        <On Terms="ActorCreation" Send="Create ColossusAttackBeamImpactReverse2"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
+        <On Terms="Signal.*.Arrival" Send="AnimBracketStop BSD"/>
+        <On Terms="AnimBracketState.*.AfterOpening; AnimName BSD" Target="ColossusAttackImpactSiteReverse2" Send="MoverMove"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.ThermalLancesEReverse2.Impact" Send="Create"/>
+        <On Terms="ActorCreation" Send="SetTintColor {190,255,255 2.000000}"/>
+        <Model value="ColossusAttackBeam3"/>
+        <HostLaunch Subject="AlliedFBeamleft" Scope="Caster" Actor="Create"/>
+        <HostLaunchSiteOps Ops="SOpAttachWeapon02"/>
+        <HostImpact Subject="ColossusAttackImpactSiteReverse2"/>
+    </CActorBeamSimple>
+    <CActorSiteMover id="ColossusAttackImpactSiteReverse2">
+        <Terms value="Cap 1"/>
+        <Sharing value="PerEffectTree"/>
+        <On Terms="Effect.ThermalLancesEReverse2.Impact" Send="Create"/>
+        <On Terms="Effect.ThermalLancesEReverse2.Impact; At Effect" Send="MoverSetDestination2D"/>
+        <On Terms="MoverArrived" Target="ColossusAttackBeamReverse2" Send="Signal Arrival"/>
+        <HostSiteOps Ops="SOpShadow"/>
+        <Acceleration value="40.000000"/>
+        <Deceleration value="40.000000"/>
+        <Speed value="2.000000"/>
+        <SpeedMax value="3.000000"/>
+    </CActorSiteMover>
+    <CActorModel id="ColossusAttackBeamImpactReverse2">
+        <Supporter Subject="::Creator"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
+        <On Terms="SupporterDestruction" Send="AnimBracketStop BSD"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.ThermalLancesMU3.Start" Send="Create"/>
+        <Host Subject="ColossusAttackImpactSiteReverse2"/>
+        <Model value="ColossusAttackBeamImpact3"/>
+    </CActorModel>
+    <CActorModel id="ColossusAttackBeamImpact2">
+        <Supporter Subject="::Creator"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
+        <On Terms="SupporterDestruction" Send="AnimBracketStop BSD"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.ThermalLancesMU3.Start" Send="Create"/>
+        <Host Subject="ColossusAttackImpactSiteReverse2"/>
+    </CActorModel>
+    <CActorModel id="ColossusAttackBeamImpact3">
+        <Supporter Subject="::Creator"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
+        <On Terms="SupporterDestruction" Send="AnimBracketStop BSD"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.ThermalLancesMU3.Start" Send="Create"/>
+        <Host Subject="ColossusAttackImpactSite3"/>
+    </CActorModel>
+    <CActorModel id="DarkTempestTestImpact22" parent="ModelAnimationStyleOneShot">
+        <Flags index="SuppressCreationErrors" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD {} Death {} ContentPlayOnce"/>
+        <On index="2" Terms="ActorCreation" Target="::Creator" Send="Signal DarkProtossTest"/>
+        <On Terms="Signal.*.DarkProtossSwap" Send="ModelSwap TempestTalDarimAttackGround"/>
+        <On Terms="Effect.RATheFirstContinuousEffectOfTheThirdLevelFutureTankAttackIsCreated.Start" Send="Create"/>
+        <On Terms="Effect.RACreationOfTheContinuousEffectOfTheSecondStageAttackOfTheThirdLevelFutureTank.Start" Send="Destroy"/>
+        <Model value="TempestGroundAttackImpact23"/>
+        <ModelFlags index="AllowHitTest" value="0"/>
+    </CActorModel>
+    <CActorAction id="TempestAttackGround2" parent="GenericAttack" effectImpact="RAFutureTankDamage" effectLaunch="RAFutureTankFiringProjectiles">
+        <On Terms="Signal.*.DarkProtossTest" Send="RefSetFromMsg ::actor.sender ::Sender"/>
+        <On Terms="Signal.*.DarkProtossTest; ValidateUnit NoDarkProtoss" Target="::actor.sender" Send="Signal DarkProtossSwap"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder2 AMPatternMarauder22"/>
+        <LaunchAssets Sound="Tempest_GroundAttackLaunch2"/>
+        <Missile value="TempestAttackGroundMissile2"/>
+        <ImpactPointSiteOps Ops="SOpTargetPointStationary SOpUpDefault"/>
+        <ImpactMap index="None" Model="" Sound="Tempest_GroundAttackImpact2"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact3"/>
+        <ImpactMap index="Miss" Sound="Tempest_GroundAttackImpact2" ModelReaction="TempestAttackGround2ImpactReaction"/>
+        <ImpactModel value="DarkTempestTestImpact2"/>
+        <ImpactPhysics Name="KineticOverloadImpact" MatchKeys="Basic" Physics="TempestAttackForce"/>
+        <ShieldFlashType value="Full"/>
+    </CActorAction>
+    <CActorAction id="TempestAttackGround23" parent="GenericAttack" effectImpact="RALevel3FutureTankDamage" effectLaunch="RALevel3FuturisticTankFiresProjectiles">
+        <On Terms="Signal.*.DarkProtossTest" Send="RefSetFromMsg ::actor.sender ::Sender"/>
+        <On Terms="Signal.*.DarkProtossTest; ValidateUnit NoDarkProtoss" Target="::actor.sender" Send="Signal DarkProtossSwap"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder2 AMPatternMarauder22"/>
+        <LaunchAssets Sound="Tempest_GroundAttackLaunch2"/>
+        <Missile value="TempestAttackGroundMissile22"/>
+        <ImpactPointSiteOps Ops="SOpTargetPointStationary SOpUpDefault"/>
+        <ImpactMap index="None" Model="" Sound="Tempest_GroundAttackImpact2"/>
+        <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact3"/>
+        <ImpactMap index="Miss" Sound="Tempest_GroundAttackImpact2" ModelReaction="TempestAttackGround2ImpactReaction"/>
+        <ImpactModel value="DarkTempestTestImpact22"/>
+        <ImpactPhysics Name="KineticOverloadImpact" MatchKeys="Basic" Physics="TempestAttackForce"/>
+        <ShieldFlashType value="Full"/>
+    </CActorAction>
+    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent16">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="3"/>
+        <Modification>
+            <WeaponDisableArray value="TempestGround2"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="OdinBarrage">
+        <Icon value="Assets\Textures\btn-command-attackground.dds"/>
+    </CButton>
+    <CButton id="RARiotBeam2">
+        <Icon value="Assets\icons\Allied\riot-beam-icon.dds"/>
+    </CButton>
+    <CEffectApplyBehavior id="RAFutureTankLaunchesSpreadingBeamToDisableTheMainWeapon">
+        <ValidatorArray index="0" removed="1"/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent16"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="ThermalLances3">
+        <EditorCategories value="Race:Protoss"/>
+        <EffectArray value="ThermalLancesForward3"/>
+        <EffectArray value="ThermalLancesReverse2"/>
+        <TargetLocationType value="UnitOrPoint"/>
+    </CEffectSet>
+    <CEffectDamage id="RAFutureTankDamage">
+        <Kind value="Ranged"/>
+        <AreaArray Radius="0.7" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFlags index="OffsetAreaByAngle" value="1"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Dead,Hidden,Invulnerable"/>
+        <Amount value="1"/>
+        <ArmorReduction value="1"/>
+    </CEffectDamage>
+    <CEffectDamage id="RAFutureTankSecondStageDamage">
+        <Amount value="5"/>
+        <Kind value="Ranged"/>
+        <KindSplash value="Splash"/>
+        <ArmorReduction value="1"/>
+        <AttributeFactor index="Light" value="-0.5"/>
+    </CEffectDamage>
+    <CEffectDamage id="ThermalLancesMU3" parent="DU_WEAP">
+        <ValidatorArray value="NotHidden"/>
+        <ImpactUnitValidator value="RANotAllowedToAttackAllies"/>
+        <Visibility value="Visible"/>
+        <Kind value="Ranged"/>
+        <KindSplash value="Splash"/>
+        <Amount value="5"/>
+        <Death value="Fire"/>
+        <AreaArray Radius="0.5" Fraction="1"/>
+        <SearchFilters value="Ground;Air,Missile,Dead,Invulnerable"/>
+        <ArmorReduction value="0"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="RACreationOfFutureTankFiringWeaponsBegins">
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="RAFutureTankFiringProjectiles"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <Flags index="RandomOffset" value="1"/>
+        <PeriodicOffsetArray value="0,0,0"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RACreationOfTheContinuousEffectOfTheSecondStageAttackOfFutureTanks">
+        <TimeScaleSource Value="Caster"/>
+        <PeriodCount value="13"/>
+        <PeriodicEffectArray value="RAFutureTankAttackSecondPhaseSearch"/>
+        <PeriodicPeriodArray value="0.08"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RACreationOfTheContinuousEffectOfTheSecondStageAttackOfTheThirdLevelFutureTank">
+        <TimeScaleSource Value="Caster"/>
+        <PeriodCount value="13"/>
+        <PeriodicEffectArray value="RALevel3FutureTankAttackSecondStageSearch"/>
+        <PeriodicPeriodArray value="0.08"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RADelayBetweenFutureTankSOngoingEffects">
+        <ExpireDelay value="0.25"/>
+        <FinalEffect value="RACreationOfTheContinuousEffectOfTheSecondStageAttackOfFutureTanks"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RADelayBetweenLevel3FutureTankSOngoingEffects">
+        <ExpireDelay value="0.1"/>
+        <FinalEffect value="RACreationOfTheContinuousEffectOfTheSecondStageAttackOfTheThirdLevelFutureTank"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="RAFutureTankAttackFirstSectionSearch">
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Air,Missile,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="1.3" Effect="RAFutureTankDamage"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <ExcludeArray Value="Target"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="RAFutureTankAttackSecondPhaseSearch">
+        <ImpactLocation Value="TargetPoint"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="0.5" RadiusBonus="0.36" Effect="RAFutureTankSecondStageDamage"/>
+    </CEffectEnumArea>
+    <CEffectLaunchMissile id="RAFutureTankFiringProjectiles">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="RAFutureTanksFirstDamageCollection"/>
+        <AmmoUnit value="Futuretankweaponsandammunitionunit"/>
+    </CEffectLaunchMissile>
+    <CEffectSwitch id="RAFutureTankStarUpgradeWeaponEffectSwitching">
+        <CaseArray Validator="RAVerificationOfTheEffectOfStarratedFutureTanks" Effect="RALevel3FutureTankLauncherWeaponCreationBegins"/>
+        <CaseDefault value="RACreationOfFutureTankFiringWeaponsBegins"/>
+    </CEffectSwitch>
+    <CEffectSet id="RAFutureTanksFirstDamageCollection">
+        <EffectArray value="RATheFirstContinuousEffectOfFutureTankAttackIsCreated"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="ThermalLancesForward3">
+        <EditorCategories value="Race:Protoss"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+        <TimeScaleSource Value="Caster"/>
+        <Flags index="Channeled" value="1"/>
+        <ExpireDelay value="0.73"/>
+        <ExpireEffect value="ThermalLancesMU3"/>
+        <PeriodCount value="15"/>
+        <PeriodicEffectArray value="ThermalLancesE3"/>
+        <PeriodicOffsetArray value="-1.75,1.75,0"/>
+        <PeriodicOffsetArray value="-1.5,1.5,0"/>
+        <PeriodicOffsetArray value="-1.25,1.25,0"/>
+        <PeriodicOffsetArray value="-1,1,0"/>
+        <PeriodicOffsetArray value="-0.75,0.75,0"/>
+        <PeriodicOffsetArray value="-0.5,0.5,0"/>
+        <PeriodicOffsetArray value="-0.25,0.25,0"/>
+        <PeriodicOffsetArray value="0,0,0"/>
+        <PeriodicOffsetArray value="0.25,-0.25,0"/>
+        <PeriodicOffsetArray value="0.5,-0.5,0"/>
+        <PeriodicOffsetArray value="0.75,-0.75,0"/>
+        <PeriodicOffsetArray value="1,-1,0"/>
+        <PeriodicOffsetArray value="1.25,-1.25,0"/>
+        <PeriodicOffsetArray value="1.5,-1.5,0"/>
+        <PeriodicOffsetArray value="1.75,-1.75,0"/>
+        <PeriodicPeriodArray value="0.1"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="RALevel3FutureTankAttackFirstSectionSearch">
+        <ImpactLocation Value="TargetPoint"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Air,Missile,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="1.3" Effect="RALevel3FutureTankDamage"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="RALevel3FutureTankAttackSecondStageSearch">
+        <ImpactLocation Value="TargetPoint"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="0.5" RadiusBonus="0.36" Effect="RALevel3FutureTankSecondStageDamage"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="RALevel3FutureTankDamage">
+        <Kind value="Ranged"/>
+        <AreaArray Radius="0.7" Fraction="1"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Dead,Hidden,Invulnerable"/>
+        <SearchFlags index="OffsetAreaByAngle" value="1"/>
+        <Amount value="1"/>
+        <ArmorReduction value="1"/>
+    </CEffectDamage>
+    <CEffectCreatePersistent id="RALevel3FutureTankLauncherWeaponCreationBegins">
+        <PeriodCount value="1"/>
+        <PeriodicEffectArray value="RALevel3FuturisticTankFiresProjectiles"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <Flags index="RandomOffset" value="1"/>
+        <PeriodicOffsetArray value="0,0,0"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="RALevel3FutureTankSecondStageDamage">
+        <Kind value="Ranged"/>
+        <KindSplash value="Splash"/>
+        <Amount value="5"/>
+        <AttributeFactor index="Light" value="-0.5"/>
+    </CEffectDamage>
+    <CEffectLaunchMissile id="RALevel3FuturisticTankFiresProjectiles">
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="RATheFirstDamageCollectionOfLevelThreeFutureTanks"/>
+        <AmmoUnit value="TempestWeaponGround22"/>
+    </CEffectLaunchMissile>
+    <CEffectCreatePersistent id="ThermalLancesReverse2">
+        <EditorCategories value="Race:Protoss"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+        <TimeScaleSource Value="Caster"/>
+        <Flags index="Channeled" value="1"/>
+        <ExpireDelay value="0.73"/>
+        <ExpireEffect value="ThermalLancesMU3"/>
+        <PeriodCount value="15"/>
+        <PeriodicEffectArray value="ThermalLancesEReverse2"/>
+        <PeriodicOffsetArray value="1.75,1.75,0"/>
+        <PeriodicOffsetArray value="1.5,1.5,0"/>
+        <PeriodicOffsetArray value="1.25,1.25,0"/>
+        <PeriodicOffsetArray value="1,1,0"/>
+        <PeriodicOffsetArray value="0.75,0.75,0"/>
+        <PeriodicOffsetArray value="0.5,0.5,0"/>
+        <PeriodicOffsetArray value="0.25,0.25,0"/>
+        <PeriodicOffsetArray value="0,0,0"/>
+        <PeriodicOffsetArray value="-0.25,-0.25,0"/>
+        <PeriodicOffsetArray value="-0.5,-0.5,0"/>
+        <PeriodicOffsetArray value="-0.75,-0.75,0"/>
+        <PeriodicOffsetArray value="-1,-1,0"/>
+        <PeriodicOffsetArray value="-1.25,-1.25,0"/>
+        <PeriodicOffsetArray value="-1.5,-1.5,0"/>
+        <PeriodicOffsetArray value="-1.75,-1.75,0"/>
+        <PeriodicPeriodArray value="0.1"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="ThermalLancesDamageDelay3">
+        <WhichLocation Value="TargetUnitOrPoint"/>
+        <ExpireDelay value="0.25"/>
+        <FinalEffect value="ThermalLancesMU3"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="ThermalLancesE3">
+        <EditorCategories value="Race:Protoss"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Ground;Air,Missile,Dead,Invulnerable"/>
+        <AreaArray Radius="0.75" Effect="ThermalLancesDamageDelay3"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="ThermalLancesEReverse2">
+        <EditorCategories value="Race:Protoss"/>
+        <ExcludeArray Value="Target"/>
+        <SearchFilters value="Ground;Air,Missile,Dead,Invulnerable"/>
+        <AreaArray Radius="0.75" Effect="ThermalLancesDamageDelay3"/>
+        <SearchFlags index="CallForHelp" value="1"/>
+    </CEffectEnumArea>
+    <CEffectCreatePersistent id="RATheFirstContinuousEffectOfFutureTankAttackIsCreated">
+        <InitialEffect value="RAFutureTankAttackFirstSectionSearch"/>
+        <FinalEffect value="RADelayBetweenFutureTankSOngoingEffects"/>
+        <PeriodCount value="10"/>
+        <PeriodicEffectArray value="RAFutureTankAttackFirstSectionSearch"/>
+        <PeriodicPeriodArray value="0.08"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="RATheFirstContinuousEffectOfTheThirdLevelFutureTankAttackIsCreated">
+        <InitialEffect value="RALevel3FutureTankAttackFirstSectionSearch"/>
+        <FinalEffect value="RADelayBetweenLevel3FutureTankSOngoingEffects"/>
+        <PeriodCount value="8"/>
+        <PeriodicEffectArray value="RALevel3FutureTankAttackFirstSectionSearch"/>
+        <PeriodicPeriodArray value="0.1"/>
+    </CEffectCreatePersistent>
+    <CEffectSet id="RATheFirstDamageCollectionOfLevelThreeFutureTanks">
+        <EffectArray value="RATheFirstContinuousEffectOfTheThirdLevelFutureTankAttackIsCreated"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CModel id="BloodTargetImpact3" parent="ImpactFX">
+        <Model value="Assets\Effects\Other\BloodTargetImpact\BloodTargetImpact.m3"/>
+        <EditorCategories value="Race:Neutral"/>
+        <Flags index="Ignorable" value="1"/>
+    </CModel>
+    <CModel id="TempestGroundAttackImpact22" parent="ImpactFX">
+        <Model value="assets\effects\AuFWeapon1.m3"/>
+        <AnimSpeed value="1.300000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.700000,0.700000,0.700000"/>
+        <ScaleMin value="0.700000,0.700000,0.700000"/>
+    </CModel>
+    <CModel id="SiegeTankDeath3" parent="SiegeTankDeathBase">
+        <Model value="Assets\Effects\Terran\TerranBuildingDeath\TerranBuildingDeath.m3"/>
+        <ScaleMax value="0.600000,0.600000,0.600000"/>
+        <ScaleMin value="0.600000,0.600000,0.600000"/>
+    </CModel>
+    <CModel id="TempestWeaponGround2" parent="MissileFX">
+        <Model value="assets\effects\AuFMissile1.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="1.900000,1.900000,1.900000"/>
+        <ScaleMin value="1.900000,1.900000,1.900000"/>
+    </CModel>
+    <CModel id="AlliedFutureTank_Model" parent="Unit" Race="Terran">
+        <Model value="assets\units\allied\FutureTank.m3"/>
+        <AttachProps Id="Ref_Weapon Right">
+            <Keys index="SetA" value="0"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon Left">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <Flags index="AutoUnload" value="1"/>
+        <PlanetPanelCamera value="Star2CameraHigher18"/>
+        <ScaleMax value="1.300000,1.300000,1.300000"/>
+        <ScaleMin value="1.300000,1.300000,1.300000"/>
+        <ShadowRadius value="1.000000"/>
+        <TechPurchaseCamera value="Star2CameraHigher18"/>
+        <Tipability value="0.750000"/>
+        <TipabilityLength value="0.375000"/>
+        <TipabilityWidth value="0.375000"/>
+        <UnitGlossaryCamera value="Star2CameraHigher18"/>
+        <TextureDeclares Prefix="AUFutureTank">
+            <Adaptions TriggerOnSubstring="_Diffuse" Slot="main"/>
+            <Adaptions TriggerOnSubstring="_Emissive" Slot="main"/>
+        </TextureDeclares>
+        <TextureDeclares Prefix="AUTreads">
+            <Adaptions TriggerOnSubstring="_Diffuse" Slot="main"/>
+            <Adaptions TriggerOnSubstring="_Emissive" Slot="main"/>
+        </TextureDeclares>
+    </CModel>
+    <CModel id="TempestWeaponGround22" parent="MissileFX">
+        <Model value="assets\effects\AuFMissile2.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="1.900000,1.900000,1.900000"/>
+        <ScaleMin value="1.900000,1.900000,1.900000"/>
+    </CModel>
+    <CModel id="ColossusAttackBeamImpact3" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\MothershipMissileImpact\MothershipMissileImpact.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.300000,0.300000,0.300000"/>
+        <ScaleMin value="0.300000,0.300000,0.300000"/>
+    </CModel>
+    <CModel id="ColossusAttackBeamImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\MothershipMissileImpact\MothershipMissileImpact.m3"/>
+        <AnimSpeed value="0.100000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.800000,0.800000,0.800000"/>
+        <ScaleMin value="0.800000,0.800000,0.800000"/>
+    </CModel>
+    <CModel id="ColossusAttackBeam3" parent="PersistentSpellFX">
+        <Model value="assets\effects\FutureTankBeam.m3"/>
+        <AnimSpeed value="2.000000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <RadiusLoose value="1.000000"/>
+        <ScaleMax value="0.500000,0.500000,0.500000"/>
+        <ScaleMin value="0.500000,0.500000,0.500000"/>
+    </CModel>
+    <CModel id="TempestGroundAttackImpact223" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\KhaydarinMonolith_Beam_Impact\KhaydarinMonolith_Beam_Impact.m3"/>
+        <AnimSpeed value="0.400000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+    </CModel>
+    <CModel id="TempestGroundAttackImpact2223" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\Tempest_TalDarim_PlasmaMissileImpact\Tempest_TalDarim_PlasmaMissileImpact.m3"/>
+        <AnimSpeed value="0.900000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="2.000000,2.000000,2.000000"/>
+        <ScaleMin value="2.000000,2.000000,2.000000"/>
+    </CModel>
+    <CModel id="TempestGroundAttackImpact2" parent="ImpactFX">
+        <Model value="assets\effects\AuFWeaponStay1.m3"/>
+        <AnimSpeed value="0.400000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CModel id="TempestGroundAttackImpact23" parent="ImpactFX">
+        <Model value="assets\effects\AuFWeaponStay2.m3"/>
+        <AnimSpeed value="0.400000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CModel id="TempestGroundAttackImpact222" parent="ImpactFX">
+        <Model value="assets\effects\AuFWeapon2.m3"/>
+        <AnimSpeed value="1.300000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.700000,0.700000,0.700000"/>
+        <ScaleMin value="0.700000,0.700000,0.700000"/>
+    </CModel>
+    <CMoverMissile id="MissileDefault2">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="3200"/>
+            <MaxSpeed value="18"/>
+            <ClearanceAcceleration value="75"/>
+            <Outro value="-1"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+        <MotionPhases YawPitchRoll="MAX"/>
+    </CMoverMissile>
+    <CSound id="AlliedFutureTank_Attack" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUFutur_voiAttacka.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiAttackb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiAttackc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiAttackd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiAttacke.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiAttackf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="Karass_PsionicStormImpact2" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaBiga.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaBigb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaBigc.ogg" FacialGroup=""/>
+        <Category value="Spell"/>
+        <DupeDestroyCount value="4"/>
+        <Volume value="4.000000,5.000000"/>
+    </CSound>
+    <CSound id="Karass_PsionicStormImpact23" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaSmaa.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaSmab.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaSmac.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaSmad.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaSmae.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="4"/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="AlliedFutureTank_Pissed" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUFutur_voiSelBata.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelBatb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelBatc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelBatd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelBate.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelectf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedFutureTank_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUFutur_voiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelUndd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelUnde.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="TerranFlyer_What2242" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUFutur_voiAttSpeca.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiAttSpecb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiAttSpecc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiAttSpecd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedFutureTank_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUFutur_voiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMoveg.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMoveh.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMvAtta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMvAttb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMvAttc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMvAttd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiMvAtte.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedFutureTank_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUFutur_voiSelBata.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelBatb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelBatc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelBatd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelBate.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiSelectf.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="Karass_PsionicStormImpact232" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUFutur_armSecondarya.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_armSecondaryb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_armSecondaryc.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="4"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="AlliedFutureTank_Click" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUWarBo_selecta.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="-6.000000,-6.000000"/>
+        <Category value="Combat"/>
+    </CSound>
+    <CSound id="AlliedFutureTank_Movement" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUFTank_moveLoopa.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_moveLoopb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_moveLoopc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_moveLoopd.ogg" FacialGroup=""/>
+        <Volume value="-13.000000,-13.000000"/>
+    </CSound>
+    <CSound id="Tempest_GroundAttackImpact2" parent="Combat">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaSmaa.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaSmab.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaSmac.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaSmad.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_neutImpaSmae.ogg" FacialGroup=""/>
+        <DupeHistoryCount value="5"/>
+        <DupeMaximumMethod value="Replace"/>
+        <DupeMuteCount value="6"/>
+        <Pitch value="-1.000000,0.000000"/>
+        <PlayDelay value="100,100"/>
+        <Volume value="2.000000,2.000000"/>
+    </CSound>
+    <CSound id="Tempest_GroundAttackLaunch2" parent="Combat">
+        <EditorCategories value="Race:Protoss"/>
+        <AssetArray File="assets\sounds\AUFutur_wea1Firea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_wea1Fireb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_wea1Firec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_wea1Fired.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_wea1Firee.ogg" FacialGroup=""/>
+        <DupeHistoryCount value="6"/>
+        <DupeMaximumMethod value="Replace"/>
+        <DupeMuteCount value="8"/>
+        <Pitch value="0.000000,1.000000"/>
+        <Volume value="-7.000000,-7.000000"/>
+    </CSound>
+    <CSound id="AlliedFutureTank_Birth" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUFTank_moveStara.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_moveStarb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_moveStarc.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_moveStard.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_moveStare.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFTank_moveStarf.ogg" FacialGroup=""/>
+        <Volume value="-3.000000,-3.000000"/>
+    </CSound>
+    <CSound id="AlliedFutureTank_Ready" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\AUFutur_voiCreatea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUFutur_voiCreateb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CTurret id="RANeutronDisturbanceCannon2">
+        <YawArc value="360"/>
+        <YawRate value="270"/>
+        <YawIdleRate value="149.9414"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+    <CUnit id="Futuretankweaponsandammunitionunit" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="MissileDefault2"/>
+        <EditorCategories value="ObjectFamily:Melee,ObjectType:Projectile"/>
+    </CUnit>
+    <CUnit id="TempestWeaponGround22" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="MissileDefault2"/>
+        <EditorCategories value="ObjectFamily:Melee,ObjectType:Projectile"/>
+    </CUnit>
+    <CWeaponLegacy id="TempestGround2">
+        <EditorCategories value="Race:Protoss"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Options index="DisplayCooldown" value="1"/>
+        <Icon value="Assets\Textures\btn-upgrade-terran-plasmashot.dds"/>
+        <DisplayEffect value="RAFutureTankSecondStageDamage"/>
+        <TargetFilters value="Ground,Visible;Air,Missile,Dead,Invulnerable"/>
+        <Range value="8"/>
+        <Period value="3.5"/>
+        <Effect value="RAFutureTankStarUpgradeWeaponEffectSwitching"/>
+        <Arc value="9.9975"/>
+        <Marker Link="Weapon/BattleshipArtillery"/>
+        <AllowedMovement value="Moving"/>
+        <LegacyOptions index="LockTurretWhileFiring" value="1"/>
+        <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
+        <DisplayAttackCount value="20"/>
+    </CWeaponLegacy>
 </Catalog>

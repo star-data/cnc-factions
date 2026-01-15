@@ -1,3 +1,370 @@
 <Catalog>
-
+    <CUnit id="AlliedSpy" parent="AlliedGround">
+        <Subtitle value="UnitSubtitle/mengjunbubing"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <PushPriority value="5"/>
+        <Collide index="Small" value="1"/>
+        <Response value="AcquireNoFlee"/>
+        <Attributes index="Light" value="1"/>
+        <Attributes index="Biological" value="1"/>
+        <LifeStart value="75"/>
+        <LifeMax value="75"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranInfantryArmor"/>
+        <Speed value="1.5"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="1000"/>
+        <KillXP value="1"/>
+        <AbilArray Link="AlliedSpyBribery"/>
+        <AbilArray Link="AlliedSpyInfiltrate"/>
+        <BehaviorArray Link="AlliedInfantryArmor"/>
+        <BehaviorArray Link="RAInfantryAutoHeal"/>
+        <WeaponArray Link="AlliedSpyDisguise"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="AlliedSpyBribery" Type="AbilCmd" AbilCmd="AlliedSpyBribery,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="AlliedSpyInfiltrate" Type="AbilCmd" AbilCmd="AlliedSpyInfiltrate,Execute" Row="1" Column="4"/>
+            <LayoutButtons Face="AutechBeidongSet13" Type="Passive" Requirements="StortModeRe24" Row="2" Column="0"/>
+        </CardLayouts>
+        <Radius value="0.375"/>
+        <SeparationRadius value="0.375"/>
+        <SubgroupPriority value="18"/>
+        <TacticalAI value="GhostCloaked"/>
+        <AIEvaluateAlias value="Ghost"/>
+    </CUnit>
+    <CAbilEffectTarget id="AlliedSpyInfiltrate">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
+        <Effect index="0" value="EngineerCaptureSet4"/>
+        <Flags index="Smart" value="1"/>
+        <TargetFilters value="Ground,Structure;Player,Ally,Neutral,User1,Stasis,Invulnerable,MapBoss"/>
+        <Range value="0"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedSpyInfiltrate"/>
+    </CAbilEffectTarget>
+    <CAbilEffectInstant id="AlliedSpyBribery">
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <InfoTooltipPriority value="3"/>
+        <Effect index="0" value="CnbaihuTankSA24"/>
+        <Flags index="BestUnit" value="1"/>
+        <Cost>
+            <Resource index="Minerals" value="1000"/>
+            <Display index="Minerals" value="1"/>
+            <Charge Link=""/>
+            <Cooldown Link="Abil/AlarakSingularity" TimeUse="10"/>
+        </Cost>
+        <PrepTime value="3"/>
+        <ShowProgressArray index="Prep" value="1"/>
+        <UninterruptibleArray index="Prep" value="1"/>
+        <AINotifyEffect value="CnbaihuTankSA24"/>
+        <ProgressButtonArray index="Prep" value="AlliedSpyBribery"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedSpyBribery">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <PrepEffect value="RASpyUnmaskingInitialDelay"/>
+    </CAbilEffectInstant>
+    <CActorUnit id="AlliedSpy" parent="GenericUnitStandard" unitName="AlliedSpy">
+        <Aliases value="_UnitSmall"/>
+        <Macros value="UnloadDropAnim"/>
+        <AcceptedHostedPropTransfers index="CastShadows" value="0"/>
+        <On Terms="Abil.AlliedSpyBribery.SourcePrepStart" Send="AnimBracketStart 111 {} Spell {} ContentNonLooping,ContentPlayOnce,Instant"/>
+        <On Terms="Abil.AlliedSpyBribery.SourceFinishStart" Send="AnimBracketStop 111"/>
+        <Model value="AlliedSpy_Model"/>
+        <AnimBlendTime value="-0.800000"/>
+        <ModelFlags index="OutlineEmitter" value="1"/>
+        <EventDataFootprint index="0" Actor="UnitFootprint" Model="SpectreFootprint"/>
+        <DeathArray index="Normal" ModelLink="NatashaDeath23" SoundLink="AuspyDeathVioce" VoiceLink=""/>
+        <DeathArray index="Timeout" ModelLink="Invisible" SoundLink="AuspyVioce42"/>
+        <DeathArray index="Salvage" AnimProps="Death" ModelLink="NatashaDeath23" SoundLink="AuspyDeathVioce"/>
+        <PortraitModel value="SpectrePortrait2"/>
+        <WalkAnimMoveSpeed value="2"/>
+        <BarOffset value="70"/>
+        <BarWidth value="40"/>
+        <GroupIcon>
+            <Image value="Assets\icons\Allied\allied-spy-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\icons\Allied\allied-spy-build-icon.dds"/>
+        <HighlightTooltip value="Unit/Name/Auspy"/>
+        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
+        <SoundArray index="Birth" value="Spectre_Birth"/>
+        <SoundArray index="Ready" value="AuspyVioce"/>
+        <SoundArray index="Attack" value="AlliedSpy_Yes"/>
+        <SoundArray index="Movement" value="Spectre_Movement"/>
+        <SoundArray index="Turning" value="Spectre_Turning"/>
+        <SoundArray index="Board" value="Spectre_Board"/>
+        <SoundArray index="Click" value="AlliedSpy_What"/>
+        <SoundArray index="ClickError" value="Spectre_ClickError"/>
+        <SoundArray index="Highlight" value="Spectre_Highlight"/>
+        <UnitIcon value="Assets\icons\Allied\allied-spy-build-icon.dds"/>
+        <Wireframe>
+            <Image value="Assets\icons\Allied\allied-spy-wireframe.dds"/>
+        </Wireframe>
+        <AbilSoundArray AbilCmd="AlliedSpyBribery,Execute" Sound="AlliedSpy_Pissed"/>
+    </CActorUnit>
+    <CActorAction id="ProbeAttack52" parent="GenericAttack" effectAttack="ParticleBeam52">
+        <LaunchSiteOps Ops="SOpAttachWeapon01"/>
+        <Beam value="ProbeAttackBeam"/>
+        <ImpactMap index="None" Model="" Sound="SovietTeslaUnitVioce72222"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
+    </CActorAction>
+    <CActorSquib id="RASpyBriberySpecialEffectsTakeEffect">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.CnbaihuTankSA24.Start" Send="Create"/>
+        <Map index="None" Model="TychusTossGrenadeImpact223235" Sound="AuspyVioce522"/>
+        <Map index="Miss" Model="TychusTossGrenadeImpact223235"/>
+    </CActorSquib>
+    <CActorModel id="cashreward23" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.MindControl23.On" Send="Create"/>
+        <On Terms="Behavior.MindControl23.Off" Send="Destroy"/>
+        <On Terms="Behavior.Lowpower.On" Send="Create"/>
+        <On Terms="Behavior.RALowPowerForitifcations.On" Send="Create"/>
+        <On Terms="Behavior.Lowpower.Off" Send="Destroy"/>
+        <On Terms="Behavior.RALowPowerForitifcations.Off" Send="Destroy"/>
+        <On Terms="Behavior.Lowpower22.On" Send="Create"/>
+        <On Terms="Behavior.Lowpower22.Off" Send="Destroy"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+        <Scale value="2.000000"/>
+    </CActorModel>
+    <CActorSound id="Ghost_CloakOff2" parent="SoundOneShot">
+        <On Terms="Behavior.PersonalCloakingFree2.Off" Send="Create"/>
+        <Sound value="Ghost_CloakOff"/>
+    </CActorSound>
+    <CActorSound id="Ghost_CloakOn2" parent="SoundOneShot">
+        <On Terms="Behavior.PersonalCloakingFree2.On" Send="Create"/>
+        <Sound value="AuspyVioce5"/>
+    </CActorSound>
+    <CBehaviorBuff id="MindControl23">
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\ui_glues_ladder_score_rating_down.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <DisplayDuration index="Self" value="1"/>
+        <DisplayDuration index="Ally" value="1"/>
+        <DisplayDuration index="Enemy" value="1"/>
+        <TimeScaleSource Value="Global"/>
+        <Duration value="120"/>
+        <Modification SightBonus="5">
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="DisableWeapons" value="1"/>
+            <ModifyFlags index="Reveal" value="1"/>
+            <ModifyFlags index="Detected" value="1"/>
+            <ModifyFlags index="ShareSight" value="1"/>
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <ModifyFlags index="SuppressTurning" value="1"/>
+            <StateFlags index="RevealProgress" value="1"/>
+            <StateFlags index="SuppressCloak" value="1"/>
+            <StateFlags index="SuppressDetection" value="1"/>
+            <StateFlags index="SuppressRadar" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="PersonalCloakingFree2">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\Textures\war3_btncloakofflames.dds"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Modification>
+            <StateFlags index="Cloak" value="1"/>
+            <StateFlags index="Benign" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RAMovingSpeed20Percent5">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="3"/>
+        <Modification>
+            <BehaviorLinkDisableArray value="RACamouflage"/>
+            <BehaviorLinkDisableArray value="PersonalCloakingFree2"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="AlliedSpyBribery">
+        <Icon value="Assets\icons\Allied\spy-skill-icon.dds"/>
+    </CButton>
+    <CButton id="AlliedSpyInfiltrate">
+        <Icon value="Assets\Textures\ui_glues_ladder_score_rating_down.dds"/>
+    </CButton>
+    <CEffectDamage id="DisbandDeath43">
+        <ImpactLocation Value="SourceUnit"/>
+        <Flags index="Kill" value="1"/>
+        <Death value="Timeout"/>
+    </CEffectDamage>
+    <CEffectModifyUnit id="RACaptureBuilding">
+        <ModifyFlags index="Owner" value="1"/>
+    </CEffectModifyUnit>
+    <CEffectDamage id="ParticleBeam52" parent="DU_WEAP">
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="EngineerCaptureBuildings5">
+        <ValidatorArray index="0" removed="1"/>
+        <Behavior value="MindControl23"/>
+    </CEffectApplyBehavior>
+    <CEffectEnumArea id="CnbaihuTankSA24">
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Psionic,Structure,Heroic,Worker,RawResource,HarvestableResource,Missile,Cloaked,Stasis,UnderConstruction,Dead,Hidden,Invulnerable,HeroUnit"/>
+        <AreaArray Radius="3" Effect="RACaptureBuilding"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="AuspySpell2">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovingSpeed20Percent5"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="RASpyDisguisesApplicationBehavior">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="PersonalCloakingFree2"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="EngineerCaptureSet4">
+        <EffectArray value="EngineerCaptureBuildings5"/>
+        <EffectArray value="DisbandDeath43"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="RASpyUnmaskingInitialDelay">
+        <WhichLocation Value="SourceUnit"/>
+        <InitialDelay value="3"/>
+        <InitialEffect value="AuspySpell2"/>
+    </CEffectCreatePersistent>
+    <CModel id="SpectrePortrait2" parent="Portrait" Race="Terran">
+        <Model value="Assets\Portraits\Terran\Battlecruiser_HornerHan_Portrait\Battlecruiser_HornerHan_Portrait.m3"/>
+        <Flags index="Download" value="1"/>
+        <Image value="Assets\Textures\battlecruiser_hornerhan_portrait_static.dds"/>
+    </CModel>
+    <CModel id="TychusTossGrenadeImpact223235" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\TimeWarpImpact_Red\TimeWarpImpact_Red.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="4.000000,4.000000,4.000000"/>
+        <ScaleMin value="4.000000,4.000000,4.000000"/>
+    </CModel>
+    <CModel id="NatashaDeath23" parent="UnitDeath" Race="Terran">
+        <Model value="assets\units\allied\Spy.m3"/>
+        <SelectionOffset value="0.000000,0.000000,-0.500000"/>
+        <SelectionRadius value="1.250000"/>
+    </CModel>
+    <CModel id="AlliedSpy_Model" parent="Unit">
+        <Model value="assets\units\allied\Spy.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <Flags index="AutoUnload" value="1"/>
+        <Occlusion value="Show"/>
+        <PlanetPanelCamera value="Star2CameraMid04"/>
+        <Radius value="0.375000"/>
+        <SelectionRadius value="0.305000"/>
+        <ShadowRadius value="0.375000"/>
+        <SquibTypeDefault value="Flesh"/>
+        <TechPurchaseCamera value="TechPurchaseInfantry"/>
+        <TextureDeclares Prefix="Spectre_">
+            <Adaptions TriggerOnSubstring="_Diffuse" Slot="main"/>
+            <Adaptions TriggerOnSubstring="_Emissive" Slot="main"/>
+        </TextureDeclares>
+        <UnitGlossaryCamera value="Star2CameraMid04"/>
+    </CModel>
+    <CSound id="AlliedSpy_Help" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\the-spy-was-attacked-1.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\the-spy-was-attacked-2.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\the-spy-was-attacked-3.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\the-spy-was-attacked-4.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\the-spy-was-attacked-5.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\the-spy-was-attacked-6.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\the-spy-was-attacked7.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\the-spy-was-attacked8.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedSpy_What" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\spy-choice-1.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-choice-2.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-choice-3.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-choice-4.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-choice-5.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-choice-6.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-choice-7.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-choice-8.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AuspyDeathVioce" parent="Death">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\spy-dies-1.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-dies-10.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-dies-11.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spies-die-2.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-dies-3.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spies-die-4.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-dies-5.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-dies-6.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-dies-7.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-dies-8.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-dies-9.ogg" FacialGroup=""/>
+        <Flags index="Download" value="0"/>
+        <Volume value="3.000000,3.000000"/>
+    </CSound>
+    <CSound id="AuspyVioce5" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\spy-disguise-sound-effect-1.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-disguise-sound-effects-2.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-disguise-sound-effects-3.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-disguise-sound-effects-4.ogg" FacialGroup=""/>
+        <Flags index="Ignorable" value="1"/>
+        <Flags index="Purgable" value="0"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+    </CSound>
+    <CSound id="AuspyVioce42" parent="TerranAck_Void">
+        <AssetArray File="Assets\sounds\allied-lieutenant:-the-enemy&apos;s-building-has-been-infiltrated.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedSpy_Yes" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\spy-mobile-1.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-mobile-10.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-mobile-11.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-mobile-12.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-mobile-2.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-mobile-3.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-mobile-4.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-mobile-5.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-mobile-6.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-mobile-7.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-mobile-8.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-mobile-9.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedSpy_Pissed" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\spy-bribery-1.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-2.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\spy-3.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AuspyVioce" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\spy-ready1.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AuspyVioce522" parent="Spell">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\sound-effects-controlled-by-yuri.ogg" FacialGroup=""/>
+        <Flags index="Ignorable" value="1"/>
+        <Flags index="Purgable" value="0"/>
+        <Flags index="Stream" value="1"/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+    </CSound>
+    <CSound id="SovietTeslaUnitVioce72222" parent="TerranAck_Void">
+        <AssetArray File="assets\sounds\magnetic-explosion-infantry-charging-sound-effect.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Combat"/>
+        <Volume value="-6.000000,-6.000000"/>
+    </CSound>
+    <CWeaponLegacy id="AlliedSpyDisguise">
+        <EditorCategories value="Race:Protoss"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Icon value="Assets\Textures\btn-ability-hornerhan-wraith-permanentcloak.dds"/>
+        <TargetFilters value="-;Self,Mechanical,Structure,Hover,Missile,Stasis,Dead,Invulnerable"/>
+        <AcquireFilters value="-;Enemy"/>
+        <Range value="500"/>
+        <Period value="1"/>
+        <Effect value="RASpyDisguisesApplicationBehavior"/>
+        <DisplayEffect value="ParticleBeam52"/>
+    </CWeaponLegacy>
 </Catalog>

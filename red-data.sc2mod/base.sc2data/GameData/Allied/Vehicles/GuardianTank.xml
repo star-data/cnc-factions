@@ -1,4 +1,386 @@
 
 <Catalog>
 
+    <CUnit id="AlliedGuardianTank" parent="AlliedGround">
+        <Subtitle value="UnitSubtitle/zhuangjia"/>
+        <Response value="AcquireNoFlee"/>
+        <LifeStart value="120"/>
+        <LifeMax value="120"/>
+        <LifeArmorName value="Unit/LifeArmorName/AlliedGuardTank"/>
+        <Speed value="2.6992"/>
+        <TurningRate value="720"/>
+        <Sight value="12"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="950"/>
+        <KillXP value="4"/>
+        <AbilArray Link="SovietMotoModeSwhich3"/>
+        <AbilArray Link="RocketAngelSpell2"/>
+        <BehaviorArray Link="AutoHeal42"/>
+        <BehaviorArray Link="UpgradeLevel12"/>
+        <BehaviorArray Link="nianayaLevel12"/>
+        <BehaviorArray Link="RATheUnitItselfTakesDamageWhenAttackingAnEnemyButItAlsoGainsHigherHealing1"/>
+        <WeaponArray Link="85mmCannon" Turret="MediumFastTurret"/>
+        <WeaponArray Link="GDIStrikerMechaRoller"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="1" Face="Stop" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="1"/>
+            <LayoutButtons Face="TossGrenadeTychus2222273" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich3,On" Row="1" Column="0"/>
+            <LayoutButtons>
+                <Face value="AutechBeidongSet27"/>
+                <Type value="Passive"/>
+                <AbilCmd value="255,255"/>
+                <Requirements value="StortModeRe2172"/>
+                <Row value="2"/>
+                <Column value="2"/>
+            </LayoutButtons>
+            <LayoutButtons>
+                <Face value="AutechBeidongSet28"/>
+                <Type value="Passive"/>
+                <AbilCmd value="255,255"/>
+                <Requirements value="StortModeRe217"/>
+                <Row value="2"/>
+                <Column value="3"/>
+            </LayoutButtons>
+            <LayoutButtons Face="TossGrenadeTychus22222263" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich3,Off" Row="1" Column="1"/>
+            <LayoutButtons Face="TossGrenadeTychus22222732" Type="AbilCmd" AbilCmd="RocketAngelSpell2,Execute" Row="1" Column="4"/>
+        </CardLayouts>
+        <Radius value="0.625"/>
+        <InnerRadius value="0.1875"/>
+        <ScoreMake value="100"/>
+        <ScoreKill value="100"/>
+        <ScoreKillCostFactor index="Minerals" value="1.25"/>
+        <ScoreKillCostFactor index="Vespene" value="1.25"/>
+    </CUnit>
+    <CAbilBehavior id="SovietMotoModeSwhich3">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus2222273">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus22222263">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="VolatileBurstBuilding25222"/>
+    </CAbilBehavior>
+    <CAbilEffectTarget id="RocketAngelSpell2">
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DataCollection value=""/>
+        <Effect index="0" value="RAGuardianTankLaserTargetingContinuousEffect"/>
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="AutoCast" value="1"/>
+        <Flags index="AutoCastOffOwnerLeave" value="1"/>
+        <Flags index="AutoCastOn" value="1"/>
+        <Flags index="LineMovement" value="1"/>
+        <Flags index="Smart" value="1"/>
+        <Cost/>
+        <TargetFilters value="-;Missile,Dead,Hidden,Invulnerable"/>
+        <Range value="10"/>
+        <AutoCastFilters value="Visible;Self,Player,Ally,Neutral,Missile,Dead,Hidden,Invulnerable"/>
+        <AutoCastRange value="10"/>
+        <AutoCastValidatorArray value="noMarkers"/>
+        <CancelableArray index="Approach" value="1"/>
+        <CancelableArray index="Wait" value="1"/>
+        <CancelableArray index="Prep" value="1"/>
+        <CancelableArray index="Cast" value="1"/>
+        <CancelableArray index="Channel" value="1"/>
+        <CancelableArray index="Finish" value="1"/>
+        <CancelableArray index="Bail" value="1"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="TossGrenadeTychus22222732"/>
+    </CAbilEffectTarget>
+    <CActorAction id="85mmCannon" parent="GenericAttack" effectAttack="90mmCannon">
+        <LaunchAttachQuery Methods="Weapon 0"/>
+        <LaunchAssets Model="SiegeTankAttackLaunch" Sound="SiegeTank_AttackLaunch7"/>
+        <ImpactMap index="None" Model="SiegeTankAttackImpact" Sound="SiegeTank_AttackImpact"/>
+        <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
+    </CActorAction>
+    <CActorUnit id="AlliedGuardianTank_Actor" parent="SiegeTank" unitName="AlliedGuardianTank">
+        <On index="0" Terms="UnitBirth.AlliedGuardianTank"/>
+        <On index="1" Terms="UnitBirth.AlliedGuardianTank"/>
+        <On index="2" Terms="UnitRevive.AlliedGuardianTank"/>
+        <On index="3" Terms="UnitRevive.AlliedGuardianTank"/>
+        <On index="4" Terms="UnitConstruction.AlliedGuardianTank.Start"/>
+        <On index="5" Terms="UnitConstruction.AlliedGuardianTank.Finish"/>
+        <On index="65" Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
+        <On index="66" Terms="ActorCreation" Send="TextureSelectById wreckedcargotruck_diffuse"/>
+        <On index="67" Terms="ActorCreation; ValidateUnit ValidateGermany" Send="TextureSelectById panther"/>
+        <On index="68" Terms="ActorCreation; ValidateUnit ValidateUSSR" Send="TextureSelectById siegetankgreen_diffuse"/>
+        <On index="69" Terms="ActorCreation; ValidateUnit ValidateUSSR" Send="SetTintColor 175,220,156"/>
+        <On Terms="ActorCreation; ValidateUnit ValidateUK" Send="TextureSelectById comet"/>
+        <Model value="AlliedGuardianTank_Model"/>
+        <Scale value="1.010000"/>
+        <HighlightTooltip value="Unit/Name/AlliedGuardianTank_Actor"/>
+        <SoundArray index="Birth" value="ChinaKirinVehicles_Actor_Birth"/>
+        <SoundArray index="Ready" value="AlliedGuardianTank_Actor_Ready"/>
+        <SoundArray index="Help" value="AlliedGuardianTank_Actor_Help"/>
+        <SoundArray index="What" value="AlliedGuardenTankVoice"/>
+        <SoundArray index="Yes" value="AlliedGuardianTank_Actor_Yes"/>
+        <SoundArray index="Attack" value="AlliedGuardianTank_Actor_Attack"/>
+        <SoundArray index="Click" value="AlliedGuardenTankVoice"/>
+        <GroupIcon>
+            <Image index="0" value="Assets\Icons\Allied\guardian-tank-wireframe.dds"/>
+        </GroupIcon>
+        <HeroIcon value="Assets\Icons\Allied\guardian-tank-icon.dds"/>
+        <UnitIcon value="Assets\Icons\Allied\guardian-tank-icon.dds"/>
+        <Wireframe>
+            <Image index="0" value="Assets\Icons\Allied\guardian-tank-wireframe.dds"/>
+        </Wireframe>
+        <PortraitModel value="SiegeTankPortrait422222"/>
+        <AbilSoundArray index="0" AbilCmd="attack,Execute" Sound="AlliedGuardianTank_Actor_Attack"/>
+    </CActorUnit>
+    <CActorSound id="LaserDrillTripodBiggerSoundCaster32" parent="SoundContinuous">
+        <On Terms="Effect.RAGuardianTankLaserTargetingContinuousEffect.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.RAGuardianTankLaserTargetingContinuousEffect.Stop" Send="Destroy"/>
+        <On Terms="Effect.RALimboEscortChariotLaserContinuousEffect.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.RALimboEscortChariotLaserContinuousEffect.Stop" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachTarget"/>
+        <Sound value="LaserDrillTripodSound23"/>
+    </CActorSound>
+    <CActorSimple id="SeekerMissileTint2">
+        <Aliases value="_AngryTinter"/>
+        <Remove Terms="Effect.RACallBombingActorResponse.Start; At Target" Send="Create"/>
+        <Remove Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <Remove Terms="Effect.RAGuardianTankLaserTargetingContinuousEffect.Start; At Target" Send="Create"/>
+        <On Terms="Effect.RACallBombingActorResponse.Start; At Target" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <On Terms="Behavior.natashalock.On" Send="Create"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <On Terms="Behavior.natashalock.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.natashalock.Off" Send="Destroy"/>
+        <On Terms="Behavior.natashalock2.On" Send="Create"/>
+        <On Terms="Behavior.natashalock2.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.natashalock2.Off" Send="Destroy"/>
+        <On Terms="Behavior.natashalock22.On" Send="Create"/>
+        <On Terms="Behavior.natashalock22.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.natashalock22.Off" Send="Destroy"/>
+        <On Terms="Behavior.TankTrapAuraBe5.On" Send="Create"/>
+        <On Terms="Behavior.TankTrapAuraBe5.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+    </CActorSimple>
+    <CBehaviorBuff id="natashalock2">
+        <InfoIcon value="Assets\Textures\btn-ability-terran-lockon.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Duration value="2"/>
+        <Modification>
+            <DamageTakenFraction index="Spell" value="0.5"/>
+            <DamageTakenFraction index="Melee" value="0.5"/>
+            <DamageTakenFraction index="Ranged" value="0.5"/>
+            <DamageTakenFraction index="Splash" value="0.5"/>
+            <DamageTakenFraction index="NoProc" value="0.5"/>
+            <SoundArray index="Attack" value="AlliedGuardenTankVoice5"/>
+        </Modification>
+        <BuffFlags index="RefreshStack" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="RATheUnitItselfTakesDamageWhenAttackingAnEnemyButItAlsoGainsHigherHealing1">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <Modification>
+            <AbilLinkDisableArray value="RocketAngelSpell"/>
+            <AbilLinkDisableArray value="RocketAngelSpell2"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CButton id="TossGrenadeTychus22222732">
+        <Icon value="assets\icons\Allied\guardian-tank-laser-calibrator.dds"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus22222263">
+        <Icon value="assets\icons\Allied\guardian-tank-switches-main-gun.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CButton id="TossGrenadeTychus2222273">
+        <Icon value="assets\icons\Allied\guardian-tank-laser-calibrator.dds"/>
+        <HotkeyAlias value="TossGrenadeTychus2"/>
+    </CButton>
+    <CEffectDamage id="90mmCannon" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="20"/>
+        <Death value="Blast"/>
+        <AttributeBonus index="Light" value="-10"/>
+        <AttributeBonus index="Armored" value="10"/>
+        <AttributeBonus index="Structure" value="10"/>
+    </CEffectDamage>
+    <CEffectApplyBehavior id="SeekerMissileApplyBehavior22">
+        <EditorCategories value="Race:Terran"/>
+        <WhichUnit Effect="RAGuardianTankLaserTargetingContinuousEffect"/>
+        <Behavior value="natashalock2"/>
+    </CEffectApplyBehavior>
+    <CEffectCreatePersistent id="RAGuardianTankLaserTargetingContinuousEffect">
+        <WhichLocation Value="TargetUnit"/>
+        <OffsetVectorEndLocation Value="TargetUnit"/>
+        <Flags index="Channeled" value="1"/>
+        <Flags index="PersistUntilDestroyed" value="1"/>
+        <PeriodCount value="30"/>
+        <PeriodicEffectArray value="SeekerMissileApplyBehavior22"/>
+        <PeriodicPeriodArray value="0.1"/>
+        <ValidatorArray value="TargetNotDead"/>
+        <ValidatorArray value="MothershipRangeCheck2"/>
+        <PeriodicValidator value="IsDead2"/>
+    </CEffectCreatePersistent>
+    <CModel id="AlliedGuardianTank_Model" parent="SiegeTankBase">
+        <Model value="assets\units\Allied\GuardianTank.m3"/>
+        <Lighting value="SiegeTank"/>
+        <SelectionRadius value="0.800000"/>
+    </CModel>
+    <CModel id="SiegeTankPortrait422222" parent="SiegeTankPortraitBase">
+        <Model value="Assets\Portraits\Terran\SiegeTank_Umojan_Portrait\SiegeTank_Umojan_Portrait.m3"/>
+        <Image value="Assets\Textures\SiegeTankPortrait_Static.dds"/>
+        <Lighting value="SiegeTankPortrait"/>
+    </CModel>
+    <CSound id="AlliedGuardianTank_Actor_Attack" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUGuard_VoiAttacka.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiAttackb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiAttackc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiAttackd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiAttacke.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiAttackf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiAttackg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiAttackh.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="SiegeTank_AttackLaunch7" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="Assets\Sounds\AUGuard_wea1FireA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_wea1FireB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_wea1FireC.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="8"/>
+        <DupeMaximumMethod value="Replace"/>
+        <Pitch value="-6.180000,-1.820000"/>
+        <Volume value="-1.000000,-1.000000"/>
+    </CSound>
+    <CSound id="AlliedGuardianTank_Actor_Yes" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUGuard_VoiMovea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiMoveb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiMovec.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiMoved.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiMovee.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiMovef.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiMoveg.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiMoveh.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiMovei.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiMovej.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedGuardianTank_Actor_Ready" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUGuard_VoiCreatea.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiCreateb.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedGuardenTankVoice" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUGuard_VoiSelecta.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiSelectb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiSelectc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiSelectd.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiSelecte.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiSelectf.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiSelectg.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="AlliedGuardianTank_Actor_Help" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUGuard_VoiRetreaa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiRetreab.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiRetreac.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiSelUnda.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiSelUndb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiSelUndc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_VoiSelUndd.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Volume value="1.000000,1.000000"/>
+    </CSound>
+    <CSound id="LaserDrillTripodSound23" parent="Spell">
+        <EditorCategories value="Race:Neutral"/>
+        <AssetArray File="Assets\Sounds\AUGuard_beamLoopa.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_beamLoopb.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_beamLoopc.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_beamLoopd.ogg" FacialGroup=""/>
+        <LoopCount value="-1"/>
+        <Volume value="-14.000000,-14.000000"/>
+    </CSound>
+    <CSound id="ChinaKirinVehicles_Actor_Birth" parent="TerranAck_Void">
+        <AssetArray File="Assets\Sounds\AUGuard_movStartA.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_movStartB.ogg" FacialGroup=""/>
+        <AssetArray File="Assets\Sounds\AUGuard_movStartC.ogg" FacialGroup=""/>
+        <Flags index="NeedsUpdate" value="1"/>
+        <Flags index="NeedsTTS" value="1"/>
+        <Category value="Build"/>
+        <Volume value="-14.000000,-14.000000"/>
+    </CSound>
+    <CTurret id="MediumFastTurret" parent="FreeRotate">
+        <Idle value="ResetIfMoving"/>
+        <YawRate value="180"/>
+        <Fidget>
+            <ChanceArray index="Anim" value="0"/>
+            <ChanceArray index="Idle" value="100"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+    </CTurret>
+    <CWeaponLegacy id="85mmCannon">
+        <EditorCategories value="Race:Terran"/>
+        <Options index="OnlyFireWhileInAttackOrder" value="0"/>
+        <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <Icon value="assets\textures\Allied\guardian-tank-switches-main-gun.dds"/>
+        <DisplayEffect value="90mmCannon"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <MinScanRange value="12"/>
+        <Range value="7"/>
+        <Period value="2"/>
+        <Effect value="90mmCannon"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+    <CBehaviorBuff id="VolatileBurstBuilding25222">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Modification>
+            <DamageTakenMaximum index="Spell" value="1000"/>
+            <DamageTakenMaximum index="Melee" value="1000"/>
+            <DamageTakenMaximum index="Ranged" value="1000"/>
+            <DamageTakenMaximum index="Splash" value="1000"/>
+            <DamageTakenMaximum index="NoProc" value="1000"/>
+            <VitalDamageLeechArray index="Life">
+                <KindArray index="Spell" value="0.2"/>
+                <KindArray index="Melee" value="0.2"/>
+                <KindArray index="Ranged" value="0.2"/>
+                <KindArray index="Splash" value="0.2"/>
+                <KindArray index="NoProc" value="0.2"/>
+            </VitalDamageLeechArray>
+            <AbilLinkEnableArray value="RocketAngelSpell2"/>
+            <BehaviorLinkDisableArray value="RATheUnitItselfTakesDamageWhenAttackingAnEnemyButItAlsoGainsHigherHealing1"/>
+            <WeaponEnableArray value="LaserDrillTripodLaserBeam22"/>
+            <WeaponDisableArray value="85mmCannon"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CActorModel id="RAGuardianTankLaserCalibrationLaunchPositionModel" parent="ModelAddition">
+        <Aliases index="0" removed="1"/>
+        <Inherits index="LocalTintColor" value="1"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death OpeningPlayForever"/>
+        <On Terms="Behavior.VolatileBurstBuilding25222.Off" Send="Destroy"/>
+        <On Terms="Behavior.VolatileBurstBuilding25222.On" Send="Create"/>
+        <AddToProximitySystem value="0"/>
+        <HostSiteOps Ops="SOpAttachWeapon01"/>
+        <Model value="TempestWeaponGround2332"/>
+        <Scale value="0.100000"/>
+    </CActorModel>
+    <CModel id="TempestWeaponGround2332" parent="MissileFX">
+        <Model value="Assets\Effects\Protoss\ColossusBeamBurn_Upgrade\ColossusBeamBurn_Upgrade.m3"/>
+        <AnimSpeed value="2.000000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.300000,0.300000,0.300000"/>
+        <ScaleMin value="0.300000,0.300000,0.300000"/>
+    </CModel>
 </Catalog>
