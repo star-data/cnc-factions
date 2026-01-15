@@ -38,7 +38,8 @@
         </CardLayouts>
         <InnerRadius value="0.5"/>
         <ScoreKill value="100"/>
-        <SubgroupPriority value="100"/>
+        <SubgroupPriority value="12"/>
+        <GlossaryPriority value="150"/>
         <TacticalAI value="Marine"/>
         <AIEvaluateAlias value="Marine"/>
     </CUnit>
@@ -109,14 +110,6 @@
         <On Terms="Behavior.RAMovementSpeedAndArmor20Percent46.Off" Send="Destroy"/>
         <On Terms="Behavior.RAMovementSpeedAndArmor20Percent46.On" Send="Create"/>
     </CActorSimple>
-    <CActorModelMaterial id="GlazeShadow23" parent="GlazeParent">
-        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable1.On" Send="Create"/>
-        <On Terms="ActorCreation" Send="ModelMaterialApplyTo ::Main"/>
-        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable1.Off" Send="Destroy"/>
-        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable2.On" Send="Create"/>
-        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable2.Off" Send="Destroy"/>
-        <ModelFlags index="AutomateGlobalLoops" value="1"/>
-    </CActorModelMaterial>
     <CActorModel id="v4rocketbz4323" parent="ModelAddition">
         <Aliases index="0" removed="1"/>
         <Inherits index="BaseModelScale" value="0"/>
@@ -215,22 +208,7 @@
         <Scale value="0.300000"/>
         <FogVisibility value="Visible"/>
     </CActorModel>
-    <CActorSound id="RATheSoundEffectOfTheZombieBeingCompletelyFrozen" parent="SoundOneShot">
-        <Flags index="SuppressSaveLoad" value="0"/>
-        <InheritType value="Continuous"/>
-        <Inherits index="Visibility" value="0"/>
-        <AcceptedTransfers index="Position" value="0"/>
-        <AcceptedTransfers index="Rotation" value="0"/>
-        <On index="0" Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable1.On" Send="Create"/>
-        <On Terms="ActorCreation" Send="TimerSet 5.000000,5.000000 liansuoshanghai"/>
-        <On Terms="TimerExpired; TimerName liansuoshanghai" Send="TimerKill liansuoshanghai"/>
-        <On Terms="TimerExpired; TimerName liansuoshanghai" Send="Destroy"/>
-        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable1.Off" Send="Destroy"/>
-        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable2.On" Send="Create"/>
-        <On Terms="Behavior.RATheTargetIsCompletelyFrozenAndVulnerable2.Off" Send="Destroy"/>
-        <Sound value="AlliedFrozenLegion_Actor_Birth"/>
-    </CActorSound>
-    <CActorUnit id="AlliedTanya_Actor" parent="GenericUnitStandard" unitName="AlliedTanya">
+    <CActorUnit id="AlliedTanya_Actor" parent="AlliedInfantry" unitName="AlliedTanya" icon="Tanya">
         <Aliases value="_UnitSmall"/>
         <On index="65" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack {} {} ContentForceLooping"/>
         <On Terms="AnimDone; AnimName Spell" Send="AnimGroupRemove Work"/>
@@ -248,13 +226,6 @@
         <AbilSoundArray/>
         <BarOffset value="50"/>
         <BarWidth value="80"/>
-        <CustomUnitStatusFrame value="HotS_UnitStatus/KerriganHeroUnitStatusFrameTemplate"/>
-        <GroupIcon>
-            <Image value="Assets\Icons\Allied\tanya-wireframe.dds"/>
-        </GroupIcon>
-        <HeroIcon value="Assets\Icons\Allied\tanya-build-icon.dds"/>
-        <HighlightTooltip value="Unit/Name/Tanya"/>
-        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
         <MinimapIcon value="Assets\Textures\ui_emoticons_skull.dds"/>
         <SoundArray index="Birth" value="TanyaVioce"/>
         <SoundArray index="Ready" value="TanyaVioce"/>
@@ -267,17 +238,14 @@
         <SoundArray index="Turning" value="Raynor_Turning"/>
         <SoundArray index="Board" value="Raynor_Board"/>
         <SoundArray index="Click" value="AlliedTanya_Actor_What"/>
-        <StatusBarFlags index="Life" value="0"/>
-        <StatusBarFlags index="Energy" value="0"/>
         <UnitBorderNormalColor value="150,150,150"/>
         <UnitBorderSubgroupColor value="255,255,255"/>
-        <UnitIcon value="Assets\Icons\Allied\tanya-icon.dds"/>
-        <UnitKillRank Text="AlliedTanya"/>
-        <Wireframe>
-            <Image value="Assets\Icons\Allied\tanya-wireframe.dds"/>
-        </Wireframe>
         <MinimapIconScale value="0.600000"/>
         <MinimapIconBackgroundScale value="0.600000"/>
+<!--        <UnitKillRank Text="AlliedTanya"/>-->
+        <!--        <CustomUnitStatusFrame value="HotS_UnitStatus/KerriganHeroUnitStatusFrameTemplate"/>-->
+        <!--        <StatusBarFlags index="Life" value="0"/>-->
+        <!--        <StatusBarFlags index="Energy" value="0"/>-->
     </CActorUnit>
     <CActorModel id="TanyaBecomesInvincibleWithin3seconds" parent="ModelAnimationStyleContinuous">
         <On Terms="Behavior.xianfeng4.On" Send="Create"/>
@@ -363,24 +331,10 @@
     <CButton id="Herrscher2Blink3">
         <Icon value="assets\icons\Allied\tanya-time-and-space-belt.dds"/>
     </CButton>
-    <CEffectDamage id="LaserDrillTripodDamage2" parent="DU_WEAP">
-        <ResponseFlags index="Acquire" value="0"/>
-        <ArmorReduction value="0"/>
-        <Kind value="Ranged"/>
-        <Death value="Fire"/>
-    </CEffectDamage>
     <CEffectDamage id="AssaultRifle2" parent="DU_WEAP">
         <Kind value="Ranged"/>
         <Amount value="5"/>
         <AttributeBonus index="Light" value="10"/>
-    </CEffectDamage>
-    <CEffectDamage id="DisbandDeath8">
-        <ImpactLocation Value="SourceUnit"/>
-        <Flags index="Kill" value="1"/>
-        <Flags index="NoBehaviorResponse" value="1"/>
-        <Death value="Freeze"/>
-        <ValidatorArray value="IsNotHellionTank234"/>
-        <SearchFilters value="-;Invulnerable"/>
     </CEffectDamage>
     <CEffectEnumArea id="RACompletelyFreezeSearchBehavior2">
         <SearchFilters value="-;Self,Player,Ally,Neutral,Missile,Dead,Invulnerable,MapBoss"/>
@@ -438,25 +392,6 @@
         <RevealRadius value="6"/>
         <RevealFlags index="Unfog" value="1"/>
     </CEffectCreatePersistent>
-    <CModel id="TychusTossGrenadeImpact223" parent="ImpactFX">
-        <Model value="Assets\Effects\Protoss\EyeOfAdunMissileImpact\EyeofAdunMissileImpact.m3"/>
-        <AnimSpeed value="0.600000"/>
-        <EditorCategories value="Race:Terran"/>
-        <ScaleMax value="1.400000,1.400000,1.400000"/>
-        <ScaleMin value="1.400000,1.400000,1.400000"/>
-    </CModel>
-    <CModel id="GlazeShadow23" parent="Glaze">
-        <Model value="Assets\Effects\Glaze\Glaze_Ice_TangentSpace\Glaze_Ice_TangentSpace.m3"/>
-        <Priority value="32"/>
-    </CModel>
-    <CModel id="SovietConscriptRifleFired" parent="LaunchFX">
-        <Model value="Assets\Effects\Terran\AutoTurretWeaponLaunch\AutoTurretWeaponLaunch.m3"/>
-        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
-        <AnimSpeed value="0.800000"/>
-        <EditorCategories value="Race:Terran"/>
-        <ScaleMax value="0.900000,0.900000,0.900000"/>
-        <ScaleMin value="0.900000,0.900000,0.900000"/>
-    </CModel>
     <CModel id="v4huojianbzmx423" parent="ImpactFX">
         <Model value="Assets\Effects\Other\PhysicsImpactSnowMed\PhysicsImpactSnowMed.m3"/>
         <Flags index="Wait" value="1"/>
@@ -497,13 +432,6 @@
         <TechPurchaseCamera value="Star2CameraMid04"/>
         <UnitGlossaryCamera value="Star2CameraMid04"/>
     </CModel>
-    <CSound id="AlliedFrozenLegion_Actor_Birth" parent="Combat">
-        <AssetArray File="Assets\Sounds\AUCryoc_cryoBeamImpacta.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\Sounds\AUCryoc_cryoBeamImpactb.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\Sounds\AUCryoc_cryoBeamImpactc.ogg" FacialGroup=""/>
-        <Flags index="Purgable" value="0"/>
-        <Volume value="3.000000,3.000000"/>
-    </CSound>
     <CSound id="AlliedAthenaVoice8422" parent="Combat">
         <EditorCategories value="Race:Terran"/>
         <AssetArray File="assets\sounds\AUCryoL_freezeSwella.ogg" FacialGroup=""/>

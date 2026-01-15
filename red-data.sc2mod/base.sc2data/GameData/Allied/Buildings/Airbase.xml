@@ -1,4 +1,25 @@
 <Catalog>
+
+    <CButton parent="Allied" id="AlliedApollo" icon="unit-Apollo"/>
+    <CButton parent="Allied" id="AlliedAres" icon="unit-Ares"/>
+    <CButton parent="Allied" id="AlliedCentury" icon="unit-CenturyBomber"/>
+    <CButton parent="Allied" id="AlliedCryocopter" icon="unit-Cryocopter"/>
+    <CButton parent="Allied" id="AlliedHarbinger" icon="unit-Harbinger"/>
+    <CButton parent="Allied" id="AlliedVindicator" icon="unit-Vindicator"/>
+    <CButton parent="Allied" id="AlliedRepairBee" icon="unit-RepairBee"/>
+
+
+    <CAbilTrain id="AlliedAirportTrain">
+        <Range value="5"/>
+        <InfoArray index="Train1" Time="30"><Button DefaultButtonFace="AlliedApollo"/><Unit value="AlliedApollo"/></InfoArray>
+        <InfoArray index="Train2" Time="30"><Button DefaultButtonFace="AlliedAres"/><Unit value="AlliedAres"/></InfoArray>
+        <InfoArray index="Train3" Time="30"><Button DefaultButtonFace="AlliedCentury"/><Unit value="AlliedCentury"/></InfoArray>
+        <InfoArray index="Train4" Time="30"><Button DefaultButtonFace="AlliedCryocopter"/><Unit value="AlliedCryocopter"/></InfoArray>
+        <InfoArray index="Train5" Time="30"><Button DefaultButtonFace="AlliedHarbinger"/><Unit value="AlliedHarbinger"/></InfoArray>
+        <InfoArray index="Train6" Time="30"><Button DefaultButtonFace="AlliedVindicator"/><Unit value="AlliedVindicator"/></InfoArray>
+        <InfoArray index="Train7" Time="30"><Button DefaultButtonFace="AlliedRepairBee"/><Unit value="AlliedRepairBee"/></InfoArray>
+    </CAbilTrain>
+
     <CUnit id="AlliedAirport" parent="AlliedStructure">
         <Attributes index="Robotic" value="1"/>
         <LifeStart value="1000"/>
@@ -16,19 +37,14 @@
         <BehaviorArray Link="MassProduction2"/>
         <BehaviorArray Link="Airportisfull"/>
         <BehaviorArray Link="CNCMaintenanceArea"/>
-        <BehaviorArray Link="Lowpower"/>
-        <BehaviorArray Link="RASufficientpower"/>
         <EffectArray index="Death" value="CNCAirporttraversaltrackingaircraft"/>
         <CardLayouts index="0">
             <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
-            <LayoutButtons Face="BuildLightBomber2" Type="AbilCmd" AbilCmd="AirportTrain,Train8" Row="0" Column="1"/>
-            <LayoutButtons Face="BuildLightBomber22" Type="AbilCmd" AbilCmd="AirportTrain,Train9" Row="1" Column="0"/>
-            <LayoutButtons Face="BuildInterwarFighter" Type="AbilCmd" AbilCmd="AirportTrain,Train1" Row="0" Column="0"/>
-            <LayoutButtons Face="BuildInterwarFighter22" Type="AbilCmd" AbilCmd="AirportTrain,Train14" Row="0" Column="2"/>
-            <LayoutButtons Face="RAHarbingerGunship1" Type="AbilCmd" AbilCmd="AirportTrain,Train13" Row="1" Column="1"/>
-            <LayoutButtons Face="BuildInterwarFighter3" Type="AbilCmd" AbilCmd="AirportTrain,Train3" Row="0" Column="3"/>
-            <LayoutButtons Face="CNCRepairDrones" Type="AbilCmd" AbilCmd="CNCMaintenanceDrones,Ammo2" Row="2" Column="3"/>
-            <LayoutButtons Face="AutechBeidongSet17" Type="Passive" Requirements="StortModeRe2142" Row="2" Column="2"/>
+            <LayoutButtons  AbilCmd="AlliedAirportTrain,Train6"  Type="AbilCmd" Row="0" Column="0" Face="AlliedVindicator"/>
+            <LayoutButtons  AbilCmd="AlliedAirportTrain,Train1"  Type="AbilCmd" Row="0" Column="1" Face="AlliedApollo"/>
+            <LayoutButtons  AbilCmd="AlliedAirportTrain,Train4"  Type="AbilCmd" Row="0" Column="2" Face="AlliedCryocopter"/>
+            <LayoutButtons  AbilCmd="AlliedAirportTrain,Train3"  Type="AbilCmd" Row="1" Column="0" Face="AlliedCentury"/>
+            <LayoutButtons  AbilCmd="AlliedAirportTrain,Train5"  Type="AbilCmd" Row="1" Column="1" Face="AlliedHarbinger"/>
         </CardLayouts>
         <!--Food value="-2"/-->
         <Radius value="0.1875"/>
@@ -39,6 +55,8 @@
         <ScoreKillCostFactor index="Minerals" value="1.25"/>
         <ScoreKillCostFactor index="Vespene" value="1.25"/>
         <MinimapRadius value="1.8"/>
+        <SubgroupPriority value="12"/>
+        <GlossaryPriority value="150"/>
     </CUnit>
     <CAbilTrain id="AirportTrain">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
@@ -126,29 +144,7 @@
             <Unit value="SovietBeaver"/>
         </InfoArray>
     </CAbilTrain>
-    <CActorRange id="CnzhongnuRange5">
-        <Inherits index="TeamColor" value="1"/>
-        <On Terms="SelectionLocalUpdate.AlliedAirport.Start" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.AlliedAirport.StartEditorGround" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.AlliedAirport" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.AlliedAirport.Stop" Send="Destroy"/>
-        <On Terms="SelectionLocalUpdate.SovietAirport.Start" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.SovietAirport.StartEditorGround" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.SovietAirport" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.SovietAirport.Stop" Send="Destroy"/>
-        <On Terms="SelectionLocalUpdate.ChinaAirport.Start" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.ChinaAirport.StartEditorGround" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.ChinaAirport" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.ChinaAirport.Stop" Send="Destroy"/>
-        <On Terms="SelectionLocalUpdate.AlliedWarFactory.Start" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.AlliedWarFactory.StartEditorGround" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.AlliedWarFactory" Send="Create"/>
-        <On Terms="SelectionLocalUpdate.AlliedWarFactory.Stop" Send="Destroy"/>
-        <Weapon value="InterceptorLaunch2"/>
-        <Icon value="Assets\Textures\radaricon2.dds"/>
-        <IconArcLength value="0.300000"/>
-    </CActorRange>
-    <CActorUnit id="AlliedAirport" parent="TerranBuildingFlyer" unitName="AlliedAirport">
+    <CActorUnit id="AlliedAirport" parent="AlliedBuilding" unitName="AlliedAirport" icon="Airbase">
         <On index="80" Terms="ActorCreation" Send="AnimPlay 111 Birth PlayForever,NonLooping -1.000000 -1.000000 1.000000 AsTimeScale"/>
         <On index="81" Terms="AnimDone.*.Complete; AnimName 111" Send="AnimClear 111"/>
         <On index="82" Terms="AnimDone.*.Complete; AnimName 111" Send="ModelSwap Starport4"/>
@@ -179,21 +175,12 @@
         </TerrainSquibs>
         <BarOffset value="155"/>
         <BarWidth value="240"/>
-        <GroupIcon>
-            <Image value="Assets\icons\Allied\allied-airfield-wireframe.dds"/>
-        </GroupIcon>
-        <HeroIcon value="Assets\icons\Allied\allied-airfield-icon.dds"/>
-        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
         <MinimapIconScale value="1.500000"/>
         <NameOffset value="110"/>
         <SoundArray index="What" value="AlliedAirport_Ready"/>
         <SoundArray index="Movement" value="Starport_Movement"/>
         <SoundArray index="Construction" value="Terran_ConstructionWhat"/>
         <SoundArray index="Click" value="AlliedAirport_Ready"/>
-        <UnitIcon value="Assets\icons\Allied\allied-airfield-icon.dds"/>
-        <Wireframe>
-            <Image value="Assets\icons\Allied\allied-airfield-wireframe.dds"/>
-        </Wireframe>
     </CActorUnit>
     <CModel id="AlliedAirport" parent="StarportBase">
         <Model value="assets\buildings\allied\Airport.m3"/>

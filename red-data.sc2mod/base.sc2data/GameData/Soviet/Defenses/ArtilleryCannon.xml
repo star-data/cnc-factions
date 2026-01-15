@@ -34,6 +34,7 @@
         <ScoreKillCostFactor index="Minerals" value="1.25"/>
         <ScoreKillCostFactor index="Vespene" value="1.25"/>
         <SubgroupPriority value="3"/>
+        <GlossaryPriority value="70"/>
     </CUnit>
     <CActorAction id="90mmHTCannon42" parent="GenericAttack" effectImpact="90mmHTCannon42" effectLaunch="HammerSecurityLM222242">
         <LaunchAttachQuery Methods="AMFilterWeapon AMFilterWeapon2" Fallback="Weapon"/>
@@ -43,19 +44,6 @@
         <ImpactMap index="Miss" Scale="0.700000" Sound="Colossus_Explode_Ragdoll_B25" ModelReaction="90mmHTCannonImpactReaction"/>
         <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
     </CActorAction>
-    <CActorMissile id="HammerSecurityAttackMissile22" parent="GenericAttackMissile" unitName="CoastDefenseGunShells">
-        <Model value="HammerSecurityLMWeapon22"/>
-    </CActorMissile>
-    <CActorSquib id="RAShoreDefenseArtilleryBombardment">
-        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
-        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
-        <On Terms="Effect.90mmHTCannon4.Start" Send="Create"/>
-        <On Terms="Effect.90mmHTCannon23.Start" Send="Create"/>
-        <On Terms="Effect.90mmHTCannon42.Start" Send="Create"/>
-        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
-        <Map index="None" Model="SiegeTankAttackImpact722" Sound="Colossus_Explode_Ragdoll_B25"/>
-        <Flags index="SuppressSaveLoad" value="1"/>
-    </CActorSquib>
     <CActorModel id="EngineeringBay22232222" parent="ModelConstruction" unitName="EngineeringBay2">
         <On Terms="ActorCreation" Send="AnimBracketStart 111 {} Birth,Stand {} ContentNonLooping,ContentPlayOnce,OpeningPlayForever,Instant"/>
         <On Terms="UnitConstruction.SovietArtilleryCannon.Start" Send="Create"/>
@@ -114,26 +102,6 @@
         <SearchFilters value="Ground;Self,Player,Ally,Neutral,Air,Missile,Invulnerable"/>
         <ArmorReduction value="0"/>
     </CEffectDamage>
-    <CModel id="SiegeTankAttackImpact73" parent="ImpactFX">
-        <Model value="Assets\Effects\Terran\SiegeTankWeaponLaunch\SiegeTankWeaponLaunch.m3"/>
-        <LowQualityModel value="SiegeTankAttackImpactLow"/>
-        <EditorCategories value="Race:Terran"/>
-        <ScaleMax value="1.200000,1.200000,1.200000"/>
-        <ScaleMin value="1.200000,1.200000,1.200000"/>
-    </CModel>
-    <CModel id="HammerSecurityLMWeapon22" parent="MissileFX">
-        <Model value="Assets\Effects\Terran\YamatoMissile\YamatoMissile.m3"/>
-        <EditorCategories value="Race:Terran"/>
-        <ScaleMax value="1.100000,1.100000,1.100000"/>
-        <ScaleMin value="1.100000,1.100000,1.100000"/>
-    </CModel>
-    <CModel id="SiegeTankAttackImpact722" parent="ImpactFX">
-        <Model value="Assets\Effects\Terran\MiraHorner_NapalmBomb_Coop_Explosion\MiraHorner_NapalmBomb_Coop_Explosion.m3"/>
-        <AnimSpeed value="0.900000"/>
-        <EditorCategories value="Race:Terran"/>
-        <ScaleMax value="2.000000,2.000000,1.200000"/>
-        <ScaleMin value="2.000000,2.000000,1.200000"/>
-    </CModel>
     <CModel id="EngineeringBay23232222" parent="EngineeringBayBase">
         <Model value="Assets\buildings\soviet\BattleLab_BuildSupport.m3"/>
         <AnimSpeed value="0.550000"/>
@@ -149,23 +117,6 @@
         <ShadowRadius value="3.000000"/>
     </CModel>
 
-    <CTurret id="AlliedBankGun_Model">
-        <Idle value="Hold"/>
-        <YawArc value="360"/>
-        <YawRate value="90"/>
-        <YawIdleRate value="29.8828"/>
-        <Fidget TurnAngle="29.9707">
-            <ChanceArray index="Anim" value="30"/>
-            <ChanceArray index="Idle" value="40"/>
-            <ChanceArray index="Turn" value="30"/>
-        </Fidget>
-    </CTurret>
-    <CUnit id="CoastDefenseGunShells" parent="MISSILE">
-        <Race value="China"/>
-        <FlagArray index="Invulnerable" value="1"/>
-        <Mover value="MarauderWeapon"/>
-        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
-    </CUnit>
     <CWeaponLegacy id="SovietArtilleryCannon">
         <EditorCategories value="Race:Terran"/>
         <Options index="OnlyFireWhileInAttackOrder" value="0"/>

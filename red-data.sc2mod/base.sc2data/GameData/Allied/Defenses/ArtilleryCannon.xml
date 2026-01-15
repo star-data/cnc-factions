@@ -30,7 +30,8 @@
         <SeparationRadius value="1.25"/>
         <Footprint value="Footprint2x2"/>
         <PlacementFootprint value="Footprint2x2"/>
-        <SubgroupPriority value="3"/>
+        <SubgroupPriority value="12"/>
+        <GlossaryPriority value="150"/>
     </CUnit>
     <CActorAction id="90mmHTCannon4" parent="GenericAttack" effectImpact="90mmHTCannon4" effectLaunch="HammerSecurityLM22224">
         <LaunchAttachQuery Methods="Weapon 2" Fallback="Weapon"/>
@@ -54,26 +55,16 @@
         <ImpactMap index="Miss" Scale="0.700000" Sound="Colossus_Explode_Ragdoll_B25" ModelReaction="90mmHTCannonImpactReaction"/>
         <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
     </CActorAction>
-    <CActorUnit id="AlliedBankGun_Actor" parent="TerranBuilding" unitName="AlliedBankGun">
+    <CActorUnit id="AlliedBankGun_Actor" parent="AlliedBuilding" unitName="AlliedBankGun" icon="ArtilleryCannon">
         <Model value="AlliedBankGun_Model"/>
         <DeathArray index="Normal" ModelLink="TerranLargeBuildingDeath" SoundLink="Terran_ExplosionLarge" VoiceLink="InfestedDominionHousing3DeathVoice"/>
         <PlacementSound value="Terran_BuildingPlacement2"/>
         <PortraitModel value="StaticPortrait9"/>
         <BarOffset value="90"/>
-        <GroupIcon>
-            <Image value="Assets\Icons\Allied\brighton-coast-defense-gun-wireframe.dds"/>
-        </GroupIcon>
-        <HeroIcon value="Assets\Icons\Allied\brighton-coastal-defense-battery-icon.dds"/>
-        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
         <SoundArray index="Ready" value="MissileTurret_What"/>
         <SoundArray index="Construction" value="Terran_ConstructionWhat"/>
         <UnitFlags index="ShowBlobShadow" value="0"/>
-        <UnitIcon value="Assets\Icons\Allied\brighton-coastal-defense-battery-icon.dds"/>
-        <Wireframe>
-            <Image value="Assets\Icons\Allied\brighton-coast-defense-gun-wireframe.dds"/>
-        </Wireframe>
         <BarWidth value="80"/>
-        <HighlightTooltip value="Unit/Name/AlliedBankGun_Actor"/>
     </CActorUnit>
     <CActorRange id="SiegeTankSiegedRange222">
         <Inherits index="TeamColor" value="1"/>
@@ -85,20 +76,7 @@
         <Icon value="Assets\Textures\radaricon2.dds"/>
         <IconArcLength value="0.300000"/>
     </CActorRange>
-    <CActorMissile id="HammerSecurityAttackMissile22" parent="GenericAttackMissile" unitName="CoastDefenseGunShells">
-        <Model value="HammerSecurityLMWeapon22"/>
-    </CActorMissile>
 
-    <CActorSquib id="RAShoreDefenseArtilleryBombardment">
-        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
-        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
-        <On Terms="Effect.90mmHTCannon4.Start" Send="Create"/>
-        <On Terms="Effect.90mmHTCannon23.Start" Send="Create"/>
-        <On Terms="Effect.90mmHTCannon42.Start" Send="Create"/>
-        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
-        <Map index="None" Model="SiegeTankAttackImpact722" Sound="Colossus_Explode_Ragdoll_B25"/>
-        <Flags index="SuppressSaveLoad" value="1"/>
-    </CActorSquib>
 
     <CBehaviorBuff id="AutowerUnderConstruction">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
@@ -155,43 +133,6 @@
         <SelectionRadius value="1.000000"/>
         <ShadowRadius value="3.000000"/>
     </CModel>
-    <CModel id="SiegeTankAttackImpact73" parent="ImpactFX">
-        <Model value="Assets\Effects\Terran\SiegeTankWeaponLaunch\SiegeTankWeaponLaunch.m3"/>
-        <LowQualityModel value="SiegeTankAttackImpactLow"/>
-        <EditorCategories value="Race:Terran"/>
-        <ScaleMax value="1.200000,1.200000,1.200000"/>
-        <ScaleMin value="1.200000,1.200000,1.200000"/>
-    </CModel>
-    <CModel id="HammerSecurityLMWeapon22" parent="MissileFX">
-        <Model value="Assets\Effects\Terran\YamatoMissile\YamatoMissile.m3"/>
-        <EditorCategories value="Race:Terran"/>
-        <ScaleMax value="1.100000,1.100000,1.100000"/>
-        <ScaleMin value="1.100000,1.100000,1.100000"/>
-    </CModel>
-    <CModel id="SiegeTankAttackImpact722" parent="ImpactFX">
-        <Model value="Assets\Effects\Terran\MiraHorner_NapalmBomb_Coop_Explosion\MiraHorner_NapalmBomb_Coop_Explosion.m3"/>
-        <AnimSpeed value="0.900000"/>
-        <EditorCategories value="Race:Terran"/>
-        <ScaleMax value="2.000000,2.000000,1.200000"/>
-        <ScaleMin value="2.000000,2.000000,1.200000"/>
-    </CModel>
-    <CTurret id="AlliedBankGun_Model">
-        <Idle value="Hold"/>
-        <YawArc value="360"/>
-        <YawRate value="90"/>
-        <YawIdleRate value="29.8828"/>
-        <Fidget TurnAngle="29.9707">
-            <ChanceArray index="Anim" value="30"/>
-            <ChanceArray index="Idle" value="40"/>
-            <ChanceArray index="Turn" value="30"/>
-        </Fidget>
-    </CTurret>
-    <CUnit id="CoastDefenseGunShells" parent="MISSILE">
-        <Race value="China"/>
-        <FlagArray index="Invulnerable" value="1"/>
-        <Mover value="MarauderWeapon"/>
-        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
-    </CUnit>
 
 
     <CWeaponLegacy id="AlliedBankGun_Actor">
@@ -211,27 +152,4 @@
         <LegacyOptions index="LockTurretWhileFiring" value="1"/>
     </CWeaponLegacy>
 
-
-    <CSound id="Colossus_Explode_Ragdoll_B25" parent="Combat">
-        <EditorCategories value="Race:Protoss"/>
-        <AssetArray File="Assets\Sounds\SUV4Mis_misExplosiob.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\Sounds\SUV4Mis_misExplosioc.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\Sounds\SUV4Mis_misExplosiod.ogg" FacialGroup=""/>
-        <DupeDestroyCount value="7"/>
-        <DupeHistoryCount value="15"/>
-        <DupeMuteCount value="5"/>
-        <Volume value="4.000000,4.000000"/>
-    </CSound>
-    <CSound id="Colossus_Explode_Ragdoll_B2" parent="Combat">
-        <EditorCategories value="Race:Protoss"/>
-        <AssetArray File="assets\sounds\SUApoca_cannonA.ogg" FacialGroup=""/>
-        <AssetArray File="assets\sounds\SUApoca_cannonB.ogg" FacialGroup=""/>
-        <AssetArray File="assets\sounds\SUApoca_cannonC.ogg" FacialGroup=""/>
-        <AssetArray File="assets\sounds\SUApoca_cannonD.ogg" FacialGroup=""/>
-        <AssetArray File="assets\sounds\SUApoca_cannonE.ogg" FacialGroup=""/>
-        <DupeDestroyCount value="7"/>
-        <DupeHistoryCount value="15"/>
-        <DupeMuteCount value="5"/>
-        <Volume value="6.000000,6.000000"/>
-    </CSound>
 </Catalog>

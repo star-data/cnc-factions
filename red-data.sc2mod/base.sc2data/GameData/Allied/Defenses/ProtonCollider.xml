@@ -30,7 +30,8 @@
         <PlacementFootprint value="Footprint4x4"/>
         <ScoreMake value="1250000"/>
         <ScoreKill value="2500"/>
-        <SubgroupPriority value="3"/>
+        <SubgroupPriority value="12"/>
+        <GlossaryPriority value="150"/>
         <MinimapRadius value="3"/>
     </CUnit>
     <CAbilEffectTarget id="OdinNuclearStrike22">
@@ -51,7 +52,7 @@
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
     </CAbilEffectTarget>
 
-    <CActorUnit id="AlliedProtonCollider_Actor" parent="TerranBuilding" unitName="AlliedProtonCollider">
+    <CActorUnit id="AlliedProtonCollider_Actor" parent="AlliedBuilding" unitName="AlliedProtonCollider" icon="ProtonCollider">
         <On Terms="Behavior.RAMovementSpeedAndArmor20Percent482.Off" Send="AnimBracketStart Attack1 Stand,Work,Start Stand,B Stand,Work,End"/>
         <On Terms="Behavior.RAMovementSpeedAndArmor20Percent482.On" Send="AnimBracketStop Attack1"/>
         <On Terms="Effect.OdinNukePersistent22.Start" Send="AnimBracketStart 111 Attack,B Attack,B Stand,Work,End 0 0.500000 AsTimeScale"/>
@@ -70,17 +71,7 @@
         <PortraitModel value="StaticPortrait9"/>
         <BarOffset value="70"/>
         <BarWidth value="135"/>
-        <GroupIcon>
-            <Image value="Assets\Icons\Allied\proton-collider-wireframe.dds"/>
-        </GroupIcon>
-        <HeroIcon value="Assets\Icons\Allied\proton-collider-unit-icon.dds"/>
-        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
         <NameOffset value="100"/>
-        <UnitFlags index="ShowBlobShadow" value="0"/>
-        <UnitIcon value="Assets\Icons\Allied\proton-collider-unit-icon.dds"/>
-        <Wireframe>
-            <Image value="Assets\Icons\Allied\proton-collider-wireframe.dds"/>
-        </Wireframe>
         <PlacementSound value="Terran_BuildingPlacement2"/>
         <SoundArray index="Birth" value="AlliedProtonCollider_Actor_Birth"/>
         <SoundArray index="Ready" value="AlliedProtonCollider_Actor_Birth"/>
@@ -98,7 +89,6 @@
         <SoundArray index="Highlight" value="GhostAcademy_Highlight"/>
         <Model value="AlliedProtonCollider_Model"/>
         <ModelFlags index="AutomateGlobalLoops" value="0"/>
-        <HighlightTooltip value="Unit/Name/AlliedProtonCollider_Actor"/>
     </CActorUnit>
 
     <CActorSquib id="OdinNukeLaunch22">
@@ -172,14 +162,6 @@
         <EffectArray value="SuperWeapon120ScooldownAB2"/>
         <TargetLocationType value="Point"/>
     </CEffectSet>
-    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB2">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="RAMovementSpeedAndArmor20Percent482"/>
-    </CEffectApplyBehavior>
-    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB">
-        <WhichUnit Value="Caster"/>
-        <Behavior value="RAMovementSpeedAndArmor20Percent48"/>
-    </CEffectApplyBehavior>
     <CModel id="GhostNukeIndicator22" parent="PersistentSpellFX">
         <Model value="Assets\UI\BossTargetCursorSplat\BossTargetCursorSplat.m3"/>
         <EditorCategories value="Race:Terran"/>
@@ -261,4 +243,20 @@
             <ChanceArray index="Turn" value="0"/>
         </Fidget>
     </CTurret>
+    <CActorSquib id="RASickleMechaJumpingEffect">
+        <Flags index="SuppressSaveLoad" value="1"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.DehakaLeapSearch2.Start" Send="Create"/>
+        <On Terms="Effect.DehakaLeapSearch23.Start" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="ColossusAttackBeamImpact222222" Scale="1.500000" Sound="Suliandaoland"/>
+        <Map index="Miss" Model="ColossusAttackBeamImpact222222" Scale="1.500000" Sound="Suliandaoland"/>
+    </CActorSquib>
+    <CModel id="ColossusAttackBeamImpact222222" parent="ImpactFX">
+        <Model value="Assets\Effects\Other\PhysicsImpactRockMassive\PhysicsImpactRockMassive.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="1.200000,1.200000,1.200000"/>
+        <ScaleMin value="1.200000,1.200000,1.200000"/>
+    </CModel>
 </Catalog>

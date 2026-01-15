@@ -45,9 +45,196 @@
     <CModel id="cashreward2">
         <Model value="Assets\Models\RepairBUFF.m3"/>
     </CModel>
+    <CActorMissile id="HammerSecurityAttackMissile22" parent="GenericAttackMissile" unitName="CoastDefenseGunShells">
+        <Model value="HammerSecurityLMWeapon22"/>
+    </CActorMissile>
+    <CActorSquib id="RAShoreDefenseArtilleryBombardment">
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="Effect.90mmHTCannon4.Start" Send="Create"/>
+        <On Terms="Effect.90mmHTCannon23.Start" Send="Create"/>
+        <On Terms="Effect.90mmHTCannon42.Start" Send="Create"/>
+        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
+        <Map index="None" Model="SiegeTankAttackImpact722" Sound="Colossus_Explode_Ragdoll_B25"/>
+        <Flags index="SuppressSaveLoad" value="1"/>
+    </CActorSquib>
+    <CModel id="SiegeTankAttackImpact73" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\SiegeTankWeaponLaunch\SiegeTankWeaponLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackImpactLow"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.200000,1.200000,1.200000"/>
+        <ScaleMin value="1.200000,1.200000,1.200000"/>
+    </CModel>
+    <CModel id="HammerSecurityLMWeapon22" parent="MissileFX">
+        <Model value="Assets\Effects\Terran\YamatoMissile\YamatoMissile.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.100000,1.100000,1.100000"/>
+        <ScaleMin value="1.100000,1.100000,1.100000"/>
+    </CModel>
+    <CModel id="SiegeTankAttackImpact722" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\MiraHorner_NapalmBomb_Coop_Explosion\MiraHorner_NapalmBomb_Coop_Explosion.m3"/>
+        <AnimSpeed value="0.900000"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="2.000000,2.000000,1.200000"/>
+        <ScaleMin value="2.000000,2.000000,1.200000"/>
+    </CModel>
+    <CTurret id="AlliedBankGun_Model">
+        <Idle value="Hold"/>
+        <YawArc value="360"/>
+        <YawRate value="90"/>
+        <YawIdleRate value="29.8828"/>
+        <Fidget TurnAngle="29.9707">
+            <ChanceArray index="Anim" value="30"/>
+            <ChanceArray index="Idle" value="40"/>
+            <ChanceArray index="Turn" value="30"/>
+        </Fidget>
+    </CTurret>
+    <CUnit id="CoastDefenseGunShells" parent="MISSILE">
+        <Race value="China"/>
+        <FlagArray index="Invulnerable" value="1"/>
+        <Mover value="MarauderWeapon"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
 
+    <CActorSimple id="SeekerMissileTint2">
+        <Aliases value="_AngryTinter"/>
+        <Remove Terms="Effect.RACallBombingActorResponse.Start; At Target" Send="Create"/>
+        <Remove Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <Remove Terms="Effect.RAGuardianTankLaserTargetingContinuousEffect.Start; At Target" Send="Create"/>
+        <On Terms="Effect.RACallBombingActorResponse.Start; At Target" Send="Create"/>
+        <On Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
+        <On Terms="Behavior.natashalock.On" Send="Create"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
+        <On Terms="Behavior.natashalock.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.natashalock.Off" Send="Destroy"/>
+        <On Terms="Behavior.natashalock2.On" Send="Create"/>
+        <On Terms="Behavior.natashalock2.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.natashalock2.Off" Send="Destroy"/>
+        <On Terms="Behavior.natashalock22.On" Send="Create"/>
+        <On Terms="Behavior.natashalock22.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+        <On Terms="Behavior.natashalock22.Off" Send="Destroy"/>
+        <On Terms="Behavior.TankTrapAuraBe5.On" Send="Create"/>
+        <On Terms="Behavior.TankTrapAuraBe5.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
+    </CActorSimple>
+    <CButton id="OdinBarrage">
+        <Icon value="Assets\Textures\btn-command-attackground.dds"/>
+    </CButton>
 
+    <CTurret id="RAPacifierTurret2">
+        <YawArc value="360"/>
+        <YawRate value="199.8632"/>
+        <YawIdleRate value="149.9414"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+        <Idle value="ResetIfMoving"/>
+    </CTurret>
 
+    <CUnit id="ATRocket" parent="MISSILE">
+        <Race value="China"/>
+        <Mover value="BacklashRocketsLMWeapon"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
+    </CUnit>
+    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB2">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent482"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="SuperWeapon120ScooldownAB">
+        <WhichUnit Value="Caster"/>
+        <Behavior value="RAMovementSpeedAndArmor20Percent48"/>
+    </CEffectApplyBehavior>
+    <CActorMissile id="ATRocketMissile" parent="GenericAttackMissile" unitName="ATRocket">
+        <Model value="BacklashRocketsLMWeapon"/>
+        <Scale value="2.000000"/>
+    </CActorMissile>
+    <CSound id="TerranFlyer_What223265323243" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\itesdiae.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\itesdibe.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\itesdice.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\itesdide.ogg" FacialGroup=""/>
+        <Volume value="1.000000,1.000000"/>
+        <Category value="Death"/>
+    </CSound>
+
+    <CActorRange id="CnzhongnuRange5">
+        <Inherits index="TeamColor" value="1"/>
+        <On Terms="SelectionLocalUpdate.AlliedAirport.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedAirport.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedAirport" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedAirport.Stop" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.SovietAirport.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietAirport.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietAirport" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.SovietAirport.Stop" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.ChinaAirport.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.ChinaAirport.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.ChinaAirport" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.ChinaAirport.Stop" Send="Destroy"/>
+        <On Terms="SelectionLocalUpdate.AlliedWarFactory.Start" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedWarFactory.StartEditorGround" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedWarFactory" Send="Create"/>
+        <On Terms="SelectionLocalUpdate.AlliedWarFactory.Stop" Send="Destroy"/>
+        <Weapon value="InterceptorLaunch2"/>
+        <Icon value="Assets\Textures\radaricon2.dds"/>
+        <IconArcLength value="0.300000"/>
+    </CActorRange>
+    <CEffectModifyUnit id="RABomberConsumesAmmunition">
+        <ImpactUnit Value="Caster"/>
+        <VitalArray index="Energy">
+            <Change value="-10"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CModel id="SiegeTankAttackImpact723" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\WidowMineImpact\WidowMineImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.700000,0.700000,0.700000"/>
+        <ScaleMin value="0.700000,0.700000,0.700000"/>
+    </CModel>
+
+    <CButton id="ReturnAirport3">
+        <Icon value="Assets\icons\return-to-the-airport.dds"/>
+    </CButton>
+    <CModel id="SiegeTankSiegedAttackDamage22" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\FireImpact\FireImpact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+    </CModel>
+    <CMoverMissile id="CycloneMissileLeft3">
+        <MotionPhases>
+            <Driver value="Throw"/>
+            <Acceleration value="2"/>
+            <Speed value="3"/>
+            <MaxSpeed value="3"/>
+            <Gravity value="1"/>
+            <ClearanceAcceleration value="-1"/>
+            <ArrivalTestType value="3D"/>
+            <Outro value="9,10"/>
+            <ThrowRotationType value="Vectored"/>
+            <ThrowVector value="0,0,-3"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="719.2968"/>
+        </MotionPhases>
+        <MotionOverlays>
+            <Type value="Revolver"/>
+            <RevolverSpeed value="179.2968"/>
+            <RevolverSpeedRange value="179.2968"/>
+            <RevolverMaxSpeed value="719.2968"/>
+            <RevolverMaxSpeedRange value="0"/>
+            <RevolverAccel value="337.5"/>
+            <RevolverAccelRange value="337.5"/>
+        </MotionOverlays>
+    </CMoverMissile>
 
 
 
@@ -157,9 +344,6 @@
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <DisableValidatorArray value="FoodAvailableOneHalf2"/>
     </CBehaviorBuff>
-    <CModel id="cashreward23">
-        <Model value="assets\models\LowPowerBUFF.m3"/>
-    </CModel>
     <CSound id="unitlost15" parent="Alert">
         <AssetArray File="Assets\sounds\allied-adjutant:-low-battery.ogg" FacialGroup=""/>
         <DupeHistoryCount value="1"/>
@@ -203,11 +387,6 @@
         <Model value="assets\models\Allied\alliedlogo.m3"/>
         <Image value="Assets\icons\Allied\allied.dds"/>
     </CModel>
-    <CSound id="JUConstructionComplete23222" parent="Alert">
-        <EditorCategories value="Race:Terran"/>
-        <AssetArray File="Assets\sounds\allied-adjutant-construction-canceled-aeva_canceled.ogg" FacialGroup=""/>
-        <Volume value="2.000000,2.000000"/>
-    </CSound>
 <!--    training-->
     <CSound id="JuSteelVoice422223" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\allied-adjutant:-in-training.ogg" FacialGroup=""/>
@@ -235,9 +414,5 @@
 
     <CModel id="cashreward23">
         <Model value="assets\models\LowPowerBUFF.m3"/>
-    </CModel>
-    <CModel id="StaticPortrait9" parent="Portrait">
-        <Model value="assets\models\Allied\alliedlogo.m3"/>
-        <Image value="Assets\icons\Allied\allied.dds"/>
     </CModel>
 </Catalog>

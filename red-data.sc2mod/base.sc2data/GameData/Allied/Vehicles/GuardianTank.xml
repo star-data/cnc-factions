@@ -49,6 +49,8 @@
         <ScoreKill value="100"/>
         <ScoreKillCostFactor index="Minerals" value="1.25"/>
         <ScoreKillCostFactor index="Vespene" value="1.25"/>
+        <SubgroupPriority value="12"/>
+        <GlossaryPriority value="150"/>
     </CUnit>
     <CAbilBehavior id="SovietMotoModeSwhich3">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
@@ -94,7 +96,7 @@
         <ImpactMap index="None" Model="SiegeTankAttackImpact" Sound="SiegeTank_AttackImpact"/>
         <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
     </CActorAction>
-    <CActorUnit id="AlliedGuardianTank_Actor" parent="SiegeTank" unitName="AlliedGuardianTank">
+    <CActorUnit id="AlliedGuardianTank_Actor" parent="AlliedVehicle" unitName="AlliedGuardianTank" icon="GuardianTank">
         <On index="0" Terms="UnitBirth.AlliedGuardianTank"/>
         <On index="1" Terms="UnitBirth.AlliedGuardianTank"/>
         <On index="2" Terms="UnitRevive.AlliedGuardianTank"/>
@@ -117,14 +119,6 @@
         <SoundArray index="Yes" value="AlliedGuardianTank_Actor_Yes"/>
         <SoundArray index="Attack" value="AlliedGuardianTank_Actor_Attack"/>
         <SoundArray index="Click" value="AlliedGuardenTankVoice"/>
-        <GroupIcon>
-            <Image index="0" value="Assets\Icons\Allied\guardian-tank-wireframe.dds"/>
-        </GroupIcon>
-        <HeroIcon value="Assets\Icons\Allied\guardian-tank-icon.dds"/>
-        <UnitIcon value="Assets\Icons\Allied\guardian-tank-icon.dds"/>
-        <Wireframe>
-            <Image index="0" value="Assets\Icons\Allied\guardian-tank-wireframe.dds"/>
-        </Wireframe>
         <PortraitModel value="SiegeTankPortrait422222"/>
         <AbilSoundArray index="0" AbilCmd="attack,Execute" Sound="AlliedGuardianTank_Actor_Attack"/>
     </CActorUnit>
@@ -137,34 +131,6 @@
         <HostSiteOps Ops="SOpAttachTarget"/>
         <Sound value="LaserDrillTripodSound23"/>
     </CActorSound>
-    <CActorSimple id="SeekerMissileTint2">
-        <Aliases value="_AngryTinter"/>
-        <Remove Terms="Effect.RACallBombingActorResponse.Start; At Target" Send="Create"/>
-        <Remove Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
-        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
-        <Remove Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
-        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
-        <Remove Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
-        <Remove Terms="Effect.RAGuardianTankLaserTargetingContinuousEffect.Start; At Target" Send="Create"/>
-        <On Terms="Effect.RACallBombingActorResponse.Start; At Target" Send="Create"/>
-        <On Terms="ActorCreation" Send="TimerSet 0.500000 SeekerTintInitialTimer"/>
-        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
-        <On Terms="TimerExpired; TimerName SeekerTintInitialTimer" Send="TimerSet 2.000000 SeekerTintDuration"/>
-        <On Terms="TimerExpired; TimerName SeekerTintDuration" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
-        <On Terms="TimerExpired; TimerName SeekerTintDuration" Send="Destroy"/>
-        <On Terms="Behavior.natashalock.On" Send="Create"/>
-        <On Terms="ActorCreation" Target="_Unit" Send="SetTintColor 255,50,50 0.500000 OneShot SeekerTarget"/>
-        <On Terms="Behavior.natashalock.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
-        <On Terms="Behavior.natashalock.Off" Send="Destroy"/>
-        <On Terms="Behavior.natashalock2.On" Send="Create"/>
-        <On Terms="Behavior.natashalock2.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
-        <On Terms="Behavior.natashalock2.Off" Send="Destroy"/>
-        <On Terms="Behavior.natashalock22.On" Send="Create"/>
-        <On Terms="Behavior.natashalock22.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
-        <On Terms="Behavior.natashalock22.Off" Send="Destroy"/>
-        <On Terms="Behavior.TankTrapAuraBe5.On" Send="Create"/>
-        <On Terms="Behavior.TankTrapAuraBe5.Off" Target="_Unit" Send="ClearTintColor 0.500000 SeekerTarget"/>
-    </CActorSimple>
     <CBehaviorBuff id="natashalock2">
         <InfoIcon value="Assets\Textures\btn-ability-terran-lockon.dds"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -178,14 +144,6 @@
             <SoundArray index="Attack" value="AlliedGuardenTankVoice5"/>
         </Modification>
         <BuffFlags index="RefreshStack" value="1"/>
-    </CBehaviorBuff>
-    <CBehaviorBuff id="RATheUnitItselfTakesDamageWhenAttackingAnEnemyButItAlsoGainsHigherHealing1">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <Modification>
-            <AbilLinkDisableArray value="RocketAngelSpell"/>
-            <AbilLinkDisableArray value="RocketAngelSpell2"/>
-        </Modification>
     </CBehaviorBuff>
     <CButton id="TossGrenadeTychus22222732">
         <Icon value="assets\icons\Allied\guardian-tank-laser-calibrator.dds"/>
@@ -227,11 +185,6 @@
         <Model value="assets\units\Allied\GuardianTank.m3"/>
         <Lighting value="SiegeTank"/>
         <SelectionRadius value="0.800000"/>
-    </CModel>
-    <CModel id="SiegeTankPortrait422222" parent="SiegeTankPortraitBase">
-        <Model value="Assets\Portraits\Terran\SiegeTank_Umojan_Portrait\SiegeTank_Umojan_Portrait.m3"/>
-        <Image value="Assets\Textures\SiegeTankPortrait_Static.dds"/>
-        <Lighting value="SiegeTankPortrait"/>
     </CModel>
     <CSound id="AlliedGuardianTank_Actor_Attack" parent="TerranAck_Void">
         <AssetArray File="Assets\Sounds\AUGuard_VoiAttacka.ogg" FacialGroup=""/>

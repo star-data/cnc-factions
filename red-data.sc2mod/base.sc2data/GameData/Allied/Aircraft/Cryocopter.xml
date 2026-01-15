@@ -101,7 +101,7 @@
         <On Terms="Behavior.RATheTargetIsBeingFrozenAndSluggish.Off" Send="Destroy"/>
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
     </CActorModelMaterial>
-    <CActorUnit id="AlliedFreezHeli_Actor" parent="GenericUnitBase" unitName="AlliedFreezHeli">
+    <CActorUnit id="AlliedFreezHeli_Actor" parent="AlliedAir" unitName="AlliedFreezHeli" icon="CryoCopter">
         <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
         <On Terms="WeaponStart.SJWraith.AttackStart" Send="AnimBracketStart Attack Attack,Superior"/>
         <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
@@ -115,12 +115,6 @@
         <PortraitModel value="ScienceVesselPortrait"/>
         <BarOffset value="55"/>
         <BarWidth value="66"/>
-        <GroupIcon>
-            <Image value="Assets\Icons\Allied\frozen-helicopter-wireframe.dds"/>
-        </GroupIcon>
-        <HeroIcon value="Assets\Icons\Allied\frozen-helicopter-icon.dds"/>
-        <HighlightTooltip value="Unit/Name/AlliedFreezHeli_Actor"/>
-        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-shipplatinglevel0.dds"/>
         <SoundArray index="Birth" value="SovietTwinBlade_Actor_Birth"/>
         <SoundArray index="Ready" value="AlliedFreezHeli_Actor_Ready"/>
         <SoundArray index="Help" value="AlliedFreezHeli_Actor_Help"/>
@@ -134,11 +128,6 @@
         <SoundArray index="Click" value="AlliedFreezHeli_Actor_What"/>
         <SoundArray index="ClickError" value="Liberator_ClickError"/>
         <SoundArray index="Highlight" value="Liberator_Highlight"/>
-        <UnitFlags index="ShowBlobShadow" value="0"/>
-        <UnitIcon value="Assets\Icons\Allied\frozen-helicopter-icon.dds"/>
-        <Wireframe>
-            <Image value="Assets\Icons\Allied\frozen-helicopter-wireframe.dds"/>
-        </Wireframe>
     </CActorUnit>
     <CActorSound id="LaserDrillTripodBiggerSound3" parent="SoundContinuous">
         <On Terms="Effect.LaserDrillTripodCreatePersistent2.Start; At Target" Send="Create"/>
@@ -279,12 +268,6 @@
     <CButton id="TossGrenadeTychus2222275323">
         <Icon value="Assets\icons\shrink-beam-icon.dds"/>
     </CButton>
-    <CEffectDamage id="LaserDrillTripodDamage2" parent="DU_WEAP">
-        <ResponseFlags index="Acquire" value="0"/>
-        <ArmorReduction value="0"/>
-        <Kind value="Ranged"/>
-        <Death value="Fire"/>
-    </CEffectDamage>
     <CEffectDamage id="LaserDrillTripodDamage23" parent="DU_WEAP">
         <ResponseFlags index="Acquire" value="0"/>
         <ArmorReduction value="0"/>
@@ -301,18 +284,6 @@
         <PeriodicPeriodArray value="0.1"/>
         <InitialEffect value="RAReduceBeamAB"/>
     </CEffectCreatePersistent>
-    <CEffectEnumArea id="RAFreezeSearchBehaviorLevel1">
-        <SearchFilters value="User1;Missile,Dead,Invulnerable"/>
-        <AreaArray Radius="0.75" Effect="RAFreezingApplicationBehaviorOneLayer"/>
-    </CEffectEnumArea>
-    <CEffectDamage id="DisbandDeath8">
-        <ImpactLocation Value="SourceUnit"/>
-        <Flags index="Kill" value="1"/>
-        <Flags index="NoBehaviorResponse" value="1"/>
-        <Death value="Freeze"/>
-        <ValidatorArray value="IsNotHellionTank234"/>
-        <SearchFilters value="-;Invulnerable"/>
-    </CEffectDamage>
     <CEffectEnumArea id="RACompletelyFreezeSearchBehavior1">
         <SearchFilters value="Ground;Ally,Air,Heroic,Missile,Dead,Invulnerable,MapBoss,HeroUnit"/>
         <AreaArray Radius="0.75" Effect="RAToggleApplyingFinalFreezeEffectOnZombies"/>

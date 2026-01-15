@@ -27,7 +27,8 @@
             <LayoutButtons Face="AutechBeidongSet14" Type="Passive" Requirements="StortModeRe215" Row="2" Column="0"/>
             <LayoutButtons Face="AutechBeidongSet15" Type="Passive" Requirements="StortModeRe220" Row="2" Column="1"/>
         </CardLayouts>
-        <SubgroupPriority value="5"/>
+        <SubgroupPriority value="12"/>
+        <GlossaryPriority value="150"/>
         <AIEvaluateAlias value="AlliedCryoLegionnaire_Model"/>
     </CUnit>
     <CAbilEffectTarget id="AlliedFrozenLegionJump">
@@ -44,7 +45,7 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="AlliedFrozenLegionJump"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
     </CAbilEffectTarget>
-    <CActorUnit id="AlliedFrozenLegion_Actor" parent="GenericUnitStandard" unitName="AlliedFrozenLegion">
+    <CActorUnit id="AlliedFrozenLegion_Actor" parent="AlliedInfantry" unitName="AlliedFrozenLegion" icon="CryoLegionnaire">
         <Macros value="UnloadDropAnim"/>
         <On index="65" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack Attack"/>
         <On Terms="ActorCreation" Send="TextureSelectById wreckedcargotruck_diffuse"/>
@@ -65,11 +66,6 @@
         <WalkAnimMoveSpeed value="1.875"/>
         <BarOffset value="77"/>
         <BarWidth value="70"/>
-        <GroupIcon>
-            <Image value="Assets\Icons\Allied\frozen-legion-wireframe.dds"/>
-        </GroupIcon>
-        <HeroIcon value="Assets\Icons\Allied\frozen-legion-icon.dds"/>
-        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-infantryarmorlevel0.dds"/>
         <SoundArray index="Birth" value="AlliedFrozenLegion_Actor_Birth"/>
         <SoundArray index="Ready" value="AlliedFrozenLegion_Actor_Ready"/>
         <SoundArray index="Help" value="AlliedFrozenLegion_Actor_Help"/>
@@ -83,12 +79,6 @@
         <SoundArray index="Click" value="AlliedIceTankVoice"/>
         <SoundArray index="ClickError" value="SiegeTank_ClickError"/>
         <SoundArray index="Highlight" value="SiegeTank_Highlight"/>
-        <UnitIcon value="Assets\Icons\Allied\frozen-legion-icon.dds"/>
-        <Wireframe>
-            <Image value="Assets\Icons\Allied\frozen-legion-wireframe.dds"/>
-        </Wireframe>
-        <AbilSoundArray AbilCmd="AlliedFrozenLegionJump,Execute" Sound="AlliedFrozenLegion_Actor_Attack"/>
-        <HighlightTooltip value="Unit/Name/AlliedFrozenLegion_Actor"/>
     </CActorUnit>
     <CActorAction id="DevilDogAttack2" parent="GenericAttackBase" effectAttack="DevilDogCreatePersistent">
         <On Terms="Effect.NovaWeaponHellfireShotgunBlast2222.Start; At Caster" Send="Create"/>
@@ -100,16 +90,6 @@
         <ImpactMap index="Shield" Sound="LaserDrillTripodSound222"/>
         <ContainerAssets Model="FirebatAttackLaunch2" Sound="FirebatAttackLaunch"/>
     </CActorAction>
-    <CActorSquib id="RASickleMechaJumpingEffect">
-        <Flags index="SuppressSaveLoad" value="1"/>
-        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
-        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
-        <On Terms="Effect.DehakaLeapSearch2.Start" Send="Create"/>
-        <On Terms="Effect.DehakaLeapSearch23.Start" Send="Create"/>
-        <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
-        <Map index="None" Model="ColossusAttackBeamImpact222222" Scale="1.500000" Sound="Suliandaoland"/>
-        <Map index="Miss" Model="ColossusAttackBeamImpact222222" Scale="1.500000" Sound="Suliandaoland"/>
-    </CActorSquib>
     <CButton id="AlliedFrozenLegionJump">
         <Icon value="Assets\icons\Allied\frozen-legion-skill-icon.dds"/>
     </CButton>
@@ -231,12 +211,6 @@
         </TextureDeclares>
         <UnitGlossaryCamera value="Star2CameraMid04"/>
     </CModel>
-    <CModel id="ColossusAttackBeamImpact222222" parent="ImpactFX">
-        <Model value="Assets\Effects\Other\PhysicsImpactRockMassive\PhysicsImpactRockMassive.m3"/>
-        <EditorCategories value="Race:Protoss"/>
-        <ScaleMax value="1.200000,1.200000,1.200000"/>
-        <ScaleMin value="1.200000,1.200000,1.200000"/>
-    </CModel>
     <CSound id="AlliedFrozenLegion_Actor_Help" parent="TerranAck_Void">
         <AssetArray File="Assets\Sounds\AUCryoL_voiSelUnda.ogg" FacialGroup=""/>
         <AssetArray File="Assets\Sounds\AUCryoL_voiSelUndb.ogg" FacialGroup=""/>
@@ -305,23 +279,6 @@
         <DupeMuteCount value="2"/>
         <LoopCount value="1"/>
         <Volume value="-7.000000,-7.000000"/>
-    </CSound>
-    <CSound id="TerranFlyer_What223265323243" parent="Combat">
-        <EditorCategories value="Race:Terran"/>
-        <AssetArray File="assets\sounds\itesdiae.ogg" FacialGroup=""/>
-        <AssetArray File="assets\sounds\itesdibe.ogg" FacialGroup=""/>
-        <AssetArray File="assets\sounds\itesdice.ogg" FacialGroup=""/>
-        <AssetArray File="assets\sounds\itesdide.ogg" FacialGroup=""/>
-        <Volume value="1.000000,1.000000"/>
-        <Category value="Death"/>
-    </CSound>
-    <CSound id="Suliandaoland" parent="Combat">
-        <EditorCategories value="Race:Zerg"/>
-        <AssetArray File="Assets\sounds\sickle-mecha-susickl_landa.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\sickle-mecha-susickl_landb.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\sickle-mecha-susickl_landc.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\sickle-mecha-susickl_landd.ogg" FacialGroup=""/>
-        <Volume value="2.000000,3.000000"/>
     </CSound>
     <CWeaponLegacy id="AlliedCryoLauncher">
         <EditorCategories value="Race:Terran"/>

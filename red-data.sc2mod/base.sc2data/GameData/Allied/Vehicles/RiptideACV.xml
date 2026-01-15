@@ -29,7 +29,8 @@
         <InnerRadius value="0.1875"/>
         <CargoSize value="4"/>
         <ScoreResult value="Units"/>
-        <SubgroupPriority value="5"/>
+        <SubgroupPriority value="12"/>
+        <GlossaryPriority value="150"/>
         <MinimapRadius value="0.375"/>
         <TacticalAI value="SiegeTank"/>
         <HotkeyAlias value="SiegeTank"/>
@@ -38,6 +39,7 @@
             <Charge Link="SiegeTank/Revive"/>
             <Cooldown Link="SiegeTank/Revive"/>
         </ReviveInfoBase>
+        <Height value="1"/>
     </CUnit>
     <CAbilTransport id="SpecOpsDropshipTransport22">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
@@ -62,7 +64,7 @@
         <On Terms="MotionPhaseStart; MotionPhase 1" Send="AnimPlay Phase2 Turbo PlayForever"/>
         <Model value="LongboltMissileWeapon2"/>
     </CActorMissile>
-    <CActorUnit id="AlliedRiptide_Actor" parent="GenericUnitMorph" unitName="AlliedRiptide">
+    <CActorUnit id="AlliedRiptide_Actor" parent="AlliedVehicle" unitName="AlliedRiptide" icon="RiptideACV">
         <Aliases value="_UnitLarge"/>
         <Macros value="UnloadDropAnim"/>
         <Macros value="TerrainSquibAnimations"/>
@@ -132,16 +134,10 @@
         <ErrorArray Error="CantBuildLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
         <ErrorArray Error="CantLandLocationInvalid" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
         <ErrorArray Error="CouldntReachTarget" Sound="UI_GenericError" GroupSound="UI_GenericError"/>
-        <GroupIcon>
-            <Image value="Assets\icons\torrent-acv-wireframe.dds"/>
-        </GroupIcon>
         <GroupSoundArray index="What" value="SiegeTank_GroupWhat"/>
         <GroupSoundArray index="Yes" value="SiegeTank_GroupYes"/>
         <GroupSoundArray index="Attack" value="SiegeTank_GroupAttack"/>
         <GroupSoundArray index="Board" value="SiegeTank_GroupBoard"/>
-        <HeroIcon value="Assets\icons\Allied\riptide-acv-unit-icon.dds"/>
-        <HighlightTooltip value="Unit/Name/AlliedRiptide_Actor"/>
-        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-vehicleplatinglevel0.dds"/>
         <SoundArray index="Birth" value="AlliedRiptide_Actor_Birth"/>
         <SoundArray index="Ready" value="AUACVVoice"/>
         <SoundArray index="Help" value="AlliedRiptide_Actor_Help"/>
@@ -155,10 +151,6 @@
         <SoundArray index="Click" value="AlliedRiptide_Actor_What"/>
         <SoundArray index="ClickError" value="Vulture_ClickError"/>
         <SoundArray index="Highlight" value="Vulture_Highlight"/>
-        <UnitIcon value="Assets\icons\Allied\riptide-acv-unit-icon.dds"/>
-        <Wireframe>
-            <Image value="Assets\icons\torrent-acv-wireframe.dds"/>
-        </Wireframe>
         <BarWidth value="70"/>
     </CActorUnit>
     <CActorAction id="WraithGroundAttack232" parent="GenericAttack" effectAttack="" effectImpact="WraithGU232" effectLaunch="AlliedACVgunLaunch">
@@ -179,10 +171,6 @@
         <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
         <ImpactPhysics Name="LongboltMissileImpact" MatchKeys="BasicAir" Physics="MissileAttackForce"/>
     </CActorAction>
-    <CActorMissile id="WraithGroundAttackMissile2" parent="GenericAttackMissile" unitName="TenguAntiGroundWeapon">
-        <Scale value="1.000000,0.100000,1.000000"/>
-        <Model value="WraithGroundWeapon2"/>
-    </CActorMissile>
     <CBehaviorBuff id="AirfieldAuraB2723">
         <Alignment value="Positive"/>
         <Cost>
@@ -221,14 +209,6 @@
         <ImpactEffect value="LongboltMissileU23"/>
         <AmmoUnit value="SovietLongboltMissileWeapon2"/>
     </CEffectLaunchMissile>
-    <CModel id="SovietConscriptRifleFired" parent="LaunchFX">
-        <Model value="Assets\Effects\Terran\AutoTurretWeaponLaunch\AutoTurretWeaponLaunch.m3"/>
-        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
-        <AnimSpeed value="0.800000"/>
-        <EditorCategories value="Race:Terran"/>
-        <ScaleMax value="0.900000,0.900000,0.900000"/>
-        <ScaleMin value="0.900000,0.900000,0.900000"/>
-    </CModel>
     <CModel id="LongboltMissileWeapon2" parent="MissileFX">
         <Model value="Assets\Effects\Terran\MissileTurretMissile\MissileTurretMissile.m3"/>
         <EditorCategories value="Race:Terran"/>
@@ -252,16 +232,6 @@
         </AttachProps>
         <SelectionRadius value="1.000000"/>
     </CModel>
-    <CModel id="WraithGroundWeapon2" parent="MissileFX">
-        <Model value="Assets\Effects\Terran\WraithLaserMissile\WraithLaserMissile.m3"/>
-        <EditorCategories value="Race:Terran"/>
-    </CModel>
-    <CModel id="WraithGroundAttackImpact2" parent="ImpactFX">
-        <Model value="Assets\Effects\Terran\WraithLaserMissileImpact\WraithLaserMissileImpact.m3"/>
-        <EditorCategories value="Race:Terran"/>
-        <ScaleMax value="0.500000,0.500000,0.500000"/>
-        <ScaleMin value="0.500000,0.500000,0.500000"/>
-    </CModel>
     <CMoverMissile id="LongboltMissileWeapon3">
         <MotionPhases>
             <Driver value="Guidance"/>
@@ -279,19 +249,6 @@
             <ThrowBandYaw value="-360,-360,-360,-360"/>
             <ThrowBandPitch value="-360,-360,-360,-360"/>
         </MotionPhases>
-    </CMoverMissile>
-    <CMoverMissile id="MissileDefault3">
-        <MotionPhases>
-            <Driver value="Guidance"/>
-            <Acceleration value="3200"/>
-            <MaxSpeed value="35"/>
-            <ClearanceAcceleration value="75"/>
-            <Outro value="-1"/>
-            <ThrowBandYaw value="-360,-360,-360,-360"/>
-            <ThrowBandPitch value="-360,-360,-360,-360"/>
-            <YawPitchRoll value="719.2968"/>
-        </MotionPhases>
-        <MotionPhases YawPitchRoll="MAX"/>
     </CMoverMissile>
     <CSound id="AlliedRiptide_Actor_Attack" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\riptide-acv-auripti_voiattacka.ogg" FacialGroup=""/>
@@ -314,19 +271,6 @@
         <Flags index="NeedsUpdate" value="1"/>
         <Flags index="NeedsTTS" value="1"/>
         <Volume value="1.000000,1.000000"/>
-    </CSound>
-    <CSound id="AUACVVoice6" parent="Combat">
-        <EditorCategories value="Race:Terran"/>
-        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfirea.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfireb.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfirec.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\riptide-acv-machine-gun-attack-sound-effect-auacv_mgfired.ogg" FacialGroup=""/>
-        <Flags index="Ignorable" value="1"/>
-        <Flags index="Purgable" value="0"/>
-        <Flags index="Stream" value="1"/>
-        <Flags index="NeedsUpdate" value="1"/>
-        <Flags index="NeedsTTS" value="1"/>
-        <Volume value="-4.000000,-4.000000"/>
     </CSound>
     <CSound id="AlliedRiptide_Actor_Yes" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\torrent-acv-auripti_voimovea.ogg" FacialGroup=""/>
@@ -386,26 +330,10 @@
         <Flags index="NeedsTTS" value="1"/>
         <Volume value="1.000000,1.000000"/>
     </CSound>
-    <CTurret id="RAShenzhouTankTurret2">
-        <Idle value="ResetIfMoving"/>
-        <YawArc value="360"/>
-        <YawRate value="360"/>
-        <YawIdleRate value="360"/>
-        <Fidget DelayMax="30" DelayMin="10">
-            <ChanceArray index="Anim" value="50"/>
-            <ChanceArray index="Idle" value="50"/>
-            <ChanceArray index="Turn" value="0"/>
-        </Fidget>
-    </CTurret>
     <CUnit id="SovietLongboltMissileWeapon2" parent="MISSILE_HALFLIFE">
         <Race value="Soviet"/>
         <Mover value="LongboltMissileWeapon3"/>
         <EditorCategories value="ObjectType:Projectile,ObjectFamily:CNC"/>
-    </CUnit>
-    <CUnit id="TenguAntiGroundWeapon" parent="MISSILE">
-        <Race value="China"/>
-        <Mover value="MissileDefault3"/>
-        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
     </CUnit>
     <CWeaponLegacy id="LongboltMissile24">
         <EditorCategories value="Race:Terran"/>

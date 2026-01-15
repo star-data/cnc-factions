@@ -26,26 +26,12 @@
         <SeparationRadius value="0.4375"/>
         <ScoreResult value=""/>
         <MinimapRadius value="0.3"/>
+        <SubgroupPriority value="12"/>
+        <GlossaryPriority value="150"/>
     </CUnit>
-    <CActorUnit id="AlliedRocketInfantry" parent="Marauder" unitName="AlliedRocketInfantry">
-        <On index="0" Terms="UnitBirth.AlliedRocketInfantry"/>
-        <On index="1" Terms="UnitBirth.AlliedRocketInfantry"/>
-        <On index="2" Terms="UnitRevive.AlliedRocketInfantry"/>
-        <On index="3" Terms="UnitRevive.AlliedRocketInfantry"/>
-        <On index="4" Terms="UnitConstruction.AlliedRocketInfantry.Start"/>
-        <On index="5" Terms="UnitConstruction.AlliedRocketInfantry.Finish"/>
-        <On index="65" Terms="UnitMovementUpdate.*.Walk" Send="AnimClear AttackLeft"/>
-        <On index="66" Terms="UnitMovementUpdate.*.Walk" Send="AnimClear AttackRight"/>
-        <On index="67" Terms="ModelEvent; ModelEventName AnimClear" Send="AnimClear AttackLeft"/>
-        <On index="68" Terms="ModelEvent; ModelEventName AnimClear" Send="AnimClear AttackRight"/>
-        <On index="69" Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
-        <On index="70" Terms="AbilMorph.*.Finish; MorphTo Marauder" Send="Create"/>
-        <On index="71" Terms="UnitHeightUpdate.*.Land" Send="Create Marauder_Land"/>
-        <On index="72" Terms="UnitDeathCustomize; PassChance 1.000000; ValidateUnit IsNotNeuralParasited" Send="Create Marauder_Death"/>
-        <On index="73" Terms="UnitDeathCustomize; PassChance 10.000000; !ValidateUnit IsNotNeuralParasited" Send="Create Marauder_Death_NP"/>
-        <On index="74" Terms="ActorCreation" Send="TextureSelectById Haven_grass_dark_low"/>
-        <On index="75" Terms="WeaponStart.90mmCannons2.AttackStart" Send="AnimBracketStart Attack1 Attack,01 Attack,01"/>
-        <On index="76" Terms="WeaponStart.90mmCannons24.AttackStart" Send="AnimBracketStart Attack2 Attack,03 Attack,03"/>
+    <CActorUnit id="AlliedRocketInfantry" parent="AlliedInfantry" unitName="AlliedRocketInfantry" icon="JavelinSoldier">
+         <On  Terms="WeaponStart.90mmCannons2.AttackStart" Send="AnimBracketStart Attack1 Attack,01 Attack,01"/>
+        <On  Terms="WeaponStart.90mmCannons24.AttackStart" Send="AnimBracketStart Attack2 Attack,03 Attack,03"/>
         <On Terms="Effect.RAJavelinTrooperLaserModeAttackBegins.Start" Send="AnimBracketStart Attack3 Attack,02 Attack,02"/>
         <On Terms="WeaponStop.90mmCannons2.AttackStop" Send="AnimBracketStop Attack1"/>
         <On Terms="WeaponStop.90mmCannons24.AttackStop" Send="AnimBracketStop Attack2"/>
@@ -59,11 +45,6 @@
         <DeathArray index="Eviscerate" SoundLink="TerranFlyer_What223265323243"/>
         <DeathArray index="Silentkill" SoundLink="TerranFlyer_What223265323243"/>
         <PortraitModel value="MaleCivilian4Portrait"/>
-        <GroupIcon>
-            <Image index="0" value="Assets\Icons\javelin-soldier-wireframe.dds"/>
-        </GroupIcon>
-        <HeroIcon value="Assets\Icons\javelinman-icon.dds"/>
-        <HighlightTooltip value="Unit/Name/RocketInfantry"/>
         <SoundArray index="Birth" value="Spectre_Birth"/>
         <SoundArray index="Ready" value="AlliedJaraVioce"/>
         <SoundArray index="Help" value="AlliedRocketInfantry_Help"/>
@@ -77,17 +58,9 @@
         <SoundArray index="Click" value="AlliedRocketInfantry_What"/>
         <SoundArray index="ClickError" value="Spectre_ClickError"/>
         <SoundArray index="Highlight" value="Spectre_Highlight"/>
-        <UnitIcon value="Assets\Icons\javelinman-icon.dds"/>
-        <Wireframe>
-            <Image index="0" value="Assets\Icons\javelin-soldier-wireframe.dds"/>
-        </Wireframe>
         <WalkAnimMoveSpeed value="1.6992"/>
         <Model value="AlliedRocketInfantry_Model"/>
     </CActorUnit>
-    <CActorMissile id="ATRocketMissile" parent="GenericAttackMissile" unitName="ATRocket">
-        <Model value="BacklashRocketsLMWeapon"/>
-        <Scale value="2.000000"/>
-    </CActorMissile>
     <CActorAction id="ATRocketAttack" parent="GenericAttack" effectImpact="90mmCannons2" effectLaunch="ATRocket7">
         <LaunchAttachQuery Methods="AMFilterWeapon2" Fallback="Weapon"/>
         <LaunchAssets Model="TempestWeaponGround234" Sound="AircraftMG_Launch222"/>
@@ -140,7 +113,7 @@
         <Icon value="assets\icons\javelin-trooper-laser-guidance-mode.dds"/>
     </CButton>
     <CModel id="AlliedRocketInfantry_Model" parent="Unit" Race="Terran">
-        <Model value="Assets\units\JavelinSoldier.m3"/>
+        <Model value="assets\units\Allied\JavelinSoldier.m3"/>
         <SelectionRadius value="0.300000"/>
     </CModel>
     <CModel id="TempestWeaponGround234" parent="LaunchFX">
@@ -220,33 +193,6 @@
         <Flags index="NeedsTTS" value="1"/>
         <Volume value="2.000000,2.000000"/>
     </CSound>
-    <CSound id="TerranFlyer_What223265323243" parent="Combat">
-        <EditorCategories value="Race:Terran"/>
-        <AssetArray File="assets\sounds\itesdiae.ogg" FacialGroup=""/>
-        <AssetArray File="assets\sounds\itesdibe.ogg" FacialGroup=""/>
-        <AssetArray File="assets\sounds\itesdice.ogg" FacialGroup=""/>
-        <AssetArray File="assets\sounds\itesdide.ogg" FacialGroup=""/>
-        <Volume value="1.000000,1.000000"/>
-        <Category value="Death"/>
-    </CSound>
-    <CSound id="MissileTurret_AttackImpact2" parent="Combat">
-        <EditorCategories value="Race:Terran"/>
-        <AssetArray File="Assets\sounds\the-third-generation-multifunctional-rocket-bombardment-sound-effect-aumgifv_rocketexploa.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\third-generation-multifunctional-rocket-bombardment-sound-effect-aumgifv_rocketexplob.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\third-generation-multifunctional-rocket-bombardment-sound-effect-aumgifv_rocketexploc.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\the-third-generation-multifunctional-rocket-bombardment-sound-effect-aumgifv_rocketexplod.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\the-third-generation-multifunctional-rocket-bombardment-sound-effect-aumgifv_rocketexploe.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\the-third-generation-multifunctional-rocket-bombardment-sound-effect-aumgifv_rocketexplof.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\the-third-generation-multifunctional-rocket-bombardment-sound-effect-aumgifv_rocketexplog.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\the-third-generation-multifunctional-rocket-bombardment-sound-effect-aumgifv_rocketexploh.ogg" FacialGroup=""/>
-        <AssetArray File="Assets\sounds\the-third-generation-multifunctional-rocket-bombardment-sound-effect-aumgifv_rocketexploi.ogg" FacialGroup=""/>
-        <Pitch value="-6.000000,6.000000"/>
-    </CSound>
-    <CUnit id="ATRocket" parent="MISSILE">
-        <Race value="China"/>
-        <Mover value="BacklashRocketsLMWeapon"/>
-        <EditorCategories value="ObjectType:Projectile,ObjectFamily:Melee"/>
-    </CUnit>
     <CWeaponLegacy id="90mmCannons2">
         <EditorCategories value="Race:Terran"/>
         <Options index="OnlyFireWhileInAttackOrder" value="0"/>
@@ -295,13 +241,5 @@
             <WeaponEnableArray value="90mmCannons25"/>
             <WeaponDisableArray value="90mmCannons2"/>
         </Modification>
-    </CBehaviorBuff>
-    <CEffectApplyBehavior id="RAInfantryCannotMoveWhenSwitchingModes">
-        <Behavior value="VolatileBurstBuilding24222"/>
-    </CEffectApplyBehavior>
-    <CBehaviorBuff id="VolatileBurstBuilding24222">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <Duration value="0.7"/>
     </CBehaviorBuff>
 </Catalog>

@@ -1,5 +1,26 @@
 <Catalog>
 
+
+    <CButton parent="Allied" id="AlliedAttackDog" icon="unit-AttackDog"/>
+    <CButton parent="Allied" id="AlliedCryoLegionnaire" icon="unit-CryoLegionnaire"/>
+    <CButton parent="Allied" id="AlliedEngineer" icon="unit-Engineer"/>
+    <CButton parent="Allied" id="AlliedJavelinSoldier" icon="unit-JavelinSoldier"/>
+    <CButton parent="Allied" id="AlliedPeacekeeper" icon="unit-Peacekeeper"/>
+    <CButton parent="Allied" id="AlliedSpy" icon="unit-Spy"/>
+    <CButton parent="Allied" id="AlliedTanyaAdams" icon="unit-Tanya"/>
+
+
+    <CAbilTrain id="AlliedBarrackTrain">
+        <Range value="5"/>
+        <InfoArray index="Train1" Time="30"><Button DefaultButtonFace="AlliedAttackDog"/><Unit value="AlliedAttackDog"/></InfoArray>
+        <InfoArray index="Train2" Time="30"><Button DefaultButtonFace="AlliedCryoLegionnaire"/><Unit value="AlliedCryoLegionnaire"/></InfoArray>
+        <InfoArray index="Train3" Time="30"><Button DefaultButtonFace="AlliedEngineer"/><Unit value="AlliedEngineer"/></InfoArray>
+        <InfoArray index="Train4" Time="30"><Button DefaultButtonFace="AlliedJavelinSoldier"/><Unit value="AlliedJavelinSoldier"/></InfoArray>
+        <InfoArray index="Train5" Time="30"><Button DefaultButtonFace="AlliedPeacekeeper"/><Unit value="AlliedPeacekeeper"/></InfoArray>
+        <InfoArray index="Train6" Time="30"><Button DefaultButtonFace="AlliedSpy"/><Unit value="AlliedSpy"/></InfoArray>
+        <InfoArray index="Train7" Time="30"><Button DefaultButtonFace="AlliedTanyaAdams"/><Unit value="AlliedTanyaAdams"/></InfoArray>
+    </CAbilTrain>
+
     <CUnit id="AlliedBarrack" parent="AlliedStructure">
         <Description value="Button/Tooltip/aubarrat"/>
         <Facing value="29.9926"/>
@@ -13,31 +34,27 @@
         <!--Food value="-1"/-->
         <CostResource index="Minerals" value="500"/>
         <AbilArray Link="Rally"/>
-        <AbilArray Link="SovietBarracksTrain"/>
-        <BehaviorArray Link="MassProduction22"/>
-        <BehaviorArray Link="PowerUserQueue"/>
-        <BehaviorArray Link="Alliedforcesbuildsmallenergycircle"/>
-        <BehaviorArray Link="Lowpower"/>
-        <BehaviorArray Link="RASufficientpower"/>
-        <BehaviorArray Link="MassProduction2"/>
+        <AbilArray Link="AlliedBarrackTrain"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="TrainSovietConscript22" Type="AbilCmd" AbilCmd="SovietBarracksTrain,Train18" Row="0" Column="0"/>
-            <LayoutButtons Face="TrainWehrmachtInfantry222" Type="AbilCmd" AbilCmd="SovietBarracksTrain,Train13" Row="2" Column="0"/>
-            <LayoutButtons Face="TrainWehrmachtInfantry2222" Type="AbilCmd" AbilCmd="SovietBarracksTrain,Train12" Row="2" Column="1"/>
-            <LayoutButtons Face="TrainWehrmachtInfantry22" Type="AbilCmd" AbilCmd="SovietBarracksTrain,Train5" Row="0" Column="1"/>
-            <LayoutButtons Face="TrainSniper" Type="AbilCmd" AbilCmd="SovietBarracksTrain,Train8" Row="1" Column="1"/>
-            <LayoutButtons Face="TrainCombatEngineer" Type="AbilCmd" AbilCmd="SovietBarracksTrain,Train11" Row="1" Column="0"/>
-            <LayoutButtons Face="OdinBarrage22322" Type="AbilCmd" AbilCmd="SovietBarracksTrain,Train7" Row="2" Column="3"/>
-            <LayoutButtons Face="TrainCombatEngineer3" Type="AbilCmd" AbilCmd="SovietBarracksTrain,Train10" Row="1" Column="2"/>
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
+            <LayoutButtons  AbilCmd="AlliedBarrackTrain,Train1"  Type="AbilCmd" Row="0" Column="0" Face="AlliedAttackDog"/>
+            <LayoutButtons  AbilCmd="AlliedBarrackTrain,Train5"  Type="AbilCmd" Row="0" Column="1" Face="AlliedPeacekeeper"/>
+            <LayoutButtons  AbilCmd="AlliedBarrackTrain,Train4"  Type="AbilCmd" Row="0" Column="2" Face="AlliedJavelinSoldier"/>
+            <LayoutButtons  AbilCmd="AlliedBarrackTrain,Train2"  Type="AbilCmd" Row="0" Column="3" Face="AlliedCryoLegionnaire"/>
+            <LayoutButtons  AbilCmd="AlliedBarrackTrain,Train3"  Type="AbilCmd" Row="1" Column="0" Face="AlliedEngineer"/>
+            <LayoutButtons  AbilCmd="AlliedBarrackTrain,Train6"  Type="AbilCmd" Row="1" Column="1" Face="AlliedSpy"/>
+            <LayoutButtons  AbilCmd="AlliedBarrackTrain,Train7"  Type="AbilCmd" Row="1" Column="2" Face="AlliedTanyaAdams"/>
         </CardLayouts>
         <Footprint value="Footprint3x3"/>
         <MinimapRadius value="1"/>
         <TacticalAI value="Barracks"/>
         <AIEvaluateAlias value="Barracks"/>
+        <SubgroupPriority value="12"/>
+        <GlossaryPriority value="150"/>
     </CUnit>
-    <CActorUnit id="AlliedBarrack" parent="TerranBuilding" unitName="AlliedBarrack">
+    <CActorUnit id="AlliedBarrack" parent="AlliedBuilding" unitName="AlliedBarrack" icon="BootCamp">
         <Aliases value="_UnitHuge"/>
-        <DeathArray index="Normal" ModelLink="TerranBuildingDeath" SoundLink="Terran_ExplosionLarge"/>
+        <DeathArray index="Normal" ModelLink="TerranBuildingDeath" SoundLink="Terran_ExplosionLarge" />
         <PlacementSound value="Terran_BuildingPlacement2"/>
         <PortraitModel value="StaticPortrait9"/>
         <AbilSoundArray AbilCmd="SovietBarracksTrain,Train7" Sound="JuSteelVoice422223"/>
@@ -51,9 +68,6 @@
         <AbilSoundArray AbilCmd="que5,CancelLast" Sound="JUConstructionComplete23222"/>
         <BarOffset value="140"/>
         <BarWidth value="140"/>
-        <GroupIcon>
-            <Image value="Assets\icons\Allied\allied-barracks-wireframe.dds"/>
-        </GroupIcon>
         <GroupSoundArray index="Birth" value="SovietBarracks2_Birth"/>
         <GroupSoundArray index="Ready" value="SovietBarracks2_Ready"/>
         <GroupSoundArray index="Help" value="SovietBarracks2_Help"/>
@@ -67,16 +81,10 @@
         <GroupSoundArray index="Click" value="AlliedBarrack_Ready"/>
         <GroupSoundArray index="ClickError" value="SovietBarracks2_ClickError"/>
         <GroupSoundArray index="Highlight" value="AlliedBarrack_Birth"/>
-        <HeroIcon value="Assets\icons\Allied\allied-barracks-icon.dds"/>
-        <LifeArmorIcon value="Assets\Textures\btn-upgrade-terran-buildingarmor.dds"/>
         <SoundArray index="Help" value="AlliedLightPrismTower_Actor_Help"/>
         <SoundArray index="What" value="AlliedBarrack_Ready"/>
         <SoundArray index="Construction" value="AlliedBarrack_Ready"/>
         <SoundArray index="Click" value="AlliedBarrack_Ready"/>
-        <UnitIcon value="Assets\icons\Allied\allied-barracks-icon.dds"/>
-        <Wireframe>
-            <Image value="Assets\icons\Allied\allied-barracks-wireframe.dds"/>
-        </Wireframe>
     </CActorUnit>
     <CModel id="AlliedBarrack" parent="Building" Race="Terran">
         <Model value="assets\buildings\Allied\Barrack.m3"/>
