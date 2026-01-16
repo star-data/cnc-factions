@@ -9,73 +9,19 @@
         <CaseArray Validator="isScrinRace" Effect="DisguiseAsScrinDisintegratorCU"/>
         <CaseArray Validator="isCABALRace" Effect="DisguiseAsCABALDevoutCU"/>
         <CaseArray Validator="isZOCOMRace" Effect="DisguiseAsZOCOMZoneTrooperCU"/>
+        <CaseArray Validator="isSovietRace" Effect="DisguiseAsSovietConscript"/>
+        <CaseArray Validator="isAlliedRace" Effect="DisguiseAsAlliedPeaceKeeperCU"/>
+        <CaseArray Validator="isEmpireRace" Effect="DisguiseAsEmpireWarriorCU"/>
     </CEffectSwitch>
-    <CEffectCreateUnit id="DisguiseAsGDIRiflemanCU" parent="DisguiseEx3CU">
-        <SpawnUnit value="ChangelingRifleman"/>
-    </CEffectCreateUnit>
-    <CEffectCreateUnit id="DisguiseAsNodMilitantCU" parent="DisguiseEx3CU">
-        <SpawnUnit value="ChangelingNodMilitant"/>
-    </CEffectCreateUnit>
-    <CEffectCreateUnit id="DisguiseAsScrinDisintegratorCU" parent="DisguiseEx3CU">
-        <SpawnUnit value="ChangelingScrinDisintegrator"/>
-    </CEffectCreateUnit>
-    <CEffectCreateUnit id="DisguiseAsCABALDevoutCU" parent="DisguiseEx3CU">
-        <SpawnUnit value="ChangelingCABALDevout"/>
-    </CEffectCreateUnit>
-    <CEffectCreateUnit id="DisguiseAsZOCOMZoneTrooperCU" parent="DisguiseEx3CU">
-        <SpawnUnit value="ChangelingZOCOMZoneTrooper"/>
-    </CEffectCreateUnit>
-    <CAbilMorph id="DisguiseAsNodMilitant" parent="DisguiseChangeling">
-        <Name value="Abil/Name/DisguiseAsNodMilitant"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="NodMilitant"/>
-        <InfoArray Unit="ChangelingNodMilitant">
-            <SectionArray index="Actor">
-                <DurationArray index="Delay" value="0.5"/>
-            </SectionArray>
-        </InfoArray>
-    </CAbilMorph>
-    <CAbilMorph id="DisguiseAsScrinDisintegrator" parent="DisguiseChangeling">
-        <Name value="Abil/Name/DisguiseAsScrinDisintegrator"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinDisintegrator"/>
-        <InfoArray Unit="ChangelingScrinDisintegrator">
-            <SectionArray index="Actor">
-                <DurationArray index="Delay" value="0.5"/>
-            </SectionArray>
-        </InfoArray>
-    </CAbilMorph>
-    <CAbilMorph id="DisguiseAsCABALDevout" parent="DisguiseChangeling">
-        <Name value="Abil/Name/DisguiseAsCABALDevout"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="CABALDevout"/>
-        <InfoArray Unit="ChangelingCABALDevout">
-            <SectionArray index="Actor">
-                <DurationArray index="Delay" value="0.5"/>
-            </SectionArray>
-        </InfoArray>
-    </CAbilMorph>
-    <CAbilMorph id="DisguiseAsZOCOMZoneTrooper" parent="DisguiseChangeling">
-        <Name value="Abil/Name/DisguiseAsZOCOMZoneTrooper"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="ZOCOMZoneTrooper"/>
-        <InfoArray Unit="ChangelingZOCOMZoneTrooper">
-            <SectionArray index="Actor">
-                <DurationArray index="Delay" value="0.5"/>
-            </SectionArray>
-        </InfoArray>
-    </CAbilMorph>
-    <CAbilMorph id="DisguiseAsGDIRifleman" parent="DisguiseChangeling">
-        <Name value="Abil/Name/DisguiseAsGDIRifleman"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="GDIRifleman"/>
-        <InfoArray Unit="ChangelingGDIRifleman">
-            <SectionArray index="Actor">
-                <DurationArray index="Delay" value="0.5"/>
-            </SectionArray>
-        </InfoArray>
-    </CAbilMorph>
     <CValidatorCombine id="DisguiseAsCNC">
         <CombineArray value="isNodRace"/>
         <CombineArray value="isGDIRace"/>
         <CombineArray value="isScrinRace"/>
         <CombineArray value="isCABALRace"/>
         <CombineArray value="isZOCOMRace"/>
+        <CombineArray value="isSovietRace"/>
+        <CombineArray value="isAlliedRace"/>
+        <CombineArray value="isEmpireRace"/>
     </CValidatorCombine>
     <CValidatorUnitCompareField id="isNodRace">
         <Field value="Race"/>
@@ -97,82 +43,106 @@
         <Field value="Race"/>
         <Value value="ZOCOM"/>
     </CValidatorUnitCompareField>
-    <CActorUnit id="ChangelingGDIRifleman" parent="GDIRifleman" unitName="ChangelingGDIRifleman">
-        <AcceptedHostedPropTransfers index="Scale" value="0"/>
-        <On index="0" Terms="UnitBirth.ChangelingGDIRifleman" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
-        <On index="1" Terms="UnitBirth.ChangelingGDIRifleman"/>
-        <On index="2" Terms="UnitRevive.ChangelingGDIRifleman"/>
-        <On index="3" Terms="UnitRevive.ChangelingGDIRifleman"/>
-        <On index="4" Terms="UnitConstruction.ChangelingGDIRifleman"/>
-        <On index="5" Terms="UnitConstruction.ChangelingGDIRifleman"/>
-        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingGDIRifleman" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingGDIRifleman" Send="Destroy"/>
-        <SoundArray index="Ready" value="Changeling_Ready"/>
-        <SoundArray index="What" value="Changeling_What"/>
-        <SoundArray index="Yes" value="Changeling_Yes"/>
-        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
-    </CActorUnit>
-    <CActorUnit id="ChangelingNodMilitant" parent="NodMilitant" unitName="ChangelingNodMilitant">
-        <AcceptedHostedPropTransfers index="Scale" value="0"/>
-        <On index="0" Terms="UnitBirth.ChangelingNodMilitant" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
-        <On index="1" Terms="UnitBirth.ChangelingNodMilitant"/>
-        <On index="2" Terms="UnitRevive.ChangelingNodMilitant"/>
-        <On index="3" Terms="UnitRevive.ChangelingNodMilitant"/>
-        <On index="4" Terms="UnitConstruction.ChangelingNodMilitant"/>
-        <On index="5" Terms="UnitConstruction.ChangelingNodMilitant"/>
-        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingNodMilitant" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingNodMilitant" Send="Destroy"/>
-        <SoundArray index="Ready" value="Changeling_Ready"/>
-        <SoundArray index="What" value="Changeling_What"/>
-        <SoundArray index="Yes" value="Changeling_Yes"/>
-        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
-    </CActorUnit>
-    <CActorUnit id="ChangelingScrinDisintegrator" parent="ScrinDisintegrator" unitName="ChangelingScrinDisintegrator">
-        <AcceptedHostedPropTransfers index="Scale" value="0"/>
-        <On index="0" Terms="UnitBirth.ChangelingScrinDisintegrator" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
-        <On index="1" Terms="UnitBirth.ChangelingScrinDisintegrator"/>
-        <On index="2" Terms="UnitRevive.ChangelingScrinDisintegrator"/>
-        <On index="3" Terms="UnitRevive.ChangelingScrinDisintegrator"/>
-        <On index="4" Terms="UnitConstruction.ChangelingScrinDisintegrator"/>
-        <On index="5" Terms="UnitConstruction.ChangelingScrinDisintegrator"/>
-        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingScrinDisintegrator" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingScrinDisintegrator" Send="Destroy"/>
-        <SoundArray index="Ready" value="Changeling_Ready"/>
-        <SoundArray index="What" value="Changeling_What"/>
-        <SoundArray index="Yes" value="Changeling_Yes"/>
-        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
-    </CActorUnit>
-    <CActorUnit id="ChangelingZOCOMZoneTrooper" parent="ZOCOMZoneTrooper" unitName="ChangelingZOCOMZoneTrooper">
-        <AcceptedHostedPropTransfers index="Scale" value="0"/>
-        <On index="0" Terms="UnitBirth.ChangelingZOCOMZoneTrooper" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
-        <On index="1" Terms="UnitBirth.ChangelingZOCOMZoneTrooper"/>
-        <On index="2" Terms="UnitRevive.ChangelingZOCOMZoneTrooper"/>
-        <On index="3" Terms="UnitRevive.ChangelingZOCOMZoneTrooper"/>
-        <On index="4" Terms="UnitConstruction.ChangelingZOCOMZoneTrooper"/>
-        <On index="5" Terms="UnitConstruction.ChangelingZOCOMZoneTrooper"/>
-        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingZOCOMZoneTrooper" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingZOCOMZoneTrooper" Send="Destroy"/>
-        <SoundArray index="Ready" value="Changeling_Ready"/>
-        <SoundArray index="What" value="Changeling_What"/>
-        <SoundArray index="Yes" value="Changeling_Yes"/>
-        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
-    </CActorUnit>
-    <CActorUnit id="ChangelingCABALDevout" parent="CABALDevout" unitName="ChangelingCABALDevout">
-        <AcceptedHostedPropTransfers index="Scale" value="0"/>
-        <On index="0" Terms="UnitBirth.ChangelingCABALDevout" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
-        <On index="1" Terms="UnitBirth.ChangelingCABALDevout"/>
-        <On index="2" Terms="UnitRevive.ChangelingCABALDevout"/>
-        <On index="3" Terms="UnitRevive.ChangelingCABALDevout"/>
-        <On index="4" Terms="UnitConstruction.ChangelingCABALDevout"/>
-        <On index="5" Terms="UnitConstruction.ChangelingCABALDevout"/>
-        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingCABALDevout" Send="Create"/>
-        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingCABALDevout" Send="Destroy"/>
-        <SoundArray index="Ready" value="Changeling_Ready"/>
-        <SoundArray index="What" value="Changeling_What"/>
-        <SoundArray index="Yes" value="Changeling_Yes"/>
-        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
-        <EventDataFootprint index="0" Model="DevoutFootprint"/>
-    </CActorUnit>
+    <CValidatorUnitCompareField id="isSovietRace">
+        <Field value="Race"/>
+        <Value value="Soviet"/>
+    </CValidatorUnitCompareField>
+    <CValidatorUnitCompareField id="isAlliedRace">
+        <Field value="Race"/>
+        <Value value="Allied"/>
+    </CValidatorUnitCompareField>
+    <CValidatorUnitCompareField id="isEmpireRace">
+        <Field value="Race"/>
+        <Value value="Empire"/>
+    </CValidatorUnitCompareField>
+    <CEffectCreateUnit id="DisguiseAsGDIRiflemanCU" parent="DisguiseEx3CU">
+        <SpawnUnit value="ChangelingRifleman"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="DisguiseAsNodMilitantCU" parent="DisguiseEx3CU">
+        <SpawnUnit value="ChangelingNodMilitant"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="DisguiseAsScrinDisintegratorCU" parent="DisguiseEx3CU">
+        <SpawnUnit value="ChangelingScrinDisintegrator"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="DisguiseAsCABALDevoutCU" parent="DisguiseEx3CU">
+        <SpawnUnit value="ChangelingCABALDevout"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="DisguiseAsZOCOMZoneTrooperCU" parent="DisguiseEx3CU">
+        <SpawnUnit value="ChangelingZOCOMZoneTrooper"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="DisguiseAsAlliedPeaceKeeperCU" parent="DisguiseEx3CU">
+        <SpawnUnit value="ChangelingAlliedPeaceKeeper"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="DisguiseAsSovietConscriptCU" parent="DisguiseEx3CU">
+        <SpawnUnit value="ChangelingSovietConscript"/>
+    </CEffectCreateUnit>
+    <CEffectCreateUnit id="DisguiseAsEmpireWarriorCU" parent="DisguiseEx3CU">
+        <SpawnUnit value="ChangelingEmpireWarrior"/>
+    </CEffectCreateUnit>
+    <CAbilMorph id="DisguiseAsNodMilitant" parent="DisguiseChangeling">
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodMilitant"/>
+        <InfoArray Unit="ChangelingNodMilitant">
+            <SectionArray index="Actor">
+                <DurationArray index="Delay" value="0.5"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilMorph id="DisguiseAsScrinDisintegrator" parent="DisguiseChangeling">
+        <CmdButtonArray index="Execute" DefaultButtonFace="ScrinDisintegrator"/>
+        <InfoArray Unit="ChangelingScrinDisintegrator">
+            <SectionArray index="Actor">
+                <DurationArray index="Delay" value="0.5"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilMorph id="DisguiseAsCABALDevout" parent="DisguiseChangeling">
+        <CmdButtonArray index="Execute" DefaultButtonFace="CABALDevout"/>
+        <InfoArray Unit="ChangelingCABALDevout">
+            <SectionArray index="Actor">
+                <DurationArray index="Delay" value="0.5"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilMorph id="DisguiseAsZOCOMZoneTrooper" parent="DisguiseChangeling">
+        <CmdButtonArray index="Execute" DefaultButtonFace="ZOCOMZoneTrooper"/>
+        <InfoArray Unit="ChangelingZOCOMZoneTrooper">
+            <SectionArray index="Actor">
+                <DurationArray index="Delay" value="0.5"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilMorph id="DisguiseAsGDIRifleman" parent="DisguiseChangeling">
+        <CmdButtonArray index="Execute" DefaultButtonFace="GDIRifleman"/>
+        <InfoArray Unit="ChangelingGDIRifleman">
+            <SectionArray index="Actor">
+                <DurationArray index="Delay" value="0.5"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilMorph id="DisguiseAsSovietConscript" parent="DisguiseChangeling">
+        <CmdButtonArray index="Execute" DefaultButtonFace="SovietConscript"/>
+        <InfoArray Unit="ChangelingSovietConscript">
+            <SectionArray index="Actor">
+                <DurationArray index="Delay" value="0.5"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilMorph id="DisguiseAsEmpireWarrior" parent="DisguiseChangeling">
+        <CmdButtonArray index="Execute" DefaultButtonFace="EmpireWarrior"/>
+        <InfoArray Unit="ChangelingEmpireWarrior">
+            <SectionArray index="Actor">
+                <DurationArray index="Delay" value="0.5"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
+    <CAbilMorph id="DisguiseAsAlliedPeaceKeeper" parent="DisguiseChangeling">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedPeaceKeeper"/>
+        <InfoArray Unit="ChangelingAlliedPeaceKeeper">
+            <SectionArray index="Actor">
+                <DurationArray index="Delay" value="0.5"/>
+            </SectionArray>
+        </InfoArray>
+    </CAbilMorph>
     <CUnit id="ChangelingCABALDevout" parent="CABALDevout">
         <Name value="Unit/Name/ChangelingCABALDevout"/>
         <Race value="Zerg"/>
@@ -280,4 +250,190 @@
         <LifeMax value="45"/>
         <EditorCategories value="ObjectType:Unit,ObjectFamily:Melee"/>
     </CUnit>
+    <CUnit id="ChangelingEmpireWarrior" parent="EmpireWarrior">
+        <Name value="Unit/Name/ChangelingEmpireWarrior"/>
+        <Race value="Zerg"/>
+        <BehaviorArray Link="ChangelingDisable"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="4" Face="AcquireMove" AbilCmd="move,AcquireMove"/>
+            <LayoutButtons index="5" Face="" Type="Undefined" AbilCmd="Disband,Execute" Row="0" Column="0"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+        </CardLayouts>
+        <LeaderAlias value="Changeling"/>
+        <HotkeyAlias value="Changeling"/>
+        <SelectAlias value="Changeling"/>
+        <SubgroupAlias value="Changeling"/>
+        <RepairTime value="30.4"/>
+        <WeaponArray index="0" removed="1"/>
+        <WeaponArray index="1" removed="1"/>
+        <ScoreKill value="50"/>
+        <LifeStart value="45"/>
+        <LifeMax value="45"/>
+    </CUnit>
+    <CUnit id="ChangelingAlliedPeaceKeeper" parent="AlliedPeaceKeeper">
+        <Name value="Unit/Name/ChangelingAlliedPeaceKeeper"/>
+        <Race value="Zerg"/>
+        <BehaviorArray Link="ChangelingDisable"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="4" Face="AcquireMove" AbilCmd="move,AcquireMove"/>
+            <LayoutButtons index="5" Face="" Type="Undefined" AbilCmd="Disband,Execute" Row="0" Column="0"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+        </CardLayouts>
+        <LeaderAlias value="Changeling"/>
+        <HotkeyAlias value="Changeling"/>
+        <SelectAlias value="Changeling"/>
+        <SubgroupAlias value="Changeling"/>
+        <RepairTime value="30.4"/>
+        <WeaponArray index="0" removed="1"/>
+        <WeaponArray index="1" removed="1"/>
+        <ScoreKill value="50"/>
+        <LifeStart value="45"/>
+        <LifeMax value="45"/>
+    </CUnit>
+    <CUnit id="ChangelingSovietConscript" parent="SovietConscript">
+        <Name value="Unit/Name/ChangelingSovietConscript"/>
+        <Race value="Zerg"/>
+        <BehaviorArray Link="ChangelingDisable"/>
+        <CardLayouts index="0">
+            <LayoutButtons index="4" Face="AcquireMove" AbilCmd="move,AcquireMove"/>
+            <LayoutButtons index="5" Face="" Type="Undefined" AbilCmd="Disband,Execute" Row="0" Column="0"/>
+            <LayoutButtons index="6" Face="SovietConscriptSwitchToAssaultRifle" Type="AbilCmd" AbilCmd="SovietConscriptWeaponSwitch,255" Row="1" Column="1"/>
+            <LayoutButtons index="7" Face="SovietConscriptSwitchToMolotov" Type="AbilCmd" AbilCmd="SovietConscriptWeaponSwitch,255" Row="1" Column="2"/>
+            <LayoutButtons Face="MovePatrol" Type="AbilCmd" AbilCmd="move,Patrol" Row="0" Column="3"/>
+        </CardLayouts>
+        <LeaderAlias value="Changeling"/>
+        <HotkeyAlias value="Changeling"/>
+        <SelectAlias value="Changeling"/>
+        <SubgroupAlias value="Changeling"/>
+        <RepairTime value="30.4"/>
+        <WeaponArray index="0" removed="1"/>
+        <WeaponArray index="1" removed="1"/>
+        <ScoreKill value="50"/>
+        <LifeStart value="45"/>
+        <LifeMax value="45"/>
+    </CUnit>
+    <CActorUnit id="ChangelingGDIRifleman" parent="GDIRifleman" unitName="ChangelingGDIRifleman">
+        <AcceptedHostedPropTransfers index="Scale" value="0"/>
+        <On index="0" Terms="UnitBirth.ChangelingGDIRifleman" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
+        <On index="1" Terms="UnitBirth.ChangelingGDIRifleman"/>
+        <On index="2" Terms="UnitRevive.ChangelingGDIRifleman"/>
+        <On index="3" Terms="UnitRevive.ChangelingGDIRifleman"/>
+        <On index="4" Terms="UnitConstruction.ChangelingGDIRifleman"/>
+        <On index="5" Terms="UnitConstruction.ChangelingGDIRifleman"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingGDIRifleman" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingGDIRifleman" Send="Destroy"/>
+        <SoundArray index="Ready" value="Changeling_Ready"/>
+        <SoundArray index="What" value="Changeling_What"/>
+        <SoundArray index="Yes" value="Changeling_Yes"/>
+        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
+    </CActorUnit>
+    <CActorUnit id="ChangelingNodMilitant" parent="NodMilitant" unitName="ChangelingNodMilitant">
+        <AcceptedHostedPropTransfers index="Scale" value="0"/>
+        <On index="0" Terms="UnitBirth.ChangelingNodMilitant" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
+        <On index="1" Terms="UnitBirth.ChangelingNodMilitant"/>
+        <On index="2" Terms="UnitRevive.ChangelingNodMilitant"/>
+        <On index="3" Terms="UnitRevive.ChangelingNodMilitant"/>
+        <On index="4" Terms="UnitConstruction.ChangelingNodMilitant"/>
+        <On index="5" Terms="UnitConstruction.ChangelingNodMilitant"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingNodMilitant" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingNodMilitant" Send="Destroy"/>
+        <SoundArray index="Ready" value="Changeling_Ready"/>
+        <SoundArray index="What" value="Changeling_What"/>
+        <SoundArray index="Yes" value="Changeling_Yes"/>
+        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
+    </CActorUnit>
+    <CActorUnit id="ChangelingScrinDisintegrator" parent="ScrinDisintegrator" unitName="ChangelingScrinDisintegrator">
+        <AcceptedHostedPropTransfers index="Scale" value="0"/>
+        <On index="0" Terms="UnitBirth.ChangelingScrinDisintegrator" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
+        <On index="1" Terms="UnitBirth.ChangelingScrinDisintegrator"/>
+        <On index="2" Terms="UnitRevive.ChangelingScrinDisintegrator"/>
+        <On index="3" Terms="UnitRevive.ChangelingScrinDisintegrator"/>
+        <On index="4" Terms="UnitConstruction.ChangelingScrinDisintegrator"/>
+        <On index="5" Terms="UnitConstruction.ChangelingScrinDisintegrator"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingScrinDisintegrator" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingScrinDisintegrator" Send="Destroy"/>
+        <SoundArray index="Ready" value="Changeling_Ready"/>
+        <SoundArray index="What" value="Changeling_What"/>
+        <SoundArray index="Yes" value="Changeling_Yes"/>
+        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
+    </CActorUnit>
+    <CActorUnit id="ChangelingZOCOMZoneTrooper" parent="ZOCOMZoneTrooper" unitName="ChangelingZOCOMZoneTrooper">
+        <AcceptedHostedPropTransfers index="Scale" value="0"/>
+        <On index="0" Terms="UnitBirth.ChangelingZOCOMZoneTrooper" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
+        <On index="1" Terms="UnitBirth.ChangelingZOCOMZoneTrooper"/>
+        <On index="2" Terms="UnitRevive.ChangelingZOCOMZoneTrooper"/>
+        <On index="3" Terms="UnitRevive.ChangelingZOCOMZoneTrooper"/>
+        <On index="4" Terms="UnitConstruction.ChangelingZOCOMZoneTrooper"/>
+        <On index="5" Terms="UnitConstruction.ChangelingZOCOMZoneTrooper"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingZOCOMZoneTrooper" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingZOCOMZoneTrooper" Send="Destroy"/>
+        <SoundArray index="Ready" value="Changeling_Ready"/>
+        <SoundArray index="What" value="Changeling_What"/>
+        <SoundArray index="Yes" value="Changeling_Yes"/>
+        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
+    </CActorUnit>
+    <CActorUnit id="ChangelingCABALDevout" parent="CABALDevout" unitName="ChangelingCABALDevout">
+        <AcceptedHostedPropTransfers index="Scale" value="0"/>
+        <On index="0" Terms="UnitBirth.ChangelingCABALDevout" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
+        <On index="1" Terms="UnitBirth.ChangelingCABALDevout"/>
+        <On index="2" Terms="UnitRevive.ChangelingCABALDevout"/>
+        <On index="3" Terms="UnitRevive.ChangelingCABALDevout"/>
+        <On index="4" Terms="UnitConstruction.ChangelingCABALDevout"/>
+        <On index="5" Terms="UnitConstruction.ChangelingCABALDevout"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingCABALDevout" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingCABALDevout" Send="Destroy"/>
+        <SoundArray index="Ready" value="Changeling_Ready"/>
+        <SoundArray index="What" value="Changeling_What"/>
+        <SoundArray index="Yes" value="Changeling_Yes"/>
+        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
+        <EventDataFootprint index="0" Model="DevoutFootprint"/>
+    </CActorUnit>
+    <CActorUnit id="ChangelingSovietConscript" parent="SovietConscript" unitName="ChangelingSovietConscript">
+        <AcceptedHostedPropTransfers index="Scale" value="0"/>
+        <On index="0" Terms="UnitBirth.ChangelingSovietConscript" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
+        <On index="1" Terms="UnitBirth.ChangelingSovietConscript"/>
+        <On index="2" Terms="UnitRevive.ChangelingSovietConscript"/>
+        <On index="3" Terms="UnitRevive.ChangelingSovietConscript"/>
+        <On index="4" Terms="UnitConstruction.ChangelingSovietConscript"/>
+        <On index="5" Terms="UnitConstruction.ChangelingSovietConscript"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingSovietConscript" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingSovietConscript" Send="Destroy"/>
+        <SoundArray index="Ready" value="Changeling_Ready"/>
+        <SoundArray index="What" value="Changeling_What"/>
+        <SoundArray index="Yes" value="Changeling_Yes"/>
+        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
+        <Scale value="1.200000"/>
+    </CActorUnit>
+    <CActorUnit id="ChangelingEmpireWarrior" parent="EmpireWarrior" unitName="ChangelingEmpireWarrior">
+        <AcceptedHostedPropTransfers index="Scale" value="0"/>
+        <On index="0" Terms="UnitBirth.ChangelingEmpireWarrior" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
+        <On index="1" Terms="UnitBirth.ChangelingEmpireWarrior"/>
+        <On index="2" Terms="UnitRevive.ChangelingEmpireWarrior"/>
+        <On index="3" Terms="UnitRevive.ChangelingEmpireWarrior"/>
+        <On index="4" Terms="UnitConstruction.ChangelingEmpireWarrior"/>
+        <On index="5" Terms="UnitConstruction.ChangelingEmpireWarrior"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingEmpireWarrior" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingEmpireWarrior" Send="Destroy"/>
+        <SoundArray index="Ready" value="Changeling_Ready"/>
+        <SoundArray index="What" value="Changeling_What"/>
+        <SoundArray index="Yes" value="Changeling_Yes"/>
+        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
+        <Scale value="1.200000"/>
+    </CActorUnit>
+    <CActorUnit id="ChangelingAlliedPeaceKeeper" parent="AlliedPeaceKeeper" unitName="ChangelingAlliedPeaceKeeper">
+        <AcceptedHostedPropTransfers index="Scale" value="0"/>
+        <On index="0" Terms="UnitBirth.ChangelingAlliedPeaceKeeper" Send="Create SoundEmitter ChangelingVolt_Ambience"/>
+        <On index="1" Terms="UnitBirth.ChangelingAlliedPeaceKeeper"/>
+        <On index="2" Terms="UnitRevive.ChangelingAlliedPeaceKeeper"/>
+        <On index="3" Terms="UnitRevive.ChangelingAlliedPeaceKeeper"/>
+        <On index="4" Terms="UnitConstruction.ChangelingAlliedPeaceKeeper"/>
+        <On index="5" Terms="UnitConstruction.ChangelingAlliedPeaceKeeper"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo ChangelingAlliedPeaceKeeper" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom ChangelingAlliedPeaceKeeper" Send="Destroy"/>
+        <SoundArray index="Ready" value="Changeling_Ready"/>
+        <SoundArray index="What" value="Changeling_What"/>
+        <SoundArray index="Yes" value="Changeling_Yes"/>
+        <DeathArray index="Normal" ModelLink="ChangelingDeath" SoundLink="Changeling_Death"/>
+        <Scale value="1.200000"/>
+    </CActorUnit>
 </Catalog>

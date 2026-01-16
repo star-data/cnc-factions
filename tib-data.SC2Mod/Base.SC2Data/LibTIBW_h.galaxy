@@ -83,9 +83,21 @@ const int libTIBW_ge_DropPodRace_Terran = 0;
 const int libTIBW_ge_DropPodRace_Zerg = 1;
 
 // Constants
+const int libTIBW_gv_beaconGroups = 5;
 const int libTIBW_gv_platformMaxCountRoyalGuardExperienceGainingUnitGroupReturnedworkunitgroupPickedupweaponsetWeaponPickupUnitGroupStarChargeLevel = 100;
 
 // Variable Declarations
+string[libTIBW_gv_beaconGroups + 1] libTIBW_gv_watchTypes;
+unitgroup[16][libTIBW_gv_beaconGroups + 1] libTIBW_gv_productionUnits;
+int[libTIBW_gv_beaconGroups + 1] libTIBW_gv_labels;
+int[libTIBW_gv_beaconGroups + 1] libTIBW_gv_buttons;
+playergroup libTIBW_gv_aF_SlimUI_PlayerGroup;
+int libTIBW_gv_alliancepanel;
+int libTIBW_gv_chaowuPanel;
+int libTIBW_gv_maintenancePanel;
+int libTIBW_gv_chaowucommandpanel;
+int libTIBW_gv_maintenancecommandpanel;
+unitgroup libTIBW_gv_teleportationmarktarget;
 timer[17][201] libTIBW_gv_announcerTimers;
 bool libTIBW_gv_pASSIVE_ENERGY_CONSUMPTION_ENABLED;
 bool libTIBW_gv_lOW_POWER_DEBUFF;
@@ -116,6 +128,10 @@ unitgroup libTIBW_gv_cNC_TP_DropPod_Units;
 int libTIBW_gv_playerIntegerRoyalGuardExperienceGainingUnitGroupReturnedworkunitgroupPickedupweaponsetWeaponPickupUnitGroupStarChargeLevel;
 
 // Function Declarations
+void libTIBW_gf_RegisterUnit (unit lp_unit, int lp_player);
+void libTIBW_gf_UnRegisterUnit (unit lp_unit, int lp_player);
+void libTIBW_gf_AddproductionUnit (unit lp_unit, int lp_player, int lp_productionTabIndex);
+void libTIBW_gf_DeleteProductionUnit (unit lp_unit, int lp_player, int lp_productionTabIndex);
 string libTIBW_gf__UnitDataName (int lp_type, unit lp_unit, int lp_index);
 void libTIBW_gf_StorePingForUnit (unit lp_unit, int lp_index, int lp_ping);
 int libTIBW_gf_PingStoredForUnit (unit lp_unit, int lp_index);
@@ -152,6 +168,38 @@ void libTIBW_gf__GDIDropPod (point lp_location, unitgroup lp_units, int lp_playe
 void libTIBW_gf_CreateDropPod (int lp_race, point lp_location, unitgroup lp_units, bool lp_waitDontWait, int lp_playerinteger);
 
 // Trigger Declarations
+trigger libTIBW_gt_WatchUnitCreation;
+trigger libTIBW_gt_WatchUnitOwner;
+trigger libTIBW_gt_WatchUnitDeath;
+trigger libTIBW_gt_WatchUnitBehaviors;
+trigger libTIBW_gt_RecalculateBeacons;
+trigger libTIBW_gt_InitBeaconsButton;
+trigger libTIBW_gt_BeaconsButtonUsed;
+trigger libTIBW_gt_ProductionUI;
+trigger libTIBW_gt_Unitupgradespecialeffects;
+trigger libTIBW_gt_Unitsgainexperiencebyrisingstars;
+trigger libTIBW_gt_Initialattributesettingsforalliedplayers;
+trigger libTIBW_gt_Charging;
+trigger libTIBW_gt_InitialminecartsoundeffectSoviet;
+trigger libTIBW_gt_InitialminecartsoundeffectEmpire;
+trigger libTIBW_gt_InitialminecartsoundeffectShenzhou;
+trigger libTIBW_gt_InitialminecartsoundeffectAllies;
+trigger libTIBW_gt_Alliesbuildvoicetrigger;
+trigger libTIBW_gt_EmpireBuildingVoiceTrigger;
+trigger libTIBW_gt_Chinabuildsvoicetriggers;
+trigger libTIBW_gt_NewConstrrctuionOptionsAvailable;
+trigger libTIBW_gt_UnitlossChina;
+trigger libTIBW_gt_UnitlossAllies;
+trigger libTIBW_gt_UnitlossSoviet;
+trigger libTIBW_gt_UnitlossEmpire;
+trigger libTIBW_gt_Playercommanderrepairpanelsettings;
+trigger libTIBW_gt_ActiveskillLightningStorm2;
+trigger libTIBW_gt_ActiveskillLawknowingspecialskill;
+trigger libTIBW_gt_AlliedRepairPanelSettings;
+trigger libTIBW_gt_ChaowupanelUIproduction;
+trigger libTIBW_gt_TimeandSpaceTeleportationSticky;
+trigger libTIBW_gt_Clearthecoverafterteleportation;
+trigger libTIBW_gt_Clearthecoveraftertheteleportationiscancelled;
 trigger libTIBW_gt_Test;
 trigger libTIBW_gt_GAMESTARTCheckNod;
 trigger libTIBW_gt_NodunitCreated;
