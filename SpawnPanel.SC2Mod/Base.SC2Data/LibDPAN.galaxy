@@ -299,13 +299,16 @@ void libDPAN_gf_SetupUnitTesterData () {
     autoF9CF12F7_i = 1;
     for ( ; autoF9CF12F7_i <= CatalogEntryCount(c_gameCatalogRace) ; autoF9CF12F7_i += 1 ) {
         lv_race = CatalogEntryGet(autoF9CF12F7_catalog, autoF9CF12F7_i);
-        libDPAN_gv_allRaces = (libDPAN_gv_allRaces + ((lv_race) + " "));
+        if ((((CatalogFieldValueGetAsInt(c_gameCatalogRace, lv_race, "Flags[" + IntToString(0) + "]", c_playerAny) == 1) && (CatalogFieldValueCount(c_gameCatalogRace, lv_race, "StartingUnitArray", c_playerAny) > 0)))) {
+            libDPAN_gv_allRaces = (libDPAN_gv_allRaces + ((lv_race) + " "));
+        }
+
     }
     auto310DDEE5_catalog = c_gameCatalogUnit;
     auto310DDEE5_i = 1;
     for ( ; auto310DDEE5_i <= CatalogEntryCount(c_gameCatalogUnit) ; auto310DDEE5_i += 1 ) {
         lv_unitEntry = CatalogEntryGet(auto310DDEE5_catalog, auto310DDEE5_i);
-        if (((libDPAN_gv_showAll == false) && ((CatalogFieldValueGet(c_gameCatalogUnit, lv_unitEntry, "FlagArray[" + IntToString(c_unitFlagUnselectable) + "]", c_playerAny) == "1") || (CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_unitEntry, "GlossaryPriority", c_playerAny) == 0) || ((CatalogFieldValueGet(c_gameCatalogUnit, lv_unitEntry, "GlossaryAlias", c_playerAny) != "") && (CatalogFieldValueGet(c_gameCatalogUnit, lv_unitEntry, "GlossaryAlias", c_playerAny) != (lv_unitEntry)))))) {
+        if (((libDPAN_gv_showAll == false) && ((CatalogFieldValueGet(c_gameCatalogUnit, lv_unitEntry, "FlagArray[" + IntToString(c_unitFlagUnselectable) + "]", c_playerAny) == "1")))) {
             continue;
         }
         else {
