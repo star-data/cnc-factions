@@ -12,44 +12,62 @@
     </CAbilEffectTarget>
     <CEffectSet id="CNCCaptureHusk">
         <ValidatorArray value="TargetLifeFull"/>
+        <EffectArray value="CNCCaptureHuskSet"/>
+    </CEffectSet>
+    <CEffectSet id="CNCCaptureHuskSet">
+        <ValidatorArray value="IsCNCHusk"/>
+        <ValidatorArray value="CNCHuskNotReborning"/>
+        <EffectArray value="NodSabotageChangeOwner"/>
+        <EffectArray value="SuicideRemove"/>
         <EffectArray value="CNCCaptureHuskSwitch"/>
     </CEffectSet>
-    <CEffectSwitch id="CNCCaptureHuskSwitch">
-        <ValidatorArray value="NodAvatarNotReborning"/>
-        <!--        <CaseArray Validator="TargetIsNodPurifierWreckage" Effect="NodPurifierWreckageCaptureSet"/>-->
-        <CaseArray Validator="IsNodAvatarWreckage" Effect="NodAvatarWreckageCaptureSet"/>
-    </CEffectSwitch>
-    <CEffectSet id="NodAvatarWreckageCaptureSet">
+    <CEffectSet id="CNCCaptureHuskSetWithHeal">
+        <ValidatorArray value="IsCNCHusk"/>
+        <ValidatorArray value="CNCHuskNotReborning"/>
         <EffectArray value="NodSabotageHeal"/>
-        <EffectArray value="NodSabotageChangeOwner"/>
-        <EffectArray value="NodAvatarRebornIO"/>
-        <EffectArray value="SuicideRemove"/>
+        <EffectArray value="CNCCaptureHuskSet"/>
     </CEffectSet>
+    <CEffectSwitch id="CNCCaptureHuskSwitch">
+        <CaseArray Validator="IsNodPurifierWreckage" Effect="NodPurifierRebornIO"/>
+        <CaseArray Validator="IsNodAvatarWreckage" Effect="NodAvatarRebornIO"/>
+    </CEffectSwitch>
+    <CValidatorCombine id="CNCHuskNotReborning">
+        <CombineArray value="NodAvatarNotReborning"/>
+    </CValidatorCombine>
     <CValidatorCombine id="IsCNCHusk">
         <CombineArray value="IsNodAvatarWreckage"/>
     </CValidatorCombine>
 
+    <CEffectSet id="NodSabotage">
+        <ValidatorArray value="NodSabotageTargetFilters"/>
+        <EffectArray value="NodSabotageHeal"/>
+        <EffectArray value="NodSabotageChangeOwner"/>
+        <EffectArray value="SuicideRemove"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectSet>
+    <CEffectCreateHealer id="NodSabotageHeal">
+        <LaunchUnit Value="Target"/>
+        <Flags index="Channeled" value="0"/>
+        <PeriodCount value="80"/>
+        <PeriodicPeriod value="0.125"/>
+        <RechargeVitalRate value="250"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectCreateHealer>
 
     <CAbilEffectTarget id="NodSabotage">
         <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
         <Range value="0.5"/>
         <CastIntroTime value="0.125"/>
-        <!--        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>-->
-        <!--        <Effect index="0" value="NodChannelSabotageInitialSet"/>-->
-        <!--        <TargetFilters value="Biological,Visible;Self,Player,Ally,Structure,Destructible,Stasis,Dead,Hidden,Invulnerable"/>-->
-        <!--        <Range value="10"/>-->
         <CmdButtonArray index="Execute" DefaultButtonFace="NodSabotage"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
         <DefaultError value="RequiresRepairTarget"/>
         <Effect index="0" value="NodSabotageSwitch"/>
-        <!--        <RangeSlop value="20"/>-->
-        <!--                <UninterruptibleArray index="Cast" value="1"/>-->
         <UninterruptibleArray index="Channel" value="1"/>
         <CancelableArray index="Channel" value="1"/>
     </CAbilEffectTarget>
     <CEffectSwitch id="NodSabotageSwitch">
         <EditorCategories value="Race:Protoss"/>
-        <CaseArray Validator="IsCNCHusk" Effect="CNCCaptureHuskSwitch"/>
+        <CaseArray Validator="IsCNCHusk" Effect="CNCCaptureHuskSetWithHeal"/>
         <CaseArray Validator="IsEnemyOrNeutral" Effect="NodChannelSabotageInitialSet"/>
         <CaseDefault value="NodSabotage"/>
     </CEffectSwitch>
@@ -57,7 +75,6 @@
         <ValidatorArray value="TargetIsEnemyOrNeutral"/>
         <ModifyFlags index="Owner" value="1"/>
         <ModifyOwnerPlayer Value="Caster"/>
-<!--        <ImpactUnit Effect="NodSabotageSwitch"/>-->
         <ImpactUnit Value="Target"/>
     </CEffectModifyUnit>
     <CEffectSet id="NodChannelSabotageInitialSet">

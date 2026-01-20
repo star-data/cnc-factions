@@ -59,7 +59,7 @@
     </CValidatorUnitCompareBehaviorCount>
 
 
-    <CUnit id="AlliedHarbingerGunship" parent="AlliedAirPlane">
+    <CUnit id="AlliedHarbinger" parent="AlliedAirPlane">
         <Attributes index="Armored" value="1"/>
         <Attributes index="Mechanical" value="1"/>
         <LifeStart value="500"/>
@@ -78,23 +78,23 @@
         <RepairTime value="2"/>
         <KillXP value="25"/>
         <AbilArray Link="RAInvincible"/>
-        <AbilArray Link="AlliedHarbingerGunshipSwitchToChainGunBehavior"/>
+        <AbilArray Link="AlliedHarbingerSwitchToChainGunBehavior"/>
         <!--        <BehaviorArray Link="AutoHeal42"/>-->
         <!--        <BehaviorArray Link="xfjytzzdpx22"/>-->
         <!-- <BehaviorArray Link="T4unitveteranbehaviorVanguardarmedcombataircraft"/> -->
         <!--        <BehaviorArray Link="DisablestopautoandattackinVanguardmovementcommand"/>-->
         <!--        <BehaviorArray Link="ThePioneerarmedcombataircraftkeepscirclingwhenstopped"/>-->
         <BehaviorArray Link="DisableStopAutoCirclingVanguardAttackCommand"/>
-        <WeaponArray Link="AlliedHarbingerGunshipProtonCannon" Turret="AlliedHarbingerGunshipProtonCannonTurret"/>
-        <WeaponArray Link="AlliedHarbingerGunshipChainGun" Turret="AlliedHarbingerGunshipChainGunTurret"/>
-        <EffectArray index="Create" value="AlliedHarbingerGunshipCreateEffect"/>
+        <WeaponArray Link="AlliedHarbingerProtonCannon" Turret="AlliedHarbingerProtonCannonTurret"/>
+        <WeaponArray Link="AlliedHarbingerChainGun" Turret="AlliedHarbingerChainGunTurret"/>
+        <EffectArray index="Create" value="AlliedHarbingerCreateEffect"/>
         <CardLayouts index="0">
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="CNCAirplaneMove,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack2,Execute" Row="0" Column="4"/>
             <LayoutButtons Face="AutechBeidongSet32" Row="1" Column="4"/>
-            <LayoutButtons Face="AlliedHarbingerGunshipSwitchToChainGun" Type="AbilCmd" AbilCmd="AlliedHarbingerGunshipSwitchToChainGunBehavior,On" Row="1" Column="1"/>
-            <LayoutButtons Face="AlliedHarbingerGunshipSwitchToProtonCannon" Type="AbilCmd" AbilCmd="AlliedHarbingerGunshipSwitchToChainGunBehavior,Off" Row="1" Column="0"/>
-            <LayoutButtons Face="AlliedHarbingerGunshipImmortality" Type="AbilCmd" AbilCmd="RAInvincible,Execute" Row="1" Column="3"/>
+            <LayoutButtons Face="AlliedHarbingerSwitchToChainGun" Type="AbilCmd" AbilCmd="AlliedHarbingerSwitchToChainGunBehavior,On" Row="1" Column="1"/>
+            <LayoutButtons Face="AlliedHarbingerSwitchToProtonCannon" Type="AbilCmd" AbilCmd="AlliedHarbingerSwitchToChainGunBehavior,Off" Row="1" Column="0"/>
+            <LayoutButtons Face="AlliedHarbingerImmortality" Type="AbilCmd" AbilCmd="RAInvincible,Execute" Row="1" Column="3"/>
         </CardLayouts>
         <Radius value="1"/>
         <SeparationRadius value="1"/>
@@ -116,7 +116,7 @@
         <GlossaryWeakArray value="VoidRay"/>
         <GlossaryWeakArray value="VikingFighter"/>
     </CUnit>
-    <CEffectSet id="AlliedHarbingerGunshipCreateEffect">
+    <CEffectSet id="AlliedHarbingerCreateEffect">
         <EffectArray value="AugunshipBirth1"/>
         <EffectArray value="AugunshipBirth2"/>
     </CEffectSet>
@@ -140,28 +140,28 @@
         <Cost>
             <Cooldown TimeUse="40"/>
         </Cost>
-        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedHarbingerGunshipImmortality"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedHarbingerImmortality"/>
     </CAbilEffectInstant>
 
-    <CAbilBehavior id="AlliedHarbingerGunshipSwitchToChainGunBehavior">
+    <CAbilBehavior id="AlliedHarbingerSwitchToChainGunBehavior">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="On" DefaultButtonFace="AlliedHarbingerGunshipSwitchToChainGun">
+        <CmdButtonArray index="On" DefaultButtonFace="AlliedHarbingerSwitchToChainGun">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="Off" DefaultButtonFace="AlliedHarbingerGunshipSwitchToProtonCannon">
+        <CmdButtonArray index="Off" DefaultButtonFace="AlliedHarbingerSwitchToProtonCannon">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="Toggle" value="1"/>
         <Flags index="Transient" value="1"/>
         <Cost/>
-        <BehaviorArray value="AlliedHarbingerGunshipSwitchToChainGunBehavior"/>
+        <BehaviorArray value="AlliedHarbingerSwitchToChainGunBehavior"/>
     </CAbilBehavior>
-    <CBehaviorBuff id="AlliedHarbingerGunshipSwitchToChainGunBehavior">
+    <CBehaviorBuff id="AlliedHarbingerSwitchToChainGunBehavior">
         <!--        <InfoFlags index="Hidden" value="1"/>-->
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
         <Modification>
-            <WeaponEnableArray value="AlliedHarbingerGunshipChainGun"/>
-            <WeaponDisableArray value="AlliedHarbingerGunshipProtonCannon"/>
+            <WeaponEnableArray value="AlliedHarbingerChainGun"/>
+            <WeaponDisableArray value="AlliedHarbingerProtonCannon"/>
         </Modification>
     </CBehaviorBuff>
 
@@ -173,76 +173,76 @@
         <Host Subject="_Unit"/>
         <HostSiteOps Ops="SOpAttachOrigin"/>
     </CActorModel>
-    <CActorMissile id="AlliedHarbingerGunshipChainGunMissile" parent="GenericAttackMissile" unitName="AlliedHarbingerGunshipChainGunMissile">
-        <Model value="AlliedHarbingerGunshipChainGunMissile"/>
+    <CActorMissile id="AlliedHarbingerChainGunMissile" parent="GenericAttackMissile" unitName="AlliedHarbingerChainGunMissile">
+        <Model value="AlliedHarbingerChainGunMissile"/>
     </CActorMissile>
-    <CActorAction id="AlliedHarbingerGunshipProtonCannon@Attack1" parent="GenericAttack" effectImpact="AlliedHarbingerGunshipProtonCannon@Damage" effectLaunch="AlliedHarbingerGunshipProtonCannon@LM1">
-        <LaunchAssets Model="AlliedHarbingerGunshipProtonCannon@MissileLaunch" Sound="AlliedHarbingerGunshipProtonCannon@MissileLaunch"/>
-        <Missile value="AlliedHarbingerGunshipProtonCannonMissile"/>
-        <ImpactMap index="None" Model="AlliedHarbingerGunshipProtonCannonMissile" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
-        <ImpactMap index="Miss" Model="AlliedHarbingerGunshipProtonCannonMissile" Sound="AlliedHarbingerGunshipProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+    <CActorAction id="AlliedHarbingerProtonCannon@Attack1" parent="GenericAttack" effectImpact="AlliedHarbingerProtonCannon@Damage" effectLaunch="AlliedHarbingerProtonCannon@LM1">
+        <LaunchAssets Model="AlliedHarbingerProtonCannon@MissileLaunch" Sound="AlliedHarbingerProtonCannon@MissileLaunch"/>
+        <Missile value="AlliedHarbingerProtonCannonMissile"/>
+        <ImpactMap index="None" Model="AlliedHarbingerProtonCannonMissile" Sound="AlliedHarbingerProtonCannon@Impact"/>
+        <ImpactMap index="Miss" Model="AlliedHarbingerProtonCannonMissile" Sound="AlliedHarbingerProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
         <LaunchSiteOps Ops="SOpAttachWeaponLeft"/>
     </CActorAction>
-    <CActorAction id="AlliedHarbingerGunshipProtonCannon@VeterancyAttack1" parent="GenericAttack" effectImpact="AlliedHarbingerGunshipProtonCannon@VeterancyDamage" effectLaunch="AlliedHarbingerGunshipProtonCannon@VeterancyLM1">
+    <CActorAction id="AlliedHarbingerProtonCannon@VeterancyAttack1" parent="GenericAttack" effectImpact="AlliedHarbingerProtonCannon@VeterancyDamage" effectLaunch="AlliedHarbingerProtonCannon@VeterancyLM1">
         <LaunchSiteOps Ops="SOpAttachWeaponLeft"/>
-        <LaunchAssets Model="AlliedHarbingerGunshipProtonCannon@MissileLaunch" Sound="AlliedHarbingerGunshipProtonCannon@MissileLaunch"/>
-        <Missile value="AlliedHarbingerGunshipProtonCannonVeterancyMissile"/>
-        <ImpactMap index="None" Model="AlliedHarbingerGunshipProtonCannon@VeterancyImpact" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
-        <ImpactMap index="Miss" Model="AlliedHarbingerGunshipProtonCannon@VeterancyImpact" Sound="AlliedHarbingerGunshipProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+        <LaunchAssets Model="AlliedHarbingerProtonCannon@MissileLaunch" Sound="AlliedHarbingerProtonCannon@MissileLaunch"/>
+        <Missile value="AlliedHarbingerProtonCannonVeterancyMissile"/>
+        <ImpactMap index="None" Model="AlliedHarbingerProtonCannon@VeterancyImpact" Sound="AlliedHarbingerProtonCannon@Impact"/>
+        <ImpactMap index="Miss" Model="AlliedHarbingerProtonCannon@VeterancyImpact" Sound="AlliedHarbingerProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
     </CActorAction>
-    <CActorAction id="AlliedHarbingerGunshipProtonCannon@Attack2" parent="GenericAttack" effectImpact="AlliedHarbingerGunshipProtonCannon@Damage" effectLaunch="AlliedHarbingerGunshipProtonCannon@LM2">
+    <CActorAction id="AlliedHarbingerProtonCannon@Attack2" parent="GenericAttack" effectImpact="AlliedHarbingerProtonCannon@Damage" effectLaunch="AlliedHarbingerProtonCannon@LM2">
         <LaunchSiteOps Ops="SOpAttachWeaponRight"/>
-        <LaunchAssets Model="AlliedHarbingerGunshipProtonCannon@MissileLaunch" Sound="AlliedHarbingerGunshipProtonCannon@MissileLaunch"/>
-        <Missile value="AlliedHarbingerGunshipProtonCannonMissile"/>
-        <ImpactMap index="None" Model="AlliedHarbingerGunshipProtonCannonMissile" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
-        <ImpactMap index="Miss" Model="AlliedHarbingerGunshipProtonCannonMissile" Sound="AlliedHarbingerGunshipProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+        <LaunchAssets Model="AlliedHarbingerProtonCannon@MissileLaunch" Sound="AlliedHarbingerProtonCannon@MissileLaunch"/>
+        <Missile value="AlliedHarbingerProtonCannonMissile"/>
+        <ImpactMap index="None" Model="AlliedHarbingerProtonCannonMissile" Sound="AlliedHarbingerProtonCannon@Impact"/>
+        <ImpactMap index="Miss" Model="AlliedHarbingerProtonCannonMissile" Sound="AlliedHarbingerProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
     </CActorAction>
-    <CActorModel id="AlliedHarbingerGunshipChainGun@Impact" parent="ModelAnimationStyleOneShot">
-        <On Terms="Effect.AlliedHarbingerGunshipChainGun@Damage.Start" Send="Create"/>
-        <On Terms="Effect.AlliedHarbingerGunshipChainGun@Damage.Stop" Send="Destroy"/>
-        <Model value="AlliedHarbingerGunshipChainGun@Impact"/>
+    <CActorModel id="AlliedHarbingerChainGun@Impact" parent="ModelAnimationStyleOneShot">
+        <On Terms="Effect.AlliedHarbingerChainGun@Damage.Start" Send="Create"/>
+        <On Terms="Effect.AlliedHarbingerChainGun@Damage.Stop" Send="Destroy"/>
+        <Model value="AlliedHarbingerChainGun@Impact"/>
     </CActorModel>
-    <CActorAction id="AlliedHarbingerGunshipProtonCannon@VeterancyAttack2" parent="GenericAttack" effectImpact="AlliedHarbingerGunshipProtonCannon@VeterancyDamage" effectLaunch="AlliedHarbingerGunshipProtonCannon@VeterancyLM2">
+    <CActorAction id="AlliedHarbingerProtonCannon@VeterancyAttack2" parent="GenericAttack" effectImpact="AlliedHarbingerProtonCannon@VeterancyDamage" effectLaunch="AlliedHarbingerProtonCannon@VeterancyLM2">
         <LaunchSiteOps Ops="SOpAttachWeaponRight"/>
-        <LaunchAssets Model="AlliedHarbingerGunshipProtonCannon@MissileLaunch" Sound="AlliedHarbingerGunshipProtonCannon@MissileLaunch"/>
-        <Missile value="AlliedHarbingerGunshipProtonCannonVeterancyMissile"/>
-        <ImpactMap index="None" Model="AlliedHarbingerGunshipProtonCannon@VeterancyImpact" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
-        <ImpactMap index="Miss" Model="AlliedHarbingerGunshipProtonCannon@VeterancyImpact" Sound="AlliedHarbingerGunshipProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
+        <LaunchAssets Model="AlliedHarbingerProtonCannon@MissileLaunch" Sound="AlliedHarbingerProtonCannon@MissileLaunch"/>
+        <Missile value="AlliedHarbingerProtonCannonVeterancyMissile"/>
+        <ImpactMap index="None" Model="AlliedHarbingerProtonCannon@VeterancyImpact" Sound="AlliedHarbingerProtonCannon@Impact"/>
+        <ImpactMap index="Miss" Model="AlliedHarbingerProtonCannon@VeterancyImpact" Sound="AlliedHarbingerProtonCannon@Impact" ModelReaction="RAAnAttackActionOfThePioneerGunshipImpactReaction"/>
     </CActorAction>
-    <CActorSquib id="AlliedHarbingerGunshipProtonCannon@VeterancySquib">
+    <CActorSquib id="AlliedHarbingerProtonCannon@VeterancySquib">
         <Flags index="SuppressSaveLoad" value="1"/>
         <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
         <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
         <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
-        <On Terms="Effect.AlliedHarbingerGunshipProtonCannon@VeterancyDamage.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.AlliedHarbingerProtonCannon@VeterancyDamage.Start; At Effect" Send="Create"/>
         <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
-        <Map index="None" Model="AlliedHarbingerGunshipProtonCannon@Impact" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
+        <Map index="None" Model="AlliedHarbingerProtonCannon@Impact" Sound="AlliedHarbingerProtonCannon@Impact"/>
     </CActorSquib>
-    <CActorSquib id="AlliedHarbingerGunshipProtonCannon@Squib">
+    <CActorSquib id="AlliedHarbingerProtonCannon@Squib">
         <Flags index="SuppressSaveLoad" value="1"/>
         <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death ContentPlayOnce"/>
         <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
         <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
-        <On Terms="Effect.AlliedHarbingerGunshipProtonCannon@Damage.Start; At Effect" Send="Create"/>
+        <On Terms="Effect.AlliedHarbingerProtonCannon@Damage.Start; At Effect" Send="Create"/>
         <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
-        <Map index="None" Model="AlliedHarbingerGunshipProtonCannonMissile" Sound="AlliedHarbingerGunshipProtonCannon@Impact"/>
+        <Map index="None" Model="AlliedHarbingerProtonCannonMissile" Sound="AlliedHarbingerProtonCannon@Impact"/>
     </CActorSquib>
-    <CActorAction id="AlliedHarbingerGunshipChainGun@Attack" parent="GenericAttack" effectImpact="AlliedHarbingerGunshipChainGun@Damage" effectLaunch="AlliedHarbingerGunshipChainGun@LM">
-        <LaunchAssets Model="AlliedHarbingerGunshipChainGun@MissileLaunch" Sound="UnknownSound22"/>
-        <ImpactMap index="None" Model="AlliedHarbingerGunshipChainGun@Impact" Sound="UnknownSound32"/>
+    <CActorAction id="AlliedHarbingerChainGun@Attack" parent="GenericAttack" effectImpact="AlliedHarbingerChainGun@Damage" effectLaunch="AlliedHarbingerChainGun@LM">
+        <LaunchAssets Model="AlliedHarbingerChainGun@MissileLaunch" Sound="UnknownSound22"/>
+        <ImpactMap index="None" Model="AlliedHarbingerChainGun@Impact" Sound="UnknownSound32"/>
         <LaunchAttachQuery Methods="AMBestMatchWeapon" Fallback="Weapon"/>
-        <Missile value="AlliedHarbingerGunshipChainGunMissile"/>
+        <Missile value="AlliedHarbingerChainGunMissile"/>
     </CActorAction>
 
-    <CActorMissile id="AlliedHarbingerGunshipProtonCannonVeterancyMissile" parent="GenericAttackMissile" unitName="AlliedHarbingerGunshipProtonCannonVeterancyMissile">
-        <Model value="AlliedHarbingerGunshipProtonCannonVeterancyMissile"/>
+    <CActorMissile id="AlliedHarbingerProtonCannonVeterancyMissile" parent="GenericAttackMissile" unitName="AlliedHarbingerProtonCannonVeterancyMissile">
+        <Model value="AlliedHarbingerProtonCannonVeterancyMissile"/>
     </CActorMissile>
     <CActorSiteOpBanker id="SOpBankerRAAir" parent="SOpBanker">
         <RollAngleMax value="75.000000"/>
         <RollInRate value="23.450001"/>
         <RollOutRate value="18.799999"/>
     </CActorSiteOpBanker>
-    <CModel id="AlliedHarbingerGunshipUpgraded" parent="Unit" Race="Terran">
+    <CModel id="AlliedHarbingerUpgraded" parent="Unit" Race="Terran">
         <Model value="assets\units\Allied\HarbingerUpgrade.m3"/>
         <Occlusion value="Show"/>
         <PlanetPanelCamera value="Star2CameraMid03"/>
@@ -253,19 +253,19 @@
         <TechPurchaseCamera value="TechPurchaseInfantry"/>
         <UnitGlossaryCamera value="Star2CameraMid03"/>
     </CModel>
-    <CValidatorPlayerRequirement id="AlliedHarbingerGunshipUpgraded">
+    <CValidatorPlayerRequirement id="AlliedHarbingerUpgraded">
         <ResultNoPlayer value="Error"/>
         <Find value="1"/>
-        <Value value="AlliedHarbingerGunshipUpgraded"/>
+        <Value value="AlliedHarbingerUpgraded"/>
     </CValidatorPlayerRequirement>
-    <CActorUnit id="AlliedHarbingerGunship" parent="AlliedAir" unitName="AlliedHarbingerGunship" icon="Harbinger">
+    <CActorUnit id="AlliedHarbinger" parent="AlliedAir" unitName="AlliedHarbinger" icon="Harbinger">
         <AcceptedTransfers index="Model" value="1"/>
         <AcceptedTransfers index="ModelMaterials" value="1"/>
         <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
         <On Terms="WeaponStart.SJWraith.AttackStart" Send="AnimBracketStart Attack Attack,Superior"/>
         <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
         <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
-        <On Terms="ActorCreation; ValidateUnit AlliedHarbingerGunshipUpgraded" Send="ModelSwap AlliedHarbingerGunshipUpgraded"/>
+        <On Terms="ActorCreation; ValidateUnit AlliedHarbingerUpgraded" Send="ModelSwap AlliedHarbingerUpgraded"/>
         <HostSiteOps Ops="SOpBankerRAAir"/>
         <Model value="AlliedHarberGunship_Model"/>
         <Scale value="0.300000"/>
@@ -286,77 +286,77 @@
         <SoundArray index="Highlight" value="Liberator_Highlight"/>
         <UnitFlags index="ShowBlobShadow" value="0"/>
     </CActorUnit>
-    <CActorMissile id="AlliedHarbingerGunshipProtonCannonMissile" parent="GenericAttackMissile" unitName="AlliedHarbingerGunshipProtonCannonMissile">
-        <Model value="AlliedHarbingerGunshipProtonCannonMissile"/>
+    <CActorMissile id="AlliedHarbingerProtonCannonMissile" parent="GenericAttackMissile" unitName="AlliedHarbingerProtonCannonMissile">
+        <Model value="AlliedHarbingerProtonCannonMissile"/>
     </CActorMissile>
 
-    <CButton id="AlliedHarbingerGunshipImmortality">
+    <CButton id="AlliedHarbingerImmortality">
         <Icon value="Assets\Textures\btn-ability-protoss-invulnerabilityshield.dds"/>
         <HotkeyAlias value="TossGrenadeTychus2"/>
     </CButton>
 
-    <CButton id="AlliedHarbingerGunshipSwitchToChainGun">
+    <CButton id="AlliedHarbingerSwitchToChainGun">
         <Icon value="Assets\icons\Allied\pioneer-armed-combat-aircraft-switches-to-machine-gun-mode.dds"/>
     </CButton>
 
-    <CButton id="AlliedHarbingerGunshipSwitchToProtonCannon">
+    <CButton id="AlliedHarbingerSwitchToProtonCannon">
         <Icon value="Assets\icons\Allied\pioneer-armed-combat-aircraft-switches-main-gun-mode.dds"/>
     </CButton>
 
 
-    <CEffectCreatePersistent id="AlliedHarbingerGunshipProtonCannon@VeterancyCP">
+    <CEffectCreatePersistent id="AlliedHarbingerProtonCannon@VeterancyCP">
         <Flags index="Channeled" value="1"/>
         <PeriodCount value="2"/>
-        <PeriodicEffectArray value="AlliedHarbingerGunshipProtonCannon@VeterancyLM1"/>
-        <PeriodicEffectArray value="AlliedHarbingerGunshipProtonCannon@VeterancyLM2"/>
+        <PeriodicEffectArray value="AlliedHarbingerProtonCannon@VeterancyLM1"/>
+        <PeriodicEffectArray value="AlliedHarbingerProtonCannon@VeterancyLM2"/>
         <PeriodicPeriodArray value="0.05"/>
         <PeriodicPeriodArray value="0.05"/>
         <WhichLocation Value="TargetUnitOrPoint"/>
         <InitialEffect value="Vanguardsurroundingvesteffect"/>
     </CEffectCreatePersistent>
-    <CEffectDamage id="AlliedHarbingerGunshipProtonCannon@VeterancyDamage">
+    <CEffectDamage id="AlliedHarbingerProtonCannon@VeterancyDamage">
         <Amount value="25"/>
         <AreaArray Radius="2" Fraction="1"/>
         <SearchFilters value="Ground,Visible;Missile,Invulnerable"/>
         <AttributeBonus index="Structure" value="20"/>
         <ExcludeArray Value="Target"/>
     </CEffectDamage>
-    <CEffectLaunchMissile id="AlliedHarbingerGunshipProtonCannon@VeterancyLM2">
+    <CEffectLaunchMissile id="AlliedHarbingerProtonCannon@VeterancyLM2">
         <ImpactLocation Value="TargetPoint"/>
-        <ImpactEffect value="AlliedHarbingerGunshipProtonCannon@VeterancyDamage"/>
-        <AmmoUnit value="AlliedHarbingerGunshipProtonCannonVeterancyMissile"/>
+        <ImpactEffect value="AlliedHarbingerProtonCannon@VeterancyDamage"/>
+        <AmmoUnit value="AlliedHarbingerProtonCannonVeterancyMissile"/>
     </CEffectLaunchMissile>
-    <CEffectLaunchMissile id="AlliedHarbingerGunshipProtonCannon@VeterancyLM1">
+    <CEffectLaunchMissile id="AlliedHarbingerProtonCannon@VeterancyLM1">
         <ImpactLocation Value="TargetPoint"/>
-        <ImpactEffect value="AlliedHarbingerGunshipProtonCannon@VeterancyDamage"/>
-        <AmmoUnit value="AlliedHarbingerGunshipProtonCannonVeterancyMissile"/>
+        <ImpactEffect value="AlliedHarbingerProtonCannon@VeterancyDamage"/>
+        <AmmoUnit value="AlliedHarbingerProtonCannonVeterancyMissile"/>
     </CEffectLaunchMissile>
     <CBehaviorBuff id="VeterancyFake"/>
-    <CEffectSwitch id="AlliedHarbingerGunshipProtonCannon@Switch">
-        <CaseArray Validator="RAStarPioneerGunshipEffectVerification" Effect="AlliedHarbingerGunshipProtonCannon@VeterancyCP"/>
-        <CaseDefault value="AlliedHarbingerGunshipProtonCannon@CP"/>
+    <CEffectSwitch id="AlliedHarbingerProtonCannon@Switch">
+        <CaseArray Validator="RAStarPioneerGunshipEffectVerification" Effect="AlliedHarbingerProtonCannon@VeterancyCP"/>
+        <CaseDefault value="AlliedHarbingerProtonCannon@CP"/>
     </CEffectSwitch>
-    <CEffectCreatePersistent id="AlliedHarbingerGunshipProtonCannon@CP">
+    <CEffectCreatePersistent id="AlliedHarbingerProtonCannon@CP">
         <PeriodCount value="2"/>
-        <PeriodicEffectArray value="AlliedHarbingerGunshipProtonCannon@LM1"/>
-        <PeriodicEffectArray value="AlliedHarbingerGunshipProtonCannon@LM2"/>
+        <PeriodicEffectArray value="AlliedHarbingerProtonCannon@LM1"/>
+        <PeriodicEffectArray value="AlliedHarbingerProtonCannon@LM2"/>
         <PeriodicPeriodArray value="0.05"/>
         <PeriodicPeriodArray value="0.05"/>
         <Flags index="Channeled" value="1"/>
         <WhichLocation Value="TargetUnitOrPoint"/>
         <InitialEffect value="Vanguardsurroundingvesteffect"/>
     </CEffectCreatePersistent>
-    <CEffectLaunchMissile id="AlliedHarbingerGunshipProtonCannon@LM1">
+    <CEffectLaunchMissile id="AlliedHarbingerProtonCannon@LM1">
         <ImpactLocation Value="TargetPoint"/>
-        <ImpactEffect value="AlliedHarbingerGunshipProtonCannon@Damage"/>
-        <AmmoUnit value="AlliedHarbingerGunshipProtonCannonMissile"/>
+        <ImpactEffect value="AlliedHarbingerProtonCannon@Damage"/>
+        <AmmoUnit value="AlliedHarbingerProtonCannonMissile"/>
     </CEffectLaunchMissile>
-    <CEffectLaunchMissile id="AlliedHarbingerGunshipProtonCannon@LM2">
+    <CEffectLaunchMissile id="AlliedHarbingerProtonCannon@LM2">
         <ImpactLocation Value="TargetPoint"/>
-        <ImpactEffect value="AlliedHarbingerGunshipProtonCannon@Damage"/>
-        <AmmoUnit value="AlliedHarbingerGunshipProtonCannonMissile"/>
+        <ImpactEffect value="AlliedHarbingerProtonCannon@Damage"/>
+        <AmmoUnit value="AlliedHarbingerProtonCannonMissile"/>
     </CEffectLaunchMissile>
-    <CEffectDamage id="AlliedHarbingerGunshipProtonCannon@Damage">
+    <CEffectDamage id="AlliedHarbingerProtonCannon@Damage">
         <Amount value="25"/>
         <AreaArray Radius="1.75" Fraction="1"/>
         <SearchFilters value="Ground,Visible;Missile,Invulnerable"/>
@@ -365,18 +365,18 @@
         <ExcludeArray Value="Target"/>
     </CEffectDamage>
 
-    <CEffectCreatePersistent id="AlliedHarbingerGunshipChainGun@CP">
+    <CEffectCreatePersistent id="AlliedHarbingerChainGun@CP">
         <WhichLocation Value="TargetUnit"/>
         <PeriodCount value="10"/>
-        <PeriodicEffectArray value="AlliedHarbingerGunshipChainGun@LM"/>
+        <PeriodicEffectArray value="AlliedHarbingerChainGun@LM"/>
         <PeriodicPeriodArray value="0.09"/>
         <InitialEffect value="Vanguardsurroundingvesteffect"/>
     </CEffectCreatePersistent>
-    <CEffectLaunchMissile id="AlliedHarbingerGunshipChainGun@LM">
-        <ImpactEffect value="AlliedHarbingerGunshipChainGun@Damage"/>
-        <AmmoUnit value="AlliedHarbingerGunshipChainGunMissile"/>
+    <CEffectLaunchMissile id="AlliedHarbingerChainGun@LM">
+        <ImpactEffect value="AlliedHarbingerChainGun@Damage"/>
+        <AmmoUnit value="AlliedHarbingerChainGunMissile"/>
     </CEffectLaunchMissile>
-    <CEffectDamage id="AlliedHarbingerGunshipChainGun@Damage">
+    <CEffectDamage id="AlliedHarbingerChainGun@Damage">
         <Amount value="3"/>
         <ArmorReduction value="1"/>
         <AttributeBonus index="Light" value="3"/>
@@ -399,15 +399,15 @@
         <ScaleMax value="1.600000,1.600000,1.600000"/>
         <ScaleMin value="1.600000,1.600000,1.600000"/>
     </CModel>
-    <CModel id="AlliedHarbingerGunshipChainGun@Impact" parent="ImpactFX">
+    <CModel id="AlliedHarbingerChainGun@Impact" parent="ImpactFX">
         <Model value="Assets\Effects\Terran\HERC_Gun_Impact\HERC_Gun_Impact.m3"/>
         <EditorCategories value="Race:Terran"/>
-        <Lighting value="AlliedHarbingerGunshipProtonCannonMissile"/>
+        <Lighting value="AlliedHarbingerProtonCannonMissile"/>
         <Priority value="16"/>
         <ScaleMax value="1.300000,1.300000,1.300000"/>
         <ScaleMin value="1.300000,1.300000,1.300000"/>
     </CModel>
-    <CModel id="AlliedHarbingerGunshipProtonCannon@MissileLaunch" parent="LaunchFX">
+    <CModel id="AlliedHarbingerProtonCannon@MissileLaunch" parent="LaunchFX">
         <Model value="Assets\Effects\Terran\ThorArmMissileLaunch\ThorArmMissileLaunch.m3"/>
         <AnimSpeed value="0.500000"/>
         <EditorCategories value="Race:Protoss"/>
@@ -416,7 +416,7 @@
         <ScaleMax value="0.800000,0.800000,0.800000"/>
         <ScaleMin value="0.800000,0.800000,0.800000"/>
     </CModel>
-    <CModel id="AlliedHarbingerGunshipProtonCannon@VeterancyImpact" parent="ImpactFX">
+    <CModel id="AlliedHarbingerProtonCannon@VeterancyImpact" parent="ImpactFX">
         <Model value="assets\models\FXAlliedprotoncolliderhitEX.m3"/>
         <AnimSpeed value="0.850000"/>
         <EditorCategories value="Race:Terran"/>
@@ -424,13 +424,13 @@
         <ScaleMax value="1.100000,1.100000,1.100000"/>
         <ScaleMin value="1.100000,1.100000,1.100000"/>
     </CModel>
-    <CModel id="AlliedHarbingerGunshipProtonCannonVeterancyMissile" parent="MissileFX">
+    <CModel id="AlliedHarbingerProtonCannonVeterancyMissile" parent="MissileFX">
         <Model value="assets\models\FXAlliedGunshipMissileEX.m3"/>
         <EditorCategories value="Race:Terran"/>
         <ScaleMax value="2.000000,2.000000,2.000000"/>
         <ScaleMin value="2.000000,2.000000,2.000000"/>
     </CModel>
-    <CModel id="AlliedHarbingerGunshipProtonCannon@Impact" parent="ImpactFX">
+    <CModel id="AlliedHarbingerProtonCannon@Impact" parent="ImpactFX">
         <Model value="assets\models\FXAlliedprotoncolliderhit.m3"/>
         <AnimSpeed value="0.850000"/>
         <EditorCategories value="Race:Terran"/>
@@ -438,17 +438,17 @@
         <ScaleMax value="1.100000,1.100000,1.100000"/>
         <ScaleMin value="1.100000,1.100000,1.100000"/>
     </CModel>
-    <CModel id="AlliedHarbingerGunshipProtonCannonMissile" parent="MissileFX">
+    <CModel id="AlliedHarbingerProtonCannonMissile" parent="MissileFX">
         <Model value="assets\models\FXAlliedGunshipMissile.m3"/>
         <EditorCategories value="Race:Terran"/>
         <ScaleMax value="2.000000,2.000000,2.000000"/>
         <ScaleMin value="2.000000,2.000000,2.000000"/>
     </CModel>
-    <CModel id="AlliedHarbingerGunshipChainGunMissile" parent="MissileFX">
+    <CModel id="AlliedHarbingerChainGunMissile" parent="MissileFX">
         <Model value="Assets\Effects\Terran\WraithLaserMissile\WraithLaserMissile.m3"/>
         <EditorCategories value="Race:Terran"/>
     </CModel>
-    <CModel id="AlliedHarbingerGunshipChainGun@MissileLaunch" parent="LaunchFX">
+    <CModel id="AlliedHarbingerChainGun@MissileLaunch" parent="LaunchFX">
         <Model value="Assets\Effects\Protoss\Arbiter_Purifier_Coop_Missile_Launch\Arbiter_Purifier_Coop_Missile_Launch.m3"/>
         <AnimSpeed value="2.000000"/>
         <EditorCategories value="Race:Terran"/>
@@ -485,7 +485,7 @@
     <!--        <PathMode value="Flying"/>-->
     <!--        <Flags index="IgnoreNoFlyZones" value="1"/>-->
     <!--    </CMoverFlock>-->
-    <CMoverMissile id="AlliedHarbingerGunshipChainGunMissile">
+    <CMoverMissile id="AlliedHarbingerChainGunMissile">
         <MotionPhases>
             <Driver value="Guidance"/>
             <Acceleration value="5"/>
@@ -560,7 +560,7 @@
         <Volume value="1.000000,1.000000"/>
         <Select value="Random"/>
     </CSound>
-    <CSound id="AlliedHarbingerGunshipProtonCannon@Impact" parent="Combat">
+    <CSound id="AlliedHarbingerProtonCannon@Impact" parent="Combat">
         <AssetArray File="assets\sounds\AUGunship_cannonExplo2A.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUGunship_cannonExplo2B.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUGunship_cannonExplo2C.ogg" FacialGroup=""/>
@@ -573,7 +573,7 @@
         <ReverbBalance Room="-10000"/>
         <Volume value="-3.000000,-3.000000"/>
     </CSound>
-    <CSound id="AlliedHarbingerGunshipProtonCannon@MissileLaunch" parent="Combat">
+    <CSound id="AlliedHarbingerProtonCannon@MissileLaunch" parent="Combat">
         <AssetArray File="assets\sounds\AUGunship_cannonFireA.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUGunship_cannonFireB.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUGunship_cannonFireC.ogg" FacialGroup=""/>
@@ -624,51 +624,51 @@
         <Volume value="1.000000,1.000000"/>
     </CSound>
     <CActorTurret id="RAVanguardCannon">
-        <On Terms="TurretEnable.AlliedHarbingerGunshipChainGunTurret" Send="Create"/>
+        <On Terms="TurretEnable.AlliedHarbingerChainGunTurret" Send="Create"/>
         <PitchQuery Methods="TurretZ 0"/>
     </CActorTurret>
-    <CTurret id="AlliedHarbingerGunshipChainGunTurret">
+    <CTurret id="AlliedHarbingerChainGunTurret">
         <YawArc value="360"/>
         <YawRate value="720"/>
         <YawIdleRate value="149.9414"/>
         <Fidget DelayMax="30" DelayMin="10"/>
     </CTurret>
-    <CTurret id="AlliedHarbingerGunshipProtonCannonTurret">
+    <CTurret id="AlliedHarbingerProtonCannonTurret">
         <YawArc value="360"/>
         <YawRate value="720"/>
         <YawIdleRate value="149.9414"/>
         <Fidget DelayMax="30" DelayMin="10"/>
     </CTurret>
-    <CUnit id="AlliedHarbingerGunshipProtonCannonMissile" parent="MISSILE">
+    <CUnit id="AlliedHarbingerProtonCannonMissile" parent="MISSILE">
         <Race value="Allied"/>
         <Mover value="CycloneMissileLeft5"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Projectile"/>
     </CUnit>
-    <CUnit id="AlliedHarbingerGunshipProtonCannonVeterancyMissile" parent="MISSILE">
+    <CUnit id="AlliedHarbingerProtonCannonVeterancyMissile" parent="MISSILE">
         <Race value="Allied"/>
         <Mover value="CycloneMissileLeft5"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Projectile"/>
     </CUnit>
-    <CUnit id="AlliedHarbingerGunshipChainGunMissile" parent="MISSILE">
+    <CUnit id="AlliedHarbingerChainGunMissile" parent="MISSILE">
         <Race value="Allied"/>
-        <Mover value="AlliedHarbingerGunshipChainGunMissile"/>
+        <Mover value="AlliedHarbingerChainGunMissile"/>
         <EditorCategories value="ObjectFamily:CNC,ObjectType:Projectile"/>
     </CUnit>
 
-    <CActorTurret id="AlliedHarbingerGunshipProtonCannonTurret1">
-        <On Terms="TurretEnable.AlliedHarbingerGunshipProtonCannonTurret" Send="Create"/>
+    <CActorTurret id="AlliedHarbingerProtonCannonTurret1">
+        <On Terms="TurretEnable.AlliedHarbingerProtonCannonTurret" Send="Create"/>
         <PitchQuery Methods="Turret 0"/>
         <YawQuery Methods="Turret 0"/>
     </CActorTurret>
-    <CActorTurret id="AlliedHarbingerGunshipProtonCannonTurret2">
-        <On Terms="TurretEnable.AlliedHarbingerGunshipProtonCannonTurret" Send="Create"/>
+    <CActorTurret id="AlliedHarbingerProtonCannonTurret2">
+        <On Terms="TurretEnable.AlliedHarbingerProtonCannonTurret" Send="Create"/>
         <PitchQuery Methods="TurretY 0"/>
         <YawQuery Methods="TurretY 0"/>
     </CActorTurret>
-    <CActorLookAt id="AlliedHarbingerGunshipProtonCannonTurretFrontRow">
-        <On Terms="TurretEnable.AlliedHarbingerGunshipProtonCannonTurret" Send="Create"/>
-        <On Terms="TurretTarget.AlliedHarbingerGunshipProtonCannonTurret.Set" Send="LookAtEngage"/>
-        <On Terms="TurretTarget.AlliedHarbingerGunshipProtonCannonTurret.Clear" Send="LookAtDisengage"/>
+    <CActorLookAt id="AlliedHarbingerProtonCannonTurretFrontRow">
+        <On Terms="TurretEnable.AlliedHarbingerProtonCannonTurret" Send="Create"/>
+        <On Terms="TurretTarget.AlliedHarbingerProtonCannonTurret.Set" Send="LookAtEngage"/>
+        <On Terms="TurretTarget.AlliedHarbingerProtonCannonTurret.Clear" Send="LookAtDisengage"/>
         <Types Id="2">
             <Start>
                 <Group value="AlliedGunshipFR"/>
@@ -684,19 +684,19 @@
             </Stop>
         </Types>
     </CActorLookAt>
-    <CActorLookAt id="AlliedHarbingerGunshipChainGunTurret">
-        <On Terms="TurretEnable.AlliedHarbingerGunshipChainGunTurret" Send="Create"/>
-        <On Terms="TurretTarget.AlliedHarbingerGunshipChainGunTurret.Set" Send="LookAtEngage"/>
-        <On Terms="TurretTarget.AlliedHarbingerGunshipChainGunTurret.Clear" Send="LookAtDisengage"/>
+    <CActorLookAt id="AlliedHarbingerChainGunTurret">
+        <On Terms="TurretEnable.AlliedHarbingerChainGunTurret" Send="Create"/>
+        <On Terms="TurretTarget.AlliedHarbingerChainGunTurret.Set" Send="LookAtEngage"/>
+        <On Terms="TurretTarget.AlliedHarbingerChainGunTurret.Clear" Send="LookAtDisengage"/>
         <Types Id="1">
             <Start Group="AlliedGunshipGun" Weight="1" Time="250"/>
             <Stop Group="AlliedGunshipGun" Weight="1" Time="250"/>
         </Types>
     </CActorLookAt>
-    <CActorLookAt id="AlliedHarbingerGunshipProtonCannonTurretRearRow">
-        <On Terms="TurretEnable.AlliedHarbingerGunshipProtonCannonTurret" Send="Create"/>
-        <On Terms="TurretTarget.AlliedHarbingerGunshipProtonCannonTurret.Set" Send="LookAtEngage"/>
-        <On Terms="TurretTarget.AlliedHarbingerGunshipProtonCannonTurret.Clear" Send="LookAtDisengage"/>
+    <CActorLookAt id="AlliedHarbingerProtonCannonTurretRearRow">
+        <On Terms="TurretEnable.AlliedHarbingerProtonCannonTurret" Send="Create"/>
+        <On Terms="TurretTarget.AlliedHarbingerProtonCannonTurret.Set" Send="LookAtEngage"/>
+        <On Terms="TurretTarget.AlliedHarbingerProtonCannonTurret.Clear" Send="LookAtDisengage"/>
         <Types Id="3">
             <Start>
                 <Group value="AlliedGunshipBR"/>
@@ -713,39 +713,39 @@
         </Types>
     </CActorLookAt>
 
-    <CWeaponLegacy id="AlliedHarbingerGunshipProtonCannon">
+    <CWeaponLegacy id="AlliedHarbingerProtonCannon">
         <EditorCategories value=""/>
         <Options index="OnlyFireWhileInAttackOrder" value="0"/>
         <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
         <Options index="LinkedCooldown" value="0"/>
         <Options index="DisplayCooldown" value="1"/>
         <Icon value="Assets\icons\先锋武装战艇机切换机枪模式.dds"/>
-        <DisplayEffect value="AlliedHarbingerGunshipProtonCannon@Damage"/>
+        <DisplayEffect value="AlliedHarbingerProtonCannon@Damage"/>
         <DisplayAttackCount value="2"/>
         <TargetFilters value="Ground,Visible;Missile,Dead,Invulnerable"/>
         <Range value="10"/>
         <Period value="4"/>
-        <Effect value="AlliedHarbingerGunshipProtonCannon@Switch"/>
+        <Effect value="AlliedHarbingerProtonCannon@Switch"/>
         <AllowedMovement value="Moving"/>
         <LegacyOptions index="NoDeceleration" value="1"/>
     </CWeaponLegacy>
-    <CWeaponLegacy id="AlliedHarbingerGunshipChainGun">
+    <CWeaponLegacy id="AlliedHarbingerChainGun">
         <Options index="Disabled" value="1"/>
         <Options index="OnlyFireWhileInAttackOrder" value="0"/>
         <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
         <Options index="LinkedCooldown" value="0"/>
         <Icon value="Assets\icons\先锋武装战艇机切换主炮模式.dds"/>
-        <DisplayEffect value="AlliedHarbingerGunshipChainGun@Damage"/>
+        <DisplayEffect value="AlliedHarbingerChainGun@Damage"/>
         <TargetFilters value="Visible;Missile,Dead,Invulnerable"/>
         <Range value="10"/>
         <Period value="2"/>
         <Backswing value="0"/>
-        <Effect value="AlliedHarbingerGunshipChainGun@CP"/>
+        <Effect value="AlliedHarbingerChainGun@CP"/>
         <AllowedMovement value="Moving"/>
         <LegacyOptions index="NoDeceleration" value="1"/>
         <DisplayAttackCount value="10"/>
     </CWeaponLegacy>
-    <CWeaponLegacy id="AlliedHarbingerGunshipChainGunAA">
+    <CWeaponLegacy id="AlliedHarbingerChainGunAA">
         <EditorCategories value=""/>
         <Options index="Disabled" value="1"/>
         <Options index="OnlyFireWhileInAttackOrder" value="0"/>
@@ -753,12 +753,12 @@
         <Options index="LinkedCooldown" value="0"/>
         <Options index="RequireEnabledAttackAbil" value="0"/>
         <Icon value="Assets\Textures\btn-ability-terran-surfacetoairtargeting.dds"/>
-        <DisplayEffect value="AlliedHarbingerGunshipChainGun@Damage"/>
+        <DisplayEffect value="AlliedHarbingerChainGun@Damage"/>
         <TargetFilters value="Air,Visible;Self,Missile,Dead,Invulnerable"/>
         <Range value="11"/>
         <Period value="2"/>
         <Backswing value="0"/>
-        <Effect value="AlliedHarbingerGunshipChainGun@CP"/>
+        <Effect value="AlliedHarbingerChainGun@CP"/>
         <LegacyOptions index="NoDeceleration" value="1"/>
         <AllowedMovement value="Moving"/>
         <DisplayAttackCount value="10"/>
@@ -768,7 +768,7 @@
         <Options index="Hidden" value="1"/>
         <Options index="LinkedCooldown" value="0"/>
         <Icon value="Assets\Textures\btn-ability-terran-surfacetoairtargeting.dds"/>
-        <DisplayEffect value="AlliedHarbingerGunshipChainGun@Damage"/>
+        <DisplayEffect value="AlliedHarbingerChainGun@Damage"/>
         <TargetFilters value="Ground,Visible;Self,Missile,Dead,Invulnerable"/>
         <Range value="12"/>
         <Arc value="360"/>
@@ -795,7 +795,7 @@
             <VitalRegenArray index="Life" value="5"/>
             <VitalRegenMultiplier index="Life" value="1"/>
             <!--            <BehaviorLinkDisableArray value="ZHybridPsionicShockwaveHeightAndStun"/>-->
-            <WeaponDisableArray value="AlliedHarbingerGunshipProtonCannon"/>
+            <WeaponDisableArray value="AlliedHarbingerProtonCannon"/>
         </Modification>
         <DamageResponse ModifyFraction="0.05">
             <Chance value="1"/>
