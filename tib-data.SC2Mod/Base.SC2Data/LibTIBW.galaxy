@@ -3323,9 +3323,37 @@ void libTIBW_gt_UnitAttacked_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: MoveCommandOverrideExecute
+// Trigger: Capture Husk Canceled
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_MoveCommandOverrideExecute_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_CaptureHuskCanceled_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+    unit lv_target;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_unit = EventUnit();
+    lv_target = EventUnitTargetUnit();
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitAbilityRemove(lv_unit, "CNCCaptureHusk");
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_CaptureHuskCanceled_Init () {
+    libTIBW_gt_CaptureHuskCanceled = TriggerCreate("libTIBW_gt_CaptureHuskCanceled_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_CaptureHuskCanceled, null, AbilityCommand("CNCCaptureHusk", 0), c_unitAbilStageCancel, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Capture Husk Initiated
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_CaptureHuskInitiated_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit lv_unit;
     unit lv_target;
@@ -3345,7 +3373,8 @@ bool libTIBW_gt_MoveCommandOverrideExecute_Func (bool testConds, bool runActions
     autoAD11D6DA_val = UnitGetType(lv_target);
     if (autoAD11D6DA_val == "NodAvatarWreckage") {
         if ((ValidatorExecute("IsPilot", lv_unit, lv_unit) == 0)) {
-            UnitCreateEffectUnit(lv_target, "CNCPilotTrackerATU", lv_unit);
+            UnitAbilityAdd(lv_unit, "CNCCaptureHusk");
+            UnitIssueOrder(lv_unit, OrderTargetingUnit(AbilityCommand("CNCCaptureHusk", 0), lv_target), c_orderQueueReplace);
         }
 
     }
@@ -3355,9 +3384,9 @@ bool libTIBW_gt_MoveCommandOverrideExecute_Func (bool testConds, bool runActions
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_MoveCommandOverrideExecute_Init () {
-    libTIBW_gt_MoveCommandOverrideExecute = TriggerCreate("libTIBW_gt_MoveCommandOverrideExecute_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_MoveCommandOverrideExecute, null, AbilityCommand("move", 0), c_unitAbilStageExecute, false);
+void libTIBW_gt_CaptureHuskInitiated_Init () {
+    libTIBW_gt_CaptureHuskInitiated = TriggerCreate("libTIBW_gt_CaptureHuskInitiated_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_CaptureHuskInitiated, null, AbilityCommand("move", 0), c_unitAbilStageExecute, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6571,7 +6600,8 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_AllyDefeated_Init();
     libTIBW_gt_UnitComplete_Init();
     libTIBW_gt_UnitAttacked_Init();
-    libTIBW_gt_MoveCommandOverrideExecute_Init();
+    libTIBW_gt_CaptureHuskCanceled_Init();
+    libTIBW_gt_CaptureHuskInitiated_Init();
     libTIBW_gt_MoveCommandOverrideCancel_Init();
     libTIBW_gt_MoveCommandOverrideComplete_Init();
     libTIBW_gt_CarryVespene_Init();

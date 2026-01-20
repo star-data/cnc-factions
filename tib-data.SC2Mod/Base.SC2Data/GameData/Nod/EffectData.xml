@@ -1768,30 +1768,6 @@
         <RechargeVitalRate value="250"/>
         <EditorCategories value="Race:UPL"/>
     </CEffectCreateHealer>
-    <CEffectSet id="NodChannelSabotageInitialSet">
-        <EditorCategories value="Race:Terran"/>
-        <EffectArray value="NodChannelSabotageCreatePersistent"/>
-        <EffectArray value="NodChannelSabotageCombat"/>
-    </CEffectSet>
-    <CEffectApplyBehavior id="NodChannelSabotageCombat">
-        <EditorCategories value="Race:Terran"/>
-        <WhichUnit Value="Caster"/>
-    </CEffectApplyBehavior>
-    <CEffectRemoveBehavior id="NodChannelSabotageCombatRB">
-        <EditorCategories value="Race:Terran"/>
-        <WhichUnit Value="Caster"/>
-        <BehaviorLink value="NodChannelSabotageCombat"/>
-    </CEffectRemoveBehavior>
-    <CEffectCreatePersistent id="NodChannelSabotageCreatePersistent">
-        <EditorCategories value="Race:Terran"/>
-        <Flags index="Channeled" value="1"/>
-        <ExpireEffect value="NodSabotage"/>
-        <PeriodCount value="128"/>
-        <PeriodicValidator value="NodChannelSabotageValidators"/>
-        <PeriodicPeriodArray value="0.0625"/>
-        <WhichLocation Value="TargetUnit"/>
-        <FinalEffect value="NodChannelSabotageCombatRB"/>
-    </CEffectCreatePersistent>
     <CEffectCreatePersistent id="NodBoobyTrapActivateCP">
         <WhichLocation Value="CasterPoint"/>
         <PeriodCount value="3"/>
@@ -1822,20 +1798,6 @@
         <SpawnUnit value="NodBoobyTrap"/>
         <SpawnRange value="3"/>
     </CEffectCreateUnit>
-    <CEffectSwitch id="NodSabotageSwitch">
-        <EditorCategories value="Race:Protoss"/>
-        <!--        <CaseArray Validator="TargetIsNodPurifierWreckage" Effect="NodPurifierWreckageCaptureSet"/>-->
-        <CaseArray Validator="IsNodAvatarWreckage" Effect="NodAvatarWreckageCaptureSet"/>
-        <CaseArray Validator="IsEnemyOrNeutral" Effect="NodChannelSabotageInitialSet"/>
-        <CaseDefault value="NodSabotage"/>
-    </CEffectSwitch>
-    <CEffectModifyUnit id="NodSabotageChangeOwner">
-        <ValidatorArray value="TargetIsEnemyOrNeutral"/>
-        <EditorCategories value="Race:Zerg"/>
-        <ModifyFlags index="Owner" value="1"/>
-        <ModifyOwnerPlayer Value="Caster"/>
-        <ImpactUnit Effect="NodSabotageSwitch"/>
-    </CEffectModifyUnit>
     <CEffectApplyBehavior id="NodArtilleryBeaconTimedLife">
         <EditorCategories value="Race:Zerg"/>
         <!--        <Flags index="UseDuration" value="1"/>-->
@@ -1976,54 +1938,6 @@
     <CEffectApplyBehavior id="NodAvatarBeamCannon">
         <WhichUnit Value="Caster"/>
     </CEffectApplyBehavior>
-    <CEffectSet id="NodPurifierWreckageCaptureSet">
-        <EffectArray value="NodSabotage"/>
-        <EffectArray value="NodPurifierRebornIO"/>
-    </CEffectSet>
-    <CEffectIssueOrder id="NodPurifierRebornIO">
-        <EditorCategories value="Race:Nod"/>
-        <Abil value="NodPurifierReborn"/>
-        <CmdFlags index="Preempt" value="1"/>
-    </CEffectIssueOrder>
-    <CEffectIssueOrder id="NodPurifierWreckageIO">
-        <EditorCategories value="Race:Nod"/>
-        <WhichUnit Value="Source"/>
-        <Abil value="NodPurifierWreckage"/>
-        <CmdFlags index="Preempt" value="1"/>
-    </CEffectIssueOrder>
-    <CEffectSet id="NodAvatarWreckageCaptureSet">
-        <EffectArray value="NodSabotageHeal"/>
-        <EffectArray value="NodSabotageChangeOwner"/>
-        <EffectArray value="NodAvatarRebornIO"/>
-        <EffectArray value="SuicideRemove"/>
-    </CEffectSet>
-    <CEffectIssueOrder id="NodAvatarRebornIO">
-        <EditorCategories value="Race:Nod"/>
-        <Abil value="NodAvatarReborn"/>
-        <CmdFlags index="Preempt" value="1"/>
-    </CEffectIssueOrder>
-    <CEffectSet id="NodAvatarWreckageSet">
-        <EffectArray value="WreckageChangeOwner"/>
-        <EffectArray value="NodAvatarWreckageIO"/>
-        <EffectArray value="NodAvatarWreckageHeal"/>
-    </CEffectSet>
-    <CEffectSet id="NodPurifierWreckageSet">
-        <EffectArray value="WreckageChangeOwner"/>
-        <EffectArray value="NodPurifierWreckageIO"/>
-        <EffectArray value="NodPurifierWreckageHeal"/>
-    </CEffectSet>
-    <CEffectModifyUnit id="NodPurifierWreckageHeal">
-        <ImpactUnit Value="Source"/>
-        <VitalArray index="Life">
-            <Change value="150"/>
-        </VitalArray>
-    </CEffectModifyUnit>
-    <CEffectModifyUnit id="NodAvatarWreckageHeal">
-        <ImpactUnit Value="Source"/>
-        <VitalArray index="Life">
-            <Change value="150"/>
-        </VitalArray>
-    </CEffectModifyUnit>
     <CEffectModifyUnit id="NodReckonerUnpackHeal">
         <ImpactUnit Value="Source"/>
         <VitalArray index="Life">
