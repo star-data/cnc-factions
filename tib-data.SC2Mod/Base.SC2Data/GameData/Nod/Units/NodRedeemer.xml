@@ -502,14 +502,14 @@
 <!--        <On Terms="Effect.SplashDamage.Stop; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>-->
         <!--        <On Terms="Effect.##id##Attack.Start; At Caster" Send="Create"/>-->
 <!--        <On Terms="Effect.##id##Missile.Start; At Caster" Send="Create"/>-->
-        <LaunchSite value="NodRedeemerTurretLeftAS"/>
         <!--        <LaunchAssets Sound="MissileTurret_AttackLaunch"/>-->
         <!--        <ImpactMap index="None" Model="MissileTurretAttackImpact" Sound="MissileTurret_AttackImpact"/>-->
+        <!--        <LaunchAttachQuery Methods="AMFilterWeapon01"/>-->
+        <LaunchSite value="NodRedeemerTurretLeftAS"/>
         <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
         <ActionFlags index="LaunchForceSite" value="1"/>
         <LaunchSiteOps Ops="SOpAttachWeapon"/>
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
-<!--        <LaunchAttachQuery Methods="AMFilterWeapon01"/>-->
     </CActorAction>
     <CActorAction default="1" id="NodRedeemerWeaponRight" parent="GenericAttackBase">
         <!--        <On Terms="Effect.##id##MissileDamage.Start; FromEffectTreeDescendant" Send="ActionImpact"/>-->
@@ -518,14 +518,14 @@
         <!--        <On Terms="Effect.SplashDamage.Stop; FromEffectTreeDescendant" Send="ActionDamagePhysics"/>-->
         <!--        <On Terms="Effect.##id##Attack.Start; At Caster" Send="Create"/>-->
 <!--        <On Terms="Effect.##id##Missile.Start; At Caster" Send="Create"/>-->
-        <LaunchSite value="NodRedeemerTurretRightAS"/>
         <!--        <LaunchAssets Sound="MissileTurret_AttackLaunch"/>-->
         <!--        <ImpactMap index="None" Model="MissileTurretAttackImpact" Sound="MissileTurret_AttackImpact"/>-->
+        <!--        <LaunchAttachQuery Methods="AMFilterWeapon01"/>-->
+        <LaunchSite value="NodRedeemerTurretRightAS"/>
         <ImpactMap index="Flesh" ModelReaction="BloodTargetImpact"/>
         <ActionFlags index="LaunchForceSite" value="1"/>
         <LaunchSiteOps Ops="SOpAttachWeapon"/>
         <LaunchAttachQuery Methods="AMFilterWeapon"/>
-        <!--        <LaunchAttachQuery Methods="AMFilterWeapon01"/>-->
     </CActorAction>
 
 
@@ -617,25 +617,37 @@
 <!--        <LaunchSite value="NodRedeemerTurretLeftAS"/>-->
 <!--        <ActionFlags index="LaunchForceSite" value="1"/>-->
     </CActorAction>
-    <CActorAction id="NodRedeemerRocketVolleyRight" parent="GenericAttack" effectLaunch="NodRedeemerRocketLaunchMissileRight">
-        <LaunchSiteOps Ops="SOpAttachHardPoint01 SOpHigher005"/>
+
+
+    <CActorAction id="NodRedeemerRocketVolleyRight" parent="GenericAttack" effectLaunch="NodRedeemerRocketLaunchMissileRight" effectImpact="NodRedeemerRocketDamage">
+         <LaunchSite value="NodRedeemerTurretRightAS"/>
+        <LaunchSiteFallback value="NodRedeemerTurretRightAS"/>
         <LaunchAssets Sound="CABALBikeWeaponAttackLaunch"/>
         <Missile value="NodRedeemerRocket_ActorMissile"/>
 <!--        <ActionFlags index="LaunchForceSite" value="1"/>-->
 <!--        <On Terms="ActorCreation" Send="Create NodRedeemerTurretAttackLaunchLeft"/>-->
-        <!--        <LaunchAttachQuery Methods="AMFilterWeapon"/>-->
-        <!--        <LaunchSiteOps Ops="SOpAttachWeapon"/>-->
-        <!--        <LaunchSite value="NodRedeemerTurretRightAS"/>-->
+<!--                <LaunchAttachQuery Methods="AMFilterWeapon"/>-->
+<!--        &lt;!&ndash;        <LaunchSiteOps Ops="SOpAttachWeapon"/>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <LaunchSite value="NodRedeemerTurretRightAS"/>&ndash;&gt;-->
+<!--                <LaunchSiteOps Ops=""/>-->
+        <LaunchAttachQuery Methods="AMFilterWeapon01"/>
+        <LaunchSiteOps Ops="SOpAttachWeapon"/>
+                <ActionFlags index="LaunchForceSite" value="1"/>
     </CActorAction>
     <CActorAction id="NodRedeemerRocketVolleyLeft" parent="GenericAttack" effectLaunch="NodRedeemerRocketLaunchMissileLeft">
-        <LaunchSiteOps Ops="SOpAttachHardPoint02 SOpHigher005"/>
+        <LaunchSite value="NodRedeemerTurretLeftAS"/>
+        <LaunchSiteFallback value="NodRedeemerTurretLeftAS"/>
         <LaunchAssets Sound="CABALBikeWeaponAttackLaunch"/>
         <Missile value="NodRedeemerRocket_ActorMissile"/>
     <!--        <ActionFlags index="LaunchForceSite" value="1"/>-->
 <!--        <On Terms="ActorCreation" Send="Create NodRedeemerTurretAttackLaunchRight"/>-->
-        <!--        <LaunchAttachQuery Methods="AMFilterWeapon"/>-->
-        <!--        <LaunchSiteOps Ops="SOpAttachWeapon"/>-->
-        <!--        <LaunchSite value="NodRedeemerTurretLeftAS"/>-->
+<!--                <LaunchAttachQuery Methods="AMFilterWeapon"/>-->
+<!--        &lt;!&ndash;        <LaunchSiteOps Ops="SOpAttachWeapon"/>&ndash;&gt;-->
+<!--        &lt;!&ndash;        <LaunchSite value="NodRedeemerTurretLeftAS"/>&ndash;&gt;-->
+<!--                <LaunchSiteOps Ops=""/>-->
+        <LaunchAttachQuery Methods="AMFilterWeapon01"/>
+        <LaunchSiteOps Ops="SOpAttachWeapon"/>
+        <ActionFlags index="LaunchForceSite" value="1"/>
     </CActorAction>
     <CActorAction id="NodRedeemerRocketVolleyImpact" parent="GenericAttack" effectImpact="NodRedeemerRocketDamage">
         <ImpactMap index="None" Model="HailstormMissileVolleyImpact" Sound="CABALBikeWeaponAttackImpact" ModelReaction="HailstormMissileVolleyImpactReaction"/>
