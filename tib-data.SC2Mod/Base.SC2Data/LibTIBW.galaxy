@@ -2740,6 +2740,39 @@ void libTIBW_gt_Clearthecoveraftertheteleportationiscancelled_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: GAME START
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_GAMESTART_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    playergroup auto11F53C51_g;
+    int auto11F53C51_var;
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto11F53C51_g = PlayerGroupAll();
+    auto11F53C51_var = -1;
+    while (true) {
+        auto11F53C51_var = PlayerGroupNextPlayer(auto11F53C51_g, auto11F53C51_var);
+        if (auto11F53C51_var < 0) { break; }
+        if ((PlayerRace(auto11F53C51_var) == "Nod")) {
+            TriggerExecute(libTIBW_gt_GAMESTARTNod, true, true);
+            return true;
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_GAMESTART_Init () {
+    libTIBW_gt_GAMESTART = TriggerCreate("libTIBW_gt_GAMESTART_Func");
+    TriggerAddEventGeneric(libTIBW_gt_GAMESTART, "GAME START");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Test
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
@@ -6693,6 +6726,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_TimeandSpaceTeleportationSticky_Init();
     libTIBW_gt_Clearthecoverafterteleportation_Init();
     libTIBW_gt_Clearthecoveraftertheteleportationiscancelled_Init();
+    libTIBW_gt_GAMESTART_Init();
     libTIBW_gt_Test_Init();
     libTIBW_gt_GAMESTARTCheckNod_Init();
     libTIBW_gt_NodunitCreated_Init();

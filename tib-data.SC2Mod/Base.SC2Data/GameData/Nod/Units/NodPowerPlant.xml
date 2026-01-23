@@ -1,0 +1,148 @@
+<Catalog>
+
+    <CUnit id="NodPowerPlant" parent="NodStructure">
+        <BehaviorArray index="1" Link="TrackAndMirrorGenetronPowerSupply"/>
+        <BehaviorArray Link="CNCDeployable"/>
+        <BehaviorArray Link="UnderConstruction"/>
+        <BehaviorArray Link="GenetronEnergyStateNotFull"/>
+        <BehaviorArray Link="CNCPowerGeneration015"/>
+        <BehaviorArray Link="CNCConstructionRadiusSmall"/>
+        <BehaviorArray Link="NodSpawnMilitantOnDeath"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
+        <Facing value="225"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <CostResource index="Minerals" value="100"/>
+        <RepairTime value="30"/>
+        <ScoreMake value="100"/>
+        <ScoreKill value="100"/>
+        <StationaryTurningRate value="719.4726"/>
+        <TurningRate value="719.4726"/>
+        <!-- <Food value="8"/>-->
+        <CostCategory value="Economy"/>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="1.25"/>
+        <GlossaryPriority value="10"/>
+        <AbilArray Link="NodUpgradePowerPlant"/>
+        <AbilArray Link="NodProductionBoost"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodProductionBoost" Type="AbilCmd" AbilCmd="NodProductionBoost,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="NodPowerPlantPowerGrid" Type="Passive" Requirements="NotUnderConstruction" Row="1" Column="0"/>
+            <LayoutButtons Face="NodPowerPlantLiquidTiberiumCore" Type="AbilCmd" AbilCmd="NodUpgradePowerPlant,Execute" Row="2" Column="1"/>
+        </CardLayouts>
+    </CUnit>
+    <CUnit id="NodPowerPlantUpgraded" parent="NodStructure">
+        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Vespene" value="50"/>
+        <BehaviorArray index="1" Link="TrackAndMirrorGenetronPowerSupply"/>
+        <BehaviorArray/>
+        <BehaviorArray/>
+        <BehaviorArray/>
+        <BehaviorArray Link="CNCPowerGeneration045"/>
+        <BehaviorArray Link="CNCDeployable"/>
+        <BehaviorArray Link="UnderConstruction"/>
+        <BehaviorArray Link="GenetronEnergyStateNotFull"/>
+        <BehaviorArray Link="CNCPowerGeneration045"/>
+        <BehaviorArray Link="NodSpawnMilitantOnDeath"/>
+        <BehaviorArray Link="CNCConstructionRadiusSmall"/>
+        <AbilArray Link="NodProductionBoost"/>
+        <Facing value="225"/>
+        <LifeStart value="500"/>
+        <LifeMax value="500"/>
+        <RepairTime value="30"/>
+        <ScoreMake value="100"/>
+        <ScoreKill value="100"/>
+        <StationaryTurningRate value="719.4726"/>
+        <TurningRate value="719.4726"/>
+        <!-- <Food value="8"/>-->
+        <CostCategory value="Economy"/>
+        <Radius value="1.25"/>
+        <SeparationRadius value="1.25"/>
+        <SubgroupPriority value="3"/>
+        <MinimapRadius value="1.25"/>
+        <GlossaryPriority value="248"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodProductionBoost" Type="AbilCmd" AbilCmd="NodProductionBoost,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="NodPowerPlantUpgradedPowerGrid" Type="Passive" Requirements="NotUnderConstruction" Row="1" Column="0"/>
+        </CardLayouts>
+        <GlossaryAlias value="NodPowerPlant"/>
+        <SubgroupAlias value="NodPowerPlant"/>
+        <GlossaryCategory value=""/>
+        <HotkeyAlias value="NodPowerPlant"/>
+    </CUnit>
+    <CActorUnit id="NodPowerPlant" icon="PowerPlant" parent="NodBuilding">
+        <Aliases value="_UnitLarge"/>
+        <CreepHeightClass value="Small"/>
+        <!--        <BuildModel value="NodPowerPlant_Build"/>-->
+        <DeathArray index="Normal" SoundLink="SupplyDepot_Explode"/>
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="SupplyDepot_Explode"/>
+        <PlacementSound value="Terran_BuildingPlacementSmall"/>
+        <BarOffset value="70"/>
+        <BarWidth value="80"/>
+        <NameOffset value="40"/>
+        <SoundArray index="Ready" value="SupplyDepot_Ready"/>
+        <SoundArray index="What" value="SupplyDepot_What"/>
+        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo NodPowerPlantUpgraded" Send="Destroy"/>
+        <StatusColors index="Energy">
+            <ColorArray index="0" value="255,0,128,255"/>
+        </StatusColors>
+        <VitalColors index="Energy">
+            <ColorArray value="255,120,240,255"/>
+        </VitalColors>
+        <VitalNames index="Energy" value="UI/VitalName/Power"/>
+        <PlaceholderActorModel value="NodPowerPlantPlacement"/>
+        <PlacementActorModel value="NodPowerPlantPlacement"/>
+    </CActorUnit>
+    <CActorModel id="NodPowerPlantPlacement" parent="NodPlaceholderActorModel">
+        <On Terms="ActorCreation" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+    </CActorModel>
+    <CActorUnit id="NodPowerPlantUpgraded" icon="PowerPlant" parent="NodBuilding">
+        <On Terms="AbilMorph.*.Finish; MorphTo NodPowerPlantUpgraded" Send="Create"/>
+        <Aliases value="_UnitLarge"/>
+        <CreepHeightClass value="Small"/>
+        <Model value="NodPowerPlant"/>
+        <DeathArray index="Normal" SoundLink="SupplyDepot_Explode"/>
+        <DeathArray index="UnderConstruction" ModelLink="TerranBuildingDeath" SoundLink="SupplyDepot_Explode"/>
+        <!--        <PlacementModel value="NodPowerPlantPM"/>-->
+        <PlacementSound value="Terran_BuildingPlacementSmall"/>
+        <BarOffset value="70"/>
+        <BarWidth value="80"/>
+        <NameOffset value="40"/>
+        <SoundArray index="Ready" value="SupplyDepot_Ready"/>
+        <SoundArray index="What" value="SupplyDepot_What"/>
+        <StatusColors index="Energy">
+            <ColorArray index="0" value="255,0,128,255"/>
+        </StatusColors>
+        <VitalColors index="Energy">
+            <ColorArray value="255,120,240,255"/>
+        </VitalColors>
+        <VitalNames index="Energy" value="UI/VitalName/Power"/>
+    </CActorUnit>
+    <CAbilMorph id="NodUpgradePowerPlant">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Alert value="PowerPlantUpgradeComplete"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodUpgradePowerPlant" Requirements="HaveNodOperationsCenter"/>
+        <Flags index="BestUnit" value="1"/>
+        <Flags index="Birth" value="1"/>
+        <Flags index="DisableAbils" value="1"/>
+        <Flags index="FastBuild" value="1"/>
+        <Flags index="Interruptible" value="1"/>
+        <Flags index="Produce" value="1"/>
+        <Flags index="ShowProgress" value="1"/>
+        <InfoArray Score="1" Unit="NodPowerPlantUpgraded">
+            <SectionArray index="Abils">
+                <DurationArray index="Delay" value="20"/>
+            </SectionArray>
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="20"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Delay" value="20"/>
+            </SectionArray>
+        </InfoArray>
+        <Activity value="UI/Upgrading"/>
+    </CAbilMorph>
+</Catalog>
