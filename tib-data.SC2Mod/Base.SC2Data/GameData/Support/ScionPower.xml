@@ -155,26 +155,32 @@
         <UnitFlags index="ShowBlobShadow" value="0"/>
     </CActorUnit>
 
-    <CAccumulatorConstant id="MultiplyByNeg1">
+
+    <CAccumulatorConstant id="CNCConstant" default="1"/>
+    <CAccumulatorVitals id="CNCVitals" default="1"/>
+    <CAccumulatorUserData id="CNCUD" default="1"/>
+    <CAccumulatorArithmetic id="CNCArithmetic" default="1"/>
+
+    <CAccumulatorConstant parent="CNCConstant" id="MultiplyByNeg1">
         <ApplicationRule value="Multiply"/>
         <Amount value="-1"/>
     </CAccumulatorConstant>
-    <CAccumulatorVitals id="EnergyCurrentCaster">
+    <CAccumulatorVitals parent="CNCVitals" id="EnergyCurrentCaster">
         <Ratio value="1"/>
         <VitalType value="Energy"/>
         <ModificationType value="PerUnit"/>
     </CAccumulatorVitals>
-    <CAccumulatorVitals id="EnergyCurrentTarget">
+    <CAccumulatorVitals parent="CNCVitals" id="EnergyCurrentTarget">
         <Ratio value="1"/>
         <VitalType value="Energy"/>
         <UnitSource Value="Target"/>
         <ModificationType value="PerUnit"/>
     </CAccumulatorVitals>
-    <CAccumulatorUserData id="DefaultDataAdd"/>
-    <CAccumulatorUserData id="EnergyDataAdd">
+    <CAccumulatorUserData parent="CNCUD" id="DefaultDataAdd"/>
+    <CAccumulatorUserData parent="CNCUD" id="EnergyDataAdd">
         <Key value="Energy"/>
     </CAccumulatorUserData>
-    <CAccumulatorArithmetic id="EnergyDamage">
+    <CAccumulatorArithmetic parent="CNCArithmetic" id="EnergyDamage">
         <Parameters value="0">
             <AccumulatorArray value="EnergyCurrentCaster"/>
         </Parameters>
