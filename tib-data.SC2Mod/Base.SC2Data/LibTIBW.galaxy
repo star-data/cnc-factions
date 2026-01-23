@@ -2680,7 +2680,7 @@ bool libTIBW_gt_TimeandSpaceTeleportationSticky_Func (bool testConds, bool runAc
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_TimeandSpaceTeleportationSticky_Init () {
     libTIBW_gt_TimeandSpaceTeleportationSticky = TriggerCreate("libTIBW_gt_TimeandSpaceTeleportationSticky_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_TimeandSpaceTeleportationSticky, null, AbilityCommand("AlliedChronosphereTargeting", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_TimeandSpaceTeleportationSticky, null, AbilityCommand("AlliedChronoSphereTargeting", 0), c_unitAbilStageExecute, false);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -2900,6 +2900,7 @@ bool libTIBW_gt_CNCStructureSalvageRefund_Func (bool testConds, bool runActions)
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_CNCStructureSalvageRefund_Init () {
     libTIBW_gt_CNCStructureSalvageRefund = TriggerCreate("libTIBW_gt_CNCStructureSalvageRefund_Func");
+    TriggerEnable(libTIBW_gt_CNCStructureSalvageRefund, false);
     TriggerAddEventUnitAbility(libTIBW_gt_CNCStructureSalvageRefund, null, AbilityCommand("CNCStructureSalvageRefund", 0), c_unitAbilStageComplete, false);
 }
 
@@ -2927,6 +2928,7 @@ bool libTIBW_gt_ConstructionStarted_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_ConstructionStarted_Init () {
     libTIBW_gt_ConstructionStarted = TriggerCreate("libTIBW_gt_ConstructionStarted_Func");
+    TriggerEnable(libTIBW_gt_ConstructionStarted, false);
     TriggerAddEventUnitArmMagazineProgress(libTIBW_gt_ConstructionStarted, null, c_unitProgressStageStart);
 }
 
@@ -2954,6 +2956,7 @@ bool libTIBW_gt_ConstructionCompleted_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_ConstructionCompleted_Init () {
     libTIBW_gt_ConstructionCompleted = TriggerCreate("libTIBW_gt_ConstructionCompleted_Func");
+    TriggerEnable(libTIBW_gt_ConstructionCompleted, false);
     TriggerAddEventUnitArmMagazineProgress(libTIBW_gt_ConstructionCompleted, null, c_unitProgressStageComplete);
 }
 
@@ -2974,6 +2977,7 @@ bool libTIBW_gt_ConstructionCanceled_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_ConstructionCanceled_Init () {
     libTIBW_gt_ConstructionCanceled = TriggerCreate("libTIBW_gt_ConstructionCanceled_Func");
+    TriggerEnable(libTIBW_gt_ConstructionCanceled, false);
     TriggerAddEventUnitTrainProgress(libTIBW_gt_ConstructionCanceled, null, c_unitProgressStageCancel);
 }
 
@@ -3020,13 +3024,14 @@ bool libTIBW_gt_NewConstructionOptions_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_NewConstructionOptions_Init () {
     libTIBW_gt_NewConstructionOptions = TriggerCreate("libTIBW_gt_NewConstructionOptions_Func");
+    TriggerEnable(libTIBW_gt_NewConstructionOptions, false);
     TriggerAddEventUnitCreated(libTIBW_gt_NewConstructionOptions, null, null, null);
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Construction Completed 2
+// Trigger: New Construction Options - Unit Deployed
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConstructionCompleted2_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_NewConstructionOptionsUnitDeployed_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Conditions
     if (testConds) {
@@ -3045,15 +3050,16 @@ bool libTIBW_gt_ConstructionCompleted2_Func (bool testConds, bool runActions) {
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConstructionCompleted2_Init () {
-    libTIBW_gt_ConstructionCompleted2 = TriggerCreate("libTIBW_gt_ConstructionCompleted2_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_ConstructionCompleted2, null, AbilityCommand("NodMCVDeploy", 0), c_unitAbilStageComplete, false);
+void libTIBW_gt_NewConstructionOptionsUnitDeployed_Init () {
+    libTIBW_gt_NewConstructionOptionsUnitDeployed = TriggerCreate("libTIBW_gt_NewConstructionOptionsUnitDeployed_Func");
+    TriggerEnable(libTIBW_gt_NewConstructionOptionsUnitDeployed, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_NewConstructionOptionsUnitDeployed, null, AbilityCommand("NodMCVDeploy", 0), c_unitAbilStageComplete, false);
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Repairng
+// Trigger: Repairing
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_Repairng_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_Repairing_Func (bool testConds, bool runActions) {
     // Automatic Variable Declarations
     // Actions
     if (!runActions) {
@@ -3065,9 +3071,10 @@ bool libTIBW_gt_Repairng_Func (bool testConds, bool runActions) {
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_Repairng_Init () {
-    libTIBW_gt_Repairng = TriggerCreate("libTIBW_gt_Repairng_Func");
-    TriggerAddEventUnitBehaviorChange(libTIBW_gt_Repairng, null, "NodRepair", c_unitBehaviorChangeCreate);
+void libTIBW_gt_Repairing_Init () {
+    libTIBW_gt_Repairing = TriggerCreate("libTIBW_gt_Repairing_Func");
+    TriggerEnable(libTIBW_gt_Repairing, false);
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_Repairing, null, "NodRepair", c_unitBehaviorChangeCreate);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -3087,6 +3094,7 @@ bool libTIBW_gt_LowPower_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_LowPower_Init () {
     libTIBW_gt_LowPower = TriggerCreate("libTIBW_gt_LowPower_Func");
+    TriggerEnable(libTIBW_gt_LowPower, false);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_LowPower, null, "PowerShortage", c_unitBehaviorChangeCreate);
 }
 
@@ -3107,6 +3115,7 @@ bool libTIBW_gt_PowerRestored_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_PowerRestored_Init () {
     libTIBW_gt_PowerRestored = TriggerCreate("libTIBW_gt_PowerRestored_Func");
+    TriggerEnable(libTIBW_gt_PowerRestored, false);
     TriggerAddEventUnitBehaviorChange(libTIBW_gt_PowerRestored, null, "PowerShortage", c_unitBehaviorChangeDestroy);
 }
 
@@ -3127,6 +3136,7 @@ bool libTIBW_gt_TrainingStarted_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_TrainingStarted_Init () {
     libTIBW_gt_TrainingStarted = TriggerCreate("libTIBW_gt_TrainingStarted_Func");
+    TriggerEnable(libTIBW_gt_TrainingStarted, false);
     TriggerAddEventUnitTrainProgress(libTIBW_gt_TrainingStarted, null, c_unitProgressStageStart);
 }
 
@@ -3147,6 +3157,7 @@ bool libTIBW_gt_TrainingCompleted_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_TrainingCompleted_Init () {
     libTIBW_gt_TrainingCompleted = TriggerCreate("libTIBW_gt_TrainingCompleted_Func");
+    TriggerEnable(libTIBW_gt_TrainingCompleted, false);
     TriggerAddEventUnitTrainProgress(libTIBW_gt_TrainingCompleted, null, c_unitProgressStageComplete);
 }
 
@@ -3174,6 +3185,7 @@ bool libTIBW_gt_TrainingCanceled_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_TrainingCanceled_Init () {
     libTIBW_gt_TrainingCanceled = TriggerCreate("libTIBW_gt_TrainingCanceled_Func");
+    TriggerEnable(libTIBW_gt_TrainingCanceled, false);
     TriggerAddEventUnitArmMagazineProgress(libTIBW_gt_TrainingCanceled, null, c_unitProgressStageCancel);
 }
 
@@ -3229,6 +3241,7 @@ bool libTIBW_gt_AllyDefeated_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_AllyDefeated_Init () {
     libTIBW_gt_AllyDefeated = TriggerCreate("libTIBW_gt_AllyDefeated_Func");
+    TriggerEnable(libTIBW_gt_AllyDefeated, false);
     TriggerAddEventPlayerLeft(libTIBW_gt_AllyDefeated, c_playerAny, c_gameResultDefeat);
 }
 
@@ -3249,6 +3262,7 @@ bool libTIBW_gt_UnitComplete_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_UnitComplete_Init () {
     libTIBW_gt_UnitComplete = TriggerCreate("libTIBW_gt_UnitComplete_Func");
+    TriggerEnable(libTIBW_gt_UnitComplete, false);
     TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodWarFactoryTrain", null);
     TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodRefineryTrain", null);
     TriggerAddEventUnitCreated(libTIBW_gt_UnitComplete, null, "NodConstructionYardTrain", null);
@@ -3318,7 +3332,35 @@ bool libTIBW_gt_UnitAttacked_Func (bool testConds, bool runActions) {
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_UnitAttacked_Init () {
     libTIBW_gt_UnitAttacked = TriggerCreate("libTIBW_gt_UnitAttacked_Func");
+    TriggerEnable(libTIBW_gt_UnitAttacked, false);
     TriggerAddEventUnitAttacked2(libTIBW_gt_UnitAttacked, null, null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Unit Lost
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_UnitLost_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_player;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_player = UnitGetOwner(EventUnit());
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_PlayAnnounceSound(libTIBW_ge_NEVA_NEVA_UnitLost, lv_player);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_UnitLost_Init () {
+    libTIBW_gt_UnitLost = TriggerCreate("libTIBW_gt_UnitLost_Func");
+    TriggerEnable(libTIBW_gt_UnitLost, false);
+    TriggerAddEventUnitDied(libTIBW_gt_UnitLost, null);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -5225,6 +5267,78 @@ void libTIBW_gt_VestCreated_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Construction Ends
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_UntitledTrigger002_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitBehaviorRemove(EventUnit(), "NodVestConstruction", 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_UntitledTrigger002_Init () {
+    libTIBW_gt_UntitledTrigger002 = TriggerCreate("libTIBW_gt_UntitledTrigger002_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 1), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 1), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 6), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 6), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 10), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 10), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 5), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 5), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 4), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 4), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 0), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 0), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 9), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 9), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 3), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 3), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 8), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 8), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 7), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger002, null, AbilityCommand("NodConstructionArm", 7), c_unitAbilStageCancel, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Construction Support  Ends
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_UntitledTrigger004_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitBehaviorRemove(EventUnit(), "NodSupportVestConstruction", 1);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_UntitledTrigger004_Init () {
+    libTIBW_gt_UntitledTrigger004 = TriggerCreate("libTIBW_gt_UntitledTrigger004_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 5), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 5), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 2), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 2), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 4), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 4), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 0), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 0), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 3), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 3), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 6), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionSupportArm", 6), c_unitAbilStageCancel, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionYardTrain", 0), c_unitAbilStageComplete, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_UntitledTrigger004, null, AbilityCommand("NodConstructionYardTrain", 0), c_unitAbilStageCancel, false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Pushing
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_Pushing_Func (bool testConds, bool runActions) {
@@ -6588,8 +6702,8 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_ConstructionCompleted_Init();
     libTIBW_gt_ConstructionCanceled_Init();
     libTIBW_gt_NewConstructionOptions_Init();
-    libTIBW_gt_ConstructionCompleted2_Init();
-    libTIBW_gt_Repairng_Init();
+    libTIBW_gt_NewConstructionOptionsUnitDeployed_Init();
+    libTIBW_gt_Repairing_Init();
     libTIBW_gt_LowPower_Init();
     libTIBW_gt_PowerRestored_Init();
     libTIBW_gt_TrainingStarted_Init();
@@ -6599,6 +6713,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_AllyDefeated_Init();
     libTIBW_gt_UnitComplete_Init();
     libTIBW_gt_UnitAttacked_Init();
+    libTIBW_gt_UnitLost_Init();
     libTIBW_gt_CaptureHuskCanceled_Init();
     libTIBW_gt_CaptureHuskInitiated_Init();
     libTIBW_gt_MoveCommandOverrideCancel_Init();
@@ -6642,6 +6757,8 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_UntitledTrigger001_Init();
     libTIBW_gt_UntitledTrigger003_Init();
     libTIBW_gt_VestCreated_Init();
+    libTIBW_gt_UntitledTrigger002_Init();
+    libTIBW_gt_UntitledTrigger004_Init();
     libTIBW_gt_Pushing_Init();
     libTIBW_gt_PushingEnd_Init();
     libTIBW_gt_HubBuild_Init();
