@@ -1,5 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Catalog>
+
+    <CUnit id="NodTiberiumRefinery" parent="NodStructure">
+        <BehaviorArray Link="NodLaserFence"/>
+        <BehaviorArray Link="CNCTabEconomy"/>
+        <BehaviorArray Link="CNCDeployable"/>
+        <!--        <BehaviorArray Link="NodSpawnTibSmallOnDeath"/>-->
+        <BehaviorArray Link="CNCConstructionRadiusRefinery"/>
+        <BehaviorArray Link="NodSpawnMilitantOnDeath"/>
+        <BehaviorArray Link="NodEnergyProduction"/>
+        <!-- <BehaviorArray Link="NodEnergyProduction"/> -->
+        <BehaviorArray Link="CNCEnergyDrain5"/>
+        <FlagArray index="TownCamera" value="1"/>
+        <ResourceDropOff index="Minerals" value="1"/>
+        <ResourceDropOff index="Vespene" value="1"/>
+        <ResourceDropOff index="Terrazine" value="1"/>
+        <ResourceDropOff index="Custom" value="1"/>
+        <LifeStart value="1000"/>
+        <LifeMax value="1000"/>
+        <StationaryTurningRate value="719.4726"/>
+        <TurningRate value="719.4726"/>
+        <Sight value="11"/>
+        <CostCategory value="Economy"/>
+        <CostResource index="Minerals" value="400"/>
+        <RepairTime value="34"/>
+        <AbilArray Link="NodRefineryTrain"/>
+        <AbilArray Link="RallyCommand"/>
+        <EffectArray index="Create" value="CCCreateSet"/>
+        <EffectArray index="Birth" value="NodRefineryBirthSet"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodHarvester" Type="AbilCmd" AbilCmd="NodRefineryTrain,Train1" Row="0" Column="0"/>
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="RallyCommand,Rally1" Row="1" Column="4"/>
+        </CardLayouts>
+        <Radius value="2.5"/>
+        <SeparationRadius value="2.5"/>
+        <Footprint value="Footprint5x5Contour"/>
+        <PlacementFootprint value="Footprint5x5DropOff"/>
+        <ScoreMake value="400"/>
+        <ScoreKill value="400"/>
+        <SubgroupPriority value="110"/>
+        <MinimapRadius value="2.5"/>
+        <TacticalAI value="CommandCenter"/>
+        <TacticalAIThink value="AIThinkCommandCenter"/>
+        <GlossaryPriority value="5"/>
+        <TechTreeProducedUnitArray value="NodHarvester"/>
+        <InnerRadius value="2.5"/>
+        <Food value="12"/>
+    </CUnit>
+    <CActorUnit id="NodTiberiumRefinery" icon="tiberiumrefinery" parent="NodBuilding">
+        <Macros value="MacroTownhallDeco_Terran"/>
+        <Macros value="TerranCommandCenterPlayerDecalMacro"/>
+        <Macros value="SprayHelperMacro"/>
+        <AcceptedHostedPropTransfers index="Decal" value="0"/>
+        <!--        <PlacementModel value="ChinaCPlacement5x5"/>-->
+        <DeathArray index="UnderConstruction" ModelLink="TerranLargeBuildingDeath" SoundLink="CommandCenter_Explode"/>
+        <DeathCustoms ModelLink="NodTiberiumRefineryDeath" SoundLink="CommandCenter_Explode" Name="Variation2"/>
+        <BarOffset value="165"/>
+        <BarWidth value="200"/>
+        <NameOffset value="150"/>
+        <SoundArray index="Ready" value="Refinery_Ready"/>
+        <SoundArray index="What" value="Refinery_What"/>
+        <StatusHarvesterData Text="UI/HarvesterCountMineralsCNC" SearchFilters="HarvestableResource;Player,Ally,Enemy" SearchRadius="8"/>
+    </CActorUnit>
+
+    <CActorUnit id="NodMCV" icon="MCV" parent="NodVehicle" wireframe="NodMCVWireframe">
+        <LifeArmorIcon value="Assets\icons\Nod\btn-upgrade-nod-buildingarmor.dds"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo NodMCV" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom NodMCV" Send="Destroy"/>
+        <StandAnimTurnTime value="4.5"/>
+        <WalkAnimMoveSpeed value="1.5"/>
+        <!--        <MinimapFlashWhenAttacked value="0"/>-->
+        <!--        <MinimapUseSelfColor value="0"/>-->
+        <!--        <MinimapUseSelectionColor value="0"/>-->
+        <SoundArray index="Attack" value="NodMCV_Yes"/>
+        <SoundArray index="Pissed" value="NodMCV_What"/>
+        <SoundArray index="Movement" value="NodVehicleMoveLoopMCVA"/>
+    </CActorUnit>
+
+    <CActorUnit id="NodConstructionYard" icon="ConstructionYard" parent="NodBuilding" wireframe="NodConstructionYardWireframe" unitName="NodConstructionYard">
+        <On Terms="AbilMorph.*.Finish; MorphTo NodConstructionYard" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom NodConstructionYard" Send="Destroy"/>
+        <On Terms="UnitBirth.NodConstructionYard; PlayerHasClanDecal" Send="Create TerranClanFlag"/>
+        <On Terms="UnitBirth.NodConstructionYard; PlayerHasTrophy" Send="Create TerranPlayerTrophy"/>
+        <Aliases value="_UnitHuge"/>
+        <Macros value="BuildingFlattenTerrainMacro"/>
+        <Macros value="MacroTownhallDeco_Terran"/>
+        <Macros value="TerranPlanetaryFortressPlayerDecalMacro"/>
+        <AcceptedHostedPropTransfers index="Decal" value="0"/>
+        <DeathArray index="UnderConstruction" ModelLink="TerranLargeBuildingDeath" SoundLink="PlanetaryFortress_Explode"/>
+        <!--        <PlacementModel value="CABALDefenseCrawlerPlacement"/>-->
+        <BarOffset value="180"/>
+        <BarWidth value="200"/>
+        <GlossaryAnim value="Stand,A"/>
+        <NameOffset value="150"/>
+        <StatusHarvesterData Text="UI/HarvesterCountMineralsCNC" SearchFilters="HarvestableResource;Player,Ally,Enemy" SearchRadius="8"/>
+        <!--        <SoundArray index="Ready" value="NodMCV_Ready"/>-->
+        <!--        <SoundArray index="What" value="NodMCV_What"/>-->
+    </CActorUnit>
+<!--    <CActorUnit id="NodConstructionYardSupportModule" icon="ConstructionYard" wireframe="NodConstructionYardWireframe" parent="NodBuilding" unitName="NodConstructionYardSupportModule">-->
+<!--        <Model value="NodConstructionYardSupportModule"/>-->
+<!--        <BarOffset value="170"/>-->
+<!--        <BarWidth value="200"/>-->
+<!--        <On Terms="ActorCreation" Send="SetOpacity 0"/>-->
+<!--        <StatusBarFlags index="Shields" value="0"/>-->
+<!--        <StatusBarFlags index="Life" value="0"/>-->
+<!--        <StatusBarFlags index="Energy" value="0"/>-->
+<!--        <Wireframe>-->
+<!--            <Image index="0" value="Assets\Textures\black.dds"/>-->
+<!--        </Wireframe>-->
+<!--    </CActorUnit>-->
+
+    <CActorUnit id="NodMCV_Morph"  parent="NodBuilding" wireframe="NodConstructionYardWireframe" unitName="NodMCV_Morph" icon="ConstructionYard">
+        <Baselines index="Stand" AnimProps=""/>
+        <Baselines index="Walk" AnimProps=""/>
+        <On Terms="AbilMorph.*.Start; MorphFrom NodConstructionYard" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimPlay End Morph,End PlayForever,NonLooping"/>
+        <On Terms="AbilMorph.*.Finish; MorphFrom NodConstructionYard" Send="Destroy"/>
+    </CActorUnit>
+    <CActorUnit id="NodMCVUnpack" parent="NodBuilding" wireframe="NodConstructionYardWireframe" unitName="NodMCV_Morph" icon="ConstructionYard">
+        <Baselines index="Stand" AnimProps=""/>
+        <Baselines index="Walk" AnimProps=""/>
+        <On Terms="AbilMorph.*.Start; MorphTo NodConstructionYard" Send="Create"/>
+        <On Terms="ActorCreation" Send="AnimPlay Start Morph,Start PlayForever,NonLooping"/>
+        <On Terms="AbilMorph.*.Finish; MorphFrom NodMCV" Send="Destroy"/>
+        <Model value="NodMCV_Morph"/>
+    </CActorUnit>
+    <CActorSound id="NodMCVUnpackSound" parent="SoundOneShot">
+        <On Terms="AbilMorph.*.Start; MorphTo NodMCV" Send="Create"/>
+        <On Terms="UnitDeath.NodMCV" Send="Destroy"/>
+        <Sound value="NodMCVPack"/>
+    </CActorSound>
+    <CActorSound id="NodMCVPackSound" parent="SoundOneShot">
+        <On Terms="AbilMorph.*.Start; MorphTo NodConstructionYard" Send="Create"/>
+        <On Terms="UnitDeath.NodConstructionYard" Send="Destroy"/>
+        <Sound value="NodMCVUnpack"/>
+    </CActorSound>
+
+    <CModel id="NodMCV" parent="NodVehicle">
+        <ScaleMax value="0.94,0.94,0.94"/>
+        <ScaleMin value="0.94,0.94,0.94"/>
+        <Radius value="1.800000"/>
+        <SelectionRadius value="1.800000"/>
+        <ShadowRadius value="1.800000"/>
+    </CModel>
+    <CModel id="NodMCV_Morph" parent="NodUnit">
+        <ScaleMax value="0.94,0.94,0.94"/>
+        <ScaleMin value="0.94,0.94,0.94"/>
+        <Radius value="1.800000"/>
+        <SelectionRadius value="1.800000"/>
+        <ShadowRadius value="1.800000"/>
+    </CModel>
+    <CModel id="NodMCV_Death" parent="NodUnit">
+        <ScaleMax value="0.94,0.94,0.94"/>
+        <ScaleMin value="0.94,0.94,0.94"/>
+        <Radius value="1.800000"/>
+        <SelectionRadius value="1.800000"/>
+        <ShadowRadius value="1.800000"/>
+    </CModel>
+
 <!--Dymmy requirement ( to fix warning)-->
     <CRequirementCountUnit id="UCU_##unit##Vest" parent="UCU"/>
 <!--    <CBehaviorBuff id="TimeWarpProductionSupport" parent="TimeWarpProduction"/>-->
@@ -28,7 +186,6 @@
 <!--        <OperandArray value="REQC_NodConstructionArm"/>-->
 <!--        <OperandArray value="REQC_NodConstructionAdvancedArm"/>-->
 <!--    </CRequirementAnd>-->
-
 
     <CEffectModifyPlayer default="1" id="NodVestConstructionRefund">
         <EditorCategories value="Race:Nod"/>
@@ -1183,7 +1340,7 @@
             <LayoutButtons Face="NodBuildingPage" Type="Submenu"  SubmenuCardId="TBl1"  SubmenuIsSticky="1"  Row="2"  Column="0"/>
             <LayoutButtons Face="NodSupportPage"  Type="Submenu"  SubmenuCardId="TBl2"  SubmenuIsSticky="1"  Row="2"  Column="1"/>
 <!--            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="que5PassiveCancelToSelection,CancelLast" Row="2" Column="4"/>-->
-            <LayoutButtons Face="NodRepair" Type="AbilCmd" AbilCmd="NodRepair,Execute" Row="0" Column="0"/>
+            <LayoutButtons Face="NodRepair" Type="AbilCmd" AbilCmd="NodRepair,Execute" Row="1" Column="0"/>
         </CardLayouts>
         <CardLayouts CardId="TBl1">
             <LayoutButtons Type="AbilCmd" AbilCmd="NodConstruction,Build1" Row="0" Column="0" Face="NodTiberiumRefinery" />
@@ -1213,14 +1370,14 @@
         </CardLayouts>
         <CardLayouts CardId="TBl2">
             <LayoutButtons Face="NodVespeneRefinery" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build8" Row="0" Column="0"/>
-            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build7" Row="0" Column="1"/>
-            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build6" Row="0" Column="2"/>
+<!--            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build7" Row="0" Column="1"/>-->
+            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build6" Row="0" Column="1"/>
             <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build3" Row="1" Column="0"/>
             <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build4" Row="1" Column="1"/>
 
             <LayoutButtons Face="NodVespeneRefinery" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo8" Row="0" Column="0"/>
-            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo7" Row="0" Column="1"/>
-            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo6" Row="0" Column="2"/>
+<!--            <LayoutButtons Face="NodTiberiumSilo" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo7" Row="0" Column="1"/>-->
+            <LayoutButtons Face="NodAirSupport" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo6" Row="0" Column="1"/>
             <LayoutButtons Face="NodDisruptionTower" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo3" Row="1" Column="0"/>
             <LayoutButtons Face="NodVoiceOfKane" Type="AbilCmd" AbilCmd="NodConstructionSupportArm,Ammo4" Row="1" Column="1"/>
             <!--            <LayoutButtons Face="NodBuildingPage" Type="AbilCmd" AbilCmd="ChooseConjoinedConstructionModule,Execute" Row="2" Column="0"/>-->
@@ -1232,8 +1389,61 @@
 
 
 
+
+
+
+
+
+    <CAbilRally id="CNCRally">
+        <InfoArray index="0" UseFilters="-;Worker">
+            <SetValidators value="NotResourcesOrEnemyTargetType"/>
+        </InfoArray>
+        <InfoArray SetOnGround="0" UseFilters="Worker;-">
+        </InfoArray>
+        <InfoArray SetOnGround="0">
+            <SetValidators value="Failure"/>
+        </InfoArray>
+        <OrderArray>
+            <DisplayType value="Rally"/>
+            <Color value="255,0,255,255"/>
+            <Model value="Assets\UI\Feedback\WayPointRally\WayPointRally.m3"/>
+            <LineTexture value="Assets\Textures\WayPointLine.dds"/>
+        </OrderArray>
+        <CmdButtonArray index="Rally1" DefaultButtonFace="Rally"/>
+        <CmdButtonArray index="Rally2" DefaultButtonFace="SetRallyPoint2"/>
+    </CAbilRally>
+
+
+
+
+
     <CUnit id="NodConstructionYard" parent="NodConstructionBase">
-<!--        <Food value="8"/>-->
+        <BehaviorArray Link="CNCEnergyDrain5"/>
+        <FlagArray index="TownCamera" value="1"/>
+        <ResourceDropOff index="Minerals" value="1"/>
+        <ResourceDropOff index="Vespene" value="1"/>
+        <ResourceDropOff index="Terrazine" value="1"/>
+        <ResourceDropOff index="Custom" value="1"/>
+        <AbilArray Link="NodRefineryTrain"/>
+        <AbilArray Link="NodWarFactoryTrain"/>
+        <EffectArray index="Create" value="CCCreateSet"/>
+        <EffectArray index="Birth" value="NodRefineryBirthSet"/>
+        <Radius value="2.5"/>
+        <SeparationRadius value="2.5"/>
+        <Footprint value="Footprint5x5Contour"/>
+        <PlacementFootprint value="Footprint5x5DropOff"/>
+        <ScoreMake value="400"/>
+        <ScoreKill value="400"/>
+        <MinimapRadius value="2.5"/>
+        <TacticalAI value="CommandCenter"/>
+        <TacticalAIThink value="AIThinkCommandCenter"/>
+        <TechTreeProducedUnitArray value="NodHarvester"/>
+        <InnerRadius value="2.5"/>
+
+
+
+
+        <Food value="16"/>
         <BehaviorArray Link="NodSpawnMilitantOnDeath"/>
         <BehaviorArray Link="NodLaserFence"/>
 <!--        <BehaviorArray Link="CNCConstructionRadius"/>-->
@@ -1242,13 +1452,21 @@
         <!--        <BehaviorArray Link="CNCConjoinedUnit"/>-->
         <SubgroupPriority value="100"/>
         <AbilArray Link="NodConstructionYardPack"/>
-        <AbilArray Link="Rally"/>
+        <AbilArray Link="CNCRally"/>
+        <TechTreeProducedUnitArray value="NodMCV"/>
+        <TechTreeProducedUnitArray value="NodEmissary"/>
+
         <CardLayouts index="0">
-            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>
+            <LayoutButtons Face="NodHarvester" Type="AbilCmd" AbilCmd="NodRefineryTrain,Train1" Row="0" Column="0"/>
+            <LayoutButtons Face="NodEmissary" Type="AbilCmd" AbilCmd="NodConstructionYardTrain,Train1" Row="0" Column="1"/>
+            <LayoutButtons Face="NodMCV" Type="AbilCmd" AbilCmd="NodWarFactoryTrain,Train11" Row="0" Column="2"/>
+<!--            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="Rally,Rally1" Row="1" Column="4"/>-->
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="CNCRally,Rally2" Row="1" Column="4"/>
+            <LayoutButtons Face="Rally" Type="AbilCmd" AbilCmd="CNCRally,Rally1" Row="1" Column="4"/>
+
             <LayoutButtons Face="NodMCVPack" Type="AbilCmd" AbilCmd="NodConstructionYardPack,Execute" Row="2" Column="2"/>
         </CardLayouts>
         <CardLayouts index="2">
-             <LayoutButtons Face="NodEmissary" Type="AbilCmd" AbilCmd="NodConstructionYardTrain,Train1" Row="1" Column="4"/>
             <LayoutButtons Face="NodTurretsHub" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build1" Row="0" Column="3"/>
             <LayoutButtons Face="NodObelisk" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build2" Row="0" Column="4"/>
             <LayoutButtons Face="NodTemple" Type="AbilCmd" AbilCmd="NodConstructionSupport,Build5" Row="1" Column="2"/>
@@ -1272,8 +1490,6 @@
         <FlagArray index="PreventReveal" value="1"/>
 <!--        <FlagArray index="TownCamera" value="1"/>-->
         <Sight value="11"/>
-        <Radius value="3"/>
-        <SeparationRadius value="2.5"/>
         <!--        <Footprint value="Footprint4x4Contour"/>-->
         <!--        <PlacementFootprint value="Footprint4x4"/>-->
         <MinimapRadius value="2.5"/>
@@ -1353,7 +1569,7 @@
 <!--        <SubgroupPriority value="100"/>-->
 <!--    </CUnit>-->
     <CUnit id="NodCrane" parent="NodConstructionBase">
-<!--        <Food value="8"/>-->
+        <Food value="8"/>
         <BehaviorArray Link="NodLaserFence"/>
         <BehaviorArray Link="CNCDeployable"/>
         <BehaviorArray Link="CNCConstructionRadiusMedium"/>
