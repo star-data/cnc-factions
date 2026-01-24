@@ -2338,30 +2338,6 @@ void libTIBW_gt_GAMESTART_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Test
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_Test_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    PlayerSetRace(2, "Terr");
-    PlayerSetDifficulty(2, 7);
-    GameSetSpeedValue(c_gameSpeedFaster);
-    PlayerSetRace(1, "Nod");
-    TriggerSendEvent("GAME START Nod");
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_Test_Init () {
-    libTIBW_gt_Test = TriggerCreate("libTIBW_gt_Test_Func");
-    TriggerAddEventMapInit(libTIBW_gt_Test);
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: GAME START Check Nod
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_GAMESTARTCheckNod_Func (bool testConds, bool runActions) {
@@ -2479,39 +2455,6 @@ bool libTIBW_gt_GAMESTARTNod_Func (bool testConds, bool runActions) {
 void libTIBW_gt_GAMESTARTNod_Init () {
     libTIBW_gt_GAMESTARTNod = TriggerCreate("libTIBW_gt_GAMESTARTNod_Func");
     TriggerAddEventGeneric(libTIBW_gt_GAMESTARTNod, "GAME START Nod");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Debug Effects
-//--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_UntitledTrigger005_Func (bool testConds, bool runActions) {
-    // Variable Declarations
-    unit lv_uni;
-
-    // Automatic Variable Declarations
-    // Variable Initialization
-    lv_uni = EventPlayerEffectUsedUnit(c_effectUnitCaster);
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_37B72304"), true);
-    TextExpressionSetToken("Param/Expression/lib_TIBW_D372C493", "A", StringToText((UnitGetType(EventPlayerEffectUsedUnitLaunch()))));
-    TextExpressionSetToken("Param/Expression/lib_TIBW_D372C493", "B", StringToText((UnitGetType(EventPlayerEffectUsedUnitImpact()))));
-    TextExpressionSetToken("Param/Expression/lib_TIBW_D372C493", "C", StringToText((EventPlayerEffectUsed())));
-    TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_TIBW_D372C493"), true);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void libTIBW_gt_UntitledTrigger005_Init () {
-    libTIBW_gt_UntitledTrigger005 = TriggerCreate("libTIBW_gt_UntitledTrigger005_Func");
-    TriggerAddEventPlayerEffectUsed(libTIBW_gt_UntitledTrigger005, c_playerAny, "NodUnderConstruction");
-    TriggerAddEventPlayerEffectUsed(libTIBW_gt_UntitledTrigger005, c_playerAny, "NodConstructionStartSet");
-    TriggerAddEventPlayerEffectUsed(libTIBW_gt_UntitledTrigger005, c_playerAny, "NodConstructionFinishSet");
-    TriggerAddEventPlayerEffectUsed(libTIBW_gt_UntitledTrigger005, c_playerAny, "NodConstructionDischargePrimary");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6313,11 +6256,9 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_Clearthecoverafterteleportation_Init();
     libTIBW_gt_Clearthecoveraftertheteleportationiscancelled_Init();
     libTIBW_gt_GAMESTART_Init();
-    libTIBW_gt_Test_Init();
     libTIBW_gt_GAMESTARTCheckNod_Init();
     libTIBW_gt_NodunitCreated_Init();
     libTIBW_gt_GAMESTARTNod_Init();
-    libTIBW_gt_UntitledTrigger005_Init();
     libTIBW_gt_CNCStructureSalvageRefund_Init();
     libTIBW_gt_ConstructionStarted_Init();
     libTIBW_gt_ConstructionCompleted_Init();
