@@ -2482,6 +2482,39 @@ void libTIBW_gt_GAMESTARTNod_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Debug Effects
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_UntitledTrigger005_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_uni;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_uni = EventPlayerEffectUsedUnit(c_effectUnitCaster);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerDebugOutput(1, StringExternal("Param/Value/lib_TIBW_37B72304"), true);
+    TextExpressionSetToken("Param/Expression/lib_TIBW_D372C493", "A", StringToText((UnitGetType(EventPlayerEffectUsedUnitLaunch()))));
+    TextExpressionSetToken("Param/Expression/lib_TIBW_D372C493", "B", StringToText((UnitGetType(EventPlayerEffectUsedUnitImpact()))));
+    TextExpressionSetToken("Param/Expression/lib_TIBW_D372C493", "C", StringToText((EventPlayerEffectUsed())));
+    TriggerDebugOutput(1, TextExpressionAssemble("Param/Expression/lib_TIBW_D372C493"), true);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_UntitledTrigger005_Init () {
+    libTIBW_gt_UntitledTrigger005 = TriggerCreate("libTIBW_gt_UntitledTrigger005_Func");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_UntitledTrigger005, c_playerAny, "NodUnderConstruction");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_UntitledTrigger005, c_playerAny, "NodConstructionStartSet");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_UntitledTrigger005, c_playerAny, "NodConstructionFinishSet");
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_UntitledTrigger005, c_playerAny, "NodConstructionDischargePrimary");
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: CNCStructureSalvageRefund
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_CNCStructureSalvageRefund_Func (bool testConds, bool runActions) {
@@ -4566,26 +4599,28 @@ void libTIBW_gt_Maintenancebeeheightrestored_Init () {
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_SalvageRefund_Func (bool testConds, bool runActions) {
     // Variable Declarations
+    unit lv_unit;
     int lv_player;
 
     // Automatic Variable Declarations
     // Variable Initialization
-    lv_player = UnitGetOwner(EventUnit());
+    lv_unit = EventPlayerEffectUsedUnitLaunch();
+    lv_player = UnitGetOwner(lv_unit);
 
     // Actions
     if (!runActions) {
         return true;
     }
 
-    PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_player, c_playerPropMinerals) + CeilingI((CatalogFieldValueGetAsInt(c_gameCatalogUnit, UnitGetType(EventUnit()), "CostResource[" + IntToString(0) + "]", lv_player) * 0.75))));
-    PlayerModifyPropertyInt(lv_player, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_player, c_playerPropVespene) + CeilingI((CatalogFieldValueGetAsInt(c_gameCatalogUnit, UnitGetType(EventUnit()), "CostResource[" + IntToString(1) + "]", lv_player) * 0.75))));
+    PlayerModifyPropertyInt(lv_player, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_player, c_playerPropMinerals) + CeilingI((CatalogFieldValueGetAsInt(c_gameCatalogUnit, UnitGetType(lv_unit), "CostResource[" + IntToString(0) + "]", lv_player) * 0.75))));
+    PlayerModifyPropertyInt(lv_player, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_player, c_playerPropVespene) + CeilingI((CatalogFieldValueGetAsInt(c_gameCatalogUnit, UnitGetType(lv_unit), "CostResource[" + IntToString(1) + "]", lv_player) * 0.75))));
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
 void libTIBW_gt_SalvageRefund_Init () {
     libTIBW_gt_SalvageRefund = TriggerCreate("libTIBW_gt_SalvageRefund_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_SalvageRefund, null, AbilityCommand("CNCStructureSalvageRefund", 0), c_unitAbilStageComplete, false);
+    TriggerAddEventPlayerEffectUsed(libTIBW_gt_SalvageRefund, c_playerAny, "CNCSalvage");
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6282,6 +6317,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_GAMESTARTCheckNod_Init();
     libTIBW_gt_NodunitCreated_Init();
     libTIBW_gt_GAMESTARTNod_Init();
+    libTIBW_gt_UntitledTrigger005_Init();
     libTIBW_gt_CNCStructureSalvageRefund_Init();
     libTIBW_gt_ConstructionStarted_Init();
     libTIBW_gt_ConstructionCompleted_Init();
