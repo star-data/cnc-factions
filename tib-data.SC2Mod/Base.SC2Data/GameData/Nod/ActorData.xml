@@ -428,7 +428,6 @@
         <SoundArray index="Movement" value="Barracks_Movement"/>
     </CActorUnit>
     <CActorUnit id="NodBlackHand" icon="BlackHand" parent="NodInfantry" wireframe="NodBlackHandWireframe"/>
-    <CActorUnit id="NodFanatic" icon="Fanatic" parent="NodInfantry"/>
     <CActorUnit id="NodSaboteur" icon="Saboteur" parent="NodInfantry">
         <On Terms="Behavior.NodChannelSabotageCombat.On" Send="$Spell 0 -1.000000 -1.000000 3.500000 AsDuration"/>
         <On Terms="Behavior.NodChannelSabotageCombat.Off" Send="AnimClear Spell"/>
@@ -1937,37 +1936,6 @@
     <CActorAction id="NodMineExplosion" parent="GenericAttack" effectLaunch="NodMineExplodeDamage">
         <!--            <LaunchAssets Sound="Baneling_AttackLaunch"/>-->
         <ImpactMap index="None" Model="NodFanaticExplosionImpact" Sound="SiegeTank_Explode"/>
-    </CActorAction>
-    <CActorAction id="NodFanaticExplosion" parent="GenericAttack" effectLaunch="NodFanaticExplosionU">
-        <!--            <LaunchAssets Sound="Baneling_AttackLaunch"/>-->
-        <ImpactMap index="None" Sound="NodHallucinogenicGrenadeImpact"/>
-    </CActorAction>
-    <CActorAction id="NodFanaticExplosion2" parent="GenericAttack" effectLaunch="NodFanaticExplosionU2">
-        <!--            <LaunchAssets Sound="Baneling_AttackLaunch"/>-->
-        <ImpactMap index="None" Model="NodFanaticExplosionImpact" Sound="NodHallucinogenicGrenadeImpact"/>
-    </CActorAction>
-    <CActorForceSphere id="NodFanaticAttackForce">
-        <On Terms="Effect.NodFanaticExplosionU.Start; At Caster" Send="Create"/>
-        <On Terms="ActorCreation" Send="Create NodFanaticAttackForceUp"/>
-        <HostSiteOps Ops="SOpShadow SOpRandomPointInCircleDot25"/>
-        <Duration value="0.300000"/>
-        <Magnitude value="16.000000,8.000000"/>
-        <Radius value="2.100000,0.300000"/>
-    </CActorForceSphere>
-    <CActorForceSphere id="NodFanaticAttackForceUp">
-        <HostSiteOps Ops="SOpShadow SOpRotVariancerUp35"/>
-        <Field value="Directional"/>
-        <Duration value="0.500000"/>
-        <Magnitude value="15.000000,5.000000"/>
-        <Radius value="1.900000,0.300000"/>
-    </CActorForceSphere>
-    <CActorAction id="NodFanaticAttackDirect" parent="GenericAttack" effectAttack="NodFanaticExplosionFriendlyUnitDamage">
-        <On Terms="Effect.NodFanaticExplosionDirectFallbackEnemyNeutralUnit.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
-        <On Terms="Effect.NodFanaticExplosionDirectFallbackEnemyNeutralUnit.Start; At Caster" Send="Create"/>
-        <On Terms="Effect.NodFanaticExplosionDirectFallbackEnemyNeutralBuilding.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
-        <On Terms="Effect.NodFanaticExplosionDirectFallbackEnemyNeutralBuilding.Start; At Caster" Send="Create"/>
-        <On Terms="Effect.NodFanaticExplosionFriendlyBuildingDamage.Stop; FromEffectTreeDescendant" Send="ActionImpactPhysics"/>
-        <On Terms="Effect.NodFanaticExplosionFriendlyBuildingDamage.Start; At Caster" Send="Create"/>
     </CActorAction>
     <CActorModel id="NodMissileDeath" parent="ModelAnimationStyleOneShotNoOrphan">
         <Inherits index="BaseModelScale" value="1"/>
