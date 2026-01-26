@@ -1,26 +1,26 @@
 <Catalog>
-    <CUnit id="AlliedJavelinSoldier" parent="AlliedGround">
-        <Subtitle value="UnitSubtitle/fantanke"/>
+    <CButton id="AlliedJavelinSoldierSelfGuidedMode" parent="Allied" icon="ability-JavelinSoldier-SelfGuidedMode"/>
+    <CButton id="AlliedJavelinSoldierLaserGuidedMode" parent="Allied" icon="ability-JavelinSoldier-LaserGuidedMode"/>
+
+    <CUnit id="AlliedJavelinSoldier" parent="AlliedInfantry">
         <PushPriority value="5"/>
-        <Collide index="Locust" value="0"/>
-        <Response value="AcquireNoFlee"/>
-        <Attributes index="Light" value="1"/>
         <LifeStart value="50"/>
         <LifeMax value="50"/>
         <Speed value="2"/>
         <Sight value="8"/>
-        <CostResource index="Minerals" value="300"/>
+        <CostResource index="Minerals" value="75"/>
+        <CostResource index="Vespene" value="25"/>
         <KillXP value="4"/>
-        <AbilArray Link="SovietMotoModeSwhich23"/>
+        <AbilArray Link="AlliedJavelinSoldierLaserGuidedMode"/>
         <BehaviorArray Link="AlliedInfantryArmor"/>
         <BehaviorArray Link="UpgradeLevel127"/>
-        <BehaviorArray Link="RAInfantryAutoHeal"/>
         <WeaponArray Link="90mmCannons2"/>
         <WeaponArray Link="90mmCannons25"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="AlliedJavaModeSwitch2" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich23,On" Row="2" Column="1"/>
-            <LayoutButtons Face="AlliedJavaModeSwitch3" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich23,Off" Row="1" Column="1"/>
-            <LayoutButtons Face="AutechBeidongSet2" Type="Passive" Requirements="StortModeRe224" Row="1" Column="4"/>
+<!--            In the laser-guided mode, Javelin soldiers have to stay still and aim at the target for 3.5 seconds before firing. However, they gain twice the rate of fire and deal increased damage.-->
+            <LayoutButtons Face="AlliedJavelinSoldierLaserGuidedMode" Type="AbilCmd" AbilCmd="AlliedJavelinSoldierLaserGuidedMode,On" Row="2" Column="0"/>
+<!--            The default mode of Javelin soldiers. Fires missiles at a rate of 0.3 second per shot.-->
+            <LayoutButtons Face="AlliedJavelinSoldierSelfGuidedMode" Type="AbilCmd" AbilCmd="AlliedJavelinSoldierLaserGuidedMode,Off" Row="2" Column="1"/>
         </CardLayouts>
         <Radius value="0.4375"/>
         <SeparationRadius value="0.4375"/>
@@ -29,6 +29,15 @@
         <SubgroupPriority value="12"/>
         <GlossaryPriority value="150"/>
     </CUnit>
+    <CAbilBehavior id="AlliedJavelinSoldierLaserGuidedMode">
+        <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="On" DefaultButtonFace="AlliedJavelinSoldierLaserGuidedMode"/>
+        <CmdButtonArray index="Off" DefaultButtonFace="AlliedJavelinSoldierSelfGuidedMode"/>
+        <Flags index="Toggle" value="1"/>
+        <Flags index="Transient" value="1"/>
+        <Cost/>
+        <BehaviorArray value="AlliedJavelinSoldierLaserGuidedMode"/>
+    </CAbilBehavior>
     <CActorUnit id="AlliedJavelinSoldier" parent="AlliedInfantry" unitName="AlliedJavelinSoldier" icon="JavelinSoldier">
          <On  Terms="WeaponStart.90mmCannons2.AttackStart" Send="AnimBracketStart Attack1 Attack,01 Attack,01"/>
         <On  Terms="WeaponStart.90mmCannons24.AttackStart" Send="AnimBracketStart Attack2 Attack,03 Attack,03"/>
@@ -59,7 +68,7 @@
         <SoundArray index="ClickError" value="Spectre_ClickError"/>
         <SoundArray index="Highlight" value="Spectre_Highlight"/>
         <WalkAnimMoveSpeed value="1.6992"/>
-        <Model value="AlliedJavelinSoldier_Model"/>
+        <Model value="AlliedJavelinSoldier"/>
     </CActorUnit>
     <CActorAction id="ATRocketAttack" parent="GenericAttack" effectImpact="90mmCannons2" effectLaunch="ATRocket7">
         <LaunchAttachQuery Methods="AMFilterWeapon2" Fallback="Weapon"/>
@@ -105,14 +114,18 @@
         <AmmoUnit value="ATRocket"/>
         <Movers Link="PunisherGrenadesWeapon4"/>
     </CEffectLaunchMissile>
-    <CButton id="AlliedJavaModeSwitch3">
-        <Icon value="assets\icons\javelin-soldier-self-guided-mode.dds"/>
-        <HotkeyAlias value="TossGrenadeTychus2"/>
-    </CButton>
-    <CButton id="AlliedJavaModeSwitch2">
-        <Icon value="assets\icons\javelin-trooper-laser-guidance-mode.dds"/>
-    </CButton>
-    <CModel id="AlliedJavelinSoldier_Model" parent="Unit" Race="Terran">
+    <CMoverMissile id="PunisherGrenadesWeapon4">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="3200"/>
+            <MaxSpeed value="35"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+        <HeightMap value="Air"/>
+    </CMoverMissile>
+    <CModel id="AlliedJavelinSoldier" parent="Unit" Race="Terran">
         <Model value="assets\units\Allied\JavelinSoldier.m3"/>
         <SelectionRadius value="0.300000"/>
     </CModel>
@@ -225,9 +238,8 @@
         <LegacyOptions index="Uninterruptible" value="1"/>
         <AllowedMovement value="Slowing"/>
     </CWeaponLegacy>
-    <CBehaviorBuff id="SovietMotoCycleBehavior5222">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+    <CBehaviorBuff id="AlliedJavelinSoldierLaserGuidedMode">
+        <InfoIcon value="assets\icons\allied\ability-JavelinSoldier-LaserGuidedMode.dds"/>
         <InitialEffect value="RAInfantryCannotMoveWhenSwitchingModes"/>
         <FinalEffect value="RAInfantryCannotMoveWhenSwitchingModes"/>
         <Modification SightBonus="5">
@@ -236,7 +248,7 @@
             <DamageTakenMaximum index="Ranged" value="1000"/>
             <DamageTakenMaximum index="Splash" value="1000"/>
             <DamageTakenMaximum index="NoProc" value="1000"/>
-            <AbilLinkDisableArray value="SovietMotoModeSwhich232"/>
+            <AbilLinkDisableArray value="AlliedJavelinSoldierLaserGuidedMode2"/>
             <BehaviorLinkDisableArray value="SovietMotoCycleBehavior53"/>
             <WeaponEnableArray value="90mmCannons25"/>
             <WeaponDisableArray value="90mmCannons2"/>

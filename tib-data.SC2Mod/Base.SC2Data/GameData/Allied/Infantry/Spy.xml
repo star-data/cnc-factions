@@ -16,13 +16,13 @@
         <KillXP value="1"/>
         <AbilArray Link="AlliedSpyBribery"/>
         <AbilArray Link="AlliedSpyInfiltrate"/>
+        <AbilArray Link="AlliedSpyDisguise"/>
         <BehaviorArray Link="AlliedInfantryArmor"/>
         <BehaviorArray Link="RAInfantryAutoHeal"/>
-        <WeaponArray Link="AlliedSpyDisguise"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="AlliedSpyBribery" Type="AbilCmd" AbilCmd="AlliedSpyBribery,Execute" Row="1" Column="0"/>
-            <LayoutButtons Face="AlliedSpyInfiltrate" Type="AbilCmd" AbilCmd="AlliedSpyInfiltrate,Execute" Row="1" Column="4"/>
-            <LayoutButtons Face="AutechBeidongSet13" Type="Passive" Requirements="StortModeRe24" Row="2" Column="0"/>
+            <LayoutButtons Face="AlliedSpyBribery" Type="AbilCmd" AbilCmd="AlliedSpyBribery,Execute" Row="2" Column="1"/>
+            <LayoutButtons Face="AlliedSpyInfiltrate" Type="AbilCmd" AbilCmd="AlliedSpyInfiltrate,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="AlliedSpyDisguise" Type="AbilCmd" AbilCmd="AlliedSpyDisguise,Execute" Row="2" Column="2"/>
         </CardLayouts>
         <Radius value="0.375"/>
         <SeparationRadius value="0.375"/>
@@ -45,7 +45,7 @@
         <Effect index="0" value="CnbaihuTankSA24"/>
         <Flags index="BestUnit" value="1"/>
         <Cost>
-            <Resource index="Minerals" value="1000"/>
+            <Resource index="Minerals" value="150"/>
             <Display index="Minerals" value="1"/>
             <Charge Link=""/>
             <Cooldown Link="Abil/AlarakSingularity" TimeUse="10"/>
@@ -112,7 +112,7 @@
         <DisplayDuration index="Ally" value="1"/>
         <DisplayDuration index="Enemy" value="1"/>
         <TimeScaleSource Value="Global"/>
-        <Duration value="120"/>
+        <Duration value="60"/>
         <Modification SightBonus="5">
             <ModifyFlags index="DisableAbils" value="1"/>
             <ModifyFlags index="DisableWeapons" value="1"/>
@@ -145,9 +145,8 @@
             <BehaviorLinkDisableArray value="PersonalCloakingFree2"/>
         </Modification>
     </CBehaviorBuff>
-    <CButton id="AlliedSpyBribery">
-        <Icon value="Assets\icons\Allied\spy-skill-icon.dds"/>
-    </CButton>
+    <CButton id="AlliedSpyDisguise" parent="Allied" icon="unit-spy"/>
+    <CButton id="AlliedSpyBribery" parent="Allied" icon="spy-skill-icon"/>
     <CButton id="AlliedSpyInfiltrate">
         <Icon value="Assets\Textures\ui_glues_ladder_score_rating_down.dds"/>
     </CButton>
@@ -308,15 +307,110 @@
         <Flags index="NeedsUpdate" value="1"/>
         <Flags index="NeedsTTS" value="1"/>
     </CSound>
-    <CWeaponLegacy id="AlliedSpyDisguise">
-        <EditorCategories value="Race:Protoss"/>
-        <Options index="LinkedCooldown" value="0"/>
-        <Icon value="Assets\Textures\btn-ability-hornerhan-wraith-permanentcloak.dds"/>
-        <TargetFilters value="-;Self,Mechanical,Structure,Hover,Missile,Stasis,Dead,Invulnerable"/>
-        <AcquireFilters value="-;Enemy"/>
-        <Range value="500"/>
-        <Period value="1"/>
-        <Effect value="RASpyDisguisesApplicationBehavior"/>
-        <DisplayEffect value="ParticleBeam52"/>
-    </CWeaponLegacy>
+<!--    <CWeaponLegacy id="AlliedSpyDisguise">-->
+<!--        <EditorCategories value="Race:Protoss"/>-->
+<!--        <Options index="LinkedCooldown" value="0"/>-->
+<!--        <Icon value="Assets\Textures\btn-ability-hornerhan-wraith-permanentcloak.dds"/>-->
+<!--        <TargetFilters value="-;Self,Mechanical,Structure,Hover,Missile,Stasis,Dead,Invulnerable"/>-->
+<!--        <AcquireFilters value="-;Enemy"/>-->
+<!--        <Range value="500"/>-->
+<!--        <Period value="1"/>-->
+<!--        <Effect value="AlliedSpyDisguise"/>-->
+<!--        <DisplayEffect value="ParticleBeam52"/>-->
+<!--    </CWeaponLegacy>-->
+
+    <CAbilEffectTarget id="AlliedSpyDisguise">
+        <Flags index="Smart" value="1"/>
+        <Range value="13"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedSpyInfiltrate"/>
+        <Cost>
+            <Cooldown TimeUse="5" TimeStart="5"/>
+        </Cost>
+        <Flags index="BestUnit" value="0"/>
+        <TargetFilters value="Ground,Visible;Structure,Self,Player,Ally,Neutral,Dead,Hidden,Missile,Stasis,Invulnerable,MapBoss"/>
+        <!--        <Flags index="AutoCast" value="1"/>-->
+        <!--        <Flags index="AutoCastOn" value="1"/>-->
+        <!--        <Flags index="AutoCastOffOwnerLeave" value="1"/>-->
+<!--        <AutoCastAcquireLevel value="Defensive"/>-->
+<!--        <AutoCastFilters value="Ground,Light,Biological;Structure,Player,Ally,Neutral,User1,Stasis,Invulnerable,MapBoss"/>-->
+<!--        <AutoCastRange value="13"/>-->
+        <Effect index="0" value="AlliedSpyDisguiseEx3"/>
+    </CAbilEffectTarget>
+    <CActorModel id="AlliedSpyDisguise" parent="ModelAnimationStyleOneShot">
+        <Aliases value="_Snapshot"/>
+        <Flags index="SuppressSaveLoad" value="0"/>
+        <Inherits index="BaseModelScale" value="1"/>
+        <Inherits index="CastShadows" value="1"/>
+        <Inherits index="CloakEffect" value="1"/>
+        <Inherits index="CreepEngulfment" value="1"/>
+        <Inherits index="Decal" value="1"/>
+        <Inherits index="ModelMaterials" value="1"/>
+        <Inherits index="Opacity" value="1"/>
+        <Inherits index="Scale" value="1"/>
+        <Inherits index="TeamColor" value="1"/>
+        <Inherits index="TimeScale" value="1"/>
+        <Inherits index="TintColor" value="1"/>
+        <Inherits index="Visibility" value="1"/>
+        <Inherits index="WarpGroup" value="1"/>
+        <On Terms="Effect.AlliedSpyDisguiseEx3.Start; At Caster" Send="Create"/>
+        <Model value="HallucinationDeath"/>
+        <ModelFlags index="UseSyncSeed" value="1"/>
+    </CActorModel>
+
+    <CEffectSet id="AlliedSpyDisguiseEx3">
+        <TargetLocationType value="Unit"/>
+        <EffectArray value="AlliedSpyDisguiseEx3CU"/>
+    </CEffectSet>
+    <CEffectCreateUnit id="AlliedSpyDisguiseEx3CU">
+        <SpawnEffect value="AlliedSpyDisguiseEx3FinalSet"/>
+        <WhichLocation Value="CasterUnit"/>
+        <CreateFlags index="Birth" value="0"/>
+        <CreateFlags index="DropOff" value="0"/>
+        <CreateFlags index="OffsetByRadius" value="0"/>
+        <CreateFlags index="Placement" value="0"/>
+        <CreateFlags index="PlacementIgnoreBlockers" value="1"/>
+        <CreateFlags index="PlacementIgnoreCliffTest" value="1"/>
+        <CreateFlags index="ProvideFood" value="0"/>
+        <CreateFlags index="SetFacing" value="1"/>
+        <CreateFlags index="SelectControlGroups" value="1"/>
+        <CreateFlags index="UseFood" value="0"/>
+        <CreateFlags index="NormalizeSpawnOffset" value="0"/>
+        <SelectUnit Value="Caster"/>
+        <SpawnOwner Value="Target"/>
+        <SpawnUnit value="AlliedSpy"/>
+    </CEffectCreateUnit>
+    <CEffectSet id="AlliedSpyDisguiseEx3FinalSet">
+        <EffectArray value="AlliedSpyDisguiseEx3ChangeOwnerMimicCP"/>
+        <EffectArray value="AlliedSpyDisguiseEx3Mimic"/>
+        <EffectArray value="CopyOrders"/>
+<!--        <EffectArray value="AlliedSpyDisguiseEx3Transfer"/>-->
+        <EffectArray value="AlliedSpyDisguiseEx3RemoveCaster"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="AlliedSpyDisguiseEx3ChangeOwnerMimicCP">
+        <InitialEffect value="AlliedSpyDisguiseEx3ChangeOwner"/>
+        <FinalEffect value="AlliedSpyDisguiseEx3Mimic"/>
+    </CEffectCreatePersistent>
+    <CEffectModifyUnit id="AlliedSpyDisguiseEx3ChangeOwner">
+        <ModifyFlags index="Owner" value="1"/>
+        <ModifyOwnerPlayer Value="Caster"/>
+        <ImpactUnit Effect="AlliedSpyDisguiseEx3FinalSet"/>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="AlliedSpyDisguiseEx3Mimic">
+        <ImpactUnit Effect="AlliedSpyDisguiseEx3"/>
+        <ModifyFlags index="Mimic" value="1"/>
+        <LaunchUnit Effect="AlliedSpyDisguiseEx3FinalSet" Value="Target"/>
+    </CEffectModifyUnit>
+<!--    <CEffectTransferBehavior id="AlliedSpyDisguiseEx3Transfer">-->
+<!--        <EditorCategories value="Race:Zerg"/>-->
+<!--        <LaunchUnit Value="Caster"/>-->
+<!--        <ImpactUnit Value="Target"/>-->
+<!--        <Behavior value="Changeling"/>-->
+<!--    </CEffectTransferBehavior>-->
+    <CEffectDamage id="AlliedSpyDisguiseEx3RemoveCaster">
+        <Flags index="Kill" value="1"/>
+        <Flags index="NoKillCredit" value="1"/>
+        <Death value="Remove"/>
+        <ImpactLocation Value="CasterUnit"/>
+    </CEffectDamage>
+
 </Catalog>

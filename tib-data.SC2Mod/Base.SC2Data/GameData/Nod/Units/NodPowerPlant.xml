@@ -142,4 +142,143 @@
         </InfoArray>
         <Activity value="UI/Upgrading"/>
     </CAbilMorph>
+
+
+
+
+    <CEffectSwitch id="NodProductionBoostSwitch">
+        <!--        <CaseArray Validator="IsNotNodChronoBoosted" Effect="NodProductionBoostCP"/>-->
+        <CaseArray Validator="IsNotNodChronoBoosted" Effect="NodProductionBoostAB"/>
+        <CaseArray Validator="IsNodChronoBoosted" Effect="NodProductionBoostRB"/>
+    </CEffectSwitch>
+    <CEffectCreatePersistent id="NodProductionBoostCP">
+        <WhichLocation Value="TargetUnit"/>
+        <EditorCategories value="Race:Protoss"/>
+        <PeriodCount value="3"/>
+        <PeriodicEffectArray value="NodProductionBoostControllerRBCaster"/>
+        <PeriodicEffectArray value="NodRepairRB"/>
+        <PeriodicEffectArray value="NodProductionBoostControllerABCaster"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <PeriodicPeriodArray value="0"/>
+        <ValidatorArray value="NodProductionBoostTargetFilters"/>
+        <ValidatorArray value="NodProductionBoostViableTargets"/>
+        <!--    <ValidatorArray  value="TimeWarpTargetFilters"/>-->
+        <!--    <ValidatorArray value="TimeWarpViableTargets"/>-->
+        <!--        <ValidatorArray value="IsNotNodChronoBoosted"/>-->
+    </CEffectCreatePersistent>
+    <CEffectRemoveBehavior id="NodProductionBoostRB">
+        <EditorCategories value="Race:Protoss"/>
+        <BehaviorLink value="NodProductionBoost"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="NodProductionBoostControllerABCaster">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Value="Caster"/>
+        <Behavior value="NodProductionBoostController"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="NodProductionBoostControllerRBCaster">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="NodProductionBoostController"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+    <CEffectApplyBehavior id="NodProductionBoostAB">
+        <Behavior value="NodProductionBoost"/>
+        <ValidatorArray value="NodProductionBoostTargetFilters"/>
+        <ValidatorArray value="NodProductionBoostViableTargets"/>
+        <!--    <ValidatorArray  value="TimeWarpTargetFilters"/>-->
+        <!--    <ValidatorArray value="TimeWarpViableTargets"/>-->
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="NodProductionBoostControllerABTarget">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Effect="NodProductionBoostCP"/>
+        <Behavior value="NodProductionBoost"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="NodProductionBoostControllerRBTarget">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Effect="NodProductionBoostCP"/>
+        <BehaviorLink value="NodProductionBoost"/>
+        <Count value="1"/>
+    </CEffectRemoveBehavior>
+    <CEffectIssueOrder id="NodProductionBoostControllerIssueOrderSelf">
+        <EditorCategories value="Race:Protoss"/>
+        <WhichUnit Value="Caster"/>
+        <Abil value="NodProductionBoost"/>
+        <Target Value="CasterUnit"/>
+        <ValidatorArray value="IsNotNodChronoBoosted"/>
+        <ValidatorArray value="NodProductionBoostPreviousTargetIsDead"/>
+    </CEffectIssueOrder>
+
+
+
+    <CAbilEffectTarget id="NodProductionBoost">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <Cost>
+            <!--            <Vital index="Energy" value="25"/>-->
+            <!--            <Cooldown TimeUse="5"/>-->
+        </Cost>
+        <TargetFilters value="Structure;Ally,Neutral,Enemy,Missile,Stasis,Dead,Hidden"/>
+        <Range value="500"/>
+        <Arc value="360"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="TimeWarp"/>
+        <Effect index="0" value="NodProductionBoostSwitch"/>
+        <AINotifyEffect value="ChronoBoost"/>
+    </CAbilEffectTarget>
+    <CValidatorUnitFilters id="NodProductionBoostPreviousTargetIsDead">
+        <WhichUnit Effect="NodProductionBoostCP"/>
+        <Filters value="Dead;-"/>
+    </CValidatorUnitFilters>
+    <CValidatorCombine id="NodProductionBoostTargetFilters">
+        <CombineArray value="NodProductionBoostViableTargets"/>
+        <CombineArray value="NotDeadOrConstruction"/>
+        <ResultFailed value="CantTargetThatUnit"/>
+        <Type value="And"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="NodProductionBoostViableTargets">
+        <CombineArray value="NodConstructionYard"/>
+        <CombineArray value="NodCrane"/>
+        <CombineArray value="NodTiberiumRefinery"/>
+        <CombineArray value="NodHand"/>
+        <CombineArray value="NodWarFactory"/>
+        <CombineArray value="NodRedeemerFacility"/>
+        <CombineArray value="NodAirTower"/>
+        <CombineArray value="NodShrine"/>
+        <CombineArray value="NodTechLab"/>
+        <CombineArray value="NodChemicalPlant"/>
+        <CombineArray value="NodOperationsCenter"/>
+        <CombineArray value="NodTemple"/>
+        <!--        <CombineArray value="NodTiberiumSilo"/>-->
+        <!--        <CombineArray value="NodTiberiumSiloRich"/>-->
+    </CValidatorCombine>
+    <CValidatorUnitCompareBehaviorCount id="IsNotNodChronoBoosted">
+        <ResultFailed value="Error,Error/AlreadyChronoBoosted"/>
+        <Behavior value="NodProductionBoost"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="IsNodChronoBoosted">
+        <ResultFailed value="Error,Error/AlreadyChronoBoosted"/>
+        <Behavior value="NodProductionBoost"/>
+        <Value value="1"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CActorSound id="NodProductionBoostImpactSound" parent="SoundOneShot">
+        <Sound value="Obelisk_TimeWarpImpact"/>
+        <On Terms="BehaviorLevel.NodProductionBoost.Start; Level 1" Send="Create"/>
+        <Host Subject="_Unit"/>
+    </CActorSound>
+    <CBehaviorBuff id="NodProductionBoost">
+        <Alignment value="Positive"/>
+        <InfoIcon value="Assets\icons\icon-power-nobg.dds"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Protoss"/>
+        <Modification TimeScale="1.5"/>
+        <TimeScaleSource Value="Global"/>
+        <BehaviorCategories index="Fast" value="1"/>
+        <RemoveValidatorArray value="GenetronPowerSupplyGE001"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodProductionBoostController">
+        <InfoFlags index="Hidden" value="1"/>
+        <InitialEffect value="NodProductionBoostControllerABTarget"/>
+        <FinalEffect value="NodProductionBoostControllerRBTarget"/>
+        <Period value="0.5"/>
+        <PeriodicEffect value="NodProductionBoostControllerIssueOrderSelf"/>
+    </CBehaviorBuff>
 </Catalog>

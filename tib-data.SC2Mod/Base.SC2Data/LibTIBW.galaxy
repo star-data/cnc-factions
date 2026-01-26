@@ -1706,6 +1706,40 @@ void libTIBW_gt_ProductionUI_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Spy Disguise
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_SpyDisguise_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_caster;
+    unit lv_target;
+    int lv_casterOwner;
+    int lv_targetOwner;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_caster = EventUnit();
+    lv_target = EventUnitTargetUnit();
+    lv_casterOwner = UnitGetOwner(lv_caster);
+    lv_targetOwner = UnitGetOwner(lv_target);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UnitSetOwner(lv_caster, lv_targetOwner, true);
+    UnitSetOwner(lv_caster, lv_casterOwner, false);
+    libNtve_gf_SendActorMessageToUnit(lv_caster, libNtve_gf_ModelSwap(((UnitGetType(lv_target))), 0));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_SpyDisguise_Init () {
+    libTIBW_gt_SpyDisguise = TriggerCreate("libTIBW_gt_SpyDisguise_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_SpyDisguise, null, AbilityCommand("AlliedSpyDisguise", 255), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Unit upgrade special effects
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_Unitupgradespecialeffects_Func (bool testConds, bool runActions) {
@@ -4567,6 +4601,62 @@ void libTIBW_gt_SalvageRefund_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Construction Option secected
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ConstructionOptionsecected_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_p;
+    abilcmd lv_abilcmd;
+    string lv_abil;
+    int lv_index;
+    unit lv_unit;
+    string lv_unittype;
+    int lv_owner;
+    string lv_validator;
+    string lv_effect;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_p = EventPlayer();
+    lv_abilcmd = EventTargetModeAbilCmd();
+    lv_abil = AbilityCommandGetAbility(lv_abilcmd);
+    lv_index = AbilityCommandGetCommand(lv_abilcmd);
+    lv_owner = EventPlayer();
+
+    // Conditions
+    if (testConds) {
+        if (!((lv_abil == "NodConstructionSelect"))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    UISetTargetingOrder(PlayerGroupSingle(lv_p), UnitSubgroupSelected(lv_p), null, true);
+    lv_unit = UnitGroupUnit(UnitSubgroupSelected(lv_p), 1);
+    lv_unittype = (CatalogFieldValueGet(c_gameCatalogAbil, "NodConstruction", "InfoArray[" + IntToString(lv_index) + "].Unit", lv_owner));
+    lv_owner = UnitGetOwner(lv_unit);
+    lv_effect = (((lv_unittype) + "SpecializeSet"));
+    lv_validator = (CatalogFieldValueGet(c_gameCatalogEffect, lv_effect, "ValidatorArray[" + IntToString(0) + "]", c_playerAny));
+    if ((ValidatorExecute(lv_validator, lv_unit, lv_unit) == 0)) {
+        UnitCreateEffectUnit(lv_unit, lv_effect, lv_unit);
+        PlayerModifyPropertyInt(lv_owner, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_owner, c_playerPropMinerals) - CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_unittype, "CostResource[" + IntToString(0) + "]", c_playerAny)));
+        PlayerModifyPropertyInt(lv_owner, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_owner, c_playerPropVespene) - CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_unittype, "CostResource[" + IntToString(1) + "]", c_playerAny)));
+    }
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_ConstructionOptionsecected_Init () {
+    libTIBW_gt_ConstructionOptionsecected = TriggerCreate("libTIBW_gt_ConstructionOptionsecected_Func");
+    TriggerAddEventTargetModeUpdate(libTIBW_gt_ConstructionOptionsecected, c_playerAny, null, c_targetModeStateOn);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Shadow Glide
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_ShadowGlide_Func (bool testConds, bool runActions) {
@@ -6245,6 +6335,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_InitBeaconsButton_Init();
     libTIBW_gt_BeaconsButtonUsed_Init();
     libTIBW_gt_ProductionUI_Init();
+    libTIBW_gt_SpyDisguise_Init();
     libTIBW_gt_Unitupgradespecialeffects_Init();
     libTIBW_gt_Unitsgainexperiencebyrisingstars_Init();
     libTIBW_gt_Initialattributesettingsforalliedplayers_Init();
@@ -6311,6 +6402,7 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_Maintenancebeeheightadjustment_Init();
     libTIBW_gt_Maintenancebeeheightrestored_Init();
     libTIBW_gt_SalvageRefund_Init();
+    libTIBW_gt_ConstructionOptionsecected_Init();
     libTIBW_gt_ShadowGlide_Init();
     libTIBW_gt_ShadowLanding_Init();
     libTIBW_gt_NodDecoyArmyTargeting_Init();
