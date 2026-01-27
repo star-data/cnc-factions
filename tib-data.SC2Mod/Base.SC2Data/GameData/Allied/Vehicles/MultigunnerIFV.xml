@@ -1,57 +1,75 @@
 
 <Catalog>
-
-    <CUnit id="AlliedMultiGunnerIFV" parent="AlliedGround">
-        <Subtitle value="UnitSubtitle/zhuangjia"/>
-        <FlagArray index="AIPressForwardDisabled" value="1"/>
-        <PushPriority value="9"/>
-        <Collide index="Small" value="1"/>
-        <Response value="AcquireNoFlee"/>
-        <Attributes index="Light" value="1"/>
-        <Attributes index="Mechanical" value="1"/>
-        <LifeStart value="90"/>
-        <LifeMax value="90"/>
+    <CButton id="CommanderNovaUnlockGriffinTransport223333322">
+        <Icon value="Assets\Textures\btn-upgrade-mengsk-engineeringbay-improvedbunkersights.dds"/>
+        <HotkeyAlias value="BuildConstructionVehicle"/>
+    </CButton>
+    <CButton id="AlliedMultiGunnerIFVDetector">
+        <Icon value="Assets\Textures\BTN-Status-Detector.dds"/>
+        <HotkeyAlias value="Detector"/>
+    </CButton>
+    <CButton id="BunkerLoad22">
+        <Icon value="Assets\Textures\btn-ability-terran-load.dds"/>
+        <TintRacially value="1"/>
+    </CButton>
+    <CButton id="BunkerUnloadAll22">
+        <Icon value="Assets\Textures\btn-ability-terran-unloadall.dds"/>
+        <TintRacially value="1"/>
+    </CButton>
+    <CButton id="AlliedMultiGunnerIFVRepair">
+        <Icon value="Assets\Textures\btn-ability-terran-repair.dds"/>
+        <TintRacially value="1"/>
+    </CButton>
+    <CUnit id="AlliedMultiGunnerIFV" parent="AlliedVehicle">
+        <LifeStart value="100"/>
+        <LifeMax value="100"/>
         <Speed value="3.3984"/>
         <LateralAcceleration value="64"/>
         <Sight value="8"/>
         <Food value="-2"/>
-        <CostResource index="Minerals" value="600"/>
+        <CostResource index="Minerals" value="75"/>
+        <CostResource index="Vespene" value="25"/>
         <RepairTime value="45"/>
         <KillXP value="4"/>
         <AbilArray Link="SovietMotoModeSwhich233"/>
-        <AbilArray Link="BunkerTransport223"/>
-        <AbilArray Link="Repair2"/>
+        <AbilArray Link="AlliedMultiGunnerIFVTransport"/>
+        <AbilArray Link="AlliedMultiGunnerIFVRepair"/>
         <AbilArray Link="AttackRedirect"/>
-        <BehaviorArray Link="UpgradeLevel12"/>
+<!--        <BehaviorArray Link="UpgradeLevel12"/>-->
         <BehaviorArray Link="SandbagAuraB6"/>
-        <BehaviorArray Link="nianayaLevel1"/>
-        <BehaviorArray Link="AutoHeal42"/>
-        <BehaviorArray Link="RAMovementSpeedAndArmor20Percent662"/>
+<!--        <BehaviorArray Link="nianayaLevel1"/>-->
+<!--        <BehaviorArray Link="AutoHeal42"/>-->
         <WeaponArray Link="LongboltMissile242" Turret="SiegeTank"/>
         <WeaponArray Link="LongboltMissile2422" Turret="SiegeTank"/>
-        <WeaponArray Link="nianyalv1"/>
+<!--        <WeaponArray Link="nianyalv1"/>-->
         <CardLayouts index="0">
-            <LayoutButtons Face="Detector2" Type="Passive" Behavior="RAMovementSpeedAndArmor20Percent66" Row="2" Column="3"/>
-            <LayoutButtons Face="BunkerLoad22" Type="AbilCmd" AbilCmd="BunkerTransport223,Load" Row="2" Column="0"/>
-            <LayoutButtons Face="BunkerUnloadAll22" Type="AbilCmd" AbilCmd="BunkerTransport223,UnloadAll" Row="2" Column="1"/>
-            <LayoutButtons Face="CommanderNovaUnlockGriffinTransport223333322" Type="Passive" Row="1" Column="4"/>
-            <LayoutButtons Face="Repair2" Type="AbilCmd" AbilCmd="Repair2,Execute" Row="2" Column="2"/>
-            <LayoutButtons Face="AutechBeidongSet40" Type="Passive" Requirements="StortModeRe232" Row="1" Column="3"/>
-            <LayoutButtons Face="AutechBeidongSet5" Type="Passive" Requirements="StortModeRe22" Row="1" Column="2"/>
+            <LayoutButtons Face="MedivacLoad" Type="AbilCmd" AbilCmd="AlliedRiptideACVTransport,Load" Row="2" Column="2"/>
+            <LayoutButtons Face="MedivacUnloadAll" Type="AbilCmd" AbilCmd="AlliedRiptideACVTransport,UnloadAt" Row="2" Column="3"/>
+            <LayoutButtons Face="AlliedMultiGunnerIFVDetector" Type="Passive" Behavior="AlliedMultiGunnerIFVDetector" Row="2" Column="3"/>
+            <LayoutButtons Face="AlliedMultiGunnerIFVRepair" Type="AbilCmd" AbilCmd="AlliedMultiGunnerIFVRepair,Execute" Row="2" Column="0"/>
             <LayoutButtons Face="BunkerAttack" Type="AbilCmd" AbilCmd="AttackRedirect,Execute" Row="1" Column="0"/>
         </CardLayouts>
         <Radius value="0.625"/>
         <SeparationRadius value="0.4375"/>
         <InnerRadius value="0.4375"/>
         <SubgroupPriority value="12"/>
-        <GlossaryPriority value="150"/>
+        <GlossaryPriority value="100"/>
         <AIEvalFactor value="1.5"/>
         <ReviveInfoBase>
             <Charge Link="SiegeTank/Revive"/>
             <Cooldown Link="SiegeTank/Revive"/>
         </ReviveInfoBase>
     </CUnit>
-    <CAbilEffectTarget id="Repair2">
+    <CEffectCreateHealer id="AlliedMultiGunnerIFVRepair" parent="Repair">
+        <Name value="Effect/Name/AlliedMultiGunnerIFVRepair"/>
+        <RechargeVitalRate value="10"/>
+        <TimeFactor value="0"/>
+        <DrainResourceCostFactor index="Minerals" value="0"/>
+        <DrainResourceCostFactor index="Vespene" value="0"/>
+        <DrainResourceCostFactor index="Terrazine" value="0"/>
+        <DrainResourceCostFactor index="Custom" value="0"/>
+    </CEffectCreateHealer>
+    <CAbilEffectTarget id="AlliedMultiGunnerIFVRepair">
         <Alignment value="Positive"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Effect index="0" value="ArtanisVoidUlnarDamage222522"/>
@@ -67,7 +85,7 @@
         <AutoCastFilters value="-;Neutral,Enemy"/>
         <AutoCastRange value="8"/>
         <DefaultError value="RequiresRepairTarget"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Repair2">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedMultiGunnerIFVRepair">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Range value="0.4"/>
@@ -93,7 +111,7 @@
         <Cost/>
         <BehaviorArray value="SovietMotoCycleBehavior52222"/>
     </CAbilBehavior>
-    <CAbilTransport id="BunkerTransport223">
+    <CAbilTransport id="AlliedMultiGunnerIFVTransport">
         <AbilSetId value="ULdS"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Structures"/>
         <DataCollection value="BunkerTransport"/>
@@ -122,7 +140,7 @@
             <SortArray index="0" value="RATSInterruptible"/>
             <SortArray index="1" value="RATSDistance"/>
         </TargetSorts>
-        <LoadTransportBehavior value="RAMovementSpeedAndArmor20Percent66"/>
+        <LoadTransportBehavior value="AlliedMultiGunnerIFVDetector"/>
     </CAbilTransport>
     <CActorAction id="MissileTurretAttack232" parent="GenericAttack" effectImpact="LongboltMissileU232" effectLaunch="RA3duogongnengLM">
         <LaunchAttachQuery Methods="AMPatternMarauder2632 AMPatternMarauder224"/>
@@ -266,44 +284,18 @@
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
         <DisableValidatorArray value="RAExcludeLoadedAlliedEngineers"/>
         <Modification>
-            <AbilLinkDisableArray value="Repair2"/>
+            <AbilLinkDisableArray value="AlliedMultiGunnerIFVRepair"/>
         </Modification>
     </CBehaviorBuff>
-    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent66">
+    <CBehaviorBuff id="AlliedMultiGunnerIFVDetector">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <DisableValidatorArray value="RAMustBeAnEngineerMultipurpose"/>
         <Modification Detect="8">
-            <AbilLinkEnableArray value="Repair2"/>
+            <AbilLinkEnableArray value="AlliedMultiGunnerIFVRepair"/>
             <BehaviorLinkDisableArray value="SandbagAuraB6"/>
         </Modification>
         <InfoFlags index="Hidden" value="1"/>
     </CBehaviorBuff>
-    <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent662">
-        <InfoFlags index="Hidden" value="1"/>
-        <EditorCategories value="AbilityorEffectType:Units"/>
-        <DisableValidatorArray value="HasCargo22"/>
-        <Modification AttackSpeedMultiplier="0.25"/>
-    </CBehaviorBuff>
-    <CButton id="CommanderNovaUnlockGriffinTransport223333322">
-        <Icon value="Assets\Textures\btn-upgrade-mengsk-engineeringbay-improvedbunkersights.dds"/>
-        <HotkeyAlias value="BuildConstructionVehicle"/>
-    </CButton>
-    <CButton id="Detector2">
-        <Icon value="Assets\Textures\BTN-Status-Detector.dds"/>
-        <HotkeyAlias value="Detector"/>
-    </CButton>
-    <CButton id="BunkerLoad22">
-        <Icon value="Assets\Textures\btn-ability-terran-load.dds"/>
-        <TintRacially value="1"/>
-    </CButton>
-    <CButton id="Repair2">
-        <Icon value="Assets\Textures\btn-ability-terran-repair.dds"/>
-        <TintRacially value="1"/>
-    </CButton>
-    <CButton id="BunkerUnloadAll22">
-        <Icon value="Assets\Textures\btn-ability-terran-unloadall.dds"/>
-        <TintRacially value="1"/>
-    </CButton>
     <CEffectDamage id="LongboltMissileU232" parent="DU_WEAP_MISSILE">
         <Amount value="10"/>
     </CEffectDamage>

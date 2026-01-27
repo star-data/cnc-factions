@@ -1,0 +1,70 @@
+<Catalog>
+    <CAbilEffectInstant id="NodRaiderEMP">
+        <Cost>
+            <Charge Location="Unit"/>
+            <Cooldown Location="Unit" TimeUse="60"/>
+        </Cost>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodRaiderEmpCoils" Requirements="NodRaiderEMP">
+            <Flags index="ToSelection" value="1"/>
+        </CmdButtonArray>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CAbilEffectInstant>
+    <CEffectSet id="NodRaiderEMP">
+        <EffectArray value="NodRaiderEMPEA"/>
+        <TargetLocationType value="Point"/>
+    </CEffectSet>
+    <CEffectEnumArea id="NodRaiderEMPEA">
+        <EditorCategories value=""/>
+        <SearchFilters value="Mechanical;Air,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="1.5" Effect="NodRaiderEMPSet"/>
+        <RevealerParams Duration="6"/>
+        <SearchFlags index="ExtendByUnitRadius" value="1"/>
+    </CEffectEnumArea>
+    <CEffectSet id="NodRaiderEMPSet">
+        <EffectArray value="EMPSet"/>
+        <EffectArray value="NodRaiderEMPStunnedAB"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="NodRaiderEMPStunnedAB">
+        <ValidatorArray index="0" removed="1"/>
+        <EditorCategories value=""/>
+        <Behavior value="NodRaiderEMPStunned"/>
+    </CEffectApplyBehavior>
+    <CBehaviorBuff id="NodRaiderEMPStunned">
+        <Alignment value="Negative"/>
+        <InfoIcon value="Assets\Textures\btn-ability-terran-ultrasonicpulse.dds"/>
+        <BehaviorCategories index="Stun" value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Duration value="6"/>
+        <Modification>
+            <ModifyFlags index="DisableAbils" value="1"/>
+            <ModifyFlags index="SuppressMoving" value="1"/>
+            <ModifyFlags index="SuppressTurning" value="1"/>
+            <StateFlags index="Stun" value="1"/>
+            <StateFlags index="SuppressAttack" value="1"/>
+            <StateFlags index="SuppressCloak" value="1"/>
+            <StateFlags index="SuppressDetection" value="1"/>
+            <StateFlags index="SuppressRadar" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+
+    <!--    <CActorModel id="NodAwakenEMPAttackImpactEffect" parent="ModelAnimationStyleOneShot">-->
+    <!--        <On Terms="Effect.NodRaiderEMPSearchArea.Start" Send="Create"/>-->
+    <!--        <On Terms="Effect.NodRaiderEMPSearchArea.Stop" Send="AnimBracketStop BSD"/>-->
+    <!--        <HostSiteOps Ops="SOpShadow"/>-->
+    <!--        <Model value="GhostEMPAttackImpactEffect"/>-->
+    <!--        <Scale value="0.400000"/>-->
+    <!--    </CActorModel>-->
+    <CActorModel id="NodRaiderEMPImpactEffect" parent="ModelAnimationStyleOneShot">
+        <Model value="GhostEMPAttackImpactEffect"/>
+        <On Terms="Effect.NodRaiderEMP.Start" Send="Create"/>
+        <On Terms="Effect.NodRaiderEMP.Stop" Send="AnimBracketStop BSD"/>
+        <On Terms="ActorCreation" Send="SetScale 1.330000"/>
+        <HostSiteOps Ops="SOpShadow"/>
+    </CActorModel>
+    <CActorAction id="NodRaiderEMPSStunnedTint">
+        <On Terms="Behavior.NodAwakenEMPStunned.On" Send="SetTintColor {0,0,0 0.400000} 0.300000"/>
+        <On Terms="Behavior.NodAwakenEMPStunned.Off" Send="ClearTintColor 0.100000"/>
+        <On Terms="Behavior.NodRaiderEMPStunned.On" Send="SetTintColor {0,0,0 0.400000} 0.300000"/>
+        <On Terms="Behavior.NodRaiderEMPStunned.Off" Send="ClearTintColor 0.100000"/>
+    </CActorAction>
+</Catalog>

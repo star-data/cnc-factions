@@ -1,37 +1,29 @@
 <Catalog>
 
     <CUnit id="AlliedFutureTank" parent="AlliedGround">
-        <Subtitle value="UnitSubtitle/xianjintanke"/>
-        <FlagArray index="AIPressForwardDisabled" value="1"/>
-        <PushPriority value="21"/>
-        <Collide index="Small" value="1"/>
-        <Response value="AcquireNoFlee"/>
-        <Attributes index="Armored" value="1"/>
-        <Attributes index="Mechanical" value="1"/>
         <Attributes index="Robotic" value="1"/>
-        <LifeStart value="500"/>
-        <LifeMax value="500"/>
+        <LifeStart value="250"/>
+        <LifeMax value="250"/>
         <LifeArmor value="1"/>
-        <LifeRegenRate value="0.5"/>
-        <Speed value="1.6992"/>
+        <Speed value="2.25"/>
         <Acceleration value="100"/>
         <StationaryTurningRate value="239.9414"/>
         <TurningRate value="239.9414"/>
         <Sight value="15"/>
         <Food value="-4"/>
-        <CostResource index="Minerals" value="3000"/>
+        <CostResource index="Minerals" value="250"/>
+        <CostResource index="Vespene" value="250"/>
         <RepairTime value="41.667"/>
         <KillXP value="25"/>
         <AbilArray Link="AlliedFSpell"/>
-        <BehaviorArray Link="UpgradeLevel12323"/>
-        <BehaviorArray Link="nianayaLevel13"/>
-        <BehaviorArray Link="AutoHeal42"/>
+<!--        <BehaviorArray Link="UpgradeLevel12323"/>-->
+<!--        <BehaviorArray Link="nianayaLevel13"/>-->
+<!--        <BehaviorArray Link="AutoHeal42"/>-->
         <WeaponArray Link="TempestGround2" Turret="RANeutronDisturbanceCannon2"/>
-        <WeaponArray Link="nianyalv13"/>
+<!--        <WeaponArray Link="nianyalv13"/>-->
         <CardLayouts index="0">
             <LayoutButtons Face="OdinBarrage" Type="AbilCmd" AbilCmd="attack,Barrage" Row="2" Column="0"/>
             <LayoutButtons Face="RARiotBeam2" Type="AbilCmd" AbilCmd="AlliedFSpell,Execute" Row="1" Column="1"/>
-            <LayoutButtons Face="AutechBeidongSet4" Type="Passive" Requirements="StortModeRe238" Row="1" Column="4"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.4375"/>
@@ -40,8 +32,11 @@
         <ScoreKillCostFactor index="Vespene" value="1.25"/>
         <MinimapRadius value="0.375"/>
         <SubgroupPriority value="12"/>
-        <GlossaryPriority value="150"/>
+        <GlossaryPriority value="160"/>
     </CUnit>
+    <CActorTurret id="RANeutronDisturbanceCannon">
+        <On Terms="TurretEnable.RANeutronDisturbanceCannon2" Send="Create"/>
+    </CActorTurret>
     <CAbilEffectTarget id="AlliedFSpell">
         <EditorCategories value="AbilityorEffectType:Units,Race:Terran"/>
         <PrepEffect value="RAFutureTankLaunchesSpreadingBeamToDisableTheMainWeapon"/>
@@ -316,6 +311,12 @@
         <HostLaunchSiteOps Ops="SOpAttachWeapon02"/>
         <HostImpact Subject="ColossusAttackImpactSiteReverse2"/>
     </CActorBeamSimple>
+    <CActorSite id="AlliedFBeamleft" parent="SiteUNIT">
+        <HostSiteOps Ops="SOpAttachWeapon01"/>
+    </CActorSite>
+    <CActorSite id="AlliedFBeamright" parent="SiteUNIT">
+        <HostSiteOps Ops="SOpAttachWeapon02"/>
+    </CActorSite>
     <CActorSiteMover id="ColossusAttackImpactSiteReverse2">
         <Terms value="Cap 1"/>
         <Sharing value="PerEffectTree"/>
@@ -409,7 +410,6 @@
         <Behavior value="RAMovementSpeedAndArmor20Percent16"/>
     </CEffectApplyBehavior>
     <CEffectSet id="ThermalLances3">
-        <EditorCategories value="Race:Protoss"/>
         <EffectArray value="ThermalLancesForward3"/>
         <EffectArray value="ThermalLancesReverse2"/>
         <TargetLocationType value="UnitOrPoint"/>

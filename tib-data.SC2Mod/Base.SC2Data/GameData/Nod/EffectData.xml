@@ -889,35 +889,15 @@
         <RevealerParams Duration="6"/>
         <SearchFlags index="ExtendByUnitRadius" value="1"/>
     </CEffectEnumArea>
-    <CEffectSet id="NodRaiderEMP">
-        <EffectArray value="NodRaiderEMPEA"/>
-        <TargetLocationType value="Point"/>
-    </CEffectSet>
     <CEffectSet id="NodAwakenEMP">
         <EditorCategories value=""/>
         <EffectArray value="NodAwakenEMPLaunchMissile"/>
         <TargetLocationType value="Point"/>
     </CEffectSet>
-    <CEffectEnumArea id="NodRaiderEMPEA">
-        <EditorCategories value=""/>
-        <SearchFilters value="Mechanical;Air,Missile,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="1.5" Effect="NodRaiderEMPSet"/>
-        <RevealerParams Duration="6"/>
-        <SearchFlags index="ExtendByUnitRadius" value="1"/>
-    </CEffectEnumArea>
-    <CEffectSet id="NodRaiderEMPSet">
-        <EffectArray value="EMPSet"/>
-        <EffectArray value="NodRaiderEMPStunnedAB"/>
-    </CEffectSet>
     <CEffectSet id="NodAwakenEMPSet">
         <EffectArray value="EMPSet"/>
         <EffectArray value="NodAwakenEMPStunnedAB"/>
     </CEffectSet>
-    <CEffectApplyBehavior id="NodRaiderEMPStunnedAB">
-        <ValidatorArray index="0" removed="1"/>
-        <EditorCategories value=""/>
-        <Behavior value="NodRaiderEMPStunned"/>
-    </CEffectApplyBehavior>
     <CEffectApplyBehavior id="NodAwakenEMPStunnedAB">
         <ValidatorArray index="0" removed="1"/>
         <EditorCategories value=""/>
@@ -1687,36 +1667,6 @@
         <WhichUnit Value="Caster"/>
         <Behavior value="NodHarvesterCloak"/>
     </CEffectApplyBehavior>
-    <CEffectCreatePersistent id="NodBoobyTrapActivateCP">
-        <WhichLocation Value="CasterPoint"/>
-        <PeriodCount value="3"/>
-        <PeriodicPeriodArray value="0"/>
-        <PeriodicPeriodArray value="0.25"/>
-        <PeriodicPeriodArray value="0.25"/>
-        <PeriodicEffectArray value="NodBoobyTrapReveal"/>
-        <PeriodicEffectArray value="NodBoobyTrapActivate"/>
-        <PeriodicEffectArray value="KillCaster"/>
-    </CEffectCreatePersistent>
-    <CEffectCreatePersistent id="NodBoobyTrapReveal">
-        <WhichLocation Value="CasterUnit"/>
-        <RevealRadius value="2"/>
-        <RevealFlags index="Unfog" value="1"/>
-        <RevealFlags index="Detect" value="1"/>
-        <ExpireDelay value="4"/>
-    </CEffectCreatePersistent>
-    <CEffectEnumArea id="NodBoobyTrapActivate">
-        <EditorCategories value="Race:Protoss"/>
-        <ImpactLocation Value="CasterUnit"/>
-        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Structure,Missile,Destructible,Stasis,Dead,Hidden,Invulnerable"/>
-        <AreaArray Radius="5" Effect="NodBoobyTrapDamage"/>
-        <AINotifyFlags index="HurtEnemy" value="1"/>
-    </CEffectEnumArea>
-    <CEffectCreateUnit id="NodBoobyTrap">
-        <EditorCategories value="Race:Terran"/>
-        <ValidatorArray value="NodBoobyTrapTargets"/>
-        <SpawnUnit value="NodBoobyTrap"/>
-        <SpawnRange value="3"/>
-    </CEffectCreateUnit>
     <CEffectApplyBehavior id="NodArtilleryBeaconTimedLife">
         <EditorCategories value="Race:Zerg"/>
         <!--        <Flags index="UseDuration" value="1"/>-->
@@ -2291,27 +2241,4 @@
         <WhichLocation Value="CasterPoint"/>
         <SpawnUnit value="NodSignatureDecoy"/>
     </CEffectCreateUnit>
-    <CAbilEffectTarget id="NodAwakenEMP">
-        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
-        <Effect index="0" value="NodAwakenEMPLaunchMissile"/>
-        <Cost>
-            <Charge Location="Unit"/>
-            <Cooldown Location="Unit" TimeUse="140"/>
-        </Cost>
-        <Range value="10"/>
-        <CursorEffect value="NodRaiderEMPSearchArea"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="NodCyborgsEMP">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-    </CAbilEffectTarget>
-    <CAbilEffectInstant id="NodRaiderEMP">
-        <Cost>
-            <Charge Location="Unit"/>
-            <Cooldown Location="Unit" TimeUse="60"/>
-        </Cost>
-        <CmdButtonArray index="Execute" DefaultButtonFace="NodRaiderEmpCoils" Requirements="NodRaiderEMP">
-            <Flags index="ToSelection" value="1"/>
-        </CmdButtonArray>
-        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
-    </CAbilEffectInstant>
 </Catalog>

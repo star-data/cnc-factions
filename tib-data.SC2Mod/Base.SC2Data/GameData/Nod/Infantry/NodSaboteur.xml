@@ -1,0 +1,205 @@
+<Catalog>
+    <CUnit id="NodSaboteur" parent="NodInfantry">
+        <Attributes index="Psionic" value="1"/>
+        <SubgroupPriority value="45"/>
+        <LifeStart value="25"/>
+        <LifeMax value="25"/>
+        <Speed value="1.6484"/>
+        <Food value="-1"/>
+        <CostResource index="Minerals" value="75"/>
+        <CostResource index="Vespene" value="25"/>
+        <GlossaryPriority value="75"/>
+        <AbilArray Link="NodBoobyTrap"/>
+        <AbilArray Link="CNCEngineerCapture"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodCyberneticLegsPassive" Type="Passive" Requirements="HasNodCyberneticLegs" Row="1" Column="4"/>
+            <LayoutButtons Face="CNCEngineerCapture" Type="AbilCmd" AbilCmd="CNCEngineerCapture,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="NodBoobyTrap" Type="AbilCmd" AbilCmd="NodBoobyTrap,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="CNCEngineerCapture,Cancel" Row="2" Column="4"/>
+        </CardLayouts>
+    </CUnit>
+
+
+    <CEffectCreatePersistent id="NodBoobyTrapActivateCP">
+        <WhichLocation Value="CasterPoint"/>
+        <PeriodCount value="3"/>
+        <PeriodicPeriodArray value="0"/>
+        <PeriodicPeriodArray value="0.25"/>
+        <PeriodicPeriodArray value="0.25"/>
+        <PeriodicEffectArray value="NodBoobyTrapReveal"/>
+        <PeriodicEffectArray value="NodBoobyTrapActivate"/>
+        <PeriodicEffectArray value="KillCaster"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="NodBoobyTrapReveal">
+        <WhichLocation Value="CasterUnit"/>
+        <RevealRadius value="2"/>
+        <RevealFlags index="Unfog" value="1"/>
+        <RevealFlags index="Detect" value="1"/>
+        <ExpireDelay value="4"/>
+    </CEffectCreatePersistent>
+    <CEffectEnumArea id="NodBoobyTrapActivate">
+        <EditorCategories value="Race:Protoss"/>
+        <ImpactLocation Value="CasterUnit"/>
+        <SearchFilters value="Ground;Self,Player,Ally,Neutral,Structure,Missile,Destructible,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="5" Effect="NodBoobyTrapDamage"/>
+        <AINotifyFlags index="HurtEnemy" value="1"/>
+    </CEffectEnumArea>
+    <CEffectCreateUnit id="NodBoobyTrap">
+        <EditorCategories value="Race:Terran"/>
+        <ValidatorArray value="NodBoobyTrapTargets"/>
+        <SpawnUnit value="NodBoobyTrap"/>
+        <SpawnRange value="3"/>
+    </CEffectCreateUnit>
+    <CAbilEffectTarget id="NodBoobyTrap">
+        <Alignment value="Negative"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <Cost>
+            <Charge CountMax="1" CountStart="1" CountUse="1" TimeStart="60" TimeUse="60"/>
+        </Cost>
+        <TargetFilters value="Ground;Player,Ally,Enemy,Stasis,Dead,Hidden"/>
+        <Range value="1"/>
+        <Marker Link="Abil/RogueRogueBomb"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodBoobyTrap"/>
+        <CastOutroTime value="2"/>
+    </CAbilEffectTarget>
+    <CModel id="NodBoobyTrap" parent="NodUnit" Race="Terran">
+        <SelectionLayer value="3"/>
+    </CModel>
+    <CActorUnit id="NodBoobyTrap" icon="BoobyTrap" parent="NodUnit">
+        <BarWidth value="36"/>
+        <BarOffset value="10"/>
+        <DeathArray index="Normal" ModelLink="KD8Charge" SoundLink="Reaper_D8ChargeExplode"/>
+        <StatusBarFlags index="Life" value="0"/>
+    </CActorUnit>
+
+
+
+
+    <CAbilEffectTarget id="CNCCaptureHusk">
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <Range value="0.5"/>
+        <CastIntroTime value="0.125"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="CNCEngineerCapture"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+        <DefaultError value="RequiresRepairTarget"/>
+        <Effect index="0" value="CNCCaptureHusk"/>
+        <UninterruptibleArray index="Channel" value="1"/>
+        <CancelableArray index="Channel" value="1"/>
+    </CAbilEffectTarget>
+    <CEffectSet id="CNCCaptureHusk">
+        <ValidatorArray value="TargetLifeFull"/>
+        <EffectArray value="CNCCaptureHuskSet"/>
+    </CEffectSet>
+    <CEffectSet id="CNCCaptureHuskSet">
+        <ValidatorArray value="IsCNCHusk"/>
+        <ValidatorArray value="CNCHuskNotReborning"/>
+        <EffectArray value="CNCEngineerCaptureChangeOwner"/>
+        <EffectArray value="SuicideRemove"/>
+        <EffectArray value="CNCCaptureHuskSwitch"/>
+    </CEffectSet>
+    <CEffectSet id="CNCCaptureHuskSetWithHeal">
+        <ValidatorArray value="IsCNCHusk"/>
+        <ValidatorArray value="CNCHuskNotReborning"/>
+        <EffectArray value="CNCEngineerCaptureHeal"/>
+        <EffectArray value="CNCCaptureHuskSet"/>
+    </CEffectSet>
+    <CEffectSwitch id="CNCCaptureHuskSwitch">
+        <CaseArray Validator="IsNodPurifierWreckage" Effect="NodPurifierRebornIO"/>
+        <CaseArray Validator="IsNodAvatarWreckage" Effect="NodAvatarRebornIO"/>
+    </CEffectSwitch>
+    <CValidatorCombine id="CNCHuskNotReborning">
+        <CombineArray value="NodAvatarNotReborning"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsCNCHusk">
+        <CombineArray value="IsNodAvatarWreckage"/>
+    </CValidatorCombine>
+
+    <CAbilEffectTarget id="CNCEngineerCapture">
+        <Effect index="0" value="CNCEngineerCaptureSwitch"/>
+        <EditorCategories value="AbilityorEffectType:Units,Race:Nod"/>
+        <Range value="0.5"/>
+        <CastIntroTime value="0.125"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="CNCEngineerCapture"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+        <DefaultError value="RequiresRepairTarget"/>
+        <Effect index="0" value="CNCEngineerCaptureSwitch"/>
+        <UninterruptibleArray index="Channel" value="1"/>
+        <CancelableArray index="Channel" value="1"/>
+        <Flags index="Smart" value="1"/>
+<!--        <SmartFilters value="-;Self,Player,Ally,Neutral,Enemy"/>-->
+        <TargetFilters value="Ground,Structure;Player,Ally,Neutral,User1,Stasis,Invulnerable,MapBoss"/>
+    </CAbilEffectTarget>
+    <CEffectSet id="CNCEngineerCapture">
+        <ValidatorArray value="CNCEngineerCaptureTargetFilters"/>
+        <EffectArray value="CNCEngineerCaptureHeal"/>
+        <EffectArray value="CNCEngineerCaptureChangeOwner"/>
+        <EffectArray value="SuicideRemove"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectSet>
+    <CValidatorUnitFilters id="CNCEngineerCaptureTargetFilters">
+        <Filters value="Ground,Structure;Self,Air,Biological,Missile,Stasis,UnderConstruction,Dead,Hidden"/>
+        <ResultFailed value="RequiresRepairTarget"/>
+    </CValidatorUnitFilters>
+    <CEffectCreateHealer id="CNCEngineerCaptureHeal">
+        <LaunchUnit Value="Target"/>
+        <Flags index="Channeled" value="0"/>
+        <PeriodCount value="80"/>
+        <PeriodicPeriod value="0.125"/>
+        <RechargeVitalRate value="250"/>
+        <EditorCategories value="Race:UPL"/>
+    </CEffectCreateHealer>
+    <CEffectSwitch id="CNCEngineerCaptureSwitch">
+        <EditorCategories value="Race:Protoss"/>
+        <CaseArray Validator="IsCNCHusk" Effect="CNCCaptureHuskSetWithHeal"/>
+        <CaseArray Validator="IsEnemyOrNeutral" Effect="CNCEngineerCaptureChannelInitialSet"/>
+        <CaseDefault value="CNCEngineerCapture"/>
+    </CEffectSwitch>
+    <CEffectModifyUnit id="CNCEngineerCaptureChangeOwner">
+        <ValidatorArray value="TargetIsEnemyOrNeutral"/>
+        <ModifyFlags index="Owner" value="1"/>
+        <ModifyOwnerPlayer Value="Caster"/>
+        <ImpactUnit Value="Target"/>
+    </CEffectModifyUnit>
+    <CEffectSet id="CNCEngineerCaptureChannelInitialSet">
+        <EditorCategories value="Race:Terran"/>
+        <EffectArray value="CNCEngineerCaptureChannelCreatePersistent"/>
+        <EffectArray value="CNCEngineerCaptureChannelCombat"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="CNCEngineerCaptureChannelCombat">
+        <EditorCategories value="Race:Terran"/>
+        <WhichUnit Value="Caster"/>
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="CNCEngineerCaptureChannelCombatRB">
+        <EditorCategories value="Race:Terran"/>
+        <WhichUnit Value="Caster"/>
+        <BehaviorLink value="CNCEngineerCaptureChannelCombat"/>
+    </CEffectRemoveBehavior>
+    <CEffectCreatePersistent id="CNCEngineerCaptureChannelCreatePersistent">
+        <EditorCategories value="Race:Terran"/>
+        <Flags index="Channeled" value="1"/>
+        <ExpireEffect value="CNCEngineerCapture"/>
+        <PeriodCount value="128"/>
+        <PeriodicValidator value="CNCEngineerCaptureChannelValidators"/>
+        <PeriodicPeriodArray value="0.0625"/>
+        <WhichLocation Value="TargetUnit"/>
+        <FinalEffect value="CNCEngineerCaptureChannelCombatRB"/>
+    </CEffectCreatePersistent>
+    <CModel id="CNCEngineerCaptureEffect" parent="PersistentSpellFX">
+        <Model value="Assets\Effects\Terran\NanoRepairBeamImpact\NanoRepairBeamImpact.m3"/>
+        <ScaleMax value="1.300000,1.300000,1.300000"/>
+        <ScaleMin value="1.300000,1.300000,1.300000"/>
+        <EditorCategories value="Race:UPL"/>
+    </CModel>
+    <CActorModel id="CNCEngineerCaptureEffect" parent="ModelAnimationStyleContinuous">
+        <On Terms="Effect.CNCEngineerCaptureHeal.Start; At Target" Send="Create"/>
+        <On Terms="Effect.CNCEngineerCaptureHeal.Stop; At Target" Send="AnimBracketStop BSD"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachOverhead"/>
+        <AutoScaleFactor value="0.500000"/>
+    </CActorModel>
+    <CActorSound id="CNCEngineerCaptureHeal" parent="SoundContinuous">
+        <On Terms="Effect.CNCEngineerCaptureHeal.Start; At Target" Send="Create"/>
+        <On Terms="Effect.CNCEngineerCaptureHeal.Stop; At Target" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+    </CActorSound>
+</Catalog>

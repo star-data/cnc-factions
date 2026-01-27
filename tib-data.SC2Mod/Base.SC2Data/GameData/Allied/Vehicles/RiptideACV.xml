@@ -1,49 +1,39 @@
 <Catalog>
-    <CUnit id="AlliedRiptideACV" parent="AlliedGround">
-        <Subtitle value="UnitSubtitle/zhencha"/>
-        <FlagArray index="AIPressForwardDisabled" value="1"/>
-        <Collide index="Small" value="1"/>
-        <Response value="AcquireNoFlee"/>
-        <Attributes index="Light" value="1"/>
-        <Attributes index="Mechanical" value="1"/>
-        <LifeStart value="100"/>
-        <LifeMax value="100"/>
-        <Speed value="2.3007"/>
+    <CUnit id="AlliedRiptideACV" parent="AlliedVehicle">
+        <Attributes index="Hover" value="1"/>
+        <LifeStart value="150"/>
+        <LifeMax value="150"/>
+        <Speed value="3"/>
         <LateralAcceleration value="64"/>
-        <Sight value="15"/>
-        <Food value="-1"/>
-        <CostResource index="Minerals" value="800"/>
+        <Sight value="11"/>
+        <Food value="-2"/>
+        <CostResource index="Minerals" value="100"/>
         <RepairTime value="45"/>
         <KillXP value="2"/>
-        <AbilArray Link="SpecOpsDropshipTransport22"/>
-        <BehaviorArray Link="UpgradeLevel1"/>
-        <BehaviorArray Link="nianayaLevel1"/>
-        <BehaviorArray Link="AutoHeal42"/>
+        <AbilArray Link="AlliedRiptideACVTransport"/>
+<!--        <BehaviorArray Link="UpgradeLevel1"/>-->
+<!--        <BehaviorArray Link="nianayaLevel1"/>-->
+<!--        <BehaviorArray Link="AutoHeal42"/>-->
         <WeaponArray Link="WraithG242" Turret="RAShenzhouTankTurret2"/>
-        <WeaponArray Link="LongboltMissile24"/>
-        <WeaponArray Link="nianyalv1"/>
+<!--        <WeaponArray Link="LongboltMissile24"/>-->
+<!--        <WeaponArray Link="nianyalv1"/>-->
         <CardLayouts index="0">
-            <LayoutButtons Face="BiodomeLoad32" Type="AbilCmd" AbilCmd="SpecOpsDropshipTransport22,Load" Row="2" Column="0"/>
-            <LayoutButtons Face="HerculesUnloadAll" Type="AbilCmd" AbilCmd="SpecOpsDropshipTransport22,UnloadAt" Row="2" Column="1"/>
+            <LayoutButtons Face="MedivacLoad" Type="AbilCmd" AbilCmd="AlliedRiptideACVTransport,Load" Row="2" Column="2"/>
+            <LayoutButtons Face="MedivacUnloadAll" Type="AbilCmd" AbilCmd="AlliedRiptideACVTransport,UnloadAt" Row="2" Column="3"/>
         </CardLayouts>
         <InnerRadius value="0.1875"/>
         <CargoSize value="4"/>
         <ScoreResult value="Units"/>
         <SubgroupPriority value="12"/>
-        <GlossaryPriority value="150"/>
+        <GlossaryPriority value="110"/>
         <MinimapRadius value="0.375"/>
-        <TacticalAI value="SiegeTank"/>
-        <HotkeyAlias value="SiegeTank"/>
-        <AIEvaluateAlias value="Hellion"/>
-        <ReviveInfoBase>
-            <Charge Link="SiegeTank/Revive"/>
-            <Cooldown Link="SiegeTank/Revive"/>
-        </ReviveInfoBase>
-        <Height value="1"/>
     </CUnit>
-    <CAbilTransport id="SpecOpsDropshipTransport22">
+    <CActorTurret id="RAShenzhouTankTurret">
+        <On Terms="TurretEnable.RAShenzhouTankTurret2" Send="Create"/>
+    </CActorTurret>
+    <CAbilTransport id="AlliedRiptideACVTransport">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="Load" DefaultButtonFace="BiodomeLoad32"/>
+        <CmdButtonArray index="Load" DefaultButtonFace="MedivacLoad"/>
         <CmdButtonArray index="UnloadAll" DefaultButtonFace="MedivacUnloadAll"/>
         <CmdButtonArray index="UnloadAt" DefaultButtonFace="UnloadTaurenOuthouse"/>
         <CmdButtonArray index="UnloadUnit">
@@ -64,7 +54,7 @@
         <On Terms="MotionPhaseStart; MotionPhase 1" Send="AnimPlay Phase2 Turbo PlayForever"/>
         <Model value="LongboltMissileWeapon2"/>
     </CActorMissile>
-    <CActorUnit id="AlliedRiptideACV_Actor" parent="AlliedVehicle" unitName="AlliedRiptideACV" icon="RiptideACV">
+    <CActorUnit id="AlliedRiptideACV" parent="AlliedVehicle" unitName="AlliedRiptideACV" icon="RiptideACV">
         <Aliases value="_UnitLarge"/>
         <Macros value="UnloadDropAnim"/>
         <Macros value="TerrainSquibAnimations"/>
@@ -74,8 +64,7 @@
         <AcceptedTransfers index="ModelMaterials" value="1"/>
         <On index="0" Send="Create SoundEmitter SiegeTank_Ambience"/>
         <On index="65" Terms="UnitHeightUpdate.*.Land" Send="Create SiegeTank_Land"/>
-        <On index="66" Terms="ActorCreation; ValidateUnit ValidateUSSR" Send="TextureSelectById is2"/>
-        <On index="67" Terms="ActorCreation; ValidateUnit ValidateGermany" Send="TextureSelectById kingtiger"/>
+        <On index="66" Terms="ActorCreation" Send="ModelSwap AlliedRiptideACVLarge"/>
         <On index="68" Terms="Effect.HammerSecurityLM2222.Start" Send="AnimBracketStart Attack1 {} Attack,A {} ContentPlayOnce"/>
         <On index="69" Terms="WeaponStop.90mmHTCannon" Send="AnimBracketClear Attack1"/>
         <On index="70" Terms="Behavior.VolatileBurstBuilding23.Enable" Send="AnimGroupApply B"/>
@@ -83,7 +72,7 @@
         <On Terms="Behavior.VolatileBurstBuilding23.Off" Send="AnimGroupRemove B"/>
         <On Terms="Behavior.VolatileBurstBuilding23.Off" Send="AnimBracketStop Aufspell1"/>
         <On Terms="Behavior.VolatileBurstBuilding23.On" Send="Create RAApocalypseTankMagneticHarpoonLaunchingPositionModel"/>
-        <Model value="AlliedRiptideACV_Model"/>
+        <Model value="AlliedRiptideACV"/>
         <Scale value="0.990000"/>
         <ModelFlags index="OutlineEmitter" value="1"/>
         <EventDataFootprint index="0" Model="SiegeTankFootprint"/>
@@ -138,17 +127,17 @@
         <GroupSoundArray index="Yes" value="SiegeTank_GroupYes"/>
         <GroupSoundArray index="Attack" value="SiegeTank_GroupAttack"/>
         <GroupSoundArray index="Board" value="SiegeTank_GroupBoard"/>
-        <SoundArray index="Birth" value="AlliedRiptideACV_Actor_Birth"/>
+        <SoundArray index="Birth" value="AlliedRiptideACV_Birth"/>
         <SoundArray index="Ready" value="AUACVVoice"/>
-        <SoundArray index="Help" value="AlliedRiptideACV_Actor_Help"/>
-        <SoundArray index="What" value="AlliedRiptideACV_Actor_What"/>
-        <SoundArray index="Yes" value="AlliedRiptideACV_Actor_Yes"/>
-        <SoundArray index="Attack" value="AlliedRiptideACV_Actor_Attack"/>
-        <SoundArray index="Pissed" value="AlliedRiptideACV_Actor_Attack"/>
+        <SoundArray index="Help" value="AlliedRiptideACV_Help"/>
+        <SoundArray index="What" value="AlliedRiptideACV_What"/>
+        <SoundArray index="Yes" value="AlliedRiptideACV_Yes"/>
+        <SoundArray index="Attack" value="AlliedRiptideACV_Attack"/>
+        <SoundArray index="Pissed" value="AlliedRiptideACV_Attack"/>
         <SoundArray index="Movement" value="Vulture_Movement"/>
         <SoundArray index="Turning" value="Vulture_Turning"/>
         <SoundArray index="Board" value="Vulture_Board"/>
-        <SoundArray index="Click" value="AlliedRiptideACV_Actor_What"/>
+        <SoundArray index="Click" value="AlliedRiptideACV_What"/>
         <SoundArray index="ClickError" value="Vulture_ClickError"/>
         <SoundArray index="Highlight" value="Vulture_Highlight"/>
         <BarWidth value="70"/>
@@ -162,6 +151,24 @@
         <Missile value="WraithGroundAttackMissile2"/>
         <ImpactMap index="None" Model="WraithGroundAttackImpact2" Sound="Viking_AssaultAttackImpact"/>
     </CActorAction>
+    <CAttachMethodFilter id="AMPatternMarauder2253">
+        <Keys Keyword="SetA"/>
+        <Keys Keyword="Weapon"/>
+    </CAttachMethodFilter>
+    <CAttachMethodFilter id="AMPatternMarauder22532">
+        <Keys Keyword="SetB"/>
+        <Keys Keyword="Weapon"/>
+    </CAttachMethodFilter>
+    <CAttachMethodPattern id="AMPatternMarauder263">
+        <Keyword value="SetA"/>
+        <Base value="::RollingIndex"/>
+        <Driver value="LongboltMissileLM23"/>
+    </CAttachMethodPattern>
+    <CAttachMethodPattern id="AMPatternMarauder2633">
+        <Keyword value="SetB"/>
+        <Base value="::RollingIndex"/>
+        <Driver value="AlliedACVgunLaunch"/>
+    </CAttachMethodPattern>
     <CActorAction id="MissileTurretAttack23" parent="GenericAttack" effectImpact="LongboltMissileU23" effectLaunch="LongboltMissileLM23">
         <LaunchAttachQuery Methods="AMPatternMarauder2253 AMPatternMarauder263"/>
         <LaunchAssets Sound="AUACVVoice7"/>
@@ -185,9 +192,6 @@
             <AbilClassDisableArray index="CAbilAttack" value="1"/>
         </Modification>
     </CBehaviorBuff>
-    <CButton id="BiodomeLoad32">
-        <Icon value="Assets\Textures\btn-ability-terran-load.dds"/>
-    </CButton>
     <CEffectDamage id="WraithGU232" parent="DU_WEAP">
         <Visibility value="Visible"/>
         <Kind value="Ranged"/>
@@ -218,8 +222,22 @@
         <Image value="Assets\Textures\SiegeTankPortrait_Static.dds"/>
         <Lighting value="SiegeTankPortrait"/>
     </CModel>
-    <CModel id="AlliedRiptideACV_Model" parent="SiegeTankBase">
+    <CModel id="AlliedRiptideACV" parent="SiegeTankBase">
         <Model value="Assets\units\Allied\RiptideACV.m3"/>
+        <AttachProps index="0" Id="Ref_Weapon 02">
+            <Keys index="SetA" value="0"/>
+            <Keys index="Turret" value="-128"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon 03">
+            <Keys index="SetA" value="1"/>
+        </AttachProps>
+        <AttachProps Id="Ref_Weapon">
+            <Keys index="SetB" value="0"/>
+        </AttachProps>
+        <SelectionRadius value="1.000000"/>
+    </CModel>
+    <CModel id="AlliedRiptideACVLarge" parent="SiegeTankBase">
+        <Model value="Assets\units\Allied\RiptideACV_Large.m3"/>
         <AttachProps index="0" Id="Ref_Weapon 02">
             <Keys index="SetA" value="0"/>
             <Keys index="Turret" value="-128"/>
@@ -250,7 +268,7 @@
             <ThrowBandPitch value="-360,-360,-360,-360"/>
         </MotionPhases>
     </CMoverMissile>
-    <CSound id="AlliedRiptideACV_Actor_Attack" parent="TerranAck_Void">
+    <CSound id="AlliedRiptideACV_Attack" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\riptide-acv-auripti_voiattacka.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\torrent-acv-auripti_voiattackb.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\torrent-acv-auripti_voiattackc.ogg" FacialGroup=""/>
@@ -262,7 +280,7 @@
         <Flags index="NeedsTTS" value="1"/>
         <Volume value="1.000000,1.000000"/>
     </CSound>
-    <CSound id="AlliedRiptideACV_Actor_Help" parent="TerranAck_Void">
+    <CSound id="AlliedRiptideACV_Help" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\riptide-acv-auripti_voiselunda.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselundb.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselundc.ogg" FacialGroup=""/>
@@ -272,7 +290,7 @@
         <Flags index="NeedsTTS" value="1"/>
         <Volume value="1.000000,1.000000"/>
     </CSound>
-    <CSound id="AlliedRiptideACV_Actor_Yes" parent="TerranAck_Void">
+    <CSound id="AlliedRiptideACV_Yes" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\torrent-acv-auripti_voimovea.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\torrent-acv-auripti_voimoveb.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\torrent-acv-auripti_voimovec.ogg" FacialGroup=""/>
@@ -307,7 +325,7 @@
         <Flags index="NeedsTTS" value="1"/>
         <Volume value="1.000000,1.000000"/>
     </CSound>
-    <CSound id="AlliedRiptideACV_Actor_Birth" parent="TerranAck_Void">
+    <CSound id="AlliedRiptideACV_Birth" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\three-generations-of-versatile-ready-engine-sounds-aumgifv_movstarta.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\three-generations-of-versatile-ready-engine-sounds-aumgifv_movstartb.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\three-generations-of-versatile-ready-engine-sounds-aumgifv_movstartc.ogg" FacialGroup=""/>
@@ -318,7 +336,7 @@
         <Category value="Build"/>
         <Volume value="-14.000000,-14.000000"/>
     </CSound>
-    <CSound id="AlliedRiptideACV_Actor_What" parent="TerranAck_Void">
+    <CSound id="AlliedRiptideACV_What" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselecta.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselectb.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\torrent-acv-auripti_voiselectc.ogg" FacialGroup=""/>
@@ -337,8 +355,8 @@
     </CUnit>
     <CWeaponLegacy id="LongboltMissile24">
         <EditorCategories value="Race:Terran"/>
-        <Options index="Disabled" value="1"/>
-        <Options index="Hidden" value="1"/>
+<!--        <Options index="Disabled" value="1"/>-->
+<!--        <Options index="Hidden" value="1"/>-->
         <Options index="OnlyFireWhileInAttackOrder" value="0"/>
         <Options index="OnlyFireAtAttackOrderTarget" value="0"/>
         <Options index="LinkedCooldown" value="0"/>

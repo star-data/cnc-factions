@@ -1,17 +1,13 @@
 <Catalog>
 
-    <CUnit id="AlliedMirageTank" parent="AlliedGround">
-        <Subtitle value="UnitSubtitle/xianjintanke"/>
+    <CUnit id="AlliedMirageTank" parent="AlliedVehicle">
         <FlagArray index="AIPressForwardDisabled" value="1"/>
-        <PushPriority value="21"/>
-        <Collide index="Small" value="1"/>
-        <CostResource index="Minerals" value="1600"/>
-        <Response value="AcquireNoFlee"/>
-        <Attributes index="Mechanical" value="1"/>
-        <LifeStart value="125"/>
-        <LifeMax value="125"/>
+        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Vespene" value="100"/>
+        <LifeStart value="180"/>
+        <LifeMax value="180"/>
         <LifeArmor value="1"/>
-        <Speed value="1.8007"/>
+        <Speed value="2.5"/>
         <Acceleration value="100"/>
         <LateralAcceleration value="64"/>
         <StationaryTurningRate value="360"/>
@@ -22,12 +18,12 @@
         <KillXP value="10"/>
         <AbilArray Link="VolatileBurstBuilding25222"/>
         <BehaviorArray Link="RACamouflage"/>
-        <BehaviorArray Link="UpgradeLevel123"/>
-        <BehaviorArray Link="nianayaLevel12"/>
-        <BehaviorArray Link="AutoHeal42"/>
+<!--        <BehaviorArray Link="UpgradeLevel123"/>-->
+<!--        <BehaviorArray Link="nianayaLevel12"/>-->
+<!--        <BehaviorArray Link="AutoHeal42"/>-->
         <WeaponArray Link="ParticleBeam3"/>
         <WeaponArray Link="InfestedClaws222"/>
-        <WeaponArray Link="GDIStrikerMechaRoller"/>
+<!--        <WeaponArray Link="GDIStrikerMechaRoller"/>-->
         <CardLayouts index="0">
             <LayoutButtons Face="TossGrenadeTychus2222225222" Type="AbilCmd" AbilCmd="VolatileBurstBuilding25222,Off" Row="1" Column="0"/>
             <LayoutButtons Face="TossGrenadeTychus222226222" Type="AbilCmd" AbilCmd="VolatileBurstBuilding25222,On" Row="1" Column="1"/>
@@ -38,14 +34,10 @@
         <ScoreKillCostFactor index="Minerals" value="1.25"/>
         <ScoreKillCostFactor index="Vespene" value="1.25"/>
         <SubgroupPriority value="12"/>
-        <GlossaryPriority value="150"/>
+        <GlossaryPriority value="130"/>
         <MinimapRadius value="0.375"/>
         <TacticalAI value="SiegeTank"/>
         <AIEvalFactor value="1.5"/>
-        <ReviveInfoBase>
-            <Charge Link="SiegeTank/Revive"/>
-            <Cooldown Link="SiegeTank/Revive"/>
-        </ReviveInfoBase>
     </CUnit>
     <CAbilBehavior id="VolatileBurstBuilding25222">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
@@ -68,6 +60,48 @@
         <ImpactMap index="None" Model="ProbeAttackImpact4" Sound="Karass_PsionicStormImpact2522"/>
         <ActionFlags index="LaunchForceSite" value="1"/>
     </CActorAction>
+    <CBehaviorBuff id="miratankspell">
+        <InfoFlags index="Hidden" value="1"/>
+        <Period value="1"/>
+        <InitialEffect value="RACrackGeneratorSearchArea"/>
+        <PeriodicEffect value="RACrackGeneratorSearchArea"/>
+        <Modification SightBonus="5">
+            <LifeArmorBonus value="1"/>
+            <BehaviorLinkDisableArray value="RACamouflage"/>
+            <WeaponEnableArray value="InfestedClaws222"/>
+            <WeaponDisableArray value="ParticleBeam3"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CActorModel id="miratankspell" parent="ModelAnimationStyleContinuous">
+        <On Terms="Behavior.miratankspell.On" Send="Create"/>
+        <On Terms="Behavior.miratankspell.Off" Send="AnimBracketStop BSD"/>
+        <Host Subject="_Unit"/>
+        <HostSiteOps Ops="SOpAttachOrigin"/>
+    </CActorModel>
+    <CModel id="miratankspell">
+        <Model value="Assets\COOP\Zeratul\Effects\WarpPrism_Zeratul_COOP_ShieldRange\WarpPrism_Zeratul_COOP_ShieldRange.m3"/>
+        <ScaleMax value="1.100000,1.100000,1.100000"/>
+        <ScaleMin value="1.100000,1.100000,1.100000"/>
+    </CModel>
+    <CEffectEnumArea id="RACrackGeneratorSearchArea">
+        <SearchFilters value="-;Self,Neutral,Enemy,Air,Structure,Missile,Dead"/>
+        <AreaArray Radius="6" Effect="RACrackGeneratorApplicationBehavior"/>
+    </CEffectEnumArea>
+    <CEffectApplyBehavior id="RACrackGeneratorApplicationBehavior">
+        <Behavior value="RAMovingSpeed20Percent6"/>
+    </CEffectApplyBehavior>
+    <CBehaviorBuff id="RAMovingSpeed20Percent6">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="AbilityorEffectType:Units"/>
+        <DisableValidatorArray value="RAExcludePhantomTanksWithSkillsEnabled"/>
+        <Duration value="2"/>
+        <Modification>
+            <StateFlags index="Cloak" value="1"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CValidatorUnitCompareBehaviorCount id="RAExcludePhantomTanksWithSkillsEnabled">
+        <Behavior value="miratankspell"/>
+    </CValidatorUnitCompareBehaviorCount>
 
     <CActorUnit id="AlliedMirageTank_Actor" parent="AlliedVehicle" unitName="AlliedMirageTank" icon="MirageTank">
         <Aliases value="_UnitLarge"/>

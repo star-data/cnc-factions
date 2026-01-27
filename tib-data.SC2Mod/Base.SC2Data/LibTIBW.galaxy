@@ -202,10 +202,19 @@ string libTIBW_gf__UnitDataName (int lp_type, unit lp_unit, int lp_index) {
     else if (autoCD8CFFFE_val == libTIBW_ge__UnitDataType_UnitGroup) {
         lv_name = "UDUNITGROUP_";
     }
+    else if (autoCD8CFFFE_val == libTIBW_ge__UnitDataType_String) {
+        lv_name = "UDSTRING_";
+    }
     else {
     }
     lv_name = (lv_name + IntToString(UnitGetTag(lp_unit)) + "_" + IntToString(lp_index));
     return lv_name;
+}
+
+void libTIBW_gf_StoreStringForUnit (unit lp_unit, int lp_index, string lp_string) {
+    // Automatic Variable Declarations
+    // Implementation
+    DataTableSetString(true, libTIBW_gf__UnitDataName(libTIBW_ge__UnitDataType_String, lp_unit, lp_index), lp_string);
 }
 
 void libTIBW_gf_StorePingForUnit (unit lp_unit, int lp_index, int lp_ping) {
@@ -218,6 +227,12 @@ int libTIBW_gf_PingStoredForUnit (unit lp_unit, int lp_index) {
     // Automatic Variable Declarations
     // Implementation
     return DataTableGetPing(true, libTIBW_gf__UnitDataName(libTIBW_ge__UnitDataType_Ping, lp_unit, lp_index));
+}
+
+string libTIBW_gf_StringStoredForUnit (unit lp_unit, int lp_index) {
+    // Automatic Variable Declarations
+    // Implementation
+    return DataTableGetString(true, libTIBW_gf__UnitDataName(libTIBW_ge__UnitDataType_String, lp_unit, lp_index));
 }
 
 void libTIBW_gf_ApplyPlayerVoicePack (int lp_player, string lp_voiceID) {
@@ -1706,9 +1721,9 @@ void libTIBW_gt_ProductionUI_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Spy Disguise
+// Trigger: Disguise Used
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_SpyDisguise_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_DisguiseUsed_Func (bool testConds, bool runActions) {
     // Variable Declarations
     unit lv_caster;
     unit lv_target;
@@ -1727,16 +1742,67 @@ bool libTIBW_gt_SpyDisguise_Func (bool testConds, bool runActions) {
         return true;
     }
 
-    UnitSetOwner(lv_caster, lv_targetOwner, true);
-    UnitSetOwner(lv_caster, lv_casterOwner, false);
-    libNtve_gf_SendActorMessageToUnit(lv_caster, libNtve_gf_ModelSwap(((UnitGetType(lv_target))), 0));
+    libTIBW_gf_StoreStringForUnit(lv_caster, 1, CatalogFieldValueGet(c_gameCatalogActor, (UnitGetType(lv_target)), "Model", c_playerAny));
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_SpyDisguise_Init () {
-    libTIBW_gt_SpyDisguise = TriggerCreate("libTIBW_gt_SpyDisguise_Func");
-    TriggerAddEventUnitAbility(libTIBW_gt_SpyDisguise, null, AbilityCommand("AlliedSpyDisguise", 255), c_unitAbilStageExecute, false);
+void libTIBW_gt_DisguiseUsed_Init () {
+    libTIBW_gt_DisguiseUsed = TriggerCreate("libTIBW_gt_DisguiseUsed_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_DisguiseUsed, null, AbilityCommand("AlliedSpyDisguise", 255), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Camouflaged Unit created
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_CamouflagedUnitcreated_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_caster;
+    unit lv_created;
+    string lv_model;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_caster = EventUnit();
+    lv_created = EventUnitCreatedUnit();
+    lv_model = libTIBW_gf_StringStoredForUnit(lv_caster, 1);
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    libTIBW_gf_StoreStringForUnit(lv_created, 1, lv_model);
+    libNtve_gf_SendActorMessageToUnit(lv_created, libNtve_gf_ModelSwap((lv_model), 0));
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_CamouflagedUnitcreated_Init () {
+    libTIBW_gt_CamouflagedUnitcreated = TriggerCreate("libTIBW_gt_CamouflagedUnitcreated_Func");
+    TriggerAddEventUnitCreated(libTIBW_gt_CamouflagedUnitcreated, null, "AlliedSpyDisguise", null);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: AlliedSpyDisguse
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_AlliedSpyDisguse_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_caster;
+    string lv_model;
+
+    // Automatic Variable Declarations
+    // Variable Initialization
+    lv_caster = EventUnit();
+    lv_model = libTIBW_gf_StringStoredForUnit(lv_caster, 1);
+
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_AlliedSpyDisguse_Init () {
+    libTIBW_gt_AlliedSpyDisguse = TriggerCreate("libTIBW_gt_AlliedSpyDisguse_Func");
+    TriggerAddEventUnitBehaviorChange(libTIBW_gt_AlliedSpyDisguse, null, "AlliedSpyDisguiseCamouflage", c_unitBehaviorChangeAny);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6335,7 +6401,9 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_InitBeaconsButton_Init();
     libTIBW_gt_BeaconsButtonUsed_Init();
     libTIBW_gt_ProductionUI_Init();
-    libTIBW_gt_SpyDisguise_Init();
+    libTIBW_gt_DisguiseUsed_Init();
+    libTIBW_gt_CamouflagedUnitcreated_Init();
+    libTIBW_gt_AlliedSpyDisguse_Init();
     libTIBW_gt_Unitupgradespecialeffects_Init();
     libTIBW_gt_Unitsgainexperiencebyrisingstars_Init();
     libTIBW_gt_Initialattributesettingsforalliedplayers_Init();

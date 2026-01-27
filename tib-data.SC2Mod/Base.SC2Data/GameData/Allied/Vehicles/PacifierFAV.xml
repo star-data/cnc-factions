@@ -1,13 +1,6 @@
 <Catalog>
-    <CUnit id="AlliedPacifierFAV" parent="AlliedGround">
-        <Subtitle value="UnitSubtitle/pingdingzhe"/>
+    <CUnit id="AlliedPacifierFAV" parent="AlliedVehicle">
         <FlagArray index="TurnBeforeMove" value="1"/>
-        <FlagArray index="AIPressForwardDisabled" value="1"/>
-        <PushPriority value="22"/>
-        <Collide index="Small" value="1"/>
-        <Response value="AcquireNoFlee"/>
-        <Attributes index="Armored" value="1"/>
-        <Attributes index="Mechanical" value="1"/>
         <LifeStart value="200"/>
         <LifeMax value="200"/>
         <LifeArmor value="1"/>
@@ -18,22 +11,20 @@
         <TurningRate value="119.8828"/>
         <Sight value="15"/>
         <Food value="-4"/>
-        <CostResource index="Minerals" value="2000"/>
+        <CostResource index="Minerals" value="200"/>
+        <CostResource index="Vespene" value="200"/>
         <RepairTime value="41.667"/>
         <KillXP value="25"/>
         <AbilArray Link="VolatileBurstBuilding24"/>
-        <BehaviorArray Link="SovietT4unitveteranbehavior"/>
-        <BehaviorArray Link="nianayaLevel13"/>
-        <BehaviorArray Link="AutoHeal42"/>
+<!--        <BehaviorArray Link="SovietT4unitveteranbehavior"/>-->
+<!--        <BehaviorArray Link="nianayaLevel13"/>-->
         <WeaponArray Link="Twin792mm243" Turret="RAPacifierTurret2"/>
         <WeaponArray Link="BattleshipArtillery223" Turret="RAPacifierTurret2"/>
-        <WeaponArray Link="nianyalv13"/>
+<!--        <WeaponArray Link="nianyalv13"/>-->
         <CardLayouts index="0">
             <LayoutButtons Face="TossGrenadeTychus222225" Type="AbilCmd" AbilCmd="VolatileBurstBuilding24,On" Row="2" Column="1"/>
             <LayoutButtons Face="TossGrenadeTychus2222224" Type="AbilCmd" AbilCmd="VolatileBurstBuilding24,Off" Row="2" Column="2"/>
             <LayoutButtons Face="OdinBarrage" Type="AbilCmd" AbilCmd="attack,Barrage" Row="2" Column="0"/>
-            <LayoutButtons Face="AutechBeidongSet23" Type="Passive" Requirements="StortModeRe227" Row="1" Column="3"/>
-            <LayoutButtons Face="AutechBeidongSet24" Type="Passive" Requirements="StortModeRe237" Row="1" Column="4"/>
         </CardLayouts>
         <Radius value="0.8125"/>
         <SeparationRadius value="0.4375"/>
@@ -41,9 +32,23 @@
         <SubgroupPriority value="14"/>
         <MinimapRadius value="0.375"/>
         <TacticalAI value="SiegeTankSieged"/>
-        <GlossaryPriority value="470"/>
+        <GlossaryPriority value="150"/>
         <AIEvaluateAlias value="SiegeTankSieged"/>
     </CUnit>
+    <CActorTurret id="RAPacifierTurret">
+        <On Terms="TurretEnable.RAPacifierTurret2" Send="Create"/>
+    </CActorTurret>
+    <CTurret id="RAPacifierTurret2">
+        <YawArc value="360"/>
+        <YawRate value="199.8632"/>
+        <YawIdleRate value="149.9414"/>
+        <Fidget DelayMax="30" DelayMin="10">
+            <ChanceArray index="Anim" value="50"/>
+            <ChanceArray index="Idle" value="50"/>
+            <ChanceArray index="Turn" value="0"/>
+        </Fidget>
+        <Idle value="ResetIfMoving"/>
+    </CTurret>
     <CAbilBehavior id="VolatileBurstBuilding24">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus222225">
@@ -70,7 +75,7 @@
         <Model value="TychusTossGrenadeImpact2235"/>
         <Scale value="0.600000"/>
     </CActorModel>
-    <CActorUnit id="AlliedPacifierFAV_Actor" parent="AlliedVehicle" unitName="AlliedPacifierFAV" icon="PacifierFAV">
+    <CActorUnit id="AlliedPacifierFAV" parent="AlliedVehicle" unitName="AlliedPacifierFAV" icon="PacifierFAV">
         <On Terms="ActorCreation" Send="AnimGroupApply A"/>
         <On Terms="Behavior.VolatileBurstBuilding24.On" Send="AnimBracketStart Attack1 Stand,Morph,Start Stand,B Stand,Morph,End ContentNonLooping,OpeningPlayForever"/>
         <On Terms="Behavior.VolatileBurstBuilding24.On" Send="AnimGroupRemove A"/>
@@ -82,7 +87,7 @@
         <On Terms="WeaponStop.BattleshipArtillery223" Send="AnimPlay Attack3 Attack,B PlayForever"/>
         <On Terms="WeaponStart.BattleshipArtillery223" Send="AnimPlay Attack3 Attack,B PlayForever"/>
         <On Terms="Behavior.VolatileBurstBuilding24.Off" Send="AnimClear Attack3"/>
-        <Model value="AlliedPacifierFAV_Model"/>
+        <Model value="AlliedPacifierFAV"/>
         <DeathArray index="Normal" ModelLink="UmojanLabWarbotDeath" SoundLink="UmojanLab_SentryBot_DeathExplosion_Init"/>
         <DeathActorModelLow value="UnitDeathModel"/>
         <PortraitModel value="ARESPortrait"/>
@@ -151,6 +156,107 @@
         <Effect value="BattleshipArtilleryLM223"/>
         <Radius value="1.8"/>
     </CEffectRandomPointInCircle>
+    <CEffectLaunchMissile id="BattleshipArtilleryLM223">
+        <EditorCategories value="Race:Terran"/>
+        <Marker Link="Effect/BacklashRocketsLM"/>
+        <ImpactLocation Value="TargetPoint"/>
+        <ImpactEffect value="AupacImapctSet"/>
+        <AmmoUnit value="AlliedPacifierCannonball"/>
+        <Movers Link="BattleshipShell2"/>
+    </CEffectLaunchMissile>
+    <CMoverMissile id="BattleshipShell2">
+        <MotionPhases>
+            <Driver value="Ballistic"/>
+            <Acceleration value="20"/>
+            <Speed value="9"/>
+            <SpeedRange value="2"/>
+            <Gravity value="5"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CActorAction id="155mmhuopao3" parent="GenericAttack" effectImpact="AupacImapctSet" effectLaunch="BattleshipArtilleryLM223">
+        <LaunchAssets Model="SiegeTankAttackImpact7" Sound="VikingAssault_AttackLaunch2222"/>
+        <Missile value="AlliedPacifierCannonball"/>
+        <ImpactMap index="None" Model="TychusTossGrenadeImpact24" Sound="Viking_AssaultAttackImpact222" ModelReaction="ATRocketAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="ATRocketAttackImpactShield" ModelReaction="ATRocketAttackImpactReactionShield"/>
+        <ImpactMap index="Miss" Model="TychusTossGrenadeImpact24" Sound="SiegeTank_SiegedAttackImpact222" ModelReaction="ATRocketAttackImpactReaction"/>
+        <LaunchAttachQuery Methods="AMPatternMarauder224 AMPatternMarauder25"/>
+    </CActorAction>
+    <CAttachMethodFilter id="AMPatternMarauder224">
+        <Keys Keyword="SetA"/>
+        <Keys Keyword="Weapon"/>
+    </CAttachMethodFilter>
+    <CAttachMethodPattern id="AMPatternMarauder25">
+        <Keyword value="SetA"/>
+        <Base value="::RollingIndex"/>
+        <Driver value="BattleshipArtilleryLM223"/>
+    </CAttachMethodPattern>
+    <CSound id="SiegeTank_SiegedAttackImpact222" parent="Terran_ExplosionMedium">
+        <AssetArray index="0" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium0.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="1" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium1.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="2" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium2.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="3" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium3.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="4" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium4.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="5" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium5.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="6" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium6.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="7" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium7.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="8" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium8.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <AssetArray index="9" File="Assets\Sounds\Terran\SharedEffects\Explosions\SiegeTank_ImpactMedium9.wav" Pitch="-3.000000,3.000000" FacialGroup=""/>
+        <DupeMuteCount value="10"/>
+        <Pitch value="0.000000,0.000000"/>
+        <Volume value="0.000000,0.000000"/>
+    </CSound>
+    <CModel id="TychusTossGrenadeImpact24" parent="ImpactFX">
+        <Model value="Assets\Effects\Protoss\Immortal_Collection_Missile_Impact\Immortal_Collection_Missile_Impact.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="1.300000,1.300000,1.600000"/>
+        <ScaleMin value="1.300000,1.300000,1.600000"/>
+        <AnimSpeed value="0.500000"/>
+    </CModel>
+    <CSound id="VikingAssault_AttackLaunch2222" parent="Combat">
+        <EditorCategories value="Race:Terran"/>
+        <AssetArray File="assets\sounds\AUSiege_weaFirea.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUSiege_weaFireb.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUSiege_weaFirec.ogg" FacialGroup=""/>
+        <AssetArray File="assets\sounds\AUSiege_weaFired.ogg" FacialGroup=""/>
+        <DupeDestroyCount value="8"/>
+        <DupeMaximumMethod value="Replace"/>
+        <DupeMuteCount value="3"/>
+        <DupePrioritization value="Oldest"/>
+        <Pitch value="-2.000000,0.000000"/>
+        <Volume value="-6.610000,-6.610000"/>
+    </CSound>
+    <CUnit id="AlliedPacifierCannonball" parent="MISSILE">
+        <Race value="Allied"/>
+        <Mover value="PacifierWeapon"/>
+        <EditorCategories value="ObjectType:Projectile,ObjectFamily:CNC"/>
+    </CUnit>
+    <CActorMissile id="AlliedPacifierCannonball" parent="GenericAttackMissile" unitName="AlliedPacifierCannonball">
+        <Model value="PunisherGrenadesLMWeapon2223"/>
+        <ImpactSound value="SJViking_AttackLaunch"/>
+    </CActorMissile>
+    <CMoverMissile id="PacifierWeapon">
+        <MotionPhases>
+            <Driver value="Guidance"/>
+            <Acceleration value="3200"/>
+            <MaxSpeed value="30"/>
+            <ThrowBandYaw value="-360,-360,-360,-360"/>
+            <ThrowBandPitch value="-360,-360,-360,-360"/>
+            <YawPitchRoll value="5759.6484"/>
+        </MotionPhases>
+    </CMoverMissile>
+    <CModel id="PunisherGrenadesLMWeapon2223" parent="MissileFX">
+        <Model value="Assets\Effects\Zerg\Ravager_Artillery_Missile_Upgrade\Ravager_Artillery_Missile_Upgrade.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.400000,0.400000,0.400000"/>
+        <ScaleMin value="0.400000,0.400000,0.400000"/>
+        <AnimSpeed value="2.000000"/>
+    </CModel>
+
+
+
     <CEffectDamage id="Twin792mm6" parent="DU_WEAP">
         <Kind value="Ranged"/>
         <Amount value="6"/>
@@ -165,7 +271,7 @@
         <ScaleMax value="2.000000,2.000000,2.000000"/>
         <ScaleMin value="2.000000,2.000000,2.000000"/>
     </CModel>
-    <CModel id="AlliedPacifierFAV_Model" parent="Unit" Race="Terran">
+    <CModel id="AlliedPacifierFAV" parent="Unit" Race="Terran">
         <Model value="assets\units\Allied\Pacifier.m3"/>
         <Flags index="AutoUnload" value="1"/>
         <PlanetPanelCamera value="Star2CameraHigher18"/>

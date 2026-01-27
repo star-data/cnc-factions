@@ -1,10 +1,11 @@
 <Catalog>
-    <CUnit id="AlliedTanya" parent="AlliedGround">
-        <Attributes index="Light" value="1"/>
-        <Attributes index="Biological" value="1"/>
+    <CButton id="AlliedTanyaFreezeStrike" parent="Allied">
+        <Icon value="Assets\Textures\ui_hots_icon_flashfreeze.dds"/>
+    </CButton>
+    <CButton id="AlliedTanyaTimeBelt" parent="Allied" icon="ability-tanya-TimeBelt"/>
+    <CUnit id="AlliedTanya" parent="AlliedInfantry">
         <Attributes index="Heroic" value="1"/>
         <PushPriority value="21"/>
-        <Collide index="Small" value="1"/>
         <LifeStart value="150"/>
         <LifeMax value="150"/>
         <LifeArmor value="1"/>
@@ -18,30 +19,24 @@
         <CostResource index="Minerals" value="2000"/>
         <RepairTime value="20"/>
         <KillXP value="40"/>
-        <AbilArray Link="Herrscher2ndBlink2"/>
-        <AbilArray Link="OdinNuclearStrike222232"/>
-        <BehaviorArray Link="RAComprehensiveCapabilitiesGreatlyImproved1"/>
-        <BehaviorArray Link="UpgradeLevel123222"/>
+        <AbilArray Link="AlliedTanyaTimeBelt"/>
+        <AbilArray Link="AlliedTanyaFreezeStrike"/>
+<!--        <BehaviorArray Link="RAComprehensiveCapabilitiesGreatlyImproved1"/>-->
+<!--        <BehaviorArray Link="UpgradeLevel123222"/>-->
         <WeaponArray Link="AssaultRifle2"/>
         <WeaponArray Link="AssaultRifle22"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="BuildHeavyTankAdvanced43222322" Type="AbilCmd" AbilCmd="OdinNuclearStrike222232,Execute" Row="1" Column="1"/>
-            <LayoutButtons Face="Herrscher2Blink3" Type="AbilCmd" AbilCmd="Herrscher2ndBlink2,Execute" Row="1" Column="0"/>
-        </CardLayouts>
-        <CardLayouts CardId="0002">
-            <LayoutButtons Face="RAImproveTheSkillsOfTheHeroInfantry1" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch3,Research21" Row="0" Column="1"/>
-            <LayoutButtons Face="RAImproveTheSkillsOfTheHeroInfantry1" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch3,Research11" Row="0" Column="1"/>
-            <LayoutButtons Face="RAImproveTheSkillsOfTheHeroInfantry1" Type="AbilCmd" AbilCmd="RATechnologyCenterResearch3,Research12" Row="0" Column="1"/>
-            <LayoutButtons Face="Cancel" Type="CancelSubmenu" Row="2" Column="4"/>
+            <LayoutButtons Face="AlliedTanyaTimeBelt" Type="AbilCmd" AbilCmd="AlliedTanyaTimeBelt,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="AlliedTanyaFreezeStrike" Type="AbilCmd" AbilCmd="AlliedTanyaFreezeStrike,Execute" Row="2" Column="1"/>
         </CardLayouts>
         <InnerRadius value="0.5"/>
         <ScoreKill value="100"/>
         <SubgroupPriority value="12"/>
-        <GlossaryPriority value="150"/>
+        <GlossaryPriority value="70"/>
         <TacticalAI value="Marine"/>
         <AIEvaluateAlias value="Marine"/>
     </CUnit>
-    <CAbilEffectTarget id="Herrscher2ndBlink2">
+    <CAbilEffectTarget id="AlliedTanyaTimeBelt">
         <AbilSetId value="Blnk"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
         <PrepEffect value="RATanyaActivatesTheInvincibilityEffectApplication"/>
@@ -63,11 +58,11 @@
         <UninterruptibleArray index="Cast" value="1"/>
         <UninterruptibleArray index="Finish" value="1"/>
         <AINotifyEffect value="Herrscher2ndBlinkTeleport"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="Herrscher2Blink3">
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedTanyaTimeBelt">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
     </CAbilEffectTarget>
-    <CAbilEffectTarget id="OdinNuclearStrike222232">
+    <CAbilEffectTarget id="AlliedTanyaFreezeStrike">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <Effect index="0" value="ChinaSuperWeaponin2"/>
         <Cost>
@@ -79,7 +74,7 @@
         <Marker Link="Abil/NovaNuclearStrike"/>
         <AlertArray index="Cast" value="CalldownLaunch"/>
         <CursorEffect value="RACompletelyFreezeSearchBehavior2"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="BuildHeavyTankAdvanced43222322"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedTanyaFreezeStrike"/>
         <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel3"/>
     </CAbilEffectTarget>
     <CActorSound id="BlinkStopSound2" parent="SoundOneShot">
@@ -206,14 +201,12 @@
         <Scale value="0.300000"/>
         <FogVisibility value="Visible"/>
     </CActorModel>
-    <CActorUnit id="AlliedTanya_Actor" parent="AlliedInfantry" unitName="AlliedTanya" icon="Tanya">
-        <Aliases value="_UnitSmall"/>
+    <CActorUnit id="AlliedTanya" parent="AlliedInfantry" unitName="AlliedTanya" icon="Tanya">
         <On index="65" Terms="WeaponStart.*.AttackStart" Send="AnimBracketStart Attack Attack {} {} ContentForceLooping"/>
         <On Terms="AnimDone; AnimName Spell" Send="AnimGroupRemove Work"/>
         <On Terms="Signal.*.DestroySplat" Target="RaynorSnipeSplat" Send="Destroy"/>
         <On Terms="ActorCreation" Send="AnimGroupApply A"/>
         <On Terms="ActorCreation" Send="Create ColossusAttackBeamImpact232"/>
-        <Model value="AlliedTanya_Model"/>
         <Scale value="0.850000"/>
         <ModelFlags index="SuppressPlayerDecals" value="1"/>
         <DeathArray index="Normal" ModelLink="NatashaDeath3" SoundLink="TanyaVioce23" VoiceLink="TanyaVioce23"/>
@@ -227,15 +220,15 @@
         <MinimapIcon value="Assets\Textures\ui_emoticons_skull.dds"/>
         <SoundArray index="Birth" value="TanyaVioce"/>
         <SoundArray index="Ready" value="TanyaVioce"/>
-        <SoundArray index="Help" value="AlliedTanya_Actor_Help"/>
-        <SoundArray index="What" value="AlliedTanya_Actor_What"/>
-        <SoundArray index="Yes" value="AlliedTanya_Actor_Yes"/>
-        <SoundArray index="Attack" value="AlliedTanya_Actor_Attack"/>
+        <SoundArray index="Help" value="AlliedTanya_Help"/>
+        <SoundArray index="What" value="AlliedTanya_What"/>
+        <SoundArray index="Yes" value="AlliedTanya_Yes"/>
+        <SoundArray index="Attack" value="AlliedTanya_Attack"/>
         <SoundArray index="Pissed" value="Raynor_Pissed"/>
         <SoundArray index="Movement" value="Raynor_Movement"/>
         <SoundArray index="Turning" value="Raynor_Turning"/>
         <SoundArray index="Board" value="Raynor_Board"/>
-        <SoundArray index="Click" value="AlliedTanya_Actor_What"/>
+        <SoundArray index="Click" value="AlliedTanya_What"/>
         <UnitBorderNormalColor value="150,150,150"/>
         <UnitBorderSubgroupColor value="255,255,255"/>
         <MinimapIconScale value="0.600000"/>
@@ -322,13 +315,6 @@
             <Chance value="1"/>
         </DamageResponse>
     </CBehaviorBuff>
-    <CButton id="BuildHeavyTankAdvanced43222322">
-        <Icon value="Assets\Textures\ui_hots_icon_flashfreeze.dds"/>
-        <HotkeyAlias value="Spectre"/>
-    </CButton>
-    <CButton id="Herrscher2Blink3">
-        <Icon value="assets\icons\Allied\tanya-time-and-space-belt.dds"/>
-    </CButton>
     <CEffectDamage id="AssaultRifle2" parent="DU_WEAP">
         <Kind value="Ranged"/>
         <Amount value="5"/>
@@ -419,7 +405,7 @@
         <SelectionOffset value="0.000000,0.000000,-0.500000"/>
         <SelectionRadius value="1.250000"/>
     </CModel>
-    <CModel id="AlliedTanya_Model" parent="Unit" Race="Terran">
+    <CModel id="AlliedTanya" parent="Unit" Race="Terran">
         <Model value="assets\units\Allied\Tanya.m3"/>
         <Flags index="AutoUnload" value="1"/>
         <Occlusion value="Show"/>
@@ -464,7 +450,7 @@
         <Pitch value="-3.000000,3.000000"/>
         <Volume value="-3.000000,0.000000"/>
     </CSound>
-    <CSound id="AlliedTanya_Actor_Attack" parent="TerranAck_Void">
+    <CSound id="AlliedTanya_Attack" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\AUTanya_VoiAtka.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\AUTanya_VoiAtkb.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\AUTanya_VoiAtkc.ogg" FacialGroup=""/>
@@ -495,7 +481,7 @@
         <Category value="Death"/>
         <Volume value="2.000000,2.000000"/>
     </CSound>
-    <CSound id="AlliedTanya_Actor_Help" parent="TerranAck_Void">
+    <CSound id="AlliedTanya_Help" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\AUTanya_VoiSelUndFira.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\AUTanya_VoiSelUndFirb.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\AUTanya_VoiSelUndFirc.ogg" FacialGroup=""/>
@@ -511,7 +497,7 @@
         <Flags index="NeedsTTS" value="1"/>
         <Volume value="5.000000,5.000000"/>
     </CSound>
-    <CSound id="AlliedTanya_Actor_Yes" parent="TerranAck_Void">
+    <CSound id="AlliedTanya_Yes" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\AUTanya_VoiMova.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\AUTanya_VoiMovb.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\AUTanya_VoiMovc.ogg" FacialGroup=""/>
@@ -525,7 +511,7 @@
         <Flags index="NeedsTTS" value="1"/>
         <Volume value="2.000000,2.000000"/>
     </CSound>
-    <CSound id="AlliedTanya_Actor_What" parent="TerranAck_Void">
+    <CSound id="AlliedTanya_What" parent="TerranAck_Void">
         <AssetArray File="Assets\sounds\AUTanya_VoiSela.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\AUTanya_VoiSelb.ogg" FacialGroup=""/>
         <AssetArray File="Assets\sounds\AUTanya_VoiSelc.ogg" FacialGroup=""/>
@@ -580,4 +566,31 @@
         <Range value="6"/>
     </CWeaponLegacy>
 
+    <CModel id="nukeCursorSplat22342" parent="UI">
+        <Model value="Assets\UI\SOA_MassRecallCursor\SOA_MassRecallCursor.m3"/>
+        <EditorCategories value="Race:Terran"/>
+        <ScaleMax value="0.700000,0.700000,0.700000"/>
+        <ScaleMin value="0.700000,0.700000,0.700000"/>
+    </CModel>
+    <CActorSplat id="OdinNuclearStrikeCursorSplat22342" parent="TerranCursorSplat" abil="AlliedTanyaFreezeStrike">
+        <Supporter Subject="::Creator"/>
+        <Host Subject="_Selectable"/>
+        <Model value="nukeCursorSplat22342"/>
+    </CActorSplat>
+
+    <CModel id="ColossusAttackBeamImpact232" Race="Neutral">
+        <Model value="assets\units\Allied\Tanya_Buff.m3"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="3.000000,3.000000,3.000000"/>
+        <ScaleMin value="3.000000,3.000000,3.000000"/>
+    </CModel>
+    <CActorModel id="ColossusAttackBeamImpact232">
+        <Supporter Subject="::Creator"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSD Birth Stand Death"/>
+        <On Terms="SupporterDestruction" Send="AnimBracketStop BSD"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSD" Send="Destroy"/>
+        <On Terms="UnitDeath.AlliedTanya" Send="Destroy"/>
+        <HostSiteOps Ops="SOpAttachOrigin"/>
+        <Inherits index="Visibility" value="1"/>
+    </CActorModel>
 </Catalog>

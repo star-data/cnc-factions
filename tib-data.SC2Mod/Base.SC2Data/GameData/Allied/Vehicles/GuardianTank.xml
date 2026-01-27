@@ -1,5 +1,7 @@
-
 <Catalog>
+    <CButton id="AlliedGuardianTankTargetPainter" parent="Allied" icon="ability-guardiantank-targetpaintermode"/>
+    <CButton id="AlliedGuardianTankSmoothboreCannonMode" parent="Allied"  icon="ability-guardiantank-smoothborecannonmode"/>
+    <CButton id="AlliedGuardianTankTargetPainterMode" parent="Allied" icon="ability-guardiantank-targetpaintermode"/>
 
     <CUnit id="AlliedGuardianTank" parent="AlliedGround">
         <Subtitle value="UnitSubtitle/zhuangjia"/>
@@ -11,37 +13,20 @@
         <TurningRate value="720"/>
         <Sight value="12"/>
         <Food value="-2"/>
-        <CostResource index="Minerals" value="950"/>
+        <CostResource index="Minerals" value="125"/>
+        <CostResource index="Vespene" value="50"/>
         <KillXP value="4"/>
-        <AbilArray Link="SovietMotoModeSwhich3"/>
-        <AbilArray Link="RocketAngelSpell2"/>
-        <BehaviorArray Link="AutoHeal42"/>
-        <BehaviorArray Link="UpgradeLevel12"/>
-        <BehaviorArray Link="nianayaLevel12"/>
-        <BehaviorArray Link="RATheUnitItselfTakesDamageWhenAttackingAnEnemyButItAlsoGainsHigherHealing1"/>
+        <AbilArray Link="AlliedGuardianTankTargetPainterMode"/>
+        <AbilArray Link="AlliedGuardianTankTargetPainter"/>
+<!--        <BehaviorArray Link="UpgradeLevel12"/>-->
+<!--        <BehaviorArray Link="nianayaLevel12"/>-->
+<!--        <BehaviorArray Link="RATheUnitItselfTakesDamageWhenAttackingAnEnemyButItAlsoGainsHigherHealing1"/>-->
         <WeaponArray Link="85mmCannon" Turret="MediumFastTurret"/>
-        <WeaponArray Link="GDIStrikerMechaRoller"/>
+<!--        <WeaponArray Link="GDIStrikerMechaRoller"/>-->
         <CardLayouts index="0">
-            <LayoutButtons index="1" Face="Stop" Type="AbilCmd" AbilCmd="move,HoldPos" Row="0" Column="1"/>
-            <LayoutButtons Face="TossGrenadeTychus2222273" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich3,On" Row="1" Column="0"/>
-            <LayoutButtons>
-                <Face value="AutechBeidongSet27"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255,255"/>
-                <Requirements value="StortModeRe2172"/>
-                <Row value="2"/>
-                <Column value="2"/>
-            </LayoutButtons>
-            <LayoutButtons>
-                <Face value="AutechBeidongSet28"/>
-                <Type value="Passive"/>
-                <AbilCmd value="255,255"/>
-                <Requirements value="StortModeRe217"/>
-                <Row value="2"/>
-                <Column value="3"/>
-            </LayoutButtons>
-            <LayoutButtons Face="TossGrenadeTychus22222263" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich3,Off" Row="1" Column="1"/>
-            <LayoutButtons Face="TossGrenadeTychus22222732" Type="AbilCmd" AbilCmd="RocketAngelSpell2,Execute" Row="1" Column="4"/>
+<!--            <LayoutButtons Face="AlliedGuardianTankTargetPainterMode" Type="AbilCmd" AbilCmd="AlliedGuardianTankTargetPainterMode,On" Row="2" Column="0"/>-->
+<!--            <LayoutButtons Face="AlliedGuardianTankSmoothboreCannonMode" Type="AbilCmd" AbilCmd="AlliedGuardianTankTargetPainterMode,Off" Row="2" Column="1"/>-->
+            <LayoutButtons Face="AlliedGuardianTankTargetPainter" Type="AbilCmd" AbilCmd="AlliedGuardianTankTargetPainter,Execute" Row="2" Column="0"/>
         </CardLayouts>
         <Radius value="0.625"/>
         <InnerRadius value="0.1875"/>
@@ -50,14 +35,17 @@
         <ScoreKillCostFactor index="Minerals" value="1.25"/>
         <ScoreKillCostFactor index="Vespene" value="1.25"/>
         <SubgroupPriority value="12"/>
-        <GlossaryPriority value="150"/>
+        <GlossaryPriority value="120"/>
     </CUnit>
-    <CAbilBehavior id="SovietMotoModeSwhich3">
+    <CActorTurret id="MediumFastTurret" parent="SiegeTankTurret">
+        <On index="0" Terms="TurretEnable.MediumFastTurret" Send="Create"/>
+    </CActorTurret>
+    <CAbilBehavior id="AlliedGuardianTankTargetPainterMode">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus2222273">
+        <CmdButtonArray index="On" DefaultButtonFace="AlliedGuardianTankTargetPainterMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus22222263">
+        <CmdButtonArray index="Off" DefaultButtonFace="AlliedGuardianTankSmoothboreCannonMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="Toggle" value="1"/>
@@ -65,17 +53,16 @@
         <Cost/>
         <BehaviorArray value="VolatileBurstBuilding25222"/>
     </CAbilBehavior>
-    <CAbilEffectTarget id="RocketAngelSpell2">
+    <CAbilEffectTarget id="AlliedGuardianTankTargetPainter">
         <EditorCategories value="AbilityorEffectType:Units"/>
         <DataCollection value=""/>
         <Effect index="0" value="RAGuardianTankLaserTargetingContinuousEffect"/>
         <Flags index="AllowMovement" value="1"/>
-        <Flags index="AutoCast" value="1"/>
-        <Flags index="AutoCastOffOwnerLeave" value="1"/>
-        <Flags index="AutoCastOn" value="1"/>
+<!--        <Flags index="AutoCast" value="1"/>-->
+<!--        <Flags index="AutoCastOffOwnerLeave" value="1"/>-->
+<!--        <Flags index="AutoCastOn" value="1"/>-->
         <Flags index="LineMovement" value="1"/>
         <Flags index="Smart" value="1"/>
-        <Cost/>
         <TargetFilters value="-;Missile,Dead,Hidden,Invulnerable"/>
         <Range value="10"/>
         <AutoCastFilters value="Visible;Self,Player,Ally,Neutral,Missile,Dead,Hidden,Invulnerable"/>
@@ -88,7 +75,7 @@
         <CancelableArray index="Channel" value="1"/>
         <CancelableArray index="Finish" value="1"/>
         <CancelableArray index="Bail" value="1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="TossGrenadeTychus22222732"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedGuardianTankTargetPainter"/>
     </CAbilEffectTarget>
     <CActorAction id="85mmCannon" parent="GenericAttack" effectAttack="90mmCannon">
         <LaunchAttachQuery Methods="Weapon 0"/>
@@ -145,17 +132,6 @@
         </Modification>
         <BuffFlags index="RefreshStack" value="1"/>
     </CBehaviorBuff>
-    <CButton id="TossGrenadeTychus22222732">
-        <Icon value="assets\icons\Allied\guardian-tank-laser-calibrator.dds"/>
-    </CButton>
-    <CButton id="TossGrenadeTychus22222263">
-        <Icon value="assets\icons\Allied\guardian-tank-switches-main-gun.dds"/>
-        <HotkeyAlias value="TossGrenadeTychus2"/>
-    </CButton>
-    <CButton id="TossGrenadeTychus2222273">
-        <Icon value="assets\icons\Allied\guardian-tank-laser-calibrator.dds"/>
-        <HotkeyAlias value="TossGrenadeTychus2"/>
-    </CButton>
     <CEffectDamage id="90mmCannon" parent="DU_WEAP">
         <Kind value="Ranged"/>
         <Amount value="20"/>
@@ -312,7 +288,7 @@
                 <KindArray index="Splash" value="0.2"/>
                 <KindArray index="NoProc" value="0.2"/>
             </VitalDamageLeechArray>
-            <AbilLinkEnableArray value="RocketAngelSpell2"/>
+            <AbilLinkEnableArray value="AlliedGuardianTankTargetPainter"/>
             <BehaviorLinkDisableArray value="RATheUnitItselfTakesDamageWhenAttackingAnEnemyButItAlsoGainsHigherHealing1"/>
             <WeaponEnableArray value="LaserDrillTripodLaserBeam22"/>
             <WeaponDisableArray value="85mmCannon"/>
