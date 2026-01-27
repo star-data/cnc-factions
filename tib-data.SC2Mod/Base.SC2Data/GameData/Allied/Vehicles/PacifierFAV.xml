@@ -1,4 +1,9 @@
 <Catalog>
+    <CButton id="AlliedPacifierFAVStrikeMode" parent="Allied" icon="ability-PacifierFAV-StrikeMode"/>
+    <CButton id="AlliedPacifierFAVArtilleryMode" parent="Allied" icon="ability-PacifierFAV-ArtilleryMode"/>
+    <CButton id="AlliedPacifierFAVBarrage" parent="Allied">
+        <Icon value="Assets\Textures\BTN-Ability-Terran-BombardmentStrike-color.dds"/>
+    </CButton>
     <CUnit id="AlliedPacifierFAV" parent="AlliedVehicle">
         <FlagArray index="TurnBeforeMove" value="1"/>
         <LifeStart value="200"/>
@@ -15,16 +20,16 @@
         <CostResource index="Vespene" value="200"/>
         <RepairTime value="41.667"/>
         <KillXP value="25"/>
-        <AbilArray Link="VolatileBurstBuilding24"/>
+        <AbilArray Link="AlliedPacifierFAVArtilleryMode"/>
 <!--        <BehaviorArray Link="SovietT4unitveteranbehavior"/>-->
 <!--        <BehaviorArray Link="nianayaLevel13"/>-->
         <WeaponArray Link="Twin792mm243" Turret="RAPacifierTurret2"/>
         <WeaponArray Link="BattleshipArtillery223" Turret="RAPacifierTurret2"/>
 <!--        <WeaponArray Link="nianyalv13"/>-->
         <CardLayouts index="0">
-            <LayoutButtons Face="TossGrenadeTychus222225" Type="AbilCmd" AbilCmd="VolatileBurstBuilding24,On" Row="2" Column="1"/>
-            <LayoutButtons Face="TossGrenadeTychus2222224" Type="AbilCmd" AbilCmd="VolatileBurstBuilding24,Off" Row="2" Column="2"/>
-            <LayoutButtons Face="OdinBarrage" Type="AbilCmd" AbilCmd="attack,Barrage" Row="2" Column="0"/>
+            <LayoutButtons Face="AlliedPacifierFAVArtilleryMode" Type="AbilCmd" AbilCmd="AlliedPacifierFAVArtilleryMode,On" Row="2" Column="0"/>
+            <LayoutButtons Face="AlliedPacifierFAVStrikeMode" Type="AbilCmd" AbilCmd="AlliedPacifierFAVArtilleryMode,Off" Row="2" Column="1"/>
+            <LayoutButtons Face="AlliedPacifierFAVBarrage" Type="AbilCmd" AbilCmd="attack,Barrage" Row="2" Column="2"/>
         </CardLayouts>
         <Radius value="0.8125"/>
         <SeparationRadius value="0.4375"/>
@@ -49,20 +54,22 @@
         </Fidget>
         <Idle value="ResetIfMoving"/>
     </CTurret>
-    <CAbilBehavior id="VolatileBurstBuilding24">
+    <CAbilBehavior id="AlliedPacifierFAVArtilleryMode">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus222225">
+        <CmdButtonArray index="On" DefaultButtonFace="AlliedPacifierFAVArtilleryMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus2222224">
+        <CmdButtonArray index="Off" DefaultButtonFace="AlliedPacifierFAVStrikeMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="Toggle" value="1"/>
         <Cost/>
-        <BehaviorArray value="VolatileBurstBuilding24"/>
+        <BehaviorArray value="AlliedPacifierFAVArtilleryMode"/>
     </CAbilBehavior>
     <CActorAction id="Twin792mmAttack3" parent="GenericAttack" effectAttack="Twin792mm6">
-        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+<!--        <LaunchAttachQuery Methods="AMFilterWeapon"/>-->
+        <LaunchAttachQuery Methods="Weapon0102"/>
+<!--        <LaunchAttachQuery Methods="Weapon 1" Fallback="Weapon"/>-->
         <LaunchAssets Model="VikingAssaultAttackLaunch3" Sound="VikingAssault_AttackLaunch222"/>
         <Missile value=""/>
         <ImpactMap index="None" Model="VikingAssaultAttackImpact3" Sound="Viking_AssaultAttackImpact"/>
@@ -77,16 +84,16 @@
     </CActorModel>
     <CActorUnit id="AlliedPacifierFAV" parent="AlliedVehicle" unitName="AlliedPacifierFAV" icon="PacifierFAV">
         <On Terms="ActorCreation" Send="AnimGroupApply A"/>
-        <On Terms="Behavior.VolatileBurstBuilding24.On" Send="AnimBracketStart Attack1 Stand,Morph,Start Stand,B Stand,Morph,End ContentNonLooping,OpeningPlayForever"/>
-        <On Terms="Behavior.VolatileBurstBuilding24.On" Send="AnimGroupRemove A"/>
-        <On Terms="Behavior.VolatileBurstBuilding24.Off" Send="AnimBracketStop Attack1"/>
-        <On Terms="Behavior.VolatileBurstBuilding24.Off" Send="AnimGroupApply A"/>
-        <On Terms="Behavior.VolatileBurstBuilding24.Off" Send="AnimClear Attack2"/>
-        <On Terms="Behavior.VolatileBurstBuilding24.On" Send="AnimGroupApply B"/>
-        <On Terms="Behavior.VolatileBurstBuilding24.Off" Send="AnimGroupRemove B"/>
+        <On Terms="Behavior.AlliedPacifierFAVArtilleryMode.On" Send="AnimBracketStart Attack1 Stand,Morph,Start Stand,B Stand,Morph,End ContentNonLooping,OpeningPlayForever"/>
+        <On Terms="Behavior.AlliedPacifierFAVArtilleryMode.On" Send="AnimGroupRemove A"/>
+        <On Terms="Behavior.AlliedPacifierFAVArtilleryMode.Off" Send="AnimBracketStop Attack1"/>
+        <On Terms="Behavior.AlliedPacifierFAVArtilleryMode.Off" Send="AnimGroupApply A"/>
+        <On Terms="Behavior.AlliedPacifierFAVArtilleryMode.Off" Send="AnimClear Attack2"/>
+        <On Terms="Behavior.AlliedPacifierFAVArtilleryMode.On" Send="AnimGroupApply B"/>
+        <On Terms="Behavior.AlliedPacifierFAVArtilleryMode.Off" Send="AnimGroupRemove B"/>
         <On Terms="WeaponStop.BattleshipArtillery223" Send="AnimPlay Attack3 Attack,B PlayForever"/>
         <On Terms="WeaponStart.BattleshipArtillery223" Send="AnimPlay Attack3 Attack,B PlayForever"/>
-        <On Terms="Behavior.VolatileBurstBuilding24.Off" Send="AnimClear Attack3"/>
+        <On Terms="Behavior.AlliedPacifierFAVArtilleryMode.Off" Send="AnimClear Attack3"/>
         <Model value="AlliedPacifierFAV"/>
         <DeathArray index="Normal" ModelLink="UmojanLabWarbotDeath" SoundLink="UmojanLab_SentryBot_DeathExplosion_Init"/>
         <DeathActorModelLow value="UnitDeathModel"/>
@@ -117,20 +124,6 @@
         <UnitFlags index="SuppressWalkIntro" value="1"/>
         <UnitFlags index="SuppressWalkOutro" value="1"/>
     </CActorUnit>
-    <CButton id="TossGrenadeTychus2222224">
-        <Icon value="Assets\icons\Allied\pacifier-suspension-mode.dds"/>
-        <HotkeyAlias value="TossGrenadeTychus2"/>
-    </CButton>
-    <CButton id="TossGrenadeTychus222225">
-        <Icon value="Assets\icons\Allied\pacifier-siege-mode.dds"/>
-        <HotkeyAlias value="TossGrenadeTychus2"/>
-    </CButton>
-    <CButton id="AutechBeidongSet23">
-        <Icon value="Assets\Textures\btn-progression-mengsk-06-engineeringbayupgradecache.dds"/>
-    </CButton>
-    <CButton id="AutechBeidongSet24">
-        <Icon value="Assets\Textures\btn-techupgrade-terran-shapedblast.dds"/>
-    </CButton>
     <CEffectDamage id="BattleshipArtilleryD323" parent="DU_WEAP">
         <Kind value="Ranged"/>
         <Amount value="20"/>
@@ -417,7 +410,7 @@
         <DisplayAttackCount value="5"/>
         <RandomDelayMax value="0.425"/>
     </CWeaponLegacy>
-    <CBehaviorBuff id="VolatileBurstBuilding24">
+    <CBehaviorBuff id="AlliedPacifierFAVArtilleryMode">
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
         <InitialEffect value="RAThePacifierCannotMoveWhileTransformed"/>
@@ -431,11 +424,11 @@
         </Modification>
     </CBehaviorBuff>
     <CActorSound id="RAPacifierExpandsSoundEffects" parent="SoundOneShot">
-        <On Terms="Behavior.VolatileBurstBuilding24.On" Send="Create"/>
+        <On Terms="Behavior.AlliedPacifierFAVArtilleryMode.On" Send="Create"/>
         <Sound value="Colossus_AttackLaunch2422"/>
     </CActorSound>
     <CActorSound id="RAPacifierTurnsOffSoundEffects" parent="SoundOneShot">
-        <On Terms="Behavior.VolatileBurstBuilding24.Off" Send="Create"/>
+        <On Terms="Behavior.AlliedPacifierFAVArtilleryMode.Off" Send="Create"/>
         <Sound value="Colossus_AttackLaunch24222"/>
     </CActorSound>
     <CBehaviorBuff id="VolatileBurstBuilding242">
@@ -472,4 +465,23 @@
         <SustainFade index="1" Time="2500"/>
         <Volume value="3.000000,3.000000"/>
     </CSound>
+    <CEffectSet id="AupacImapctSet">
+        <EditorCategories value="Race:Terran"/>
+        <EffectArray value="Auchrono322"/>
+        <EffectArray value="Auchrono3222"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+    <CEffectEnumArea id="Auchrono322">
+        <SearchFilters value="Ground;Self,Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="1" Effect="BattleshipArtilleryD323"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="Auchrono3222">
+        <SearchFilters value="Ground;Neutral,Enemy,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="1" Effect="BattleshipArtilleryD3232"/>
+    </CEffectEnumArea>
+    <CEffectDamage id="BattleshipArtilleryD3232" parent="DU_WEAP">
+        <Kind value="Ranged"/>
+        <Amount value="20"/>
+        <Death value="Blast"/>
+    </CEffectDamage>
 </Catalog>

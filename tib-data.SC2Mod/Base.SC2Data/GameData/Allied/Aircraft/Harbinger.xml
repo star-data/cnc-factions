@@ -58,6 +58,11 @@
         <Behavior value="VeterancyFake"/>
     </CValidatorUnitCompareBehaviorCount>
 
+    <CButton id="AlliedHarbingerChainGun" parent="Allied" icon="ability-Harbinger-ChainGun"/>
+    <CButton id="AlliedHarbingerColliderCannon" parent="Allied" icon="ability-Harbinger-ColliderCannon"/>
+    <CButton id="AlliedHarbingerImmortality" parent="Allied" icon="ability">
+        <Icon value="Assets\Textures\btn-ability-protoss-invulnerabilityshield.dds"/>
+    </CButton>
 
     <CUnit id="AlliedHarbinger" parent="AlliedAirPlane">
         <Attributes index="Armored" value="1"/>
@@ -78,7 +83,7 @@
         <RepairTime value="2"/>
         <KillXP value="25"/>
         <AbilArray Link="RAInvincible"/>
-        <AbilArray Link="AlliedHarbingerSwitchToChainGunBehavior"/>
+        <AbilArray Link="AlliedHarbingerChainGunBehavior"/>
         <!--        <BehaviorArray Link="AutoHeal42"/>-->
         <!--        <BehaviorArray Link="xfjytzzdpx22"/>-->
         <!-- <BehaviorArray Link="T4unitveteranbehaviorVanguardarmedcombataircraft"/> -->
@@ -91,10 +96,9 @@
         <CardLayouts index="0">
             <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="CNCAirplaneMove,Move" Row="0" Column="0"/>
             <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack2,Execute" Row="0" Column="4"/>
-            <LayoutButtons Face="AutechBeidongSet32" Row="1" Column="4"/>
-            <LayoutButtons Face="AlliedHarbingerSwitchToChainGun" Type="AbilCmd" AbilCmd="AlliedHarbingerSwitchToChainGunBehavior,On" Row="1" Column="1"/>
-            <LayoutButtons Face="AlliedHarbingerSwitchToProtonCannon" Type="AbilCmd" AbilCmd="AlliedHarbingerSwitchToChainGunBehavior,Off" Row="1" Column="0"/>
-            <LayoutButtons Face="AlliedHarbingerImmortality" Type="AbilCmd" AbilCmd="RAInvincible,Execute" Row="1" Column="3"/>
+            <LayoutButtons Face="AlliedHarbingerChainGun" Type="AbilCmd" AbilCmd="AlliedHarbingerChainGunBehavior,On" Row="2" Column="0"/>
+            <LayoutButtons Face="AlliedHarbingerColliderCannon" Type="AbilCmd" AbilCmd="AlliedHarbingerChainGunBehavior,Off" Row="2" Column="1"/>
+            <LayoutButtons Face="AlliedHarbingerImmortality" Type="AbilCmd" AbilCmd="RAInvincible,Execute" Row="2" Column="2"/>
         </CardLayouts>
         <Radius value="1"/>
         <SeparationRadius value="1"/>
@@ -106,8 +110,8 @@
         <TacticalAIThink value="AIThinkBattleCruiser"/>
         <Mass value="0.6"/>
         <TechAliasArray value="Alias_BattlecruiserClass"/>
+        <SubgroupPriority value="30"/>
         <GlossaryPriority value="240"/>
-        <GlossaryPriority value="150"/>
         <GlossaryStrongArray value="Thor"/>
         <GlossaryStrongArray value="Mutalisk"/>
         <GlossaryStrongArray value="Carrier"/>
@@ -142,20 +146,20 @@
         <CmdButtonArray index="Execute" DefaultButtonFace="AlliedHarbingerImmortality"/>
     </CAbilEffectInstant>
 
-    <CAbilBehavior id="AlliedHarbingerSwitchToChainGunBehavior">
+    <CAbilBehavior id="AlliedHarbingerChainGunBehavior">
         <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="On" DefaultButtonFace="AlliedHarbingerSwitchToChainGun">
+        <CmdButtonArray index="On" DefaultButtonFace="AlliedHarbingerChainGun">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="Off" DefaultButtonFace="AlliedHarbingerSwitchToProtonCannon">
+        <CmdButtonArray index="Off" DefaultButtonFace="AlliedHarbingerColliderCannon">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="Toggle" value="1"/>
         <Flags index="Transient" value="1"/>
         <Cost/>
-        <BehaviorArray value="AlliedHarbingerSwitchToChainGunBehavior"/>
+        <BehaviorArray value="AlliedHarbingerChainGunBehavior"/>
     </CAbilBehavior>
-    <CBehaviorBuff id="AlliedHarbingerSwitchToChainGunBehavior">
+    <CBehaviorBuff id="AlliedHarbingerChainGunBehavior">
         <!--        <InfoFlags index="Hidden" value="1"/>-->
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
         <Modification>
@@ -215,7 +219,7 @@
         <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
         <On Terms="Effect.AlliedHarbingerProtonCannon@VeterancyDamage.Start; At Effect" Send="Create"/>
         <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
-        <Map index="None" Model="AlliedHarbingerProtonCannon@Impact" Sound="AlliedHarbingerProtonCannon@Impact"/>
+        <Map index="None" Model="AlliedHarbingerProtonCannon@VeterancyImpact" Sound="AlliedHarbingerProtonCannon@Impact"/>
     </CActorSquib>
     <CActorSquib id="AlliedHarbingerProtonCannon@Squib">
         <Flags index="SuppressSaveLoad" value="1"/>
@@ -224,7 +228,7 @@
         <On Terms="ActorOrphan" Send="AnimBracketStop BSD"/>
         <On Terms="Effect.AlliedHarbingerProtonCannon@Damage.Start; At Effect" Send="Create"/>
         <HostSiteOps Ops="SOpTargetPointStationary SOpShadow"/>
-        <Map index="None" Model="AlliedHarbingerProtonCannonMissile" Sound="AlliedHarbingerProtonCannon@Impact"/>
+        <Map index="None" Model="AlliedHarbingerProtonCannon@Impact" Sound="AlliedHarbingerProtonCannon@Impact"/>
     </CActorSquib>
     <CActorAction id="AlliedHarbingerChainGun@Attack" parent="GenericAttack" effectImpact="AlliedHarbingerChainGun@Damage" effectLaunch="AlliedHarbingerChainGun@LM">
         <LaunchAssets Model="AlliedHarbingerChainGun@MissileLaunch" Sound="UnknownSound22"/>
@@ -289,18 +293,6 @@
         <Model value="AlliedHarbingerProtonCannonMissile"/>
     </CActorMissile>
 
-    <CButton id="AlliedHarbingerImmortality">
-        <Icon value="Assets\Textures\btn-ability-protoss-invulnerabilityshield.dds"/>
-        <HotkeyAlias value="TossGrenadeTychus2"/>
-    </CButton>
-
-    <CButton id="AlliedHarbingerSwitchToChainGun">
-        <Icon value="Assets\icons\Allied\pioneer-armed-combat-aircraft-switches-to-machine-gun-mode.dds"/>
-    </CButton>
-
-    <CButton id="AlliedHarbingerSwitchToProtonCannon">
-        <Icon value="Assets\icons\Allied\pioneer-armed-combat-aircraft-switches-main-gun-mode.dds"/>
-    </CButton>
 
 
     <CEffectCreatePersistent id="AlliedHarbingerProtonCannon@VeterancyCP">
@@ -416,36 +408,31 @@
         <ScaleMin value="0.800000,0.800000,0.800000"/>
     </CModel>
     <CModel id="AlliedHarbingerProtonCannon@VeterancyImpact" parent="ImpactFX">
-        <Model value="assets\models\FXAlliedprotoncolliderhitEX.m3"/>
+        <Model value="assets\effects\allied\FXAlliedprotoncolliderhitEX.m3"/>
         <AnimSpeed value="0.850000"/>
-        <EditorCategories value="Race:Terran"/>
         <Priority value="16"/>
         <ScaleMax value="1.100000,1.100000,1.100000"/>
         <ScaleMin value="1.100000,1.100000,1.100000"/>
     </CModel>
     <CModel id="AlliedHarbingerProtonCannonVeterancyMissile" parent="MissileFX">
-        <Model value="assets\models\FXAlliedGunshipMissileEX.m3"/>
-        <EditorCategories value="Race:Terran"/>
+        <Model value="assets\effects\allied\FXAlliedGunshipMissileEX.m3"/>
         <ScaleMax value="2.000000,2.000000,2.000000"/>
         <ScaleMin value="2.000000,2.000000,2.000000"/>
     </CModel>
     <CModel id="AlliedHarbingerProtonCannon@Impact" parent="ImpactFX">
-        <Model value="assets\models\FXAlliedprotoncolliderhit.m3"/>
+        <Model value="assets\effects\allied\FXAlliedprotoncolliderhit.m3"/>
         <AnimSpeed value="0.850000"/>
-        <EditorCategories value="Race:Terran"/>
         <Priority value="16"/>
         <ScaleMax value="1.100000,1.100000,1.100000"/>
         <ScaleMin value="1.100000,1.100000,1.100000"/>
     </CModel>
     <CModel id="AlliedHarbingerProtonCannonMissile" parent="MissileFX">
-        <Model value="assets\models\FXAlliedGunshipMissile.m3"/>
-        <EditorCategories value="Race:Terran"/>
+        <Model value="assets\effects\allied\FXAlliedGunshipMissile.m3"/>
         <ScaleMax value="2.000000,2.000000,2.000000"/>
         <ScaleMin value="2.000000,2.000000,2.000000"/>
     </CModel>
     <CModel id="AlliedHarbingerChainGunMissile" parent="MissileFX">
         <Model value="Assets\Effects\Terran\WraithLaserMissile\WraithLaserMissile.m3"/>
-        <EditorCategories value="Race:Terran"/>
     </CModel>
     <CModel id="AlliedHarbingerChainGun@MissileLaunch" parent="LaunchFX">
         <Model value="Assets\Effects\Protoss\Arbiter_Purifier_Coop_Missile_Launch\Arbiter_Purifier_Coop_Missile_Launch.m3"/>

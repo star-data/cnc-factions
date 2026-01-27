@@ -1,5 +1,8 @@
 <Catalog>
-
+        <CButton id="AlliedCenturyTransportMode" parent="Allied" icon="ability-Century-TransportMode"/>
+        <CButton id="AlliedCenturyBomberMode">
+            <Icon value="Assets\Textures\talent-raynor-level02-bansheeairstrike.dds"/>
+        </CButton>
     <CUnit id="AlliedCentury" parent="AlliedAirPlane">
         <Attributes index="Armored" value="1"/>
         <Attributes index="Mechanical" value="1"/>
@@ -14,14 +17,15 @@
         <StationaryTurningRate value="180"/>
         <TurningRate value="180"/>
         <Sight value="13"/>
-        <CostResource index="Minerals" value="2000"/>
+        <CostResource index="Minerals" value="150"/>
+        <CostResource index="Vespene" value="100"/>
         <RepairTime value="2"/>
         <KillXP value="10"/>
 <!--        <AbilArray Link="CNCReturnToTheAirport"/>-->
 <!--        <AbilArray Link="CNCAirportPlanetakingoff"/>-->
 <!--        <AbilArray Link="CNCAirportPlaneLanding"/>-->
 <!--        <AbilArray Link="CNCAirplaneMove"/>-->
-<!--        <AbilArray Link="SpecOpsDropshipTransport2"/>-->
+        <AbilArray Link="SpecOpsDropshipTransport2"/>
         <AbilArray Link="SovietMotoModeSwhich53"/>
 <!--        <BehaviorArray Link="ThePioneerarmedcombataircraftkeepscirclingwhenstopped"/>-->
 <!--        <BehaviorArray Link="DisablestopautoandattackinVanguardmovementcommand"/>-->
@@ -33,16 +37,16 @@
 <!--        <BehaviorArray Link="AutoHeal42"/>-->
         <WeaponArray Link="StrategicBomb22"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="CNCAirplaneMove,Move" Row="0" Column="0"/>
-            <LayoutButtons Face="MothershipCoreAttack" Type="AbilCmd" AbilCmd="CNCAirportPlanetakingoff,255" Row="0" Column="4"/>
-            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack2,Execute" Row="0" Column="4"/>
-            <LayoutButtons Face="ReturnAirport3" Type="AbilCmd" AbilCmd="CNCReturnToTheAirport,255" Row="1" Column="0"/>
-            <LayoutButtons Face="BiodomeLoad3" Type="AbilCmd" AbilCmd="SpecOpsDropshipTransport2,Load" Row="2" Column="0"/>
+<!--            <LayoutButtons Face="Move" Type="AbilCmd" AbilCmd="CNCAirplaneMove,Move" Row="0" Column="0"/>-->
+<!--            <LayoutButtons Face="MothershipCoreAttack" Type="AbilCmd" AbilCmd="CNCAirportPlanetakingoff,255" Row="0" Column="4"/>-->
+<!--            <LayoutButtons Face="Attack" Type="AbilCmd" AbilCmd="attack2,Execute" Row="0" Column="4"/>-->
+<!--            <LayoutButtons Face="ReturnAirport3" Type="AbilCmd" AbilCmd="CNCReturnToTheAirport,255" Row="1" Column="0"/>-->
+            <LayoutButtons Face="MedivacLoad" Type="AbilCmd" AbilCmd="SpecOpsDropshipTransport2,Load" Row="2" Column="0"/>
             <LayoutButtons Face="MedivacUnloadAll" Type="AbilCmd" AbilCmd="SpecOpsDropshipTransport2,UnloadAll" Row="2" Column="1"/>
-            <LayoutButtons Face="TossGrenadeTychus22222754" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich53,On" Row="1" Column="1"/>
-            <LayoutButtons Face="TossGrenadeTychus222222653" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich53,Off" Row="1" Column="2"/>
-            <LayoutButtons Face="AutechBeidongSet25" Type="Passive" Requirements="StortModeRe218" Row="1" Column="3"/>
-            <LayoutButtons Face="AutechBeidongSet26" Type="Passive" Requirements="StortModeRe219" Row="1" Column="4"/>
+            <LayoutButtons Face="AlliedCenturyTransportMode" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich53,On" Row="1" Column="0"/>
+            <LayoutButtons Face="AlliedCenturyBomberMode" Type="AbilCmd" AbilCmd="SovietMotoModeSwhich53,Off" Row="1" Column="1"/>
+<!--            <LayoutButtons Face="AutechBeidongSet25" Type="Passive" Requirements="StortModeRe218" Row="1" Column="3"/>-->
+<!--            <LayoutButtons Face="AutechBeidongSet26" Type="Passive" Requirements="StortModeRe219" Row="1" Column="4"/>-->
         </CardLayouts>
         <SubgroupPriority value="12"/>
         <GlossaryPriority value="230"/>
@@ -57,9 +61,9 @@
         <CmdButtonArray index="LoadAll">
             <Flags index="Hidden" value="1"/>
         </CmdButtonArray>
-        <MaxCargoCount value="5"/>
-        <MaxCargoSize value="2"/>
-        <TotalCargoSpace value="5"/>
+        <MaxCargoCount value="8"/>
+        <MaxCargoSize value="8"/>
+        <TotalCargoSpace value="8"/>
         <UnloadPeriod value="1"/>
         <Range value="2"/>
         <LoadCargoBehavior value="AirfieldAuraB2723"/>
@@ -67,12 +71,16 @@
         <LoadSmartPriority value="20"/>
         <LoadTransportBehavior value="AirfieldAuraB27232"/>
     </CAbilTransport>
+    <CValidatorUnitCompareCargo id="HasCargo2">
+        <ResultFailed value="NotWhileOccupied"/>
+        <Type value="Load"/>
+    </CValidatorUnitCompareCargo>
     <CAbilBehavior id="SovietMotoModeSwhich53">
         <EditorCategories value="Race:Zerg,AbilityorEffectType:Units"/>
-        <CmdButtonArray index="On" DefaultButtonFace="TossGrenadeTychus22222754">
+        <CmdButtonArray index="On" DefaultButtonFace="AlliedCenturyTransportMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
-        <CmdButtonArray index="Off" DefaultButtonFace="TossGrenadeTychus222222653">
+        <CmdButtonArray index="Off" DefaultButtonFace="AlliedCenturyBomberMode">
             <Flags index="ToSelection" value="1"/>
         </CmdButtonArray>
         <Flags index="Toggle" value="1"/>
@@ -80,6 +88,13 @@
         <Cost/>
         <BehaviorArray value="AushijifightrtMode"/>
     </CAbilBehavior>
+    <CBehaviorBuff id="AushijifightrtMode">
+        <InfoFlags index="Hidden" value="1"/>
+        <EditorCategories value="Race:Terran,AbilityorEffectType:Units"/>
+        <Modification>
+            <WeaponDisableArray value="StrategicBomb22"/>
+        </Modification>
+    </CBehaviorBuff>
     <CActorUnit id="AlliedCentury_Actor" parent="AlliedAir" unitName="AlliedCentury" icon="CenturyBomber">
         <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
         <On Terms="WeaponStart.SJWraith.AttackStart" Send="AnimBracketStart Attack Attack,Superior"/>
@@ -136,21 +151,15 @@
             <ModifyFlags index="DisableWeapons" value="1"/>
         </Modification>
     </CBehaviorBuff>
-    <CButton id="BiodomeLoad3">
-        <Icon value="Assets\Textures\btn-ability-terran-load.dds"/>
-    </CButton>
-    <CButton id="AutechBeidongSet26">
-        <Icon value="Assets\Textures\btn-techupgrade-terran-neosteelbunker.dds"/>
-    </CButton>
-    <CButton id="AutechBeidongSet25">
-        <Icon value="Assets\Textures\btn-techupgrade-terran-rapiddeployment.dds"/>
-    </CButton>
-    <CButton id="TossGrenadeTychus22222754">
-        <Icon value="Assets\icons\Allied\century-bomber-unloading-infantry-icon.dds"/>
-    </CButton>
-    <CButton id="TossGrenadeTychus222222653">
-        <Icon value="Assets\Textures\talent-raynor-level02-bansheeairstrike.dds"/>
-    </CButton>
+<!--    <CButton id="BiodomeLoad3">-->
+<!--        <Icon value="Assets\Textures\btn-ability-terran-load.dds"/>-->
+<!--    </CButton>-->
+<!--    <CButton id="AutechBeidongSet26">-->
+<!--        <Icon value="Assets\Textures\btn-techupgrade-terran-neosteelbunker.dds"/>-->
+<!--    </CButton>-->
+<!--    <CButton id="AutechBeidongSet25">-->
+<!--        <Icon value="Assets\Textures\btn-techupgrade-terran-rapiddeployment.dds"/>-->
+<!--    </CButton>-->
     <CEffectRemoveBehavior id="RABehaviorOfCenturyBomberApplicationOfForceRemoval">
         <BehaviorLink value="RAMovementSpeedAndArmor20Percent37"/>
     </CEffectRemoveBehavior>

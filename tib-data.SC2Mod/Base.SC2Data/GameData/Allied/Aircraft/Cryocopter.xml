@@ -1,5 +1,5 @@
 <Catalog>
-    <CUnit id="AlliedCryoCopter" parent="AlliedAir">
+    <CUnit id="AlliedCryocopter" parent="AlliedAir">
         <Subtitle value="UnitSubtitle/hangk"/>
         <Collide index="FlyingEscorts" value="1"/>
         <Response value="AcquireNoFlee"/>
@@ -24,7 +24,7 @@
         <WeaponArray Link="LaserDrillTripodLaserBeam2"/>
         <EffectArray index="Create" value="AurepairDroneHighstart3"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="TossGrenadeTychus2222275323" Type="AbilCmd" AbilCmd="AucryoShrinBeam,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="AlliedCryocopterShrinkBeam" Type="AbilCmd" AbilCmd="AucryoShrinBeam,Execute" Row="2" Column="0"/>
         </CardLayouts>
         <ScoreMake value="200"/>
         <ScoreKillCostFactor index="Minerals" value="1.25"/>
@@ -45,7 +45,7 @@
         </Cost>
         <TargetFilters value="Ground;Self,Player,Ally,Structure,Heroic,Dead,Invulnerable,HeroUnit"/>
         <Range value="13"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="TossGrenadeTychus2222275323"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedCryocopterShrinkBeam"/>
         <AutoCastFilters value="Visible;Player,Ally,Neutral"/>
         <AutoCastRange value="12"/>
         <AutoCastValidatorArray value="Shrinkbeam"/>
@@ -101,14 +101,14 @@
         <On Terms="Behavior.RATheTargetIsBeingFrozenAndSluggish.Off" Send="Destroy"/>
         <ModelFlags index="AutomateGlobalLoops" value="1"/>
     </CActorModelMaterial>
-    <CActorUnit id="AlliedCryoCopter_Actor" parent="AlliedAir" unitName="AlliedCryoCopter" icon="Cryocopter">
+    <CActorUnit id="AlliedCryocopter" parent="AlliedAir" unitName="AlliedCryocopter" icon="Cryocopter">
         <On Terms="Abil.attack.ReadyStart" Send="AnimGroupApply Ready"/>
         <On Terms="WeaponStart.SJWraith.AttackStart" Send="AnimBracketStart Attack Attack,Superior"/>
         <On Terms="WeaponStop.*.AttackStop" Send="AnimBracketStop Attack"/>
         <On Terms="Abil.attack.ReadyStop" Send="AnimGroupRemove Ready"/>
         <On Terms="ActorCreation; ValidateUnit AlliedConstructionYardTechlv02" Send="ModelSwap WW2Fighter4222"/>
         <HostSiteOps Ops="SOpBankerRAAir"/>
-        <Model value="AlliedCryoCopter_Model"/>
+        <Model value="AlliedCryocopter"/>
         <Scale value="0.900000,0.900000,1.100000"/>
         <AnimBlendTime value="0.300000"/>
         <DeathArray index="Normal" ModelLink="SJGriffonDeath" SoundLink="AlliedIceTankVoice226"/>
@@ -116,16 +116,16 @@
         <BarOffset value="55"/>
         <BarWidth value="66"/>
         <SoundArray index="Birth" value="SovietTwinBlade_Actor_Birth"/>
-        <SoundArray index="Ready" value="AlliedCryoCopter_Actor_Ready"/>
-        <SoundArray index="Help" value="AlliedCryoCopter_Actor_Help"/>
-        <SoundArray index="What" value="AlliedCryoCopter_Actor_What"/>
-        <SoundArray index="Yes" value="AlliedCryoCopter_Actor_Yes"/>
-        <SoundArray index="Attack" value="AlliedCryoCopter_Actor_Attack"/>
-        <SoundArray index="Pissed" value="AlliedCryoCopter_Actor_Attack"/>
+        <SoundArray index="Ready" value="AlliedCryocopter_Actor_Ready"/>
+        <SoundArray index="Help" value="AlliedCryocopter_Actor_Help"/>
+        <SoundArray index="What" value="AlliedCryocopter_Actor_What"/>
+        <SoundArray index="Yes" value="AlliedCryocopter_Actor_Yes"/>
+        <SoundArray index="Attack" value="AlliedCryocopter_Actor_Attack"/>
+        <SoundArray index="Pissed" value="AlliedCryocopter_Actor_Attack"/>
         <SoundArray index="Movement" value="SovietTwinBlade_Actor_Birth"/>
         <SoundArray index="Turning" value="Liberator_Turning"/>
         <SoundArray index="Board" value="Liberator_Board"/>
-        <SoundArray index="Click" value="AlliedCryoCopter_Actor_What"/>
+        <SoundArray index="Click" value="AlliedCryocopter_Actor_What"/>
         <SoundArray index="ClickError" value="Liberator_ClickError"/>
         <SoundArray index="Highlight" value="Liberator_Highlight"/>
     </CActorUnit>
@@ -176,7 +176,7 @@
         <Sound value="LaserDrillTripodSound242"/>
     </CActorSound>
     <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent452">
-        <InfoFlags index="Hidden" value="1"/>
+<!--        <InfoFlags index="Hidden" value="1"/>-->
         <EditorCategories value="AbilityorEffectType:Units"/>
         <Modification>
             <SightBonus value="-3"/>
@@ -198,6 +198,16 @@
         </DamageResponse>
         <Duration value="20"/>
     </CBehaviorBuff>
+    <CActorSimple id="Shrink">
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent452.On" Send="Create"/>
+        <On Terms="ActorCreation" Target="_Unit" Send="SetScale 0.5 0.300000 ShrinkScale"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent452.Off" Target="_Unit" Send="ClearScale 1.000000 ShrinkScale"/>
+        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent452.Off" Send="Destroy"/>
+    </CActorSimple>
+    <!--    <CActorUnit id="InfestedExploder">-->
+    <!--        <Scale value="1.800000"/>-->
+    <!--        <On Terms="Behavior.RAMovementSpeedAndArmor20Percent452.On" Send="SetScale 0.900000 0.300000"/>-->
+    <!--    </CActorUnit>-->
     <CBehaviorBuff id="RATheTargetIsCompletelyFrozenAndVulnerable1">
         <InfoIcon value="Assets\Textures\ui_hots_icon_flashfreeze.dds"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -218,13 +228,16 @@
             <Chance value="1"/>
         </DamageResponse>
         <DisableValidatorArray value="RAExcludeBuildingsAndHeroUnits"/>
-        <DisableValidatorArray value="IsNotHellionTank234"/>
-        <DisableValidatorArray value="IsNotHellionTank23"/>
+<!--        <DisableValidatorArray value="IsNotHellionTank234"/>-->
+<!--        <DisableValidatorArray value="IsNotHellionTank23"/>-->
         <RemoveValidatorArray value="RAExcludeBuildingsAndHeroUnits"/>
-        <RemoveValidatorArray value="IsNotHellionTank234"/>
-        <RemoveValidatorArray value="IsNotHellionTank23"/>
+<!--        <RemoveValidatorArray value="IsNotHellionTank234"/>-->
+<!--        <RemoveValidatorArray value="IsNotHellionTank23"/>-->
         <TimeScaleSource Value="Caster"/>
     </CBehaviorBuff>
+    <CValidatorUnitFilters id="RAExcludeBuildingsAndHeroUnits">
+        <Filters value="-;Structure,Heroic,HeroUnit"/>
+    </CValidatorUnitFilters>
     <CBehaviorBuff id="iceman">
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -265,9 +278,7 @@
         <Duration value="5"/>
         <Modification MoveSpeedMultiplier="0.7" AttackSpeedMultiplier="0.7" LifeArmorMultiplier="0.7"/>
     </CBehaviorBuff>
-    <CButton id="TossGrenadeTychus2222275323">
-        <Icon value="Assets\icons\shrink-beam-icon.dds"/>
-    </CButton>
+    <CButton id="AlliedCryocopterShrinkBeam" parent="Allied" icon="ability-Cryocopter-shrinkbeam"/>
     <CEffectDamage id="LaserDrillTripodDamage23" parent="DU_WEAP">
         <ResponseFlags index="Acquire" value="0"/>
         <ArmorReduction value="0"/>
@@ -313,6 +324,26 @@
         <PeriodicPeriodArray value="0.5"/>
         <PeriodicPeriodArray value="0.5"/>
     </CEffectCreatePersistent>
+    <CValidatorUnitCompareBehaviorCount id="RAApplyFullFreezeValidatorZombieLevel1">
+        <Compare value="GE"/>
+        <Value value="9"/>
+        <Behavior value="RATheTargetIsFreezingAndSlowingDown1"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="RAApplyFullFreezeValidatorZombieLevel2">
+        <Compare value="GE"/>
+        <Value value="19"/>
+        <Behavior value="RATheTargetIsFreezingAndSlowingDown1"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="RAApplyFullFreezeValidatorZombieLevel3">
+        <Compare value="GE"/>
+        <Value value="29"/>
+        <Behavior value="RATheTargetIsFreezingAndSlowingDown1"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="RAApplyFullFreezeValidatorZombieLevel4">
+        <Compare value="GE"/>
+        <Value value="49"/>
+        <Behavior value="RATheTargetIsFreezingAndSlowingDown1"/>
+    </CValidatorUnitCompareBehaviorCount>
     <CEffectApplyBehavior id="RAFreezeApplicationBehaviorFinallyFreezes">
         <ValidatorArray index="0" value="RAApplyFullFreezeValidatorZombieLevel1"/>
         <Behavior value="RATheTargetIsCompletelyFrozenAndVulnerable1"/>
@@ -342,6 +373,10 @@
         <TargetLocationType value="Unknown"/>
         <ValidatorArray value="WeaponInRange"/>
     </CEffectSet>
+    <CEffectEnumArea id="RAFreezeSearchBehaviorLevel1">
+        <SearchFilters value="User1;Missile,Dead,Invulnerable"/>
+        <AreaArray Radius="0.75" Effect="RAFreezingApplicationBehaviorOneLayer"/>
+    </CEffectEnumArea>
     <CEffectApplyBehavior id="RAFreezingBuiltInCoolingApplicationBehavior">
         <Behavior value="iceman"/>
     </CEffectApplyBehavior>
@@ -356,7 +391,7 @@
         <CaseArray Validator="RAFrozenHostileZombieHealthValidatorT4" Effect="RAFreezeApplicationBehaviorFinallyFreezes4"/>
         <CaseDefault value="RAFreezeApplicationBehaviorFinallyFreezes4"/>
     </CEffectSwitch>
-    <CModel id="AlliedCryoCopter_Model" parent="MarineBase">
+    <CModel id="AlliedCryocopter" parent="MarineBase">
         <Model value="assets\units\Allied\Cryocopter.m3"/>
         <SelectionRadius value="0.700000"/>
     </CModel>
@@ -384,7 +419,7 @@
         <Flags index="Purgable" value="0"/>
         <Volume value="3.000000,3.000000"/>
     </CSound>
-    <CSound id="AlliedCryoCopter_Actor_Attack" parent="TerranAck_Void">
+    <CSound id="AlliedCryocopter_Actor_Attack" parent="TerranAck_Void">
         <AssetArray File="assets\sounds\AUCryoc_VoiAttacka.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUCryoc_VoiAttackb.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUCryoc_VoiAttackc.ogg" FacialGroup=""/>
@@ -396,7 +431,7 @@
         <Flags index="NeedsTTS" value="1"/>
         <Volume value="1.000000,1.000000"/>
     </CSound>
-    <CSound id="AlliedCryoCopter_Actor_Help" parent="TerranAck_Void">
+    <CSound id="AlliedCryocopter_Actor_Help" parent="TerranAck_Void">
         <AssetArray File="assets\sounds\AUCryoc_VoiSelUnda.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUCryoc_VoiSelUndb.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUCryoc_VoiSelUndc.ogg" FacialGroup=""/>
@@ -416,7 +451,7 @@
         <Category value="Death"/>
         <Volume value="1.000000,1.000000"/>
     </CSound>
-    <CSound id="AlliedCryoCopter_Actor_Yes" parent="TerranAck_Void">
+    <CSound id="AlliedCryocopter_Actor_Yes" parent="TerranAck_Void">
         <AssetArray File="assets\sounds\AUCryoc_VoiMovea.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUCryoc_VoiMoveb.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUCryoc_VoiMovec.ogg" FacialGroup=""/>
@@ -429,14 +464,14 @@
         <Flags index="NeedsTTS" value="1"/>
         <Volume value="1.000000,1.000000"/>
     </CSound>
-    <CSound id="AlliedCryoCopter_Actor_Ready" parent="TerranAck_Void">
+    <CSound id="AlliedCryocopter_Actor_Ready" parent="TerranAck_Void">
         <AssetArray File="assets\sounds\AUCryoc_VoiCreatea.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUCryoc_VoiiCreateb.ogg" FacialGroup=""/>
         <Flags index="NeedsUpdate" value="1"/>
         <Flags index="NeedsTTS" value="1"/>
         <Volume value="1.000000,1.000000"/>
     </CSound>
-    <CSound id="AlliedCryoCopter_Actor_What" parent="TerranAck_Void">
+    <CSound id="AlliedCryocopter_Actor_What" parent="TerranAck_Void">
         <AssetArray File="assets\sounds\AUCryoc_VoiSelecta.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUCryoc_VoiSelectb.ogg" FacialGroup=""/>
         <AssetArray File="assets\sounds\AUCryoc_VoiSelectc.ogg" FacialGroup=""/>

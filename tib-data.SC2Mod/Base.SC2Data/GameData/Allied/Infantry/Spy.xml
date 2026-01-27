@@ -7,6 +7,9 @@ TODO:
     make camo unit unselectable.
     add kinetic to camo unit
 -->
+    <CButton id="AlliedSpyInfiltrate" parent="Allied">
+        <Icon value="Assets\Icons\btn-cnc-ability-capture.dds"/>
+    </CButton>
     <CUnit id="AlliedSpy" parent="AlliedInfantry">
         <FlagArray index="AIPressForwardDisabled" value="1"/>
         <LifeStart value="75"/>
@@ -22,9 +25,9 @@ TODO:
         <AbilArray Link="AlliedSpyDisguise"/>
         <AbilArray Link="AlliedSpyDisguiseCancel"/>
         <CardLayouts index="0">
-            <LayoutButtons Face="AlliedSpyInfiltrate" Type="AbilCmd" AbilCmd="AlliedSpyInfiltrate,Execute" Row="2" Column="0"/>
-            <LayoutButtons Face="AlliedSpyBribery" Type="AbilCmd" AbilCmd="AlliedSpyBribery,Execute" Row="2" Column="1"/>
-            <LayoutButtons Face="AlliedSpyDisguise" Type="AbilCmd" AbilCmd="AlliedSpyDisguise,Execute" Row="2" Column="2"/>
+            <LayoutButtons Face="AlliedSpyInfiltrate" Type="AbilCmd" AbilCmd="AlliedSpyInfiltrate,Execute" Row="1" Column="0"/>
+            <LayoutButtons Face="AlliedSpyBribery" Type="AbilCmd" AbilCmd="AlliedSpyBribery,Execute" Row="2" Column="0"/>
+            <LayoutButtons Face="AlliedSpyDisguise" Type="AbilCmd" AbilCmd="AlliedSpyDisguise,Execute" Row="2" Column="1"/>
             <LayoutButtons Face="Cancel" Type="AbilCmd" AbilCmd="AlliedSpyDisguiseCancel,Execute" Row="2" Column="4"/>
         </CardLayouts>
         <Radius value="0.375"/>
@@ -124,9 +127,6 @@ TODO:
     </CBehaviorBuff>
     <CButton id="AlliedSpyDisguise" parent="Allied" icon="ability-spy-disguise"/>
     <CButton id="AlliedSpyBribery" parent="Allied" icon="ability-spy-bribe"/>
-    <CButton id="AlliedSpyInfiltrate" parent="Allied">
-        <Icon value="Assets\Textures\ui_glues_ladder_score_rating_down.dds"/>
-    </CButton>
     <CEffectModifyUnit id="AlliedSpyBriberyMU">
         <ModifyFlags index="Owner" value="1"/>
     </CEffectModifyUnit>
@@ -282,6 +282,8 @@ TODO:
         <Flags index="NeedsTTS" value="1"/>
     </CSound>
     <CAbilEffectTarget id="AlliedSpyDisguise">
+        <Flags index="AllowMovement" value="1"/>
+        <Flags index="NoDeceleration" value="1"/>
         <Flags index="Smart" value="1"/>
         <Range value="500"/>
         <CmdButtonArray index="Execute" DefaultButtonFace="AlliedSpyInfiltrate"/>

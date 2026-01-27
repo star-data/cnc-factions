@@ -1,5 +1,8 @@
 <Catalog>
-
+    <CButton id="AlliedFutureTankRiotBeam" parent="Allied" icon="ability-FutureTank-RiotBeam"/>
+    <CButton id="AlliedFutureTankBarrage" parent="Allied">
+        <Icon value="Assets\Textures\BTN-Ability-Terran-BombardmentStrike-color.dds"/>
+    </CButton>
     <CUnit id="AlliedFutureTank" parent="AlliedGround">
         <Attributes index="Robotic" value="1"/>
         <LifeStart value="250"/>
@@ -22,8 +25,8 @@
         <WeaponArray Link="TempestGround2" Turret="RANeutronDisturbanceCannon2"/>
 <!--        <WeaponArray Link="nianyalv13"/>-->
         <CardLayouts index="0">
-            <LayoutButtons Face="OdinBarrage" Type="AbilCmd" AbilCmd="attack,Barrage" Row="2" Column="0"/>
-            <LayoutButtons Face="RARiotBeam2" Type="AbilCmd" AbilCmd="AlliedFSpell,Execute" Row="1" Column="1"/>
+            <LayoutButtons Face="AlliedFutureTankBarrage" Type="AbilCmd" AbilCmd="attack,Barrage" Row="2" Column="2"/>
+            <LayoutButtons Face="AlliedFutureTankRiotBeam" Type="AbilCmd" AbilCmd="AlliedFSpell,Execute" Row="2" Column="0"/>
         </CardLayouts>
         <Radius value="0.75"/>
         <SeparationRadius value="0.4375"/>
@@ -56,7 +59,7 @@
         <UninterruptibleArray index="Cast" value="1"/>
         <UninterruptibleArray index="Channel" value="1"/>
         <UninterruptibleArray index="Finish" value="1"/>
-        <CmdButtonArray index="Execute" DefaultButtonFace="RARiotBeam2"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="AlliedFutureTankRiotBeam"/>
     </CAbilEffectTarget>
     <CActorMissile id="TempestAttackGroundMissile2" unitName="TempestWeapon">
         <Aliases value="_Unit"/>
@@ -393,6 +396,15 @@
         <ImpactPhysics Name="KineticOverloadImpact" MatchKeys="Basic" Physics="TempestAttackForce"/>
         <ShieldFlashType value="Full"/>
     </CActorAction>
+    <CAttachMethodPattern id="AMPatternMarauder2">
+        <Keyword value="SetA"/>
+        <Base value="::RollingIndex"/>
+        <Driver value="RAFutureTankFiringProjectiles"/>
+    </CAttachMethodPattern>
+    <CAttachMethodFilter id="AMPatternMarauder22">
+        <Keys Keyword="SetA"/>
+        <Keys Keyword="Weapon"/>
+    </CAttachMethodFilter>
     <CBehaviorBuff id="RAMovementSpeedAndArmor20Percent16">
         <InfoFlags index="Hidden" value="1"/>
         <EditorCategories value="AbilityorEffectType:Units"/>
@@ -401,9 +413,6 @@
             <WeaponDisableArray value="TempestGround2"/>
         </Modification>
     </CBehaviorBuff>
-    <CButton id="RARiotBeam2">
-        <Icon value="Assets\icons\Allied\riot-beam-icon.dds"/>
-    </CButton>
     <CEffectApplyBehavior id="RAFutureTankLaunchesSpreadingBeamToDisableTheMainWeapon">
         <ValidatorArray index="0" removed="1"/>
         <WhichUnit Value="Caster"/>
@@ -487,7 +496,7 @@
         <AmmoUnit value="Futuretankweaponsandammunitionunit"/>
     </CEffectLaunchMissile>
     <CEffectSwitch id="RAFutureTankStarUpgradeWeaponEffectSwitching">
-        <CaseArray Validator="RAVerificationOfTheEffectOfStarratedFutureTanks" Effect="RALevel3FutureTankLauncherWeaponCreationBegins"/>
+<!--        <CaseArray Validator="RAVerificationOfTheEffectOfStarratedFutureTanks" Effect="RALevel3FutureTankLauncherWeaponCreationBegins"/>-->
         <CaseDefault value="RACreationOfFutureTankFiringWeaponsBegins"/>
     </CEffectSwitch>
     <CEffectSet id="RAFutureTanksFirstDamageCollection">
@@ -632,7 +641,7 @@
         <Flags index="Ignorable" value="1"/>
     </CModel>
     <CModel id="TempestGroundAttackImpact22" parent="ImpactFX">
-        <Model value="assets\effects\AuFWeapon1.m3"/>
+        <Model value="assets\effects\Allied\AuFWeapon1.m3"/>
         <AnimSpeed value="1.300000"/>
         <EditorCategories value="Race:Protoss"/>
         <ScaleMax value="0.700000,0.700000,0.700000"/>
@@ -644,7 +653,7 @@
         <ScaleMin value="0.600000,0.600000,0.600000"/>
     </CModel>
     <CModel id="TempestWeaponGround2" parent="MissileFX">
-        <Model value="assets\effects\AuFMissile1.m3"/>
+        <Model value="assets\effects\Allied\AuFMissile1.m3"/>
         <EditorCategories value="Race:Protoss"/>
         <ScaleMax value="1.900000,1.900000,1.900000"/>
         <ScaleMin value="1.900000,1.900000,1.900000"/>
@@ -677,7 +686,7 @@
         </TextureDeclares>
     </CModel>
     <CModel id="TempestWeaponGround22" parent="MissileFX">
-        <Model value="assets\effects\AuFMissile2.m3"/>
+        <Model value="assets\effects\Allied\AuFMissile2.m3"/>
         <EditorCategories value="Race:Protoss"/>
         <ScaleMax value="1.900000,1.900000,1.900000"/>
         <ScaleMin value="1.900000,1.900000,1.900000"/>
@@ -718,21 +727,21 @@
         <ScaleMin value="2.000000,2.000000,2.000000"/>
     </CModel>
     <CModel id="TempestGroundAttackImpact2" parent="ImpactFX">
-        <Model value="assets\effects\AuFWeaponStay1.m3"/>
+        <Model value="assets\effects\Allied\AuFWeaponStay1.m3"/>
         <AnimSpeed value="0.400000"/>
         <EditorCategories value="Race:Protoss"/>
         <ScaleMax value="0.900000,0.900000,0.900000"/>
         <ScaleMin value="0.900000,0.900000,0.900000"/>
     </CModel>
     <CModel id="TempestGroundAttackImpact23" parent="ImpactFX">
-        <Model value="assets\effects\AuFWeaponStay2.m3"/>
+        <Model value="assets\effects\Allied\AuFWeaponStay2.m3"/>
         <AnimSpeed value="0.400000"/>
         <EditorCategories value="Race:Protoss"/>
         <ScaleMax value="0.900000,0.900000,0.900000"/>
         <ScaleMin value="0.900000,0.900000,0.900000"/>
     </CModel>
     <CModel id="TempestGroundAttackImpact222" parent="ImpactFX">
-        <Model value="assets\effects\AuFWeapon2.m3"/>
+        <Model value="assets\effects\Allied\AuFWeapon2.m3"/>
         <AnimSpeed value="1.300000"/>
         <EditorCategories value="Race:Protoss"/>
         <ScaleMax value="0.700000,0.700000,0.700000"/>
@@ -956,4 +965,91 @@
         <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
         <DisplayAttackCount value="20"/>
     </CWeaponLegacy>
+
+    <CActorModel id="RALeftSideOfNeutronDisruptorCannon" parent="ModelAddition">
+        <Aliases index="0" removed="1"/>
+        <Inherits index="LocalTintColor" value="1"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart Attack1 Stand,Work,Start Stand,Work"/>
+        <On index="1" Terms="ActorOrphan" Send="AnimBracketClear Attack1"/>
+        <On index="2" Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="TimerSet 4.000000,4.000000 zhongzipao1"/>
+        <On Terms="TimerExpired; TimerName zhongzipao1" Send="Destroy"/>
+        <On Terms="TimerExpired; TimerName zhongzipao1" Send="TimerKill zhongzipao1"/>
+        <On Terms="Effect.RAFutureTankFiringProjectiles.Start" Send="Destroy"/>
+        <On Terms="Abil.AlliedFSpell" Send="Destroy"/>
+        <On Terms="Effect.RAMiniFuturisticTankFiresProjectiles.Start" Send="Destroy"/>
+        <On Terms="Abil.attack.TargetOff" Send="Destroy"/>
+        <On Terms="Abil.attack.ReadyStop" Send="Destroy"/>
+        <AddToProximitySystem value="0"/>
+        <HostSiteOps Ops="SOpAttachWeaponLeft"/>
+        <Model value="TempestWeaponGround23"/>
+        <Scale value="0.500000"/>
+    </CActorModel>
+    <CActorModel id="RARightSideOfNeutronDisruptorCannon" parent="ModelAddition">
+        <Aliases index="0" removed="1"/>
+        <Inherits index="LocalTintColor" value="1"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart Attack1 Stand,Work,Start Stand,Work"/>
+        <On index="1" Terms="ActorOrphan" Send="AnimBracketClear Attack1"/>
+        <On index="2" Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="TimerSet 4.000000,4.000000 zhongzipao"/>
+        <On Terms="TimerExpired; TimerName zhongzipao" Send="Destroy"/>
+        <On Terms="TimerExpired; TimerName zhongzipao" Send="TimerKill zhongzipao"/>
+        <On Terms="Effect.RAFutureTankFiringProjectiles.Start" Send="Destroy"/>
+        <On Terms="Abil.AlliedFSpell" Send="Destroy"/>
+        <On Terms="Effect.RAMiniFuturisticTankFiresProjectiles.Start" Send="Destroy"/>
+        <On Terms="Abil.attack.ReadyStop" Send="Destroy"/>
+        <On Terms="Abil.attack.TargetOff" Send="Destroy"/>
+        <AddToProximitySystem value="0"/>
+        <HostSiteOps Ops="SOpAttachWeaponRight"/>
+        <Model value="TempestWeaponGround23"/>
+        <Scale value="0.500000"/>
+    </CActorModel>
+    <CModel id="TempestWeaponGround23" parent="MissileFX">
+        <Model value="assets\effects\Allied\AuFPrelaunch1.m3"/>
+        <AnimSpeed value="0.700000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
+    <CActorModel id="RALeftSideOfNeutronDisruptorCannon2" parent="ModelAddition">
+        <Aliases index="0" removed="1"/>
+        <Inherits index="LocalTintColor" value="1"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart Attack1 Stand,Work,Start Stand,Work"/>
+        <On index="1" Terms="ActorOrphan" Send="AnimClear Attack1"/>
+        <On index="2" Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="TimerSet 3.500000,3.500000 zhongzipao3"/>
+        <On Terms="TimerExpired; TimerName zhongzipao3" Send="Destroy"/>
+        <On Terms="TimerExpired; TimerName zhongzipao3" Send="TimerKill zhongzipao3"/>
+        <On Terms="Effect.RALevel3FuturisticTankFiresProjectiles.Start" Send="Destroy"/>
+        <On Terms="Abil.AlliedFSpell" Send="Destroy"/>
+        <On Terms="WeaponStop.TempestGround2; ValidateUnit xfyydzl22 0 AlliedFutureTank" Send="Destroy"/>
+        <AddToProximitySystem value="0"/>
+        <HostSiteOps Ops="SOpAttachWeaponLeft"/>
+        <Model value="TempestWeaponGround232"/>
+        <Scale value="0.500000"/>
+    </CActorModel>
+    <CActorModel id="RARightSideOfNeutronDisruptorCannon2" parent="ModelAddition">
+        <Aliases index="0" removed="1"/>
+        <Inherits index="LocalTintColor" value="1"/>
+        <On index="0" Terms="ActorCreation" Send="AnimBracketStart Attack1 Stand,Work,Start Stand,Work"/>
+        <On index="1" Terms="ActorOrphan" Send="AnimBracketClear Attack1"/>
+        <On index="2" Terms="ActorOrphan" Send="Destroy"/>
+        <On Terms="ActorCreation" Send="TimerSet 3.500000,3.500000 zhongzipao2"/>
+        <On Terms="TimerExpired; TimerName zhongzipao2" Send="Destroy"/>
+        <On Terms="TimerExpired; TimerName zhongzipao2" Send="TimerKill zhongzipao2"/>
+        <On Terms="Effect.RALevel3FuturisticTankFiresProjectiles.Start" Send="Destroy"/>
+        <On Terms="Abil.AlliedFSpell" Send="Destroy"/>
+        <On Terms="WeaponStop.TempestGround2; ValidateUnit xfyydzl22 0 AlliedFutureTank" Send="Destroy"/>
+        <AddToProximitySystem value="0"/>
+        <HostSiteOps Ops="SOpAttachWeaponRight"/>
+        <Model value="TempestWeaponGround232"/>
+        <Scale value="0.500000"/>
+    </CActorModel>
+    <CModel id="TempestWeaponGround232" parent="MissileFX">
+        <Model value="assets\effects\Allied\AuFPrelaunch2.m3"/>
+        <AnimSpeed value="1.500000"/>
+        <EditorCategories value="Race:Protoss"/>
+        <ScaleMax value="0.900000,0.900000,0.900000"/>
+        <ScaleMin value="0.900000,0.900000,0.900000"/>
+    </CModel>
 </Catalog>
