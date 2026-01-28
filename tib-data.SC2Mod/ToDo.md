@@ -24,8 +24,8 @@ enable husks and sabouters? ( at least for campaign)
 Buildings build animations
 isPlayer warning
 Decoy Temple?
-improved jamming missile?
-call for transport ability
+call for transport abilit
+improved jamming missile?y
 beam reflector autocast ( target ait units within nearby venom range)
 particlebeams upgrade.
 Harpy? flamethrower helicopter
