@@ -4671,7 +4671,8 @@ void libTIBW_gt_SalvageRefund_Init () {
 //--------------------------------------------------------------------------------------------------
 bool libTIBW_gt_NodConstructionDiscard_Func (bool testConds, bool runActions) {
     // Variable Declarations
-    unit lv_unit;
+    unit lv_cyunit;
+    unit lv_cyunitSelected;
     string lv_type;
     string lv_behaviorConstructed;
     string lv_behaviorConstruction;
@@ -4680,16 +4681,20 @@ bool libTIBW_gt_NodConstructionDiscard_Func (bool testConds, bool runActions) {
     string lv_queue;
     int lv_p;
     string lv_abilcmdString;
+    fixed lv_remainTime;
+    fixed lv_remainTime2;
+    int lv_index;
+    int lv_index2;
 
     // Automatic Variable Declarations
     abilcmd auto75490453_val;
-    int autoEF5F97B6_ae;
-    int autoEF5F97B6_var;
+    int auto27D70D31_ae;
+    int auto27D70D31_var;
 
     // Variable Initialization
-    lv_unit = EventUnit();
+    lv_cyunit = EventUnit();
     lv_queue = "";
-    lv_p = UnitGetOwner(lv_unit);
+    lv_p = UnitGetOwner(lv_cyunit);
     lv_abilcmdString = "";
 
     // Actions
@@ -4707,23 +4712,23 @@ bool libTIBW_gt_NodConstructionDiscard_Func (bool testConds, bool runActions) {
     else {
     }
     lv_queueValidator = (("NodConstruction" + lv_queue + "NotOccupied"));
-    autoEF5F97B6_ae = CatalogFieldValueCount(c_gameCatalogAbil, "NodConstructionYardPlace", "InfoArray", c_playerAny);
-    autoEF5F97B6_var = 0;
-    for ( ; autoEF5F97B6_var <= autoEF5F97B6_ae; autoEF5F97B6_var += 1 ) {
-        lv_type = (CatalogFieldValueGet(c_gameCatalogAbil, "NodConstructionYardPlace", "InfoArray[" + IntToString(autoEF5F97B6_var) + "].Unit", c_playerAny));
-        lv_abilcmdString = ("Build" + IntToString((autoEF5F97B6_var + 1)));
+    auto27D70D31_ae = CatalogFieldValueCount(c_gameCatalogAbil, "NodConstructionYardPlace", "InfoArray", c_playerAny);
+    auto27D70D31_var = 0;
+    for ( ; auto27D70D31_var <= auto27D70D31_ae; auto27D70D31_var += 1 ) {
+        lv_type = (CatalogFieldValueGet(c_gameCatalogAbil, "NodConstructionYardPlace", "InfoArray[" + IntToString(auto27D70D31_var) + "].Unit", c_playerAny));
+        lv_abilcmdString = ("Build" + IntToString((auto27D70D31_var + 1)));
         if ((lv_type != null)) {
             lv_validator = (("Build" + (lv_type)));
             lv_validator = (CatalogFieldValueGet(c_gameCatalogValidator, lv_validator, "CombineArray[" + IntToString(0) + "]", c_playerAny));
             if ((lv_validator == lv_queueValidator)) {
                 lv_behaviorConstructed = (((lv_type) + "ConstructionCompleted"));
                 lv_behaviorConstruction = (((lv_type) + "ConstructionInProgress"));
-                if (((UnitHasBehavior2(lv_unit, lv_behaviorConstructed) == true) || (UnitHasBehavior2(lv_unit, lv_behaviorConstruction) == true))) {
-                    UnitAbilityAddChargeUsed(lv_unit, "NodConstructionYardPlace", lv_abilcmdString, (1.0 - UnitAbilityGetChargeUsed(lv_unit, "NodConstructionYardPlace", lv_abilcmdString)));
+                if (((UnitHasBehavior2(lv_cyunit, lv_behaviorConstructed) == true) || (UnitHasBehavior2(lv_cyunit, lv_behaviorConstruction) == true))) {
+                    UnitAddChargeUsed(lv_cyunit, lv_abilcmdString, (1.0 - UnitGetChargeUsed(lv_cyunit, lv_abilcmdString)));
                     PlayerModifyPropertyInt(lv_p, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_p, c_playerPropMinerals) + CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_type, "CostResource[" + IntToString(0) + "]", c_playerAny)));
                     PlayerModifyPropertyInt(lv_p, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_p, c_playerPropVespene) + CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_type, "CostResource[" + IntToString(1) + "]", c_playerAny)));
-                    UnitBehaviorRemove(lv_unit, lv_behaviorConstructed, 1);
-                    UnitBehaviorRemove(lv_unit, lv_behaviorConstruction, 1);
+                    UnitBehaviorRemove(lv_cyunit, lv_behaviorConstructed, 1);
+                    UnitBehaviorRemove(lv_cyunit, lv_behaviorConstruction, 1);
                 }
 
             }
@@ -4750,7 +4755,7 @@ bool libTIBW_gt_ConstructionOptionselected_Func (bool testConds, bool runActions
     abilcmd lv_abilcmd;
     string lv_abil;
     int lv_index;
-    unit lv_unit;
+    unit lv_cyunit;
     string lv_type;
     int lv_owner;
     string lv_validator;
@@ -4760,6 +4765,10 @@ bool libTIBW_gt_ConstructionOptionselected_Func (bool testConds, bool runActions
     string lv_behavior;
 
     // Automatic Variable Declarations
+    unitgroup autoDAB60816_g;
+    int autoDAB60816_u;
+    unit autoDAB60816_var;
+
     // Variable Initialization
     lv_p = EventPlayer();
     lv_abilcmd = EventTargetModeAbilCmd();
@@ -4781,21 +4790,32 @@ bool libTIBW_gt_ConstructionOptionselected_Func (bool testConds, bool runActions
     }
 
     UISetTargetingOrder(PlayerGroupSingle(lv_p), UnitSubgroupSelected(lv_p), null, true);
-    lv_unit = UnitGroupUnit(UnitSubgroupSelected(lv_p), 1);
+    lv_owner = UnitGetOwner(UnitGroupUnit(UnitSubgroupSelected(lv_p), 1));
     lv_type = (CatalogFieldValueGet(c_gameCatalogAbil, "NodConstructionYardPlace", "InfoArray[" + IntToString(lv_index) + "].Unit", lv_owner));
-    lv_owner = UnitGetOwner(lv_unit);
     lv_validator = (("Build" + (lv_type)));
-    if ((ValidatorExecute(lv_validator, lv_unit, lv_unit) == 0)) {
-        lv_time = libNtve_gf_CatalogFieldValueGetAsReal(c_gameCatalogAbil, "NodConstructionYardBuild", "InfoArray[" + IntToString(lv_index) + "].Time", c_playerAny);
-        UnitAbilityAddChargeRegenRemaining(lv_unit, "NodConstructionYardPlace", lv_abilcmdString, (lv_time - UnitAbilityGetChargeRegen(lv_unit, "NodConstructionYardPlace", lv_abilcmdString)));
-        UnitAbilityAddChargeUsed(lv_unit, "NodConstructionYardPlace", lv_abilcmdString, (1.0 - UnitAbilityGetChargeUsed(lv_unit, "NodConstructionYardPlace", lv_abilcmdString)));
-        lv_behavior = (((lv_type) + "ConstructionInProgress"));
-        UnitBehaviorAdd(lv_unit, lv_behavior, lv_unit, 1);
-        UnitBehaviorSetDuration(lv_unit, lv_behavior, lv_time);
-        PlayerModifyPropertyInt(lv_owner, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_owner, c_playerPropMinerals) - CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_type, "CostResource[" + IntToString(0) + "]", c_playerAny)));
-        PlayerModifyPropertyInt(lv_owner, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_owner, c_playerPropVespene) - CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_type, "CostResource[" + IntToString(1) + "]", c_playerAny)));
+    autoDAB60816_g = UnitSubgroupSelected(lv_p);
+    autoDAB60816_u = UnitGroupCount(autoDAB60816_g, c_unitCountAll);
+    for (;; autoDAB60816_u -= 1) {
+        autoDAB60816_var = UnitGroupUnitFromEnd(autoDAB60816_g, autoDAB60816_u);
+        if (autoDAB60816_var == null) { break; }
+        if ((ValidatorExecute(lv_validator, autoDAB60816_var, autoDAB60816_var) == 0)) {
+            lv_cyunit = autoDAB60816_var;
+        }
+
+    }
+    if ((lv_cyunit == null)) {
+        libNtve_gf_UIErrorMessage(PlayerGroupSingle(lv_p), StringExternal("Param/Value/lib_TIBW_D7C9255D"), SoundLink("UI_GenericError", -1));
+        return true;
     }
 
+    lv_time = libNtve_gf_CatalogFieldValueGetAsReal(c_gameCatalogAbil, "NodConstructionYardBuild", "InfoArray[" + IntToString(lv_index) + "].Time", c_playerAny);
+    UnitAddChargeRegenRemaining(lv_cyunit, lv_abilcmdString, (lv_time - UnitGetChargeRegen(lv_cyunit, lv_abilcmdString)));
+    UnitAddChargeUsed(lv_cyunit, lv_abilcmdString, (1.0 - UnitGetChargeUsed(lv_cyunit, lv_abilcmdString)));
+    lv_behavior = (((lv_type) + "ConstructionInProgress"));
+    UnitBehaviorAdd(lv_cyunit, lv_behavior, lv_cyunit, 1);
+    UnitBehaviorSetDuration(lv_cyunit, lv_behavior, lv_time);
+    PlayerModifyPropertyInt(lv_owner, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_owner, c_playerPropMinerals) - CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_type, "CostResource[" + IntToString(0) + "]", c_playerAny)));
+    PlayerModifyPropertyInt(lv_owner, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_owner, c_playerPropVespene) - CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_type, "CostResource[" + IntToString(1) + "]", c_playerAny)));
     return true;
 }
 
