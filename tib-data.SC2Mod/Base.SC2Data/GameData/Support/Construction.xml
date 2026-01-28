@@ -1,0 +1,62 @@
+<Catalog>
+    <!--Validate Building Specialize In Progress Or Better-->
+    <CValidatorCombine id="UBC_SPB" default="1">
+        <?token id="unit" type="CUnitLink"?>
+        <CombineArray value="UBC_##unit##SpecializeConstruction"/>
+        <CombineArray value="UBC_##unit##Specialize"/>
+    </CValidatorCombine>
+    <CValidatorUnitOrder id="CasterCanCancelQue5PassiveCancelToSelection">
+        <AbilLink value="que5PassiveCancelToSelection"/>
+    </CValidatorUnitOrder>
+    <CBehaviorBuff id="StructureIsWorking">
+        <BehaviorFlags index="Permanent" value="1"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <DisableValidatorArray value="CasterCanCancelQue5PassiveCancelToSelection"/>
+    </CBehaviorBuff>
+    <CRequirementCountBehavior parent="CBU" id="CBU_StructureIsWorking" behavior="StructureIsWorking"/>
+    <CRequirementNot parent="NBU" id="NBU_StructureIsWorking" behavior="StructureIsWorking"/>
+
+    <CRequirementAnd id="Build##unit##" default="1"/>
+    <!--Building Specialize Completed  -->
+    <!--Building Specialize Completed  -->
+    <CRequirementCountBehavior parent="CBU" id="CBU_##unit##Specialize" default="1"/>
+    <!--Building Specialize In Progress  -->
+    <CRequirementCountBehavior parent="CBU" id="CBU_##unit##SpecializeConstruction" default="1"/>
+    <!--Building Specialize In Progress Or Bettter -->
+    <CRequirementOr default="1" id="CBU_SpecializeInProgressOrBetter">
+        <?token id="unit" type="CUnitLink"?>
+        <OperandArray value="CBU_##unit##Specialize"/>
+        <OperandArray value="CBU_##unit##SpecializeConstruction"/>
+    </CRequirementOr>
+    <CRequirementOr parent="CBU_SpecializeInProgressOrBetter" id="CBU_##unit##SPB" default="1"/>
+    <!--Building Specialize Not In Progress -->
+    <CRequirementNot parent="NBU" id="NBU_##unit##SPB" default="1"/>
+    <CBehaviorBuff id="CNCUnderConstruction">
+        <InfoIcon value="Assets\icons\CNC3MCVConstructionFactoryIcon.dds"/>
+        <Modification>
+            <!--                        <ModifyFlags index="DisableAbils" value="1"/>-->
+            <ModifyFlags index="DisableWeapons" value="1"/>
+            <StateFlags index="SuppressDropOff" value="1"/>
+            <StateFlags index="SuppressFoodMade" value="1"/>
+            <StateFlags index="SuppressEnergyRegen" value="1"/>
+            <AbilClassDisableArray index="CAbilAttack" value="1"/>
+            <AbilClassDisableArray index="CAbilBuild" value="1"/>
+            <AbilClassDisableArray index="CAbilTrain" value="1"/>
+            <AbilClassDisableArray index="CAbilWarpTrain" value="1"/>
+            <BehaviorClassDisableArray index="CBehaviorPowerSource" value="1"/>
+            <BehaviorLinkDisableArray value="CNCEnergyDrain5"/>
+            <BehaviorLinkDisableArray value="CNCEnergyDrain10"/>
+            <BehaviorLinkDisableArray value="CNCEnergyDrain15"/>
+            <BehaviorLinkDisableArray value="CNCPowerGeneration015"/>
+        </Modification>
+    </CBehaviorBuff>
+    <CEffectApplyBehavior id="CNCUnderConstruction">
+    </CEffectApplyBehavior>
+    <CEffectRemoveBehavior id="CNCUnderConstructionRB">
+        <BehaviorLink value="CNCUnderConstruction"/>
+    </CEffectRemoveBehavior>
+    <CEffectSet id="CNCConstructionFinishSet">
+        <EffectArray value="CNCUnderConstructionRB"/>
+        <TargetLocationType value="Unknown"/>
+    </CEffectSet>
+</Catalog>
