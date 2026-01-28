@@ -1,9 +1,9 @@
 <Catalog>
-    <!--Validate Building Specialize In Progress Or Better-->
+    <!--Validate Building ConstructionCompleted In Progress Or Better-->
     <CValidatorCombine id="UBC_SPB" default="1">
         <?token id="unit" type="CUnitLink"?>
-        <CombineArray value="UBC_##unit##SpecializeConstruction"/>
-        <CombineArray value="UBC_##unit##Specialize"/>
+        <CombineArray value="UBC_##unit##ConstructionInProgress"/>
+        <CombineArray value="UBC_##unit##ConstructionCompleted"/>
     </CValidatorCombine>
     <CValidatorUnitOrder id="CasterCanCancelQue5PassiveCancelToSelection">
         <AbilLink value="que5PassiveCancelToSelection"/>
@@ -17,19 +17,19 @@
     <CRequirementNot parent="NBU" id="NBU_StructureIsWorking" behavior="StructureIsWorking"/>
 
     <CRequirementAnd id="Build##unit##" default="1"/>
-    <!--Building Specialize Completed  -->
-    <!--Building Specialize Completed  -->
-    <CRequirementCountBehavior parent="CBU" id="CBU_##unit##Specialize" default="1"/>
-    <!--Building Specialize In Progress  -->
-    <CRequirementCountBehavior parent="CBU" id="CBU_##unit##SpecializeConstruction" default="1"/>
-    <!--Building Specialize In Progress Or Bettter -->
-    <CRequirementOr default="1" id="CBU_SpecializeInProgressOrBetter">
+    <!--Building ConstructionCompleted Completed  -->
+    <!--Building ConstructionCompleted Completed  -->
+    <CRequirementCountBehavior parent="CBU" id="CBU_##unit##ConstructionCompleted" default="1"/>
+    <!--Building ConstructionCompleted In Progress  -->
+    <CRequirementCountBehavior parent="CBU" id="CBU_##unit##ConstructionInProgress" default="1"/>
+    <!--Building ConstructionCompleted In Progress Or Bettter -->
+    <CRequirementOr default="1" id="CBU_ConstructionInProgressOrCompleted">
         <?token id="unit" type="CUnitLink"?>
-        <OperandArray value="CBU_##unit##Specialize"/>
-        <OperandArray value="CBU_##unit##SpecializeConstruction"/>
+        <OperandArray value="CBU_##unit##ConstructionCompleted"/>
+        <OperandArray value="CBU_##unit##ConstructionInProgress"/>
     </CRequirementOr>
-    <CRequirementOr parent="CBU_SpecializeInProgressOrBetter" id="CBU_##unit##SPB" default="1"/>
-    <!--Building Specialize Not In Progress -->
+    <CRequirementOr parent="CBU_ConstructionInProgressOrCompleted" id="CBU_##unit##SPB" default="1"/>
+    <!--Building ConstructionCompleted Not In Progress -->
     <CRequirementNot parent="NBU" id="NBU_##unit##SPB" default="1"/>
     <CBehaviorBuff id="CNCUnderConstruction">
         <InfoIcon value="Assets\icons\CNC3MCVConstructionFactoryIcon.dds"/>
