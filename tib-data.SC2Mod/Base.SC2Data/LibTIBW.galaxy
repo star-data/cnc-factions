@@ -4667,19 +4667,97 @@ void libTIBW_gt_SalvageRefund_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Construction Option secected
+// Trigger: NodConstructionDiscard
 //--------------------------------------------------------------------------------------------------
-bool libTIBW_gt_ConstructionOptionsecected_Func (bool testConds, bool runActions) {
+bool libTIBW_gt_NodConstructionDiscard_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    unit lv_unit;
+    string lv_type;
+    string lv_behaviorConstructed;
+    string lv_behaviorConstruction;
+    string lv_validator;
+    string lv_queueValidator;
+    string lv_queue;
+    int lv_p;
+    string lv_abilcmdString;
+
+    // Automatic Variable Declarations
+    abilcmd auto75490453_val;
+    int autoEF5F97B6_ae;
+    int autoEF5F97B6_var;
+
+    // Variable Initialization
+    lv_unit = EventUnit();
+    lv_queue = "";
+    lv_p = UnitGetOwner(lv_unit);
+    lv_abilcmdString = "";
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    auto75490453_val = EventUnitAbility();
+    if (auto75490453_val == AbilityCommand("NodConstructionDiscardPrimary", 0)) {
+        lv_queue = "Primary";
+    }
+    else if (auto75490453_val == AbilityCommand("NodConstructionDiscardSupport", 0)) {
+        lv_queue = "Support";
+    }
+    else {
+    }
+    lv_queueValidator = (("NodConstruction" + lv_queue + "NotOccupied"));
+    autoEF5F97B6_ae = CatalogFieldValueCount(c_gameCatalogAbil, "NodConstruction", "InfoArray", c_playerAny);
+    autoEF5F97B6_var = 0;
+    for ( ; autoEF5F97B6_var <= autoEF5F97B6_ae; autoEF5F97B6_var += 1 ) {
+        lv_type = (CatalogFieldValueGet(c_gameCatalogAbil, "NodConstruction", "InfoArray[" + IntToString(autoEF5F97B6_var) + "].Unit", c_playerAny));
+        lv_abilcmdString = ("NodConstruction,Build" + IntToString((autoEF5F97B6_var + 1)));
+        if ((lv_type != null)) {
+            lv_validator = (("Build" + (lv_type)));
+            lv_validator = (CatalogFieldValueGet(c_gameCatalogValidator, lv_validator, "CombineArray[" + IntToString(0) + "]", c_playerAny));
+            if ((lv_validator == lv_queueValidator)) {
+                lv_behaviorConstructed = (((lv_type) + "Specialize"));
+                lv_behaviorConstruction = (((lv_type) + "SpecializeConstruction"));
+                if (((UnitHasBehavior2(lv_unit, lv_behaviorConstructed) == true) || (UnitHasBehavior2(lv_unit, lv_behaviorConstruction) == true))) {
+                    UnitAbilityAddChargeUsed(lv_unit, "NodConstruction", lv_abilcmdString, 1.0);
+                    PlayerModifyPropertyInt(lv_p, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_p, c_playerPropMinerals) + CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_type, "CostResource[" + IntToString(0) + "]", c_playerAny)));
+                    PlayerModifyPropertyInt(lv_p, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_p, c_playerPropVespene) + CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_type, "CostResource[" + IntToString(1) + "]", c_playerAny)));
+                    UnitBehaviorRemove(lv_unit, lv_behaviorConstructed, 1);
+                    UnitBehaviorRemove(lv_unit, lv_behaviorConstruction, 1);
+                }
+
+            }
+
+        }
+
+    }
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void libTIBW_gt_NodConstructionDiscard_Init () {
+    libTIBW_gt_NodConstructionDiscard = TriggerCreate("libTIBW_gt_NodConstructionDiscard_Func");
+    TriggerAddEventUnitAbility(libTIBW_gt_NodConstructionDiscard, null, AbilityCommand("NodConstructionDiscardPrimary", 0), c_unitAbilStageExecute, false);
+    TriggerAddEventUnitAbility(libTIBW_gt_NodConstructionDiscard, null, AbilityCommand("NodConstructionDiscardSupport", 0), c_unitAbilStageExecute, false);
+}
+
+//--------------------------------------------------------------------------------------------------
+// Trigger: Construction Option selected
+//--------------------------------------------------------------------------------------------------
+bool libTIBW_gt_ConstructionOptionselected_Func (bool testConds, bool runActions) {
     // Variable Declarations
     int lv_p;
     abilcmd lv_abilcmd;
     string lv_abil;
     int lv_index;
     unit lv_unit;
-    string lv_unittype;
+    string lv_type;
     int lv_owner;
     string lv_validator;
     string lv_effect;
+    fixed lv_time;
+    string lv_abilcmdString;
+    string lv_behavior;
 
     // Automatic Variable Declarations
     // Variable Initialization
@@ -4688,6 +4766,7 @@ bool libTIBW_gt_ConstructionOptionsecected_Func (bool testConds, bool runActions
     lv_abil = AbilityCommandGetAbility(lv_abilcmd);
     lv_index = AbilityCommandGetCommand(lv_abilcmd);
     lv_owner = EventPlayer();
+    lv_abilcmdString = ("NodConstruction,Build" + IntToString((lv_index + 1)));
 
     // Conditions
     if (testConds) {
@@ -4703,23 +4782,28 @@ bool libTIBW_gt_ConstructionOptionsecected_Func (bool testConds, bool runActions
 
     UISetTargetingOrder(PlayerGroupSingle(lv_p), UnitSubgroupSelected(lv_p), null, true);
     lv_unit = UnitGroupUnit(UnitSubgroupSelected(lv_p), 1);
-    lv_unittype = (CatalogFieldValueGet(c_gameCatalogAbil, "NodConstruction", "InfoArray[" + IntToString(lv_index) + "].Unit", lv_owner));
+    lv_type = (CatalogFieldValueGet(c_gameCatalogAbil, "NodConstruction", "InfoArray[" + IntToString(lv_index) + "].Unit", lv_owner));
     lv_owner = UnitGetOwner(lv_unit);
-    lv_effect = (((lv_unittype) + "SpecializeSet"));
-    lv_validator = (CatalogFieldValueGet(c_gameCatalogEffect, lv_effect, "ValidatorArray[" + IntToString(0) + "]", c_playerAny));
+    lv_validator = (("Build" + (lv_type)));
     if ((ValidatorExecute(lv_validator, lv_unit, lv_unit) == 0)) {
-        UnitCreateEffectUnit(lv_unit, lv_effect, lv_unit);
-        PlayerModifyPropertyInt(lv_owner, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_owner, c_playerPropMinerals) - CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_unittype, "CostResource[" + IntToString(0) + "]", c_playerAny)));
-        PlayerModifyPropertyInt(lv_owner, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_owner, c_playerPropVespene) - CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_unittype, "CostResource[" + IntToString(1) + "]", c_playerAny)));
+        lv_time = libNtve_gf_CatalogFieldValueGetAsReal(c_gameCatalogAbil, "NodConstruction", "InfoArray[" + IntToString(lv_index) + "].Charge.TimeUse", c_playerAny);
+        UnitAbilityAddChargeRegenRemaining(lv_unit, "NodConstruction", lv_abilcmdString, -99.0);
+        UnitAbilityAddChargeUsed(lv_unit, "NodConstruction", lv_abilcmdString, 1.0);
+        UnitAbilityAddChargeRegenRemaining(lv_unit, "NodConstruction", lv_abilcmdString, lv_time);
+        lv_behavior = (((lv_type) + "SpecializeConstruction"));
+        UnitBehaviorAdd(lv_unit, lv_behavior, lv_unit, 1);
+        UnitBehaviorSetDuration(lv_unit, lv_behavior, lv_time);
+        PlayerModifyPropertyInt(lv_owner, c_playerPropMinerals, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_owner, c_playerPropMinerals) - CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_type, "CostResource[" + IntToString(0) + "]", c_playerAny)));
+        PlayerModifyPropertyInt(lv_owner, c_playerPropVespene, c_playerPropOperSetTo, (PlayerGetPropertyInt(lv_owner, c_playerPropVespene) - CatalogFieldValueGetAsInt(c_gameCatalogUnit, lv_type, "CostResource[" + IntToString(1) + "]", c_playerAny)));
     }
 
     return true;
 }
 
 //--------------------------------------------------------------------------------------------------
-void libTIBW_gt_ConstructionOptionsecected_Init () {
-    libTIBW_gt_ConstructionOptionsecected = TriggerCreate("libTIBW_gt_ConstructionOptionsecected_Func");
-    TriggerAddEventTargetModeUpdate(libTIBW_gt_ConstructionOptionsecected, c_playerAny, null, c_targetModeStateOn);
+void libTIBW_gt_ConstructionOptionselected_Init () {
+    libTIBW_gt_ConstructionOptionselected = TriggerCreate("libTIBW_gt_ConstructionOptionselected_Func");
+    TriggerAddEventTargetModeUpdate(libTIBW_gt_ConstructionOptionselected, c_playerAny, null, c_targetModeStateOn);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -6470,7 +6554,8 @@ void libTIBW_InitTriggers () {
     libTIBW_gt_Maintenancebeeheightadjustment_Init();
     libTIBW_gt_Maintenancebeeheightrestored_Init();
     libTIBW_gt_SalvageRefund_Init();
-    libTIBW_gt_ConstructionOptionsecected_Init();
+    libTIBW_gt_NodConstructionDiscard_Init();
+    libTIBW_gt_ConstructionOptionselected_Init();
     libTIBW_gt_ShadowGlide_Init();
     libTIBW_gt_ShadowLanding_Init();
     libTIBW_gt_NodDecoyArmyTargeting_Init();

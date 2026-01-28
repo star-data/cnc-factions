@@ -1,0 +1,875 @@
+<Catalog>
+    <CUnit id="NodAvatar" parent="NodGround">
+        <FlagArray index="TurnBeforeMove" value="1"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <PushPriority value="30"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Massive" value="1"/>
+        <LifeStart value="350"/>
+        <LifeMax value="350"/>
+        <LifeArmor value="1"/>
+        <Speed value="1.8476"/>
+        <LateralAcceleration value="64"/>
+        <StationaryTurningRate value="119.8828"/>
+        <TurningRate value="119.8828"/>
+        <Sight value="11"/>
+        <Food value="-5"/>
+        <CostResource index="Minerals" value="250"/>
+        <CostResource index="Vespene" value="175"/>
+        <RepairTime value="45"/>
+        <KillXP value="50"/>
+        <AbilArray Link="NodAvatarWreckage"/>
+        <BehaviorArray Link="NodAvatarPilotSearch"/>
+        <BehaviorArray Link="CNCPilotTracker"/>
+        <BehaviorArray Link="NodAvatarDontDie"/>
+        <AbilArray Link="NodAvatarCommandeerTechnology"/>
+        <!--        <WeaponArray Link="NodAvatarFlameThrower" Turret="SiegeTank"/>-->
+        <!--        <WeaponArray Link="NodAvatarFlameThrowerU" Turret="SiegeTank"/>-->
+        <!--        <WeaponArray Link="NodAvatarBeamCannon"/>-->
+        <AbilArray Link="NodHoldFireAvatar"/>
+        <AbilArray Link="NodWeaponsFreeAvatar"/>
+        <WeaponArray Link="NodAvatarLaser"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodPurifyingFlamesPassive" Type="Passive" Requirements="HasNodPurifyingFlamesAvatar" Row="1" Column="3"/>
+            <LayoutButtons Face="GhostHoldFire" Type="AbilCmd" AbilCmd="NodHoldFireAvatar,Execute" Row="1" Column="1"/>
+            <LayoutButtons Face="WeaponsFree" Type="AbilCmd" AbilCmd="NodWeaponsFreeAvatar,Execute" Row="1" Column="2"/>
+            <LayoutButtons Face="NodUnstableCloak" Type="Passive" Requirements="HasNodAvatarStealthGenerator" Row="1" Column="0"/>
+            <LayoutButtons Face="NodAvatarCommandeerTechnology" Type="AbilCmd" AbilCmd="NodAvatarCommandeerTechnology,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <Radius value="0.625"/>
+        <SeparationRadius value="0.75"/>
+        <InnerRadius value="0.5"/>
+        <MinimapRadius value="0.625"/>
+        <CargoSize value="8"/>
+        <ScoreMake value="275"/>
+        <ScoreKill value="275"/>
+        <SubgroupPriority value="13"/>
+        <TacticalAI value="SiegeTank"/>
+        <AIEvalFactor value="1.5"/>
+        <GlossaryPriority value="140"/>
+    </CUnit>
+    <CUnit id="NodPurifier" parent="NodGround">
+        <FlagArray index="TurnBeforeMove" value="1"/>
+        <FlagArray index="AIPressForwardDisabled" value="1"/>
+        <Collide index="Small" value="1"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Massive" value="1"/>
+        <LifeStart value="325"/>
+        <LifeMax value="325"/>
+        <LifeArmor value="1"/>
+        <Speed value="1.75"/>
+        <LateralAcceleration value="64"/>
+        <StationaryTurningRate value="119.8828"/>
+        <TurningRate value="119.8828"/>
+        <Sight value="11"/>
+        <Food value="-6"/>
+        <CostResource index="Minerals" value="200"/>
+        <CostResource index="Vespene" value="150"/>
+        <RepairTime value="45"/>
+        <KillXP value="50"/>
+        <AbilArray Link="NodPurifierWreckage"/>
+        <WeaponArray Link="NodPurifierLaser"/>
+        <WeaponArray Link="NodPurifierFlameThrower" Turret="SiegeTank"/>
+        <WeaponArray Link="NodPurifierFlameThrowerU" Turret="SiegeTank"/>
+        <Radius value="0.625"/>
+        <SeparationRadius value="0.75"/>
+        <InnerRadius value="0.5"/>
+        <MinimapRadius value="0.625"/>
+        <CargoSize value="8"/>
+        <ScoreMake value="275"/>
+        <ScoreKill value="275"/>
+        <SubgroupPriority value="13"/>
+        <TacticalAI value="SiegeTank"/>
+        <AIEvalFactor value="1.5"/>
+        <PushPriority value="30"/>
+        <BehaviorArray Link="NodPurifierDontDie"/>
+        <BehaviorArray Link="NodConfessorAura"/>
+        <CardLayouts index="0">
+            <LayoutButtons Face="NodConfessorAura" Type="Passive" Row="1" Column="0"/>
+            <LayoutButtons Face="NodPurifyingFlamesPassive" Type="Passive" Requirements="HasNodPurifyingFlames" Row="1" Column="3"/>
+        </CardLayouts>
+        <GlossaryCategory value=""/>
+        <HotkeyCategory value=""/>
+    </CUnit>
+
+    <CAbilEffectTarget id="NodAvatarCommandeerTechnology">
+        <Effect index="0" value="NodAvatarCommandeerTechnologySet"/>
+        <Cost>
+            <Cooldown TimeUse="4"/>
+        </Cost>
+        <TargetFilters value="Mechanical;Neutral,Structure,Missile,Item,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="1"/>
+        <RangeSlop value="2"/>
+        <Arc value="4.9987"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="NodAvatarCommandeerTechnology" Requirements="NodAvatarCommandeerTechnology"/>
+        <PrepTime value="1"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CAbilEffectTarget>
+    <CActorAction id="NodAvatarAttack" parent="GenericAttack" effectAttack="NodAvatarLaserDamage">
+        <LaunchAttachQuery Methods="AMFilterWeapon01"/>
+        <LaunchAssets Sound="NodAvatar_AttackLaunch"/>
+        <ImpactMap index="None" Model="NodRedeemerAttackBeamImpact" Sound="RedeemerAttackImpact" ModelReaction="RedeemerAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="RedeemerAttackImpactShield" ModelReaction="RedeemerAttackImpactReactionShield"/>
+        <ImpactPhysics Name="RailgunImpact" MatchKeys="Basic" Physics="CNCRailgunAttackDeathForce"/>
+    </CActorAction>
+    <CActorAction id="NodAvatarBeamCannonAttack" parent="GenericAttack" effectAttack="NodAvatarBeamCannonDamage">
+        <LaunchAttachQuery Methods="AMFilterWeapon03"/>
+        <LaunchAssets Sound="NodBeamWeapon_AttackLaunch"/>
+        <ImpactMap index="None" Model="NodRedeemerAttackBeamImpact" Sound="RedeemerAttackImpact" ModelReaction="RedeemerAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="RedeemerAttackImpactShield" ModelReaction="RedeemerAttackImpactReactionShield"/>
+        <ImpactPhysics Name="RailgunImpact" MatchKeys="Basic" Physics="CNCRailgunAttackDeathForce"/>
+    </CActorAction>
+    <CActorUnit id="NodAvatar" icon="Avatar" parent="NodVehicle">
+        <On index="65" Terms="WeaponStart.NodAvatarBeamCannon.AttackStart" Send="AnimBracketStart Attack Attack,B"/>
+        <On index="67" Terms="WeaponStop.NodAvatarBeamCannon.AttackStop" Send="AnimBracketStop Attack,B"/>
+        <On Terms="UnitMovementUpdate.*.Walk" Send="TimerSet 0.250000 KillBeam"/>
+        <On Terms="Abil.attack.ReadyStop" Send="TimerSet 0.250000 KillBeam"/>
+        <On Terms="TimerExpired; TimerName KillBeam" Target="MercHellionAttackBeam" Send="Destroy"/>
+        <On Terms="TimerExpired; TimerName KillBeam" Target="MercHellionAttackSecondaryBeam" Send="Destroy"/>
+        <!--        <On Terms="AbilMorph.*.Start; MorphTo NodShadow" Send="Create"/>-->
+        <!--        <On Terms="AbilMorph.*.Start; MorphTo NodShadow" Send="AnimPlay Morph Morph NonLooping"/>-->
+        <!--        <On Terms="AbilMorph.*.Start; MorphFrom NodShadow" Send="Destroy"/>-->
+        <!--        <On Terms="AbilMorph.*.Start; MorphTo NodShadowFlying" Send="Create"/>-->
+        <!--        <On Terms="AbilMorph.*.Start; MorphTo NodShadowFlying" Send="AnimBracketStart Fly Morph Walk"/>-->
+        <!--        <On Terms="AbilMorph.*.Finish; MorphFrom NodShadowFlying" Send="Destroy"/>-->
+        <On Terms="ActorCreation; ValidateUnit HasNoFlameCannon" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <On Terms="ActorCreation; ValidateUnit HasNoStealthGenerator" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
+        <On Terms="ActorCreation; ValidateUnit HasNoDetector" Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
+        <On Terms="ActorCreation; ValidateUnit HasNoBeamCannon" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
+        <On Terms="Effect.NodAvatarFlameCannon.Start; At Caster" Send="AnimClear CoverA"/>
+        <On Terms="Effect.NodAvatarStealthGenerator.Start; At Caster" Send="AnimClear CoverB"/>
+        <On Terms="Effect.NodAvatarDetector.Start; At Caster" Send="AnimClear CoverC"/>
+        <On Terms="Effect.NodAvatarBeamCannon.Start; At Caster" Send="AnimClear CoverD"/>
+        <On Terms="Effect.NodAvatarFlameCannon.Start; At Caster" Send="$Spell,A"/>
+        <On Terms="Effect.NodAvatarStealthGenerator.Start; At Caster" Send="$Spell,B"/>
+        <On Terms="Effect.NodAvatarDetector.Start; At Caster" Send="$Spell,C"/>
+        <On Terms="Effect.NodAvatarBeamCannon.Start; At Caster" Send="$Spell,D"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo NodAvatar" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom NodAvatar" Send="Destroy"/>
+        <On Terms="UnitDeath.##unitName##; AnimPlaying CoverA" Target="_DeathModel" Send="AnimPlay CoverA Cover,A PlayForever"/>
+        <On Terms="UnitDeath.##unitName##; AnimPlaying CoverB" Target="_DeathModel" Send="AnimPlay CoverB Cover,B PlayForever"/>
+        <On Terms="UnitDeath.##unitName##; AnimPlaying CoverC" Target="_DeathModel" Send="AnimPlay CoverC Cover,C PlayForever"/>
+        <On Terms="UnitDeath.##unitName##; AnimPlaying CoverD" Target="_DeathModel" Send="AnimPlay CoverD Cover,D PlayForever"/>
+        <StandAnimTurnTime value="5"/>
+        <SoundArray index="Movement" value="NodAvatar_Movement"/>
+        <WalkAnimMoveSpeed value="2"/>
+        <DeathArray index="Normal" ModelLink="NodAvatar"/>
+    </CActorUnit>
+    <CActorUnit id="NodAvatarWreckage" icon="AvatarWreckage" parent="NodVehicle">
+        <Model value="NodAvatar"/>
+        <DeathArray index="Normal" ModelLink="TerranBuildingDeath"/>
+        <Baselines index="Stand" AnimProps="Stand,Death"/>
+        <Baselines index="Walk" AnimProps=""/>
+        <On Terms="AbilMorph.*.Start; MorphTo NodAvatarWreckage" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo NodAvatarWreckage" Send="AnimPlay DeathMorph Death NonLooping"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom NodAvatarWreckage" Send="AnimPlay RebornMorph Morph NonLooping"/>
+        <On Terms="AbilMorph.*.Finish; MorphFrom NodAvatarWreckage" Send="Destroy"/>
+        <On Terms="ActorCreation; ValidateUnit HasNoFlameCannon" Send="AnimPlay CoverA Cover,A PlayForever 0.000000"/>
+        <On Terms="ActorCreation; ValidateUnit HasNoStealthGenerator" Send="AnimPlay CoverB Cover,B PlayForever 0.000000"/>
+        <On Terms="ActorCreation; ValidateUnit HasNoDetector" Send="AnimPlay CoverC Cover,C PlayForever 0.000000"/>
+        <On Terms="ActorCreation; ValidateUnit HasNoBeamCannon" Send="AnimPlay CoverD Cover,D PlayForever 0.000000"/>
+        <!--        <On Terms="AbilMorph.*.Start; MorphTo NodAvatarWreckage" Send="Create"/>-->
+        <!--        <On Terms="AbilMorph.*.Finish; MorphFrom NodAvatarWreckage" Send="Destroy"/>-->
+        <!--        <On Terms="AbilMorph.*.Finish; MorphFrom NodAvatarWreckage" Send="AnimPlay Morph Morph NonLooping"/>-->
+        <!--            <On Terms="AbilMorph.*.Start; MorphFrom ##unitName##" Send="Destroy"/>-->
+        <!--            <On Terms="AbilMorph.*.Finish; MorphTo ##unitName##" Send="Create"/>-->
+        <!--        <On Terms="AbilMorph.*.Finish; MorphTo NodPurifierWreckage" Send="$Birth 0 1.000000 1.000000"/>-->
+        <!--        <On Terms="AnimDone; AnimName Birth" Send="$Stand PlayForever,NonLooping"/>-->
+    </CActorUnit>
+    <CActorAction id="AvatarFlameAttack" parent="GenericAttackBase">
+        <On Terms="Effect.NodAvatarFlameThrowerSet.Start; At Caster" Send="Create"/>
+        <On Terms="Effect.NodPurifierFlameThrowerSet.Start; At Caster" Send="Create"/>
+        <LaunchAttachQuery Methods="Weapon 2"/>
+        <LaunchAssets Model="" Sound="NodFlamethrower_AttackLaunch"/>
+        <ImpactMap index="None" Sound="NodFlamethrower_AttackImpact"/>
+        <Beam value="NodFlamethrowerAttackBeam"/>
+        <BeamScope value="Caster"/>
+    </CActorAction>
+    <CActorModel id="AvatarImpactModelFlames" parent="ModelAnimationStyleOneShot">
+        <Terms value="Cap 1"/>
+        <On Terms="Effect.AvatarFlameThrowerDamage.Start; At Target" Send="Create"/>
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Host Subject="_Selectable"/>
+        <HostSiteOps Ops="SOpAttachRandomDamage"/>
+        <Model value="ImpactModelFlames2"/>
+    </CActorModel>
+
+    <CBehaviorBuff id="NodAvatarDontDie">
+        <Alignment value="Positive"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\BTN-techupgrade-terran-combatshield-color.dds"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <!--        <Requirements value="UseMechanicalRebirth"/>-->
+        <DamageResponse Fatal="1" Handled="NodAvatarWreckageSet" ModifyFraction="0">
+            <Chance value="1"/>
+        </DamageResponse>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodAvatarStealthGenerator">
+        <InfoFlags index="Hidden" value="1"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodAvatarDetector">
+        <InfoFlags index="Hidden" value="1"/>
+        <DisableValidatorArray value="IsNotStructure"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <Modification Detect="11"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodAvatarFlameCannon">
+        <DisableValidatorArray value="IsNotStructure"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <!--        <InfoFlags index="Hidden" value="1"/>-->
+        <!--        <Modification>-->
+        <!--            <WeaponEnableArray value="NodAvatarFlameThrower"/>-->
+        <!--        </Modification>-->
+        <Modification>
+            <WeaponArray Link="NodAvatarFlameThrower" Turret="SiegeTank"/>
+            <WeaponArray Link="NodAvatarFlameThrowerU" Turret="SiegeTank"/>
+        </Modification>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+    <CBehaviorBuff id="NodAvatarBeamCannon">
+        <DisableValidatorArray value="IsNotStructure"/>
+        <BehaviorFlags index="Permanent" value="1"/>
+        <!--        <InfoFlags index="Hidden" value="1"/>-->
+        <!--        <Modification>-->
+        <!--            <WeaponEnableArray value="NodAvatarBeamCannon"/>-->
+        <!--        </Modification>-->
+        <Modification>
+            <WeaponArray Link="NodAvatarBeamCannon" Turret="SiegeTank"/>
+        </Modification>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+    </CBehaviorBuff>
+
+    <CEffectDamage id="NodAvatarBeamCannonDamage" parent="NodDamage">
+        <AttributeBonus index="Armored" value="6"/>
+        <KindSplash value="Ranged"/>
+        <Amount value="11"/>
+        <SearchFilters value="-;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <SearchFlags index="SameCliff" value="0"/>
+    </CEffectDamage>
+    <CEffectDamage id="NodAvatarLaserDamage" parent="NodDamage">
+        <AttributeBonus index="Armored" value="50"/>
+        <Amount value="50"/>
+        <Death value="Blast"/>
+    </CEffectDamage>
+    <CEffectDamage id="NodAvatarBeamDamage" parent="NodDamage">
+        <AttributeBonus index="Armored" value="40"/>
+        <Amount value="40"/>
+        <Death value="Blast"/>
+    </CEffectDamage>
+    <CEffectDamage id="NodPurifierFlameThrowerDamage" parent="NodDamage">
+        <ValidatorArray value="noMarkers"/>
+        <AttributeBonus index="Light" value="16"/>
+        <Amount value="8"/>
+        <Death value="Fire"/>
+    </CEffectDamage>
+    <CEffectDamage id="NodAvatarFlameThrowerDamage" parent="NodPurifierFlameThrowerDamage"/>
+    <CEffectDamage id="NodAvatarFlameThrowerUDamage" parent="NodPurifierFlameThrowerDamage"/>
+    <CEffectSet id="NodAvatarFlameThrowerSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="StealthExposure"/>
+        <EffectArray value="NodAvatarFlameThrowerCP"/>
+        <EffectArray value="NodAvatarFlameThrowerDamage"/>
+    </CEffectSet>
+    <CEffectSet id="NodAvatarFlameThrowerUSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="StealthExposure"/>
+        <EffectArray value="NodAvatarFlameThrowerUCP"/>
+        <EffectArray value="NodAvatarFlameThrowerUDamage"/>
+    </CEffectSet>
+    <CEffectCreatePersistent id="NodPurifierFlameThrowerCP">
+        <EditorCategories value="Race:Nod"/>
+        <WhichLocation Value="SourcePoint"/>
+        <OffsetVectorStartLocation Value="SourcePoint"/>
+        <Flags index="Channeled" value="1"/>
+        <PeriodCount value="12"/>
+        <PeriodicEffectArray value="NodPurifierFlameThrowerEA"/>
+        <PeriodicOffsetArray value="0,-0.5,0"/>
+        <PeriodicOffsetArray value="0,-1,0"/>
+        <PeriodicOffsetArray value="0,-1.5,0"/>
+        <PeriodicOffsetArray value="0,-2,0"/>
+        <PeriodicOffsetArray value="0,-2.5,0"/>
+        <PeriodicOffsetArray value="0,-3,0"/>
+        <PeriodicOffsetArray value="0,-3.5,0"/>
+        <PeriodicOffsetArray value="0,-4,0"/>
+        <PeriodicOffsetArray value="0,-4.5,0"/>
+        <PeriodicOffsetArray value="0,-5,0"/>
+        <PeriodicOffsetArray value="0,-5.5,0"/>
+        <PeriodicOffsetArray value="0,-6,0"/>
+        <PeriodicPeriodArray value="0.022"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="NodPurifierFlameThrowerUCP" parent="NodPurifierFlameThrowerCP">
+        <PeriodicEffectArray index="0" value="NodPurifierFlameThrowerUEA"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="NodAvatarFlameThrowerCP" parent="NodPurifierFlameThrowerCP">
+        <PeriodicEffectArray index="0" value="NodAvatarFlameThrowerEA"/>
+    </CEffectCreatePersistent>
+    <CEffectCreatePersistent id="NodAvatarFlameThrowerUCP" parent="NodAvatarFlameThrowerCP">
+        <PeriodicEffectArray index="0" value="NodAvatarFlameThrowerUEA"/>
+    </CEffectCreatePersistent>
+    <CEffectDamage id="NodPurifierFlameThrowerUDamage" parent="NodPurifierFlameThrowerDamage">
+        <AttributeBonus index="Structure" value="16"/>
+    </CEffectDamage>
+    <CEffectSet id="NodPurifierFlameThrowerSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="NodPurifierFlameThrowerCP"/>
+        <EffectArray value="NodPurifierFlameThrowerDamage"/>
+    </CEffectSet>
+    <CEffectSet id="NodPurifierFlameThrowerUSet">
+        <EditorCategories value="Race:Nod"/>
+        <EffectArray value="NodPurifierFlameThrowerUCP"/>
+        <EffectArray value="NodPurifierFlameThrowerUDamage"/>
+    </CEffectSet>
+    <CEffectEnumArea id="NodPurifierFlameThrowerEA" parent="EA_WEAP">
+        <EditorCategories value="Race:Nod"/>
+        <SearchFilters value="Ground;Player,Ally,Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <AreaArray Radius="0.6" Effect="NodPurifierFlameThrowerDamage"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="NodPurifierFlameThrowerUEA" parent="NodPurifierFlameThrowerEA">
+        <AreaArray index="0" Radius="0.6" Effect="NodPurifierFlamethrowerUDamage"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="NodAvatarFlameThrowerEA" parent="NodPurifierFlameThrowerEA">
+        <AreaArray index="0" Radius="0.6" Effect="NodAvatarFlameThrowerDamage"/>
+    </CEffectEnumArea>
+    <CEffectEnumArea id="NodAvatarFlameThrowerUEA" parent="NodAvatarFlameThrowerEA">
+        <AreaArray index="0" Radius="0.6" Effect="NodAvatarFlamethrowerUDamage"/>
+    </CEffectEnumArea>
+    <CEffectSet id="NodAvatarCommandeerTechnologySet">
+        <ValidatorArray value="IsNodAvatarCommandeerTechnologyTarget"/>
+        <EffectArray value="StealthExposure"/>
+        <EffectArray value="NodAvatarCommandeerTechnologySwitch"/>
+        <EffectArray value="KillTargetDeathNormal"/>
+    </CEffectSet>
+    <CEffectSwitch id="NodAvatarCommandeerTechnologySwitch">
+        <ValidatorArray value="NotWarpingIn"/>
+        <ValidatorArray value="NotFrenzied"/>
+        <ValidatorArray value="NotHeroic"/>
+        <ValidatorArray value="NotHeroic"/>
+        <CaseArray Validator="IsNodAvatarCommandeerTechnologyFlamer" Effect="NodAvatarFlameCannon"/>
+        <CaseArray Validator="IsNodAvatarCommandeerTechnologyStealth" Effect="NodAvatarStealthGeneratorSet"/>
+        <CaseArray Validator="IsNodAvatarCommandeerTechnologyDetector" Effect="NodAvatarDetector"/>
+        <CaseArray Validator="IsNodAvatarCommandeerTechnologyBeam" Effect="NodAvatarBeamCannon"/>
+    </CEffectSwitch>
+    <CEffectApplyBehavior id="NodAvatarFlameCannon">
+        <WhichUnit Value="Caster"/>
+    </CEffectApplyBehavior>
+    <CEffectSet id="NodAvatarStealthGeneratorSet">
+        <EffectArray value="NodAvatarStealthGenerator"/>
+        <EffectArray value="NodUnstableCloak"/>
+    </CEffectSet>
+    <CEffectApplyBehavior id="NodAvatarStealthGenerator">
+        <WhichUnit Value="Caster"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="NodAvatarDetector">
+        <WhichUnit Value="Caster"/>
+    </CEffectApplyBehavior>
+    <CEffectApplyBehavior id="NodAvatarBeamCannon">
+        <WhichUnit Value="Caster"/>
+    </CEffectApplyBehavior>
+    <CEffectModifyUnit id="NodReckonerUnpackHeal">
+        <ImpactUnit Value="Source"/>
+        <VitalArray index="Life">
+            <Change value="60"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectIssueOrder id="NodAvatarWreckageIO">
+        <EditorCategories value="Race:Nod"/>
+        <WhichUnit Value="Source"/>
+        <Abil value="NodAvatarWreckage"/>
+        <CmdFlags index="Preempt" value="1"/>
+    </CEffectIssueOrder>
+    <CEffectSet id="NodAvatarBeamCannonSet">
+        <EffectArray value="StealthExposure"/>
+        <EffectArray value="NodAvatarBeamCannonDamage"/>
+    </CEffectSet>
+    <CEffectSet id="NodAvatarLaserSet">
+        <EffectArray value="StealthExposure"/>
+        <EffectArray value="NodAvatarLaserDamage"/>
+    </CEffectSet>
+    <CEffectDamage id="NodPurifierBeamDamage" parent="NodDamage">
+        <AttributeBonus index="Armored" value="40"/>
+        <Amount value="40"/>
+        <Death value="Blast"/>
+    </CEffectDamage>
+
+    <CModel id="NodAvatarAttackImpact2" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\TankWeaponImpact\TankWeaponImpact.m3"/>
+        <LowQualityModel value="SiegeTankAttackImpactLow"/>
+        <EditorCategories value="Race:Nod"/>
+    </CModel>
+    <CModel id="NodAvatarAttackImpact3" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\TankWeaponImpact\TankWeaponImpact.m3"/>
+        <LowQualityModel value="SiegeTankAttackImpactLow"/>
+        <EditorCategories value="Race:Nod"/>
+    </CModel>
+    <CModel id="NodAvatarAttackImpact4" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\TankWeaponImpact\TankWeaponImpact.m3"/>
+        <LowQualityModel value="SiegeTankAttackImpactLow"/>
+        <EditorCategories value="Race:Nod"/>
+    </CModel>
+    <CModel id="NodAvatarAttackLaunch2" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\TankWeaponLaunch\TankWeaponLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
+        <EditorCategories value="Race:Nod"/>
+    </CModel>
+    <CModel id="NodAvatarAttackLaunch3" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\TankWeaponLaunch\TankWeaponLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
+        <EditorCategories value="Race:Nod"/>
+    </CModel>
+    <CModel id="NodAvatarAttackLaunch4" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\TankWeaponLaunch\TankWeaponLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
+        <EditorCategories value="Race:Nod"/>
+    </CModel>
+    <CModel id="NodAvatarAttackImpact" parent="ImpactFX">
+        <Model value="Assets\Effects\Terran\TankWeaponImpact\TankWeaponImpact.m3"/>
+        <LowQualityModel value="SiegeTankAttackImpactLow"/>
+        <EditorCategories value="Race:Nod"/>
+    </CModel>
+    <CModel id="NodAvatarAttackLaunch" parent="LaunchFX">
+        <Model value="Assets\Effects\Terran\TankWeaponLaunch\TankWeaponLaunch.m3"/>
+        <LowQualityModel value="SiegeTankAttackLaunchLow"/>
+        <EditorCategories value="Race:Nod"/>
+    </CModel>
+
+
+    <CValidatorCombine id="IsNodAvatarCommandeerTechnologyTarget">
+        <CombineArray value="IsNodAvatarCommandeerTechnologyFlamer"/>
+        <CombineArray value="IsNodAvatarCommandeerTechnologyDetector"/>
+        <CombineArray value="IsNodAvatarCommandeerTechnologyBeam"/>
+        <CombineArray value="IsNodAvatarCommandeerTechnologyStealth"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsNodAvatarCommandeerTechnologyFlamer">
+        <Type value="And"/>
+        <CombineArray value="HasNoFlameCannon"/>
+        <CombineArray value="IsNodAvatarCommandeerTechnologyFlamerTarget"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsNodAvatarCommandeerTechnologyFlamerTarget">
+        <CombineArray value="NodFlameTank"/>
+        <CombineArray value="NodDevil"/>
+        <CombineArray value="IsCABALFlameTank"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsNodAvatarCommandeerTechnologyDetector">
+        <Type value="And"/>
+        <CombineArray value="HasNoDetector"/>
+        <CombineArray value="IsNodAvatarCommandeerTechnologyDetectorTarget"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsNodAvatarCommandeerTechnologyDetectorTarget">
+        <CombineArray value="NodBike"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsNodAvatarCommandeerTechnologyBeam">
+        <Type value="And"/>
+        <CombineArray value="HasNoBeamCannon"/>
+        <CombineArray value="IsNodAvatarCommandeerTechnologyBeamTarget"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsNodAvatarCommandeerTechnologyBeamTarget">
+        <CombineArray value="NodBeamCannon"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsNodAvatarCommandeerTechnologyStealth">
+        <Type value="And"/>
+        <CombineArray value="HasNoStealthGenerator"/>
+        <CombineArray value="IsNodAvatarCommandeerTechnologyStealthTarget"/>
+    </CValidatorCombine>
+    <CValidatorCombine id="IsNodAvatarCommandeerTechnologyStealthTarget">
+        <CombineArray value="NodStealthTank"/>
+        <CombineArray value="NodSpecter"/>
+    </CValidatorCombine>
+    <CValidatorUnitCompareBehaviorCount id="HasFlameCannon">
+        <Value value="1"/>
+        <Behavior value="NodAvatarFlameCannon"/>
+        <WhichUnit Value="Caster"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="HasStealthGenerator">
+        <Value value="1"/>
+        <Behavior value="NodAvatarStealthGenerator"/>
+        <WhichUnit Value="Caster"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="HasDetector">
+        <Value value="1"/>
+        <Behavior value="NodAvatarDetector"/>
+        <WhichUnit Value="Caster"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="HasBeamCannon">
+        <Value value="1"/>
+        <Behavior value="NodAvatarBeamCannon"/>
+        <WhichUnit Value="Caster"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="HasNoFlameCannon">
+        <Behavior value="NodAvatarFlameCannon"/>
+        <WhichUnit Value="Caster"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="HasNoStealthGenerator">
+        <Behavior value="NodAvatarStealthGenerator"/>
+        <WhichUnit Value="Caster"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="HasNoDetector">
+        <Behavior value="NodAvatarDetector"/>
+        <WhichUnit Value="Caster"/>
+    </CValidatorUnitCompareBehaviorCount>
+    <CValidatorUnitCompareBehaviorCount id="HasNoBeamCannon">
+        <Behavior value="NodAvatarBeamCannon"/>
+        <WhichUnit Value="Caster"/>
+    </CValidatorUnitCompareBehaviorCount>
+
+    <CWeaponLegacy id="NodAvatarFlameThrower" parent="NodWeapon" icon="btn-nod-upgrade-lightweapons">
+        <!--        <Options index="Disabled" value="1"/>-->
+        <!--        <Options index="Hidden" value="1"/>-->
+        <Options index="LinkedCooldown" value="0"/>
+        <DisplayEffect value="NodAvatarFlameThrowerDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="6"/>
+        <Arc value="180"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+        <Period value="1.876"/>
+        <Backswing value="1"/>
+        <Effect value="NodAvatarFlameThrowerSet"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="NodAvatarFlameThrowerU" parent="NodWeapon" icon="btn-nod-upgrade-lightweapons">
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+        <Options index="LinkedCooldown" value="0"/>
+        <DisplayEffect value="NodAvatarFlameThrowerUDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="6"/>
+        <Arc value="180"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+        <Period value="1.876"/>
+        <Backswing value="1"/>
+        <Effect value="NodAvatarFlameThrowerUSet"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="NodPurifierFlameThrower" parent="NodWeapon" icon="btn-nod-upgrade-lightweapons">
+        <Options index="LinkedCooldown" value="0"/>
+        <DisplayEffect value="AvatarFlameThrowerDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="6"/>
+        <Arc value="180"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+        <Period value="1.876"/>
+        <Backswing value="1"/>
+        <Effect value="NodPurifierFlameThrowerSet"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="NodPurifierFlameThrowerU"  parent="NodWeapon" icon="btn-nod-upgrade-lightweapons">
+        <Options index="LinkedCooldown" value="0"/>
+        <DisplayEffect value="NodPurifierFlameThrowerUDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="6"/>
+        <Arc value="180"/>
+        <Marker>
+            <MatchFlags index="Id" value="1"/>
+        </Marker>
+        <Period value="1.876"/>
+        <Backswing value="1"/>
+        <Effect value="NodPurifierFlameThrowerUSet"/>
+        <Options index="Disabled" value="1"/>
+        <Options index="Hidden" value="1"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="NodAvatarLaser" parent="NodWeapon">
+        <Options index="LinkedCooldown" value="0"/>
+        <DisplayEffect value="NodAvatarLaserDamage"/>
+        <DisplayAttackCount value="1"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="8"/>
+        <Arc value="11.997"/>
+        <Period value="2.2"/>
+        <Backswing value="1.5"/>
+        <Effect value="NodAvatarLaserSet"/>
+        <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="NodAvatarBeamCannon" parent="NodWeapon">
+        <!--        <Options index="Disabled" value="1"/>-->
+        <!--        <Options index="Hidden" value="1"/>-->
+        <Options index="LinkedCooldown" value="0"/>
+        <DisplayEffect value="NodAvatarBeamCannonDamage"/>
+        <TargetFilters value="Ground,Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="10"/>
+        <TeleportResetRange value="0"/>
+        <Period value="3"/>
+        <Effect value="NodAvatarBeamCannonSet"/>
+        <AllowedMovement value="Moving"/>
+    </CWeaponLegacy>
+    <CWeaponLegacy id="NodPurifierLaser" parent="NodWeapon">
+        <Options index="LinkedCooldown" value="0"/>
+        <DisplayEffect value="NodAvatarBeamDamage"/>
+        <DisplayAttackCount value="1"/>
+        <TargetFilters value="Visible;Missile,Stasis,Dead,Hidden,Invulnerable"/>
+        <Range value="7"/>
+        <Arc value="11.997"/>
+        <Period value="3"/>
+        <Backswing value="1.5"/>
+        <Effect value="NodPurifierBeamDamage"/>
+        <LegacyOptions index="FaceTargetWhileInCooldown" value="0"/>
+    </CWeaponLegacy>
+    <!--    <CActorAction id="NodAvatarBeamCannonDamageAttack" parent="GenericAttack" effectAttack="NodAvatarBeamCannonDamage">-->
+    <!--        <LaunchAssets Sound="NodBeamWeapon_AttackLaunch"/>-->
+    <!--        <BeamScope value="Caster"/>-->
+    <!--        <ImpactSiteOps Ops="SOpAttachHarness SOpAttachVolumeNoVizEnhance VoidRaySOpForwardLaunch"/>-->
+    <!--        <ImpactMap index="None" Model="" Sound="HC_AttackImpact"/>-->
+    <!--        <ActionFlags index="ImpactMonitorsTeleports" value="1"/>-->
+    <!--    </CActorAction>-->
+    <CActorBeamSimple id="NodAvatarBeamCannonAttackBeam" parent="BeamSimpleAnimationStyleOneShot">
+        <Macros value="ActionTargetTeleportDestroy"/>
+        <On Terms="ActorCreation" Send="ModelSwap DarkArchonAttackBeam"/>
+        <On Terms="ActorCreation" Send="AnimBracketStart BSDb Birth Stand Death ContentPlayOnce"/>
+        <On Terms="AnimBracketState.*.AfterClosing; AnimName BSDb" Send="Destroy"/>
+        <Model value="NodBeamCannonWeaponAttackBeam"/>
+        <Scale value="0.500000"/>
+    </CActorBeamSimple>
+    <CActorAction id="NodPurifierAttack" parent="GenericAttack" effectAttack="NodPurifierBeamDamage">
+        <LaunchAttachQuery Methods="AMFilterWeapon"/>
+        <LaunchAssets Sound="NodAvatar_AttackLaunch"/>
+        <ImpactMap index="None" Model="NodRedeemerAttackBeamImpact" Sound="RedeemerAttackImpact" ModelReaction="RedeemerAttackImpactReaction"/>
+        <ImpactMap index="Shield" Sound="RedeemerAttackImpactShield" ModelReaction="RedeemerAttackImpactReactionShield"/>
+        <ImpactPhysics Name="RailgunImpact" MatchKeys="Basic" Physics="CNCRailgunAttackDeathForce"/>
+    </CActorAction>
+    <CActorBeamSimple id="NodAvatarAttackBeam" parent="GenericAttackBeam">
+        <On Terms="ActorOrphan" Send="Destroy"/>
+        <Model value="TyrantAttackBeam"/>
+    </CActorBeamSimple>
+    <CActorAction id="NodAvatarAttack5" parent="GenericAttack" effectAttack="CABALAvatar90mmCannons5">
+        <LaunchAttachQuery Methods="Weapon 0"/>
+        <LaunchAssets Model="NodAvatarAttackLaunch4" Sound="NodNodAvatar_AttackLaunch"/>
+        <ImpactMap index="None" Model="NodAvatarAttackImpact4" Sound="NodAvatar_AttackImpact"/>
+        <ImpactPhysics Name="90mmCannonImpact" MatchKeys="Basic" Physics="SiegeTankAttackForce"/>
+    </CActorAction>
+    <CActorUnit id="NodPurifier" icon="Purifier" parent="NodVehicle" wireframe="NodPurifierWireframe">
+        <On index="65" Terms="WeaponStart.NodPurifierLaser.AttackStart" Send="AnimBracketStart Attack Attack"/>
+        <On index="67" Terms="WeaponStop.NodPurifierLaser.AttackStop" Send="AnimBracketStop Attack"/>
+        <On Terms="AbilMorph.*.Finish; MorphTo NodPurifier" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom NodPurifier" Send="Destroy"/>
+        <DeathArray index="Normal" ModelLink="NodAvatar"/>
+        <DeathCustomData Name="RagdollBasic"/>
+        <WalkAnimMoveSpeed value="2"/>
+        <StandAnimTurnTime value="5"/>
+        <SoundArray index="Movement" value="NodAvatarMovement"/>
+        <!--                <On Terms="AbilMorph.*.Finish; MorphTo ##unitName##" Send="Create"/>-->
+        <!--                <On Terms="AbilMorph.*.Start; MorphFrom ##unitName##" Send="Destroy"/>-->
+        <!--        <On Terms="AbilMorph.*.Finish; MorphTo ##unitName##" Send="$Stand PlayForever,NonLooping"/>-->
+        <!--        <On Terms="ActorCreation" Send="AnimPlay MorphStart Morph,Start"/>-->
+        <!--        <On Terms="AnimDone; AnimName MorphStart" Send="AnimPlay Morph Morph 0 -1.000000 -1.000000 8.233000 AsDuration"/>-->
+        <!--        <On Terms="AnimDone; AnimName Morph" Send="AnimPlay MorphEnd Morph,End"/>-->
+        <!--        <On Terms="AnimDone; AnimName MorphEnd" Send="$Stand PlayForever,NonLooping"/>-->
+    </CActorUnit>
+    <CActorUnit id="NodPurifierWreckage" parent="NodVehicle" wireframe="NodAvatarWreckage" icon="AvatarWreckage">
+        <Model value="NodAvatar"/>
+        <DeathArray index="Normal" ModelLink="TerranBuildingDeath"/>
+        <Baselines index="Stand" AnimProps="Stand,Death"/>
+        <Baselines index="Walk" AnimProps=""/>
+        <On Terms="AbilMorph.*.Start; MorphTo NodPurifierWreckage" Send="Create"/>
+        <On Terms="AbilMorph.*.Start; MorphTo NodPurifierWreckage" Send="AnimPlay DeathMorph Death NonLooping"/>
+        <On Terms="AbilMorph.*.Start; MorphFrom NodPurifierWreckage" Send="AnimPlay RebornMorph Morph NonLooping"/>
+        <On Terms="AbilMorph.*.Finish; MorphFrom NodPurifierWreckage" Send="Destroy"/>
+    </CActorUnit>
+    <CActorAction id="NodAvatarExplosion" parent="GenericAttack" effectLaunch="NodAvatarWreckageSet">
+        <ImpactMap index="None" Model="NodFanaticExplosionImpact" Sound="SiegeTank_Explode"/>
+    </CActorAction>
+
+    <CUnit id="NodAvatarWreckage">
+        <GlossaryAlias value="NodAvatar"/>
+        <Sight value="3"/>
+        <Race value="Nod"/>
+        <LifeArmorName value="Unit/LifeArmorName/TerranVehiclePlating"/>
+        <Collide index="Ground" value="1"/>
+        <PlaneArray index="Ground" value="1"/>
+        <EditorCategories value="ObjectType:Unit,ObjectFamily:CNC"/>
+        <Attributes index="Armored" value="1"/>
+        <Attributes index="Mechanical" value="1"/>
+        <Attributes index="Structure" value="1"/>
+        <LifeStart value="300"/>
+        <StationaryTurningRate value="0"/>
+        <TurningRate value="0"/>
+        <LifeMax value="300"/>
+        <LifeArmor value="1"/>
+        <LateralAcceleration value="64"/>
+        <CostResource index="Minerals" value="200"/>
+        <CostResource index="Vespene" value="150"/>
+        <MinimapRadius value="1"/>
+        <AIEvalFactor value="1.5"/>
+        <AbilArray Link="NodAvatarReborn"/>
+        <AbilArray Link="NodAvatarWreckageTransport"/>
+        <Radius value="1"/>
+        <SeparationRadius value="1"/>
+        <InnerRadius value="2"/>
+        <CardLayouts>
+            <LayoutButtons Face="NodAvatarCommandeerTechnology" Type="AbilCmd" AbilCmd="NodAvatarPilot,Execute" Row="2" Column="0"/>
+        </CardLayouts>
+        <BehaviorArray Link="WreckageLoseHP"/>
+        <BehaviorArray Link="NodAvatarPilotSearch"/>
+        <BehaviorArray Link="CNCPilotTracker"/>
+    </CUnit>
+    <CValidatorCombine id="IsPilot">
+        <CombineArray value="Is1CargoSize"/>
+    </CValidatorCombine>
+    <CEffectSet id="NodPurifierWreckageCaptureSet">
+        <EffectArray value="CNCEngineerCapture"/>
+        <EffectArray value="NodPurifierRebornIO"/>
+    </CEffectSet>
+    <CEffectIssueOrder id="NodPurifierRebornIO">
+        <EditorCategories value="Race:Nod"/>
+        <Abil value="NodPurifierReborn"/>
+        <CmdFlags index="Preempt" value="1"/>
+    </CEffectIssueOrder>
+    <CEffectIssueOrder id="NodPurifierWreckageIO">
+        <EditorCategories value="Race:Nod"/>
+        <WhichUnit Value="Source"/>
+        <Abil value="NodPurifierWreckage"/>
+        <CmdFlags index="Preempt" value="1"/>
+    </CEffectIssueOrder>
+    <CEffectIssueOrder id="NodAvatarRebornIO">
+        <EditorCategories value="Race:Nod"/>
+        <Abil value="NodAvatarReborn"/>
+        <CmdFlags index="Preempt" value="1"/>
+    </CEffectIssueOrder>
+    <CEffectSet id="NodAvatarWreckageSet">
+        <EffectArray value="WreckageChangeOwner"/>
+        <EffectArray value="NodAvatarWreckageIO"/>
+        <EffectArray value="NodAvatarWreckageHeal"/>
+    </CEffectSet>
+    <CEffectSet id="NodPurifierWreckageSet">
+        <EffectArray value="WreckageChangeOwner"/>
+        <EffectArray value="NodPurifierWreckageIO"/>
+        <EffectArray value="NodPurifierWreckageHeal"/>
+    </CEffectSet>
+    <CEffectModifyUnit id="NodPurifierWreckageHeal">
+        <ImpactUnit Value="Source"/>
+        <VitalArray index="Life">
+            <Change value="150"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+    <CEffectModifyUnit id="NodAvatarWreckageHeal">
+        <ImpactUnit Value="Source"/>
+        <VitalArray index="Life">
+            <Change value="150"/>
+        </VitalArray>
+    </CEffectModifyUnit>
+
+    <CValidatorUnitCompareOrderCount id="NodAvatarNotReborning">
+        <AbilLink value="NodAvatarReborn"/>
+        <WhichUnit Value="Caster"/>
+    </CValidatorUnitCompareOrderCount>
+
+    <CUnit id="NodPurifierWreckage" parent="NodAvatarWreckage">
+        <GlossaryAlias value="NodPurifier"/>
+        <AbilArray Link="NodPurifierReborn"/>
+    </CUnit>
+    <CBehaviorBuff id="WreckageLoseHP">
+        <!--        <InfoFlags index="Hidden" value="1"/>-->
+        <Period value="1"/>
+        <PeriodicEffect value="WreckageLoseHP"/>
+        <DisableValidatorArray value="CasterLifeNotFull"/>
+    </CBehaviorBuff>
+    <CEffectDamage id="WreckageLoseHP">
+        <ImpactLocation Value="CasterUnit"/>
+        <Amount value="1"/>
+        <Death value="Blast"/>
+    </CEffectDamage>
+
+
+    <CAbilMorph id="NodPurifierWreckage">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Thor"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="IgnoreFood" value="1"/>
+        <Flags index="IgnoreUnitCost" value="1"/>
+        <Flags index="SuppressMovement" value="1"/>
+        <InfoArray Unit="NodPurifierWreckage"/>
+    </CAbilMorph>
+    <CAbilMorph id="NodPurifierReborn">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Thor"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+        <Flags index="BestUnit" value="1"/>
+        <Flags index="DisableAbils" value="1"/>
+        <Flags index="FastBuild" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="IgnoreFood" value="1"/>
+        <Flags index="IgnoreUnitCost" value="1"/>
+        <Flags index="ShowProgress" value="1"/>
+        <Flags index="SuppressMovement" value="1"/>
+        <RefundFraction>
+            <Resource index="Minerals" value="0"/>
+            <Resource index="Vespene" value="0"/>
+            <Resource index="Terrazine" value="0"/>
+            <Resource index="Custom" value="0"/>
+        </RefundFraction>
+        <InfoArray Score="1" Unit="NodPurifier">
+            <SectionArray index="Abils">
+                <DurationArray index="Delay" value="1"/>
+            </SectionArray>
+            <SectionArray index="Actor">
+                <DurationArray index="Duration" value="1"/>
+            </SectionArray>
+            <SectionArray index="Collide">
+                <DurationArray index="Delay" value="1"/>
+            </SectionArray>
+            <SectionArray index="Stats">
+                <DurationArray index="Delay" value="1"/>
+                <EffectArray index="Finish" value="PostMorphHeal"/>
+            </SectionArray>
+        </InfoArray>
+        <Alert value="RebornCompleteWidow"/>
+    </CAbilMorph>
+    <CAbilMorph id="NodAvatarWreckage">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Thor"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="IgnoreFood" value="1"/>
+        <Flags index="IgnoreUnitCost" value="1"/>
+        <Flags index="SuppressMovement" value="1"/>
+        <InfoArray Unit="NodAvatarWreckage"/>
+    </CAbilMorph>
+    <CAbilMorph id="NodAvatarReborn">
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <CmdButtonArray index="Execute" DefaultButtonFace="Thor"/>
+        <CmdButtonArray index="Cancel" DefaultButtonFace="Cancel"/>
+        <Flags index="BestUnit" value="1"/>
+        <Flags index="DisableAbils" value="1"/>
+        <Flags index="FastBuild" value="1"/>
+        <Flags index="IgnoreFacing" value="1"/>
+        <Flags index="IgnoreFood" value="1"/>
+        <Flags index="IgnoreUnitCost" value="1"/>
+        <Flags index="ShowProgress" value="1"/>
+        <Flags index="SuppressMovement" value="1"/>
+        <RefundFraction>
+            <Resource index="Minerals" value="0"/>
+            <Resource index="Vespene" value="0"/>
+            <Resource index="Terrazine" value="0"/>
+            <Resource index="Custom" value="0"/>
+        </RefundFraction>
+        <InfoArray Score="1" Unit="NodAvatar">
+            <SectionArray index="Abils">
+                <!--                <EffectArray index="Start" value="NodAvatarWreckageRemoveCargo"/>-->
+                <DurationArray index="Delay" value="5"/>
+            </SectionArray>
+            <SectionArray index="Actor">
+                <!--                <DurationArray index="Delay" value="5"/>-->
+                <DurationArray index="Duration" value="5"/>
+            </SectionArray>
+            <SectionArray index="Collide">
+                <DurationArray index="Delay" value="5"/>
+            </SectionArray>
+        </InfoArray>
+        <Alert value="RebornCompleteWidow"/>
+    </CAbilMorph>
+    <CBehaviorBuff id="NodPurifierDontDie">
+        <Alignment value="Positive"/>
+        <InfoFlags index="Hidden" value="1"/>
+        <InfoIcon value="Assets\Textures\BTN-techupgrade-terran-combatshield-color.dds"/>
+        <EditorCategories value="Race:Nod,AbilityorEffectType:Units"/>
+        <!--        <Requirements value="UseMechanicalRebirth"/>-->
+        <DamageResponse Fatal="1" Handled="NodPurifierWreckageSet" ModifyFraction="0">
+            <Chance value="1"/>
+        </DamageResponse>
+    </CBehaviorBuff>
+</Catalog>
